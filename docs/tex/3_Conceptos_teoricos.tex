@@ -8,7 +8,7 @@ Se denomina aprendizaje automático a aquella rama de la inteligencia artificial
 
 Dentro del aprendizaje automático se diferencian tres grandes grupos en función del tipo de entrada que sea consumida: el aprendizaje supervisado (datos etiquetados), el no supervisado (datos no etiquetados) y el semisupervisado (datos etiquetados y no etiquetados), siendo esta última categoría objeto de estudio en este proyecto de investigación. 
 
-\subsection{Aprendizaje semisupervisado}
+\section{Aprendizaje semisupervisado}
 
 Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a aquel conjunto de algoritmos que utiliza datos etiquetados y no etiquetados para realizar tareas de aprendizaje. Inicialmente, se pueden diferenciar dos categorías\cite{engelen2020surveyOnSemiSupervised}: los métodos inductivos, cuyo objetivo principal es construir un clasificador que genere predicciones para cualquier entrada y los métodos transductivos, cuyo poder de predicción está limitado a los objetos utilizados en la fase de entrenamiento.
 
@@ -22,7 +22,7 @@ Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a a
 Prescindiendo de los métodos transductivos por ser menos versátiles y útiles en nuestro propósito, los métodos inductivos se subdividen en tres grupos \cite{engelen2020surveyOnSemiSupervised}: \textit{wrapper methods} (o métodos de envoltura), \textit{unsupervised preprocessing} y \textit{intrinsically semi-supervised}, siendo materia de estudio los métodos de envoltura. 
 
 
-\subsubsection{Métodos de envoltura}
+\subsection{Métodos de envoltura}
 
 Estos modelos utilizan uno o más clasificadores que son entrenados iterativamente con los datos etiquetados de entrada, además de con datos pseudoetiquetados. Se denomina pseudoetiquetado a aquellos datos que inicialmente no estaban etiquetados, pero acabaron estándolo por iteraciones previas de los clasificadores.
 
@@ -36,11 +36,57 @@ En estos algoritmos, varios clasificadores son entrenados iterativamente utiliza
 
 El llamado \textit{co-forest}, es un modelo dentro del \textit{co-training}. En su desarrollo, se utilizan árboles de decisión (a mayor número mejor resultado), que son entrenados utilizando los datos etiquetados. En cada iteración, además, se añade al conjunto de datos nuevos elementos pseudoetiquetados. Estos elementos son el resultado de los elementos comunes (nuevas etiquetas) del resto de árboles en la fase anterior, y se usan durante una fase de entrenamiento. Sin embargo, se eliminan una vez se ha completado (la siguiente iteración se realiza inicialmente sólo con los datos etiquetados, etc.), consiguiendo así resultados certeros.
 
+\section{Ataques a sistemas de recomendación}
+
+Los ataques a los sistemas de recomendación (generalmene denominados \textit{shilling attacks} o \textit{profile injection attack}) tienen como objetivo manipular las sugerencias que propone un determinado algoritmo para conseguir que un cliente se incline hacia un elemento deseado. Esta alteración del sistema se consigue inyectando perfiles falsos.
+
+Múltiples estudios se han centrado en formalizar las características de estos ataques con el fin de detectarlos. Entre ellas se encuentran:
+
+\begin{itemize}
+	
+	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textbf{\textit{push attacks}}, que pretenden hacer un objeto más atractivo o \textbf{\textit{nuck attacks}}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textbf{\textit{random vandalism}}.
+	
+	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el \textbf{tamaño del relleno} (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems \cite{mingdan2020ShillingAttacksAReview}) y el \textbf{tamaño del ataque} (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%).
+	
+	\item \textbf{Coste:} se distinguen dos tipos: \textbf{\textit{knowledge-cost}}, que hace referencia al coste de construir perfiles y \textbf{\textit{deployment-cost}}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo.
+	
+\end{itemize}
+		
+\subsection{Tipos de ataques}
+
+En la actualidad se distinguen multitud de ataques distintos. Con el fin de formalizarlos matemáticamente, se han establecido ciertos conjuntos de interés dependiendo de los ítems que contengan \cite{zhou2021SemisupervisedRecommendationAttack}.
+
+\begin{itemize}
+	
+	\item \textbf{$I_S$:} conjunto de ítems seleccionados para recibir un tratamiento especial (puede ser vacío).
+	\item \textbf{$I_F$:} conjunto de ítems seleccionados para <<rellenar>>.
+	\item \textbf{$I_0$:} conjunto de ítems pertenecientes al sistema de recomendación sin valorar.
+	\item \textbf{$I_t$:} conjunto de ítems objetivo.
+	
+\end{itemize}
 
 
+\subsubsection{Ataques básicos}
 
+Se distinguen dos tipos según sus características principales:
 
+\begin{table}
+	
+	\centering
+	\resizebox{15cm}{!} {
+		\begin{tabular}{|c c c c c|}
+		\hline
+		
+		Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\\hline \hline
+	
+		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema.} & $\emptyset$ & máxima o mínima \\\hline
+		
+		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto.} & $\emptyset$ & máxima o mínima \\\hline
+		\end{tabular}
+	}
 
-
-
+	\caption{Descripción de los ataques básicos}
+	\label{descripcion_ataques_basicos}
+	
+\end{table}
 
