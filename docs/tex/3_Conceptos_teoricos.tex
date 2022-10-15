@@ -68,10 +68,9 @@ En la actualidad se distinguen multitud de ataques distintos. Con el fin de form
 
 \subsubsection{Ataques básicos}
 
-Se distinguen dos tipos según sus características principales:
+Se distinguen dos tipos: \textit{random attack} y \textit{average attack}. Ambos tienen parámetros y características muy similares como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
 
 \begin{table}
-	
 	\centering
 	\resizebox{15cm}{!} {
 		\begin{tabular}{|c c c c c|}
@@ -79,14 +78,81 @@ Se distinguen dos tipos según sus características principales:
 		
 		Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\\hline \hline
 	
-		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema.} & $\emptyset$ & máxima o mínima \\\hline
+		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & máxima o mínima \\\hline
 		
-		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto.} & $\emptyset$ & máxima o mínima \\\hline
+		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & máxima o mínima \\\hline
 		\end{tabular}
 	}
-
 	\caption{Descripción de los ataques básicos}
-	\label{descripcion_ataques_basicos}
+	\label{tabla_descripcion_ataques_basicos}	
+\end{table}
+
+
+\subsubsection{Ataques con poco conocimiento del sistema.}
+
+Los más populares son \textit{bandwagon attack} (o \textit{popular attack}) y \textit{segment attack}.
+
+La principal característica del \textit{bandwagon attack} es que el conjunto $I_S$ ya no está vacío, sino que contiene algunos de los ítems más populares de la base de datos. Estos ítems recibirán también la máxima puntuación posible, de forma que ya no sólo se puntúa el conjunto objetivo. Existe una variante de este ataque llamada \textit{reverse bandwagon attack}, cuyo objetivo es hacer \textit{nuke}. De esta forma, $I_S$ contiene los ítems menos populares y reciben la puntuación mínima (junto con $I_t$).
+
+En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y se introduce en $I_S$ ítems en los que estaría interesado un usuario que fuese a valorar también $I_t$ (de forma que el ataque es más <<realista>>).
+
+\begin{table}
+	\centering
+	\resizebox{15cm}{!} {
+		\begin{tabular}{|c c c c c|}
+			\hline
+			
+			Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\\hline \hline
+			
+			Bandwagon (average) & \parbox{7em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{7em}{máxima o mínima (reverse)} \\\hline
+			
+			Bandwagon (random) & \parbox{7em}{Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & \parbox{7em}{máxima o mínima (reverse)} \\\hline
+		\end{tabular}
+	}
+	
+	\caption{Descripción de los ataques con poco conocimiento del sistema.}
+	\label{tabla_descripcion_ataques_poco_con}
+\end{table}
+
+
+\subsubsection{Ataques con gran conocimiento del sistema}
+
+Este tipo de ataques resulta menos relevante que los anteriores debido a la dificultad de su ejecución. En la mayoría de los casos, se necesita una gran cantidad de información, siendo poco realista que se de una situación de estas características <<en la vida real>>.
+
+Por ejemplo, el llamado \textit{perfect knowledge attack} basa su efectividad en reproducir la distribución exacta de la base de datos real (exceptuándo los ítems objetivos). El \textit{sampling attack} construye los perfiles a inyectar basándose en una muestra de perfiles reales.
+
+Como se puede intuir, conocer datos estadísticos exactos sobre una base de datos o metadatos asociados a perfiles de usuarios es poco realista (cada vez menos debido a las mayores medidas de seguridad) y por lo tanto estos ataques resultan meramente teóricos.
+
+\subsubsection{Ataques ofuscados}
+
+Los ataques ofuscados se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales.
+
+El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> aleatorio (aunque sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{User shifting} sigue la misma estrategia, sólo que el ruido esta vez es un número aleatorio normalmente distribuido. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre los ataques y el \textit{Average over popular items (AOP)} pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los X\% ítems más populares).
+
+\begin{table}
+	
+	\centering
+	\resizebox{15cm}{!} {
+		\begin{tabular}{|c c|}
+			\hline
+			
+			Modelo & Estrategia de ofuscación\\\hline \hline
+			
+			Noise Injection & $\forall i \in I_F \cup I_S: R_i = r_i + aleatorio * \alpha $\\\hline 
+			User Shifting & $\forall i \in I_F \cup I_S: R_i = r_i + shift $\\\hline 
+			Target Shifting & $\forall i \in I_F \cup I_S: R_i = r_i; I_T: r_{max}-1 or r_{min}+1 $\\\hline 
+			AOP & $I_F escogido del top ítems más populares$\\\hline 
+			
+		\end{tabular}
+	}
+	
+	\caption{Descripción de las estrategias de ofuscación}
+	\label{tabla_descripcion_estrategias_ofuscación}
 	
 \end{table}
+
+\subsubsection{Otros tipos de ataques}
+
+Además de los ataques anteriormente mencionados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo PUA) o ítems poderosos (modelo \textit{PIA}). Sin embargo, son menos abundantes.
+
 
