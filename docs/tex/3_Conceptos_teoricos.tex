@@ -16,7 +16,7 @@ Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a a
 \begin{figure}[h]
 \caption{Clasificación sugerida por \cite{engelen2020surveyOnSemiSupervised}}
 \centering
-\includegraphics[width=\textwidth]{esquemaHoos}
+\includegraphics[width=\textwidth]{../img/memoria/esquemaHoos}
 \end{figure}
 
 Prescindiendo de los métodos transductivos por ser menos versátiles y útiles en nuestro propósito, los métodos inductivos se subdividen en tres grupos \cite{engelen2020surveyOnSemiSupervised}: \textit{wrapper methods} (o métodos de envoltura), \textit{unsupervised preprocessing} y \textit{intrinsically semi-supervised}, siendo materia de estudio los métodos de envoltura. 
@@ -40,15 +40,15 @@ El llamado \textit{co-forest}, es un modelo dentro del \textit{co-training}. En 
 
 Los ataques a los sistemas de recomendación (generalmene denominados \textit{shilling attacks} o \textit{profile injection attack}) tienen como objetivo manipular las sugerencias que propone un determinado algoritmo para conseguir que un cliente se incline hacia un elemento deseado. Esta alteración del sistema se consigue inyectando perfiles falsos.
 
-Múltiples estudios se han centrado en formalizar las características de estos ataques con el fin de detectarlos. Entre ellas se encuentran:
+Múltiples estudios se han centrado en formalizar las características de estos ataques con el fin de detectarlos. Entre ellas se encuentran \cite{mingdan2018ShillingAttacksAReview}:
 
 \begin{itemize}
 	
-	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textbf{\textit{push attacks}}, que pretenden hacer un objeto más atractivo o \textbf{\textit{nuck attacks}}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textbf{\textit{random vandalism}}.
+	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textbf{\textit{push attacks}}, que pretenden hacer un objeto más atractivo o \textbf{\textit{nuck attacks}}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textbf{\textit{random vandalism} \cite{Burke2015RobustCollaborative}}.
 	
-	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el \textbf{tamaño del relleno} (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems \cite{mingdan2020ShillingAttacksAReview}) y el \textbf{tamaño del ataque} (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%).
+	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el \textbf{tamaño del relleno} (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems \cite{mingdan2018ShillingAttacksAReview}) y el \textbf{tamaño del ataque} (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%).
 	
-	\item \textbf{Coste:} se distinguen dos tipos: \textbf{\textit{knowledge-cost}}, que hace referencia al coste de construir perfiles y \textbf{\textit{deployment-cost}}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo.
+	\item \textbf{Coste:} se distinguen dos tipos: \textbf{\textit{knowledge-cost}}, que hace referencia al coste de construir perfiles y \textbf{\textit{deployment-cost}}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo \cite{Mobasher2006Thesis}.
 	
 \end{itemize}
 		
@@ -68,7 +68,7 @@ En la actualidad se distinguen multitud de ataques distintos. Con el fin de form
 
 \subsubsection{Ataques básicos}
 
-Se distinguen dos tipos: \textit{random attack} y \textit{average attack}. Ambos tienen parámetros y características muy similares como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
+Se distinguen dos tipos: \textit{random attack} y \textit{average attack} \cite{mingdan2018ShillingAttacksAReview}. Ambos tienen parámetros y características muy similares como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
 
 \begin{table}
 	\centering
@@ -83,18 +83,18 @@ Se distinguen dos tipos: \textit{random attack} y \textit{average attack}. Ambos
 		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & máxima o mínima \\\hline
 		\end{tabular}
 	}
-	\caption{Descripción de los ataques básicos}
+	\caption{Descripción de los ataques básicos \cite{zhou2021SemisupervisedRecommendationAttack}}
 	\label{tabla_descripcion_ataques_basicos}	
 \end{table}
 
 
 \subsubsection{Ataques con poco conocimiento del sistema.}
 
-Los más populares son \textit{bandwagon attack} (o \textit{popular attack}) y \textit{segment attack}.
+Los más populares son \textit{bandwagon attack} (o \textit{popular attack}) y \textit{segment attack}. Sus principales rasgos se ilustran en la tabla \ref{tabla_descripcion_ataques_poco_con}.
 
-La principal característica del \textit{bandwagon attack} es que el conjunto $I_S$ ya no está vacío, sino que contiene algunos de los ítems más populares de la base de datos. Estos ítems recibirán también la máxima puntuación posible, de forma que ya no sólo se puntúa el conjunto objetivo. Existe una variante de este ataque llamada \textit{reverse bandwagon attack}, cuyo objetivo es hacer \textit{nuke}. De esta forma, $I_S$ contiene los ítems menos populares y reciben la puntuación mínima (junto con $I_t$).
+La principal característica del \textit{bandwagon attack} es que el conjunto $I_S$ ya no está vacío, sino que contiene algunos de los ítems más populares de la base de datos \cite{zhou2021SemisupervisedRecommendationAttack}. Estos ítems recibirán también la máxima puntuación posible, de forma que ya no sólo se puntúa el conjunto objetivo. Existe una variante de este ataque llamada \textit{reverse bandwagon attack}, cuyo objetivo es hacer \textit{nuke}. De esta forma, $I_S$ contiene los ítems menos populares y reciben la puntuación mínima (junto con $I_t$).
 
-En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y se introduce en $I_S$ ítems en los que estaría interesado un usuario que fuese a valorar también $I_t$ (de forma que el ataque es más <<realista>>).
+En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y se introduce en $I_S$ ítems en los que estaría interesado un usuario que fuese a valorar también $I_t$ (de forma que el ataque es más realista).
 
 \begin{table}
 	\centering
@@ -104,9 +104,9 @@ En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y s
 			
 			Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\\hline \hline
 			
-			Bandwagon (average) & \parbox{7em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{7em}{máxima o mínima (reverse)} \\\hline
+			\parbox{5em}{Bandwagon (average)} & \parbox{10em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\\hline
 			
-			Bandwagon (random) & \parbox{7em}{Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & \parbox{7em}{máxima o mínima (reverse)} \\\hline
+			\parbox{5em}{Bandwagon (random)} & \parbox{10em}{Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\\hline
 		\end{tabular}
 	}
 	
@@ -117,17 +117,17 @@ En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y s
 
 \subsubsection{Ataques con gran conocimiento del sistema}
 
-Este tipo de ataques resulta menos relevante que los anteriores debido a la dificultad de su ejecución. En la mayoría de los casos, se necesita una gran cantidad de información, siendo poco realista que se de una situación de estas características <<en la vida real>>.
+Este tipo de ataques resulta menos relevante que los anteriores debido a la dificultad de su ejecución. En la mayoría de los casos, se necesita una gran cantidad de información, siendo poco realista que se de una situación de estas características en la realidad.
 
-Por ejemplo, el llamado \textit{perfect knowledge attack} basa su efectividad en reproducir la distribución exacta de la base de datos real (exceptuándo los ítems objetivos). El \textit{sampling attack} construye los perfiles a inyectar basándose en una muestra de perfiles reales.
+Por ejemplo, el llamado \textit{perfect knowledge attack} \cite{Mobasher2006Thesis} basa su efectividad en reproducir la distribución exacta de la base de datos real (exceptuándo los ítems objetivos). El \textit{sampling attack} construye los perfiles a inyectar basándose en una muestra de perfiles reales \cite{mingdan2018ShillingAttacksAReview}.
 
 Como se puede intuir, conocer datos estadísticos exactos sobre una base de datos o metadatos asociados a perfiles de usuarios es poco realista (cada vez menos debido a las mayores medidas de seguridad) y por lo tanto estos ataques resultan meramente teóricos.
 
 \subsubsection{Ataques ofuscados}
 
-Los ataques ofuscados se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales.
+Los ataques ofuscados \cite{mingdan2018ShillingAttacksAReview} se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales. Algunas de las características de su implementación se pueden consultar en la tabla \ref{tabla_descripcion_estrategias_ofuscación}
 
-El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> aleatorio (aunque sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{User shifting} sigue la misma estrategia, sólo que el ruido esta vez es un número aleatorio normalmente distribuido. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre los ataques y el \textit{Average over popular items (AOP)} pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los X\% ítems más populares).
+El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> (número aleatorio que sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre ataques similares sin influir excesivamente el resultado y el \textit{Average over popular items (AOP)} pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los X\% ítems más populares).
 
 \begin{table}
 	
@@ -139,10 +139,8 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 			Modelo & Estrategia de ofuscación\\\hline \hline
 			
 			Noise Injection & $\forall i \in I_F \cup I_S: R_i = r_i + aleatorio * \alpha $\\\hline 
-			User Shifting & $\forall i \in I_F \cup I_S: R_i = r_i + shift $\\\hline 
-			Target Shifting & $\forall i \in I_F \cup I_S: R_i = r_i; I_T: r_{max}-1 or r_{min}+1 $\\\hline 
-			AOP & $I_F escogido del top ítems más populares$\\\hline 
-			
+			Target Shifting & $\forall i \in I_F \cup I_S: R_i = r_i; I_T:$ $r_{max}-1$ o $r_{min}+1$ \\\hline 
+			AOP & $I_F$ escogido del top ítems más populares.\\\hline 
 		\end{tabular}
 	}
 	
@@ -153,6 +151,6 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 
 \subsubsection{Otros tipos de ataques}
 
-Además de los ataques anteriormente mencionados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo PUA) o ítems poderosos (modelo \textit{PIA}). Sin embargo, son menos abundantes.
+Además de los ataques anteriormente mencionados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo PUA) o ítems poderosos (modelo \textit{PIA}) \cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos abundantes.
 
 
