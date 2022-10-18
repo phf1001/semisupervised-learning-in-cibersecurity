@@ -1,15 +1,25 @@
 \capitulo{6}{Trabajos relacionados}
 
-Dentro de este proyecto se pueden diferenciar distintas líneas de investigación:
+Dentro de este proyecto se pueden diferenciar distintas líneas de investigación, principalmente las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado y las centradas en formalizar ataques a sistemas de recomendación.
 
-\section{TO-DO: dividir en subsecciones}
 
-\section{Aprendizaje semisupervisado aplicado a la detección de ataques en sistemas de recomendación}
+\subsection{Aprendizaje semisupervisado aplicado a la detección de ataques en sistemas de recomendación}
 
-En este caso, el artículo fundamental es \cite{zhou2021SemisupervisedRecommendationAttack}. En este documento, se propone un método de detección basado en Co-Forest y se producen distintas comparativas con otros algoritmos para comprobar su eficacia, consiguiendo unos resultados muy aceptables. También es muy relevante citar el trabajo de \cite{zhiang2012HySADNayveBayes}, puesto que propone una aproximación Naive Bayes para separar perfiles de atacantes de perfiles genuinos y además propone los tipos de datasets que son utilizados posteriormente por Zhou y Duan (Amazon, Netflix y MovieLens).
+\subsubsection{Zhou, Duan~\cite{zhou2021SemisupervisedRecommendationAttack}}
+En esta sección, el artículo fundamental es <<\textit{Semi-supervised recommendation attack detection based on Co-Forest}>>~\cite{zhou2021SemisupervisedRecommendationAttack}. En este \textit{paper}, se propone un método de detección basado en Co-Forest y se producen distintas comparativas con otros algoritmos para comprobar su eficacia, consiguiendo unos resultados muy aceptables. Partiendo de esta base nace el presente documento, que pretende explorar la solución propuesta por estos autores y expandirla.
 
-\section{Ataques en sistemas de recomendación}
+\subsubsection{Wu, Wu~\cite{zhiang2012HySADNayveBayes}}
+También es muy relevante citar el trabajo expuesto en <<\textit{HySAD: A semi-supervised hybrid shilling attack detector for trustworthy product recommendation}>>~\cite{zhiang2012HySADNayveBayes}, puesto que propone una aproximación Naive Bayes para separar perfiles de atacantes de perfiles genuinos y además utiliza los tipos de \textit{datasets} que son probados posteriormente por Zhou y Duan (Amazon, Netflix y MovieLens). Es de los primeros trabajos basados en algoritmos semisupervisados que se encuentra en las bibliografías principales de los investigadores posteriores.
+
+\subsection{Ataques en sistemas de recomendación}
 
 La importancia de proteger los sistemas de recomendación ha sido contemplada desde principio de siglo, siendo común la proposición de otros tipos de aprendizaje para detectar los ataques.
 
-Respecto a la descripción de los tipos de intrusión, la correcta definición formal (matemática) de sus parámetros y una recopilación de la gran mayoría de ataques existentes, es fundamental referenciar el artículo de \cite{mingdan2018ShillingAttacksAReview}. Previo a este documento,también es relevante contemplar otros trabajos, como la conferencia de \cite{lam2004ShillingRecommender}, donde se propone utilizar como datasets los conjuntos de películas o el paper de \cite{mahony2004CollaborativeRecommendation}, que define los modelos de construcciones en base a conocimiento del sistema y pone a prueba la robustez de los recomendadores evaluando su estabilidad y precisión ante la presencia de perfiles inyectados (análisis matemático muy completo).
+\subsubsection{Mingdan, Quingshan~\cite{mingdan2018ShillingAttacksAReview}}
+Respecto a la descripción de los tipos de intrusión, la correcta definición formal (matemática) de sus parámetros y una recopilación de la gran mayoría de ataques existentes, es fundamental referenciar el artículo de Mingdan, Quingshan <<\textit{Shilling attacks against collaborative recommender systems: a review}>>~\cite{mingdan2018ShillingAttacksAReview}. Se trata de una recopilación reciente (2018) de las principales investigaciones de los autores más populares en la materia que destaca por su completitud.
+
+\subsubsection{Williams, Mobasher~\cite{Mobasher2006Thesis}}
+Previo a este documento,también es relevante contemplar otros trabajos, como la tesis de William y Mobasher <<\textit{Thesis: Profile injection attack detection for securing collaborative recommender systems.}>>~\cite{Mobasher2006Thesis}. En ella se introduce el concepto de inyección y se parametrizan características como el tamaño de ataque. Es destacable la autoridad de estos investigadores en la materia, siendo propietarios de muchos documentos de interés.
+
+\subsubsection{O'Mahony, Hurley~\cite{mahony2004CollaborativeRecommendation}}
+<<\textit{Collaborative recommendation: A robustness analysis}>>~\cite{mahony2004CollaborativeRecommendation}, de O'Mahony y Hurley, es uno de los trabajos con más antiguedad pero mayor número de referencias que se encuentra. En él se definen los modelos de construcciones en base a conocimiento del sistema y pone a prueba la robustez de los recomendadores evaluando su estabilidad y precisión ante la presencia de perfiles inyectados (análisis matemático muy completo).
