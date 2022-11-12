@@ -16,20 +16,15 @@
 	
 	\begin{enumerate}
 		\item Configuración básica: incluyendo la creación del repositorio, la correcta instalación de ZenHub, la creación de entornos virtuales (miniconda, SKLearn, etc.) y la familiarización con conceptos \textit{scrum}: \textit{milestones, sprints, epics}, etc.
-		
 		\item Memoria: comienzo de la redacción incluyendo las secciones de introducción, conceptos teóricos (aprendizaje automático) y trabajo relacionado.
-		
 		\item Investigación: búsqueda del código SSADR-CoF y de las bases de datos utilizadas en el paper.
-		
-		\item Lectura de papers: Engelen y Hoos~\cite{engelen2020surveyOnSemiSupervised}, García, Triguero y Herrera~\cite{triguero2015SelflabeledTechniques}, y Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}.
+		\item Lectura de papers: Engelen \& Hoos~\cite{engelen2020surveyOnSemiSupervised}, García, Triguero \& Herrera~\cite{triguero2015SelflabeledTechniques}, y Zhou \& Duan~\cite{zhou2021SemisupervisedRecommendationAttack}.
 	\end{enumerate}
 	
 	\item \textbf{Marcas temporales}
-	
 	El \textit{sprint} se desarrolló entre el 24 de septiembre de 2022 y el 2 de octubre del 2022.
 	
 	\item \textbf{\textit{Burndown Report}}
-	
 	\begin{figure}[h]
 		\caption{\textit{Burndown Report Sprint 01}}
 		\centering
@@ -37,23 +32,19 @@
 	\end{figure}
 	
 	Como se puede comprobar, no todos los objetivos marcados fueron cumplidos: la estimación del tiempo fue demasiado optimista, además de no contar con el tiempo requerido en solucionar problemas técnicos (\LaTeX{}). Se dejó para próximos sprints la lectura del último paper.
-	
+
 	\item \textbf{\textit{Sprint review meeting}}
 	Durante la reunión se fijaron ciertas correcciones en la memoria (mejorar referencias bibliográficas y la sección de <<Trabajos relacionados>>), además de la necesidad de introducir una sección teórica de ataques a los sistemas de recomendación.
-	
 	
 \end{itemize}
 
 
 \subsubsection{\textit{Sprint 2:}}
-
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
-	
 	Objetivos del siguiente Sprint:
 	
 	\begin{enumerate}
-		
 		\item Configuración: debido a la gran cantidad de tiempo invertida en solucionar errores de compilación en \LaTeX{}, se decidió migrar el proyecto a una nueva instalación basada en Debian.
 		\item Correcciones: aspectos estilísticos y completar información.
 		\item Lectura: Mingdan y Qingshan~\cite{mingdan2018ShillingAttacksAReview} con el objetivo de introducir una sección teórica de ataques.
@@ -62,11 +53,9 @@
 	\end{enumerate}
 	
 	\item \textbf{Marcas temporales}
-	
-	El \textit{sprint} se desarrolló entre el 03 de octubre de 2022 y el 18 de octubre del 2022.
+	El \textit{sprint} se desarrolló entre el 3 de octubre de 2022 y el 18 de octubre del 2022.
 	
 	\item \textbf{\textit{Burndown Report}}
-	
 	\begin{figure}[h]
 		\caption{\textit{Burndown Report Sprint 02}}
 		\centering
@@ -74,7 +63,6 @@
 	\end{figure}
 		
 	En este \textit{sprint} sí se cumplió con los objetivos marcados. Sin embargo, la estimación de tiempo tampoco fue la adecuada, requiriendo más de lo previsto.
-	
 	\item \textbf{\textit{Sprint review meeting}}
 	Durante la reunión se resolvieron dudas acerca de bibliografía, referencias y trabajo previo. Además, se acordó empezar a programar, definiendo así los \textit{issues} desarrollados en el siguiente \textit{sprint}.
 	
@@ -88,7 +76,7 @@
 	
 	\begin{enumerate}
 		
-		\item Librerías: se acordó aprender a utilizar las librerías más comunes en el \textit{data science}. Entre ellas: MatplotLib, Numpy, Pandas, etc. Además, se requirió la correcta configuración del entorno virtual, haciendo que el tiempo dedicado al \textit{issue} fuese mayor de lo estimado (problemas en el \textit{PATH} y con las dependencias).
+		\item Librerías: se acordó aprender a utilizar las librerías más comunes en el \textit{data science}. Entre ellas: MatplotLib y SKLearn. Además, se requirió la correcta configuración del entorno virtual, haciendo que el tiempo dedicado al \textit{issue} fuese mayor de lo estimado (problemas en el \texttt{PATH} y con las dependencias).
 		
 		\item \textit{SKLearn}: aprovechando la correcta documentación de la librería, se decidió repasar los conceptos teóricos básicos, además del manejo de la <<interfaz>> (métodos comunes). Entre ellos:
 		
@@ -99,15 +87,13 @@
 		\end{itemize}
 	
 		\item Lectura: se concertó la relectura del artículo de Zhou~\cite{zhou2021SemisupervisedRecommendationAttack} con la intención de comprender el algoritmo y del \textit{paper} <<original>> del \textit{co-forest}~\cite{originalCoForest2007}. Durante el proceso de programación, además, se encontró la tesis de Van Engelen~\cite{engelen2018thesis} y se añadió al conjunto.
-		
-		\item Documentación: se pactó la corrección de los errores previamente señalados y la inclusión del \textit{sprint} en los anexos.
-		
+		\item Documentación: se acordó la corrección de los errores previamente señalados y la inclusión del \textit{sprint} en los anexos.
 		\item Programación del \textit{Co-Forest}: se programó el pseudocódigo ilustrado en la Tesis de Van Engelen~\cite{engelen2018thesis}, que es muy similar al original~\cite{originalCoForest2007} pero con algunas diferencias. Inicialmente se intentó usar el \textit{Random Forest} de \textit{SKLearn}, pero se descartó la idea debido a la poca versatilidad que se ofrecía para manejar los \textit{concomitant ensembles}. Se han de corregir ciertos factores, pero se pospondrá hasta la correcta discusión con el tutor.
 		
 	\end{enumerate}
 	
 	\item \textbf{Marcas temporales}	
-	El \textit{sprint} se desarrolló entre el 19 de octubre de 2022 y el 02 de noviembre del 2022.
+	El \textit{sprint} se desarrolló entre el 19 de octubre de 2022 y el 2 de noviembre del 2022.
 	
 	\item \textbf{\textit{Burndown Report}}
 	
@@ -118,12 +104,42 @@
 		\end{figure}
 	
 	En este \textit{sprint} se cumplió con los objetivos marcados. Nuevamente, la estimación del tiempo fue inferior a la real (se pensaba que se podría depender más de librerías existentes de lo que se pudo en realidad), calculándose un total de aproximadamente 25 horas reales.
-	
-	
+
 	\item \textbf{\textit{Sprint review meeting}}
+	
+	Durante la revisión del \textit{sprint}, se llegó a la conclusión de que el pseudocódigo podía ser mejor implementado aprovechando ciertas librerías de \textit{Python}. Se comentó cómo mejorar complejidades espaciales y reducir el código. Se fijaron objetivos para las próximas semanas.
+	
 \end{itemize}
 
 
+\subsubsection{\textit{Sprint 4:}}
+\begin{itemize}
+	\item \textbf{\textit{Planning meeting}}
+	
+	Durante la reunión se acordaron los siguientes objetivos:
+	
+	\begin{enumerate}
+		\item Reimplementación del código: se acordó volver a programar el \textit{co-forest}, esta vez implementando una versión más <<\textit{pythoniana}>> con el fin de mejorar la complejidad espacial y facilitar la lectura.
+		\item Curso de Numpy: se decidió que sería interesante la realización de un curso para aprender a utilizar la librería y aplicarla al código.
+		\item Curso de Pandas: aprovechando la relación con el punto anterior, se acordó completar también un curso de esta librería.
+		\item Memoria: corregir aspectos anteriores e incluir toda la teoría relacionada con el \textit{co-forest}.
+	\end{enumerate}
+	
+	\item \textbf{Marcas temporales}
+	El \textit{sprint} se desarrolló entre el 3 de noviembre de 2022 y el 15 de noviembre del 2022.
+			
+	\item \textbf{\textit{Burndown Report}}
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 04}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/s04_bdr}
+	\end{figure}
+	
+	En este \textit{sprint} se completaron los objetivos, aunque quedaron pendientes ciertos aspectos a comentar respecto al código. Destacar que, debido a que se terminaron antes de lo planeado los \textit{issues} planificados, se aprovechó para modificar ciertos aspectos pendientes relacionados con la memoria y para probar correctamente el código. Esto hizo que el tiempo real dedicado haya sido ligeramente superior al estimado (más tiempo de documentación).
+	
+	\item \textbf{\textit{Sprint review meeting}}
+	
+\end{itemize}
 
 
 

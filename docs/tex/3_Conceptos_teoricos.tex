@@ -14,7 +14,7 @@ Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a a
 
 
 \begin{figure}[h]
-\caption{Clasificación sugerida por~\cite{engelen2020surveyOnSemiSupervised}}
+\caption{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de~\cite{engelen2020surveyOnSemiSupervised}}
 \centering
 \includegraphics[width=\textwidth]{../img/memoria/esquemaHoos}
 \end{figure}
@@ -32,7 +32,7 @@ Dentro de esta categoría, se pueden diferenciar tres grandes grupos: \textit{se
 
 \subsubsection{Co-training}
 
-En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario). El \textit{co-forest}, algoritmo protagonista de este proyecto, pertenece a esta categoría.
+En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones~\cite{engelen2020surveyOnSemiSupervised}. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario). El \textit{co-forest}, algoritmo protagonista de este proyecto, pertenece a esta categoría.
 
 TO-DO: Añadir información sobre las dos vistas independientes del co-training (otros métodos no tienen esta limitación)
 
@@ -58,7 +58,7 @@ TO-DO: Dibus de los modelos y meter los dos que faltan
 
 \subsection{Descripción}
 
-El denominado \textit{co-forest} es un método de envoltura que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
+El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de envoltura que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
 
 Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados (L), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados (U).
 
@@ -218,19 +218,24 @@ En la actualidad se distinguen multitud de ataques distintos. Con el fin de form
 Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{mingdan2018ShillingAttacksAReview}. Ambos tienen parámetros y características muy similares como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
 
 
-\begin{table}\centering
-	\resizebox{15cm}{!} {
-		\begin{tabular}{c c c c c}\toprule
-		Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\ \midrule
+\begin{table}
+\small
+\begin{centering}
+
+		\begin{tabular}{@{}l l l l l@{}}
+		\toprule
+		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
+		\midrule
 	
-		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & máxima o mínima \\
+		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & máxima o mínima \\\\
 		
-		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & máxima o mínima \\
+		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & máxima o mínima\\
 		\bottomrule
 		\end{tabular}
-	}
-	\caption{Descripción de los ataques básicos~\cite{zhou2021SemisupervisedRecommendationAttack}}
-	\label{tabla_descripcion_ataques_basicos}	
+	
+\end{centering}
+\caption{Descripción de los ataques básicos.~\cite{zhou2021SemisupervisedRecommendationAttack}}
+\label{tabla_descripcion_ataques_basicos}	
 \end{table}
 
 
@@ -242,19 +247,24 @@ La principal característica del \textit{bandwagon attack} es que el conjunto $I
 
 En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y se introduce en $I_S$ ítems en los que estaría interesado un usuario que fuese a valorar también $I_t$ (de forma que el ataque es más realista).
 
-\begin{table}\centering
-		\begin{tabular}{c c c c c}\toprule
+\begin{table}
+\small
+\begin{centering}
+	
+		\begin{tabular}{@{}l l l l l@{}}
+			\toprule
+			\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
+			\midrule
 			
-			Modelo & \textbf{$I_S$:} & Valoración \textbf{$I_F$:} & \textbf{$I_0$:} & Valoración \textbf{$I_t$:} \\ \midrule
-			
-			\parbox{5em}{Bandwagon (average)} & \parbox{10em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\
+			\parbox{5em}{Bandwagon (average)} & \parbox{10em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\\\
 			
 			\parbox{5em}{Bandwagon (random)} & \parbox{10em}{Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\
 			\bottomrule
 		\end{tabular}
-	
-	\caption{Descripción de los ataques con poco conocimiento del sistema.}
-	\label{tabla_descripcion_ataques_poco_con}
+
+\end{centering}
+\caption{Descripción de los ataques con poco conocimiento del sistema.}
+\label{tabla_descripcion_ataques_poco_con}
 \end{table}
 
 
@@ -268,30 +278,32 @@ Como se puede intuir, conocer datos estadísticos exactos sobre una base de dato
 
 \subsubsection{Ataques ofuscados}
 
-Los ataques ofuscados~\cite{mingdan2018ShillingAttacksAReview} se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales. Algunas de las características de su implementación se pueden consultar en la tabla \ref{tabla_descripcion_estrategias_ofuscación}
+Los ataques ofuscados~\cite{mingdan2018ShillingAttacksAReview} se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales. Algunas de las características de su implementación se pueden consultar en la tabla \ref{tabla_descripcion_estrategias_ofuscación}.
 
 El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> (número aleatorio que sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre ataques similares sin influir excesivamente el resultado y el \textit{Average over popular items (AOP)} pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los $X\%$ ítems más populares).
 
-\begin{table}\centering
-	\resizebox{12cm}{!} {
-		\begin{tabular}{c c}\toprule
+\begin{table}
+\small
+\begin{centering}
+	
+		\begin{tabular}{@{}l l@{}}
+		\toprule
+		\textbf{Modelo} & \textbf{Estrategia de ofuscación}\\ 
+		\midrule
 			
-			Modelo & Estrategia de ofuscación\\ \midrule
+		Noise Injection & $\forall i \in I_F \cup I_S: R_i = r_i + aleatorio * \alpha$\\
+		Target Shifting & $\forall i \in I_F \cup I_S: R_i = r_i; I_T:$ $r_{max}-1$ o $r_{min}+1$\\
+		AOP & $I_F$ escogido del top ítems más populares.\\
 			
-			Noise Injection & $\forall i \in I_F \cup I_S: R_i = r_i + aleatorio * \alpha $\\
-			Target Shifting & $\forall i \in I_F \cup I_S: R_i = r_i; I_T:$ $r_{max}-1$ o $r_{min}+1$ \\
-			AOP & $I_F$ escogido del top ítems más populares.\\
-			\bottomrule
+		\bottomrule
 		\end{tabular}
-	}
-	
-	\caption{Descripción de las estrategias de ofuscación}
-	\label{tabla_descripcion_estrategias_ofuscación}
-	
+
+\end{centering}
+\caption{Descripción de las estrategias de ofuscación.}	\label{tabla_descripcion_estrategias_ofuscación}
 \end{table}
 
 \subsubsection{Otros tipos de ataques}
 
-Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo \textit{PUA} (\textit{Power User Attack})) o ítems poderosos (modelo \textit{PIA} (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos abundantes.
+Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo \textit{PUA} (\textit{Power User Attack})) o ítems poderosos (modelo \textit{PIA} (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos populares.
 
 
