@@ -38,6 +38,41 @@ En estos algoritmos, varios clasificadores son entrenados iterativamente utiliza
 
 El llamado \textit{co-forest}, es un modelo dentro de \textit{co-training}. En su desarrollo, se utilizan árboles de decisión (a mayor número mejor resultado), que son entrenados utilizando los datos etiquetados. En cada iteración, además, se añade al conjunto de datos nuevos elementos pseudoetiquetados. Estos elementos son el resultado de los elementos comunes (nuevas etiquetas) del resto de árboles en la fase anterior, y se usan durante una fase de entrenamiento. Sin embargo, se eliminan una vez se ha completado (la siguiente iteración se realiza inicialmente sólo con los datos etiquetados, etc.), consiguiendo así resultados certeros.
 
+
+\section{\textit{Co-Forest}}
+
+\subsection{Algoritmo}
+
+\subsection{Tratamiento del ruido y teoría de errores}
+
+Como se muestra en~\cite{zhou2021SemisupervisedRecommendationAttack}, de acuerdo con~\cite{noisyExamplesCoforest1988Dana} si el tamaño de los datos utilizados en el entrenamiento (m), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante (c) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el árbol $h_{i}$ (que minimiza el desacuerdo en un conjunto de muestras de entrenamiento con ruido) converge a la hipótesis verdadera.
+
+\begin{equation}\label{eqn:rel_convergencia_hipotesis} m = \frac{c}{\epsilon^{2}(1-2\eta)^{2}} \end{equation} 
+
+De acuerdo con~\cite{zhou2021SemisupervisedRecommendationAttack}, se puede obtener la función de utilidad mostrada en la ecuación~\ref{eqn:operar_rel_convergencia} operando en la expresión~\ref{eqn:rel_convergencia_hipotesis}.
+
+\begin{equation}\label{eqn:operar_rel_convergencia} f = \frac{c}{\epsilon^{2}} = m(1-2\eta)^{2} \end{equation} 
+
+Como se ha mostrado en el pseudocódigo, en la iteración i-ésima un determinado árbol se entrena con sus datos etiquetados $L_{i}$ y un conjunto de pseudo-etiquetas $L'_{i,t}$. Si se considera que el OOBE cometido en L por $H_{i}$ es $\hat{e}_{i,t}$, entonces se puede estimar que el número de pseudo-etiquetas erróneas en $L'_{i,t}$ equivale a $\hat{e}_{i,t} * W_{i,t}$ (se recuerda al lector que $W_{i,t}$ es el sumatorio de la confianza de predicción (grado de acuerdo) de $H_{i}$ en cada muestra de $L'_{i,t}$). Por lo tanto, la tasa de ruido que se encuentra en $L_{i} \cup L'_{i,t}$ es la estimada por la ecuación~\ref{eqn:ruido_it}, donde $W_0$ y $\eta_0$ son los parámetros correspondientes a L. 
+
+-> CONSULTAR: creo que está bien por ser estimación, pero aún así cada árbol se entrena con un subconjunto aleatorio de L, no con L al completo... Revisar con Alvar.
+
+\begin{equation}\label{eqn:ruido_it} \eta = \frac{\eta_{0}W_{0} + \hat{e}_{i,t}W_{i,t}}{W_{0} + W_{i,t}} \end{equation} 
+
+Concordando con~\ref{eqn:operar_rel_convergencia}, la función de utilidad $f$ es inversamente proporcional a $\epsilon^2$. Por lo tanto, si se quiere reducir el error cometido, se debe aumentar la utilidad de cada árbol en cada iteración~\cite{zhou2021SemisupervisedRecommendationAttack}. Consecuentemente, se debe cumplir la ecuación~\ref{eqn:relacion_e_W}. 
+
+\begin{equation}\label{eqn:relacion_e_W} \frac{\hat{e}_{i,t}}{\widehat{e}_{i, t-1}} < \frac{W_{i,t-1}}{W_{i,t}} < 1 \end{equation} 
+
+
+\subsubsection{Parámetros del algoritmo}
+
+Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el error debe disminuir y la confianza de predicción aumentar con cada iteración. Sin embargo, aunque esto se cumpla, puede ser que se deje de cumplir que $\hat{e}_{i,t}W_{i,t} < \hat{e}_{i,t-1}W_{i,t-1}$, ya que puede ocurrir que $ W_{i,t} >>> W_{i,t-1}$. Por este motivo y para cumplir con lo expuesto en~\ref{eqn:relacion_e_W}, se limita $W_{max}$ como se muestra en~\ref{eqn:Wmax} al realizar el muestreo de U en el algoritmo.
+
+\begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
+
+
+El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tésis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+
 \section{Ataques a sistemas de recomendación}
 
 Los ataques a los sistemas de recomendación (generalmene denominados \textit{shilling attacks}~\cite{mingdan2018ShillingAttacksAReview} o \textit{profile injection attack}~\cite{Mobasher2006Thesis}) tienen como objetivo manipular las sugerencias que propone un determinado algoritmo para conseguir que un cliente se incline hacia un elemento deseado. Esta alteración del sistema se consigue inyectando perfiles falsos.
