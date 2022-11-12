@@ -24,24 +24,134 @@ Prescindiendo de los métodos transductivos por ser menos versátiles y útiles 
 
 \subsection{Métodos de envoltura}
 
-Estos modelos utilizan uno o más clasificadores que son entrenados iterativamente con los datos etiquetados de entrada, además de con datos pseudoetiquetados. Se denomina pseudoetiquetado a aquellos datos que inicialmente no estaban etiquetados, pero acabaron estándolo por iteraciones previas de los clasificadores.
+Estos modelos utilizan uno o más clasificadores que son entrenados iterativamente con los datos etiquetados de entrada, además de con datos pseudo-etiquetados. Se denomina pseudo-etiquetado a aquellos datos que inicialmente no estaban etiquetados, pero acabaron estándolo por iteraciones previas de los clasificadores.
 
-Consecuentemente, el procedimiento consta de dos fases que se repiten en cada iteración: el entrenamiento y el pseudoetiquetado. Durante el entrenamiento, los clasificadores se alimentan de datos etiquetados (o pseudoetiquetados). En la fase de pseudoetiquetado, se utilizan datos no etiquetados para que sean procesados por los clasificadores previamente entrenados. 
+Consecuentemente, el procedimiento consta de dos fases que se repiten en cada iteración: el entrenamiento y el pseudo-etiquetado. Durante el entrenamiento, los clasificadores se alimentan de datos etiquetados (o pseudo-etiquetados). En la fase de pseudo-etiquetado, se utilizan datos no etiquetados para que sean procesados por los clasificadores previamente entrenados. 
 
 Dentro de esta categoría, se pueden diferenciar tres grandes grupos: \textit{self-training}, que utilizan únicamente un clasificador, \textit{co-training}~\cite{engelen2020surveyOnSemiSupervised}, que utilizan más de uno y los \textit{pseudo-labelled boosting methods}, que construyen clasificadores individuales que se alimentan de las predicciones más fiables. Se estudiará más en profundidad los métodos \textit{co-training}.
 
-\subsubsection{Co-training y Co-forest}
+\subsubsection{Co-training}
 
-En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario).
+En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario). El \textit{co-forest}, algoritmo protagonista de este proyecto, pertenece a esta categoría.
 
-//TO - DO: Añadir información sobre las dos vistas independientes del co-training (otros métodos no tienen esta limitación)
-
-El llamado \textit{co-forest}, es un modelo dentro de \textit{co-training}. En su desarrollo, se utilizan árboles de decisión (a mayor número mejor resultado), que son entrenados utilizando los datos etiquetados. En cada iteración, además, se añade al conjunto de datos nuevos elementos pseudoetiquetados. Estos elementos son el resultado de los elementos comunes (nuevas etiquetas) del resto de árboles en la fase anterior, y se usan durante una fase de entrenamiento. Sin embargo, se eliminan una vez se ha completado (la siguiente iteración se realiza inicialmente sólo con los datos etiquetados, etc.), consiguiendo así resultados certeros.
+TO-DO: Añadir información sobre las dos vistas independientes del co-training (otros métodos no tienen esta limitación)
 
 
-\section{\textit{Co-Forest}}
+\section{\textit{Ensembles}}
+
+Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única.
+	
+\subsection{\textit{Bagging}}
+
+Este modelo se compone de un conjunto de estimadores base utilizados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto del total de los datos etiquetados.
+	
+Uno de los métodos más populares es el \textit{random forest}, que obtiene resultados certeros debido a la aleatoriedad introducida. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad.
+	
+\subsection{\textit{Boosting}}
+
+Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
+
+TO-DO: Dibus de los modelos y meter los dos que faltan
+
+
+\section{\textit{Co-forest}}
+
+\subsection{Descripción}
+
+El denominado \textit{co-forest} es un método de envoltura que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
+
+Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados (L), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados (U).
+
+El proceso de entrenamiento se realiza iterativamente, y en cada una de estas repeticiones, se examina cada árbol y se entrena individualmente con un subconjunto de L ($L_{i}$) y con un subconjunto de U ($L'_{i,t}$) formado por aquellas pseudo-etiquetas que, además de pertenecer a la submuestra (aleatoria), posean un nivel de confianza superior a un umbral definido por el programador ($\theta$). Quienes estiman esta confianza de predicción para las muestras seleccionadas son el conjunto de todos los árboles que forman el \textit{ensemble} menos el árbol que está siendo entrenado individualmente (de ahora en adelante \textit{concomitant ensemble} o conjunto concomitante).
+
+El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \textit{out-of-bag error} (de ahora en adelante, OOBE). Se define OOBE como el error que comete el conjunto concomitante de un árbol para el total de los datos etiquetados. Es decir, el número de árboles que aciertan la etiqueta entre el número de árboles que votan teniendo en cuenta que, para calcular el OOBE del total de los datos etiquetados, sólo votan aquellos árboles que no hayan utilizado la muestra concreta de L para su entrenamiento.
+
 
 \subsection{Algoritmo}
+
+
+\subsubsection{Variables utilizadas}
+
+Para facilitar la comprensión del pseudocódigo, se definen a continuación algunas de las variables utilizadas:
+\begin{itemize}
+	\item $\mathbf{n}$: número total de árboles del ensemble.
+	\item $\mathbf{h_{i}}$: árbol i-ésimo del conjunto.
+	\item $\mathbf{H_{i}}$: \textit{concomitant ensemble} o conjunto concomitante del árbol i-ésimo (todos los árboles del \textit{co-forest} menos él).
+	\item $\mathbf{x_j}$: muestra j-ésima (generalmente sin etiqueta).
+	\item $\mathbf{H_i(x_j)}$: etiqueta asignada por $H_i$ a la muestra j-ésima.
+	\item $\mathbf{w_{i,t,j}}$: confianza de predicción (individual) calculada para una muestra $x_j$ por $H_{i}$ en la iteración $t$. Se define confianza como el grado de acuerdo que existe en una votación. 
+	\item $\mathbf{W}$: sumatorio de todas las confianzas de predicción individuales de un conjunto $W = \sum w_{i,t,j}$.
+	\item $\mathbf{L}$: conjunto de datos etiquetados utilizados durante el entrenamiento.
+	\item $\mathbf{L_{i}}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
+	\item $\mathbf{U}$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
+	\item $\mathbf{U'_{i,t}}$: conjunto de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
+	\item $\mathbf{L'_{i,t}}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
+	\item $\mathbf{\theta}$: nivel de confianza mínimo que tiene que tener la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
+	\item $\mathbf{\hat{e}_{i,t}}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
+
+\subsubsection{Pseudocódigo}
+
+Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{engelen2018thesis}, basada en~\cite{originalCoForest2007} con los cambios observables en la sección <<Parámetros del algoritmo>>~\ref{parag:Wmax_inicial}.
+
+\begin{algorithm}
+	\KwIn{Conjunto de datos etiquetados $L \lbrace\left(x_i, y_i\right)\rbrace_{i=1}^l$, conjunto de datos no etiquetados $U \lbrace x_i \rbrace_{i=l+1}^{k}$, número de árboles $n$ y umbral de confianza $\theta$}
+	\KwIn{\textit{Ensemble} de árboles entrenado H.}
+	\BlankLine
+	\For{$i$ = 0, ..., $n-1$}{
+		$L_{i} \leftarrow$ Bootstrap($L$)\\
+		$h_i$ = EntrenaArbol($L_{i}$)\\
+		$\hat{e}_{i,t} \leftarrow 0.5$\\
+		$W_{i,0} \leftarrow min(\frac{1}{10}|$U$|, 100)$ \tcc*[f]{Consultar~\ref{parag:Wmax_inicial}}\\
+	}
+
+	$t \leftarrow 0$\\
+	\While(){Algún árbol reciba pseudo-etiquetas}{
+	$t \leftarrow t + 1$\\
+	
+	\For{$i$ = 0, ..., $n-1$}{
+		$\hat{e}_{i,t} \leftarrow$ OOBE($H_i, L$)\\
+		$L'_{k,t} \leftarrow \emptyset$\\
+		
+		\If{$\hat{e}_{i,t} < \hat{e}_{i,t-1}$}{
+			$W_{max} = \hat{e}_{i,t-1}W_{i,t-1}/\hat{e}_{i, t}$\\
+			$U'_{i,t} \leftarrow$ Submuestrear($U, H_i, W_{max}$)\\
+			$W_{i,t} \leftarrow 0$
+			
+			\ForEach{$x_j \in U'_{i,t}$}{
+				
+				\If{Confidence($H_k, x_j$) > $\theta$}{
+					$L'_{k,t} \leftarrow L'_{k,t} \cup {x_j, H_i(x_j)}$\\
+					$W_{i,t} \leftarrow W_{i,t} + Confidence(H_i, x_j)$
+				}
+			}
+		}
+	}
+	\For{$i$ = 0, ..., $n-1$}{
+		\If{$L'_{k,t} \neq \emptyset$}{
+			$h_i$ = EntrenaArbol($L_{i} \cup L'_{i,t}$)\\
+		}
+	}
+}
+	\Return{H}
+
+	\caption{\textit{Co-Forest}}\label{alg:co-forest}
+	\end{algorithm}
+
+\subsubsection{Fases}
+
+En primer lugar, se ha de construir un \textit{random forest} de $n$ árboles. Para introducir aleatoriedad, cada uno de esos árboles es entrenado utilizando un subconjunto aleatorio (y diferente) de $L$. Es decir, un subconjunto obtenido tras aplicar \textit{bootstrap} a $L$.
+Otro parámetro a tener en cuenta es el número de atributos a considerar en cada árbol de decisión. Por defecto, se ha establecido este valor a la raíz cuadrada del total. Sin embargo, también podría ser el $log_{2}$ del total (heurística de Breiman) o el total.
+
+TO-DO LECTURA: heurística de Breiman página 86 de la tesis de Engelen (por qué coger el log2n y no otra cosa). Meter teoría de construcción de árboles.
+
+La segunda fase es entrenar el \textit{random forest} <<semisupervisada>> e iterativamente hasta que se cumpla el criterio de parada (como se ha mencionado anteriormente, basado en el OOBE). Para ello, se calcula el OOBE de un árbol para una iteración. Si es superior al anterior, se considera que el rendimiento ha empeorado para ese árbol. El algoritmo finaliza cuando todos los árboles empeoran su rendimiento en una determinada iteración.
+
+Por el contrario, en caso de que se haya mejorado, se toma una submuestra de $U$ para pseudo-etiquetar (evidentemente, distinta para cada árbol). Posteriormente se examina cada una de las muestras que forman $U'_{i, t}$, y en caso de que el nivel de confianza supere el umbral, se selecciona esa muestra para el entrenamiento (pasa a formar parte de $L'_{i, t}$).
+
+El último paso sería reentrenar los árboles que hayan cambiado con su propio conjunto inicial de datos etiquetados unido a las pseudo-etiquetas generadas en la correspondiente iteración ($L_{i}\cup L'_{i,t}$). Es decir, en cada iteración se considera $U$ al completo para poder generar la muestra con la que se pseudo-etiquete, y las anteriores pseudo-etiquetas para un árbol en concreto son descartadas~\cite{engelen2018thesis}.
+
+
+\end{itemize} 
 
 \subsection{Tratamiento del ruido y teoría de errores}
 
@@ -71,7 +181,7 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 \begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
 
 
-El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tésis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tésis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
 
 \section{Ataques a sistemas de recomendación}
 
