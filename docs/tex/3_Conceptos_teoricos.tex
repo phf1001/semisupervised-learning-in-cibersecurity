@@ -39,19 +39,24 @@ TO-DO: Añadir información sobre las dos vistas independientes del co-training 
 
 \section{\textit{Ensembles}}
 
-Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única.
+Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}.
 	
-\subsection{\textit{Bagging}}
+\subsubsection{\textit{Bagging}}
 
-Este modelo se compone de un conjunto de estimadores base utilizados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto del total de los datos etiquetados.
+Este modelo se compone de un conjunto de estimadores base utilizados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto del total de los datos etiquetados~\ref{img:bagging}.
+
+\begin{figure}[h]
+	\caption{Representación genérica de un modelo \textit{bagging}.}
+	\label{img:bagging}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/bagging}
+\end{figure}
 	
-Uno de los métodos más populares es el \textit{random forest}, que obtiene resultados certeros debido a la aleatoriedad introducida. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad.
+Uno de los métodos más populares es el \textit{random forest}, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad.
 	
-\subsection{\textit{Boosting}}
+\subsubsection{\textit{Boosting}}
 
-Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
-
-TO-DO: Dibus de los modelos y meter los dos que faltan
+Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>.~\cite{engelen2018thesis} Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
 
 
 \section{\textit{Co-forest}}
@@ -62,9 +67,9 @@ El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de en
 
 Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados (L), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados (U).
 
-El proceso de entrenamiento se realiza iterativamente, y en cada una de estas repeticiones, se examina cada árbol y se entrena individualmente con un subconjunto de L ($L_{i}$) y con un subconjunto de U ($L'_{i,t}$) formado por aquellas pseudo-etiquetas que, además de pertenecer a la submuestra (aleatoria), posean un nivel de confianza superior a un umbral definido por el programador ($\theta$). Quienes estiman esta confianza de predicción para las muestras seleccionadas son el conjunto de todos los árboles que forman el \textit{ensemble} menos el árbol que está siendo entrenado individualmente (de ahora en adelante \textit{concomitant ensemble} o conjunto concomitante).
+El proceso de entrenamiento se realiza iterativamente~\cite{engelen2018thesis}, y en cada una de estas repeticiones, se examina cada árbol y se entrena individualmente con un subconjunto de L ($L_{i}$) y con un subconjunto de U ($L'_{i,t}$) formado por aquellas pseudo-etiquetas que, además de pertenecer a la submuestra (aleatoria), posean un nivel de confianza superior a un umbral definido por el programador ($\theta$). Quienes estiman esta confianza de predicción para las muestras seleccionadas son el conjunto de todos los árboles que forman el \textit{ensemble} menos el árbol que está siendo entrenado individualmente (de ahora en adelante \textit{concomitant ensemble} o conjunto concomitante).
 
-El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \textit{out-of-bag error} (de ahora en adelante, OOBE). Se define OOBE como el error que comete el conjunto concomitante de un árbol para el total de los datos etiquetados. Es decir, el número de árboles que aciertan la etiqueta entre el número de árboles que votan teniendo en cuenta que, para calcular el OOBE del total de los datos etiquetados, sólo votan aquellos árboles que no hayan utilizado la muestra concreta de L para su entrenamiento.
+El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \textit{out-of-bag error}~\cite{zhou2021SemisupervisedRecommendationAttack} (de ahora en adelante, OOBE). Se define OOBE como el error que comete el conjunto concomitante de un árbol para el total de los datos etiquetados. Es decir, el número de árboles que aciertan la etiqueta entre el número de árboles que votan teniendo en cuenta que, para calcular el OOBE del total de los datos etiquetados, sólo votan aquellos árboles que no hayan utilizado la muestra concreta de L para su entrenamiento.
 
 
 \subsection{Algoritmo}
@@ -80,11 +85,11 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 	\item $\mathbf{x_j}$: muestra j-ésima (generalmente sin etiqueta).
 	\item $\mathbf{H_i(x_j)}$: etiqueta asignada por $H_i$ a la muestra j-ésima.
 	\item $\mathbf{w_{i,t,j}}$: confianza de predicción (individual) calculada para una muestra $x_j$ por $H_{i}$ en la iteración $t$. Se define confianza como el grado de acuerdo que existe en una votación. 
-	\item $\mathbf{W}$: sumatorio de todas las confianzas de predicción individuales de un conjunto $W = \sum w_{i,t,j}$.
+	\item $\mathbf{W}$: sumatorio de las confianzas de predicción individuales de un conjunto $W = \sum w_{i,t,j}$.
 	\item $\mathbf{L}$: conjunto de datos etiquetados utilizados durante el entrenamiento.
 	\item $\mathbf{L_{i}}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
 	\item $\mathbf{U}$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
-	\item $\mathbf{U'_{i,t}}$: conjunto de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
+	\item $\mathbf{U'_{i,t}}$: subconjunto aleatorio de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
 	\item $\mathbf{L'_{i,t}}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
 	\item $\mathbf{\theta}$: nivel de confianza mínimo que tiene que tener la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
 	\item $\mathbf{\hat{e}_{i,t}}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
@@ -110,7 +115,7 @@ Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{
 	
 	\For{$i$ = 0, ..., $n-1$}{
 		$\hat{e}_{i,t} \leftarrow$ OOBE($H_i, L$)\\
-		$L'_{k,t} \leftarrow \emptyset$\\
+		$L'_{i,t} \leftarrow \emptyset$\\
 		
 		\If{$\hat{e}_{i,t} < \hat{e}_{i,t-1}$}{
 			$W_{max} = \hat{e}_{i,t-1}W_{i,t-1}/\hat{e}_{i, t}$\\
@@ -119,15 +124,15 @@ Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{
 			
 			\ForEach{$x_j \in U'_{i,t}$}{
 				
-				\If{Confidence($H_k, x_j$) > $\theta$}{
-					$L'_{k,t} \leftarrow L'_{k,t} \cup {x_j, H_i(x_j)}$\\
+				\If{Confidence($H_i, x_j$) > $\theta$}{
+					$L'_{i,t} \leftarrow L'_{i,t} \cup {x_j, H_i(x_j)}$\\
 					$W_{i,t} \leftarrow W_{i,t} + Confidence(H_i, x_j)$
 				}
 			}
 		}
 	}
 	\For{$i$ = 0, ..., $n-1$}{
-		\If{$L'_{k,t} \neq \emptyset$}{
+		\If{$L'_{i,t} \neq \emptyset$}{
 			$h_i$ = EntrenaArbol($L_{i} \cup L'_{i,t}$)\\
 		}
 	}
