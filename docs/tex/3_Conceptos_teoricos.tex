@@ -190,6 +190,32 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 
 \label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
 
+\subsubsection{Experimentación}
+
+Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} dedicados a la clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}.
+
+\begin{table}
+	\small
+	\begin{centering}
+		
+		\begin{tabular}{@{}p{4em} p{16em} p{4em} p{2em} p{2em} @{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Descripción} & \textbf{Clases} & $n$ & $m$\\ 
+			\midrule
+			
+			Iris & Conjunto de instancias pertenecientes a diferentes tipos de plantas de la especie Iris. & 3 & 150 & 4 \\\\
+			Dígitos & Conjunto de instancias que representan una imagen de 8x8 perteneciente a un dígito. & 10 & 1797 & 64 \\\\
+			Vino & Conjunto de instancias pertenecientes tres clases de vino con sus parámetros estimados mediante análisis químico & 3 & 178 & 13 \\\\
+			Cáncer de Mama & Conjunto de instancias que representan parámetros de distintas mujeres que pueden padecer o no cáncer. & 2 & 569 & 30 \\
+		\end{tabular}
+		
+	\end{centering}
+	\caption{Descripción de los \textit{datasets} utilizados para probar el \textit{co-forest}.}.
+	\label{tabla_datasets_sklearn}	
+\end{table}
+
+Se han realizado diferentes experimentos: algunos relacionados con la fase de entrenamiento y otros con el algoritmo una vez finalizado.
+
 \section{Ataques a sistemas de recomendación}
 
 Los ataques a los sistemas de recomendación (generalmene denominados \textit{shilling attacks}~\cite{mingdan2018ShillingAttacksAReview} o \textit{profile injection attack}~\cite{Mobasher2006Thesis}) tienen como objetivo manipular las sugerencias que propone un determinado algoritmo para conseguir que un cliente se incline hacia un elemento deseado. Esta alteración del sistema se consigue inyectando perfiles falsos.
@@ -205,6 +231,7 @@ Múltiples estudios se han centrado en formalizar las características de estos 
 	\item \textbf{Coste:} se distinguen dos tipos: \textbf{\textit{knowledge-cost}}, que hace referencia al coste de construir perfiles y \textbf{\textit{deployment-cost}}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo~\cite{Mobasher2006Thesis}.
 	
 \end{itemize}
+
 		
 \subsection{Tipos de ataques}
 
