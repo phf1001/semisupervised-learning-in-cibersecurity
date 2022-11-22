@@ -14,7 +14,7 @@ Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a a
 
 
 \begin{figure}[h]
-\caption{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de~\cite{engelen2020surveyOnSemiSupervised}}
+\caption{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
 \centering
 \includegraphics[width=\textwidth]{../img/memoria/esquemaHoos}
 \end{figure}
@@ -39,11 +39,11 @@ TO-DO: Añadir información sobre las dos vistas independientes del co-training 
 
 \section{\textit{Ensembles}}
 
-Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}.
+Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}. Los \textit{ensembles} pueden ser de clasificación o regresión, siendo los mostrados a continuación los más comunes.
 	
 \subsubsection{\textit{Bagging}}
 
-Este modelo se compone de un conjunto de estimadores base utilizados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto del total de los datos etiquetados~\ref{img:bagging}.
+Este modelo se compone de un conjunto de estimadores base entrenados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto aleatorio del total de los datos etiquetados como se ilustra en la figura~\ref{img:bagging}.
 
 \begin{figure}[h]
 	\caption{Representación genérica de un modelo \textit{bagging}.}
@@ -51,25 +51,29 @@ Este modelo se compone de un conjunto de estimadores base utilizados en paralelo
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/bagging}
 \end{figure}
-	
-Uno de los métodos más populares es el \textit{random forest}, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad.
+
+\subsubsection{\textit{Random forest}}
+
+Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 	
 \subsubsection{\textit{Boosting}}
 
-Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>.~\cite{engelen2018thesis} Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
+Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>~\cite{engelen2018thesis}. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
+
+El entrenamiento gira, por lo tanto, en torno a las instancias que hayan fallado los clasificadores previos. Esto es conseguido dando más peso a aquellas muestras mal clasificadas (en problemas de regresión, por ejemplo, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo). 
 
 
 \section{\textit{Co-forest}}
 
 \subsection{Descripción}
 
-El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de envoltura que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
+El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método clasificador de aprendizaje semisupervisado (más concretamente, de envoltura) que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
 
-Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados (L), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados (U).
+Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados ($L$), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados ($U$).
 
-El proceso de entrenamiento se realiza iterativamente~\cite{engelen2018thesis}, y en cada una de estas repeticiones, se examina cada árbol y se entrena individualmente con un subconjunto de L ($L_{i}$) y con un subconjunto de U ($L'_{i,t}$) formado por aquellas pseudo-etiquetas que, además de pertenecer a la submuestra (aleatoria), posean un nivel de confianza superior a un umbral definido por el programador ($\theta$). Quienes estiman esta confianza de predicción para las muestras seleccionadas son el conjunto de todos los árboles que forman el \textit{ensemble} menos el árbol que está siendo entrenado individualmente (de ahora en adelante \textit{concomitant ensemble} o conjunto concomitante).
+El proceso de entrenamiento se realiza iterativamente~\cite{engelen2018thesis}, y en cada una de estas repeticiones, se examina cada árbol y se entrena individualmente con un subconjunto de $L$ ($L_{i}$) y con un subconjunto de $U$ ($L'_{i,t}$) formado por aquellas pseudo-etiquetas que, además de pertenecer a la submuestra (aleatoria), posean un nivel de confianza superior a un umbral definido por el usuario ($\theta$). Quienes estiman esta confianza de predicción para las muestras seleccionadas son el conjunto de todos los árboles que forman el \textit{ensemble} menos el árbol que está siendo entrenado individualmente (de ahora en adelante \textit{concomitant ensemble} o conjunto concomitante).
 
-El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \textit{out-of-bag error}~\cite{zhou2021SemisupervisedRecommendationAttack} (de ahora en adelante, OOBE). Se define OOBE como el error que comete el conjunto concomitante de un árbol para el total de los datos etiquetados. Es decir, el número de árboles que aciertan la etiqueta entre el número de árboles que votan teniendo en cuenta que, para calcular el OOBE del total de los datos etiquetados, sólo votan aquellos árboles que no hayan utilizado la muestra concreta de L para su entrenamiento.
+El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \textit{out-of-bag error}~\cite{zhou2021SemisupervisedRecommendationAttack} (de ahora en adelante, OOBE). Se define OOBE como el error que comete el conjunto concomitante de un árbol para el total de los datos etiquetados. Es decir, el número de árboles que aciertan la etiqueta entre el número de árboles que votan teniendo en cuenta que, para calcular el OOBE del total de los datos etiquetados, sólo votan aquellos árboles que no hayan utilizado la muestra concreta de $L$ para su entrenamiento.
 
 
 \subsection{Algoritmo}
@@ -79,24 +83,24 @@ El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \
 
 Para facilitar la comprensión del pseudocódigo, se definen a continuación algunas de las variables utilizadas:
 \begin{itemize}
-	\item $\mathbf{n}$: número total de árboles del ensemble.
-	\item $\mathbf{h_{i}}$: árbol i-ésimo del conjunto.
-	\item $\mathbf{H_{i}}$: \textit{concomitant ensemble} o conjunto concomitante del árbol i-ésimo (todos los árboles del \textit{co-forest} menos él).
-	\item $\mathbf{x_j}$: muestra j-ésima (generalmente sin etiqueta).
-	\item $\mathbf{H_i(x_j)}$: etiqueta asignada por $H_i$ a la muestra j-ésima.
-	\item $\mathbf{w_{i,t,j}}$: confianza de predicción (individual) calculada para una muestra $x_j$ por $H_{i}$ en la iteración $t$. Se define confianza como el grado de acuerdo que existe en una votación. 
-	\item $\mathbf{W}$: sumatorio de las confianzas de predicción individuales de un conjunto $W = \sum w_{i,t,j}$.
-	\item $\mathbf{L}$: conjunto de datos etiquetados utilizados durante el entrenamiento.
-	\item $\mathbf{L_{i}}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
-	\item $\mathbf{U}$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
-	\item $\mathbf{U'_{i,t}}$: subconjunto aleatorio de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
-	\item $\mathbf{L'_{i,t}}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
-	\item $\mathbf{\theta}$: nivel de confianza mínimo que tiene que tener la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
-	\item $\mathbf{\hat{e}_{i,t}}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
+	\item $n$: número total de árboles del ensemble.
+	\item $h_{i}$: árbol i-ésimo del conjunto.
+	\item $H_{i}$: \textit{concomitant ensemble} o conjunto concomitante del árbol i-ésimo (todos los árboles del \textit{co-forest} menos él).
+	\item $x_j$: muestra j-ésima (generalmente sin etiqueta).
+	\item $H_i(x_j)$: etiqueta asignada por $H_i$ a la muestra j-ésima.
+	\item $w_{i,t,j}$: confianza de predicción (individual) calculada para una muestra $x_j$ por $H_{i}$ en la iteración $t$. Se define confianza como el grado de acuerdo que existe en una votación. 
+	\item $W$: sumatorio de las confianzas de predicción individuales de un conjunto $W = \sum w_{i,t,j}$.
+	\item $L$: conjunto de datos etiquetados utilizados durante el entrenamiento.
+	\item $L_{i}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
+	\item $U$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
+	\item $U'_{i,t}$: subconjunto aleatorio de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
+	\item $L'_{i,t}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
+	\item $\theta$: nivel de confianza mínimo que tiene que tener el clasificador al predecir la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
+	\item $\hat{e}_{i,t}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
 
 \subsubsection{Pseudocódigo}
 
-Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{engelen2018thesis}, basada en~\cite{originalCoForest2007} con los cambios observables en la sección <<Parámetros del algoritmo>>~\ref{parag:Wmax_inicial}.
+Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{engelen2018thesis}, basada en la original~\cite{originalCoForest2007} pero introduciendo los cambios observables en la sección <<Discusión de los parámetros del algoritmo>>~\ref{parag:Wmax_inicial}.
 
 \begin{algorithm}
 	\KwIn{Conjunto de datos etiquetados $L \lbrace\left(x_i, y_i\right)\rbrace_{i=1}^l$, conjunto de datos no etiquetados $U \lbrace x_i \rbrace_{i=l+1}^{k}$, número de árboles $n$ y umbral de confianza $\theta$}
@@ -106,7 +110,7 @@ Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{
 		$L_{i} \leftarrow$ Bootstrap($L$)\\
 		$h_i$ = EntrenaArbol($L_{i}$)\\
 		$\hat{e}_{i,t} \leftarrow 0.5$\\
-		$W_{i,0} \leftarrow min(\frac{1}{10}|$U$|, 100)$ \tcc*[f]{Consultar~\ref{parag:Wmax_inicial}}\\
+		$W_{i,0} \leftarrow min(\frac{1}{10}|$U$|, 100)$\\
 	}
 
 	$t \leftarrow 0$\\
@@ -132,7 +136,7 @@ Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{
 		}
 	}
 	\For{$i$ = 0, ..., $n-1$}{
-		\If{$L'_{i,t} \neq \emptyset$}{
+		\If{$(e_{i,t} * W_{i,t} < e_{i, t-1} * W_{i, t-1})$}{
 			$h_i$ = EntrenaArbol($L_{i} \cup L'_{i,t}$)\\
 		}
 	}
@@ -144,10 +148,8 @@ Se facilita a continuación la versión del \textit{co-forest} de Engelen~\cite{
 
 \subsubsection{Fases}
 
-En primer lugar, se ha de construir un \textit{random forest} de $n$ árboles. Para introducir aleatoriedad, cada uno de esos árboles es entrenado utilizando un subconjunto aleatorio (y diferente) de $L$. Es decir, un subconjunto obtenido tras aplicar \textit{bootstrap} a $L$.
-Otro parámetro a tener en cuenta es el número de atributos a considerar en cada árbol de decisión. Por defecto, se ha establecido este valor a la raíz cuadrada del total. Sin embargo, también podría ser el $log_{2}$ del total (heurística de Breiman) o el total.
-
-TO-DO LECTURA: heurística de Breiman página 86 de la tesis de Engelen (por qué coger el log2n y no otra cosa). Meter teoría de construcción de árboles.
+En primer lugar, se ha de construir un \textit{random forest} de $n$ árboles. Para introducir aleatoriedad, cada uno de esos árboles es entrenado utilizando un subconjunto aleatorio de $L$. Es decir, un subconjunto obtenido tras aplicar \textit{bootstrap} a $L$.
+Otro parámetro a tener en cuenta es el número de atributos a considerar en cada árbol de decisión. Por defecto, se ha establecido este valor a la raíz cuadrada del total. Sin embargo, también podría ser el $log_{2}$ del total (heurística de Breiman~\cite{engelen2018thesis}) o el total.
 
 La segunda fase es entrenar el \textit{random forest} <<semisupervisada>> e iterativamente hasta que se cumpla el criterio de parada (como se ha mencionado anteriormente, basado en el OOBE). Para ello, se calcula el OOBE de un árbol para una iteración. Si es superior al anterior, se considera que el rendimiento ha empeorado para ese árbol. El algoritmo finaliza cuando todos los árboles empeoran su rendimiento en una determinada iteración.
 
@@ -160,7 +162,7 @@ El último paso sería reentrenar los árboles que hayan cambiado con su propio 
 
 \subsection{Tratamiento del ruido y teoría de errores}
 
-Como se muestra en~\cite{zhou2021SemisupervisedRecommendationAttack}, de acuerdo con~\cite{noisyExamplesCoforest1988Dana} si el tamaño de los datos utilizados en el entrenamiento (m), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante (c) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el árbol $h_{i}$ (que minimiza el desacuerdo en un conjunto de muestras de entrenamiento con ruido) converge a la hipótesis verdadera.
+Como se muestra en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}, de acuerdo con el trabajo de Angluin y Laird~\cite{noisyExamplesCoforest1988Dana}, si el tamaño de los datos utilizados en el entrenamiento (m), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante (c) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el árbol $h_{i}$ (que minimiza el desacuerdo en un conjunto de muestras de entrenamiento con ruido) converge a la hipótesis verdadera.
 
 \begin{equation}\label{eqn:rel_convergencia_hipotesis} m = \frac{c}{\epsilon^{2}(1-2\eta)^{2}} \end{equation} 
 
@@ -174,19 +176,19 @@ Como se ha mostrado en el pseudocódigo, en la iteración i-ésima un determinad
 
 \begin{equation}\label{eqn:ruido_it} \eta = \frac{\eta_{0}W_{0} + \hat{e}_{i,t}W_{i,t}}{W_{0} + W_{i,t}} \end{equation} 
 
-Concordando con~\ref{eqn:operar_rel_convergencia}, la función de utilidad $f$ es inversamente proporcional a $\epsilon^2$. Por lo tanto, si se quiere reducir el error cometido, se debe aumentar la utilidad de cada árbol en cada iteración~\cite{zhou2021SemisupervisedRecommendationAttack}. Consecuentemente, se debe cumplir la ecuación~\ref{eqn:relacion_e_W}. 
+Concordando con la ecuación~\ref{eqn:operar_rel_convergencia}, la función de utilidad $f$ es inversamente proporcional a $\epsilon^2$. Por lo tanto, si se quiere reducir el error cometido, se debe aumentar la utilidad de cada árbol en cada iteración~\cite{zhou2021SemisupervisedRecommendationAttack}. Consecuentemente, se debe cumplir la ecuación~\ref{eqn:relacion_e_W}. 
 
 \begin{equation}\label{eqn:relacion_e_W} \frac{\hat{e}_{i,t}}{\widehat{e}_{i, t-1}} < \frac{W_{i,t-1}}{W_{i,t}} < 1 \end{equation} 
 
 
-\subsubsection{Parámetros del algoritmo}
+\subsubsection{Discusión acerca de los parámetros del algoritmo}
 
 Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el error debe disminuir y la confianza de predicción aumentar con cada iteración. Sin embargo, aunque esto se cumpla, puede ser que se deje de cumplir que $\hat{e}_{i,t}W_{i,t} < \hat{e}_{i,t-1}W_{i,t-1}$, ya que puede ocurrir que $ W_{i,t} >>> W_{i,t-1}$. Por este motivo y para cumplir con lo expuesto en~\ref{eqn:relacion_e_W}, se limita $W_{max}$ como se muestra en~\ref{eqn:Wmax} al realizar el muestreo de U en el algoritmo.
 
 \begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
 
 
-\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tésis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la W obtenida en la iteración anterior, y ambos autores inician W a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de U para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
 
 \section{Ataques a sistemas de recomendación}
 
@@ -227,14 +229,14 @@ Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{
 \small
 \begin{centering}
 
-		\begin{tabular}{@{}l l l l l@{}}
+		\begin{tabular}{@{}p{5em} p{2em} p{16em} p{2em} p{5em}@{}}
 		\toprule
 		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
 		\midrule
 	
-		Random & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & máxima o mínima \\\\
+		Random & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & $\emptyset$ & máxima o mínima \\\\
 		
-		Average & $\emptyset$ & \parbox{20em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & máxima o mínima\\
+		Average & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & $\emptyset$ & máxima o mínima\\
 		\bottomrule
 		\end{tabular}
 	
@@ -256,14 +258,14 @@ En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y s
 \small
 \begin{centering}
 	
-		\begin{tabular}{@{}l l l l l@{}}
+		\begin{tabular}{@{}p{5em} p{9em} p{9em} p{2em} p{5em}@{}}
 			\toprule
 			\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
 			\midrule
 			
-			\parbox{5em}{Bandwagon (average)} & \parbox{10em} {Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\\\
+			Bandwagon (average) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & $\emptyset$ & máxima o mínima (reverse) \\\\
 			
-			\parbox{5em}{Bandwagon (random)} & \parbox{10em}{Ítems populares (valoración máxima) o ítems desfavorecidos (puntuacuón mínima) (reverse)} & \parbox{10em}{Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$.} & $\emptyset$ & \parbox{5em}{máxima o mínima (reverse)} \\
+			Bandwagon (random) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & $\emptyset$ & máxima o mínima (reverse) \\
 			\bottomrule
 		\end{tabular}
 
@@ -291,7 +293,7 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 \small
 \begin{centering}
 	
-		\begin{tabular}{@{}l l@{}}
+		\begin{tabular}{@{}p{10em} p{20em}@{}}
 		\toprule
 		\textbf{Modelo} & \textbf{Estrategia de ofuscación}\\ 
 		\midrule
