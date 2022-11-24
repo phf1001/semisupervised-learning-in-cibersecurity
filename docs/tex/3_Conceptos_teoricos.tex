@@ -46,7 +46,7 @@ Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learn
 Este modelo se compone de un conjunto de estimadores base entrenados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto aleatorio del total de los datos etiquetados como se ilustra en la figura~\ref{img:bagging}. Esta técnica puede ser utilizada con o sin reemplazo, entendiendo que el muestreo con reemplazo se produce cuando cada una de las unidades maestrales seleccionada es devuelta a la población total antes de extraer la siguiente (puede repetirse).
 
 \begin{figure}[h]
-	\caption{Representación genérica de un modelo \textit{bagging}.}
+	\caption{CAMBIAR Representación genérica de un modelo \textit{bagging}.}
 	\label{img:bagging}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/bagging}
@@ -54,7 +54,7 @@ Este modelo se compone de un conjunto de estimadores base entrenados en paralelo
 
 \subsubsection{\textit{Random forest}}
 
-Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Como clasificadores base, utiliza un conjunto de árboles de decisión. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
+Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Como clasificadores base, utiliza un conjunto de árboles de decisión, y cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 	
 \subsubsection{\textit{Boosting}}
 
@@ -228,7 +228,7 @@ Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{
 \small
 \begin{centering}
 
-		\begin{tabular}{@{}p{5em} p{2em} p{16em} p{2em} p{5em}@{}}
+		\begin{tabular}{@{}p{5em} p{2em} p{14em} p{2em} p{7em}@{}}
 		\toprule
 		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
 		\midrule
