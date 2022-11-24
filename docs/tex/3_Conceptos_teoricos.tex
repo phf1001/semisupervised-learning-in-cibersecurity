@@ -54,7 +54,7 @@ Este modelo se compone de un conjunto de estimadores base entrenados en paralelo
 
 \subsubsection{\textit{Random forest}}
 
-Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
+Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Como clasificadores base, utiliza un conjunto de árboles de decisión. Cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 	
 \subsubsection{\textit{Boosting}}
 
@@ -67,7 +67,7 @@ El entrenamiento se focaliza, por lo tanto, en torno a las instancias que hayan 
 
 \subsection{Descripción}
 
-El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de clasificación para aprendizaje semisupervisado (más concretamente, de envoltura) que permite construir un \textit{ensemble} de árboles de decisión. Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
+El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de clasificación para aprendizaje semisupervisado (más concretamente, de envoltura) que permite construir un \textit{ensemble} de árboles de decisión (clasificación). Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
 
 Que sea un algoritmo semisupervisado implica que, durante la fase de entrenamiento, además de utilizar el conjunto de datos etiquetados ($L$), se utilicen también aquellas pseudo-etiquetas de las predicciones con mejor confianza del conjunto de datos no etiquetados ($U$).
 
@@ -187,32 +187,6 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 
 
 \label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
-
-\subsubsection{Experimentación}
-
-Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} dedicados a la clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}.
-
-\begin{table}
-	\small
-	\begin{centering}
-		
-		\begin{tabular}{@{}p{4em} p{20em} r r r @{}}
-			\toprule
-			\textbf{Nombre} & \textbf{Descripción} & \textbf{Clases} & $n$ & $m$\\ 
-			\midrule
-			
-			Iris & Conjunto de instancias pertenecientes a diferentes tipos de plantas de la especie Iris. & 3 & 150 & 4 \\\\
-			Dígitos & Conjunto de instancias que representan una imagen de 8x8 perteneciente a un dígito. & 10 & 1797 & 64 \\\\
-			Vino & Conjunto de instancias pertenecientes tres clases de vino con sus parámetros estimados mediante análisis químico & 3 & 178 & 13 \\\\
-			Cáncer de Mama & Conjunto de instancias que representan parámetros de distintas mujeres que pueden padecer o no cáncer. & 2 & 569 & 30 \\
-		\end{tabular}
-		
-	\end{centering}
-	\caption{Descripción de los \textit{datasets} utilizados para probar el \textit{co-forest}.}
-	\label{tabla_datasets_sklearn}	
-\end{table}
-
-Se han realizado diferentes experimentos: algunos relacionados con la fase de entrenamiento y otros con el algoritmo una vez finalizado.
 
 \section{Ataques a sistemas de recomendación}
 
