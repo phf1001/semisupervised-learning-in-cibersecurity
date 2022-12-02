@@ -4,9 +4,7 @@
 
 \section{Experimentación}
 
-\subsection{Algoritmos de aprendizaje semisupervisado}
-
-\subsubsection{\textit{Co-Forest}}
+\subsection{\textit{Co-Forest}}
 
 Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} dedicados a la clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de atributos que contiene cada una de esas instancias.
 
@@ -33,7 +31,7 @@ Para evaluar la calidad del método, se han realizado distintos experimentos con
 
 Se han realizado diferentes experimentos: algunos relacionados con la fase de entrenamiento y otros con el algoritmo una vez finalizado.
 
-\paragraph{Fase de entrenamiento}
+\subsection{Fase de entrenamiento}
 
 Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en el \textit{co-forest} es iterativa, y finaliza cuando ningún árbol recibe nuevas pseudo-etiquetas que puedan cambiar su comportamiento (en la fase de re-entrenamiento).
 
@@ -79,10 +77,10 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_tiempo-instancias}
 	\label{5_coforest_tiempo-instancias}
 \end{figure}
-\par
 
 
-\paragraph{Comportamiento general}
+
+\subsection{Comportamiento general}
 
 En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado 20 árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: 20\% etiquetados y 80\% no etiquetados.
 
@@ -94,7 +92,7 @@ Como se puede comprobar en la gráfica~\ref{5_precision-porcentaje_entrenamiento
 	\includegraphics[width=\textwidth]{../img/memoria/5_precision-porcentaje_entrenamiento}
 	\label{5_precision-porcentaje_entrenamiento}
 \end{figure}
-\par
+
 
 Se representa además, en la gráfica~\ref{5_precision-porcentaje_entrenamiento_individual} la desviación media obtenida en los 10 experimentos para cada conjunto de datos.
 
@@ -104,4 +102,66 @@ Se representa además, en la gráfica~\ref{5_precision-porcentaje_entrenamiento_
 	\includegraphics[width=\textwidth]{../img/memoria/5_precision-porcentaje_entrenamiento_individual}
 	\label{5_precision-porcentaje_entrenamiento_individual}
 \end{figure}
-\par
+
+
+\subsection{Comparativa contra KEEL}
+
+Para comprobar la validez del algoritmo implementado, se ha decidido probar contra la herramienta \textit{KEEL}, creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia.
+
+En primer lugar y para tener más capacidad de <<manipulación>>, se optó por descargar los ficheros fuentes de la última versión de GitHub~\cite{keelRepo} en lugar de utilizar la versión compilada que ofrecen los desarrolladores.
+
+Una vez se hubo descargado los ficheros fuente, se compilaron aprovechando el fichero \textit{build.xmlz} contenido y la herramienta \textit{ant} mediante los siguientes comandos: \shellcmd{ant cleanAll} \shellcmd{ant}.
+
+El primero se utiliza para eliminar binarios previos y evitar conflictos, mientras que el segundo tiene como objetivo compilar el código fuente.
+
+Posteriormente se ejecutó la aplicación mediante el comando \shellcmd{java -jar ./dist/GraphInterKeel.jar}.
+
+Para comparar los algoritmos en las condiciones más realistas posibles, se definieron las características mostradas en la tabla~\ref{tabla_coforest_keelvsnuestro_diseño}.
+
+\begin{table}
+	\begin{centering}
+		\begin{tabular}{@{}p{10em} p{20em} @{}}
+			\toprule
+			\textbf{Parámetro} & \textbf{Valor} \\ 
+			\midrule
+			$n$ & 6\\
+			$\theta$ & 0.75 \\
+			\textit{Folds} & 10 \\
+			\% etiquetados en el conjunto de entrenamiento & 10\% \\
+			Comentarios & Para la comparativa se han utilizado los \textit{datasets} de SKLearn <<Iris>> y <<Vino>>. El conjunto <<Iris>> está estratificado (el subconjunto de \textit{test} contiene la misma proporción de clases a probar), mientras que <<Vino>> no lo está.
+		\end{tabular}
+	\end{centering}
+	\caption{Tabla resumen con el diseño del experimento.}
+	\label{tabla_coforest_keelvsnuestro_diseño}	
+\end{table}
+
+Además, dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos de datos con las particiones del \textit{K-cross-validation} ya hechas y que son utilizadas en las ejecuciones de sus experimentos. Para comprobar ambos algoritmos en igualdad de condiciones, se convirtieron dichos archivos \textit{*.dat} en \textit{*.csv} y se importaron en la implementación propia mediante la librería Pandas. De esta manera, el único parámetro que no es idéntico entre ambas implementaciones es qué instancias de entre los datos etiquetados seleccionan los árboles para entrenarse en un primer momento (son aleatorios y generar las pequeñas diferencias).
+
+Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}.
+
+\begin{table}
+	\begin{centering}
+		
+		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em} @{}}
+			
+			\toprule
+			\textbf{\textit{Fold}} & \textbf{Iris propio} & \textbf{Iris KEEL} & \textbf{Vino propio} & \textbf{Vino KEEL}\\ 
+			\midrule
+			\textit{Fold 1} &0,87	&0,87	&0,89	&0,83 \\
+			\textit{Fold 2} &0,86	&0,80	&0,94	&0,94 \\
+			\textit{Fold 3} &1,00	&1,00	&1,00	&1,00 \\
+			\textit{Fold 4} &1,00	&1,00	&1,00	&0,89 \\
+			\textit{Fold 5} &0,93	&1,00	&0,88	&0,88 \\
+			\textit{Fold 6} &0,93	&0,93	&0,76	&0,71 \\
+			\textit{Fold 7} &0,93	&1,00	&0,89	&0,89 \\
+			\textit{Fold 8} &0,93	&0,93	&1,00	&0,78 \\
+			\textit{Fold 9} &1,00	&0,93	&0,89	&0,72 \\
+			\textit{Fold 10}&0,87	&0,87	&0,89	&0,94 \\
+			Media 			&0,93	&0,93	&0,91	&0,86 \\
+		\end{tabular}
+	\end{centering}
+	\caption{Comparativa entre la exactitud del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
+	\label{tabla_coforest_keelvsnuestro}	
+\end{table}
+
+Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia.
