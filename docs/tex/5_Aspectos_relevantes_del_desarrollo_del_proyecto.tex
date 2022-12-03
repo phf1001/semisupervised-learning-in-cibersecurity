@@ -35,9 +35,9 @@ Se han realizado diferentes experimentos: algunos relacionados con la fase de en
 
 Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en el \textit{co-forest} es iterativa, y finaliza cuando ningún árbol recibe nuevas pseudo-etiquetas que puedan cambiar su comportamiento (en la fase de re-entrenamiento).
 
-Se ha querido estudiar la evolución de la precisión del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona la precisión del algoritmo en función de la iteración en la que se encuentre.
+Se ha querido estudiar la evolución del \textit{score} del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
 
-Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total. Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el 20\% representa los datos etiquetados, y el 80\% los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
+Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total. Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la distribución de los datos.}
@@ -47,29 +47,28 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
 \end{figure}
 
 
- La precisión media obtenida se puede ver representada en la gráfica~\ref{5_coforest_precision-iteraciones}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si, el algoritmo siguiese, el resultado devuelto sería igual debido a que no se re-entrenaría ningún árbol).
+ La precisión media obtenida se puede ver representada en la gráfica~\ref{5_coforest_score-iteraciones}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si, el algoritmo siguiese, el resultado devuelto sería igual debido a que no se re-entrenaría ningún árbol).
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la precisión del modelo en función de la iteración en la que se encuentre.}
+	\caption{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_precision-iteraciones}
-	\label{5_coforest_precision-iteraciones}
+	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_score-iteraciones}
+	\label{5_coforest_score-iteraciones}
+\end{figure}
+
+Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$,cuando todavía no se ha realizado entrenamiento semi-supervisado y se cuenta con un \textit{random forest} normal) en dos de los conjuntos de datos, mientras que en los otros dos empeora. Este comportamiento es lógico debido a que no todos los modelos son apropiados para todos los conjuntos de datos. 
+
+Si se observa con más detenimiento cada conjunto de datos individualmente (gráfica~\ref{5_coforest_score-iteraciones_individual}), se puede observar que la desviación típica varía considerablemente, por lo que se puede deducir que el modelo podría llegar a ser utilizable en la mayoría de los casos si el conjunto de entrenamiento es el adecuado.
+
+\begin{figure}[h]
+	\caption{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación típica para 10 experimentos.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_score-iteraciones_individual}
+	\label{5_coforest_score-iteraciones_individual}
 \end{figure}
 
 
-Como se puede comprobar, en general los resultados obtenidos no son satisfactorios debido a que la precisión alcanzada en la última iteración es inferior a la obtenida en la iteración $0$ (cuando todavía no se ha realizado entrenamiento semi-supervisado y se cuenta con un \textit{random forest} normal). Sin embargo, sí se puede observar como en general, en las iteraciones centrales, la precisión inicial es mejorada.
-
-Si se observa con más detenimiento cada conjunto de datos individualmente (gráfica~\ref{5_coforest_precision-iteraciones_individual}), se puede observar que la desviación típica varía considerablemente, por lo que se puede deducir que el modelo podría llegar a ser utilizable si el conjunto de entrenamiento es el adecuado.
-
-\begin{figure}[h]
-	\caption{Gráfica que representa, para cada conjunto de datos, la precisión media del modelo en función de la iteración en la que se encuentre junto con la desviación típica para 10 experimentos.}
-	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_precision-iteraciones_individual}
-	\label{5_coforest_precision-iteraciones_individual}
-\end{figure}
-
-
-Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos, y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede observar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen (en este caso, 2).
+Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos, y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
@@ -79,29 +78,19 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 \end{figure}
 
 
+\subsection{Datos de entrenamiento}
 
-\subsection{Comportamiento general}
+En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado  $20$ árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: $20\%$ etiquetados y $80\%$ no etiquetados.
 
-En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado 20 árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: 20\% etiquetados y 80\% no etiquetados.
-
-Como se puede comprobar en la gráfica~\ref{5_precision-porcentaje_entrenamiento}, se sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor comportamiento desarrolla. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
+Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, se sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor comportamiento desarrolla. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la precisión media del modelo en función del porcentaje de datos utilizados para el entrenamiento.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_precision-porcentaje_entrenamiento}
-	\label{5_precision-porcentaje_entrenamiento}
+	\includegraphics[width=\textwidth]{../img/memoria/5_score-porcentaje_entrenamiento}
+	\label{5_score-porcentaje_entrenamiento}
 \end{figure}
 
-
-Se representa además, en la gráfica~\ref{5_precision-porcentaje_entrenamiento_individual} la desviación media obtenida en los 10 experimentos para cada conjunto de datos.
-
-\begin{figure}[h]
-	\caption{Gráfica que representa, para cada conjunto de datos, la precisión media del modelo y su desviación en función del porcentaje del conjunto utilizado para el entrenamiento.}
-	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_precision-porcentaje_entrenamiento_individual}
-	\label{5_precision-porcentaje_entrenamiento_individual}
-\end{figure}
 
 
 \subsection{Comparativa contra KEEL}
@@ -127,15 +116,17 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 			$n$ & 6\\
 			$\theta$ & 0.75 \\
 			\textit{Folds} & 10 \\
-			\% etiquetados en el conjunto de entrenamiento & 10\% \\
-			Comentarios & Para la comparativa se han utilizado los \textit{datasets} de SKLearn <<Iris>> y <<Vino>>. El conjunto <<Iris>> está estratificado (el subconjunto de \textit{test} contiene la misma proporción de clases a probar), mientras que <<Vino>> no lo está.
+			\% etiquetados & 10\% (en el conjunto de entrenamiento). \\
+			Comentarios & Para la comparativa se han utilizado los \textit{datasets} de SKLearn <<Iris>> y <<Vino>>. El conjunto <<Iris>> está estratificado (el subconjunto de \textit{test} contiene la misma proporción de clases a probar), mientras que <<Vino>> no lo está. \\
+			\bottomrule
+			
 		\end{tabular}
 	\end{centering}
 	\caption{Tabla resumen con el diseño del experimento.}
 	\label{tabla_coforest_keelvsnuestro_diseño}	
 \end{table}
 
-Además, dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos de datos con las particiones del \textit{K-cross-validation} ya hechas y que son utilizadas en las ejecuciones de sus experimentos. Para comprobar ambos algoritmos en igualdad de condiciones, se convirtieron dichos archivos \textit{*.dat} en \textit{*.csv} y se importaron en la implementación propia mediante la librería Pandas. De esta manera, el único parámetro que no es idéntico entre ambas implementaciones es qué instancias de entre los datos etiquetados seleccionan los árboles para entrenarse en un primer momento (son aleatorios y generar las pequeñas diferencias).
+Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos de datos con las particiones del \textit{K-cross-validation} ya hechas y que son utilizadas en las ejecuciones de sus experimentos. Para comprobar ambos algoritmos en igualdad de condiciones, se convirtieron dichos archivos \textit{*.dat} en \textit{*.csv} y se importaron en la implementación propia mediante la librería Pandas. De esta manera, el único parámetro que no es idéntico entre ambas implementaciones es qué instancias de entre los datos etiquetados seleccionan los árboles para entrenarse en un primer momento (son aleatorios y generar las pequeñas diferencias observadas).
 
 Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}.
 
@@ -147,21 +138,21 @@ Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keel
 			\toprule
 			\textbf{\textit{Fold}} & \textbf{Iris propio} & \textbf{Iris KEEL} & \textbf{Vino propio} & \textbf{Vino KEEL}\\ 
 			\midrule
-			\textit{Fold 1} &0,87	&0,87	&0,89	&0,83 \\
-			\textit{Fold 2} &0,86	&0,80	&0,94	&0,94 \\
-			\textit{Fold 3} &1,00	&1,00	&1,00	&1,00 \\
-			\textit{Fold 4} &1,00	&1,00	&1,00	&0,89 \\
-			\textit{Fold 5} &0,93	&1,00	&0,88	&0,88 \\
-			\textit{Fold 6} &0,93	&0,93	&0,76	&0,71 \\
-			\textit{Fold 7} &0,93	&1,00	&0,89	&0,89 \\
-			\textit{Fold 8} &0,93	&0,93	&1,00	&0,78 \\
-			\textit{Fold 9} &1,00	&0,93	&0,89	&0,72 \\
-			\textit{Fold 10}&0,87	&0,87	&0,89	&0,94 \\
-			Media 			&0,93	&0,93	&0,91	&0,86 \\
+			\textit{Fold 1} &1.00	&0.87	&0.89	&0.83 \\
+			\textit{Fold 2} &0.86	&0.80	&1.00	&0.94 \\
+			\textit{Fold 3} &1.00	&1.00	&0.94	&1.00 \\
+			\textit{Fold 4} &1.00	&1.00	&0.94	&0.89 \\
+			\textit{Fold 5} &0.87	&1.00	&0.65	&0.88 \\
+			\textit{Fold 6} &0.93	&0.93	&0.94	&0.71 \\
+			\textit{Fold 7} &0.93	&1.00	&0.83	&0.89 \\
+			\textit{Fold 8} &0.93	&0.93	&0.94	&0.78 \\
+			\textit{Fold 9} &0.93	&0.93	&0.67	&0.72 \\
+			\textit{Fold 10}&0.87	&0.87	&0.94	&0.94 \\
+			Media 			&0.93	&0.93	&0.88	&0.86 \\
 		\end{tabular}
 	\end{centering}
 	\caption{Comparativa entre la exactitud del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
 	\label{tabla_coforest_keelvsnuestro}	
 \end{table}
 
-Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia.
+Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.

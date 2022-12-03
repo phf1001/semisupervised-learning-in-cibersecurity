@@ -97,6 +97,7 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 	\item $L'_{i,t}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
 	\item $\theta$: nivel de confianza mínimo que tiene que tener el clasificador al predecir la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
 	\item $\hat{e}_{i,t}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
+\end{itemize} 
 
 \subsubsection{Pseudocódigo}
 
@@ -130,7 +131,7 @@ Se facilita a continuación la versión del \textit{co-forest} de la tesis de En
 				
 				\If{Confianza($H_i, x_j$) > $\theta$}{
 					$L'_{i,t} \leftarrow L'_{i,t} \cup {x_j, H_i(x_j)}$\\
-					$W_{i,t} \leftarrow W_{i,t} + Confidence(H_i, x_j)$
+					$W_{i,t} \leftarrow W_{i,t} + Confianza(H_i, x_j)$
 				}
 			}
 		}
@@ -158,8 +159,6 @@ Por el contrario, en caso de que se haya mejorado, se toma una submuestra de $U$
 El último paso sería reentrenar los árboles que hayan cambiado con su propio conjunto inicial de datos etiquetados unido a las pseudo-etiquetas generadas en la correspondiente iteración ($L_{i}\cup L'_{i,t}$). Es decir, en cada iteración se considera $U$ al completo para poder generar la muestra con la que se pseudo-etiquete, y las anteriores pseudo-etiquetas para un árbol en concreto son descartadas~\cite{engelen2018thesis}.
 
 
-\end{itemize} 
-
 \subsection{Tratamiento del ruido y teoría de errores}
 
 Como se señala en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}, de acuerdo con el trabajo de Angluin y Laird~\cite{noisyExamplesCoforest1988Dana}, si el tamaño de los datos utilizados en el entrenamiento ($m$), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante ($c$) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el árbol $h_{i}$ (que minimiza el desacuerdo en un conjunto de muestras de entrenamiento con ruido) converge a la hipótesis verdadera.
@@ -181,12 +180,21 @@ De acuerdo con la ecuación~\ref{eqn:operar_rel_convergencia}, la función de ut
 
 \subsubsection{Discusión acerca de los parámetros del algoritmo}
 
-Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el error debe disminuir y la confianza de predicción aumentar con cada iteración. Sin embargo, aunque esto se cumpla, puede ser que se deje de cumplir que $\hat{e}_{i,t}W_{i,t} < \hat{e}_{i,t-1}W_{i,t-1}$, ya que puede ocurrir que $ W_{i,t} >>> W_{i,t-1}$. Por este motivo y para cumplir con lo expuesto en~\ref{eqn:relacion_e_W}, se limita $W_{max}$ como se muestra en la ecuación~\ref{eqn:Wmax} al realizar el muestreo de $U$ en el algoritmo.
+Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el error debe disminuir y la confianza de predicción aumentar con cada iteración. Sin embargo, aunque esto se cumpla, puede ser que se deje de cumplir que $\hat{e}_{i,t}W_{i,t} < \hat{e}_{i,t-1}W_{i,t-1}$, ya que puede ocurrir que $ W_{i,t} >>> W_{i,t-1}$. Por este motivo y para cumplir con lo expuesto en la ecuación~\ref{eqn:relacion_e_W}, se limita $W_{max}$ como se muestra en la ecuación~\ref{eqn:Wmax} al realizar el muestreo de $U$ en el algoritmo.
 
 \begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
 
 
 \label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+
+
+\subsubsection{Decisiones de implementación}
+
+Además de los aspectos expuestos en el apartado anterior, hay dos decisiones \textit{extra} que se han tomado en la implementación por no estar contempladas en el algoritmo.
+
+En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantener alto pero limitar a $\theta\times|U|$.
+
+Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
 
 \section{Ataques a sistemas de recomendación}
 
