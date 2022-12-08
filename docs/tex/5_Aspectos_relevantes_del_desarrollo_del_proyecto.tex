@@ -2,11 +2,14 @@
 
 
 
-\section{Experimentación}
+\section{Reproducción del artículo original}
 
-\subsection{\textit{Co-Forest}}
+El objetivo de este proyecto es probar nuevos métodos de aprendizaje semi-supervisado aplicados a la detección de ataques. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{coforest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo.
 
-Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} dedicados a la clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de atributos que contiene cada una de esas instancias.
+\subsection{Experimentación}
+
+\subsubsection{\textit{Co-Forest}}
+Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} para clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
 
 \begin{table}
 	\small
@@ -19,8 +22,11 @@ Para evaluar la calidad del método, se han realizado distintos experimentos con
 			
 			Iris & Conjunto de instancias pertenecientes a diferentes tipos de plantas de la especie Iris. & 3 & 150 & 4 \\\\
 			Dígitos & Conjunto de instancias que representan una imagen de 8x8 perteneciente a un dígito. & 10 & 1797 & 64 \\\\
-			Vino & Conjunto de instancias pertenecientes tres clases de vino con sus parámetros estimados mediante análisis químico. & 3 & 178 & 13 \\\\
+			Vino & Conjunto de instancias pertenecientes a tres clases de vino con sus parámetros estimados mediante análisis químico. & 3 & 178 & 13 \\\\
 			Cáncer de Mama & Conjunto de instancias que representan parámetros de distintas mujeres que pueden padecer o no cáncer (clasificación binaria). & 2 & 569 & 30 \\
+			
+			\bottomrule
+			
 		\end{tabular}
 		
 	\end{centering}
@@ -31,13 +37,13 @@ Para evaluar la calidad del método, se han realizado distintos experimentos con
 
 Se han realizado diferentes experimentos: algunos relacionados con la fase de entrenamiento y otros con el algoritmo una vez finalizado.
 
-\subsection{Fase de entrenamiento}
+\subsubsection{Fase de entrenamiento}
 
 Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en el \textit{co-forest} es iterativa, y finaliza cuando ningún árbol recibe nuevas pseudo-etiquetas que puedan cambiar su comportamiento (en la fase de re-entrenamiento).
 
 Se ha querido estudiar la evolución del \textit{score} del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
 
-Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total. Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
+Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (sin estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la distribución de los datos.}
@@ -56,7 +62,7 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
 	\label{5_coforest_score-iteraciones}
 \end{figure}
 
-Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha realizado entrenamiento semi-supervisado y se cuenta con un \textit{random forest} normal) en dos de los conjuntos de datos, mientras que en los otros dos empeora. Este comportamiento es lógico debido a que no todos los modelos son apropiados para todos los conjuntos de datos. 
+Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha realizado entrenamiento semi-supervisado y se cuenta con un \textit{random forest} tradicional) en dos de los conjuntos de datos, mientras que en los otros dos empeora. Este comportamiento es lógico debido a que no todos los modelos son apropiados para todos los conjuntos de datos. 
 
 Si se observa con más detenimiento cada conjunto de datos individualmente (gráfica~\ref{5_coforest_score-iteraciones_individual}), se puede observar que la desviación típica varía considerablemente, por lo que se puede deducir que el modelo podría llegar a ser utilizable en la mayoría de los casos si la partición es la adecuada.
 
@@ -68,7 +74,7 @@ Si se observa con más detenimiento cada conjunto de datos individualmente (grá
 \end{figure}
 
 
-Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (<<Dígitos>>), y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen.
+Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (<<Dígitos>>), y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen. Se ha representado en la línea negra punteada, además, el resultado del modelo de regresión lineal.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
@@ -78,24 +84,24 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 \end{figure}
 
 
-\subsection{Datos de entrenamiento}
+\subsubsection{Datos de entrenamiento}
 
 En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado  $20$ árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: $20\%$ etiquetados y $80\%$ no etiquetados.
 
-Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, se sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor comportamiento desarrolla. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
+Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor desempeño presenta. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos utilizados para el entrenamiento.}
+	\caption{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_score-porcentaje_entrenamiento}
 	\label{5_score-porcentaje_entrenamiento}
 \end{figure}
 
-\subsection{Número de árboles}
+\subsubsection{Número de árboles}
 
-Hasta este momento, todos los resultados han sido realizados para $n=20$. Es decir, utilizando $20$ árboles. Sin embargo, el comportamiento del \textit{co-forest} varía considerablemente en función del número de árboles contenidos en el \textit{ensemble}, lo que motiva la realización del siguiente experimento. Nuevamente, se ha desarrollado utilizando cuatro conjuntos de datos y validación cruzada entre ellos, por lo que se muestra la media en la exactitud para las $10$ particiones.
+Hasta este momento, todos los resultados han sido realizados para $n=20$. Es decir, utilizando $20$ árboles. Sin embargo, el comportamiento del \textit{co-forest} varía considerablemente en función del número de árboles contenidos en el \textit{ensemble}, lo que motiva la realización del siguiente experimento. Nuevamente, se ha desarrollado utilizando cuatro conjuntos de datos y validación cruzada, por lo que se muestra la media en la exactitud para las $10$ particiones.
 
-Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más árboles se utilicen, mejor \textit{score} posee el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
+Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la variación del \textit{score} en función del número de árboles del \textit{co-forest}.}
@@ -104,17 +110,11 @@ Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más
 	\label{5_score-arboles}
 \end{figure}
 
-\subsection{Comparativa contra KEEL}
+\subsubsection{Comparativa contra KEEL}
 
-Para comprobar la validez del algoritmo implementado, se ha decidido probar contra la herramienta \textit{KEEL}, creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia.
+Para asegurar el correcto funcionamiento del algoritmo implementado, se ha decidido comparar contra la herramienta \textit{KEEL}, creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia.
 
-En primer lugar y para tener más capacidad de <<manipulación>>, se optó por descargar los ficheros fuentes de la última versión de GitHub~\cite{keelRepo} en lugar de utilizar la versión compilada que ofrecen los desarrolladores.
-
-Una vez se hubo descargado los ficheros fuente, se compilaron aprovechando el fichero \textit{build.xmlz} contenido y la herramienta \textit{ant} mediante los siguientes comandos: \shellcmd{ant cleanAll} \shellcmd{ant}.
-
-El primero se utiliza para eliminar binarios previos y evitar conflictos, mientras que el segundo tiene como objetivo compilar el código fuente.
-
-Posteriormente se ejecutó la aplicación mediante el comando \shellcmd{java -jar ./dist/GraphInterKeel.jar}.
+En primer lugar y para tener más capacidad de <<manipulación>>, se optó por descargar los ficheros fuentes de la última versión de GitHub~\cite{keelRepo} en lugar de utilizar la versión compilada que ofrecen los desarrolladores. Se puede consultar cómo en los anexos.
 
 Para comparar los algoritmos en las condiciones más realistas posibles, se definieron las características mostradas en la tabla~\ref{tabla_coforest_keelvsnuestro_diseño}.
 
@@ -137,33 +137,37 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 	\label{tabla_coforest_keelvsnuestro_diseño}	
 \end{table}
 
-Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos de datos con las particiones del \textit{K-cross-validation} ya hechas y que son utilizadas en las ejecuciones de sus experimentos. Para comprobar ambos algoritmos en igualdad de condiciones, se convirtieron dichos archivos \textit{*.dat} en \textit{*.csv} y se importaron en la implementación propia mediante la librería Pandas. De esta manera, el único parámetro que no es idéntico entre ambas implementaciones es qué instancias de entre los datos etiquetados seleccionan los árboles para entrenarse en un primer momento (son aleatorios y generar las pequeñas diferencias observadas).
-
-Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}.
+Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos de datos con las particiones del \textit{K-cross-validation} ya hechas y que son utilizadas en las ejecuciones de sus experimentos. Para comprobar ambos algoritmos en igualdad de condiciones, se convirtieron dichos archivos \texttt{*.dat} en \texttt{*.csv} y se importaron en la implementación propia mediante la librería Pandas. De esta manera, el único parámetro que no es idéntico entre ambas implementaciones es qué instancias de entre los datos etiquetados seleccionan los árboles para entrenarse en un primer momento (son aleatorios y generar las pequeñas diferencias observadas).
 
 \begin{table}
 	\begin{centering}
 		
-		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em} @{}}
+		\begin{tabular}{@{} p{3em} p{6em} p{7em} p{7em} p{7em} @{}}
+			\hline
+			\multirow{2}{*}{\textit{ \hfil Fold}} & \multicolumn{2}{c}{\hfil Iris}& \multicolumn{2}{c}{\hfil Vino} \\
+			\cmidrule{2-3} \cmidrule{4-5}
 			
+			& \hfil Propia & \hfil KEEL & \hfil Propia & \hfil KEEL\\ 
+			  
 			\toprule
-			\textbf{\textit{Fold}} & \textbf{Iris propio} & \textbf{Iris KEEL} & \textbf{Vino propio} & \textbf{Vino KEEL}\\ 
-			\midrule
-			\textit{Fold 1} &1.00	&0.87	&0.89	&0.83 \\
-			\textit{Fold 2} &0.86	&0.80	&1.00	&0.94 \\
-			\textit{Fold 3} &1.00	&1.00	&0.94	&1.00 \\
-			\textit{Fold 4} &1.00	&1.00	&0.94	&0.89 \\
-			\textit{Fold 5} &0.87	&1.00	&0.65	&0.88 \\
-			\textit{Fold 6} &0.93	&0.93	&0.94	&0.71 \\
-			\textit{Fold 7} &0.93	&1.00	&0.83	&0.89 \\
-			\textit{Fold 8} &0.93	&0.93	&0.94	&0.78 \\
-			\textit{Fold 9} &0.93	&0.93	&0.67	&0.72 \\
-			\textit{Fold 10}&0.87	&0.87	&0.94	&0.94 \\
-			Media 			&0.93	&0.93	&0.88	&0.86 \\
+			 \hfil 1 &\hfil 1.00	&\hfil 0.87	& \hfil 0.89  & \hfil0.83 \\
+			 \hfil 2 &\hfil 0.86	&\hfil 0.80	& \hfil 1.00 	&  \hfil 0.94 \\
+			 \hfil 3 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 1.00 \\
+			 \hfil 4 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 0.89 \\
+			 \hfil 5 & \hfil 0.87	& \hfil 1.00	& \hfil 0.65	& \hfil 0.88 \\
+			 \hfil 6 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.71 \\
+			 \hfil 7 & \hfil 0.93	& \hfil 1.00	& \hfil 0.83	& \hfil 0.89 \\
+			 \hfil 8 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.78 \\
+		 	 \hfil 	9 & \hfil 0.93	& \hfil 0.93	& \hfil 0.67	& \hfil 0.72 \\
+			 \hfil 10& \hfil 0.87	& \hfil 0.87	& \hfil 0.94	& \hfil 0.94 \\
+			 \midrule
+			 \hfil Media 			& \hfil 0.93	& \hfil 0.93	& \hfil 0.88	& \hfil 0.86 \\
+			\bottomrule
 		\end{tabular}
 	\end{centering}
+
 	\caption{Comparativa entre la exactitud del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
 	\label{tabla_coforest_keelvsnuestro}	
 \end{table}
 
-Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.
+Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}. Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.
