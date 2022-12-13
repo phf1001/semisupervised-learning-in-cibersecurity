@@ -6,7 +6,7 @@
 
 El objetivo de este proyecto es probar nuevos métodos de aprendizaje semi-supervisado aplicados a la detección de ataques. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{coforest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo.
 
-\subsection{Experimentación}
+\subsection{Experimentación Algoritmos}
 
 \subsubsection{\textit{Co-Forest}}
 Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} para clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
@@ -171,3 +171,59 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 \end{table}
 
 Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}. Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.
+
+
+\subsection{Detección de ataques}
+
+En el \textit{paper} original~\cite{zhou2021SemisupervisedRecommendationAttack} se utilizan tes conjuntos de datos para probar la efectividad del \textit{co-forest}: MovieLens10M, MovieLens25M y Amazon.
+
+\subsubsection{MovieLens 10M: Generación de vectores de características.}
+ 
+MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10000054 opiniones generadas por 71567 usuarios acerca de 10681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens.
+
+Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
+
+
+\subsubsection{MovieLens 10M: Creación de reseñas atacantes}
+
+Se ha incluido tres tipos de ataques distintos: \textit{random}, \textit{average} y \textit{bandwagon}. En primer lugar, se han sintetizado las reseñas y posteriormente se han generado los vectores de características idénticamente a los perfiles verdaderos.
+
+La metodología de construcción de las valoraciones sigue los modelos estadísticos expuestos en la sección teórica del proyecto. Sin embargo, se puede visualizar un resumen de los escogidos en la tabla~\ref{ataques_coforest}.
+
+\begin{table}
+\begin{centering}
+	
+	\begin{tabular}{@{}p{5em} p{5em} p{11em} p{9em}@{}}
+		\toprule
+		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ &  \textbf{Valoración} $\mathbf{I_t}$\\ 
+		\midrule
+		Random & $\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima \\
+		Average & $\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$. & máxima o mínima\\
+		Bandwagon (random) & $k$ ítems más populares & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima (reverse) \\
+		\bottomrule
+	\end{tabular}
+	\caption{Características estadísticas de los tipos de perfiles atacantes.}
+	\label{ataques_coforest}	
+
+\end{centering}
+\end{table}
+
+Para construir las reseñas pertenecientes a un ataque del tipo \textit{random}, se ha obtenido, en primer lugar, la media de la puntuación general para todas las películas del sistema y su desviación. Los ítems de relleno han sido seleccionados aleatoriamente entre toda la base de datos (excluyendo, evidentemente, los ítems objetivo), y se ha asignado a cada uno una puntuación aleatoria siguiendo una distribución normal parametrizada por la media y desviación <<global>> del sistema. Evidentemente, esta puntuación ha sido corregida para que se encuentre entre los rangos admitidos (por ejemplo, de $0$ a $5$ estrellas). Debido a que el método de detección utilizado no necesita fechas, el campo perteneciente a la \textit{timestamp} no ha sido rellenado. Posteriormente, se ha asignado la máxima puntuación a los ítems objetivo (\textit{push attack}).
+
+En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo que en este caso, las puntuaciones de los ítems de relleno son más representativas. En lugar de seguir una normal parametrizada por las características del sistema a nivel global, se ha calculado para cada película su media y su desviación, y se ha asignado una valoración aleatoria que sigue esta distribución. Es decir, cada ítem de relleno recibe una puntuación aleatoria que sigue una distribución normal con media la media de ese ítem en concreto, y con desviación su desviación. En caso de que se escoja una película nunca antes valorada, la media utilizada es la media del rango (por ejemplo, $2.5$ estrellas) y la desviación es $0$.
+
+Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
