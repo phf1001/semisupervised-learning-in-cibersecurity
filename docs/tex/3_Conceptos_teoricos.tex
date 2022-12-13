@@ -105,7 +105,7 @@ Se facilita a continuación la versión del \textit{co-forest} de la tesis de En
 
 \begin{algorithm}
 	\KwIn{Conjunto de datos etiquetados $L \lbrace\left(x_i, y_i\right)\rbrace_{i=1}^l$, conjunto de datos no etiquetados $U \lbrace x_i \rbrace_{i=l+1}^{k}$, número de árboles $n$ y umbral de confianza $\theta$}
-	\KwIn{\textit{Ensemble} de árboles entrenado H.}
+	\KwOut{\textit{Ensemble} de árboles entrenado $H$.}
 	\BlankLine
 	\For{$i$ = 0, ..., $n-1$}{
 		$L_{i} \leftarrow$ Bootstrap($L$)\\
@@ -142,7 +142,7 @@ Se facilita a continuación la versión del \textit{co-forest} de la tesis de En
 		}
 	}
 }
-	\Return{H}
+	\Return{$H$}
 
 	\caption{\textit{Co-Forest}}\label{alg:co-forest}
 	\end{algorithm}

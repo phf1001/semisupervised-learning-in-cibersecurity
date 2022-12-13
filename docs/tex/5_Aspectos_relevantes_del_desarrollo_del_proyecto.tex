@@ -177,11 +177,44 @@ Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keel
 
 En el \textit{paper} original~\cite{zhou2021SemisupervisedRecommendationAttack} se utilizan tes conjuntos de datos para probar la efectividad del \textit{co-forest}: MovieLens10M, MovieLens25M y Amazon.
 
-\subsubsection{MovieLens 10M: Generación de vectores de características.}
+\subsubsection{MovieLens 10M: Descripción}
  
 MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10000054 opiniones generadas por 71567 usuarios acerca de 10681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens.
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
+
+\subsubsection{MovieLens 10M: Generación de vectores de características.}
+
+Como se puede comprobar en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack} los perfiles de usuarios normales son distinguibles de los atacantes debido a su forma de puntuar. En función de estos hábitos, se puede elaborar un método de detección basado en ventanas.
+
+En primer lugar, se dividen todos los ítems del \textit{dataset} en ventanas, consiguiendo un conjunto de $J$ ventanas (\{$w_1, w_2, ..., w_J$\}). No se aplica ningún orden especial, sino que se respeta el que aparece en la propia base de datos. El número de ítems que posee cada ventana se reparte como se muestra en la ecuación~\ref{eqn:window_reparto}, donde $Q$ es el cociente de dividir el número total de ítems entre $J$.
+	
+\[|w_j| = \left\{ \begin{array}{lr} Q + 1, & j < q\\ Q, & j \ge q \label{eqn:window_reparto} \end{array} \right. \] 
+
+Posteriormente se calcula, para cada usuario y ventana, $NRW_{u, w_j}$ y  $WNRW_{u, w_j}$ como se muestra en las ecuaciones~\ref{eqn:NRW} y \ref{eqn:WNRW} respectivamente. $NRW$ son las siglas de \textit{number of ratings per window}, y $WNRW$ \textit{weighted number of ratings per window}. Es decir, para un determinado usuario, el número de votaciones que haya realizado en una ventana y el ratio de esta respecto al total.
+
+\begin{equation}\label{eqn:NRW} NRW_{u, w_j} = \sum_{i\in w_j, r_{u,i} \ne 0}^{} 1 \end{equation}
+\begin{equation}\label{eqn:WNRW} WNRW_{u, w_j} = \frac{\sum_{i\in w_j, r_{u,i} \ne 0}^{} 1}{\sum_{i\in I, r_{u,i} \ne 0}^{} 1} \end{equation}
+
+Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica equitativamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes.
+
+\begin{algorithm}
+	\KwIn{Conjunto de usuarios $S$, número de ventanas $J$, conjunto de reseñas del usuario $R$.}
+	\KwOut{Conjunto de vectores de características $X$.}
+	\BlankLine
+	$X \leftarrow \emptyset$\\
+	\For{$u \in S$}{
+		\For{$j \in J$}{
+			Calcular $NRW_{u, w_j}$\\
+			Calcular $WNRW_{u, w_j}$\\
+		}
+		$x_u \leftarrow \{NRW_{u, w_1},  WNRW_{u, w_1},  ..., NRW_{u, w_j},  WNRW_{u, w_j}\}$\\
+		$X \cup x_u$\\
+	}
+	\Return{$X$}
+	\caption{Algoritmo de generación de vectores de características.}
+	\label{alg:window_feature_extraction}
+\end{algorithm}
 
 
 \subsubsection{MovieLens 10M: Creación de reseñas atacantes}
