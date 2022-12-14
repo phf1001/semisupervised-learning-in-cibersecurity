@@ -2,10 +2,78 @@
 
 \section{Introducción}
 
+En este documento se pretende mostrar el plan de proyecto seguido a la hora de realizar el trabajo de fin de grado.
+
+Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología \textit{scrum} para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de \textit{scrum}>>~\cite{scrumMaster2022}, temario necesario para obtener la certificación de \textit{Scrum Manager}.
+
+Posteriormente, se expondrá la viabilidad legal y económica del producto.
+
+\section{\textit{Scrum}}
+
+\textit{Scrum} es una metodología ágil basada en cuatro valores~\cite{scrumMaster2022}. Sintetizando sus principios, se puede deducir que se pretende valorar a los individuos por encima de las herramientas, el \textit{software} apropiado a la documentación exhaustiva, la colaboración con el cliente y la habilidad de dar respuesta al cambio ante imprevistos.
+
+Siguiendo este esquema, se desarrolla el <<ciclo de \textit{scrum}>> representado en la imagen~\ref{img:ciclo_scrum}, que se puede dividir en varios pilares.
+
+\begin{figure}[h]
+	\caption{Resumen del ciclo de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
+	\label{img:ciclo_scrum}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/scrum/ciclo}
+\end{figure}
+
+\subsection{Roles}
+Descripción de los posibles interventores durante el desarrollo de un producto.
+
+\begin{itemize}
+	\item \textit{Product owner}: es el representante del cliente, y su responsabilidad es el valor del producto. Es quien gestiona la pila del producto (conjunto de historias de usuario solicitadas por el cliente), así como la prioridad de cada ítem que lo compone.
+	
+	\item \textit{Scrum Master:} es el responsable de garantizar que el proyecto se desarrolla siguiendo los principios de \textit{scrum}, asesorando a los desarrolladores. También es el moderador en las reuniones diarias de \textit{scrum} y el encargado de resolver dinámicas que puedan perjudicar al equipo.
+	
+	\item \textit{Equipo de desarrollo:} es el conjunto de programadores autogestionados encargados de generar los incrementos. Profesionales multifuncionales, deben completar las tareas que se les asignen en el plazo estimado, además de participar en la toma de decisiones.
+\end{itemize}
+
+\subsection{Artefactos}
+
+Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encuentran:
+
+\begin{itemize}
+	\item Pila de producto o \textit{product backlog}: contiene las historias de usuario (el equivalente a los <<requisitos>> en las metodologías tradicionales). Evoluciona durante el proyecto en función de las peticiones del cliente.
+	\item Pila del \textit{sprint} o \textit{sprint backlog}: es la lista de tareas que han de completar los desarrolladores en un \textit{sprint}. En este proyecto, se han utilizado las \textit{milestones} de GitHub (asignándoles \textit{issues}) para representarla.
+	\item Incremento: resultado de cada \textit{sprint}. Ha de ser un entregable.
+	\item Gráfico de avance o \textit{burn down report}: muestra el trabajo pendiente por realizar en un \textit{sprint} y es actualizado por los desarrolladores. Indica, además, el ritmo de trabajo <<ideal>> que se debería seguir para alcanzar los objetivos. En este caso, se ha utilizado el gráfico generado por ZenHub.
+	\item Gráfico de producto o \textit{burn up report}: mide cuánto se ha completado respecto al total.
+\end{itemize}
+
+\subsection{Eventos}
+Durante el ciclo de \textit{scrum}, se pueden identificar varias actividades que constituyen la rutina y se represetan en la imagen~\ref{img:eventos_scrum} facilitada por el Manual de \textit{scrum}~\cite{scrumMaster2022}.
+
+\begin{figure}[h]
+	\caption{Eventos de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
+	\label{img:eventos_scrum}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/scrum/eventos}
+\end{figure}
+
+\begin{enumerate}
+	\item \textit{Sprint} o iteración: es un periodo de tiempo fijo (y breve) en el que se trabaja para completar una cantidad de tareas prefijadas con antelación (la pila del \textit{sprint}). Se han utilizado los \textit{sprints} de ZenHub para realizar el seguimiento.
+	\item Reunión de planificación sel \textit{sprint}: marca el inicio de cada \textit{sprint} y determina las tareas a desarrollar, además de su duración temporal.
+	\item\textit{Scrum} diario: breve reunión en la que cada integrante del equipo notifica su ritmo de trabajo con el fin de corregir posibles impedimentos que ralenticen el ciclo. Además, se actualiza el \textit{burndown report}.
+	\item Revisión del \textit{sprint}: se analiza el incremento entregado y se adapta la pila del producto en caso de necesitarlo (por ejemplo, si se ha encontrado algún \textit{bug} o se necesita refactorizar).
+	\item Retrospectiva del \textit{sprint}: se aporta el \textit{feedback} necesario para mejorar la siguiente iteración.
+\end{enumerate}
+
+\subsection{Medición}
+
+Como se puede observar, cada equipo puede realizar una cantidad de trabajo, generalmente fija, en cada \textit{sprint}. Por ello, es necesario estimar el tiempo que requiere cada tarea y no asignar más trabajo del que se pueda asimilar en cada iteración.
+
+En este proyecto, se han utilizado los <<puntos de historia>> como unidad de medida.
+
+
 \section{Planificación temporal}
 
 \subsection{Planificación por \textit{sprints}}
 
+Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el tamaño del equipo (un desarrollador), se ha decidido planificar el proyecto mediante \textit{sprints}.
 
 \subsubsection{\textit{Sprint 1: Mustard}}
 
