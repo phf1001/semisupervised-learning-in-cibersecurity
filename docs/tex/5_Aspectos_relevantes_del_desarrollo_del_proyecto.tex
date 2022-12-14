@@ -41,14 +41,14 @@ Se han realizado diferentes experimentos: algunos relacionados con la fase de en
 
 Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en el \textit{co-forest} es iterativa, y finaliza cuando ningún árbol recibe nuevas pseudo-etiquetas que puedan cambiar su comportamiento (en la fase de re-entrenamiento).
 
-Se ha querido estudiar la evolución del \textit{score} del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
+Se ha querido estudiar la evolución del \textit{score} (porcentaje de aciertos respecto al total de las predicciones) del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
 
 Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (sin estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la distribución de los datos.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_entrenamiento_particiones}
+	\includegraphics[scale=0.75]{../img/memoria/5_entrenamiento_particiones}
 	\label{5_entrenamiento_particiones}
 \end{figure}
 
@@ -58,7 +58,7 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
 \begin{figure}[h]
 	\caption{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_score-iteraciones}
+	\includegraphics[scale=0.75]{../img/memoria/5_coforest_score-iteraciones}
 	\label{5_coforest_score-iteraciones}
 \end{figure}
 
@@ -67,9 +67,9 @@ Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud ob
 Si se observa con más detenimiento cada conjunto de datos individualmente (gráfica~\ref{5_coforest_score-iteraciones_individual}), se puede observar que la desviación típica varía considerablemente, por lo que se puede deducir que el modelo podría llegar a ser utilizable en la mayoría de los casos si la partición es la adecuada.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación típica para 10 experimentos.}
+	\caption{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación estándar para 10 experimentos.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_score-iteraciones_individual}
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-iteraciones_individual}
 	\label{5_coforest_score-iteraciones_individual}
 \end{figure}
 
@@ -79,7 +79,7 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 \begin{figure}[h]
 	\caption{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_tiempo-instancias}
+	\includegraphics[scale=0.75]{../img/memoria/5_coforest_tiempo-instancias}
 	\label{5_coforest_tiempo-instancias}
 \end{figure}
 
@@ -93,7 +93,7 @@ Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, s
 \begin{figure}[h]
 	\caption{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_score-porcentaje_entrenamiento}
+	\includegraphics[scale=0.75]{../img/memoria/5_score-porcentaje_entrenamiento}
 	\label{5_score-porcentaje_entrenamiento}
 \end{figure}
 
@@ -106,7 +106,7 @@ Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más
 \begin{figure}[h]
 	\caption{Gráfica que representa la variación del \textit{score} en función del número de árboles del \textit{co-forest}.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_score-arboles}
+	\includegraphics[scale=0.75]{../img/memoria/5_coforest_score-arboles}
 	\label{5_score-arboles}
 \end{figure}
 
@@ -128,7 +128,7 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 			$\theta$ & 0.75 \\
 			\textit{Folds} & 10 \\
 			\% etiquetados & 10\% (en el conjunto de entrenamiento). \\
-			Comentarios & Para la comparativa se han utilizado los \textit{datasets} de SKLearn <<Iris>> y <<Vino>>. El conjunto <<Iris>> está estratificado (el subconjunto de \textit{test} contiene la misma proporción de clases a probar), mientras que <<Vino>> no lo está. \\
+			Comentarios & Para la comparativa se han utilizado los \textit{datasets} <<Iris>> y <<Vino>>. El conjunto <<Iris>> está estratificado (el subconjunto de \textit{test} contiene la misma proporción de clases a probar), mientras que <<Vino>> no lo está. \\
 			\bottomrule
 			
 		\end{tabular}
@@ -143,7 +143,7 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 	\begin{centering}
 		
 		\begin{tabular}{@{} p{3em} p{6em} p{7em} p{7em} p{7em} @{}}
-			\hline
+			\toprule
 			\multirow{2}{*}{\textit{ \hfil Fold}} & \multicolumn{2}{c}{\hfil Iris}& \multicolumn{2}{c}{\hfil Vino} \\
 			\cmidrule{2-3} \cmidrule{4-5}
 			
@@ -179,7 +179,7 @@ En el \textit{paper} original~\cite{zhou2021SemisupervisedRecommendationAttack} 
 
 \subsubsection{MovieLens 10M: Descripción}
  
-MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10000054 opiniones generadas por 71567 usuarios acerca de 10681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens.
+MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{https://movielens.org/}.
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
 
@@ -209,7 +209,7 @@ Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_fe
 			Calcular $WNRW_{u, w_j}$\\
 		}
 		$x_u \leftarrow \{NRW_{u, w_1},  WNRW_{u, w_1},  ..., NRW_{u, w_j},  WNRW_{u, w_j}\}$\\
-		$X \cup x_u$\\
+		$X \leftarrow X \cup x_u$\\
 	}
 	\Return{$X$}
 	\caption{Algoritmo de generación de vectores de características.}
@@ -243,7 +243,7 @@ La metodología de construcción de las valoraciones sigue los modelos estadíst
 
 Para construir las reseñas pertenecientes a un ataque del tipo \textit{random}, se ha obtenido, en primer lugar, la media de la puntuación general para todas las películas del sistema y su desviación. Los ítems de relleno han sido seleccionados aleatoriamente entre toda la base de datos (excluyendo, evidentemente, los ítems objetivo), y se ha asignado a cada uno una puntuación aleatoria siguiendo una distribución normal parametrizada por la media y desviación <<global>> del sistema. Evidentemente, esta puntuación ha sido corregida para que se encuentre entre los rangos admitidos (por ejemplo, de $0$ a $5$ estrellas). Debido a que el método de detección utilizado no necesita fechas, el campo perteneciente a la \textit{timestamp} no ha sido rellenado. Posteriormente, se ha asignado la máxima puntuación a los ítems objetivo (\textit{push attack}).
 
-En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo que en este caso, las puntuaciones de los ítems de relleno son más representativas. En lugar de seguir una normal parametrizada por las características del sistema a nivel global, se ha calculado para cada película su media y su desviación, y se ha asignado una valoración aleatoria que sigue esta distribución. Es decir, cada ítem de relleno recibe una puntuación aleatoria que sigue una distribución normal con media la media de ese ítem en concreto, y con desviación su desviación. En caso de que se escoja una película nunca antes valorada, la media utilizada es la media del rango (por ejemplo, $2.5$ estrellas) y la desviación es $0$.
+En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo que en este caso las puntuaciones de los ítems de relleno son más representativas. En lugar de seguir una normal parametrizada por las características del sistema a nivel global, se ha calculado para cada película su media y su desviación, y se ha asignado una valoración aleatoria que sigue esta distribución. Es decir, cada ítem de relleno recibe una puntuación aleatoria que sigue una distribución normal con media la correspondiente a ese ítem en concreto, y con su respectiva desviación. En caso de que se escoja una película nunca antes valorada, la media utilizada es la media del rango (por ejemplo, $2.5$ estrellas) y la desviación es $0$.
 
 Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
 
