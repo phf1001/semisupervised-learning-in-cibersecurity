@@ -196,7 +196,7 @@ Posteriormente se calcula, para cada usuario y ventana, $NRW_{u, w_j}$ y  $WNRW_
 \begin{equation}\label{eqn:NRW} NRW_{u, w_j} = \sum_{i\in w_j, r_{u,i} \ne 0}^{} 1 \end{equation}
 \begin{equation}\label{eqn:WNRW} WNRW_{u, w_j} = \frac{\sum_{i\in w_j, r_{u,i} \ne 0}^{} 1}{\sum_{i\in I, r_{u,i} \ne 0}^{} 1} \end{equation}
 
-Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica equitativamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes.
+Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica equitativamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Para una mayor comodidad a la hora de experimentar con estos datos, se han generado ficheros \texttt{.csv} con los vectores de características que posteriormente se importarán mediante Pandas para generar conjuntos de entrenamiento y \textit{test}. Debido a que se trata de un problema de clasificación binaria, los perfiles atacantes reciben una etiqueta de $1$ y los verdaderos un $0$. Cabe destacar, que debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes. 
 
 \begin{algorithm}
 	\KwIn{Conjunto de usuarios $S$, número de ventanas $J$, conjunto de reseñas del usuario $R$.}
