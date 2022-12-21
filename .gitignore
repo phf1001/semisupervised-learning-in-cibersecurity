@@ -1,4 +1,3 @@
 src_experiments/
-src/feature-vectors-generator/movieLens10M/dataset
-src/feature-vectors-generator/movieLens10M/train-test-sets
+src/ML10_fvg/dataset
 src/scripts/t*
