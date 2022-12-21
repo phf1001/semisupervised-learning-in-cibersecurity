@@ -1,3 +1,4 @@
 src_experiments/
-src/ML10_fvg/dataset
+src/ML10-fvg/dataset
 src/scripts/t*
+*pycache
