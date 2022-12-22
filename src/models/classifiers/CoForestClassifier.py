@@ -275,6 +275,24 @@ class CoForest:
         return np.array([self.single_predict(sample) for sample in samples])
 
 
+    def single_predict_proba(self, sample : np.array):
+
+        count = {i: 0  for i in self.classes}
+
+        for i in (tree.predict([sample])[0] for tree in self.ensemble.values()):
+                count[i]+= 1
+
+        votes = np.array(list(count.values()))
+        
+        return votes / self.n
+
+
+    def predict_proba(self, samples: np.array):
+
+        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(samples)
+        return np.array([self.single_predict_proba(sample) for sample in samples])
+
+
     def score(self, X_test: np.array, y_test: np.array) -> float:
         """Calculates the number of hits by coforest
         given a training set.
