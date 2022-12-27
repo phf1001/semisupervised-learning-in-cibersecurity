@@ -2,3 +2,5 @@ src_experiments/
 src/ML10-fvg/dataset
 src/scripts/t*
 *pycache
+*pruebas*
+*prueba*

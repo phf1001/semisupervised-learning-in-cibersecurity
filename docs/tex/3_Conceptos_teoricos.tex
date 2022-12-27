@@ -39,7 +39,32 @@ TO-DO: Añadir información sobre las dos vistas independientes del co-training 
 
 \section{\textit{Ensembles}}
 
-Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}. Los \textit{ensembles} pueden ser de clasificación o regresión, siendo los mostrados a continuación los más comunes.
+Hasta el momento, se ha expuesto información relacionada con clasificadores únicos. Es decir, a la hora de predecir una etiqueta (o valor), se tiene en cuenta el \textit{output} de un único estimador base. Sin embargo, en muchas ocasiones, puede resultar enriquecedor recurrir a lo estimado por más de un modelo~\cite{ensembles2006robi}. 
+
+Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}.  Hay varios motivos por los que resulta favorecedor contar con un conjunto de clasificadores en lugar de con un único estimador base~\cite{ensembles2006robi}:
+
+\begin{itemize}
+	\item \textbf{Motivos estadísticos:} en muchas ocasiones se obtienen buenos resultados en los datos de entrenamiento, pero un error de generalización alto. También se puede dar el caso en el que un conjunto de clasificadores con resultados similares en el conjunto de prueba actúe de manera distinta en la aplicación real (el conjunto de \textit{test} no es lo suficientemente representativo). En estos casos, el hecho de contar con un conjunto de clasificadores reduce considerablemente las probabilidades de predecir mal una etiqueta. Una analogía en la vida real sería cuando se pide opinión médica a un conjunto de doctores (y no a uno solo) para obtener un diagnóstico no sesgado por las experiencias previas de un sólo médico.
+	
+	\item \textbf{Gran cantidad de datos:} cuando la cantidad de información es demasiada, puede no ser manejada correctamente por un único clasificador. Por ello, es mejor particionarla en distintos conjuntos de entrenamiento y prueba, y alimentar cada modelo con una partición.
+	
+	\item \textbf{Escasa cantidad de datos:} si los datos no son suficientes, puede ocurrir que un clasificador no sea capaz de aprender su estructura interna. Por ello, es recomendable realizar un muestreo de los datos (con reemplazo) y entrenar varios modelos distintos con ellos. De esta manera, los errores disminuyen.
+	
+	\item \textbf{Divide y vencerás:} cuando un problema es demasiado complicado de resolver utilizando un único clasificador, utilizar un conjunto de ellos puede ser efectivo.
+\end{itemize}
+
+
+\subsection{Diversidad}
+
+En la realidad, los datos contienen ruido, \textit{outliers}, distribuciones que se solapan, etc. Por ello, es muy complicado obtener un clasificador con un desempeño perfecto~\cite{ensembles2006robi}. Los \textit{ensembles} reducen el error cometido por cada estimador base debido a que combinan las salidas de los mismos. Puede parecer <<negativo>> que los clasificadores individuales difieran. Sin embargo, la realidad es que cuanto más único sea cada estimador utilizado y más distintas sean sus \textit{decision boundaries} (frontera que divide la superficie del problema en partes), mejor.
+
+Esta diversidad se puede obtener de distintas formas, por ejemplo, utilizando distintos conjuntos de entrenamiento y \textit{test} en los estimadores base (utilizando técnicas de \textit{bootstrapping}, por ejemplo). Otra opción muy destacable es utilizando clasificadores <<inestables>> (aquellos que sean muy distintos con pequeños cambios en el conjunto de entrenamiento), como por ejemplo los árboles.
+
+\subsection{Tipos}
+
+A la hora de crear un \textit{ensemble}, hay dos preguntas clave que realizarse: ¿cómo se van a generar los clasificadores base? ¿cómo van a diferenciarse los unos de los otros?~\cite{ensembles2006robi}.
+
+Para lograr un mayor nivel de diversidad, se pueden utilizar procedimientos de muestreo o selección de parámetros. En función de ellos, los \textit{ensembles} pueden ser:
 	
 \subsubsection{\textit{Bagging}}
 
@@ -61,6 +86,54 @@ Es uno de los métodos de \textit{bagging} más populares, que obtiene resultado
 Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>~\cite{engelen2018thesis}. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
 
 El entrenamiento se focaliza, por lo tanto, en torno a las instancias que hayan fallado los clasificadores previos. Esto se consigue dando más peso a aquellas muestras mal clasificadas (en problemas de regresión, por ejemplo, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo). 
+
+
+\section{Métricas de evaluación}
+
+En este trabajo de investigación se van a realizar continuamente comparaciones entre modelos de clasificación. Para ello, es necesario definir unas métricas. Estas se basan en conceptos que se exponen a continuación~\cite{apuntesSisint}:
+
+\begin{itemize}
+	\item \textbf{Verdadero positivo o \textit{True positive}}: se obtiene cuando un clasificador acierta en su predicción y esta es la clase de interés. Generalmente, la clase <<positiva>>.
+	\item \textbf{Verdadero negativo o \textit{True negative}}: resultado obtenido cuando un clasificador acierta en su predicción y esta no es la clase de interés.
+	\item \textbf{Falso positivo o \textit{False positive}}: se obtiene cuando un clasificador falla en su predicción y postula que es la clase de interés, cuando en realidad no lo es.
+	\item \textbf{Falso negativo o \textit{False negative}}: resultado obtenido cuando un clasificador falla en su predicción y afirma que una muestra no pertenece a la clase de interés, cuando en realidad sí lo hace.
+	\item \textbf{\textit{Class imbalance problem}}: es un problema que se genera cuando hay muy pocas instancias positivas en el conjunto de datos. Generalmente, causa que la \textit{accuracy} (consultar ecuación~\ref{eqn:accuracy}) sea muy elevada, pero no se detecten instancias de la clase positiva, generando modelos inservibles.
+\end{itemize}
+
+Dadas las definiciones anteriores, se facilitan las métricas utilizadas~\cite{apuntesSisint}:
+
+\begin{itemize}
+	\item \textbf{\textit{Accuracy}, exactitud o porcentaje de acierto}: mide la tasa de aciertos de un determinado clasificador. A lo largo del proyecto, también es llamada \textit{score}.
+	
+	\begin{equation}\label{eqn:accuracy} Accuracy = \frac{|Aciertos|}{|Total|} = \frac{TP + TN}{TP + TN + FP + FN} \end{equation}
+	
+	\item \textbf{\textit{Error rate}, o porcentaje de error}: mide la tasa de error del clasificador.
+	
+	\begin{equation}\label{eqn:error} Error Rate = \frac{|Fallos|}{|Total|} = \frac{FP + FN}{TP + TN + FP + FN} = 1 - Accuracy \end{equation}
+	
+	\item \textbf{Precisión}: mide cuántas predicciones son verdaderamente positivas entre todas las seleccionadas como tal.
+	
+	\begin{equation}\label{eqn:precision} Precision = \frac{TP}{TP + FP}\end{equation} 
+	
+	\item \textbf{\textit{Recall} o \textit{sensitivity}}: determina la capacidad del clasificador para detectar clases positivas. En otras palabras, determina el porcentaje de positivos detectados sobre el total de positivos reales.
+	
+	\begin{equation}\label{eqn:recall} Recall = \frac{TP}{TP + FN}\end{equation}
+	
+	\item \textbf{\textit{Specificity}}: determina cuántos elementos negativos son detectados.
+	\begin{equation}\label{eqn:specificity} Specificity = \frac{TN}{TN + FP}\end{equation}
+	
+	\item \textbf{\textit{False positives ratio}}: determina cuántos negativos son clasificados como positivos sobre el total de negativos.
+	
+	\begin{equation}\label{eqn:FPR} FPR = \frac{FP}{FP + TN}\end{equation}
+	
+	\item \textbf{\textit{F-Measure}}: medida que combina la \textit{precision} y el \textit{recall}. Es de interés puesto que la meta general suele ser maximizar estas dos medidas.
+	
+	\begin{equation}\label{eqn:f-measure} F-Measure = 2 \cdot \frac{precision \cdot recall}{precision + recall} = \frac{ 2 \cdot TP}{2 \cdot TP + FP + FN} \end{equation}
+	
+	\item \textbf{\textit{AUC}}: área bajo la curva (\textit{area under curve}) \textit{ROC} (\textit{operating characteristic curve}). La curva \textit{ROC} es una representación gráfica del \textit{recall} frente a la \textit{specificity}. Cuando una curva es perfecta, su área es $1$.
+	
+	
+\end{itemize}
 
 
 \section{\textit{Co-forest}}
@@ -195,6 +268,7 @@ Además de los aspectos expuestos en el apartado anterior, hay dos decisiones \t
 En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantener alto pero limitar a $\theta\times|U|$.
 
 Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
+
 
 \section{Ataques a sistemas de recomendación}
 
