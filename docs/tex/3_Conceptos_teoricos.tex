@@ -6,17 +6,49 @@ Se sintetizarán a continuación algunos de los conceptos teóricos más relevan
 
 Se denomina aprendizaje automático a aquella rama de la inteligencia artificial cuyo objetivo es desarrollar métodos que permitan que un algoritmo mejore su rendimiento mediante la experiencia y procesado de datos. Consecuentemente, los modelos entrenados realizarán predicciones cada vez más precisas como resultado del algoritmo implementado.
 
-Dentro del aprendizaje automático se diferencian tres grandes grupos en función del tipo de entrada que sea consumida: el aprendizaje supervisado (datos etiquetados), el no supervisado (datos no etiquetados) y el semisupervisado (datos etiquetados y no etiquetados), siendo esta última categoría objeto de estudio en este proyecto de investigación. 
+Se conoce como <<instancia>> (o entrada) a cada fila del \textit{dataset}. Estas están caracterizadas por atributos, que pueden ser numéricos (sus valores son números) o categóricos (sus valores son etiquetas, nombres, categorías, etc)~\cite{apuntesSisint}.
+
+Dentro del aprendizaje automático se diferencian tres grandes grupos en función del tipo de entrada que sea consumida durante el entrenamiento~\cite{engelen2020surveyOnSemiSupervised}: el aprendizaje supervisado (datos etiquetados), el no supervisado (datos no etiquetados) y el semisupervisado (datos etiquetados y no etiquetados), siendo esta última categoría objeto de estudio en este proyecto de investigación. Se entiende por etiqueta como la representación de una determinada clase. 
+
+El aprendizaje supervisado (vertiente predictiva) tiene como meta construir un clasificador (o regresor) que sea capaz de estimar el valor de salida para entradas nuevas (que no se hayan <<visto>> hasta el momento). Por otro lado, el aprendizaje no supervisado (vertiente descriptiva) trata de inferir la estructura interna de las entradas y agruparlas según similitudes (\textit{clustering}). Por último, el aprendizaje semisupervisado es la rama que pretende combinar estas dos vertientes complementándolas~\cite{engelen2020surveyOnSemiSupervised}. La aplicación más común de estos métodos es generar clasificadores efectivos cuando los datos disponibles son escasos.
+
+Un clasificador generalmente cuenta con dos fases a lo largo de su ciclo de vida: la fase de entrenamiento y la fase de predicción. En la primera, el estimador trata de encontrar una hipótesis idéntica al concepto objetivo para todos los datos de entrenamiento, suponiendo que la mejor hipótesis para los datos no vistos es aquella que mejor se ajusta a los datos de entrenamiento~\cite{mitchell1997machine}. Es decir, trata de <<aprender>> sobre el conjunto de entrenamiento. Posteriormente, el clasificador está preparado para realizar predicciones en instancias nuevas.
+
+El \textit{dataset} disponible inicialmente suele ser dividido en conjuntos más pequeños en función de su finalidad~\cite{apuntesSisint}. El conjunto de entrenamiento es aquel subconjunto de los datos utilizado para construir los modelos predictivos (generalmente, a mayor sea este conjunto mejor). Por otro lado, el conjunto de \textit{test} es un subconjunto menor no visto por el modelo (no utilizado durante el entrenamiento) utilizado para estimar el desempeño del modelo a posteriori.
+
 
 \section{Aprendizaje semisupervisado}
 
-Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a aquel conjunto de algoritmos que utiliza datos etiquetados y no etiquetados para realizar tareas de aprendizaje. Inicialmente, se pueden diferenciar dos categorías~\cite{engelen2020surveyOnSemiSupervised}: los métodos inductivos, cuyo objetivo principal es construir un clasificador que genere predicciones para cualquier entrada y los métodos transductivos, cuyo poder de predicción está limitado a los objetos utilizados en la fase de entrenamiento.
+Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a aquel conjunto de algoritmos que utiliza datos etiquetados y no etiquetados para realizar tareas de aprendizaje. 
+
+Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se asumen, además de una condición~\cite{engelen2020surveyOnSemiSupervised}: que la distribución marginal subyacente en el espacio de entradas $p(x)$ contenga información acerca de la posterior distribución $p(y|x)$~\cite{engelen2020surveyOnSemiSupervised}. Si no se cumple este requisito, no se puede segurar que las predicciones basadas en datos no etiquetados vayan a ser adecuadas, aunque en la mayoría de los casos de la vida real ocurre. Sin embargo, la forma en la que $p(x)$ y $p(y|x)$ interactúan no siempre es la misma, aunque se pueden esperar ciertos comportamientos plasmados en las <<suposiciones del aprendizaje semisupervisado>> (imagen~\ref{img:assumptions}). Entre ellas:
+
+\begin{itemize}
+	\item \textbf{\textit{Smoothness assumption}}: si dos muestras $x$ y $x'$ están cerca en el espacio de entrada, sus etiquetas $y$ y $y'$ deberían ser las mismas.
+	
+	\item \textbf{\textit{Low-density assumption}}: esta suposición propone que la frontera de decisión de un clasificador no debería cortar regiones con alta densidad de datos.
+	
+	\item \textbf{\textit{Mainfold assumption}}: postula que el espacio de entrada está compuesto por varios \textit{manifolds} (<<colectores>>) de dimensiones menores, y que todos los datos contenidos en un mismo \textit{manifold} tienen la misma etiqueta.
+\end{itemize}
+
+
+\begin{figure}[h]
+	\caption{\textit{Smoothness} y \textit{Low-density assumption} a la izquierda, \textit{Mainfold assumption} a la derecha. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
+	\label{img:assumptions}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/3_assumptions}
+\end{figure}
+
+
+\subsection{Clasificación}
+
+Inicialmente, se pueden diferenciar dos categorías~\cite{engelen2020surveyOnSemiSupervised}: los métodos inductivos, cuyo objetivo principal es construir un clasificador que genere predicciones para cualquier entrada y los métodos transductivos, cuyo poder de predicción está limitado a los objetos utilizados en la fase de entrenamiento.
 
 
 \begin{figure}[h]
 \caption{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
 \centering
-\includegraphics[width=\textwidth]{../img/memoria/esquemaHoos}
+\includegraphics[width=\textwidth]{../img/memoria/3_hoos_taxonomy}
 \end{figure}
 
 Prescindiendo de los métodos transductivos por ser menos versátiles y útiles en nuestro propósito, los métodos inductivos se subdividen en tres grupos~\cite{engelen2020surveyOnSemiSupervised}: \textit{wrapper methods} (o métodos de envoltura), \textit{unsupervised preprocessing} y \textit{intrinsically semi-supervised}, siendo materia de estudio los métodos de envoltura. 
@@ -34,12 +66,12 @@ Dentro de esta categoría, se pueden diferenciar tres grandes grupos: \textit{se
 
 En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones~\cite{engelen2020surveyOnSemiSupervised}. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario). El \textit{co-forest}, algoritmo protagonista de este proyecto, pertenece a esta categoría.
 
-TO-DO: Añadir información sobre las dos vistas independientes del co-training (otros métodos no tienen esta limitación)
+Para que estos métodos tengan éxito, es importante que los clasificadores base no estén fuertemente correlacionados con sus predicciones, ya que entonces se limita el potencial para proporcionar información útil al resto~\cite{engelen2020surveyOnSemiSupervised}. Es decir, los estimadores han de ser diversos. Una de las formas de conseguir diversidad es mediante el uso de clasificadores inestables. Otra, obtener más de una vista del conjunto de datos inicial.
 
 
 \section{\textit{Ensembles}}
 
-Hasta el momento, se ha expuesto información relacionada con clasificadores únicos. Es decir, a la hora de predecir una etiqueta (o valor), se tiene en cuenta el \textit{output} de un único estimador base. Sin embargo, en muchas ocasiones, puede resultar enriquecedor recurrir a lo estimado por más de un modelo~\cite{ensembles2006robi}. 
+Cuando se cuenta con un único estimador base a la hora de realizar una predicción, la etiqueta asignada es directamente la predicha por el clasificador. Sin embargo, en muchas ocasiones, puede resultar enriquecedor recurrir a lo estimado por más de un modelo~\cite{ensembles2006robi}. 
 
 Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learning} donde cada estimador base genera una predicción individual que se combina con el resto para generar una salida única~\cite{originalCoForest2007}.  Hay varios motivos por los que resulta favorecedor contar con un conjunto de clasificadores en lugar de con un único estimador base~\cite{ensembles2006robi}:
 
@@ -54,38 +86,52 @@ Se define \textit{ensemble} como un conjunto de modelos de \textit{machine learn
 \end{itemize}
 
 
-\subsection{Diversidad}
+\subsection{Diversidad y clasificación}
 
 En la realidad, los datos contienen ruido, \textit{outliers}, distribuciones que se solapan, etc. Por ello, es muy complicado obtener un clasificador con un desempeño perfecto~\cite{ensembles2006robi}. Los \textit{ensembles} reducen el error cometido por cada estimador base debido a que combinan las salidas de los mismos. Puede parecer <<negativo>> que los clasificadores individuales difieran. Sin embargo, la realidad es que cuanto más único sea cada estimador utilizado y más distintas sean sus \textit{decision boundaries} (frontera que divide la superficie del problema en partes), mejor.
 
 Esta diversidad se puede obtener de distintas formas, por ejemplo, utilizando distintos conjuntos de entrenamiento y \textit{test} en los estimadores base (utilizando técnicas de \textit{bootstrapping}, por ejemplo). Otra opción muy destacable es utilizando clasificadores <<inestables>> (aquellos que sean muy distintos con pequeños cambios en el conjunto de entrenamiento), como por ejemplo los árboles.
 
-\subsection{Tipos}
-
 A la hora de crear un \textit{ensemble}, hay dos preguntas clave que realizarse: ¿cómo se van a generar los clasificadores base? ¿cómo van a diferenciarse los unos de los otros?~\cite{ensembles2006robi}.
 
-Para lograr un mayor nivel de diversidad, se pueden utilizar procedimientos de muestreo o selección de parámetros. En función de ellos, los \textit{ensembles} pueden ser:
+Para lograr un mayor nivel de diversidad, se pueden utilizar procedimientos de muestreo o selección de parámetros. En función de ellos y de cómo se realice el entrenamiento (consultar imagen~\ref{img:bagging}), los \textit{ensembles} pueden ser de distintos tipos.
 	
-\subsubsection{\textit{Bagging}}
+\subsubsection{\textit{Bagging (Random Forest)}}
 
-Este modelo se compone de un conjunto de estimadores base entrenados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto aleatorio del total de los datos etiquetados como se ilustra en la figura~\ref{img:bagging}. Esta técnica puede ser utilizada con o sin reemplazo, entendiendo que el muestreo con reemplazo se produce cuando cada una de las unidades maestrales seleccionada es devuelta a la población total antes de extraer la siguiente (puede repetirse).
+El \textit{bagging} es uno de los modelos más antiguos y populares~\cite{ensembles2006robi}. Se compone de un conjunto de estimadores base entrenados en paralelo. Por lo tanto, el resultado es el promedio (o más popular) de las salidas de los modelos simples. Para entrenar cada estimador base se utiliza \textit{bootstrapping}~\cite{engelen2018thesis}, que es una técnica de muestreo que genera un subconjunto de datos seleccionando aleatoriamente muestras de un conjunto mayor permitiendo la repetición. Es decir, los clasificadores son entrenados con un subconjunto aleatorio del total de los datos etiquetados como se ilustra en la figura~\ref{img:bagging}. Esta técnica puede ser utilizada con o sin reemplazo, entendiendo que el muestreo con reemplazo se produce cuando cada una de las unidades maestrales seleccionada es devuelta a la población total antes de extraer la siguiente (puede repetirse).
+
+El \textit{bagging} es muy útil cuando se dispone poca cantidad de datos, y la cantidad de muestras que contiene cada conjunto de entrenamiento es de entre el $75\% - 100\%$ del total del \textit{dataset}~\cite{ensembles2006robi}. Al utilizar \textit{bootstrapping}, los conjuntos de \textit{test} se suelen solapar, además de poder contener muestras repetidas (reemplazo). Por ello, es recomendable utilizar clasificadores base inestables, como por ejemplo los árboles.
+
+Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{random forest}}, uno de los métodos de \textit{bagging} más populares que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando el \textit{ensemble} devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 
 \begin{figure}[h]
-	\caption{CAMBIAR Representación genérica de un modelo \textit{bagging}.}
+	\caption{Diferencias entre el entrenamiento en \textit{bagging} (derecha) y \textit{boosting} (izquierda).}
 	\label{img:bagging}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/bagging}
+	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting}
 \end{figure}
-
-\subsubsection{\textit{Random forest}}
-
-Es uno de los métodos de \textit{bagging} más populares, que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Como clasificadores base, utiliza un conjunto de árboles de decisión, y cuando se devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 	
 \subsubsection{\textit{Boosting}}
 
-Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>~\cite{engelen2018thesis}. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer.
+Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>~\cite{engelen2018thesis}. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer (los \textit{weak learners} se convierten en \textit{strong learners}~\cite{ensembles2006robi}).
 
-El entrenamiento se focaliza, por lo tanto, en torno a las instancias que hayan fallado los clasificadores previos. Esto se consigue dando más peso a aquellas muestras mal clasificadas (en problemas de regresión, por ejemplo, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo). 
+El entrenamiento se focaliza, por lo tanto, en torno a las instancias que hayan fallado los clasificadores previos. Esto se consigue dando más peso a aquellas muestras mal clasificadas. Por ejemplo, en problemas de regresión, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo. En clasificación, los estimadores se entrenan con aquellas muestras en las que los otros elementos del \textit{ensemble} difieran.
+
+\subsection{Combinación de los clasificadores}
+
+Suponiendo que sólo se dispone de las etiquetas asignadas por los clasificadores base como salida, hay diversos modos de <<fusionar>> los \textit{outputs} en uno único~\cite{ensembles2006robi}.
+
+En el caso de que todos los estimadores base sean <<iguales>>, es frecuente utilizar \textit{majority voting} (<<votación de la mayoría>>). Cuenta con tres versiones: la votación unánime (todos los clasificadores coinciden), la mayoría simple (coincidencia de más del $50\%$ de los votos) y la votación por mayoría (la etiqueta que más votos haya recibido, representado en la ilustración~\ref{img:voting}).
+
+Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se puede aplicar \textit{weighted majority voting}, donde las etiquetas predichas por los estimadores con mejor rendimiento tienen más peso que el resto (se asigna una proporción).
+
+\begin{figure}[h]
+	\caption{Representación de la combinación mediante votación.}
+	\label{img:voting}
+	\centering
+	\includegraphics[scale=0.35]{../img/memoria/3_voting}
+\end{figure}
+
 
 
 \section{Métricas de evaluación}
@@ -223,7 +269,8 @@ Se facilita a continuación la versión del \textit{co-forest} de la tesis de En
 \subsubsection{Fases}
 
 En primer lugar, se ha de construir un \textit{random forest} de $n$ árboles. Para introducir aleatoriedad, cada uno de esos árboles es entrenado utilizando un subconjunto aleatorio de $L$. Es decir, un subconjunto obtenido tras aplicar \textit{bootstrap} a $L$.
-Otro parámetro a tener en cuenta es el número de atributos a considerar en cada árbol de decisión. Por defecto, se ha establecido este valor a la raíz cuadrada del total. Sin embargo, también podría ser el $log_{2}$ del total (heurística de Breiman~\cite{engelen2018thesis}) o el total, entre otros.
+
+Otro parámetro a tener en cuenta es el número de atributos a considerar en cada árbol de decisión. Por defecto, se ha establecido este valor al $log_{2}$ del total (heurística de Breiman~\cite{engelen2018thesis}). Sin embargo, también podría ser el la raíz cuadrada del total o el total, entre otros.
 
 La segunda fase es entrenar el \textit{random forest} de manera semisupervisada e iterativa hasta que se cumpla el criterio de parada (como se ha mencionado anteriormente, basado en el OOBE). Para ello, se calcula el OOBE de un árbol para una iteración. Si es superior al anterior, se considera que el rendimiento ha empeorado para ese árbol. El algoritmo finaliza cuando todos los árboles empeoran su rendimiento en una determinada iteración.
 
