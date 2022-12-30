@@ -4,3 +4,5 @@ src/scripts/t*
 *pycache
 *pruebas*
 *prueba*
+src/models/notebooks/iris
+src/models/notebooks/wine

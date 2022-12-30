@@ -4,7 +4,7 @@
 
 \section{Reproducción del artículo original}
 
-El objetivo de este proyecto es probar nuevos métodos de aprendizaje semi-supervisado aplicados a la detección de ataques. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{coforest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo.
+El objetivo de este proyecto es probar nuevos métodos de aprendizaje semi-supervisado aplicados a la detección de ataques. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{co-forest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo.
 
 \subsection{Experimentación Algoritmos}
 
@@ -43,12 +43,12 @@ Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en 
 
 Se ha querido estudiar la evolución del \textit{score} (porcentaje de aciertos respecto al total de las predicciones) del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
 
-Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (sin estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
+Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (utilizando estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la distribución de los datos.}
 	\centering
-	\includegraphics[scale=0.75]{../img/memoria/5_entrenamiento_particiones}
+	\includegraphics[scale=0.3]{../img/memoria/5_entrenamiento_particiones}
 	\label{5_entrenamiento_particiones}
 \end{figure}
 
@@ -58,7 +58,7 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
 \begin{figure}[h]
 	\caption{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
 	\centering
-	\includegraphics[scale=0.75]{../img/memoria/5_coforest_score-iteraciones}
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-iteraciones}
 	\label{5_coforest_score-iteraciones}
 \end{figure}
 
@@ -79,21 +79,21 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 \begin{figure}[h]
 	\caption{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
 	\centering
-	\includegraphics[scale=0.75]{../img/memoria/5_coforest_tiempo-instancias}
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_tiempo-instancias}
 	\label{5_coforest_tiempo-instancias}
 \end{figure}
 
 
 \subsubsection{Datos de entrenamiento}
 
-En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado  $20$ árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: $20\%$ etiquetados y $80\%$ no etiquetados.
+En este apartado de la experimentación, se ha querido evaluar cómo se comporta el \textit{co-forest} en función del porcentaje de datos que se utilice para el entrenamiento. Nuevamente, se han utilizado  $20$ árboles, y la división del conjunto de datos de entrenamiento se ha mantenido: $20\%$ etiquetados y $80\%$ no etiquetados. Los conjuntos están estratificados.
 
 Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor desempeño presenta. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
 	\centering
-	\includegraphics[scale=0.75]{../img/memoria/5_score-porcentaje_entrenamiento}
+	\includegraphics[scale=0.7]{../img/memoria/5_score-porcentaje_entrenamiento}
 	\label{5_score-porcentaje_entrenamiento}
 \end{figure}
 
@@ -101,13 +101,20 @@ Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, s
 
 Hasta este momento, todos los resultados han sido realizados para $n=20$. Es decir, utilizando $20$ árboles. Sin embargo, el comportamiento del \textit{co-forest} varía considerablemente en función del número de árboles contenidos en el \textit{ensemble}, lo que motiva la realización del siguiente experimento. Nuevamente, se ha desarrollado utilizando cuatro conjuntos de datos y validación cruzada, por lo que se muestra la media en la exactitud para las $10$ particiones.
 
-Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
+Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido, como se ilustra en la gráfica~\ref{5_tiempo-arboles}. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
 
 \begin{figure}[h]
 	\caption{Gráfica que representa la variación del \textit{score} en función del número de árboles del \textit{co-forest}.}
 	\centering
-	\includegraphics[scale=0.75]{../img/memoria/5_coforest_score-arboles}
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-arboles}
 	\label{5_score-arboles}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Gráfica que representa la variación del tiempo requerido en la fase de entrenamiento en función del número de árboles del \textit{co-forest}.}
+	\centering
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_tiempo-arboles}
+	\label{5_tiempo-arboles}
 \end{figure}
 
 \subsubsection{Comparativa contra KEEL}

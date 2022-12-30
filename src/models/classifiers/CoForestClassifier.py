@@ -12,7 +12,7 @@ from sklearn.metrics import recall_score, precision_score
 class CoForest:
 
     def __init__(self, L, y, U, n, theta, random_state=None, max_features='log2'):
-        """"
+        """
         Constructor. Creates and trains the Co-Forest.
         
         Parameters
@@ -47,7 +47,8 @@ class CoForest:
         
 
     def create_trees(self, max_features) -> dict:
-        """Generates a dict containing co-forest's trees.
+        """
+        Generates a dict containing co-forest's trees.
 
         Parameters
         ----------
@@ -57,8 +58,7 @@ class CoForest:
 
         Returns
         -------
-        dict
-            {key: int, value: Tree}
+        dict: {key: int, value: Tree}
         """
 
         ensemble = {}
@@ -73,7 +73,8 @@ class CoForest:
         return ensemble
 
     def fit(self):
-        """Fits the ensemble using both labeled and
+        """
+        Fits the ensemble using both labeled and
         pseudo-labeled data.
         """
 
@@ -133,6 +134,15 @@ class CoForest:
     def retrain_tree(self, i, pseudo_labeled_data, pseudo_labeled_tags):
         """
         Retrains a tree given new pseudo-labeled data.
+
+        Parameters
+        ----------
+        i: int
+            index of the three
+        pseudo_labeled_data: np.array
+            unlabeled samples
+        pseudo_labeled_tags: np.array
+            pseudo-labels for the unlabeled samples
         """
 
         pseudo_labeled_data = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(pseudo_labeled_data)
@@ -141,14 +151,15 @@ class CoForest:
         self.ensemble[i] = self.ensemble[i].fit(X_train, y_train)
 
         
-    def subsample(self, hi: DecisionTreeClassifier, Wmax: float) -> np.array:
-        """Samples from U uniformly at random until 
+    def subsample(self, hi, Wmax) -> np.array:
+        """
+        Samples from U uniformly at random until 
         the sum of the sample weights reaches Wmax.
         Bootstraping is applied.
 
         Parameters
         ----------
-        hi : DecisionTreeClassifier
+        hi : DecisionTreeClassifier excluded
         Wmax: float
 
         Returns
@@ -170,13 +181,14 @@ class CoForest:
         return np.array(U_subsampled)
 
         
-    def concomitant_oob_error(self, hi: DecisionTreeClassifier) -> float:
-        """Calculates the Out of Bag Error of the concomitant 
+    def concomitant_oob_error(self, hi) -> float:
+        """
+        Calculates the Out of Bag Error of the concomitant 
         ensemble of hi for the whole labeled data.
 
         Parameters
         ----------
-        hi : DecisionTreeClassifier
+        hi : DecisionTreeClassifier excluded
 
         Returns
         -------
@@ -187,7 +199,8 @@ class CoForest:
         errors = []
 
         for sample, tag in zip(self.L, self.y):
-            n_votes = n_hits = 0 
+            n_votes = 0
+            n_hits = 0 
 
             for i, tree in self.ensemble.items():
 
@@ -204,8 +217,9 @@ class CoForest:
 
         return np.mean(a=errors)
 
-    def concomitant_confidence(self, hi: DecisionTreeClassifier, sample: np.array) -> tuple:
-        """Calculates the number of coincidences during
+    def concomitant_confidence(self, hi, sample) -> tuple:
+        """
+        Calculates the number of coincidences during
         prediction of the hi concomitant ensemble for a
         data sample.
 
@@ -221,7 +235,7 @@ class CoForest:
             int: most agreed class
         """
 
-        count = { **dict.fromkeys([i for i in self.classes], 0)} 
+        count = {i: 0  for i in self.classes}
 
         for tree in self.ensemble.values():
             if tree is not hi:
@@ -234,7 +248,8 @@ class CoForest:
 
 
     def single_predict(self, sample: np.array): 
-        """Returns the class predicted by coforest
+        """
+        Returns the class predicted by coforest
         for a given sample. Majority voting is used.
 
         Parameters
@@ -248,16 +263,17 @@ class CoForest:
             label predicted by coforest.
         """
 
-        count = { **dict.fromkeys([i for i in self.classes], 0)} 
+        count = {i: 0  for i in self.classes}
         for i in (tree.predict([sample])[0] for tree in self.ensemble.values()):
-                count[i]+= 1
+            count[i]+= 1
 
         max_agreement = max(count.values())
         return list(count.keys())[list(count.values()).index(max_agreement)]
 
 
     def predict(self, samples: np.array) -> np.array:
-        """Returns the labels predicted by the coforest
+        """
+        Returns the labels predicted by the coforest
         for a given data.
 
         Parameters
@@ -275,7 +291,21 @@ class CoForest:
         return np.array([self.single_predict(sample) for sample in samples])
 
 
-    def single_predict_proba(self, sample : np.array):
+    def single_predict_proba(self, sample):
+        """
+        Returns the probability for each class 
+        predicted by coforest for a given sample.
+
+        Parameters
+        ----------
+        sample: np_array
+            sample to predict
+
+        Returns
+        -------
+        np.array:
+            array containing probability for each class.
+        """
 
         count = {i: 0  for i in self.classes}
 
@@ -283,18 +313,34 @@ class CoForest:
                 count[i]+= 1
 
         votes = np.array(list(count.values()))
-        
         return votes / self.n
 
 
     def predict_proba(self, samples: np.array):
+        """
+        Returns the probabilities predicted by 
+        coforest for a given data.
+
+        Parameters
+        ----------
+        samples: np_array
+            samples to predict
+
+        Returns
+        -------
+        np.array:
+            array containing one array for each
+            sample with probabilities for each 
+            class.
+        """
 
         samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])
 
 
     def score(self, X_test: np.array, y_test: np.array) -> float:
-        """Calculates the number of hits by coforest
+        """
+        Calculates the number of hits by coforest
         given a training set.
 
         Parameters
@@ -312,10 +358,11 @@ class CoForest:
         y_predictions = self.predict(X_test)
         return np.count_nonzero(y_predictions==y_test)/len(y_test)
 
+
     def check_random_state(self, seed):
         """
-        Source: SkLearn
         Turn seed into a np.random.RandomState instance.
+        Source: SkLearn
 
         Parameters
         ----------
@@ -327,8 +374,8 @@ class CoForest:
 
         Returns
         -------
-        :class:`numpy:numpy.random.RandomState`
-            The random state object based on `seed` parameter.
+        numpy.random.RandomState
+            The random state object based on seed parameter.
         """
 
         if seed is None or seed is np.random:
@@ -343,9 +390,34 @@ class CoForest:
         raise ValueError("%r cannot be used to seed a numpy.random.RandomState instance" % seed)
 
 
-    def recall(self, y_true: np.array, y_pred: np.array):
+    def recall(self, y_true, y_pred) -> float:
+        """
+        Returns recall.
+        
+        Parameters
+        ----------
+        y_true: np.array with true labels
+        y_pred: np.array with labels predicted by co-forest
+
+        Returns
+        -------
+        Recall score
+        """
         return recall_score(y_true, y_pred)
         
 
-    def precision(self, y_true: np.array, y_pred: np.array):
+    def precision(self, y_true, y_pred) -> float:
+        """
+        Returns precision.
+        
+        Parameters
+        ----------
+        y_true: np.array with true labels
+        y_pred: np.array with labels predicted by co-forest
+
+        Returns
+        -------
+        Precision score
+        """
+
         return precision_score(y_true, y_pred)
