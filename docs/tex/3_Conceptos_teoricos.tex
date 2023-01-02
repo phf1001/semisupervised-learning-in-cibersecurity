@@ -10,7 +10,7 @@ Se conoce como <<instancia>> (o entrada) a cada fila del \textit{dataset}. Estas
 
 Dentro del aprendizaje automático se diferencian tres grandes grupos en función del tipo de entrada que sea consumida durante el entrenamiento~\cite{engelen2020surveyOnSemiSupervised}: el aprendizaje supervisado (datos etiquetados), el no supervisado (datos no etiquetados) y el semisupervisado (datos etiquetados y no etiquetados), siendo esta última categoría objeto de estudio en este proyecto de investigación. Se entiende por etiqueta como la representación de una determinada clase. 
 
-El aprendizaje supervisado (vertiente predictiva) tiene como meta construir un clasificador (o regresor) que sea capaz de estimar el valor de salida para entradas nuevas (que no se hayan <<visto>> hasta el momento). Por otro lado, el aprendizaje no supervisado (vertiente descriptiva) trata de inferir la estructura interna de las entradas y agruparlas según similitudes (\textit{clustering}). Por último, el aprendizaje semisupervisado es la rama que pretende combinar estas dos vertientes complementándolas~\cite{engelen2020surveyOnSemiSupervised}. La aplicación más común de estos métodos es generar clasificadores efectivos cuando los datos disponibles son escasos.
+El aprendizaje supervisado (vertiente predictiva) tiene como meta construir un clasificador (o regresor) que sea capaz de estimar el valor de salida para entradas nuevas (que no se hayan <<visto>> hasta el momento). Por otro lado, el aprendizaje no supervisado (vertiente descriptiva) trata de inferir la estructura interna de las entradas y agruparlas según similitudes (\textit{clustering}). Por último, el aprendizaje semisupervisado es la rama que pretende combinar estas dos vertientes complementándolas~\cite{engelen2020surveyOnSemiSupervised}. La aplicación más común de estos métodos es generar clasificadores efectivos cuando los datos disponibles son escasos, aunque no es la única.
 
 Un clasificador generalmente cuenta con dos fases a lo largo de su ciclo de vida: la fase de entrenamiento y la fase de predicción. En la primera, el estimador trata de encontrar una hipótesis idéntica al concepto objetivo para todos los datos de entrenamiento, suponiendo que la mejor hipótesis para los datos no vistos es aquella que mejor se ajusta a los datos de entrenamiento~\cite{mitchell1997machine}. Es decir, trata de <<aprender>> sobre el conjunto de entrenamiento. Posteriormente, el clasificador está preparado para realizar predicciones en instancias nuevas.
 
@@ -21,7 +21,7 @@ El \textit{dataset} disponible inicialmente suele ser dividido en conjuntos más
 
 Como se ha mencionado anteriormente, se denomina aprendizaje semisupervisado a aquel conjunto de algoritmos que utiliza datos etiquetados y no etiquetados para realizar tareas de aprendizaje. 
 
-Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se asumen, además de una condición~\cite{engelen2020surveyOnSemiSupervised}: que la distribución marginal subyacente en el espacio de entradas $p(x)$ contenga información acerca de la posterior distribución $p(y|x)$~\cite{engelen2020surveyOnSemiSupervised}. Si no se cumple este requisito, no se puede segurar que las predicciones basadas en datos no etiquetados vayan a ser adecuadas, aunque en la mayoría de los casos de la vida real ocurre. Sin embargo, la forma en la que $p(x)$ y $p(y|x)$ interactúan no siempre es la misma, aunque se pueden esperar ciertos comportamientos plasmados en las <<suposiciones del aprendizaje semisupervisado>> (imagen~\ref{img:assumptions}). Entre ellas:
+Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se asumen, además de una condición: que la distribución marginal subyacente en el espacio de entradas $p(x)$ contenga información acerca de la posterior distribución $p(y|x)$~\cite{engelen2020surveyOnSemiSupervised}. Si no se cumple este requisito, no se puede segurar que las predicciones basadas en datos no etiquetados vayan a ser adecuadas, aunque en la mayoría de los casos de la vida real ocurre. Sin embargo, la forma en la que $p(x)$ y $p(y|x)$ interactúan no siempre es la misma, aunque se pueden esperar ciertos comportamientos plasmados en las <<suposiciones del aprendizaje semisupervisado>> (imagen~\ref{img:assumptions}). Entre ellas:
 
 \begin{itemize}
 	\item \textbf{\textit{Smoothness assumption}}: si dos muestras $x$ y $x'$ están cerca en el espacio de entrada, sus etiquetas $y$ y $y'$ deberían ser las mismas.
@@ -325,15 +325,18 @@ Múltiples estudios se han centrado en formalizar las características de estos 
 
 \begin{itemize}
 	
-	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textbf{\textit{push attacks}}, que pretenden hacer un objeto más atractivo o \textbf{\textit{nuck attacks}}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textbf{\textit{random vandalism}~\cite{Burke2015RobustCollaborative}}.
+	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textit{push attacks}, que pretenden hacer un objeto más atractivo o \textit{nuck attacks}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textit{random vandalism}~\cite{Burke2015RobustCollaborative}.
 	
-	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el \textbf{tamaño del relleno} (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems~\cite{mingdan2018ShillingAttacksAReview}) y el \textbf{tamaño del ataque} (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%).
+	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el tamaño del relleno (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems~\cite{mingdan2018ShillingAttacksAReview}), correspondiente a la ecuación~\ref{eqn:filler_size}  y el tamaño del ataque (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%), correspondiente a la ecuación~\ref{eqn:attack_size} .
 	
-	\item \textbf{Coste:} se distinguen dos tipos: \textbf{\textit{knowledge-cost}}, que hace referencia al coste de construir perfiles y \textbf{\textit{deployment-cost}}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo~\cite{Mobasher2006Thesis}.
+	\begin{equation}\label{eqn:filler_size} Filler size = \frac{|I_a|}{|I|}\end{equation}
+	
+	\begin{equation}\label{eqn:attack_size} Attack size = \frac{|U_a|}{|U_g|}\end{equation}
+	
+	\item \textbf{Coste:} se distinguen dos tipos: \textit{knowledge-cost}, que hace referencia al coste de construir perfiles y \textit{deployment-cost}, que es el número de perfiles que se deben inyectar para conseguir un ataque efectivo~\cite{Mobasher2006Thesis}.
 	
 \end{itemize}
 
-		
 \subsection{Tipos de ataques}
 
 En la actualidad se distinguen multitud de ataques distintos. Con el fin de formalizarlos matemáticamente, se han establecido ciertos conjuntos de interés dependiendo de los ítems que contengan~\cite{zhou2021SemisupervisedRecommendationAttack}.

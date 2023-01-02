@@ -18,7 +18,7 @@ Siguiendo este esquema, se desarrolla el <<ciclo de \textit{scrum}>> representad
 	\caption{Resumen del ciclo de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
 	\label{img:ciclo_scrum}
 	\centering
-	\includegraphics[width=\textwidth]{../img/anexos/scrum/ciclo}
+	\includegraphics[scale=0.45]{../img/anexos/scrum/ciclo}
 \end{figure}
 
 \subsection{Roles}
@@ -298,6 +298,9 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	Como se puede comprobar, se finalizaron las tareas del \textit{sprint} antes de lo previsto. En gran parte, debido a que el \textit{issue} de extracción de vectores de características estaba ya comenzado en el \textit{sprint} anterior, y requirió menos tiempo del planificado. Además, el resto de tareas no dieron problemas en esta iteración. Debido a que \textit{scrum} no permite añadir nuevos ítems en la pila del \textit{sprint} durante el desarrollo de este, se decidió cerrar y comenzar uno nuevo.
 
 	\item \textbf{\textit{Sprint review meeting}}
+	
+	Durante la reunión se concluyó que la forma de generar vectores de características y reseñas de ataques es correcta, por lo que se decidió experimentar con el \textit{co-forest} y datos reales.
+	
 \end{itemize}
 
 
@@ -305,16 +308,63 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 \subsubsection{\textit{Sprint 8: Kaffir Lime Leaves}}
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
+	
+	Durante este \textit{sprint} se fijaron los siguientes objetivos:
 			\begin{enumerate}
-			\item
-			\item
-			\item
-			\item 
+			\item Refactorizar el extractor de vectores de características y el generador de reseñas de atacantes: debido a que la sintetización de los conjuntos de entrenamiento y \textit{test} requiere demasiado tiempo ($25h$), se ha decidido mejorar la complejidad algorítmica y convertir a clase con el fin de reducir llamadas con mayor complejidad temporal.
+			\item Completar el \textit{co-forest}: añadir nuevos métodos para realizar comparaciones (predicción con probabilidades, AUC, \textit{recall} y precisión).
+			\item Orden de repositorio: lectura acerca de la creación de módulos en python, conversión de los \textit{notebooks} a archivos \texttt{.py} importables, configuración de rutas.
+			\item Análisis de resultados: analizar los resultados en busca de posibles errores cometidos durante la experimentación.
+			\item Generación de gráficas y comparación contra \textit{random forest}: utilizando clases de SKLearn, automatizar la generación de gráficas para imitar el experimento realizado por Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack} para el \textit{co-forest} y dos \textit{random forest} con distintos conjuntos de entrenamiento.
 			\end{enumerate}
-	\item \textbf{Marcas temporales}		
+		
+	\item \textbf{Marcas temporales}	
+	
+	Para evitar solapamientos con el \textit{sprint} anterior, oficialmente (en el repositorio) se desarrolló entre el 18 y el 22 de Diciembre del 2022. Sin embargo, se empezó unos días antes.	
+	
 	\item \textbf{\textit{Burndown Report}}
+	
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 08}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s08_bdr}
+	\end{figure}
+
+	Como se puede comprobar, los \textit{issues} fueron completados correctamente.	
+
+	\item \textbf{\textit{Sprint review meeting}}
+	Durante la reunión se comprobó que los resultados obtenidos en la fase de experimentación no se asemejan a los presentados en el \textit{paper} seguido~\cite{zhou2021SemisupervisedRecommendationAttack}. Sin embargo, se concluyó que deberían ser correctos. Para evitar realizar afirmaciones erróneas, se decidió revisar todo el proceso de experimentación.
+\end{itemize}
+
+
+
+\subsubsection{\textit{Sprint 9: Ginger}}
+\begin{itemize}
+	\item \textbf{\textit{Planning meeting}}
+	
+	Debido a que este \textit{sprint} se realizó durante la época vacacional, se decidió realizar una revisión general del documento completando aspectos pendientes.
+	
+	\begin{enumerate}
+		\item Experimentación \textit{co-forest}: se incluyó una gráfica \textit{extra} pendiente (tiempo de entrenamiento-número de árboles) y se repitió la experimentación esta vez utilizando conjuntos estratificados. Se corrigieron los cambios surgidos y actualizaron las gráficas en la memoria. Se revisó la clase del \textit{co-forest} y se terminó de documentar.
+		\item Documentación: se decidió cerrar aspectos pendientes. Entre ellos: completar las secciones teóricas de semisupervisado, ensembles y métricas, repetir gráficas e ilustraciones incorrectas, revisar la bibliografía y trabajos relacionados, completar los anexos y corregir aspectos menores.
+		\item Revisión de la detección de ataques: debido a que los resultados obtenidos no son los esperados, se decidió revisar toda la generación de reseñas de atacantes, extracción de perfiles y métodos de experimentación en busca de posibles errores.
+		\item Implementación: comenzar a implementar el \textit{democratic-co} y leer sobre él.
+	\end{enumerate}
+
+	\item \textbf{Marcas temporales}		
+	El \textit{sprint} se desarrolló entre el 27 de Diciembre del 2022 y el 8 de Enero del 2023.
+	
+	
+	\item \textbf{\textit{Burndown Report}}
+	...
+	
+	El número total de horas dedicadas al proyecto fue de 20. Como algunos de los \textit{issues} requirieron menos tiempo del planificado (en especial los relacionados con la documentación), se destinó el tiempo sobrante a otros pendientes.
+	
+	
 	\item \textbf{\textit{Sprint review meeting}}
 \end{itemize}
+
+
 
 
 

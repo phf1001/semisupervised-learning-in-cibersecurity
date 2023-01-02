@@ -2,7 +2,6 @@
 
 Dentro de este proyecto se pueden diferenciar distintas líneas de investigación, principalmente las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado y las centradas en formalizar ataques a sistemas de recomendación.
 
-
 \subsection{Aprendizaje semisupervisado aplicado a la detección de ataques en sistemas de recomendación}
 
 \subsubsection{\textit{Co-Forest} aplicado a la detección de ataques~\cite{zhou2021SemisupervisedRecommendationAttack}}
@@ -23,3 +22,9 @@ Previo a este documento,también es relevante contemplar otros trabajos, como la
 
 	\subsubsection{Primeras definiciones formales~\citep{mahony2004CollaborativeRecommendation}}
 <<\textit{Collaborative recommendation: A robustness analysis}>>~\cite{mahony2004CollaborativeRecommendation}, de O'Mahony y Hurley, es uno de los trabajos con más antiguedad pero mayor número de referencias que se encuentra. En él se definen los modelos de construcciones en base a conocimiento del sistema y pone a prueba la robustez de los recomendadores evaluando su estabilidad y precisión ante la presencia de perfiles inyectados (análisis matemático muy completo).
+
+\subsection{Algoritmos de aprendizaje semisupervisado}
+
+\subsubsection{\textit{Co-Forest}}
+
+A pesar de que el paper principal del proyecto (Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}) expone que se utiliza la versión original del \textit{co-forest}~\cite{originalCoForest2007}, es destacable mencionar que ciertos aspectos de implementación no han sido contemplados en estos artículos. Por ello, la implementación propia se ha basado también en <<\textit{Semi-supervised ensemble learning. Master’s thesis}>>, desarrollada por Engelen y Hoos~\cite{engelen2018thesis}.
