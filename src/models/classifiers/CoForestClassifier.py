@@ -1,13 +1,8 @@
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split, KFold
-from sklearn.linear_model import LinearRegression
 import numpy as np
 import numbers
-import matplotlib.pyplot as plt
-import pandas as pd
 from copy import deepcopy
 from sklearn.metrics import recall_score, precision_score
-
 
 class CoForest:
 
@@ -18,17 +13,17 @@ class CoForest:
         Parameters
         ----------
         L: np.array
-            labeled data used for training
+            Labeled data used for training
         y: np.array
-            tags of the labeled data used for training
+            Tags of the labeled data used for training
         U: np.array
-            unlabeled data used for training
+            Unlabeled data used for training
         n: int
-            number of trees in the ensemble
+            Number of trees in the ensemble
         theta: float
-            tolerance
+            Tolerance
         random_state:
-            random object to create deterministic experiments
+            Random object to create deterministic experiments
         max_features: string
             log2, sqrt, None
         """
@@ -65,7 +60,7 @@ class CoForest:
 
         for i in range(self.n):
 
-            rand_rows = self.random_state.choice(a = np.arange(start=0, stop=self.L.shape[0]), replace = True, size=(int(0.7*self.L.shape[0])) )
+            rand_rows = self.random_state.choice(self.L.shape[0], replace = True, size=(int(0.7*self.L.shape[0])) )
             self.mask_L[rand_rows, i] = 1
             h = DecisionTreeClassifier(max_features=max_features, random_state=self.random_state)
             ensemble[i] = h.fit(self.L[rand_rows, :], self.y[rand_rows])
@@ -151,7 +146,7 @@ class CoForest:
         self.ensemble[i] = self.ensemble[i].fit(X_train, y_train)
 
         
-    def subsample(self, hi, Wmax) -> np.array:
+    def subsample(self, hi, Wmax):
         """
         Samples from U uniformly at random until 
         the sum of the sample weights reaches Wmax.
@@ -174,14 +169,14 @@ class CoForest:
 
         while (W < Wmax):
 
-            rand_row = self.random_state.choice(a = np.arange(start=0, stop=self.U.shape[0]))
+            rand_row = self.random_state.choice(self.U.shape[0])
             W += self.concomitant_confidence(hi, self.U[rand_row, :])[0]
             U_subsampled.append(rand_row)
 
         return np.array(U_subsampled)
 
         
-    def concomitant_oob_error(self, hi) -> float:
+    def concomitant_oob_error(self, hi):
         """
         Calculates the Out of Bag Error of the concomitant 
         ensemble of hi for the whole labeled data.
@@ -217,7 +212,7 @@ class CoForest:
 
         return np.mean(a=errors)
 
-    def concomitant_confidence(self, hi, sample) -> tuple:
+    def concomitant_confidence(self, hi, sample):
         """
         Calculates the number of coincidences during
         prediction of the hi concomitant ensemble for a
@@ -247,7 +242,7 @@ class CoForest:
         return max_agreement/(len(self.ensemble) -1), most_agreed_class
 
 
-    def single_predict(self, sample: np.array): 
+    def single_predict(self, sample): 
         """
         Returns the class predicted by coforest
         for a given sample. Majority voting is used.
@@ -271,7 +266,7 @@ class CoForest:
         return list(count.keys())[list(count.values()).index(max_agreement)]
 
 
-    def predict(self, samples: np.array) -> np.array:
+    def predict(self, samples):
         """
         Returns the labels predicted by the coforest
         for a given data.
@@ -316,7 +311,7 @@ class CoForest:
         return votes / self.n
 
 
-    def predict_proba(self, samples: np.array):
+    def predict_proba(self, samples):
         """
         Returns the probabilities predicted by 
         coforest for a given data.
@@ -338,7 +333,7 @@ class CoForest:
         return np.array([self.single_predict_proba(sample) for sample in samples])
 
 
-    def score(self, X_test: np.array, y_test: np.array) -> float:
+    def score(self, X_test, y_test):
         """
         Calculates the number of hits by coforest
         given a training set.
@@ -359,7 +354,7 @@ class CoForest:
         return np.count_nonzero(y_predictions==y_test)/len(y_test)
 
 
-    def check_random_state(self, seed):
+    def check_random_state(self, seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn
@@ -367,10 +362,9 @@ class CoForest:
         Parameters
         ----------
         seed : None, int or instance of RandomState
-            If seed is None, return the RandomState singleton used by np.random.
-            If seed is an int, return a new RandomState instance seeded with seed.
-            If seed is already a RandomState instance, return it.
-            Otherwise raise ValueError.
+            If None, return the RandomState singleton.
+            If int, return a new RandomState seeded with seed.
+            If RandomState instance, return it.
 
         Returns
         -------
@@ -386,11 +380,9 @@ class CoForest:
 
         if isinstance(seed, np.random.RandomState):
             return seed
-            
-        raise ValueError("%r cannot be used to seed a numpy.random.RandomState instance" % seed)
 
 
-    def recall(self, y_true, y_pred) -> float:
+    def recall(self, y_true, y_pred):
         """
         Returns recall.
         
@@ -406,7 +398,7 @@ class CoForest:
         return recall_score(y_true, y_pred)
         
 
-    def precision(self, y_true, y_pred) -> float:
+    def precision(self, y_true, y_pred):
         """
         Returns precision.
         
