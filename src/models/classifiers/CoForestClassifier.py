@@ -6,10 +6,72 @@ from sklearn.metrics import recall_score, precision_score
 
 class CoForest:
 
-    def __init__(self, L, y, U, n, theta, random_state=None, max_features='log2'):
+    def __init__(self, n, theta, max_features='log2', random_state=None):
         """
-        Constructor. Creates and trains the Co-Forest.
+        Constructor. Creates the Co-Forest.
         
+        Parameters
+        ----------
+        n: int
+            Number of trees in the ensemble
+        theta: float
+            Tolerance
+        random_state:
+            Random object to create deterministic experiments
+        max_features: 'sqrt', 'log2', None 
+            Number of features to consider when looking 
+            for the best split
+        """
+
+        self.random_state = self.check_random_state(random_state)
+        self.n = n
+        self.theta = theta
+        self.max_features = max_features
+        self.classes = []
+        self.ensemble = {}
+        
+
+    def create_trees(self, L, y, percentage = 0.7):
+        """
+        Generates a dict containing co-forest's trees.
+        Initializes the classifiers using bootstrapping.
+
+        Parameters
+        ----------
+        L: np.array
+            Labeled data used for training
+        y: np.array
+            Tags of the labeled data used for training
+        percentage: float
+            Size (p * labeled) to bootstrap
+
+        Returns
+        -------
+        mask_L: np.array
+            Mask with samples from L used for each tree
+
+        """
+
+        self.classes = np.unique(y)
+
+        ensemble = {}
+        mask_L = np.zeros(shape=((L.shape[0]), self.n), dtype=int, order='C')
+
+        for i in range(self.n):
+
+            rand_rows = self.random_state.choice(L.shape[0], replace = True, size = int(percentage*L.shape[0]))
+            mask_L[rand_rows, i] = 1
+            h = DecisionTreeClassifier(max_features=self.max_features, random_state=self.random_state)
+            ensemble[i] = h.fit(L[rand_rows, :], y[rand_rows])
+
+        self.ensemble = ensemble
+        return mask_L
+
+    def fit(self, L, y, U):
+        """
+        Fits the ensemble using both labeled and
+        pseudo-labeled data.
+
         Parameters
         ----------
         L: np.array
@@ -18,78 +80,26 @@ class CoForest:
             Tags of the labeled data used for training
         U: np.array
             Unlabeled data used for training
-        n: int
-            Number of trees in the ensemble
-        theta: float
-            Tolerance
-        random_state:
-            Random object to create deterministic experiments
-        max_features: string
-            log2, sqrt, None
         """
 
-        self.random_state = self.check_random_state(random_state)
-        self.n = n
-        self.theta = theta
-        self.classes = np.unique(y)
-
-        self.U = U
-        self.L = L
-        self.y = y
-        self.mask_L = np.zeros(shape=((self.L.shape[0]), self.n), dtype=int, order='C')
-
-        self.ensemble = self.create_trees(max_features)
-        
-
-    def create_trees(self, max_features) -> dict:
-        """
-        Generates a dict containing co-forest's trees.
-
-        Parameters
-        ----------
-        max_features: number of features to consider 
-                      when looking for the best split
-                      'sqrt', 'log2', None
-
-        Returns
-        -------
-        dict: {key: int, value: Tree}
-        """
-
-        ensemble = {}
-
-        for i in range(self.n):
-
-            rand_rows = self.random_state.choice(self.L.shape[0], replace = True, size=(int(0.7*self.L.shape[0])) )
-            self.mask_L[rand_rows, i] = 1
-            h = DecisionTreeClassifier(max_features=max_features, random_state=self.random_state)
-            ensemble[i] = h.fit(self.L[rand_rows, :], self.y[rand_rows])
-
-        return ensemble
-
-    def fit(self):
-        """
-        Fits the ensemble using both labeled and
-        pseudo-labeled data.
-        """
+        mask_L = self.create_trees(L, y)
 
         e = [0 for i in range(self.n)]
         W = [0 for i in range(self.n)]
+
         previous_e = [0.5 for i in range(self.n)]
-        previous_W = [min(0.1*len(self.L), 100) for i in range(self.n)]
+        previous_W = [min(0.1*len(L), 100) for i in range(self.n)]
 
         new_data = True
-        t = 0
 
         while new_data:
 
-            t += 1
             tree_changes = np.array([False for i in range(self.n)])
             tree_pseudo_updates = [() for i in range(self.n)]
 
             for i, hi in self.ensemble.items():
 
-                e[i] = self.concomitant_oob_error(hi)
+                e[i] = self.concomitant_oob_error(hi, L, y, mask_L)
                 W[i] = previous_W[i]
                 pseudo_labeled_data = []
                 pseudo_labeled_tags = []
@@ -97,19 +107,19 @@ class CoForest:
                 if e[i] < previous_e[i]:
 
                     if e[i] == 0:
-                        Wmax = self.theta * self.U.shape[0]
+                        Wmax = self.theta * U.shape[0]
                     else:
-                        Wmax = min(self.theta * self.U.shape[0], ((previous_e[i]*previous_W[i])/e[i]) )
+                        Wmax = min(self.theta * U.shape[0], ((previous_e[i]*previous_W[i])/e[i]) )
 
-                    U_subsampled = self.subsample(hi, Wmax) 
+                    U_subsampled = self.subsample(hi, U, Wmax) 
                     W[i] = 0
 
                     for u in U_subsampled:
-                        concomitant_confidence, selected_class = self.concomitant_confidence(hi, self.U[u, :])
+                        concomitant_confidence, selected_class = self.concomitant_confidence(hi, U[u, :])
 
                         if concomitant_confidence > self.theta:
                             tree_changes[i] = True
-                            pseudo_labeled_data.append(self.U[u, :])
+                            pseudo_labeled_data.append(U[u, :])
                             pseudo_labeled_tags.append(selected_class)
                             W[i] += concomitant_confidence
 
@@ -117,7 +127,7 @@ class CoForest:
 
             for i in np.fromiter(self.ensemble.keys(), dtype=int)[tree_changes]:
                 if e[i] * W[i] < previous_e[i] * previous_W[i]:
-                    self.retrain_tree(i, tree_pseudo_updates[i][0], tree_pseudo_updates[i][1])
+                    self.retrain_tree(i, L, y, tree_pseudo_updates[i][0], tree_pseudo_updates[i][1], mask_L)
 
             previous_e = deepcopy(e)
             previous_W = deepcopy(W)
@@ -126,27 +136,33 @@ class CoForest:
                 new_data = False
         
         
-    def retrain_tree(self, i, pseudo_labeled_data, pseudo_labeled_tags):
+    def retrain_tree(self, i, L, y, pseudo_labeled_data, pseudo_labeled_tags, mask_L):
         """
         Retrains a tree given new pseudo-labeled data.
 
         Parameters
         ----------
         i: int
-            index of the three
+            Index of the three
+        L: np.array
+            Labeled data used for training
+        y: np.array
+            Tags of the labeled data used for training
         pseudo_labeled_data: np.array
-            unlabeled samples
+            Unlabeled samples
         pseudo_labeled_tags: np.array
-            pseudo-labels for the unlabeled samples
+            Pseudo-labels for the unlabeled samples
+        mask_L: np.array
+            Mask with samples from L used for each tree
         """
 
         pseudo_labeled_data = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(pseudo_labeled_data)
-        X_train = np.concatenate( (self.L[self.mask_L[:, i] == 1], pseudo_labeled_data) )
-        y_train = np.concatenate( (self.y[self.mask_L[:, i] == 1], pseudo_labeled_tags) )
+        X_train = np.concatenate((L[mask_L[:, i] == 1], pseudo_labeled_data))
+        y_train = np.concatenate((y[mask_L[:, i] == 1], pseudo_labeled_tags))
         self.ensemble[i] = self.ensemble[i].fit(X_train, y_train)
 
         
-    def subsample(self, hi, Wmax):
+    def subsample(self, hi, U, Wmax):
         """
         Samples from U uniformly at random until 
         the sum of the sample weights reaches Wmax.
@@ -154,8 +170,12 @@ class CoForest:
 
         Parameters
         ----------
-        hi : DecisionTreeClassifier excluded
+        hi: DecisionTreeClassifier 
+            Excluded tree
+        U: np.array
+            Unlabeled data used for training
         Wmax: float
+            Max weight
 
         Returns
         -------
@@ -169,21 +189,28 @@ class CoForest:
 
         while (W < Wmax):
 
-            rand_row = self.random_state.choice(self.U.shape[0])
-            W += self.concomitant_confidence(hi, self.U[rand_row, :])[0]
+            rand_row = self.random_state.choice(U.shape[0])
+            W += self.concomitant_confidence(hi, U[rand_row, :])[0]
             U_subsampled.append(rand_row)
 
         return np.array(U_subsampled)
 
         
-    def concomitant_oob_error(self, hi):
+    def concomitant_oob_error(self, hi, L, y, mask_L):
         """
         Calculates the Out of Bag Error of the concomitant 
         ensemble of hi for the whole labeled data.
 
         Parameters
         ----------
-        hi : DecisionTreeClassifier excluded
+        hi: DecisionTreeClassifier 
+            Excluded tree
+        L: np.array
+            Labeled data used for training
+        y: np.array
+            Tags of the labeled data used for training
+        mask_L: np.array
+            Mask with samples from L used for each tree
 
         Returns
         -------
@@ -193,13 +220,13 @@ class CoForest:
 
         errors = []
 
-        for sample, tag in zip(self.L, self.y):
+        for sample, tag in zip(L, y):
             n_votes = 0
             n_hits = 0 
 
             for i, tree in self.ensemble.items():
 
-                rows_training = self.L[self.mask_L[:, i] == 1]
+                rows_training = L[mask_L[:, i] == 1]
                 used_training = np.any(np.all(sample == rows_training, axis=1))
 
                 if tree is not hi and not used_training:
@@ -210,7 +237,7 @@ class CoForest:
             if (n_votes > 0):
                 errors.append(1 - (n_hits/n_votes))
 
-        return np.mean(a=errors)
+        return np.mean(errors)
 
     def concomitant_confidence(self, hi, sample):
         """
@@ -220,8 +247,10 @@ class CoForest:
 
         Parameters
         ----------
-        hi : DecisionTreeClassifier
-        sample: sample's features array
+        hi: DecisionTreeClassifier 
+            Excluded tree
+        sample: np.array
+            Sample's features array
 
         Returns
         -------
