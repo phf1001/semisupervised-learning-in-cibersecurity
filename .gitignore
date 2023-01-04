@@ -7,3 +7,4 @@ src/scripts/t*
 src/models/notebooks/iris
 src/models/notebooks/wine
 *file.csv
+*__pycache__*

@@ -2,7 +2,7 @@
 import numpy as np
 import numbers
 
-class Tri_Training:  
+class TriTraining:  
 
     def __init__(self, h_0, h_1, h_2, random_state=None):
         """
