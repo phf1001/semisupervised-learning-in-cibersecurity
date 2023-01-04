@@ -33,7 +33,7 @@ Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se 
 
 
 \begin{figure}[h]
-	\caption{\textit{Smoothness} y \textit{Low-density assumption} a la izquierda, \textit{Mainfold assumption} a la derecha. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
+	\caption[Suposiciones del aprendizaje semisupervisado]{\textit{Smoothness} y \textit{Low-density assumption} a la izquierda, \textit{Mainfold assumption} a la derecha. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
 	\label{img:assumptions}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_assumptions}
@@ -46,7 +46,7 @@ Inicialmente, se pueden diferenciar dos categorías~\cite{engelen2020surveyOnSem
 
 
 \begin{figure}[h]
-\caption{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
+\caption[Taxonomía de métodos de aprendizaje semisupervisado]{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
 \centering
 \includegraphics[width=\textwidth]{../img/memoria/3_hoos_taxonomy}
 \end{figure}
@@ -105,7 +105,7 @@ El \textit{bagging} es muy útil cuando se dispone poca cantidad de datos, y la 
 Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{random forest}}, uno de los métodos de \textit{bagging} más populares que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando el \textit{ensemble} devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 
 \begin{figure}[h]
-	\caption{Diferencias entre el entrenamiento en \textit{bagging} (derecha) y \textit{boosting} (izquierda).}
+	\caption[Entrenamiento \textit{bagging} y \textit{boosting}]{Diferencias entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
 	\label{img:bagging}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting}
@@ -126,7 +126,7 @@ En el caso de que todos los estimadores base sean <<iguales>>, es frecuente util
 Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se puede aplicar \textit{weighted majority voting}, donde las etiquetas predichas por los estimadores con mejor rendimiento tienen más peso que el resto (se asigna una proporción).
 
 \begin{figure}[h]
-	\caption{Representación de la combinación mediante votación.}
+	\caption[Combinación mediante votación en \textit{ensembles}]{Representación de la combinación mediante votación.}
 	\label{img:voting}
 	\centering
 	\includegraphics[scale=0.35]{../img/memoria/3_voting}
@@ -139,17 +139,19 @@ Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se pue
 En este trabajo de investigación se van a realizar continuamente comparaciones entre modelos de clasificación. Para ello, es necesario definir unas métricas. Estas se basan en conceptos que se exponen a continuación~\cite{apuntesSisint}:
 
 \begin{itemize}
-	\item \textbf{Verdadero positivo o \textit{True positive}}: se obtiene cuando un clasificador acierta en su predicción y esta es la clase de interés. Generalmente, la clase <<positiva>>.
+	\item \textbf{Verdadero positivo o \textit{True positive}}: se obtiene cuando un clasificador acierta en su predicción y esta es la clase de interés. Generalmente es la clase <<positiva>> y, en el caso de la aplicación en la detección de ataques a sistemas de recomendación, la <<minoritaria>>.
 	\item \textbf{Verdadero negativo o \textit{True negative}}: resultado obtenido cuando un clasificador acierta en su predicción y esta no es la clase de interés.
-	\item \textbf{Falso positivo o \textit{False positive}}: se obtiene cuando un clasificador falla en su predicción y postula que es la clase de interés, cuando en realidad no lo es.
-	\item \textbf{Falso negativo o \textit{False negative}}: resultado obtenido cuando un clasificador falla en su predicción y afirma que una muestra no pertenece a la clase de interés, cuando en realidad sí lo hace.
-	\item \textbf{\textit{Class imbalance problem}}: es un problema que se genera cuando hay muy pocas instancias positivas en el conjunto de datos. Generalmente, causa que la \textit{accuracy} (consultar ecuación~\ref{eqn:accuracy}) sea muy elevada, pero no se detecten instancias de la clase positiva, generando modelos inservibles.
+	\item \textbf{Falso positivo o \textit{False positive}}: se obtiene cuando un clasificador falla en su predicción y predice que es la clase de interés, cuando en realidad no lo es.
+	\item \textbf{Falso negativo o \textit{False negative}}: resultado obtenido cuando un clasificador falla en su predicción y afirma que una muestra no pertenece a la clase de interés, cuando en realidad sí pertenece.
+	
+	\item \textbf{Total}: la suma de los cuatro puntos anteriores equivale al total de predicciones ($T = TP + TN + FP + FN$).
+	\item \textbf{\textit{Class imbalance problem}}: es un problema que se genera cuando hay muy pocas instancias positivas en el conjunto de datos en comparación con las negativas (es decir, cuando hay un desequilibro evidente entre ambas clases). Generalmente, causa que la \textit{accuracy} (consultar ecuación~\ref{eqn:accuracy}) sea muy elevada, pero no se detecten instancias de la clase positiva, generando modelos inservibles.
 \end{itemize}
 
-Dadas las definiciones anteriores, se facilitan las métricas utilizadas~\cite{apuntesSisint}:
+Dadas las definiciones anteriores, se facilitan las siguientes métricas utilizadas~\cite{apuntesSisint}:
 
 \begin{itemize}
-	\item \textbf{\textit{Accuracy}, exactitud o porcentaje de acierto}: mide la tasa de aciertos de un determinado clasificador. A lo largo del proyecto, también es llamada \textit{score}.
+	\item \textbf{\textit{Accuracy}, exactitud o porcentaje de acierto}: mide la tasa de aciertos de un determinado clasificador. A lo largo del proyecto, también es llamada <<\textit{score}>>.
 	
 	\begin{equation}\label{eqn:accuracy} Accuracy = \frac{|Aciertos|}{|Total|} = \frac{TP + TN}{TP + TN + FP + FN} \end{equation}
 	
@@ -174,7 +176,7 @@ Dadas las definiciones anteriores, se facilitan las métricas utilizadas~\cite{a
 	
 	\item \textbf{\textit{F-Measure}}: medida que combina la \textit{precision} y el \textit{recall}. Es de interés puesto que la meta general suele ser maximizar estas dos medidas.
 	
-	\begin{equation}\label{eqn:f-measure} F-Measure = 2 \cdot \frac{precision \cdot recall}{precision + recall} = \frac{ 2 \cdot TP}{2 \cdot TP + FP + FN} \end{equation}
+	\begin{equation}\label{eqn:f-measure} \textrm{F-Measure} = 2 \times \frac{precision \times recall}{precision + recall} = \frac{ 2 \times TP}{2 \times TP + FP + FN} \end{equation}
 	
 	\item \textbf{\textit{AUC}}: área bajo la curva (\textit{area under curve}) \textit{ROC} (\textit{operating characteristic curve}). La curva \textit{ROC} es una representación gráfica del \textit{recall} frente a la \textit{specificity}. Cuando una curva es perfecta, su área es $1$.
 	
@@ -212,7 +214,7 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 	\item $L$: conjunto de datos etiquetados utilizados durante el entrenamiento.
 	\item $L_{i}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
 	\item $U$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
-	\item $U'_{i,t}$: subconjunto aleatorio de U cuya $W$ es menor que $Wmax$ (consultar ecuación~\ref{eqn:Wmax}).
+	\item $U'_{i,t}$: subconjunto aleatorio de U cuya $W$ es menor que $W_max$ (consultar ecuación~\ref{eqn:Wmax}).
 	\item $L'_{i,t}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
 	\item $\theta$: nivel de confianza mínimo que tiene que tener el clasificador al predecir la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
 	\item $\hat{e}_{i,t}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
@@ -305,14 +307,14 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 \begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
 
 
-\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto resulta en que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto implica que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
 
 
 \subsubsection{Decisiones de implementación}
 
-Además de los aspectos expuestos en el apartado anterior, hay dos decisiones \textit{extra} que se han tomado en la implementación por no estar contempladas en el algoritmo.
+Además de los aspectos expuestos en el apartado anterior, hay dos decisiones adicionales que se han tomado en la implementación por no estar contempladas en el algoritmo original.
 
-En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantener alto pero limitar a $\theta\times|U|$.
+En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantenerlo alto pero limitar a $\theta\times|U|$.
 
 Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
 
@@ -325,7 +327,7 @@ Múltiples estudios se han centrado en formalizar las características de estos 
 
 \begin{itemize}
 	
-	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textit{push attacks}, que pretenden hacer un objeto más atractivo o \textit{nuck attacks}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textit{random vandalism}~\cite{Burke2015RobustCollaborative}.
+	\item \textbf{Intención:} normalmente, se pretende manipular la opinión general acerca de un elemento (ya sea para bien o para mal). Según el objetivo se pueden diferenciar dos tipos de ataques: \textit{push attacks}, que pretenden hacer un objeto más atractivo o \textit{nuke attacks}, cuya intención es la contraria. En caso de que el atacante no busque alterar la opinión acerca de un producto sino restar credibilidad a un sistema (mediante valoraciones aleatorias), se habla de \textit{random vandalism}~\cite{Burke2015RobustCollaborative}.
 	
 	\item \textbf{Fuerza:} la calidad de los ataques se mide teniendo en cuenta el tamaño del relleno (número de valoraciones asignadas a un perfil atacante, que suele rondar entre el 1 y el 20\% del total de los ítems~\cite{mingdan2018ShillingAttacksAReview}), correspondiente a la ecuación~\ref{eqn:filler_size}  y el tamaño del ataque (número de perfiles inyectados en el sistema, rondando entre el 1 y el 15\%), correspondiente a la ecuación~\ref{eqn:attack_size} .
 	
@@ -353,7 +355,7 @@ En la actualidad se distinguen multitud de ataques distintos. Con el fin de form
 
 \subsubsection{Ataques básicos}
 
-Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{mingdan2018ShillingAttacksAReview}. Ambos tienen parámetros y características muy similares como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
+Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{mingdan2018ShillingAttacksAReview}. Ambos tienen parámetros y características muy similares, como se muestra en la tabla \ref{tabla_descripcion_ataques_basicos}. La principal diferencia reside en que el \textit{average attack} es mucho más potente debido a que cuenta con mayor información acerca del sistema: las valoraciones a los ítems de relleno siguen una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$, en lugar de $\mathcal{N}(\mu,\,\sigma)$. Es decir, la valoración para un determinado ítem se adecúa a la distribución concreta de ese ítem en lugar de a la de todo el \textit{dataset}.
 
 
 \begin{table}
@@ -362,12 +364,12 @@ Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{
 
 		\begin{tabular}{@{}p{5em} p{2em} p{14em} p{2em} p{7em}@{}}
 		\toprule
-		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
+		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & \hfil $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
 		\midrule
 	
-		Random & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & $\emptyset$ & máxima o mínima \\\\
+		Random & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & \hfil $\emptyset$ & máxima o mínima \\\\
 		
-		Average & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & $\emptyset$ & máxima o mínima\\
+		Average & $\emptyset$ & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & \hfil $\emptyset$ & máxima o mínima\\
 		\bottomrule
 		\end{tabular}
 	
@@ -381,7 +383,7 @@ Se distinguen dos tipos: \textit{random attack} y \textit{average attack}~\cite{
 
 Los más populares son \textit{bandwagon attack} (o \textit{popular attack}) y \textit{segment attack}. Sus principales rasgos se ilustran en la tabla \ref{tabla_descripcion_ataques_poco_con}.
 
-La principal característica del \textit{bandwagon attack} es que el conjunto $I_S$ ya no está vacío, sino que contiene algunos de los ítems más populares de la base de datos~\cite{zhou2021SemisupervisedRecommendationAttack}. Estos ítems recibirán también la máxima puntuación posible, de forma que ya no sólo se puntúa el conjunto objetivo. Existe una variante de este ataque llamada \textit{reverse bandwagon attack}, cuyo objetivo es hacer \textit{nuke}. De esta forma, $I_S$ contiene los ítems menos populares y reciben la puntuación mínima (junto con $I_t$).
+La principal característica del \textit{bandwagon attack} es que el conjunto $I_S$ ya no está vacío, sino que contiene algunos de los ítems más populares de la base de datos~\cite{zhou2021SemisupervisedRecommendationAttack}. Estos ítems recibirán también la máxima puntuación posible, de forma que ya no sólo se puntúa el conjunto objetivo. Existe una variante de este ataque llamada \textit{reverse bandwagon attack}, cuyo objetivo es hacer \textit{nuke}, es decir, $I_S$ contiene los ítems menos populares y reciben la puntuación mínima (junto con $I_t$).
 
 En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y se introduce en $I_S$ ítems en los que estaría interesado un usuario que fuese a valorar también $I_t$ (de forma que el ataque es más realista).
 
@@ -391,12 +393,12 @@ En el \textit{segment attack}, se realiza un pequeño <<estudio de mercado>> y s
 	
 		\begin{tabular}{@{}p{5em} p{8em} p{8em} p{2em} p{7em}@{}}
 			\toprule
-			\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
+			\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ & \hfil $\mathbf{I_0}$ & \textbf{Valoración} $\mathbf{I_t}$\\ 
 			\midrule
 			
-			Bandwagon (average) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & $\emptyset$ & máxima o mínima (reverse) \\\\
+			Bandwagon (average) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por las otras valoraciones para ese ítem en concreto $\mathcal{N}(\mu_i,\,\sigma_i)$. & \hfil $\emptyset$ & máxima o mínima (reverse) \\\\
 			
-			Bandwagon (random) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & $\emptyset$ & máxima o mínima (reverse) \\
+			Bandwagon (random) & Ítems populares (valoración máxima) o ítems desfavorecidos (puntuación mínima) (reverse) & Aleatoria siguiendo una distribución normal definida por todas las valoraciones para todos los ítems del sistema $\mathcal{N}(\mu,\,\sigma)$. & \hfil $\emptyset$ & máxima o mínima (reverse) \\
 			\bottomrule
 		\end{tabular}
 

@@ -15,7 +15,7 @@ Posteriormente, se expondrá la viabilidad legal y económica del producto.
 Siguiendo este esquema, se desarrolla el <<ciclo de \textit{scrum}>> representado en la imagen~\ref{img:ciclo_scrum}, que se puede dividir en varios pilares.
 
 \begin{figure}[h]
-	\caption{Resumen del ciclo de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
+	\caption[Resumen del ciclo de \textit{Scrum}]{Resumen del ciclo de \textit{Scrum} según el Manual de \textit{Scrum}~\cite{scrumMaster2022}.}
 	\label{img:ciclo_scrum}
 	\centering
 	\includegraphics[scale=0.45]{../img/anexos/scrum/ciclo}
@@ -48,7 +48,7 @@ Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encu
 Durante el ciclo de \textit{scrum}, se pueden identificar varias actividades que constituyen la rutina y se represetan en la imagen~\ref{img:eventos_scrum} facilitada por el Manual de \textit{scrum}~\cite{scrumMaster2022}.
 
 \begin{figure}[h]
-	\caption{Eventos de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
+	\caption[Eventos de \textit{Scrum}]{Eventos de \textit{scrum} según el Manual de \textit{scrum}~\cite{scrumMaster2022}.}
 	\label{img:eventos_scrum}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/scrum/eventos}
@@ -311,7 +311,7 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	
 	Durante este \textit{sprint} se fijaron los siguientes objetivos:
 			\begin{enumerate}
-			\item Refactorizar el extractor de vectores de características y el generador de reseñas de atacantes: debido a que la sintetización de los conjuntos de entrenamiento y \textit{test} requiere demasiado tiempo ($25h$), se ha decidido mejorar la complejidad algorítmica y convertir a clase con el fin de reducir llamadas con mayor complejidad temporal.
+			\item Refactorizar el extractor de vectores de características y el generador de reseñas de atacantes: debido a que la sintetización de los conjuntos de entrenamiento y \textit{test} requiere demasiado tiempo ($25h$), se ha decidido mejorar la complejidad algorítmica y convertir a clase con el fin de reducir llamadas con mayor complejidad temporal. Se redujo el tiempo requerido a ($10h$) mediante el uso de la nueva estructura (en lugar de fichero de utilidades).
 			\item Completar el \textit{co-forest}: añadir nuevos métodos para realizar comparaciones (predicción con probabilidades, AUC, \textit{recall} y precisión).
 			\item Orden de repositorio: lectura acerca de la creación de módulos en python, conversión de los \textit{notebooks} a archivos \texttt{.py} importables, configuración de rutas.
 			\item Análisis de resultados: analizar los resultados en busca de posibles errores cometidos durante la experimentación.
@@ -333,7 +333,7 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	Como se puede comprobar, los \textit{issues} fueron completados correctamente.	
 
 	\item \textbf{\textit{Sprint review meeting}}
-	Durante la reunión se comprobó que los resultados obtenidos en la fase de experimentación no se asemejan a los presentados en el \textit{paper} seguido~\cite{zhou2021SemisupervisedRecommendationAttack}. Sin embargo, se concluyó que deberían ser correctos. Para evitar realizar afirmaciones erróneas, se decidió revisar todo el proceso de experimentación.
+	Durante la reunión se comprobó que los resultados obtenidos en la fase de experimentación no se asemejan a los presentados en el \textit{paper} seguido~\cite{zhou2021SemisupervisedRecommendationAttack}. Sin embargo, se concluyó que podrían ser correctos. Para evitar realizar afirmaciones erróneas, se decidió revisar todo el proceso de experimentación.
 \end{itemize}
 
 
@@ -345,10 +345,10 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	Debido a que este \textit{sprint} se realizó durante la época vacacional, se decidió realizar una revisión general del documento completando aspectos pendientes.
 	
 	\begin{enumerate}
-		\item Experimentación \textit{co-forest}: se incluyó una gráfica \textit{extra} pendiente (tiempo de entrenamiento-número de árboles) y se repitió la experimentación esta vez utilizando conjuntos estratificados. Se corrigieron los cambios surgidos y actualizaron las gráficas en la memoria. Se revisó la clase del \textit{co-forest} y se terminó de documentar.
+		\item Experimentación \textit{co-forest}: se incluyó una gráfica \textit{extra} pendiente (tiempo de entrenamiento-número de árboles) y se repitió la experimentación esta vez utilizando conjuntos estratificados. Se corrigieron los cambios surgidos y actualizaron las gráficas en la memoria. Se revisó la clase del \textit{co-forest} y se terminó de documentar, además de adaptar los métodos a la interfaz de SKLearn (cambio de firma).
 		\item Documentación: se decidió cerrar aspectos pendientes. Entre ellos: completar las secciones teóricas de semisupervisado, ensembles y métricas, repetir gráficas e ilustraciones incorrectas, revisar la bibliografía y trabajos relacionados, completar los anexos y corregir aspectos menores.
-		\item Revisión de la detección de ataques: debido a que los resultados obtenidos no son los esperados, se decidió revisar toda la generación de reseñas de atacantes, extracción de perfiles y métodos de experimentación en busca de posibles errores.
-		\item Implementación: comenzar a implementar el \textit{democratic-co} y leer sobre él.
+		\item Revisión de la detección de ataques: debido a que los resultados obtenidos no son los esperados, se decidió revisar toda la generación de reseñas de atacantes, extracción de perfiles y métodos de experimentación en busca de posibles errores. Se incluyeron alternativas para la AUC (curva \textit{precision} - \textit{recall}).
+		\item Implementación: se investigó acerca del \textit{tri-training} y se implementó este nuevo método.
 	\end{enumerate}
 
 	\item \textbf{Marcas temporales}		
@@ -356,10 +356,14 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	
 	
 	\item \textbf{\textit{Burndown Report}}
-	...
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 09}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s09_bdr}
+	\end{figure}
 	
-	El número total de horas dedicadas al proyecto fue de 20. Como algunos de los \textit{issues} requirieron menos tiempo del planificado (en especial los relacionados con la documentación), se destinó el tiempo sobrante a otros pendientes.
-	
+	El número total de horas dedicadas al proyecto fue de $20$. Como algunos de los \textit{issues} requirieron algo menos de tiempo del planificado (en especial los relacionados con la documentación), se destinó el tiempo sobrante a otros pendientes. Aunque se <<dejó abierto>> el \textit{sprint} hasta el 8 de Enero, la intención era acabarlo el 4 de Enero, por lo que la estimación temporal fue correcta.
+
 	
 	\item \textbf{\textit{Sprint review meeting}}
 \end{itemize}

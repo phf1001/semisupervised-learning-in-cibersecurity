@@ -41,12 +41,12 @@ Se han realizado diferentes experimentos: algunos relacionados con la fase de en
 
 Como se ha desarrollado en los conceptos teóricos, la fase de entrenamiento en el \textit{co-forest} es iterativa, y finaliza cuando ningún árbol recibe nuevas pseudo-etiquetas que puedan cambiar su comportamiento (en la fase de re-entrenamiento).
 
-Se ha querido estudiar la evolución del \textit{score} (porcentaje de aciertos respecto al total de las predicciones) del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica comprobando cómo evoluciona en función de la iteración en la que se encuentre.
+Se ha querido estudiar la evolución del \textit{score} (porcentaje de aciertos respecto al total de las predicciones) del algoritmo durante la fase de entrenamiento para los cuatro conjuntos de datos definidos en la tabla~\ref{tabla_datasets_sklearn}. Para ello, se ha realizado una gráfica ilustrando cómo evoluciona en función de la iteración en la que se encuentre.
 
-Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (utilizando estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
+Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones sin repetición). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (utilizando estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la distribución de los datos.}
+	\caption[\textit{Co-Forest}: Distribución de datos entrenamiento y \textit{test}]{Gráfica que representa la distribución de los datos.}
 	\centering
 	\includegraphics[scale=0.3]{../img/memoria/5_entrenamiento_particiones}
 	\label{5_entrenamiento_particiones}
@@ -56,7 +56,7 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
  La precisión media obtenida se puede ver representada en la gráfica~\ref{5_coforest_score-iteraciones}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si, el algoritmo siguiese, el resultado devuelto sería igual debido a que no se re-entrenaría ningún árbol).
 
 \begin{figure}[h]
-	\caption{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
+	\caption[\textit{Co-forest}: Variación del \textit{score} durante el entrenamiento]{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-iteraciones}
 	\label{5_coforest_score-iteraciones}
@@ -67,7 +67,7 @@ Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud ob
 Si se observa con más detenimiento cada conjunto de datos individualmente (gráfica~\ref{5_coforest_score-iteraciones_individual}), se puede observar que la desviación típica varía considerablemente, por lo que se puede deducir que el modelo podría llegar a ser utilizable en la mayoría de los casos si la partición es la adecuada.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación estándar para 10 experimentos.}
+	\caption[\textit{Co-forest}: Variación del \textit{score} durante el entrenamiento: desviaciones para cada \textit{dataset}.]{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación estándar para 10 experimentos.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-iteraciones_individual}
 	\label{5_coforest_score-iteraciones_individual}
@@ -77,7 +77,7 @@ Si se observa con más detenimiento cada conjunto de datos individualmente (grá
 Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (<<Dígitos>>), y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen. Se ha representado en la línea negra punteada, además, el resultado del modelo de regresión lineal.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
+	\caption[\textit{Co-forest}: Variación del tiempo de entrenamiento en función del número de instancias]{Gráfica que representa la evolución del tiempo de entrenamiento en función del número de instancias utilizadas.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_tiempo-instancias}
 	\label{5_coforest_tiempo-instancias}
@@ -91,7 +91,7 @@ En este apartado de la experimentación, se ha querido evaluar cómo se comporta
 Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, sigue el comportamiento esperado, y por lo general a más instancias utilizadas para entrenar el modelo, mejor desempeño presenta. Nuevamente, recalcar que el resultado obtenido es la media de 10 experimentos realizados.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
+	\caption[\textit{Co-forest}: Variación del \textit{score} en función del porcentaje de datos]{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_score-porcentaje_entrenamiento}
 	\label{5_score-porcentaje_entrenamiento}
@@ -101,17 +101,17 @@ Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, s
 
 Hasta este momento, todos los resultados han sido realizados para $n=20$. Es decir, utilizando $20$ árboles. Sin embargo, el comportamiento del \textit{co-forest} varía considerablemente en función del número de árboles contenidos en el \textit{ensemble}, lo que motiva la realización del siguiente experimento. Nuevamente, se ha desarrollado utilizando cuatro conjuntos de datos y validación cruzada, por lo que se muestra la media en la exactitud para las $10$ particiones.
 
-Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, a más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido, como se ilustra en la gráfica~\ref{5_tiempo-arboles}. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
+Como se puede comprobar en la gráfica~\ref{5_score-arboles}, en general, cuantos más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido, como se ilustra en la gráfica~\ref{5_tiempo-arboles}. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la variación del \textit{score} en función del número de árboles del \textit{co-forest}.}
+	\caption[\textit{Co-forest}: Variación del \textit{score} en función del número de árboles]{Gráfica que representa la variación del \textit{score} en función del número de árboles del \textit{co-forest}.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-arboles}
 	\label{5_score-arboles}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Gráfica que representa la variación del tiempo requerido en la fase de entrenamiento en función del número de árboles del \textit{co-forest}.}
+	\caption[\textit{Co-forest}: Variación del tiempo de entrenamiento en función del número de árboles]{Gráfica que representa la variación del tiempo requerido en la fase de entrenamiento en función del número de árboles del \textit{co-forest}.}
 	\centering
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_tiempo-arboles}
 	\label{5_tiempo-arboles}
@@ -173,7 +173,7 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 		\end{tabular}
 	\end{centering}
 
-	\caption{Comparativa entre la exactitud del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
+	\caption{Comparativa entre la \textit{accuracy} del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
 	\label{tabla_coforest_keelvsnuestro}	
 \end{table}
 
@@ -203,7 +203,7 @@ Posteriormente se calcula, para cada usuario y ventana, $NRW_{u, w_j}$ y  $WNRW_
 \begin{equation}\label{eqn:NRW} NRW_{u, w_j} = \sum_{i\in w_j, r_{u,i} \ne 0}^{} 1 \end{equation}
 \begin{equation}\label{eqn:WNRW} WNRW_{u, w_j} = \frac{\sum_{i\in w_j, r_{u,i} \ne 0}^{} 1}{\sum_{i\in I, r_{u,i} \ne 0}^{} 1} \end{equation}
 
-Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica equitativamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Para una mayor comodidad a la hora de experimentar con estos datos, se han generado ficheros \texttt{.csv} con los vectores de características que posteriormente se importarán mediante Pandas para generar conjuntos de entrenamiento y \textit{test}. Debido a que se trata de un problema de clasificación binaria, los perfiles atacantes reciben una etiqueta de $1$ y los verdaderos un $0$. Cabe destacar, que debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes. 
+Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica indistintamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Para una mayor comodidad a la hora de experimentar con estos datos, se han generado ficheros \texttt{.csv} con los vectores de características que posteriormente se importarán mediante Pandas para generar conjuntos de entrenamiento y \textit{test}. Debido a que se trata de un problema de clasificación binaria, los perfiles atacantes reciben una etiqueta de $1$ y los verdaderos un $0$. Cabe destacar, que debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes. 
 
 \begin{algorithm}
 	\KwIn{Conjunto de usuarios $S$, número de ventanas $J$, conjunto de reseñas del usuario $R$.}
@@ -250,7 +250,7 @@ La metodología de construcción de las valoraciones sigue los modelos estadíst
 
 Para construir las reseñas pertenecientes a un ataque del tipo \textit{random}, se ha obtenido, en primer lugar, la media de la puntuación general para todas las películas del sistema y su desviación. Los ítems de relleno han sido seleccionados aleatoriamente entre toda la base de datos (excluyendo, evidentemente, los ítems objetivo), y se ha asignado a cada uno una puntuación aleatoria siguiendo una distribución normal parametrizada por la media y desviación <<global>> del sistema. Evidentemente, esta puntuación ha sido corregida para que se encuentre entre los rangos admitidos (por ejemplo, de $0$ a $5$ estrellas). Debido a que el método de detección utilizado no necesita fechas, el campo perteneciente a la \textit{timestamp} no ha sido rellenado. Posteriormente, se ha asignado la máxima puntuación a los ítems objetivo (\textit{push attack}).
 
-En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo que en este caso las puntuaciones de los ítems de relleno son más representativas. En lugar de seguir una normal parametrizada por las características del sistema a nivel global, se ha calculado para cada película su media y su desviación, y se ha asignado una valoración aleatoria que sigue esta distribución. Es decir, cada ítem de relleno recibe una puntuación aleatoria que sigue una distribución normal con media la correspondiente a ese ítem en concreto, y con su respectiva desviación. En caso de que se escoja una película nunca antes valorada, la media utilizada es la media del rango (por ejemplo, $2.5$ estrellas) y la desviación es $0$.
+En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo que en este caso las puntuaciones de los ítems de relleno son más representativas. En lugar de seguir una normal parametrizada por las características del sistema a nivel global, se ha calculado para cada película su media y su desviación, y se ha asignado una valoración aleatoria que sigue esta distribución. Es decir, cada ítem de relleno recibe una puntuación aleatoria que sigue una distribución normal con media la correspondiente a ese ítem en concreto, y con su respectiva desviación. En caso de que se escoja una película nunca antes valorada, la media utilizada es la media del rango (por ejemplo, 2.5 estrellas) y la desviación es $0$.
 
 Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
 
