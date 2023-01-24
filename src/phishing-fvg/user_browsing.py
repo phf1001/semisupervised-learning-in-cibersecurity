@@ -25,3 +25,6 @@ class user_browsing:
 
     def set_user_agent(self):
         self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0"
+
+    def get_simple_user_header_agent(self):
+        return {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
