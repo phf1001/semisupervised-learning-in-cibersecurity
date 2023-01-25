@@ -8,13 +8,10 @@ from num2words import num2words
 import numpy as np
 
 
-
-
 class Utils:
 
     def turn_lower_case(self, text):
         return np.char.lower(text)
-
 
     def remove_stop_words(self, data):
 
@@ -34,12 +31,8 @@ class Utils:
         data = np.char.replace(data, ',', '')
         return data
 
-    
-
     def remove_apostrophe(self, data):
         return np.char.replace(data, "'", "")
-
-        
 
     def stemming(self, data):
         stemmer= PorterStemmer()
@@ -49,7 +42,6 @@ class Utils:
         for w in tokens:
             new_text = new_text + " " + stemmer.stem(w)
         return new_text
-
 
     def convert_numbers(self, data):
         tokens = word_tokenize(str(data))
@@ -63,7 +55,6 @@ class Utils:
         new_text = np.char.replace(new_text, "-", " ")
         return new_text
 
-
     def preprocess(self, data):
 
         data = data.split()
@@ -74,3 +65,55 @@ class Utils:
 
         return word_tokenize(str(data))
 
+    def translate_leet_to_letters(self, word):
+
+        word_lower = word.lower()
+        word_upper = word.upper()
+
+        full_map = self.dictionary_leetspeak()
+
+        for key, value in full_map.items():
+
+            for substitute in value:
+
+                if substitute in word:
+                    word = word.replace(substitute, key)
+
+                if substitute in word_lower:
+                    word_lower = word_lower.replace(substitute, key)
+                
+                if substitute in word_upper:
+                    word_upper = word_upper.replace(substitute, key)
+
+        return [word.lower(), word_lower.lower(), word_upper.lower()]
+
+    def dictionary_leetspeak(self):
+
+        return {
+            "a": ["4", "@", "/-\\", "^"],
+            "b": ["I3", "8", "13", "|3"],
+            "c": ["[", "{", "<", "("],
+            "d": [")", "|)", "[)", "|>"],
+            "e": ["3", "[-"],
+            "f": ["|=", "|#", "/="],
+            "g": ["&", "6", "(_+]", "9", "C-"],
+            "h": ["#", "/-/", "[-]", "]-[", ")-(", "(-)", ":-:", "|-|", "}{"],
+            "i": ["1", "[]", "!", "|", "]["],
+            "j": [",_|", "_|", "._|", "._]", ",_]", "]"],
+            "k": [">|", "|<", "/<", "1<", "|c", "|(", "|{"],
+            "l": ["1", "7", "|_", "|"],
+            "m": ["/\\/\\", "/V\\", "JVI", "[V]", "[]V[]", "|\\/|", "^^"],
+            "n": ["^/", "|\\|", "/\\/", "[\]", "<\\>", "{\\}", "|V", "/V"],
+            "o": ["0", "Q", "()", "oh", "[]"],
+            "p": ["|*", "|o", "?", "|^", "[]D"],
+            "q": ["(_,)", "()_", "2", "O_"],
+            "r": ["12", "|`", "|~", "|?", "/2", "|^", "Iz", "|9"],
+            "s": ["$", "5", "z", "ehs", "es"],
+            "t": ["7", "+", "-|-", "']['", '"|"', "~|~"],
+            "u": ["|_|", "(_)", "V", "L|"],
+            "v": ["\\/", "|/", "\\|"],
+            "w": ["\\/\\/", "VV", "\\N", "'//", "\\\\'", "\\^/", "\\X/"],
+            "x": ["><", ">|<", "}{"],
+            "y": ["j", "`/", "\\|/", "\\//"],
+            "z": ["2", "7_", "-/_", "%", ">_", "~/_", "-\_", "-|_"],
+        }
