@@ -8,6 +8,7 @@ from num2words import num2words
 import numpy as np
 import re
 import csv
+from urllib.parse import urlparse
 
 def turn_lower_case(text):
     return np.char.lower(text)
@@ -190,6 +191,62 @@ def get_tlds_set():
     f.close()
     return set([tld[0] for tld in tlds])
 
+def is_simple_php_file(name):
+    """
+    Checks if an string is a simple php
+    file (no /).
+
+    Returns
+    -------
+    bool
+        True if it is, False if not.
+    """
+
+    return bool(re.match('[A-Za-z0-9_-]*\.php', name))
+
+
+def is_absolute(url):
+    """
+    Checks if a url is absolute.
+
+    Returns
+    -------
+    bool
+        True if it is, False if not.
+    """
+
+    return bool(urlparse(url).netloc)
+
+
+def is_relative_in_local(url):
+    """
+    Checks if a url is relative in the
+    server.
+
+    Returns
+    -------
+    bool
+        True if it is, False if not.
+    """
+
+    if is_absolute(url):
+        return False
+
+    return url[0] == '/' or not '/' in url
+
+
+def is_foreign(self_url, url):
+    """
+    Checks if a url is foreign to another.
+
+    Returns
+    -------
+    bool
+        True if it is, False if not.
+    """
+
+    return not is_relative_in_local(url) and not is_empty(url) and urlparse(self_url).netloc != urlparse(url).netloc
+    
 
 def remove_tld(netloc):
     """
@@ -208,3 +265,44 @@ def remove_tld(netloc):
     """
 
     return netloc[:netloc.rindex('.')]
+
+
+def get_phishing_targets_set():
+    """
+    Returns a set containing some of the most
+    common phishing targets.
+
+    Returns
+    -------
+    set
+        Set containing phishing targets.
+    """
+
+    with open('phishing_targets.csv') as f:
+        reader = csv.reader(f)
+        targets = list(reader)
+
+    f.close()
+    return set([target[0] for target in targets])
+
+
+def is_empty(url):
+    """
+    Checks if a URL is empty.
+
+    Returns
+    -------
+    bool
+        True if it is, False if not.
+    """
+
+    return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
+
+
+
+
+
+
+
+
+
