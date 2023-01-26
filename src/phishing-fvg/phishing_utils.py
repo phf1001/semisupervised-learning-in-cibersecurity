@@ -4,11 +4,12 @@ nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
-from num2words import num2words
+#from num2words import num2words
 import numpy as np
 import re
 import csv
 from urllib.parse import urlparse
+import json
 
 def turn_lower_case(text):
     return np.char.lower(text)
@@ -191,6 +192,33 @@ def get_tlds_set():
     f.close()
     return set([tld[0] for tld in tlds])
 
+
+def get_available_proxies():
+    """
+    Returns directions included in proxies.json
+
+    Returns
+    -------
+    list
+        list containing Tor proxies.
+    """
+
+    f = open('proxies.json')
+    data = json.load(f)
+    f.close()
+    return data
+    
+
+def get_proxy():
+    """
+    Returns
+    -------
+    dict
+        dict containing http proxy
+    """
+
+    return get_available_proxies()[0]
+
 def is_simple_php_file(name):
     """
     Checks if an string is a simple php
@@ -297,12 +325,3 @@ def is_empty(url):
     """
 
     return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
-
-
-
-
-
-
-
-
-
