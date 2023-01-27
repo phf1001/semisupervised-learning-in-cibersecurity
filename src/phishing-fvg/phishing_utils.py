@@ -10,6 +10,10 @@ import re
 import csv
 from urllib.parse import urlparse
 import json
+import requests
+from bs4 import BeautifulSoup
+from collections import Counter
+
 
 def turn_lower_case(text):
     return np.char.lower(text)
@@ -325,3 +329,201 @@ def is_empty(url):
     """
 
     return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
+
+
+def get_number_foreign_hyperlinks(url, hyperlinks):
+    """
+    Returns the number of foreign hyperlinks
+
+    Returns
+    -------
+
+    int
+        number of foreign hyperlinks
+    """
+
+    n_foreigns = 0
+
+    for h in hyperlinks:
+        if is_foreign(url, h):
+            n_foreigns += 1
+
+    return n_foreigns
+
+
+def get_number_empty_hyperlinks(hyperlinks):
+    """
+    Returns the number of empty hyperlinks
+
+    Returns
+    -------
+
+    int
+        number of empty hyperlinks
+    """
+
+    n_empty = 0
+
+    for h in hyperlinks:
+        if is_empty(h):
+            n_empty += 1
+
+    return n_empty
+
+
+def get_number_errors(hyperlinks, headers, proxies):
+    """
+    Returns the number of errors in some
+    hyperlinks.
+
+    Returns
+    -------
+
+    int
+        number of errors
+    """
+
+    n_errors = 0
+
+    for h in hyperlinks:
+
+        if not is_empty(h) and not is_relative_in_local(h):
+
+            code = get_response_code(h, headers, proxies)
+
+            if code == 404 or code == 403:
+                n_errors += 1
+
+    return n_errors
+
+
+def get_number_redirects(hyperlinks, headers, proxies):
+    """
+    Returns the number of redirections in some
+    hyperlinks.
+
+    Returns
+    -------
+
+    int
+        number of redirections
+    """
+
+    n_redirects = 0
+
+    for h in hyperlinks:
+
+        if not is_empty(h) and not is_relative_in_local(h):
+            code = get_response_code(h, headers, proxies)
+
+            if code == 302 or code == 301:
+                n_redirects += 1
+
+    return n_redirects
+
+
+def get_response_code(url, headers, proxies):
+    """
+    Returns the status code of a request.
+
+    Returns
+    -------
+    int
+        status code
+
+    """
+    return requests.get(url, headers=headers, proxies=proxies).status_code
+
+
+def extract_url_href(tag):
+    """
+    Returns url included inside href atribute.
+
+    Parameters
+    ----------
+    tag : str
+        Tag containing the href atribute.
+
+    Returns
+    -------
+    str
+        extracted link (empty if none)
+
+    """
+
+    matches = re.findall('(?:href=")([^"]*)(?:")', str(tag))
+
+    if len(matches) > 0:
+        return matches[0]
+    
+    return ''
+
+
+def get_meta(html):
+
+    keywords = []
+    found = re.findall('(?:<meta)([^>]*)(?:>)', html)
+
+    for content in found:
+        match = re.findall('(?:content=")([^"]*)(?:")', content)
+
+        if len(match) > 0:
+            keywords.append(match[0])
+
+    return keywords
+
+
+def get_title(html):
+    return re.findall('(?:<title>)([^<]*)(?:</title>)', html)
+
+
+def get_site_keywords(html):
+    
+    list = get_title(html) + get_meta(html)
+    words = ' '.join(list)
+    set_one = set(preprocess(words))
+    set_two = set([word[0] for word in get_popular_words(html)])
+
+    return set_one.union(set_two)
+
+
+def get_popular_words(html, k=10):
+
+    cleaned = BeautifulSoup(html, "lxml").text
+    tokens = preprocess(cleaned)
+    counter = Counter(tokens)
+    n_words = len(tokens)
+
+    for token in np.unique(tokens):
+    
+        tf = counter[token]/n_words
+        #df = doc_freq(token)
+        #idf = np.log((N+1)/(df+1))
+    
+    #tf_idf[doc, token] = tf*idf
+
+    return counter.most_common(k)
+
+
+def find_hyperlinks(html):
+    """
+    Finds number of pages in a website extracting them
+    from the src attribute and href attribute of anchor
+    tags.
+    """
+    return ( re.findall('(?:src\b*=\b*")([^"]*)(?:")', html) + re.findall('(?:href\b*=\b*")([^"]*)(?:")', html) )
+
+
+def get_bin_source_code(url, headers, proxies, fichero='html_dump'):
+    """
+    Extracts binary source code from webpage.
+    """
+
+    response = requests.get(url, headers=headers, proxies=proxies)
+
+    if response.status_code != 400:
+        with open(fichero, 'wb') as f:
+            f.write(response.content)
+            f.close()
+
+    return response.content
