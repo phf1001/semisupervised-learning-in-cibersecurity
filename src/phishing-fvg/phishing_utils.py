@@ -14,63 +14,6 @@ import requests
 from bs4 import BeautifulSoup
 from collections import Counter
 
-
-def turn_lower_case(text):
-    return np.char.lower(text)
-
-def remove_stop_words(data):
-
-    stop_words = ( stopwords.words('english') + stopwords.words('spanish'))
-
-    new_text = ''
-    for w in data:
-        if w not in stop_words and len(w) > 1:
-            new_text = new_text + ' ' + w
-    return new_text
-
-def remove_punctuation(data):
-    symbols = "!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n"
-    for i in range(len(symbols)):
-        data = np.char.replace(data, symbols[i], ' ')
-        data = np.char.replace(data, "  ", " ")
-    data = np.char.replace(data, ',', '')
-    return data
-
-def remove_apostrophe(data):
-    return np.char.replace(data, "'", "")
-
-def stemming(data):
-    stemmer= PorterStemmer()
-    
-    tokens = word_tokenize(str(data))
-    new_text = ""
-    for w in tokens:
-        new_text = new_text + " " + stemmer.stem(w)
-    return new_text
-
-def convert_numbers(data):
-    tokens = word_tokenize(str(data))
-    new_text = ""
-    for w in tokens:
-        try:
-            w = num2words(int(w))
-        except:
-            a = 0
-        new_text = new_text + " " + w
-    new_text = np.char.replace(new_text, "-", " ")
-    return new_text
-
-def preprocess(data):
-
-    data = data.split()
-    data = turn_lower_case(data)
-    data = remove_punctuation(data)
-    data = remove_apostrophe(data)
-    data = remove_stop_words(data)
-
-    return word_tokenize(str(data))
-
-
 def translate_leet_to_letters(word):
     """
     Returns a set containing possible alternatives
@@ -207,7 +150,7 @@ def get_available_proxies():
         list containing Tor proxies.
     """
 
-    f = open('proxies.json')
+    f = open('./proxies.json')
     data = json.load(f)
     f.close()
     return data
@@ -277,7 +220,7 @@ def is_foreign(self_url, url):
         True if it is, False if not.
     """
 
-    return not is_relative_in_local(url) and not is_empty(url) and urlparse(self_url).netloc != urlparse(url).netloc
+    return not is_empty(url) and not is_relative_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
     
 
 def remove_tld(netloc):
@@ -296,7 +239,12 @@ def remove_tld(netloc):
         netloc without tld
     """
 
-    return netloc[:netloc.rindex('.')]
+    try:
+        index = netloc.rindex('.')
+        return netloc[:netloc.rindex('.')]
+
+    except:
+        return netloc
 
 
 def get_phishing_targets_set():
@@ -329,6 +277,91 @@ def is_empty(url):
     """
 
     return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
+
+
+def remove_stop_words(data):
+    """
+    Removes non functional words from a web.
+    """
+
+    stop_words = ( stopwords.words('english') + stopwords.words('spanish'))
+
+    new_text = ''
+    for w in data:
+        if w not in stop_words and len(w) > 1:
+            new_text = new_text + ' ' + w
+    return new_text
+
+
+def remove_punctuation(data):
+    """
+    Removes punctuation from a web.
+    """
+
+    symbols = "!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n"
+    for i in range(len(symbols)):
+        data = np.char.replace(data, symbols[i], ' ')
+        data = np.char.replace(data, "  ", " ")
+    data = np.char.replace(data, ',', '')
+    return data
+
+
+def remove_apostrophe(data):
+    """
+    Deletes apostrophe from a website.
+    """
+    return np.char.replace(data, "'", "")
+
+
+def preprocess(data):
+    """
+    Returns tokens of the words in a text
+    once it has been processed.
+    """
+
+    data = data.split()
+    data = np.char.lower(data)
+    data = remove_punctuation(data)
+    data = remove_apostrophe(data)
+    data = remove_stop_words(data)
+
+    return word_tokenize(str(data))
+
+
+def get_site_keywords(html):
+    """
+    Returns a set of the most popular keywords in
+    a website. Extracted from the title, meta 
+    tag and text.
+    """
+    
+    list = get_title(html).split(" ") + get_meta(html)
+    words = ' '.join(list)
+    set_one = set(preprocess(words))
+    set_two = set([word[0] for word in get_popular_words(html)])
+
+    return set_one.union(set_two)
+
+
+def get_popular_words(html, k=10):
+    """
+    Extracts a number of the most repeated
+    words in a website.
+    """
+
+    cleaned = BeautifulSoup(html, "lxml").text
+    tokens = preprocess(cleaned)
+    counter = Counter(tokens)
+    n_words = len(tokens)
+
+    for token in np.unique(tokens):
+    
+        tf = counter[token]/n_words
+        #df = doc_freq(token)
+        #idf = np.log((N+1)/(df+1))
+    
+    #tf_idf[doc, token] = tf*idf
+    return counter.most_common(k)
 
 
 def get_number_foreign_hyperlinks(url, hyperlinks):
@@ -389,10 +422,13 @@ def get_number_errors(hyperlinks, headers, proxies):
 
         if not is_empty(h) and not is_relative_in_local(h):
 
-            code = get_response_code(h, headers, proxies)
-
-            if code == 404 or code == 403:
-                n_errors += 1
+            try:
+                code = get_response_code(h, headers, proxies)
+                if code == 404 or code == 403:
+                    n_errors += 1
+            
+            except:
+                pass
 
     return n_errors
 
@@ -414,10 +450,14 @@ def get_number_redirects(hyperlinks, headers, proxies):
     for h in hyperlinks:
 
         if not is_empty(h) and not is_relative_in_local(h):
-            code = get_response_code(h, headers, proxies)
 
-            if code == 302 or code == 301:
-                n_redirects += 1
+            try:
+                code = get_response_code(h, headers, proxies)
+                if code == 302 or code == 301:
+                    n_redirects += 1
+            
+            except:
+                pass
 
     return n_redirects
 
@@ -432,7 +472,7 @@ def get_response_code(url, headers, proxies):
         status code
 
     """
-    return requests.get(url, headers=headers, proxies=proxies).status_code
+    return requests.get(url, headers=headers, allow_redirects=False).status_code #, proxies=proxies)
 
 
 def extract_url_href(tag):
@@ -460,6 +500,9 @@ def extract_url_href(tag):
 
 
 def get_meta(html):
+    """
+    Returns the content of a meta tag.
+    """
 
     keywords = []
     found = re.findall('(?:<meta)([^>]*)(?:>)', html)
@@ -474,35 +517,15 @@ def get_meta(html):
 
 
 def get_title(html):
-    return re.findall('(?:<title>)([^<]*)(?:</title>)', html)
+    """
+    Returns the title of an html page.
+    """
+    matches = re.findall('(?:<title>)([^<]*)(?:</title>)', html)
 
-
-def get_site_keywords(html):
+    if len(matches) > 0:
+        return matches[0]
     
-    list = get_title(html) + get_meta(html)
-    words = ' '.join(list)
-    set_one = set(preprocess(words))
-    set_two = set([word[0] for word in get_popular_words(html)])
-
-    return set_one.union(set_two)
-
-
-def get_popular_words(html, k=10):
-
-    cleaned = BeautifulSoup(html, "lxml").text
-    tokens = preprocess(cleaned)
-    counter = Counter(tokens)
-    n_words = len(tokens)
-
-    for token in np.unique(tokens):
-    
-        tf = counter[token]/n_words
-        #df = doc_freq(token)
-        #idf = np.log((N+1)/(df+1))
-    
-    #tf_idf[doc, token] = tf*idf
-
-    return counter.most_common(k)
+    return ''
 
 
 def find_hyperlinks(html):
@@ -519,7 +542,7 @@ def get_bin_source_code(url, headers, proxies, fichero='html_dump'):
     Extracts binary source code from webpage.
     """
 
-    response = requests.get(url, headers=headers, proxies=proxies)
+    response = requests.get(url, headers=headers) #, proxies=proxies)
 
     if response.status_code != 400:
         with open(fichero, 'wb') as f:
