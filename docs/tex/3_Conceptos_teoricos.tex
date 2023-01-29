@@ -354,7 +354,7 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 
 El denominado \textit{tri-training}~\cite{tritraining2005@original} es un método de clasificación para aprendizaje semisupervisado perteneciente a la rama del \textit{co-training}. Utiliza tres estimadores base ($i$, $j$ y $k$) que son entrenados utilizando un conjunto de datos etiquetados $L$ y pseudo-etiquetas generadas por el resto del conjunto.
 
-Dos de las principales características que lo convierten en un algoritmo fácil de utilizar en escenarios reales de minería de datos es que no requiere vistas suficientes y redundantes de los datos ni el uso de distintos algoritmos de aprendizaje supervisado en los clasificadores base~\cite{tritraining2005@original}.
+Dos de las principales características que lo convierten en un algoritmo fácil de utilizar en escenarios reales de minería de datos es que no requiere vistas suficientes y redundantes de los datos ni el uso de distintos algoritmos de aprendizaje supervisado en los clasificadores base~\cite{tritraining2005@original}. Sin embargo, sí que es un requisito que los estimadores base sean diversos.
 
 El proceso de entrenamiento se realiza iterativamente, actualizando los estimadores base oportunos utilizando $L$ y un subconjunto de $U$ ($L_i$) pseudo-etiquetado por los dos clasificadores restantes. Este subconjunto se genera (para $i$) utilizando aquellas instancias de $U$ en las que los estimadores concomitantes de $i$ (es decir, $j$ y $k$) concuerden en su etiqueta.
 
@@ -445,9 +445,13 @@ El último paso sería reentrenar los clasificadores base que hayan recibido nue
 
 \subsection{Tratamiento del ruido y teoría de errores}
 
+En este algoritmo, no es necesario calcular explícitamente la <<confianza>> del conjunto para cada muestra de $U$ debido a que, para que se añada a $L_i$, es suficiente con que los otros dos estimadores base del conjunto coincidan en la etiqueta~\cite{tritraining2005@original}. Puede ocurrir que tanto $j$ como $k$ se equivoquen en una predicción y, por lo tanto, se añada ruido al conjunto de entrenamiento de $i$. Sin embargo, como se comentó anteriormente en el \textit{co-forest}, de acuerdo con el trabajo de Angluin y Laird~\cite{noisyExamplesCoforest1988Dana}, si el tamaño de los datos utilizados en el entrenamiento ($m$), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante ($c$) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el estimador $h_{i}$ converge a la hipótesis verdadera.
 
+Para cada iteración del algoritmo, se considera un $L_i$ independiente y obtenido considerando todo $U$. El ratio del ruido de clasificación en la iteración $t$-ésima se puede calcular mediante la ecuación~\ref{eqn:ruido_it_tritraining}, donde $\check{e}_{1}^{t}$ es el límite superior del error cometido por $j$ y $k$ en la iteración $t$, $L^t$ es el conjunto de pseudo-etiquetas para $i$ en la iteración $t$ y $\eta_L$ es la tasa de ruido en $L$.
 
+\begin{equation}\label{eqn:ruido_it_tritraining} \eta^{t} = \frac{\eta_{L}|L| + \check{e}_{1}^{t}|L^{t}|}{|L \cup L^{t}|} \end{equation} 
 
+Como se muestra en la función de utilidad de la ecuación~\ref{eqn:operar_rel_convergencia}, como $f$ es inversamente proporcional a  $\frac{c}{\epsilon^{2}}$, entonces se puede deducir que si $f^t > f^{t-1}$ entonces $e^t < e^{t-1}$, lo que implica que el clasificador $i$ va a mejorar si se utilizan las pseudo-etiquetas de $L^t$ en el entrenamiento~\cite{tritraining2005@original}.
 
 \section{Ataques a sistemas de recomendación}
 
