@@ -238,7 +238,6 @@ def remove_tld(netloc):
     """
 
     try:
-        index = netloc.rindex('.')
         return netloc[:netloc.rindex('.')]
 
     except:
@@ -470,7 +469,7 @@ def get_response_code(url, headers, proxies):
         status code
 
     """
-    return requests.get(url, headers=headers, allow_redirects=False).status_code #, proxies=proxies)
+    return requests.get(url, headers=headers, proxies=proxies, allow_redirects=False).status_code
 
 
 def extract_url_href(tag):
@@ -540,7 +539,7 @@ def get_bin_source_code(url, headers, proxies, fichero='html_dump'):
     Extracts binary source code from webpage.
     """
 
-    response = requests.get(url, headers=headers) #, proxies=proxies)
+    response = requests.get(url, headers=headers, proxies=proxies)
 
     if response.status_code != 400:
         with open(fichero, 'wb') as f:
