@@ -386,22 +386,39 @@ Siguiendo los eventos de \textit{scrum}, y adaptándolos teniendo en cuenta el t
 	El \textit{sprint} se desarrolló entre el 9 y el 20 de enero. Fueron dedicadas al \textit{sprint} 9 horas de trabajo. No se incluye un \textit{burndown report} debido a que no se asociaron las horas de investigación a ningún repositorio en concreto.
 	
 	\item \textbf{\textit{Sprint review meeting}}
-	...
+	Tras haber comentado las distintas ramas de investigación posibles, en esta reunión se decidió cambiar el tema principal a la aplicación del aprendizaje semisupervisado para la detección de \textit{phishing}.
 \end{itemize}
 
 
 \subsubsection{\textit{Sprint 11: Parsley}}
 \begin{itemize}
+	
 	\item \textbf{\textit{Planning meeting}}
+	Durante esta reunión se acordó comenzar a trabajar en el nuevo objetivo, además de completar documentación pendiente.
+	
 	\begin{enumerate}
-		\item Extracción de vector de características (\textit{phishing}) 3h.
-		\item
-		\item
-		\item 
+		\item Extracción de vectores de características de URLs:  generar el código que permita diferenciar un enlace de \textit{phishing} de uno verídico.
+		\item Pruebas unitarias: debido a que se ha creado una clase de utilidades para apoyar la extracción de los vectores de características, se ha decidido investigar acerca de las pruebas unitarias en Python e implementar algunas.
+		\item Creación de instancias de Tor: debido a que algunos de los métodos de los vectores de características requieren hacer peticiones a páginas peligrosas, se ha decidido proteger esas peticiones utilizando instancias de Tor, de manera que se oculte la IP del ordenador que realiza las peticiones. Para ello, se ha creado un \textit{script} capaz de levantar estas conexiones y se han utilizado como \textit{proxies} (protocolo SOCKS5).
+		\item Documentación y experimentación: se ha generado la documentación relativa al algoritmo \textit{tri-training}, además de su comparativa y estudio (gráficas).
+		\item Refactorización: debido a que muchos de los métodos para realizar las gráficas del \textit{tri-training} duplican código de los utilizados para generar el \textit{co-forest}, se ha decidido realizar métodos comunes y una clase de utilidades para las gráficas.
+		
 	\end{enumerate}
 	\item \textbf{Marcas temporales}		
+	El \textit{sprint} fue completado entre el 24 y el 30 de enero del 2022.
+	
 	\item \textbf{\textit{Burndown Report}}
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 11}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s11_bdr}
+	\end{figure}
+	
+	El número total de horas dedicadas al proyecto fue de $30$, requiriendo una cifra ligeramente inferior a la estimada. Aún así se cerró antes de tiempo debido a que se pudo invertir más horas por día de las predichas. Nuevamente, recalcar que el tiempo sobrante en ciertos \textit{issues} fue destinado a la generación de vectores de características.
+	
 	\item \textbf{\textit{Sprint review meeting}}
+	...
+	
 \end{itemize}
 
 
