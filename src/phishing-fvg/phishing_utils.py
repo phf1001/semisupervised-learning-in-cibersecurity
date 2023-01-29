@@ -3,8 +3,6 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from nltk.stem import PorterStemmer
-#from num2words import num2words
 import numpy as np
 import re
 import csv

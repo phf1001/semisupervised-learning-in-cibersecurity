@@ -202,6 +202,16 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 \end{itemize}
 
 
+
+
+
+
+
+
+
+
+
+
 \section{\textit{Co-forest}}
 
 \subsection{Descripción}
@@ -335,6 +345,86 @@ Además de los aspectos expuestos en el apartado anterior, hay dos decisiones ad
 En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantenerlo alto pero limitar a $\theta\times|U|$.
 
 Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
+
+
+
+
+
+
+
+
+\section{\textit{Tri-Training}}
+
+\subsection{Descripción}
+
+\subsection{Algoritmo}
+
+\subsubsection{Variables utilizadas}
+
+\subsubsection{Pseudocódigo}
+
+\begin{algorithm}
+	
+	\KwIn{Conjunto de datos etiquetados $L$, conjunto de datos no etiquetados $U$, tres clasificadores base.}
+	\KwOut{\textit{Ensemble} de tres estimadores base entrenados.}
+	\BlankLine
+	
+	\For{$i$ = 1, ..., 3}{
+		$S_{i} \leftarrow$ Bootstrap($L$)\\
+		$h_i \leftarrow$ EntrenarClasificador($S_{i}$)\\
+		${e'}_{i} \leftarrow$ 0.5\\
+		${l'}_{i} \leftarrow$ 0.0\\
+	}
+	
+	\While(){Algún estimador base reciba pseudo-etiquetas}{
+		\For{$i$ = 1, ..., 3}{
+			$L_{i} \leftarrow \emptyset$\\
+			$update_i \leftarrow$ False\\
+			${e}_{i} \leftarrow MeasureError(h_i \& h_k) (j, k \ne i)$
+			
+			\If{${e}_{i} < {e'}_{i}$}{
+				\ForEach{$x \in U$}{
+					\If{$h_j(x) = h_k(x)$ $(j, k \ne i)$}{
+						$L_{i} \leftarrow L_{i} \cup \{(x, h_j(x))\}$\\
+					}
+				}
+			
+				\If{$l'_i = 0$} {
+					$l'_i \leftarrow \lfloor \frac{e_i}{e'_i - e_i} + 1  \rfloor$
+				}
+				
+				\If{$l'_i < |L_i|$} {
+					\If{$e_i \times |L_i| < e'_i \times l'_i$} {
+						$update_i \leftarrow$ True\\
+					}
+					\ElseIf{ $l'_i > \frac{e_i}{e'_i - e_i}$} {
+						$|L_i| \leftarrow Submuestrear(L_i, \lceil \frac{e'_i \times l'_i}{e_i} - 1\rceil)$\\
+						$update_i \leftarrow$ True\\
+					}
+				}
+			}
+		}
+	
+		\For{$i$ = 1, ..., $3$}{
+			\If{$update_i \leftarrow$ True\\}{
+				$h_i$ = Entrenar($L \cup L_{i}$)\\
+				$e'_i \leftarrow e_i$\\
+				$l'_i \leftarrow |L_i|$\\
+			}
+		}
+	}
+	\caption{\textit{Tri-Training}}\label{alg:tri-training}
+\end{algorithm}
+
+\subsubsection{Fases}
+
+\subsection{Tratamiento del ruido y teoría de errores}
+
+\subsubsection{Discusión acerca de los parámetros del algoritmo}
+
+\subsubsection{Decisiones de implementación}
+
+
 
 
 \section{Ataques a sistemas de recomendación}

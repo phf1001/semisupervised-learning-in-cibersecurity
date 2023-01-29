@@ -1,6 +1,7 @@
 
 import numpy as np
 import numbers
+from math import floor, ceil
 
 class TriTraining:  
 
@@ -42,9 +43,7 @@ class TriTraining:
 
         previous_e = [0.5 for i in range(self.n)]
         previous_l = [0.0 for i in range(self.n)]
-
         e = [0.0 for i in range(self.n)]
-        l = [0.0 for i in range(self.n)]
 
         new_data = True
 
@@ -61,7 +60,7 @@ class TriTraining:
                     cls_pseudo_updates[i] = self.create_pseudolabeled_set(i, U)
 
                     if previous_l[i] == 0:
-                        previous_l[i] = ((e[i] / (previous_e[i]-e[i])) + 1)
+                        previous_l[i] = floor((e[i] / (previous_e[i]-e[i])) + 1)
 
                     L_i_size = cls_pseudo_updates[i][0].shape[0]
 
@@ -72,7 +71,7 @@ class TriTraining:
                         
                         elif previous_l[i] > (e[i] / (previous_e[i] - e[i])):
 
-                            L_index = self.rd.choice(L_i_size, int((previous_e[i] * previous_l[i] / e[i]) - 1))
+                            L_index = self.rd.choice(L_i_size, ceil((previous_e[i] * previous_l[i] / e[i]) - 1))
                             cls_pseudo_updates[i] = (cls_pseudo_updates[i][0][L_index, :], cls_pseudo_updates[i][1][L_index])
                             cls_changes[i] = True
 
