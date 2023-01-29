@@ -250,14 +250,14 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 
 \subsubsection{Pseudocódigo}
 
-Se facilita a continuación la versión del \textit{co-forest} de la tesis de Engelen~\cite{engelen2018thesis}, basada en la original~\cite{originalCoForest2007}, pero introduciendo los cambios observables en la sección <<Discusión de los parámetros del algoritmo>>.
+Se facilita a continuación (pseudocódigo~\ref{alg:co-forest}) la versión del \textit{co-forest} de la tesis de Engelen~\cite{engelen2018thesis}, basada en la original~\cite{originalCoForest2007}, pero introduciendo los cambios observables en la sección <<Discusión de los parámetros del algoritmo>>.
 
 \begin{algorithm}
 	\KwIn{Conjunto de datos etiquetados $L \lbrace\left(x_i, y_i\right)\rbrace_{i=1}^l$, conjunto de datos no etiquetados $U \lbrace x_i \rbrace_{i=l+1}^{k}$, número de árboles $n$ y umbral de confianza $\theta$}
 	\KwOut{\textit{Ensemble} de árboles entrenado $H$.}
 	\BlankLine
 	\For{$i$ = 0, ..., $n-1$}{
-		$L_{i} \leftarrow$ Bootstrap($L$)\\
+		$L_{i} \leftarrow$ \textit{Bootstrap}($L$)\\
 		$h_i$ = EntrenarArbol($L_{i}$)\\
 		$\hat{e}_{i,t} \leftarrow 0.5$\\
 		$W_{i,0} \leftarrow min(\frac{1}{10}|$U$|, 100)$\\
@@ -347,21 +347,38 @@ En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se 
 Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
 
 
-
-
-
-
-
-
 \section{\textit{Tri-Training}}
 
 \subsection{Descripción}
+
+
+El denominado \textit{tri-training}~\cite{tritraining2005@original} es un método de clasificación para aprendizaje semisupervisado perteneciente a la rama del \textit{co-training}. Utiliza tres estimadores base ($i$, $j$ y $k$) que son entrenados utilizando un conjunto de datos etiquetados $L$ y pseudo-etiquetas generadas por el resto del conjunto.
+
+Dos de las principales características que lo convierten en un algoritmo fácil de utilizar en escenarios reales de minería de datos es que no requiere vistas suficientes y redundantes de los datos ni el uso de distintos algoritmos de aprendizaje supervisado en los clasificadores base~\cite{tritraining2005@original}.
+
+El proceso de entrenamiento se realiza iterativamente, actualizando los estimadores base oportunos utilizando $L$ y un subconjunto de $U$ ($L_i$) pseudo-etiquetado por los dos clasificadores restantes. Este subconjunto se genera (para $i$) utilizando aquellas instancias de $U$ en las que los estimadores concomitantes de $i$ (es decir, $j$ y $k$) concuerden en su etiqueta.
+
+Por otro lado, el error para $i$ se aproxima dividiendo el número de muestras de $L$ para las cuales el conjunto concomitante de $i$ realiza una predicción incorrecta entre el número total de muestras de $L$ para las cuales la etiqueta predicha por $j$ es la misma que la predicha por $k$.
 
 \subsection{Algoritmo}
 
 \subsubsection{Variables utilizadas}
 
+Para facilitar la comprensión del pseudocódigo, se definen a continuación algunas de las variables utilizadas:
+
+\begin{itemize}
+	\item $h_{i}$: estimador i-ésimo del \textit{ensemble} (entrenado con un conjunto concreto de datos que puede variar en cada iteración).
+	\item $L$: conjunto de datos etiquetados utilizados durante el entrenamiento.
+	\item $U$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
+	\item $S_{i}$: subconjunto obtenido tras realizar \textit{bootstrap} a $L$ para un clasificador en concreto.
+	\item $L_{i}$: subconjunto de $U$ pseudo-etiquetado para $i$.
+	\item $l'_{i}$: tamaño del conjunto $L_i$ en la iteración anterior (utilizable para saber si anteriormente un clasificador ha sido entrenado con pseudo-etiquetas o no).	
+	\item $e_{i}$: error del estimador $i$.	
+	\item $e'_{i}$: error anterior del clasificador $i$.	
+\end{itemize} 
+
 \subsubsection{Pseudocódigo}
+Se facilita a continuación (pseudocódigo~\ref{alg:tri-training}) el pseudocódigo original~\cite{tritraining2005@original} del \textit{tri-training}.
 
 \begin{algorithm}
 	
@@ -370,7 +387,7 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 	\BlankLine
 	
 	\For{$i$ = 1, ..., 3}{
-		$S_{i} \leftarrow$ Bootstrap($L$)\\
+		$S_{i} \leftarrow$ \textit{Bootstrap}($L$)\\
 		$h_i \leftarrow$ EntrenarClasificador($S_{i}$)\\
 		${e'}_{i} \leftarrow$ 0.5\\
 		${l'}_{i} \leftarrow$ 0.0\\
@@ -379,8 +396,8 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 	\While(){Algún estimador base reciba pseudo-etiquetas}{
 		\For{$i$ = 1, ..., 3}{
 			$L_{i} \leftarrow \emptyset$\\
-			$update_i \leftarrow$ False\\
-			${e}_{i} \leftarrow MeasureError(h_i \& h_k) (j, k \ne i)$
+			$actualizar_i \leftarrow$ Falso\\
+			${e}_{i} \leftarrow Error(h_i \& h_k) (j, k \ne i)$
 			
 			\If{${e}_{i} < {e'}_{i}$}{
 				\ForEach{$x \in U$}{
@@ -388,25 +405,25 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 						$L_{i} \leftarrow L_{i} \cup \{(x, h_j(x))\}$\\
 					}
 				}
-			
+				
 				\If{$l'_i = 0$} {
 					$l'_i \leftarrow \lfloor \frac{e_i}{e'_i - e_i} + 1  \rfloor$
 				}
 				
 				\If{$l'_i < |L_i|$} {
 					\If{$e_i \times |L_i| < e'_i \times l'_i$} {
-						$update_i \leftarrow$ True\\
+						$actualizar_i \leftarrow$ Verdadero\\
 					}
 					\ElseIf{ $l'_i > \frac{e_i}{e'_i - e_i}$} {
 						$|L_i| \leftarrow Submuestrear(L_i, \lceil \frac{e'_i \times l'_i}{e_i} - 1\rceil)$\\
-						$update_i \leftarrow$ True\\
+						$actualizar_i \leftarrow$ True\\
 					}
 				}
 			}
 		}
-	
+		
 		\For{$i$ = 1, ..., $3$}{
-			\If{$update_i \leftarrow$ True\\}{
+			\If{$actualizar_i \leftarrow$ True\\}{
 				$h_i$ = Entrenar($L \cup L_{i}$)\\
 				$e'_i \leftarrow e_i$\\
 				$l'_i \leftarrow |L_i|$\\
@@ -418,11 +435,16 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 
 \subsubsection{Fases}
 
+En primer lugar, se entrenan los estimadores base utilizando un subconjunto aleatorio de $L$.
+
+La segunda fase es entrenar el \textit{tri-training} de manera semisupervisada e iterativa hasta que los estimadores base no reciban nuevas etiquetas del resto del \textit{ensemble}. Para ello, se comprueba que el error (explicado anteriormente) sea menor que en la iteración anterior, y en ese caso, se genera $L_i$ utilizando aquellas instancias de $U$ en las que los estimadores concomitantes de $i$ (es decir, $j$ y $k$) concuerden en su etiqueta. En caso de que anteriormente no se haya entrenado con pseudo-etiquetas, se estima el valor que hubiese tenido el conjunto $L_i$ anterior.
+
+Posteriormente, se comprueba si el conjunto $L_i$ nuevo es mayor que el anterior. En caso de que lo sea, se realizan algunas correcciones para evitar violar ecuaciones relacionadas con el tratamiento de errores. Puede llegar a ocurrir que se reduzca el tamaño de $L_i$ durante este proceso.
+
+El último paso sería reentrenar los clasificadores base que hayan recibido nuevas etiquetas con estas mismas unidas a $L$.
+
 \subsection{Tratamiento del ruido y teoría de errores}
 
-\subsubsection{Discusión acerca de los parámetros del algoritmo}
-
-\subsubsection{Decisiones de implementación}
 
 
 
