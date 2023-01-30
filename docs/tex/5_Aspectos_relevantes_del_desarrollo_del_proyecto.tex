@@ -1,20 +1,14 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 
+\section{Experimentación con algoritmos de aprendizaje semisupervisado}
 
+A continuación se facilitan los resultados de las experimentaciones realizadas con las implementaciones propias de algunos métodos de aprendizaje semisupervisado.
 
-\section{Reproducción del artículo original}
-
-El objetivo de este proyecto es probar nuevos métodos de aprendizaje semi-supervisado aplicados a la detección de ataques. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{co-forest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo.
-
-\subsection{Experimentación Algoritmos}
-
-\subsubsection{\textit{Co-Forest}}
-Para evaluar la calidad del método, se han realizado distintos experimentos con los \textit{dataset} incluídos en la librería \textit{SKlearn} para clasificación. Estos son los mostrados en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
+Para evaluar la calidad de las implementaciones, se han realizado distintos experimentos con algunos de los \textit{dataset} más comunes en métodos de clasificación. En concreto, se han utilizado los que están disponibles en la librería \textit{SKlearn}, que se muestran en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
 
 \begin{table}
 	\small
 	\begin{centering}
-		
 		\begin{tabular}{@{}p{4em} p{20em} r r r @{}}
 			\toprule
 			\textbf{Nombre} & \textbf{Descripción} & \textbf{Clases} & $n$ & $m$\\ 
@@ -24,16 +18,15 @@ Para evaluar la calidad del método, se han realizado distintos experimentos con
 			Dígitos & Conjunto de instancias que representan una imagen de 8x8 perteneciente a un dígito. & 10 & 1797 & 64 \\\\
 			Vino & Conjunto de instancias pertenecientes a tres clases de vino con sus parámetros estimados mediante análisis químico. & 3 & 178 & 13 \\\\
 			Cáncer de Mama & Conjunto de instancias que representan parámetros de distintas mujeres que pueden padecer o no cáncer (clasificación binaria). & 2 & 569 & 30 \\
-			
 			\bottomrule
-			
 		\end{tabular}
-		
 	\end{centering}
-	\caption{Descripción de los \textit{datasets} utilizados para probar el \textit{co-forest}.}
+	\caption{Descripción de los \textit{datasets} utilizados para probar los algoritmos.}
 	\label{tabla_datasets_sklearn}	
 \end{table}
 
+
+\subsection{\textit{Co-Forest}}
 
 Se han realizado diferentes experimentos: algunos relacionados con la fase de entrenamiento y otros con el algoritmo una vez finalizado.
 
@@ -52,8 +45,7 @@ Para garantizar que los resultados obtenidos no son producto de una partición c
 	\label{5_entrenamiento_particiones}
 \end{figure}
 
-
- La precisión media obtenida se puede ver representada en la gráfica~\ref{5_coforest_score-iteraciones}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si, el algoritmo siguiese, el resultado devuelto sería igual debido a que no se re-entrenaría ningún árbol).
+La precisión media obtenida se puede ver representada en la gráfica~\ref{5_coforest_score-iteraciones}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si, el algoritmo siguiese, el resultado devuelto sería igual debido a que no se re-entrenaría ningún árbol).
 
 \begin{figure}[h]
 	\caption[\textit{Co-forest}: Variación del \textit{score} durante el entrenamiento]{Gráfica que representa el \textit{score} del modelo en función de la iteración en la que se encuentre.}
@@ -82,7 +74,6 @@ Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento 
 	\includegraphics[scale=0.7]{../img/memoria/5_coforest_tiempo-instancias}
 	\label{5_coforest_tiempo-instancias}
 \end{figure}
-
 
 \subsubsection{Datos de entrenamiento}
 
@@ -155,24 +146,23 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 			\cmidrule{2-3} \cmidrule{4-5}
 			
 			& \hfil Propia & \hfil KEEL & \hfil Propia & \hfil KEEL\\ 
-			  
+			
 			\toprule
-			 \hfil 1 &\hfil 1.00	&\hfil 0.87	& \hfil 0.89  & \hfil0.83 \\
-			 \hfil 2 &\hfil 0.86	&\hfil 0.80	& \hfil 1.00 	&  \hfil 0.94 \\
-			 \hfil 3 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 1.00 \\
-			 \hfil 4 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 0.89 \\
-			 \hfil 5 & \hfil 0.87	& \hfil 1.00	& \hfil 0.65	& \hfil 0.88 \\
-			 \hfil 6 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.71 \\
-			 \hfil 7 & \hfil 0.93	& \hfil 1.00	& \hfil 0.83	& \hfil 0.89 \\
-			 \hfil 8 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.78 \\
-		 	 \hfil 	9 & \hfil 0.93	& \hfil 0.93	& \hfil 0.67	& \hfil 0.72 \\
-			 \hfil 10& \hfil 0.87	& \hfil 0.87	& \hfil 0.94	& \hfil 0.94 \\
-			 \midrule
-			 \hfil Media 			& \hfil 0.93	& \hfil 0.93	& \hfil 0.88	& \hfil 0.86 \\
+			\hfil 1 &\hfil 1.00	&\hfil 0.87	& \hfil 0.89  & \hfil0.83 \\
+			\hfil 2 &\hfil 0.86	&\hfil 0.80	& \hfil 1.00 	&  \hfil 0.94 \\
+			\hfil 3 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 1.00 \\
+			\hfil 4 & \hfil 1.00	& \hfil 1.00	& \hfil 0.94	& \hfil 0.89 \\
+			\hfil 5 & \hfil 0.87	& \hfil 1.00	& \hfil 0.65	& \hfil 0.88 \\
+			\hfil 6 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.71 \\
+			\hfil 7 & \hfil 0.93	& \hfil 1.00	& \hfil 0.83	& \hfil 0.89 \\
+			\hfil 8 & \hfil 0.93	& \hfil 0.93	& \hfil 0.94	& \hfil 0.78 \\
+			\hfil 	9 & \hfil 0.93	& \hfil 0.93	& \hfil 0.67	& \hfil 0.72 \\
+			\hfil 10& \hfil 0.87	& \hfil 0.87	& \hfil 0.94	& \hfil 0.94 \\
+			\midrule
+			\hfil Media 			& \hfil 0.93	& \hfil 0.93	& \hfil 0.88	& \hfil 0.86 \\
 			\bottomrule
 		\end{tabular}
 	\end{centering}
-
 	\caption{Comparativa entre la \textit{accuracy} del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
 	\label{tabla_coforest_keelvsnuestro}	
 \end{table}
@@ -180,17 +170,21 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}. Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.
 
 
-\subsection{Detección de ataques}
+
+\section{Detección de ataques en sistemas de recomendación}
+
+El objetivo de este apartado en el proyecto es probar nuevos métodos de aprendizaje semisupervisado aplicados a la detección de ataques en sistemas de recomendación. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{co-forest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo desarrollado.
 
 En el \textit{paper} original~\cite{zhou2021SemisupervisedRecommendationAttack} se utilizan tes conjuntos de datos para probar la efectividad del \textit{co-forest}: MovieLens10M, MovieLens25M y Amazon.
 
-\subsubsection{MovieLens 10M: Descripción}
- 
+\subsection{MovieLens 10M}
+\subsubsection{Descripción}
+
 MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{https://movielens.org/}.
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
 
-\subsubsection{MovieLens 10M: Generación de vectores de características.}
+\subsubsection{Extracción de vectores de características}
 
 Como se puede comprobar en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack} los perfiles de usuarios normales son distinguibles de los atacantes debido a su forma de puntuar. En función de estos hábitos, se puede elaborar un método de detección basado en ventanas.
 
@@ -224,7 +218,7 @@ Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_fe
 \end{algorithm}
 
 
-\subsubsection{MovieLens 10M: Creación de reseñas atacantes}
+\subsubsection{Creación de reseñas atacantes}
 
 Se ha incluido tres tipos de ataques distintos: \textit{random}, \textit{average} y \textit{bandwagon}. En primer lugar, se han sintetizado las reseñas y posteriormente se han generado los vectores de características idénticamente a los perfiles verdaderos.
 
@@ -254,12 +248,68 @@ En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo 
 
 Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
 
+\subsubsection{Generación de conjuntos de entrenamiento y \textit{test}. Parámetros.}
 
+Para generar el conjunto de entrenamiento, se ha utilizado el mismo proceso que el descrito en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}. La distribución de los datos utilizados se muestra en la tabla~\ref{tbl:entrenamiento_ML10M}.
 
+En primer lugar, se han seleccionado 1000 perfiles aleatorios verdaderos y se han extraído sus vectores de características como se ha indicado previamente. Posteriormente, se han generado reseñas para perfiles de atacantes, y se han extraído sus vectores.
 
+\begin{table}
+	\begin{centering}
+		\begin{tabular}{@{} p{9em} p{7em} p{3em} p{3em} p{3em} p{3em} @{}}
+			\toprule
+			\multirow{2}{*}{\hfil Tipo} & \multirow{2}{*}{\hfil Número} & \multicolumn{4}{c}{\hfil Tamaño del relleno} \\ \cmidrule{3-6}
+			&\hfil   &\hfil 1\% &\hfil 3\% & \hfil 5\% & \hfil 10\%\\ 
+			\toprule
+			Genuino &1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
+			\textit{Random attack} &-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
+			\textit{Average attack} &-	& \hfil 10 & \hfil 10 & \hfil 10 & \hfil 10 \\
+			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil0.83 \\
+			\\ \bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption{Número y distribución del conjunto de entrenamiento.}
+	\label{tbl:entrenamiento_ML10M}	
+\end{table}
 
+En cuanto al conjunto de test, se han generado $10$ conjuntos distintos para garantizar que los resultados de los experimentos no son fruto de una partición concreta de los datos, sino media de una cantidad aceptable. Para ello, se han realizado ficheros \texttt{.csv} para distintos porcentajes de tamaño de ataque ($1\%, 2\%, 5\%$ y $10\%$) y tamaño de relleno ($1\%, 3\%, 5\%$ y $10\%$) de los atacantes. El número de perfiles verdaderos en cada conjunto de \textit{test} equivale a $1000$ (y son excluyentes entre ellos y respecto al conjunto de entrenamiento).
 
+En cuanto a los parámetros del algoritmo, se han establecido los mismos que en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}. El tamaño de ventana ($J$) se ha establecido a 40 y el porcentaje de etiquetas en el conjunto de entrenamiento ($d$) equivale al $30\%$. Como el \textit{paper} no indica qué hacer en el caso del \textit{bandwagon}, se ha decidido que el número de ítems relevantes a evaluar ($k$) es 30. En cuanto al \textit{co-forest}, el umbral de confianza $\theta$ se ha fijado a $0$.$75$ y el número de árboles ($n$) utilizado es 6.
 
+Cabe destacar que, debido a que es escaso el número de instancias positivas, se ha decidido utilizar como curva para calcular las AUC la curva \textit{precision-recall} (en lugar de la curva ROC).
+
+\subsubsection{Resultados}
+
+Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados. Se ilustran en las respectivas gráficas: \textit{random attack}~\ref{5_random_attack}, \textit{average attack}~\ref{5_average_attack} y \textit{bandwagon attack}~\ref{5_bandwagon_attack}.
+
+En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML. Para comparar el \textit{co-forest} con el \textit{random forest}, se han utilizado dos versiones de este mismo (etiquetadas como <<RF-A>> y <<RF-L>>). RF-A es un \textit{random forest} que ha sido entrenado con el conjunto de entrenamiento al completo (es decir, con el $100\%$ de las etiquetas disponibles). RF-L también es un \textit{random forest}, pero la diferencia reside en que, en este caso, únicamente se han utilizado un $30\%$ de las etiquetas disponibles en su entrenamiento (las mismas que se proporcionan al \textit{co-forest}). Este \textit{ensemble} permite deducir si el \textit{co-forest} (algoritmo semisupervisado) resulta verdaderamente útil en una situación de escasez de etiquetas, o si por el contrario es mejor utilizar la versión supervisado. Por último, también se ha incluído un \textit{tri-training} que utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}.
+
+Puede parecer que los
+
+\begin{figure}[h]
+	\caption[\textit{Random attack}: Detección.]{Gráfica que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
+	\centering
+	\includegraphics[scale=0.45]{../img/memoria/5_resultados_random_attack}
+	\label{5_random_attack}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Average attack}: Detección.]{Gráfica que representa la detección de perfiles que utilizan \textit{average attack} en el \textit{dataset} MovieLens10M.}
+	\centering
+	\includegraphics[scale=0.45]{../img/memoria/5_resultados_average_attack}
+	\label{5_average_attack}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Bandwagon attack}: Detección.]{Gráfica que representa la detección de perfiles que utilizan \textit{bandwagon attack} en el \textit{dataset} MovieLens10M.}
+	\centering
+	\includegraphics[scale=0.45]{../img/memoria/5_resultados_bandwagon_attack}
+	\label{5_bandwagon_attack}
+\end{figure}
+
+\section{Detección de \textit{phishing}}
+
+Quiero ver como queda en el índice y hay que escribir algo :)
 
 
 
