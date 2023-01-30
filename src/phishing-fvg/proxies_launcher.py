@@ -17,7 +17,7 @@ if __name__ == '__main__':
         available_ips = [proxy.get_ip() for proxy in proxies]
         available_proxies = [{'http' : 'socks5h://127.0.0.1:{}'.format(proxy.socks_port)} for proxy in proxies]
         available_proxies = [proxy for ip, proxy in zip(available_ips, available_proxies) if ip != '']
-        print('Available proxies: {}' .format(available_proxies))
+        print('\n\nAvailable proxies: {}' .format(available_proxies))
 
         with open('proxies.json', 'w') as f:
             json.dump(available_proxies, f)
