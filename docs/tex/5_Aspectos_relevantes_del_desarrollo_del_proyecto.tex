@@ -264,7 +264,7 @@ En primer lugar, se han seleccionado 1000 perfiles aleatorios verdaderos y se ha
 			Genuino &1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
 			\textit{Random attack} &-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
 			\textit{Average attack} &-	& \hfil 10 & \hfil 10 & \hfil 10 & \hfil 10 \\
-			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil0.83 \\
+			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 \\
 			\\ \bottomrule
 		\end{tabular}
 	\end{centering}
@@ -282,9 +282,7 @@ Cabe destacar que, debido a que es escaso el número de instancias positivas, se
 
 Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados. Se ilustran en las respectivas gráficas: \textit{random attack}~\ref{5_random_attack}, \textit{average attack}~\ref{5_average_attack} y \textit{bandwagon attack}~\ref{5_bandwagon_attack}.
 
-En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML. Para comparar el \textit{co-forest} con el \textit{random forest}, se han utilizado dos versiones de este mismo (etiquetadas como <<RF-A>> y <<RF-L>>). RF-A es un \textit{random forest} que ha sido entrenado con el conjunto de entrenamiento al completo (es decir, con el $100\%$ de las etiquetas disponibles). RF-L también es un \textit{random forest}, pero la diferencia reside en que, en este caso, únicamente se han utilizado un $30\%$ de las etiquetas disponibles en su entrenamiento (las mismas que se proporcionan al \textit{co-forest}). Este \textit{ensemble} permite deducir si el \textit{co-forest} (algoritmo semisupervisado) resulta verdaderamente útil en una situación de escasez de etiquetas, o si por el contrario es mejor utilizar la versión supervisado. Por último, también se ha incluído un \textit{tri-training} que utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}.
-
-Puede parecer que los
+En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML. Para comparar el \textit{co-forest} con el \textit{random forest}, se han utilizado dos versiones de este mismo (etiquetadas como <<RF-A>> y <<RF-L>>). RF-A es un \textit{random forest} que ha sido entrenado con el conjunto de entrenamiento al completo (es decir, con el $100\%$ de las etiquetas disponibles). RF-L también es un \textit{random forest}, pero la diferencia reside en que, en este caso, únicamente se han utilizado un $30\%$ de las etiquetas disponibles en su entrenamiento (las mismas que se proporcionan al \textit{co-forest}). Este \textit{ensemble} permite deducir si el \textit{co-forest} (algoritmo semisupervisado) resulta verdaderamente útil en una situación de escasez de etiquetas, o si por el contrario es mejor utilizar la versión supervisada. Por último, también se ha incluído un \textit{tri-training} que utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}.
 
 \begin{figure}[h]
 	\caption[\textit{Random attack}: Detección.]{Gráfica que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
@@ -306,6 +304,15 @@ Puede parecer que los
 	\includegraphics[scale=0.45]{../img/memoria/5_resultados_bandwagon_attack}
 	\label{5_bandwagon_attack}
 \end{figure}
+
+\subsubsection{Discusión de los resultados}
+
+Puede parecer que los resultados son muy satisfactorios debido a que, en situaciones en las que el \textit{filler size} del atacante es mayor o igual que el $3\%$, el \textit{recall} (es decir, la cantidad de instancias positivas que se encuentran) para la mayoría de los algoritmos es muy alto y la precisión (de las instancias que se clasifican como positivas, cuántas lo son realmente) es generalmente buena (exceptuando tal vez, la del \textit{tri-training}, lo que es lógico porque también posee un \textit{recall} mayor).
+
+Sin embargo, una de las fases del ciclo de vida del ML es el preanálisis de datos. Si se observa con detenimiento el \textit{dataset}, se puede comprobar que la media del \textit{filler size} de los usuarios genuinos es aproximadamente de un 1.34$\%$ y que únicamente un 10$\%$ de los usuarios tiene un \textit{filler size} superior al 3$\%$. Por ello y teniendo en cuenta que para cada conjunto (ya sea de entrenamiento o de \textit{test}) se selecciona aleatoriamente un 1.45\% del total los usuarios genuinos, es muy probable que esté formado por perfiles con un \textit{filler size} inferior al 3$\%$. Por lo tanto, la única <<columna>> verdaderamente significativa es la primera, y como se puede comprobar los resultados no son buenos. En otras palabras, es muy probable que el \textit{recall} sea tan bueno en la mayoría de los casos porque los perfiles inyectados tienen un número de valoraciones muy superior a los perfiles genuinos, no porque el método de extracción sea relevante y significativo.
+
+Adicionalmente, se piensa que el método de extracción de vectores de características no es muy adecuado. El hecho de que se aplique directamente en bases de datos sin ningún tipo de ordenación implica que tiene que existir alguna relación subyacente en el orden <<por defecto>> de los datos y el comportamiento de los usuarios, lo que es una suposición que no puede extrapolarse a todos los conjuntos de datos. Si la base de datos estuviese, por ejemplo, ordenada por popularidad, sería natural que los usuarios votasen más en las primeras ventanas. Si estuviese ordenada por fechas, podría existir una relación entre la edad del usuario y las ventanas en las que vota (películas de su <<época>>). Sin embargo, al no existir ningún tipo de orden, es una hipótesis demasiado general para ser asumida. Por ello, se ha decidido cerrar esta línea de investigación.
+
 
 \section{Detección de \textit{phishing}}
 
