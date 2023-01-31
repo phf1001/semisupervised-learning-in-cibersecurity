@@ -61,10 +61,11 @@ Si se observa con más detenimiento cada conjunto de datos individualmente (grá
 \begin{figure}[h]
 	\caption[\textit{Co-forest}: Variación del \textit{score} durante el entrenamiento: desviaciones para cada \textit{dataset}.]{Gráfica que representa, para cada conjunto de datos, la exactitud media del modelo en función de la iteración en la que se encuentre junto con la desviación estándar para 10 experimentos.}
 	\centering
-	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-iteraciones_individual}
+	\includegraphics[scale=0.6]{../img/memoria/5_coforest_score-iteraciones_individual}
 	\label{5_coforest_score-iteraciones_individual}
 \end{figure}
 
+\subsubsection{Tiempo de entrenamiento}
 
 Además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (<<Dígitos>>), y los resultados obtenidos se pueden observar en la gráfica~\ref{5_coforest_tiempo-instancias}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen. Se ha representado en la línea negra punteada, además, el resultado del modelo de regresión lineal.
 
@@ -84,7 +85,7 @@ Como se puede comprobar en la gráfica~\ref{5_score-porcentaje_entrenamiento}, s
 \begin{figure}[h]
 	\caption[\textit{Co-forest}: Variación del \textit{score} en función del porcentaje de datos]{Gráfica que representa la exactitud media del modelo en función del porcentaje de datos (sobre el total de instancias que tiene el \textit{dataset}) utilizados para el entrenamiento.}
 	\centering
-	\includegraphics[scale=0.7]{../img/memoria/5_score-porcentaje_entrenamiento}
+	\includegraphics[scale=0.7]{../img/memoria/5_coforest_score-porcentaje_entrenamiento}
 	\label{5_score-porcentaje_entrenamiento}
 \end{figure}
 
@@ -144,9 +145,7 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 			\toprule
 			\multirow{2}{*}{\textit{ \hfil Fold}} & \multicolumn{2}{c}{\hfil Iris}& \multicolumn{2}{c}{\hfil Vino} \\
 			\cmidrule{2-3} \cmidrule{4-5}
-			
 			& \hfil Propia & \hfil KEEL & \hfil Propia & \hfil KEEL\\ 
-			
 			\toprule
 			\hfil 1 &\hfil 1.00	&\hfil 0.87	& \hfil 0.89  & \hfil0.83 \\
 			\hfil 2 &\hfil 0.86	&\hfil 0.80	& \hfil 1.00 	&  \hfil 0.94 \\
@@ -168,6 +167,74 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 \end{table}
 
 Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}. Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} <<Vino>>.
+
+\subsection{\textit{Tri-Training}}
+
+Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra \textit{sslearn} y LAMDA para probar la implementación.
+
+
+\subsubsection{Fase de entrenamiento}
+
+Nuevamente, se ha querido evaluar la evolución de la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre. En este caso, el \textit{tri-training} utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}. Al igual que en el \textit{co-forest}, los resultados representados son la media de 10 experimentos realizados mediante validación cruzada y se pueden observar en la gráfica~\ref{5_tritraining_score-iteraciones}.
+
+\begin{figure}[h]
+	\caption[\textit{Tri-training}: Variación del \textit{score} durante el entrenamiento]{Gráfica que representa la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre.}
+	\centering
+	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_score-iteraciones}
+	\label{5_tritraining_score-iteraciones}
+\end{figure}
+
+Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha comenzado el algoritmo de entrenamiento semisupervisado) en la mayoría de los casos, siendo especialmente notable en los \textit{datasets} <<Vino>> y <<Dígitos>>.
+
+\subsubsection{Tiempo de entrenamiento}
+
+Nuevamente se ha trabajado con el \textit{dataset} que contiene un mayor número de datos y los resultados obtenidos se pueden observar en la gráfica~\ref{5_tritraining_tiempo-instancias}. De nuevo, se sigue un crecimiento aproximadamente lineal con una alta velocidad (debido en parte a que este \textit{dataset} no realiza un número elevado de iteraciones durante el entrenamiento).
+
+\begin{figure}[h]
+	\caption[\textit{TriTraining}: Variación del tiempo de entrenamiento en función del número de instancias]{Gráfica que representa la evolución del tiempo de entrenamiento para el \textit{tri-training} en función del número de instancias utilizadas.}
+	\centering
+	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_tiempo-instancias}
+	\label{5_tritraining_tiempo-instancias}
+\end{figure}
+
+\subsubsection{Datos de entrenamiento}
+
+En este caso, se quiere evaluar el desempeño del \textit{tri-training} en función del porcentaje del \textit{dataset} que se utilice para el entrenamiento (posteriormente este conjunto será dividido en $L$ ($20\%$) y $U$ ($80\%$)). Los resultados mostrados son la media de 10 experimentos y se observan en la gráfica~\ref{5_tritraining_score-porcentaje_entrenamiento}. En este caso, un buen compromiso sería utilizar un $80\%$ de los datos, ya que por lo general a mayor número de instancias utilizadas durante el entrenamiento mejor resultado.
+
+\begin{figure}[h]
+	\caption[\textit{Co-forest}: Variación del \textit{score} en función del porcentaje de datos]{Gráfica que representa la exactitud media del \textit{tri-training} en función del porcentaje del \textit{dataset} utilizado en la fase de entrenamiento.}
+	\centering
+	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_score-porcentaje_entrenamiento}
+	\label{5_tritraining_score-porcentaje_entrenamiento}
+\end{figure}
+
+\subsubsection{Comparativa contra sslearn y LAMDA}
+
+En el caso del \textit{tri-training}, existen implementaciones en \texttt{python} que, además, permiten que los estimadores base utilizados sean los disponibles en la librería \textit{Scikit-learn}. Estas son <<\textit{sslearn}>>, biblioteca de aprendizaje semisupervisado escrita por José Luis Garrido-Labrador y disponible en Github~\cite{sslearnRepo} y <<LAMDA>>, un \textit{toolkit}~\cite{lamdasslPaper} desarrollado por Lin-Han Jia (y su equipo) que se encuentra públicamente disponible para su uso~\cite{lamdasslRepo}.
+
+Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{folds}. Evidentemente, ambos modelos han sido entrenados con el mismo conjunto de entrenamiento (más concretamente, idénticos $L$ y $U$) y probados con el mismo conjunto de \textit{test}. Como estimadores base se ha utilizado el árbol de decisión disponible en la librería \textit{Scikit-learn}.
+
+En el caso de la comparativa contra \textit{sslearn}, el resultado se puede contemplar en la gráfica~\ref{gr:tt_vs_sslearn}, mientras que el caso de LAMDA se observa en la gráfica~\ref{gr:tt_vs_lamda}. Como se puede comprobar, la media de la \textit{accuracy} para ambos modelos es prácticamente idéntica. Hay algunas variaciones en la \textit{score} para distintos \textit{folds}, pero pueden deberse a detalles de implementación y selección de los conjuntos internamente. Por este motivo, la implementación se considera correcta.
+
+\begin{figure}[h]
+	\caption[\textit{Tri-training}: comparativa contra \textit{sslearn}]{Gráfica que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de \textit{sslearn} y la propia.}
+	\centering
+	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_sslearn}
+	\label{gr:tt_vs_sslearn}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Tri-training}: comparativa contra LAMDA]{Gráfica que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de LAMDA y la propia.}
+	\centering
+	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_lamda}
+	\label{gr:tt_vs_lamda}
+\end{figure}
+
+
+
+
+
+
 
 
 
@@ -316,19 +383,19 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 \section{Detección de \textit{phishing}}
 
-...................
+\subsection{Extracción de vectores de características}
+...
 
-
-\subsection{Medidas de seguridad}
+\subsubsection{Medidas de seguridad}
 
 Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
 
 Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de \textit{Tor} como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 
-Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo x el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a http://ipinfo.io/ip y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el proxy http levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:} (donde x es el puerto \textit{socks} de la instancia correspondiente).
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo x el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a http://ipinfo.io/ip y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy http} levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:} (donde x es el puerto \textit{socks} de la instancia correspondiente). Debido a que el puerto Tor se abre <<a la escucha>> en la máquina local, no conlleva ningún riesgo.
 
 
-https://www.cyberciti.biz/faq/unix-linux-check-if-port-is-in-use-command/
+
 
 
 
