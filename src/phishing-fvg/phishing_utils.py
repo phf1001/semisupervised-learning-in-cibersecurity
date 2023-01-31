@@ -11,6 +11,9 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from collections import Counter
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
 
 def translate_leet_to_letters(word):
     """
@@ -325,21 +328,6 @@ def preprocess(data):
     return word_tokenize(str(data))
 
 
-def get_site_keywords(html):
-    """
-    Returns a set of the most popular keywords in
-    a website. Extracted from the title, meta 
-    tag and text.
-    """
-    
-    list = get_title(html).split(" ") + get_meta(html)
-    words = ' '.join(list)
-    set_one = set(preprocess(words))
-    set_two = set([word[0] for word in get_popular_words(html)])
-
-    return set_one.union(set_two)
-
-
 def get_popular_words(html, k=10):
     """
     Extracts a number of the most repeated
@@ -547,3 +535,116 @@ def get_bin_source_code(url, headers, proxies, fichero='html_dump'):
             f.close()
 
     return response.content
+
+
+def get_text_cleaned(html):
+    """
+    Returns a html text cleaned as a string.
+
+    Returns
+    --------
+
+    str:
+        string containing html cleaned.
+    """
+
+    raw = BeautifulSoup(html).get_text()
+    tokens = nltk.word_tokenize(raw)
+
+    htmlwords = ['https', 'http', 'display', 'button', 'hover',
+                'color', 'background', 'height', 'none', 'target',
+                'WebPage', 'reload', 'fieldset', 'padding', 'input',
+                'select', 'textarea', 'html', 'form', 'cursor',
+                'overflow', 'format', 'italic', 'normal', 'truetype',
+                'before', 'name', 'label', 'float', 'title', 'arial', 'type',
+                'block', 'audio', 'inline', 'canvas', 'margin', 'serif', 'menu',
+                'woff', 'content', 'fixed', 'media', 'position', 'relative', 'hidden',
+                'width', 'clear', 'body', 'standard', 'expandable', 'helvetica',
+                'fullwidth', 'embed', 'expandfull', 'fullstandardwidth', 'left', 'middle',
+                'iframe', 'rgba', 'selected', 'scroll', 'opacity',
+                'center', 'false', 'right']
+
+    text = ' '
+
+    for w in tokens:
+        if w.isalpha() and len(w) > 3 and w.lower() not in htmlwords:
+            text += (' ' + w)
+        
+    return text
+
+
+def get_tfidf_corpus(urls, headers, proxies):
+    """
+    Returns the corpus of a group of
+    web pages.
+
+    Returns
+    --------
+
+    array:
+            array of texts
+    """
+
+    corpus = []
+
+    for url in urls:
+
+        try:
+            html = get_bin_source_code(url, headers, proxies)
+            html = html.decode("utf-8", errors='ignore')
+            corpus.append(get_text_cleaned(html))
+
+        except:
+            pass
+
+    return corpus
+
+
+
+def get_tfidf(corpus):
+    """
+    Returns a tfidf model trained with the
+    corpus.
+
+    Returns
+    --------
+    TfidfVectorizer:
+        object trained.
+    """
+
+    tfidf = TfidfVectorizer(stop_words=['english', 'spanish'])
+    tfidf.fit_transform(corpus)
+    return tfidf
+
+
+def get_top_keywords(tfidf, text, n=10):
+    """
+    Returns top keywords from a text.
+
+    Returns
+    --------
+
+    array
+        array containing n keywords.
+    """
+
+    response = tfidf.transform([text])
+    feature_names = tfidf.get_feature_names()
+    feature_array = np.array(feature_names)
+    tfidf_sorting = np.argsort(response.toarray()).flatten()[::-1]
+    return feature_array[tfidf_sorting][:n]
+
+
+def get_site_keywords(html, tfidf, n=10):
+    """
+    Returns a set of the most popular keywords in
+    a website. Extracted from the title, meta 
+    tag and text.
+    """
+    
+    list = get_title(html).split(" ") + get_meta(html)
+    words = ' '.join(list)
+    set_one = set(preprocess(words))
+    set_two = set(get_top_keywords(tfidf, html, n))
+
+    return set_one.union(set_two)
