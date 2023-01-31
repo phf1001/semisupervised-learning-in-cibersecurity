@@ -627,5 +627,44 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo \textit{PUA} (\textit{Power User Attack})) o ítems poderosos (modelo \textit{PIA} (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos populares.
 
 
-\section{Phishing}
+\section{\textit{Phishing}}
+
+\subsection{TF-IDF}
+
+TF-IDF es un algoritmo que pretende definir la importancia que tiene una determinada palabra dentro de un documento teniendo en cuenta la relación que pueda tener con otros documentos dentro del mismo cuerpo~\cite{tfidfmarius2020}. Es decir, es una especie de <<puntuación>> para cada palabra del texto que aumenta cada vez que hay una ocurrencia, pero disminuye gradualmente cada vez que aparece en el resto de la colección. Por este motivo, puede ser realmente útil a la hora de extraer \textit{keywords}~\cite{cantinatfidf}. Se basa en dos principios:
+
+\begin{enumerate}
+	\item Una palabra que aparezca con mucha frecuencia en un documento tiene especial importancia para el mismo, por lo que es probable que el texto tenga relación con esa palabra.
+	\item Una palabra que aparezca repetidamente en varios documentos no sirve para identificar uno (o un pequeño subconjunto) en una colección (no sirve como \textit{keyword}), por lo que no es relevante para el mismo.
+\end{enumerate}
+
+Para calcular esta puntuación, se han de utilizar las ecuaciones facilitadas a continuación, donde $N$ es el número de documentos disponibles, $d$ es un documento en concreto, $D$ es la colección de todos los documentos y $w$ es una palabra dentro de un documento.
+
+\begin{itemize}
+	\item \textbf{TF}: la frecuencia de una palabra $w$ en un documento $d$ se calcula con la ecuación~\ref{eqn:tf}.
+	
+	\begin{equation}\label{eqn:tf} \textrm{tf(w,d)} = \log{(1 + f(w,d))} \end{equation}
+	
+	\item \textbf{IDF}: la frecuencia inversa de una palabra $w$ en la colección $d$ se calcula con la ecuación~\ref{eqn:idf}, aunque puede implementarse de otras maneras~\cite{tfidfsklearn2020} en función del peso que se quiera dar.
+	
+	\begin{equation}\label{eqn:idf} \textrm{idf(w,D)} = \log{(\frac{N}{f(w,D)})} \end{equation}
+	
+	\item \textbf{TF-IDF}: la puntuación TF-IDF se obtiene en combinación de las dos puntuaciones anteriores.
+	
+	\begin{equation}\label{eqn:tfidf} \textrm{tf-idf(w,d,D)} = tf(w,d) \times idf(w,D) \end{equation}
+	
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
