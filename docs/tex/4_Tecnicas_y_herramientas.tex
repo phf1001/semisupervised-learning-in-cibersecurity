@@ -1,6 +1,14 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Herramientas}
 
+\subsection{Librerías}
 
+\subsection{Scripts} 
+\subsubsection{Script para levantar proxies \textit{SOCKS5}}
+
+Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
+
+Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de \textit{Tor} como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
+
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo x el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a http://ipinfo.io/ip y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy http} levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:} (donde x es el puerto \textit{socks} de la instancia correspondiente). Debido a que el puerto Tor se abre <<a la escucha>> en la máquina local, no conlleva ningún riesgo.

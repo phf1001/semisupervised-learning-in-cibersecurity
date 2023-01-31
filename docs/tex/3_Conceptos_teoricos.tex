@@ -453,6 +453,52 @@ Para cada iteración del algoritmo, se considera un $L_i$ independiente y obteni
 
 Como se muestra en la función de utilidad de la ecuación~\ref{eqn:operar_rel_convergencia}, como $f$ es inversamente proporcional a  $\frac{c}{\epsilon^{2}}$, entonces se puede deducir que si $f^t > f^{t-1}$ entonces $e^t < e^{t-1}$, lo que implica que el clasificador $i$ va a mejorar si se utilizan las pseudo-etiquetas de $L^t$ en el entrenamiento~\cite{tritraining2005@original}.
 
+\section{Conceptos básicos de ciberseguridad}
+
+\subsection{Sistemas de cifrado}
+
+Un sistema de cifrado es un algoritmo que convierte un texto plano (\textit{input}) en un texto cifrado (\textit{output}). La clave reside en que el nuevo texto es ilegible si se carece de la clave necesaria para descifrarlo, y debe ser lo suficientemente seguro como para que romperlo requiera una cantidad extremadamente grande de recursos (generalmente, tiempo)~\cite{cifradoAvast}. El cifrado es aplicable a datos almacenados o <<en movimiento>> (por ejemplo, intercambio de datos a través de internet).
+
+\subsubsection{Cifrado simétrico o criptografía de clave privada}
+
+En este tipo de algoritmos, la clave de cifrado y descifrado es la misma (de ahí que deba permanecer <<privada>>). Se conocen dos tipos, los cifrados de bloque y los cifrados de flujo~\cite{apuntesCybersec}.
+
+En los cifrados de bloque, el texto se divide en bloques de una longitud fija y se cifran bloque a bloque. En función de los modos de operación (los más comunes ECB, CBC, OFM y CTR), también se pueden variar las propiedades de los algoritmos. Algunos de los ejemplos más comunes son DES, Triple DES, AES o \textit{Twofish}.
+
+\subsubsection{Cifrado asimétrico o criptografía de clave pública}
+
+En este tipo de sistemas, se utiliza una clave para cifrar los datos (la clave pública) y otra distinta para descifrarlos (la clave privada)~\cite{cifradoIBM}. Generalmente este tipo de cifrado es mucho más costoso computacionalmente~\cite{apuntesCybersec}, por ello no suelen ser utilizados cuando la cantidad de información a procesar es demasiado grande. 
+
+Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como \textit{Diffie-Hellman}.
+
+\subsection{Comunicaciones anónimas}
+
+Las redes clásicas son sencillamente rastreables. Póngase un ejemplo: hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o por el contrario pasar por un mayor número de nodos intermedios.
+
+Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que los ISP tienen acceso a los metadatos de las comunicaciones. Adicionalmente, si el contenido de los mensajes se encuentra incorrectamente cifrado, puede derivar en un ataque a los mismos en caso de intercepción por parte de alguno de los nodos intermedios. Se puede pensar que ocultar esta información a terceros es tan sencillo como, por ejemplo, utilizar una de las bien conocidas VPN (\textit{virtual private network}). Sin embargo, los proveedores de servicio de las VPN serán ahora quienes puedan acceder a los metadatos de las comunicaciones~\cite{TorKeepCoding2022}.
+
+
+\subsubsection{Enrutado cebolla, red Tor y protocolo SOCKS5}
+
+Uno de los protocolos que permite ocultar esta información es el llamado enrutado cebolla (\textit{onion routing})~\cite{TorAvast2022}, que recibe su nombre por el sistema de capas que utiliza, como se representa en la imagen~\ref{img:red_tor}. En el mismo, se pueden diferenciar las siguientes fases~\cite{TorKeepCoding2022}: 
+
+\begin{figure}[h]
+	\caption[Enrutado cebolla.]{Infografía de la red Tor y del enrutado cebolla.}
+	\label{img:red_tor}
+	\centering
+	\includegraphics[scale=0.45]{../img/memoria/3_onion_routing}
+\end{figure}
+
+\begin{enumerate}
+	\item Fase uno: la petición se cifra en varias capas (el estándar es 3). Es decir, con la clave pública del nodo de salida, la del nodo intermedio y, por último, al del nodo de entrada. Recordemos que para descifrar una capa, es necesario la clave privada del nodo correspondiente.
+	\item Fase dos: el servidor de entrada recibe la petición cifrada, y se encarga de descifrar la capa externa (posee la clave), obteniendo la dirección IP del nodo intermedio. De este modo, el servidor puede reenviar el mensaje a este último.
+	\item Fase tres: el servidor del medio descifra la siguiente capa y encuentra la dirección IP del nodo de salida. Reenvía el resto de la petición cifrada.
+	\item Fase cuatro: el servidor de salida descifra la última capa y accede a la petición. Sin embargo, no tiene información acerca de quién la realizo. Sí sabe, en su defecto, la dirección del nodo inmediatamente anterior, por lo que puede resolverla y devolvérsela.
+\end{enumerate}
+
+La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuándo como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
+
+
 \section{Ataques a sistemas de recomendación}
 
 Los ataques a los sistemas de recomendación (generalmene denominados \textit{shilling attacks}~\cite{mingdan2018ShillingAttacksAReview} o \textit{profile injection attack}~\cite{Mobasher2006Thesis}) tienen como objetivo manipular las sugerencias que propone un determinado algoritmo para conseguir que un cliente se incline hacia un elemento deseado. Esta alteración del sistema se consigue inyectando perfiles falsos.
@@ -579,60 +625,6 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 \subsubsection{Otros tipos de ataques}
 
 Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo \textit{PUA} (\textit{Power User Attack})) o ítems poderosos (modelo \textit{PIA} (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos populares.
-
-
-
-
-\section{Conceptos básicos de ciberseguridad}
-
-\subsection{Sistemas de cifrado}
-
-Un sistema de cifrado es un algoritmo que convierte un texto plano (\textit{input}) en un texto cifrado (\textit{output}). La clave reside en que el nuevo texto es ilegible si se carece de la clave necesaria para descifrarlo, y debe ser lo suficientemente seguro como para que romperlo requiera una cantidad extremadamente grande de recursos (generalmente, tiempo)~\cite{cifradoAvast}. El cifrado es aplicable a datos almacenados o <<en movimiento>> (por ejemplo, intercambio de datos a través de internet).
-
-\subsubsection{Cifrado simétrico o criptografía de clave privada}
-
-En este tipo de algoritmos, la clave de cifrado y descifrado es la misma (de ahí que deba permanecer <<privada>>). Se conocen dos tipos, los cifrados de bloque y los cifrados de flujo~\cite{apuntesCybersec}.
-
-En los cifrados de bloque, el texto se divide en bloques de una longitud fija y se cifran bloque a bloque. En función de los modos de operación (los más comunes ECB, CBC, OFM y CTR), también se pueden variar las propiedades de los algoritmos. Algunos de los ejemplos más comunes son DES, Triple DES, AES o \textit{Twofish}.
-
-\subsubsection{Cifrado asimétrico o criptografía de clave pública}
-
-En este tipo de sistemas, se utiliza una clave para cifrar los datos (la clave pública) y otra distinta para descifrarlos (la clave privada)~\cite{cifradoIBM}. Generalmente este tipo de cifrado es mucho más costoso computacionalmente~\cite{apuntesCybersec}, por ello no suelen ser utilizados cuando la cantidad de información a cifrar es demasiado grande. 
-
-Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como Diffie-Hellman.
-
-\subsection{Comunicaciones anónimas}
-
-Las redes clásicas son sencillas de rastrear. Póngase un ejemplo: hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o por el contrario pasar por un mayor número de nodos intermedios.
-
-Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que los ISP tienen acceso a los metadatos de las comunicaciones. Adicionalmente, si el contenido de los mensajes se encuentra incorrectamente cifrado, puede derivar en un ataque a los mismos en caso de intercepción por parte de alguno de los nodos intermedios. Se puede pensar que ocultar esta información a terceros es tan sencillo como, por ejemplo, utilizar una de las bien conocidas VPN (\textit{virtual private network}). Sin embargo, los proveedores de servicio de las VPN serán ahora quienes puedan acceder a los metadatos de las comunicaciones~\cite{TorKeepCoding2022}.
-
-
-\subsubsection{Enrutado cebolla, red Tor y protocolo SOCKS5}
-
-Uno de los protocolos que permite ocultar esta información es el llamado enrutado cebolla (\textit{onion routing})~\cite{TorAvast2022}, que recibe su nombre por el sistema de capas que utiliza, como se representa en la imagen~\ref{img:red_tor}. En el mismo, se pueden diferenciar las siguientes fases~\cite{TorKeepCoding2022}: 
-
-\begin{figure}[h]
-	\caption[Enrutado cebolla.]{Infografía de la red Tor y del enrutado cebolla \footnote{https://www.massmux.com/how-tor-really-works-for-protecting-identity/}. }
-	\label{img:red_tor}
-	\centering
-	\includegraphics[scale=0.35]{../img/memoria/3_onion_routing}
-\end{figure}
-
-\begin{enumerate}
-	\item Fase uno: la petición se cifra en varias capas (el estándar es 3). Es decir, con la clave pública del nodo de salida, la del nodo intermedio y, por último, al del nodo de entrada. Recordemos que para descifrar una capa, es necesario la clave privada del nodo correspondiente.
-	\item Fase dos: el servidor de entrada recibe la petición cifrada, y se encarga de descifrar la capa externa (posee la clave), obteniendo la dirección IP del nodo intermedio. De este modo, el servidor puede reenviar el mensaje a este último.
-	\item Fase tres: el servidor del medio descifra la siguiente capa y encuentra la dirección IP del nodo de salida. Reenvía el resto de la petición cifrada.
-	\item Fase cuatro: el servidor de salida descifra la última capa y accede a la petición. Sin embargo, no tiene información acerca de quién la realizo. Sí sabe, en su defecto, la dirección del nodo inmediatamente anterior, por lo que puede resolverla y devolvérsela.
-\end{enumerate}
-
-La red Tor, utiliza este sistema~\cite{TorAndrea2022}. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios.
-
-Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuándo como un proxy de la capa de sesión del protocolo OSI.
-
-
-
-
 
 
 \section{Phishing}
