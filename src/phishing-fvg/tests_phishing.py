@@ -9,7 +9,7 @@ sys.path.append(src_path)
 class RealFV(unittest.TestCase):
     
     def setUp(self):
-        self.ph_entity = PHISH_FVG('https://ubuvirtual.ubu.es/')
+        self.ph_entity = PHISH_FVG('https://ubuvirtual.ubu.es/', None)
 
     def test_proxy_working(self):
 
