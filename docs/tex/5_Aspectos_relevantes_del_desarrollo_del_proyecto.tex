@@ -173,40 +173,33 @@ Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keel
 Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra \textit{sslearn} y LAMDA para probar la implementación.
 
 
-\subsubsection{Fase de entrenamiento}
+\subsubsection{Experimentación con el algoritmo}
 
-Nuevamente, se ha querido evaluar la evolución de la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre. En este caso, el \textit{tri-training} utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}. Al igual que en el \textit{co-forest}, los resultados representados son la media de 10 experimentos realizados mediante validación cruzada y se pueden observar en la gráfica~\ref{5_tritraining_score-iteraciones}.
-
-\begin{figure}[h]
-	\caption[\textit{Tri-training}: Variación del \textit{score} durante el entrenamiento]{Gráfica que representa la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre.}
-	\centering
-	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_score-iteraciones}
-	\label{5_tritraining_score-iteraciones}
-\end{figure}
-
-Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha comenzado el algoritmo de entrenamiento semisupervisado) en la mayoría de los casos, siendo especialmente notable en los \textit{datasets} <<Vino>> y <<Dígitos>>.
-
-\subsubsection{Tiempo de entrenamiento}
-
-Nuevamente se ha trabajado con el \textit{dataset} que contiene un mayor número de datos y los resultados obtenidos se pueden observar en la gráfica~\ref{5_tritraining_tiempo-instancias}. De nuevo, se sigue un crecimiento aproximadamente lineal con una alta velocidad (debido en parte a que este \textit{dataset} no realiza un número elevado de iteraciones durante el entrenamiento).
+Los resultados se pueden observar en las gráficas~\ref{gr:tt_train-iterations} y~\ref{gr:tt_time-percentage}.
 
 \begin{figure}[h]
-	\caption[\textit{TriTraining}: Variación del tiempo de entrenamiento en función del número de instancias]{Gráfica que representa la evolución del tiempo de entrenamiento para el \textit{tri-training} en función del número de instancias utilizadas.}
+	\caption[\textit{Tri-training}: resultados experimentación (iteraciones-entrenamiento)]{Gráfica que muestra la evolución de la \textit{accuracy} para cada \textit{dataset} (además de su desviación) durante las iteraciones del entrenamiento del \textit{tri-training}.}
 	\centering
-	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_tiempo-instancias}
-	\label{5_tritraining_tiempo-instancias}
+	\includegraphics[scale=0.5]{../img/memoria/5_tritraining_score-iteraciones}
+	\label{gr:tt_train-iterations}
 \end{figure}
-
-\subsubsection{Datos de entrenamiento}
-
-En este caso, se quiere evaluar el desempeño del \textit{tri-training} en función del porcentaje del \textit{dataset} que se utilice para el entrenamiento (posteriormente este conjunto será dividido en $L$ ($20\%$) y $U$ ($80\%$)). Los resultados mostrados son la media de 10 experimentos y se observan en la gráfica~\ref{5_tritraining_score-porcentaje_entrenamiento}. En este caso, un buen compromiso sería utilizar un $80\%$ de los datos, ya que por lo general a mayor número de instancias utilizadas durante el entrenamiento mejor resultado.
 
 \begin{figure}[h]
-	\caption[\textit{Co-forest}: Variación del \textit{score} en función del porcentaje de datos]{Gráfica que representa la exactitud media del \textit{tri-training} en función del porcentaje del \textit{dataset} utilizado en la fase de entrenamiento.}
+	\caption[\textit{Tri-training}: resultados experimentación (tiempo-porcentaje)]{Gráfica que muestra el tiempo de entrenamiento requerido para el \textit{tri-training}, además de la evolución del \textit{score} en función del número de instancias.}
 	\centering
-	\includegraphics[scale=0.7]{../img/memoria/5_tritraining_score-porcentaje_entrenamiento}
-	\label{5_tritraining_score-porcentaje_entrenamiento}
+	\includegraphics[scale=0.4]{../img/memoria/5_tritraining_time-percentage}
+	\label{gr:tt_time-percentage}
 \end{figure}
+
+\begin{itemize}
+	\item \textbf{Fase de entrenamiento:} se ha querido evaluar la evolución de la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre. En este caso, el \textit{tri-training} utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}. Al igual que en el \textit{co-forest}, los resultados representados son la media de 10 experimentos realizados mediante validación cruzada (10 <<entrenamientos>> distintos) y se pueden observar en la gráfica~\ref{gr:tt_train-iterations}, donde el primer cuadrante compara todos los \textit{datasers} y el resto representa la desviación entre las distintas fases de entenamiento para cada \textit{dataset}.
+	
+	Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha comenzado el algoritmo de entrenamiento semisupervisado), siendo especialmente notable en los \textit{datasets} <<Vino>> y  <<Dígitos>>. Por ello, se deduce que la incorporación del conjunto de datos no etiquetado durante el entrenamiento es útil y mejora la hipótesis aprendida en cada uno de los clasificadores base (y, por ello, la general del \textit{ensemble}).
+	
+	\item \textbf{Tiempo de entrenamiento:} nuevamente se ha trabajado con el \textit{dataset} que contiene un mayor número de datos y los resultados obtenidos se representan en el primer cuadrante de la gráfica~\ref{gr:tt_time-percentage}. Como se puede observar, el tiempo crece de forma aproximadamente lineal con una alta velocidad (debido en parte a que este \textit{dataset} no realiza un número elevado de iteraciones durante el entrenamiento).
+	
+	\item \textbf{Datos de entrenamiento:} en este caso, se quiere evaluar el desempeño del \textit{tri-training} en función del porcentaje del \textit{dataset} que se utilice para el entrenamiento (posteriormente este conjunto será dividido en $L$ ($20\%$) y $U$ ($80\%$)). Los resultados mostrados son la media de 10 experimentos y se observan en el segundo cuadrante de la gráfica~\ref{gr:tt_time-percentage}. En este caso, un buen compromiso sería utilizar un $80\%$ de los datos, ya que por lo general a mayor número de instancias utilizadas durante el entrenamiento mejor resultado, no alcanzándose siempre la máxima exactitud cuando se usa el mayor porcentaje.
+\end{itemize} 
 
 \subsubsection{Comparativa contra sslearn y LAMDA}
 
