@@ -420,7 +420,7 @@ def get_response_code(url, headers, proxies):
         status code
 
     """
-    return requests.get(url, headers=headers, proxies=proxies, allow_redirects=False).status_code
+    return requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=15).status_code
 
 
 def extract_url_href(tag):
@@ -492,7 +492,7 @@ def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_d
     Extracts binary source code from webpage.
     """
 
-    response = requests.get(url, headers=headers, proxies=proxies)
+    response = requests.get(url, headers=headers, proxies=proxies, timeout=15)
 
     if response.status_code != 400:
         with open(fichero, 'wb') as f:
@@ -669,7 +669,7 @@ def get_alexa_sites(n=1802):
     set
         Set containing sites from alexa top
     """
-    data = get_csv_data('data' + os.sep + 'alexa_top1m.csv')
+    data = get_csv_data('data' + os.sep + 'alexa_top_10k.csv')
     return set(data[:n])
 
 
@@ -717,3 +717,23 @@ def get_legitimate_urls():
     set_three = get_banking_sites()
 
     return set_one.union(set_two).union(set_three)
+
+
+def get_open_fish_urls():
+    """
+    Returns a set containing phishing
+    sites extracted from open fish.
+
+    Returns
+    -------
+    set
+        Set containing phishing domains.
+    """
+
+    request = requests.get(  'https://openphish.com/feed.txt', 
+                              headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
+                        ).content
+
+
+    list = request.decode("utf-8", errors='ignore').split("\n")
+    return set(list)
