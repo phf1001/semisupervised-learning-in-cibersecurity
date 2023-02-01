@@ -12,8 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
+import os
 
 def translate_leet_to_letters(word):
     """
@@ -122,23 +121,7 @@ def get_suspicious_keywords():
     return set(('security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'))
 
 
-def get_tlds_set():
-    """
-    Returns a set containing 150 most common
-    TLDs reported by Google.
 
-    Returns
-    -------
-    set
-        Set containing 150 TLDs.
-    """
-
-    with open('150_tlds.csv') as f:
-        reader = csv.reader(f)
-        tlds = list(reader)
-
-    f.close()
-    return set([tld[0] for tld in tlds])
 
 
 def get_available_proxies():
@@ -245,26 +228,6 @@ def remove_tld(netloc):
 
     except:
         return netloc
-
-
-def get_phishing_targets_set():
-    """
-    Returns a set containing some of the most
-    common phishing targets.
-
-    Returns
-    -------
-    set
-        Set containing phishing targets.
-    """
-
-    with open('phishing_targets.csv') as f:
-        reader = csv.reader(f)
-        targets = list(reader)
-
-    f.close()
-    return set([target[0] for target in targets])
-
 
 def is_empty(url):
     """
@@ -524,7 +487,7 @@ def find_hyperlinks(html):
     return ( re.findall('(?:src\b*=\b*")([^"]*)(?:")', html) + re.findall('(?:href\b*=\b*")([^"]*)(?:")', html) )
 
 
-def get_bin_source_code(url, headers, proxies, fichero='html_dump'):
+def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
     """
     Extracts binary source code from webpage.
     """
@@ -650,3 +613,107 @@ def get_site_keywords(html, tfidf, n=10):
     set_two = set(get_top_keywords(tfidf, html, n))
 
     return set_one.union(set_two)
+
+def get_csv_data(file):
+    """
+    Returns a set with the content of a csv
+
+    Returns
+    -------
+    set
+        Set containing legitimate domains.
+    """
+
+    with open(file) as f:
+        reader = csv.reader(f)
+        data = list(reader)
+
+    f.close()
+    return [d[0] for d in data]
+
+
+def get_phishing_targets_set():
+    """
+    Returns a set containing some of the most
+    common phishing targets.
+
+    Returns
+    -------
+    set
+        Set containing phishing targets.
+    """
+
+    return set(get_csv_data('data' + os.sep + 'phishing_targets.csv'))
+
+
+def get_tlds_set():
+    """
+    Returns a set containing 150 most common
+    TLDs reported by Google.
+
+    Returns
+    -------
+    set
+        Set containing 150 TLDs.
+    """
+    return set(get_csv_data('data' + os.sep + '150_tlds.csv'))
+
+
+def get_alexa_sites(n=1802):
+    """
+    Returns a set containing the number of desired
+    Alexa domains.
+
+    Returns
+    -------
+    set
+        Set containing sites from alexa top
+    """
+    data = get_csv_data('data' + os.sep + 'alexa_top1m.csv')
+    return set(data[:n])
+
+
+def get_payment_gateways():
+    """
+    Returns a set containing some of the most
+    common payment gateways
+
+    Returns
+    -------
+    set
+        Set containing payment gateways.
+    """
+
+    return set(get_csv_data('data' + os.sep + 'payment_gateways.csv'))
+
+
+def get_banking_sites():
+    """
+    Returns a set containing some of the most
+    common banking websites
+
+    Returns
+    -------
+    set
+        Set containing banking sites
+    """
+
+    return set(get_csv_data('data' + os.sep + 'banking_sites.csv'))
+
+
+def get_legitimate_urls():
+    """
+    Returns a set containing a dataset of
+    legitimate websites.
+
+    Returns
+    -------
+    set
+        Set containing legitimate domains.
+    """
+
+    set_one = get_alexa_sites()
+    set_two = get_payment_gateways()
+    set_three = get_banking_sites()
+
+    return set_one.union(set_two).union(set_three)
