@@ -737,3 +737,30 @@ def get_open_fish_urls():
 
     list = request.decode("utf-8", errors='ignore').split("\n")
     return set(list)
+
+
+def get_phish_tank_urls(n = 20):
+    """
+    Returns a set containing phishing
+    sites extracted from phish tank.
+
+    Returns
+    -------
+    set
+        Set containing phishing domains.
+    """
+
+    try:
+
+        request = requests.get(  'http://data.phishtank.com/data/online-valid.json', 
+                                headers = {'User-Agent': 'phishtank/bob'},
+                                proxies = {'http': 'socks5h://127.0.0.1:9052'} )
+
+        y = request.content.decode("utf-8", errors='ignore')
+        list = json.loads(y)
+        urls = [dictionary['url'].replace("\\", "") for dictionary in list]
+        
+        return set(urls[:n])
+
+    except:
+        return set([])
