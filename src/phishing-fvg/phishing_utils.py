@@ -493,10 +493,12 @@ def get_meta(html):
     found = re.findall('(?:<meta)([^>]*)(?:>)', html)
 
     for content in found:
-        match = re.findall('(?:content=")([^"]*)(?:")', content)
 
-        if len(match) > 0:
-            keywords.append(match[0])
+        if 'description' in content or 'keywords' in content or 'author' in content or 'copyright' in content:
+            match = re.findall('(?:content=")([^"]*)(?:")', content)
+
+            if len(match) > 0:
+                keywords.append(match[0])
 
     return keywords
 
@@ -548,7 +550,7 @@ def get_text_cleaned(html):
         string containing html cleaned.
     """
 
-    raw = BeautifulSoup(html).get_text()
+    raw = BeautifulSoup(html, features='lxml').get_text()
     tokens = nltk.word_tokenize(raw)
 
     htmlwords = ['https', 'http', 'display', 'button', 'hover',
@@ -562,12 +564,12 @@ def get_text_cleaned(html):
                 'width', 'clear', 'body', 'standard', 'expandable', 'helvetica',
                 'fullwidth', 'embed', 'expandfull', 'fullstandardwidth', 'left', 'middle',
                 'iframe', 'rgba', 'selected', 'scroll', 'opacity',
-                'center', 'false', 'right']
+                'center', 'false', 'right', 'div', 'page', 'data']
 
     text = ' '
 
     for w in tokens:
-        if w.isalpha() and len(w) > 3 and w.lower() not in htmlwords:
+        if w.isalpha() and w.lower() not in htmlwords:
             text += (' ' + w)
         
     return text
