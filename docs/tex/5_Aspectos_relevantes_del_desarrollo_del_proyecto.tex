@@ -119,9 +119,9 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 \begin{table}
 	\begin{centering}
 		
-		\begin{tabular}{@{} p{3em} p{6em} p{7em} p{7em} p{7em} @{}}
+		\begin{tabular}{@{} p{4em} p{5em} p{7em} p{7em} p{7em} @{}}
 			\toprule
-			\multirow{2}{*}{\textit{ \hfil Fold}} & \multicolumn{2}{c}{\hfil Iris}& \multicolumn{2}{c}{\hfil Vino} \\
+			\multirow{2}{*}{\textbf{\textit{ \hfil Fold}}} & \multicolumn{2}{c}{\hfil \textbf{Iris}}& \multicolumn{2}{c}{\hfil \textbf{Vino}} \\
 			\cmidrule{2-3} \cmidrule{4-5}
 			& \hfil Propia & \hfil KEEL & \hfil Propia & \hfil KEEL\\ 
 			\toprule
@@ -136,7 +136,7 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 			\hfil 	9 & \hfil 0.93	& \hfil 0.93	& \hfil 0.67	& \hfil 0.72 \\
 			\hfil 10& \hfil 0.87	& \hfil 0.87	& \hfil 0.94	& \hfil 0.94 \\
 			\midrule
-			\hfil Media 			& \hfil 0.93	& \hfil 0.93	& \hfil 0.88	& \hfil 0.86 \\
+			\hfil \textbf{Media} 			& \hfil 0.93	& \hfil 0.93	& \hfil 0.88	& \hfil 0.86 \\
 			\bottomrule
 		\end{tabular}
 	\end{centering}
@@ -260,7 +260,6 @@ La metodología de construcción de las valoraciones sigue los modelos estadíst
 
 \begin{table}
 \begin{centering}
-	
 	\begin{tabular}{@{}p{5em} p{5em} p{11em} p{9em}@{}}
 		\toprule
 		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ &  \textbf{Valoración} $\mathbf{I_t}$\\ 
@@ -272,7 +271,6 @@ La metodología de construcción de las valoraciones sigue los modelos estadíst
 	\end{tabular}
 	\caption{Características estadísticas de los tipos de perfiles atacantes.}
 	\label{ataques_coforest}	
-
 \end{centering}
 \end{table}
 
@@ -292,8 +290,8 @@ En primer lugar, se han seleccionado 1000 perfiles aleatorios verdaderos y se ha
 	\begin{centering}
 		\begin{tabular}{@{} p{9em} p{7em} p{3em} p{3em} p{3em} p{3em} @{}}
 			\toprule
-			\multirow{2}{*}{\hfil Tipo} & \multirow{2}{*}{\hfil Número} & \multicolumn{4}{c}{\hfil Tamaño del relleno} \\ \cmidrule{3-6}
-			&\hfil   &\hfil 1\% &\hfil 3\% & \hfil 5\% & \hfil 10\%\\ 
+			\multirow{2}{*}{\hfil \textbf{Tipo}} & \multirow{2}{*}{\hfil \textbf{Número}} & \multicolumn{4}{c}{\hfil \textbf{Tamaño del relleno}} \\ \cmidrule{3-6}
+			&\hfil   &\hfil \textbf{1\%} &\hfil \textbf{3\%} & \hfil \textbf{5\%} & \hfil \textbf{10\%}\\ 
 			\toprule
 			Genuino &1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
 			\textit{Random attack} &-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
@@ -350,18 +348,32 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 \section{Detección de \textit{phishing}}
 
+\subsection{Extracción de las URL del \textit{dataset}}
+
+\begin{table}
+	\begin{centering}
+		\begin{tabular}{@{} p{14em} p{6em} p{6em}@{}}
+			\toprule
+			\textbf{\textit{Dataset}} & \textbf{Instancias} &  \textbf{Categoría} \\ \midrule
+			\textit{Phishtank} & 1\,528 & \textit{Phishing}\\
+			\textit{Openphish} & 613 & \textit{Phishing}\\
+			Alexa & 1\,600 & Genuino\\
+			Plataforma de pago & 66 & Genuino\\
+			Páginas de banca & 50 & Genuino\\
+			\bottomrule
+		\end{tabular}
+		\caption{\textit{Dataset} de \textit{phishing}.}
+		\label{tbl:dataset_phishing}	
+	\end{centering}
+\end{table}
+
+Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código, por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo \textit{SOCKS5}. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección 4 de este proyecto.
+
+Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas. El resultado final se muestra en la tabla~\ref{tbl:dataset_phishing}.
+
+En el caso de \textit{Phish Tank}, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se ha tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de \textit{Open Phish}~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, se recupera en peticiones mediante código.
+
+Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de \textit{Expired domains}~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de \textit{Shopify}~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de \textit{Similar Web}~\cite{banksitesTop} (solo que el número está limitado a 50).
+
 \subsection{Extracción de vectores de características}
 ...
-
-\subsubsection{Medidas de seguridad}
-
-Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo \textit{SOCKS5}. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección 4 de este proyecto.
-
-
-
-
-
-
-
-
-
