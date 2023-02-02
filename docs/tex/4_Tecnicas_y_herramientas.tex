@@ -1,8 +1,77 @@
 \capitulo{4}{Técnicas y herramientas}
 
+\section{Técnicas}
+
+Entornos virtuales? Conda?
+
+Preguntar: las herramientas (nombres propios) en inglés, ¿van en cursiva? cambiar en todo el documento. Ejemplos: windows, python, etc.
+
 \section{Herramientas}
 
+Se muestra a continuación algunas de las herramientas más relevantes en el desarrollo del proyecto.
+
 \subsection{Librerías}
+
+\subsubsection{Scikit-Learn}
+
+Una de las librerías referentes en el ámbito de \textit{machine learning} y Python. Además de utilizar la vertiente relacionada con aprendizaje automático, también se aprovecharon otras ramas del módulo como la de extracción de características de texto (TF-IDF)~\cite{sslearnRepo}. Debido a que proporciona una interfaz estándar para los clasificadores base de muchos algoritmos, posee muy buena documentación y es compatible con otras librerías, ha sido muy utilizada.
+
+\subsubsection{sslearn}
+
+Librería desarrollada por José Luis Garrido-Labrador dedicada al aprendizaje semisupervisado en Python. Utilizada para realizar comparaciones con algunos de los algoritmos implementados~\cite{sslearnRepo}.
+
+\subsubsection{LAMDA}
+
+\textit{Toolkit} escrito en Python con algunas implementaciones de los algoritmos más relevantes de aprendizaje semisupervisado~\cite{lamdasslRepo}. Nuevamente, ha sido utilizada como referente a la hora de realizar comparaciones contra las implementaciones propias~\cite{lamdasslPaper}.
+
+\subsubsection{\textit{Beautiful soup}}
+
+Biblioteca de Python utilizada para extraer datos de ficheros \texttt{HTML} obtenidos mediante la realización de \textit{web scraping} a la hora de sintetizar vectores de características para la detección de \textit{phishing}. Se ha recurrido a ella, principalmente, cuando la obtención de ciertos campos en las etiquetas puede ser vulnerada mediante el uso de expresiones regulares corrientes~\cite{bs4Docs}.
+
+
+\subsubsection{NLTK}
+
+\textit{Toolkit} de Python utilizado para trabajar con lenguaje natural. Su principal utilidad ha sido procesar palabras como \textit{tokens} para poder facilitar la implementación de algoritmos más complejos como TD-IDF o para analizar y procesar texto~\cite{nltk}.
+
+\subsubsection{Otros}
+
+Otras de las dependencias (estándar) del proyecto se enumeran a continuación.
+
+\begin{itemize}
+	\item \textbf{\textit{Requests}}: permite realizar peticiones a distintas URLs, además de especificar parámetros relevantes en las mismas (como \textit{headers}, \textit{cookies}, \textit{proxies} o \textit{timeouts}).
+	\item \textbf{\textit{urllib}}: procesa URLs y las divide en campos.
+	\item \textbf{\textit{re}}: utilizada para aplicar expresiones regulares en Python.
+	\item \textbf{Numpy, Pandas, Matplotlib}: utilizadas para tratar vectores, operaciones en \textit{arrays}, \textit{dataframes} y representar resultados.
+\end{itemize}
+
+
+\subsection{Extensiones y portales}
+
+\subsubsection{ZenHub}
+
+Zenhub es una extensión dedicada a la gestión de proyectos \textit{software} que se integra directamente con Github. Permite visualizar proyectos, \textit{sprints}, gráficos propios de \textit{Scrum} y crear tableros. Debido a que el equipo de desarrollo cuenta con un único integrante, se considera la alternativa óptima (por ejemplo, a Jira) por su sencillez~\cite{zenhubHome}.
+
+\subsubsection{Github}
+
+Portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. Ha sido escogido por ser una de las plataformas más populares, además de por permitir la interacción entre distintos usuarios. La gestión del \textit{backlog} del producto ha sido simulada mediante la creación de \textit{issues}.
+
+
+\subsection{Programas}
+
+\subsubsection{KEEL}
+
+Herramienta desarrollada en Java por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{keelRepo}. Proporciona implementaciones de \textit{machine learning}, y ha sido utilizada para probar aquellos algoritmos no disponibles en las librerías de Python mencionadas anteriormente.
+
+\subsubsection{Otros}
+
+\begin{itemize}
+	\item \textbf{\TeX{}Studio}: editor de \LaTeX{} utilizado.
+	\item \textbf{\textit{Visual Studio Code}}: editor y depurador de código empleado junto a algunas de sus principales extensiones.
+	\item \textbf{\textit{Git BASH}}: emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
+\end{itemize}
+
+
+
 
 \subsection{Scripts} 
 \subsubsection{Script para levantar proxies \textit{SOCKS5}}
