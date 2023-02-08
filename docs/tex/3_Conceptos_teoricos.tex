@@ -471,6 +471,18 @@ En este tipo de sistemas, se utiliza una clave para cifrar los datos (la clave p
 
 Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como \textit{Diffie-Hellman}.
 
+\subsection{Peticiones HTTP}
+
+En la programación web, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza \textit{requests} (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
+
+Estas peticiones contienen cabeceras y código de estado. Para el desarrollo de este proyecto, es importante conocer ciertos campos de la cabecera, entre ellos las \textit{cookies} (pueden ser usadas para indicar que se ha iniciado sesión), los \textit{proxies} (o servidores intermedios) y el \textit{user-agent} (información sobre el dispositivo que realiza una consulta). Estos campos pueden ser introducidos mediante código~\cite{httpHeaders}.
+
+Además es destacable el código de estado, ya que permite conocer si una petición ha sido completada con éxito. En concreto, aquellos códigos comprendidos entre el 100 y el 199 son informativos, entre el 200 y el 299 son operaciones exitosas, entre el 300 y el 399 son redirecciones, entre el 400 y el 499 son errores por parte del cliente y entre el 500 y el 599 son errores por parte del servidor~\cite{httpStatus}.
+
+
+
+
+
 \subsection{Comunicaciones anónimas}
 
 Las redes clásicas son sencillamente rastreables. Póngase un ejemplo: hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o por el contrario pasar por un mayor número de nodos intermedios.
@@ -500,21 +512,21 @@ La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, ca
 
 \subsection{Ataques web y vulnerabilidades en navegadores}
 
-Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: www.atacante.com)~\cite{apuntesCybersec}. Cada vez que se visita una web, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
+Cada vez que se visita una web, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
 
-Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar~\cite{apuntesCybersec}. EN PROCESO, dibujos abajo de momento...
+Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: www.atacante.com)~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
 
 \begin{itemize}
-	\item \textbf{SQL \textit{Injection}}:
+	\item \textbf{SQL \textit{Injection} (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
 	
-	\begin{figure}[h]
-		\caption[Ataques web: SQLi]{Infografía de un ataque SQLi.}
-		\label{img:sqli}
-		\centering
-		\includegraphics[scale=0.5]{../img/memoria/3_sqli}
-	\end{figure}
-	
-	\item \textbf{CSRF}:
+\begin{figure}[h]
+	\caption[Ataques web: SQLi]{Infografía de un ataque SQLi.}
+	\label{img:sqli}
+	\centering
+	\includegraphics[scale=0.5]{../img/memoria/3_sqli}
+\end{figure}
+
+	\item \textbf{\textit{Cross-site request forgery} (CSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición HTTP maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas webs maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad y se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF~\cite{csrfatatus}.
 	
 	\begin{figure}[h]
 		\caption[Ataques web: CSRF]{Infografía de un ataque CSRF.}
@@ -523,16 +535,17 @@ Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de 
 		\includegraphics[scale=0.5]{../img/memoria/3_csrf}
 	\end{figure}
 	
-	\item \textbf{XSS}:
+	\item \textbf{\textit{Cross Site Scripting} (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con \textit{JavaScript} y HTML (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la web)~\cite{xssDibus}.
 	
 	\begin{figure}[h]
 		\caption[Ataques web: XSS]{Infografía de un ataque XSS.}
 		\label{img:xss}
 		\centering
-		\includegraphics[scale=0.5]{../img/memoria/3_xss}
+		\includegraphics[scale=0.35]{../img/memoria/3_xss}
 	\end{figure}
 \end{itemize}
 
+La principal diferencia entre XSS y CSRF es que XSS es un ataque <<de dos vías>> (permite al atacante ejecutar código, recibir respuestas y reenviarlas) y CSRF es de <<una vía>> (el atacante sólo puede lanzar una petición HTTP corrupta), de forma que el alcance de CSRF es limitado, mientras que XSS permite al atacante realizar prácticamente lo que desee. Además, XSS no necesita que se haya iniciado sesión previamente para tener éxito~\cite{xssVsCSRF}.
 
 \section{Ataques a sistemas de recomendación}
 
