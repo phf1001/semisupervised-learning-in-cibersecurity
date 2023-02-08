@@ -398,7 +398,7 @@ Estas son aquellas que se extraen de una URL (cuya anatomía se muestra en la il
 	\[F1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\ 
 	0, & \text{cualquier otro caso} \label{eqn:phishing_f1} \end{array} \right. \] 
 	
-	\item \textit{\textbf{F2:}} determina la existencia de ciertos caracteres especiales en las URL. En concreto, el uso de <<@>> (provoca que se ignore todo lo escrito anteriormente al símbolo) y <<->> (utilizado para engañar a los usuarios en enlaces como por ejemplo www.paypalindia.com)~\cite{featuresPhishing2018Gupta}.
+	\item \textit{\textbf{F2:}} determina la existencia de ciertos caracteres especiales en las URL. En concreto, el uso de <<@>> (provoca que se ignore todo lo escrito anteriormente al símbolo) y <<->> (utilizado para engañar a los usuarios en enlaces como por ejemplo www.paypal-india.com)~\cite{featuresPhishing2018Gupta}.
 	
 	\[F2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene <<@>> o <<->>}\\ 
 	0, & \text{cualquier otro caso} \label{eqn:phishing_f2} \end{array} \right. \]
@@ -465,17 +465,17 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f12} \end{array}\right.\]
 
 
-	\item \textit{\textbf{F13}}: 
+	\item \textit{\textbf{F13}}: cuando un enlace está vacío, si el usuario pulsa, es redirigido a la misma página de la que se parte (es decir, no hay redirección a un sitio distinto), lo que incrementa las posibilidades de que la víctima caiga en el ataque. Además, también se pueden utilizar otro tipo de vulnerabilidades existentes en los navegadores para aumentar la tasa de éxito. Algunos ejemplos son~\cite{featuresPhishing2018Gupta}: \texttt{<a href = “\#”>, <a href = “\#content”>} o \texttt{<a href = “javascript::void(0)”>}.
 
 	\[F13 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces vacíos}}{\text{enlaces totales}} \text{> 0.34 y el número de enlaces > 0} \\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f13} \end{array}\right.\]
 
-	\item \textit{\textbf{F14}}: 
+	\item \textit{\textbf{F14}}: se considera un enlace erróneo aquel que devuelve un código 403 o 404 cuando se pulsa en él.
 
 	\[F14 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces erróneos}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f14} \end{array}\right.\]
 
-	\item \textit{\textbf{F15}}: 
+	\item \textit{\textbf{F15}}: es común que los atacantes traten de confundir al usuario redirigiendo su solicitud a lugares externos. Una redirección se identifica gracias a su código de respuesta, que es un 301 o un 302.
 
 	\[F15 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces que redirigen}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f15} \end{array}\right.\]
@@ -485,28 +485,27 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 \subsubsection{Características basadas en el fichero \texttt{CSS}}
 
 \begin{itemize}
-	\item \textit{\textbf{F16}}: 
+	\item \textit{\textbf{F16}}: para imitar la estética de un sitio legítimo, los atacantes podrían utilizar su fichero \texttt{CSS}. Un \texttt{CSS} es una hoja de estilos que define el aspecto visual de una página web, y puede estar incrustado en el propio HTML de la página o ser un fichero externo~\cite{cssExternos}. En el caso de ser único y externo, se entiende que puede tratarse de un intento de estafa.
 
 	\[F16 = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero \texttt{CSS} y es externo}\\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f16} \end{array}\right.\]
-
 \end{itemize}
 
 
 \subsubsection{Características basadas en la identidad de la página web}
 
 \begin{itemize}
-	\item \textit{\textbf{F17}}: 
+	\item \textit{\textbf{F17}}: las páginas legítimas suelen contener el nombre del dominio en la sección dedicada a \textit{copyright} (que se ubica por encontrarse a continuación de los símbolos <<@>>, <<©>>, o de las frases \textit{\& copy}, \textit{copyright} o \textit{all right reserved}).
 
 	\[F17 = \left\{ \begin{array}{lr} 0, & \text{si las palabras del \textit{copyright} están en el dominio base}\\
 	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f17} \end{array}\right.\]
 	
-	\item \textit{\textbf{F18}}: 
+	\item \textit{\textbf{F18}}: para cada página web, se ha construido un conjunto de \textit{keywords} compuesto por las palabras contenidas en el título, en las etiquetas \textit{meta} (cuyo campo \textit{name} equivalga a \textit{description} o \textit{keywords}) y por las más relevantes del cuerpo del sitio (extraídas mediante el algoritmo TF-IDF~\cite{cantinatfidf}). Lo más común es que los sitios legítimos contengan al menos una de estas palabras en el dominio base. En caso contrario, se considera un intento de \textit{phishing}.
 	
 	\[F18 = \left\{ \begin{array}{lr} 0, & \text{si una \textit{keyword} coincide con el dominio base}\\
 	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f18} \end{array}\right.\]
 	
-	\item \textit{\textbf{F19}}: 
+	\item \textit{\textbf{F19}}: un \textit{favicon} es una miniatura asociada a una página web. Por ello, los atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. De este modo, se considera intento de estafa cualquier icono que contenga un enlace externo. Para localizarlos, se ubica el atributo <<\textit{rel}>> dentro de las etiquetas <<\textit{link}>> y se comprueba que su valor sea la cadena \textit{shortcut icon} o \textit{icon}  (por ejemplo: <link type='image/png' href='<<enlace>>' rel='shortcut icon'>).
 	
 	\[F19 = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el \textit{favicon}}\\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f19} \end{array}\right.\]

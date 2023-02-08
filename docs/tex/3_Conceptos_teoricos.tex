@@ -498,6 +498,41 @@ Uno de los protocolos que permite ocultar esta información es el llamado enruta
 
 La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuándo como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
 
+\subsection{Ataques web y vulnerabilidades en navegadores}
+
+Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: www.atacante.com)~\cite{apuntesCybersec}. Cada vez que se visita una web, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
+
+Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar~\cite{apuntesCybersec}. EN PROCESO, dibujos abajo de momento...
+
+\begin{itemize}
+	\item \textbf{SQL \textit{Injection}}:
+	
+	\begin{figure}[h]
+		\caption[Ataques web: SQLi]{Infografía de un ataque SQLi.}
+		\label{img:sqli}
+		\centering
+		\includegraphics[scale=0.5]{../img/memoria/3_sqli}
+	\end{figure}
+	
+	\item \textbf{CSRF}:
+	
+	\begin{figure}[h]
+		\caption[Ataques web: CSRF]{Infografía de un ataque CSRF.}
+		\label{img:csrf}
+		\centering
+		\includegraphics[scale=0.5]{../img/memoria/3_csrf}
+	\end{figure}
+	
+	\item \textbf{XSS}:
+	
+	\begin{figure}[h]
+		\caption[Ataques web: XSS]{Infografía de un ataque XSS.}
+		\label{img:xss}
+		\centering
+		\includegraphics[scale=0.5]{../img/memoria/3_xss}
+	\end{figure}
+\end{itemize}
+
 
 \section{Ataques a sistemas de recomendación}
 
