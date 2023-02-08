@@ -21,7 +21,7 @@ Para evaluar la calidad de las implementaciones, se han realizado distintos expe
 			\bottomrule
 		\end{tabular}
 	\end{centering}
-	\caption{Descripción de los \textit{datasets} utilizados para probar los algoritmos.}
+	\caption[Experimentación: \textit{datasets} estándar]{Descripción de los \textit{datasets} utilizados para probar los algoritmos.}
 	\label{tabla_datasets_sklearn}	
 \end{table}
 
@@ -112,7 +112,7 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 			
 		\end{tabular}
 	\end{centering}
-	\caption{Tabla resumen con el diseño del experimento.}
+	\caption[\textit{Co-forest}: resumen del experimento]{Tabla resumen con el diseño del experimento.}
 	\label{tabla_coforest_keelvsnuestro_diseño}	
 \end{table}
 
@@ -140,7 +140,7 @@ Para comparar los algoritmos en las condiciones más realistas posibles, se defi
 			\bottomrule
 		\end{tabular}
 	\end{centering}
-	\caption{Comparativa entre la \textit{accuracy} del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
+	\caption[\textit{Co-forest}: comparativa entre KEEL y la implementación propia]{Comparativa entre la \textit{accuracy} del \textit{co-forest} de KEEL y el propio sobre el conjunto de \textit{test}.}
 	\label{tabla_coforest_keelvsnuestro}	
 \end{table}
 
@@ -269,7 +269,7 @@ La metodología de construcción de las valoraciones sigue los modelos estadíst
 		Bandwagon (random) & $k$ ítems más populares & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima\\
 		\bottomrule
 	\end{tabular}
-	\caption{Características estadísticas de los tipos de perfiles atacantes.}
+	\caption[Experimentación: características de ataques a detectar]{Características estadísticas de los tipos de perfiles atacantes.}
 	\label{ataques_coforest}	
 \end{centering}
 \end{table}
@@ -300,7 +300,7 @@ En primer lugar, se han seleccionado 1000 perfiles aleatorios verdaderos y se ha
 			\\ \bottomrule
 		\end{tabular}
 	\end{centering}
-	\caption{Número y distribución del conjunto de entrenamiento.}
+	\caption[Sistemas de recomendación: descripción de los conjuntos]{Número y distribución del conjunto de entrenamiento.}
 	\label{tbl:entrenamiento_ML10M}	
 \end{table}
 
@@ -363,7 +363,7 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 			Páginas de banca & 50 & Genuino\\
 			\bottomrule
 		\end{tabular}
-		\caption{\textit{Dataset} de \textit{phishing}.}
+		\caption[\textit{Phishing}: descripción del \textit{dataset}]{\textit{Dataset} de \textit{phishing}.}
 		\label{tbl:dataset_phishing}	
 	\end{centering}
 \end{table}
@@ -395,55 +395,122 @@ Estas son aquellas que se extraen de una URL (cuya anatomía se muestra en la il
 \begin{itemize}
 	\item \textit{\textbf{F1:}} en general, los dominios legítimos no contienen más de tres puntos en la URL~\cite{featuresPhishing2018Gupta}. Por lo tanto, esta característica se establece a 1 si el número de puntos en la URL es mayor o igual que 4.
 	
-	\[F1 = \left\{ \begin{array}{lr} 1, & \text{Puntos en URL} \ge 4\\ 
-		0, & \text{Cualquier otro caso} \label{eqn:phishing_f1} \end{array} \right. \] 
+	\[F1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\ 
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f1} \end{array} \right. \] 
 	
 	\item \textit{\textbf{F2:}} determina la existencia de ciertos caracteres especiales en las URL. En concreto, el uso de <<@>> (provoca que se ignore todo lo escrito anteriormente al símbolo) y <<->> (utilizado para engañar a los usuarios en enlaces como por ejemplo www.paypalindia.com)~\cite{featuresPhishing2018Gupta}.
 	
 	\[F2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene <<@>> o <<->>}\\ 
-		0, & \text{Cualquier otro caso} \label{eqn:phishing_f2} \end{array} \right. \]
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f2} \end{array} \right. \]
 	
 	\item \textit{\textbf{F3}}: normalmente, los dominios oficiales son cortos y significativos. Sin embargo, aquellos sitios de \textit{phishing} suelen ser más largos (con el fin de confundir al usuario u ocultar información).
 	
 	\[F3 = \left\{ \begin{array}{lr} 1, & \text{si la longitud de la URL} \ge 74\\ 
-		0, & \text{Cualquier otro caso} \label{eqn:phishing_f3} \end{array} \right. \]
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f3} \end{array} \right. \]
 	
 	\item \textit{\textbf{F4}}: según~\cite{featuresPhishing2018Gupta}, es común que las páginas de \textit{phishing} añadan palabras clave en los enlaces para ganar la confianza de sus víctimas. En concreto, estas palabras son: \textit{security}, \textit{login}, \textit{signin}, \textit{bank}, \textit{account}, \textit{update}, \textit{include}, \textit{webs} y \textit{online}.
 	
 	\[F4 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene palabras sospechosas}\\ 
-		0, & \text{Cualquier otro caso} \label{eqn:phishing_f4} \end{array} \right. \]
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f4} \end{array} \right. \]
 
 	\item \textit{\textbf{F5}}: en los dominios legítimos, el \textit{TDL} no está presente en la parte perteneciente al dominio base, ni ocurre más de una vez en la dirección.
 	
 	\[F5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\ 
-		1, & \text{si hay más de un TDL en la URL} \\
-		0, & \text{Cualquier otro caso} \label{eqn:phishing_f5} \end{array} \right. \]
+	1, & \text{si hay más de un TDL en la URL} \\
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f5} \end{array} \right. \]
 	
 	
 	\item \textit{\textbf{F6}}: en sitios genuinos, la cadena <<http>> sólo se encuentra una vez en la sección del protocolo. Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio \textit{phishing}.
 	
 	\[F6 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene más de una vez la cadena <<http>>}\\ 
-	0, & \text{Cualquier otro caso} \label{eqn:phishing_f6} \end{array} \right. \]
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f6} \end{array} \right. \]
 
 	\item \textit{\textbf{F7}}: la gran mayoría de los sitios de \textit{phishing} contienen el nombre de la marca objetivo en la URL. Por ello, se han seleccionado algunos de los objetivos más comunes para los atacantes (por ejemplo, \textit{Google} o \textit{PayPal}) y, si se encuentra el nombre en una posición incorrecta, se asume que se trata de un intento de estafa.
 	
 	\[F7 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene el nombre de una marca famosa en la}\\ & \text{URL y la posición no es la correcta}\\ 
-	0, & \text{\raggedright Cualquier otro caso} \label{eqn:phishing_f7} \end{array} \right. \]
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f7} \end{array} \right. \]
 	
-	\item \textit{\textbf{F8}}: ...
+	\item \textit{\textbf{F8}}: según~\cite{featuresPhishing2018Gupta}, los ataques basados en la existencia de un \textit{Data URI} son muy comunes. Este esquema permite insertar datos en línea dentro de un documento. El peligro reside en que esos datos pueden codificar cualquier tipo de archivo (por ejemplo, un \textit{script} de \textit{javascript}), pudiendo extraer datos o incluso realizar ataques XSS~\cite{dataUri2020neoguias}. 
 	
 	\[F8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún \textit{Data URI}}\\ 
-	0, & \text{\raggedright Cualquier otro caso} \label{eqn:phishing_f8} \end{array} \right. \]
-	
-\end{itemize}
-
-...
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f8} \end{array} \right. \]
+	\end{itemize}
 
 \subsubsection{Características basadas en la aparición del formulario de \textit{login}}
+Esta es aquella que se basa en la aparición de un formulario de inicio de sesión.
+
+\begin{itemize}
+	\item \textit{\textbf{F9}}: es común que los sitios de \textit{phishing} incluyan formularios de inicio de sesión debido a que es una forma común de introducir datos personales. En concreto, la diferencia reside en que en los sitios legítimos el campo de acción suele contener un enlace con el mismo dominio base que el sitio inicial. Sin embargo, en los sitios de \textit{phishing} esto no es así. Hay otras variaciones como campos vacíos, con enlaces nulos o archivos PHP (por ejemplo: login.php) que almacenen las credenciales. Por lo tanto:
+
+	\[F9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío, <<\#>> o}\\ & \text{es javascript:void(0)}\\ 
+	1, & \text{si el valor del campo de acción posee una sintáxis} \\ &  \text{compatible con <<fichero.php>>} \\
+	0, & \text{cualquier otro caso} \label{eqn:phishing_f9} \end{array} \right. \]
+\end{itemize}
+
 \subsubsection{Características basadas en los hiperenlaces contenidos}
+
+\begin{itemize}
+	\item \textit{\textbf{F10}}: normalmente, los sitios \textit{phishing} contienen menos páginas (por ejemplo, un enlace a una página de \textit{login}) que los legítimos. Estos se encuentran contenidos en el atributo <<\textit{src}>> de las etiquetas pertenecientes a imágenes, \textit{scripts}, \textit{frames}, etc., además del atributo <<\textit{href}>> de la etiqueta ancla~\cite{anclaMozilla}.
+	
+	\begin{equation}\label{eqn:phishing_f10} F10 = \text{enlaces presentes en el sitio web} \end{equation}
+		
+	\item \textit{\textbf{F11}}: por el contrario, también es muy sospechoso que una página web no contenga ningún hiperenlace debido a que se podrían estar utilizando técnicas de ocultación de sitios peligrosos para esquivar sistemas \textit{anti-phishing}~\cite{hiperlinkHidingTechniques}.
+
+	\[F11 = \left\{ \begin{array}{lr} 1, & \text{si la página no contiene enlaces}\\ 
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f11} \end{array}\right.\]
+	
+	\item \textit{\textbf{F12}}: debido a que los sitios atacantes suelen imitar la estética de sus objetivos, es común que posean múltiples hiperenlaces que apunten a sitios externos.
+
+	\[F12 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces externos}}{\text{enlaces totales}} \text{> 0.5 y el número de enlaces > 0} \\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f12} \end{array}\right.\]
+
+
+	\item \textit{\textbf{F13}}: 
+
+	\[F13 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces vacíos}}{\text{enlaces totales}} \text{> 0.34 y el número de enlaces > 0} \\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f13} \end{array}\right.\]
+
+	\item \textit{\textbf{F14}}: 
+
+	\[F14 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces erróneos}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f14} \end{array}\right.\]
+
+	\item \textit{\textbf{F15}}: 
+
+	\[F15 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces que redirigen}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f15} \end{array}\right.\]
+\end{itemize}
+
+
 \subsubsection{Características basadas en el fichero \texttt{CSS}}
+
+\begin{itemize}
+	\item \textit{\textbf{F16}}: 
+
+	\[F16 = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero \texttt{CSS} y es externo}\\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f16} \end{array}\right.\]
+
+\end{itemize}
+
+
 \subsubsection{Características basadas en la identidad de la página web}
 
+\begin{itemize}
+	\item \textit{\textbf{F17}}: 
+
+	\[F17 = \left\{ \begin{array}{lr} 0, & \text{si las palabras del \textit{copyright} están en el dominio base}\\
+	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f17} \end{array}\right.\]
+	
+	\item \textit{\textbf{F18}}: 
+	
+	\[F18 = \left\{ \begin{array}{lr} 0, & \text{si una \textit{keyword} coincide con el dominio base}\\
+	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f18} \end{array}\right.\]
+	
+	\item \textit{\textbf{F19}}: 
+	
+	\[F19 = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el \textit{favicon}}\\
+	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f19} \end{array}\right.\]
+\end{itemize}
 
 
 
