@@ -453,6 +453,132 @@ Para cada iteración del algoritmo, se considera un $L_i$ independiente y obteni
 
 Como se muestra en la función de utilidad de la ecuación~\ref{eqn:operar_rel_convergencia}, como $f$ es inversamente proporcional a  $\frac{c}{\epsilon^{2}}$, entonces se puede deducir que si $f^t > f^{t-1}$ entonces $e^t < e^{t-1}$, lo que implica que el clasificador $i$ va a mejorar si se utilizan las pseudo-etiquetas de $L^t$ en el entrenamiento~\cite{tritraining2005@original}.
 
+\section{\textit{Democratic-co learning}}
+
+\subsection{Descripción}
+
+El \textit{democratic-co learning} es un método de aprendizaje semisupervisado que sólo necesita una vista de los datos para entrenarse y, además, es aplicable cuando se tiene un pequeño conjunto de datos etiquetados~\cite{democraticCoLearning2004original}.
+
+Como estimadores base se utiliza un conjunto de algoritmos de aprendizaje que se utiliza para entrenar un conjunto de clasificadores. Teóricamente este conjunto puede tener un tamaño arbitrario ($n$), aunque en aplicaciones reales, $n$ equivale a $3$.
+
+Además, en la fase de predicción, el método cuenta con un algoritmo de combinación de etiquetas basado en el <<peso>> (como sinónimo de confianza) que tiene cada clasificador~\cite{democraticCoLearning2004original}.
+
+\subsection{Algoritmo}
+
+\subsubsection{Variables utilizadas}
+
+Se definen a continuación algunas de las variables utilizadas en el pseudocódigo facilitado por~\cite{democraticCoLearning2004original}:
+
+\begin{itemize}
+	\item $A_{i}$: algoritmo de aprendizaje i-ésimo original (antes de ser entrenado).
+	\item $H_{i}$: estimador i-ésimo del \textit{ensemble} (entrenado con un conjunto concreto de datos que puede variar en cada iteración).
+	\item $L$: conjunto de datos etiquetados utilizados durante el entrenamiento.
+	\item $U$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
+	\item $L_{i}$: datos etiquetados utilizados para entrenar a $i$.
+	\item $L'_{i}$: datos pseudoetiquetados propuestos (pueden ser rechazados) para añadir a $L_i$.
+	\item $e_{i}$: estima el número de etiquetas erróneas contenidas en $L_i$.
+	\item $e'_{i}$: estima la nueva tasa de error.
+	\item $q_{i}$: estima la tasa de error.
+	\item $q'_{i}$: estima la nueva tasa de error si se añade $L'_i$ a $L_i$.
+	\item $c_{j}$:  conjunto de estimadores que concuerdan en que la etiqueta para una muestra $x$ es $j$.
+	\item $l_i, h_i$: límites inferior y superior del intervalo de confianza al 95\% para el estimador $H_i$.
+	\item $w_i$: peso asociado al estimador $H_i$. Es el valor que estima la <<confianza>> que se tiene en un determinado clasificador base.
+\end{itemize} 
+
+\subsubsection{Pseudocódigo}
+
+Se facilita a continuación (pseudocódigo~\ref{alg:democratic-co}) el pseudocódigo original~\cite{democraticCoLearning2004original} del \textit{democratic-co learning}.
+
+\begin{algorithm}
+	\KwIn{Conjunto de datos etiquetados $L$, conjunto de datos no etiquetados $U$, clasificadores base ($A_1, ..., A_n$).}
+	\KwOut{\textit{Ensemble} entrenado.}
+	\BlankLine
+	
+	\For{$i$ = 1, ..., $n$}{
+		${e}_{i}$ = 0.0\\
+		${L}_{i} \leftarrow L$\\
+	}
+	
+	\While(){Algún estimador base reciba pseudo-etiquetas}{
+		
+		\For{$i$ = 1, ..., n}{
+			$H_i$ = Entrenar($A_i, L_{i}$)\\ }
+		
+		\For{$x \in U$}{
+			\For{posible etiqueta $j = 1, ..., r$} {
+				$c_j = |\{H_i | H_i(x) = j\}|$ }
+			$k$ = arg max$_j\{c_j\}$
+		}
+	
+		\# Se escogen las muestras a proponer para etiquetar\\
+		\For{$i = 1, ..., n$}{
+			$l_i, h_i$ = Intervalo\_de\_confianza\_95\%($H_i, L$)\\
+			$w_i = (l_i + h_i) / 2$\\}
+			
+		\For{$i = 1,...,n$}
+			{$L'_i = \emptyset$}
+		
+		\If{ $\sum_{H_j(x) = c_k}^{} w_j$ > max$_{c'_k \ne c_k} \sum_{H_j(x) = c'_k}^{}w_j$}
+		{$L'_i = L'_i \cup \{(x, c_k)\}, \forall i$ tal que $H_i(x) \ne c_k$}
+		
+		\# Se estima si añadir $L'_i$ a $L_i$ mejora la \textit{accuracy}\\
+		\For{$i = 1,...,n$}{
+			$l_i, h_i$ = Intervalo\_de\_confianza\_95\%($H_i, L_i$)\\
+			$q_i = |L_i| (1-2(\frac{e_i}{|L_i|}))^2$\\
+			$e'_i = (1-\frac{\sum_{i=1}^{d}l_i}{d}) |L'_i|$\\
+			$q'_i = |L_i \cup L'_i| (1-\frac{2 (e_i + e'_i)}{|L_i \cup L'_i|})^2$\\
+			
+			\If{$q'_i$ > $q_i$}{
+				$L_i = L_i \cup L'_i$\\
+				$e_i = e_i + e'_i$
+			}
+		}
+	}
+
+	\caption{\textit{Democratic-co}}\label{alg:democratic-co}
+\end{algorithm}
+
+\subsubsection{Fases}
+
+Durante el entrenamiento se pueden diferenciar distintas fases. De manera similar a otros algoritmos, el criterio de parada es que ningún clasificador reciba nuevas pseudoetiquetas (Es decir, ningún $L_i$ cambia).
+
+En cada iteración se entrena cada clasificador base con su conjunto de datos etiquetados (formado por $L$ y pseudoetiquetas de iteraciones anteriores). Posteriormente, para cada muestra contenida en $U$, se genera un <<grupo>> que contiene aquellos clasificadores que coinciden en la etiqueta predicha para la muestra.
+
+A continuación, se escogen aquellas muestras a añadir a los conjuntos $L'_i$ (es decir, las muestras <<propuestas>>). Es destacable que estas nuevas etiquetas sólo se añaden al conjunto de entrenamiento de los clasificadores que han predicho una etiqueta diferente a la más votada.
+
+Antes de añadir las muestras propuestas al conjunto de entrenamiento de los clasificadores de forma definitiva se estima si, con este nuevo cambio, se mejora la \textit{accuracy}, y sólo se realiza en caso afirmativo. Este proceso se repite hasta cumplir el criterio de parada.
+
+\subsection{Combinación de los resultados y corrección de errores}
+
+Aunque la forma más simple de crear la hipótesis final es combinando mediante votación por mayoría, el \textit{democratic-co learning} tiene en cuenta, además, la confianza individual que se tiene en cada clasificador ($w_i$) a la hora de realizar la predicción global.
+
+De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de \textit{Laplace} (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
+
+Debido a que este ajuste puede no resultar efectivo cuando los valores de confianza individuales para cada clasificador son muy dispares, se ignoran aquellos clasificadores con $w$ < 0.5 (consultar algoritmo~\ref{alg:democratic-co-combination}).
+
+\begin{algorithm}
+	
+	\KwIn{Conjunto de instancias a predecir.}
+	\KwOut{Conjunto de etiquetas predichas.}
+	\BlankLine
+	
+	\For{$x$ perteneciente a las instancias a predecir}{
+		\For{i = 1,...,n}{
+			\If{$H_i(x)$ predice la etiqueta $c_j$ y $w_i$ > 0.5}{
+				$G_j = G_j \cup \{H_i\} $\\
+			}
+		}
+	
+		\For{j = 1,...,r}{
+			$\overline{C}_{G_j} = \frac{|G_j| + 0.5}{|G_j| + 1} \times \frac{\sum_{H_i \in G_j}^{}w_i}{|G_j|}$
+		}
+	
+		$H$ predice con $G_k$ para toda $k$ = argmax$_j(\overline{C}_{G_j})$
+	}
+	\caption{\textit{Combinación del \textit{democratic-co learning}}}\label{alg:democratic-co-combination}
+\end{algorithm}
+
+
 \section{Conceptos básicos de ciberseguridad}
 
 \subsection{Sistemas de cifrado}
