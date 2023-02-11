@@ -20,7 +20,7 @@ Librería desarrollada por José Luis Garrido-Labrador dedicada al aprendizaje s
 
 \textit{Toolkit} escrito en Python con algunas implementaciones de los algoritmos más relevantes de aprendizaje semisupervisado~\cite{lamdasslRepo}. Nuevamente, ha sido utilizada como referente a la hora de realizar comparaciones contra las implementaciones propias~\cite{lamdasslPaper}.
 
-\subsubsection{\textit{Beautiful soup}}
+\subsubsection{Beautiful soup}
 
 Biblioteca de Python utilizada para extraer datos de ficheros \texttt{HTML} obtenidos mediante la realización de \textit{web scraping} a la hora de sintetizar vectores de características para la detección de \textit{phishing}. Se ha recurrido a ella, principalmente, cuando la obtención de ciertos campos en las etiquetas puede ser vulnerada mediante el uso de expresiones regulares corrientes~\cite{bs4Docs}.
 
@@ -34,9 +34,9 @@ Biblioteca de Python utilizada para extraer datos de ficheros \texttt{HTML} obte
 Otras de las dependencias (estándar) del proyecto se enumeran a continuación.
 
 \begin{itemize}
-	\item \textbf{\textit{Requests}}: permite realizar peticiones a distintas URLs, además de especificar parámetros relevantes en las mismas (como \textit{headers}, \textit{cookies}, \textit{proxies} o \textit{timeouts}).
-	\item \textbf{\textit{urllib}}: procesa URLs y las divide en campos.
-	\item \textbf{\textit{re}}: utilizada para aplicar expresiones regulares en Python.
+	\item \textbf{Requests}: permite realizar peticiones a distintas URLs, además de especificar parámetros relevantes en las mismas (como \textit{headers}, \textit{cookies}, \textit{proxies} o \textit{timeouts}).
+	\item \textbf{urllib}: procesa URLs y las divide en campos.
+	\item \textbf{re}: utilizada para aplicar expresiones regulares en Python.
 	\item \textbf{Numpy, Pandas, Matplotlib}: utilizadas para tratar vectores, operaciones en \textit{arrays}, \textit{dataframes} y representar resultados.
 \end{itemize}
 
@@ -45,7 +45,7 @@ Otras de las dependencias (estándar) del proyecto se enumeran a continuación.
 
 \subsubsection{ZenHub}
 
-Zenhub es una extensión dedicada a la gestión de proyectos \textit{software} que se integra directamente con Github. Permite visualizar proyectos, \textit{sprints}, gráficos propios de \textit{Scrum} y crear tableros. Debido a que el equipo de desarrollo cuenta con un único integrante, se considera la alternativa óptima (por ejemplo, a Jira) por su sencillez~\cite{zenhubHome}.
+Zenhub es una extensión dedicada a la gestión de proyectos \textit{software} que se integra directamente con Github. Permite visualizar proyectos, \textit{sprints}, gráficos propios de Scrum y crear tableros. Debido a que el equipo de desarrollo cuenta con un único integrante, se considera la alternativa óptima (por ejemplo, a Jira) por su sencillez~\cite{zenhubHome}.
 
 \subsubsection{Github}
 
@@ -62,28 +62,25 @@ Herramienta desarrollada en Java por distintas universidades españolas y financ
 
 \begin{itemize}
 	\item \textbf{Python}:
-	\item \textbf{\textit{Visual Studio Code}}: editor y depurador de código empleado junto a algunas de sus principales extensiones.
+	\item \textbf{Visual Studio Code}: editor y depurador de código empleado junto a algunas de sus principales extensiones.
 	\item \textbf{Entornos virtuales}: 
-	\item \textbf{\textit{Conda}}:
+	\item \textbf{Conda}:
 \end{itemize}
 
 \subsection{Otros}
 
 \begin{itemize}
 	\item \textbf{\TeX{}Studio}: editor de \LaTeX{} utilizado.
-	\item \textbf{\textit{Git BASH}}: emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
+	\item \textbf{Git BASH}: emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
 \end{itemize}
 
-
-
-
-\subsection{Scripts} 
-\subsubsection{Script para levantar proxies \textit{SOCKS5}}
+\subsection{\textit{Scripts}} 
+\subsubsection{\textit{Script} para levantar proxies SOCKS5}
 
 Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
 
-Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de \textit{Tor} como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
+Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de Tor como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 
-Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la librería \textit{requests}.
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la librería Requests.
 
-Debido a que el puerto Tor queda <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el \textit{PID}, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.
+Debido a que el puerto Tor queda <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el PID, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.

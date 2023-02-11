@@ -167,7 +167,7 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	
 	\begin{equation}\label{eqn:recall} Recall = \frac{TP}{TP + FN}\end{equation}
 	
-	\item \textbf{\textit{FPR (false positives rate)}}: determina cuántos negativos son clasificados como positivos sobre el total de negativos.
+	\item \textbf{FPR \textit{(false positives rate)}}: determina cuántos negativos son clasificados como positivos sobre el total de negativos.
 	
 	\begin{equation}\label{eqn:FPR} FPR = \frac{FP}{FP + TN}\end{equation}
 		
@@ -179,21 +179,21 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	
 	\begin{equation}\label{eqn:f-measure} \textrm{F-Measure} = 2 \times \frac{precision \times recall}{precision + recall} = \frac{ 2 \times TP}{2 \times TP + FP + FN} \end{equation}
 	
-	\item \textbf{Curva \textit{ROC} (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
+	\item \textbf{Curva ROC (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
 	
 	\begin{figure}[h]
-		\caption[Curva ROC]{Calidad del clasificador en función de su curva \textit{ROC}. Extraída de \url{https://ca.wikipedia.org/wiki/Fitxer:Roc_curve.svg}}
+		\caption[Curva ROC]{Calidad del clasificador en función de su curva ROC. Extraída de \url{https://ca.wikipedia.org/wiki/Fitxer:Roc_curve.svg}}
 		\label{img:curva_roc}
 		\centering
 		\includegraphics[scale=0.2]{../img/memoria/3_curva_roc}
 	\end{figure}
 
-	\item \textbf{Curva \textit{PR} (\textit{precision-recall curve)}}:  Representación gráfica de la precisión frente al \textit{recall}. Cuando se presenta un \textit{class imbalance problem} con muy pocas clases positivas, es adecuado utilizar una curva de estas características debido a que la \textit{precision} y el \textit{recall} permiten evaluar la actuación del clasificador en la clase minoritaria~\cite{imbalanced2013Haibo}.
+	\item \textbf{Curva PR (\textit{precision-recall curve)}}:  Representación gráfica de la precisión frente al \textit{recall}. Cuando se presenta un \textit{class imbalance problem} con muy pocas clases positivas, es adecuado utilizar una curva de estas características debido a que la \textit{precision} y el \textit{recall} permiten evaluar la actuación del clasificador en la clase minoritaria~\cite{imbalanced2013Haibo}.
 	
-	\item \textbf{\textit{AUC} (\textit{area under curve})}: Número decimal que representa el área bajo una determinada curva. Cuando una curva es perfecta (ya sea \textit{ROC} o \textit{PR}), su área es $1$.
+	\item \textbf{AUC (\textit{area under curve})}: Número decimal que representa el área bajo una determinada curva. Cuando una curva es perfecta (ya sea ROC o PR), su área es $1$.
 	
 	\begin{figure}[h]
-		\caption[AUC curvas ROC y PR]{Representación de las curvas \textit{ROC} y \textit{PR} junto con el \textit{AUC} obtenido por cada una para un \textit{co-forest} entrenado con un \textit{dataset} binario.}
+		\caption[AUC curvas ROC y PR]{Representación de las curvas ROC y PR junto con el AUC obtenido por cada una para un \textit{co-forest} entrenado con un \textit{dataset} binario.}
 		\label{img:curva_roc_pr}
 		\centering
 		\includegraphics[scale=0.7]{../img/memoria/3_auc_roc_pr}
@@ -541,7 +541,7 @@ Antes de añadir las muestras propuestas al conjunto de entrenamiento de los cla
 
 Aunque la forma más simple de crear la hipótesis final es combinando mediante votación por mayoría, el \textit{democratic-co learning} tiene en cuenta, además, la confianza individual que se tiene en cada clasificador ($w_i$) a la hora de realizar la predicción global.
 
-De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de \textit{Laplace} (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
+De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de Laplace (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
 
 Debido a que este ajuste puede no resultar efectivo cuando los valores de confianza individuales para cada clasificador son muy dispares, se ignoran aquellos clasificadores con $w$ < 0.5 (consultar algoritmo~\ref{alg:democratic-co-combination}).
 
@@ -578,17 +578,17 @@ Un sistema de cifrado es un algoritmo que convierte un texto plano (\textit{inpu
 
 En este tipo de algoritmos, la clave de cifrado y descifrado es la misma (de ahí que deba permanecer <<privada>>). Se conocen dos tipos, los cifrados de bloque y los cifrados de flujo~\cite{apuntesCybersec}.
 
-En los cifrados de bloque, el texto se divide en bloques de una longitud fija y se cifran bloque a bloque. En función de los modos de operación (los más comunes ECB, CBC, OFM y CTR), también se pueden variar las propiedades de los algoritmos. Algunos de los ejemplos más comunes son DES, Triple DES, AES o \textit{Twofish}.
+En los cifrados de bloque, el texto se divide en bloques de una longitud fija y se cifran bloque a bloque. En función de los modos de operación (los más comunes ECB, CBC, OFM y CTR), también se pueden variar las propiedades de los algoritmos. Algunos de los ejemplos más comunes son DES, Triple DES, AES o Twofish.
 
 \subsubsection{Cifrado asimétrico o criptografía de clave pública}
 
 En este tipo de sistemas, se utiliza una clave para cifrar los datos (la clave pública) y otra distinta para descifrarlos (la clave privada)~\cite{cifradoIBM}. Generalmente este tipo de cifrado es mucho más costoso computacionalmente~\cite{apuntesCybersec}, por ello no suelen ser utilizados cuando la cantidad de información a procesar es demasiado grande. 
 
-Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como \textit{Diffie-Hellman}.
+Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como Diffie-Hellman.
 
 \subsection{Peticiones HTTP}
 
-En la programación web, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza peticiones (\textit{requests}) (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
+En la programación \textit{web}, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza peticiones (\textit{requests}) (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
 
 Estas peticiones contienen cabeceras y código de estado. Para el desarrollo de este proyecto, es importante conocer ciertos campos de la cabecera, entre ellos las \textit{cookies} (pueden ser usadas para indicar que se ha iniciado sesión), los \textit{proxies} (o servidores intermedios) y el \textit{user-agent} (información sobre el dispositivo que realiza una consulta). Estos campos pueden ser introducidos mediante código~\cite{httpHeaders}.
 
@@ -622,35 +622,35 @@ Uno de los protocolos que permite ocultar esta información es el llamado enruta
 
 La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuando como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
 
-\subsection{Ataques web y vulnerabilidades en navegadores}
+\subsection{Ataques \textit{web} y vulnerabilidades en navegadores}
 
-Cada vez que se visita una web, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
+Cada vez que se visita una \textit{web}, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
 
-Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: \url{www.atacante.com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
+Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado (por ejemplo: \url{www[.]atacante[.]com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
 
 \begin{itemize}
-	\item \textbf{SQL \textit{Injection} (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
+	\item \textbf{SQL Injection (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
 	
 \begin{figure}[h]
-	\caption[Ataques web: SQLi]{Infografía de un ataque SQLi.}
+	\caption[Ataques \textit{web}: SQLi]{Infografía de un ataque SQLi.}
 	\label{img:sqli}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_sqli.pdf}
 \end{figure}
 
-	\item \textbf{\textit{Cross-site request forgery} (CSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición HTTP maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas webs maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad y se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF~\cite{csrfatatus}.
+	\item \textbf{Cross-site request forgery (CSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición HTTP maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas webs maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad y se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF~\cite{csrfatatus}.
 	
 	\begin{figure}[h]
-		\caption[Ataques web: CSRF]{Infografía de un ataque CSRF.}
+		\caption[Ataques \textit{web}: CSRF]{Infografía de un ataque CSRF.}
 		\label{img:csrf}
 		\centering
 		\includegraphics[width=\textwidth]{../img/memoria/3_csrf.pdf}
 	\end{figure}
 	
-	\item \textbf{\textit{Cross Site Scripting} (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con \textit{JavaScript} y HTML (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la web)~\cite{xssDibus}.
+	\item \textbf{Cross Site Scripting (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con JavaScript y HTML (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la \textit{web})~\cite{xssDibus}.
 	
 	\begin{figure}[h]
-		\caption[Ataques web: XSS]{Infografía de los tipos de ataque XSS existentes: reflejado y almacenado.}
+		\caption[Ataques \textit{web}: XSS]{Infografía de los tipos de ataque XSS existentes: reflejado y almacenado.}
 		\label{img:xss}
 		\centering
 		\includegraphics[width=\textwidth]{../img/memoria/3_xss.pdf}
@@ -760,7 +760,7 @@ Como se puede intuir, conocer datos estadísticos exactos sobre una base de dato
 
 Los ataques ofuscados~\cite{mingdan2018ShillingAttacksAReview} se basan en intentar <<camuflar>> los perfiles inyectados haciéndolos pasar por reales. Algunas de las características de su implementación se pueden consultar en la tabla \ref{tabla_descripcion_estrategias_ofuscación}.
 
-El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> (número aleatorio que sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre ataques similares sin influir excesivamente el resultado y el \textit{Average over popular items (AOP)} pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los $X\%$ ítems más populares).
+El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un <<ruido>> (número aleatorio que sigue una distribución Gaussiana) multiplicado por una constante $\alpha$. \textit{Target shifting} incrementa (o decrementa) en una unidad la valoración de $I_t$ con el fin de crear diferencias entre ataques similares sin influir excesivamente el resultado y el \textit{Average over popular items} (AOP) pretende ofuscar el \textit{average attack} cambiando la forma de selección de $I_F$ (en lugar de seleccionar los ítems del conjunto total de la colección, se seleccionan los $X\%$ ítems más populares).
 
 \begin{table}
 \small
@@ -784,7 +784,7 @@ El ataque de \textit{noise injection} introduce a los conjuntos $I_S$ e $I_F$ un
 
 \subsubsection{Otros tipos de ataques}
 
-Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo \textit{PUA} (\textit{Power User Attack})) o ítems poderosos (modelo \textit{PIA} (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos populares.
+Además de los ataques previamente ilustrados, existen otros con objetivos más diversos o estrategias distintas. El anteriormente mencionado \textit{random vandalism} (cuya intención únicamente es degradar la calidad del recomendador para causar descontento entre los usuarios) pertenece a esta categoría. Se pueden distinguir, además, ataques basados en copiar comportamientos de usuarios influyentes (modelo PUA (\textit{Power User Attack})) o ítems poderosos (PIA (\textit{Power Item Attack}))~\cite{mingdan2018ShillingAttacksAReview}. Sin embargo, son menos populares.
 
 
 \section{\textit{Phishing}}
