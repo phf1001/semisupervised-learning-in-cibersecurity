@@ -21,7 +21,7 @@ Para evaluar la calidad de las implementaciones, se han realizado distintos expe
 			\bottomrule
 		\end{tabular}
 	\end{centering}
-	\caption[Experimentación: \textit{datasets} estándar]{Descripción de los \textit{datasets} utilizados para probar los algoritmos.}
+	\caption[Experimentación: \textit{datasets} estándar]{Descripción de los \textit{datasets} utilizados para validar los algoritmos.}
 	\label{tabla_datasets_sklearn}	
 \end{table}
 
@@ -64,7 +64,7 @@ Los resultados se pueden observar en las gráficas~\ref{gr:cf_train-iterations},
 	\item \textbf{Tiempo de entrenamiento:} además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (<<Dígitos>>), y los resultados obtenidos se pueden observar en el primer cuadrante de la gráfica~\ref{cf:cf_time-percentage}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen. Se ha representado en la línea negra punteada, además, el resultado del modelo de regresión lineal.
 
 \begin{figure}[h]
-	\caption[\textit{Co-Forest}: resultados experimentación (tiempo-porcentaje)]{Gráfica que muestra el tiempo de entrenamiento requerido para el \textit{co-forest} en función del número de instancias, además de la evolución del \textit{score} en función del porcentaje total de datos destinado al entrenamiento.}
+	\caption[\textit{Co-Forest}: resultados experimentación (tiempo-porcentaje)]{Gráfica que muestra el tiempo de entrenamiento requerido para el \textit{co-forest} en función del número de instancias, además de la evolución del \textit{score} (\textit{accuracy}) en función del porcentaje total de datos destinado al entrenamiento.}
 	\centering
 	\includegraphics[scale=0.4]{../img/memoria/5_coforest_time-percentage}
 	\label{cf:cf_time-percentage}
@@ -80,7 +80,7 @@ Los resultados se pueden observar en las gráficas~\ref{gr:cf_train-iterations},
 	Como se puede comprobar en la gráfica~\ref{cf:tt_trees}, en general, cuantos más árboles se utilicen, mejor \textit{score} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido, como se ilustra en el segundo cuadrante de esa misma gráfica. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
 	
 	\begin{figure}[h]
-		\caption[\textit{Co-Forest}: resultados experimentación (número de árboles)]{Gráfica que muestra la exactitud alcanzada por el \textit{co-forest}, además del tiempo de entrenamiento requerido en función del número de árboles utilizados}
+		\caption[\textit{Co-Forest}: resultados experimentación (número de árboles)]{Gráfica que muestra la \textit{accuracy} alcanzada por el \textit{co-forest}, además del tiempo de entrenamiento requerido en función del número de árboles utilizados}
 		\centering
 		\includegraphics[scale=0.7]{../img/memoria/5_coforest_trees}
 		\label{cf:tt_trees}
@@ -207,9 +207,7 @@ En el caso de la comparativa contra \textit{sslearn}, el resultado se puede cont
 
 \section{Detección de ataques en sistemas de recomendación}
 
-El objetivo de este apartado en el proyecto es probar nuevos métodos de aprendizaje semisupervisado aplicados a la detección de ataques en sistemas de recomendación. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{co-forest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo desarrollado.
-
-En el \textit{paper} original~\cite{zhou2021SemisupervisedRecommendationAttack} se utilizan tes conjuntos de datos para probar la efectividad del \textit{co-forest}: MovieLens10M, MovieLens25M y Amazon.
+El objetivo de este apartado en el proyecto es probar nuevos métodos de aprendizaje semisupervisado aplicados a la detección de ataques en sistemas de recomendación. Para lograr este fin, se decidió, en primer lugar, reproducir el artículo original~\cite{zhou2021SemisupervisedRecommendationAttack}, que utiliza el algoritmo \textit{co-forest}. Como los autores no especifican detalles de implementación en su artículo (cómo construir perfiles de ataque, dónde encontrar bases de datos o código, etc.), se concluyó que comparar los resultados obtenidos contra los suyos es la mejor forma de determinar la correctitud del trabajo desarrollado. Para ello, se ha utilizado el \textit{dataset} MovieLens10M.
 
 \subsection{MovieLens 10M}
 \subsubsection{Descripción}
@@ -254,19 +252,19 @@ Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_fe
 
 \subsubsection{Creación de reseñas atacantes}
 
-Se ha incluido tres tipos de ataques distintos: \textit{random}, \textit{average} y \textit{bandwagon}. En primer lugar, se han sintetizado las reseñas y posteriormente se han generado los vectores de características idénticamente a los perfiles verdaderos.
+Se han incluido tres tipos de ataques distintos: \textit{random}, \textit{average} y \textit{bandwagon}. En primer lugar, se han sintetizado las reseñas y posteriormente se han generado los vectores de características idénticamente a los perfiles verdaderos.
 
 La metodología de construcción de las valoraciones sigue los modelos estadísticos expuestos en la sección teórica del proyecto. Sin embargo, se puede visualizar un resumen de los escogidos en la tabla~\ref{ataques_coforest}.
 
 \begin{table}
 \begin{centering}
-	\begin{tabular}{@{}p{5em} p{5em} p{11em} p{9em}@{}}
+	\begin{tabular}{@{}p{5em} p{6em} p{11em} p{8em}@{}}
 		\toprule
-		\textbf{Modelo} & $\mathbf{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ &  \textbf{Valoración} $\mathbf{I_t}$\\ 
+		\textbf{Modelo} & $\hfil{I_S}$ & \textbf{Valoración} $\mathbf{I_F}$ &  \textbf{Valoración} $\mathbf{I_t}$\\ 
 		\midrule
-		Random & $\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima \\
-		Average & $\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$. & máxima o mínima\\
-		Bandwagon (random) & $k$ ítems más populares & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima\\
+		Random & $\hfil\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima \\
+		Average & $\hfil\emptyset$ & Aleatoria siguiendo una distribución $\mathcal{N}(\mu_i,\,\sigma_i)$. & máxima o mínima\\
+		Bandwagon (random) &\centering$k$ ítems más populares & Aleatoria siguiendo una distribución $\mathcal{N}(\mu,\,\sigma)$. & máxima o mínima\\
 		\bottomrule
 	\end{tabular}
 	\caption[Experimentación: características de ataques a detectar]{Características estadísticas de los tipos de perfiles atacantes.}
@@ -353,14 +351,14 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 \begin{table}
 	\begin{centering}
-		\begin{tabular}{@{} p{14em} p{6em} p{6em}@{}}
+		\begin{tabular}{@{} p{10em} p{6em} p{6em}@{}}
 			\toprule
-			\textbf{\textit{Dataset}} & \textbf{Instancias} &  \textbf{Categoría} \\ \midrule
-			\textit{Phishtank} & 1\,528 & \textit{Phishing}\\
-			\textit{Openphish} & 613 & \textit{Phishing}\\
-			Alexa & 1\,600 & Genuino\\
-			Plataforma de pago & 66 & Genuino\\
-			Páginas de banca & 50 & Genuino\\
+			\textbf{\textit{Dataset}} &\raggedleft\textbf{Instancias} &\hfil\textbf{Categoría} \\ \midrule
+			\textit{Phishtank} & \raggedleft 1\,528 &\hfil \textit{Phishing}\\
+			\textit{Openphish} & \raggedleft 613 &\hfil \textit{Phishing}\\
+			Alexa & \raggedleft 1\,600 &\hfil Genuino\\
+			Plataforma de pago & \raggedleft 66 &\hfil Genuino\\
+			Páginas de banca & \raggedleft 50 &\hfil Genuino\\
 			\bottomrule
 		\end{tabular}
 		\caption[\textit{Phishing}: descripción del \textit{dataset}]{\textit{Dataset} de \textit{phishing}.}
@@ -384,7 +382,7 @@ Para caracterizar un enlace de \textit{phishing} desde el lado del cliente, es s
 \begin{figure}[h]
 	\caption[\textit{Phishing}: Anatomía de una URL.]{Ilustración que muestra la anatomía de una URL.}
 	\centering
-	\includegraphics[scale=0.4]{../img/memoria/5_url_anatomia}
+	\includegraphics[scale=1]{../img/memoria/5_url_anatomia.pdf}
 	\label{img:5_url_anatomia}
 \end{figure}
 
@@ -442,7 +440,7 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 \begin{itemize}
 	\item \textit{\textbf{F9}}: es común que los sitios de \textit{phishing} incluyan formularios de inicio de sesión debido a que es una forma común de introducir datos personales. En concreto, la diferencia reside en que en los sitios legítimos el campo de acción suele contener un enlace con el mismo dominio base que el sitio inicial. Sin embargo, en los sitios de \textit{phishing} esto no es así. Hay otras variaciones como campos vacíos, con enlaces nulos o archivos PHP (por ejemplo: login.php) que almacenen las credenciales. Por lo tanto:
 
-	\[F9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío, <<\#>> o}\\ & \text{es javascript:void(0)}\\ 
+	\[F9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío, <<\#>> o}\\ & \text{es} \texttt{javascript:void(0)}\\ 
 	1, & \text{si el valor del campo de acción posee una sintáxis} \\ &  \text{compatible con <<fichero.php>>} \\
 	0, & \text{cualquier otro caso} \label{eqn:phishing_f9} \end{array} \right. \]
 \end{itemize}
@@ -505,7 +503,7 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 	\[F18 = \left\{ \begin{array}{lr} 0, & \text{si una \textit{keyword} coincide con el dominio base}\\
 	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f18} \end{array}\right.\]
 	
-	\item \textit{\textbf{F19}}: un \textit{favicon} es una miniatura asociada a una página web. Por ello, los atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. De este modo, se considera intento de estafa cualquier icono que contenga un enlace externo. Para localizarlos, se ubica el atributo <<\textit{rel}>> dentro de las etiquetas <<\textit{link}>> y se comprueba que su valor sea la cadena \textit{shortcut icon} o \textit{icon}  (por ejemplo: <link type='image/png' href='<<enlace>>' rel='shortcut icon'>).
+	\item \textit{\textbf{F19}}: un \textit{favicon} es una miniatura asociada a una página web. Por ello, los atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. De este modo, se considera intento de estafa cualquier icono que contenga un enlace externo. Para localizarlos, se ubica el atributo <<\textit{rel}>> dentro de las etiquetas <<\textit{link}>> y se comprueba que su valor sea la cadena \textit{shortcut icon} o \textit{icon}  (por ejemplo: \texttt{<link type='image/png' href='<<enlace>>' rel='shortcut icon'>}).
 	
 	\[F19 = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el \textit{favicon}}\\
 	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f19} \end{array}\right.\]

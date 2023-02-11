@@ -92,7 +92,7 @@ En la realidad, los datos contienen ruido, \textit{outliers}, distribuciones que
 
 Esta diversidad se puede obtener de distintas formas, por ejemplo, utilizando distintos conjuntos de entrenamiento y \textit{test} en los estimadores base (utilizando técnicas de \textit{bootstrapping}, por ejemplo). Otra opción muy destacable es utilizando clasificadores <<inestables>> (aquellos que sean muy distintos con pequeños cambios en el conjunto de entrenamiento), como por ejemplo los árboles.
 
-A la hora de crear un \textit{ensemble}, hay dos preguntas clave que realizarse: ¿cómo se van a generar los clasificadores base? ¿cómo van a diferenciarse los unos de los otros?~\cite{ensembles2006robi}.
+A la hora de crear un \textit{ensemble}, hay dos preguntas clave: ¿cómo se van a generar los clasificadores base? ¿cómo van a diferenciarse los unos de los otros?~\cite{ensembles2006robi}.
 
 Para lograr un mayor nivel de diversidad, se pueden utilizar procedimientos de muestreo o selección de parámetros. En función de ellos y de cómo se realice el entrenamiento (consultar imagen~\ref{img:bagging}), los \textit{ensembles} pueden ser de distintos tipos.
 	
@@ -108,14 +108,14 @@ Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{rand
 	\caption[Entrenamiento \textit{bagging} y \textit{boosting}]{Diferencias entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
 	\label{img:bagging}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting}
+	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting.pdf}
 \end{figure}
 	
 \subsubsection{\textit{Boosting}}
 
 Si el anterior modelo utiliza los clasificadores base <<en paralelo>>, este lo haría <<en serie>>~\cite{engelen2018thesis}. Es decir, hay un orden secuencial: los estimadores dependen del resultado anterior y tratan de compensar el error que se haya podido cometer (los \textit{weak learners} se convierten en \textit{strong learners}~\cite{ensembles2006robi}).
 
-El entrenamiento se focaliza, por lo tanto, en torno a las instancias que hayan fallado los clasificadores previos. Esto se consigue dando más peso a aquellas muestras mal clasificadas. Por ejemplo, en problemas de regresión, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo. En clasificación, los estimadores se entrenan con aquellas muestras en las que los otros elementos del \textit{ensemble} difieran.
+El entrenamiento se focaliza, por lo tanto, en torno a las instancias en las que hayan fallado los clasificadores previos. Esto se consigue dando más peso a aquellas muestras mal clasificadas. Por ejemplo, en problemas de regresión, las predicciones con un mayor error cuadrático medio tendrán más peso para el siguiente modelo. En clasificación, los estimadores se entrenan con aquellas muestras en las que los otros elementos del \textit{ensemble} difieran.
 
 \subsection{Combinación de los clasificadores}
 
@@ -129,7 +129,7 @@ Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se pue
 	\caption[Combinación mediante votación en \textit{ensembles}]{Representación de la combinación mediante votación.}
 	\label{img:voting}
 	\centering
-	\includegraphics[scale=0.35]{../img/memoria/3_voting}
+	\includegraphics[scale=0.5]{../img/memoria/3_voting.pdf}
 \end{figure}
 
 
@@ -182,10 +182,10 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	\item \textbf{Curva \textit{ROC} (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
 	
 	\begin{figure}[h]
-		\caption[Curva ROC]{Calidad del clasificador en función de su curva \textit{ROC} \footnote{ https:\/\/ca.wikipedia.org\/wiki\/Fitxer:Roc\_curve.svg }. }
+		\caption[Curva ROC]{Calidad del clasificador en función de su curva \textit{ROC}. Extraída de \url{https://ca.wikipedia.org/wiki/Fitxer:Roc_curve.svg}}
 		\label{img:curva_roc}
 		\centering
-		\includegraphics[scale=0.27]{../img/memoria/3_curva_roc}
+		\includegraphics[scale=0.2]{../img/memoria/3_curva_roc}
 	\end{figure}
 
 	\item \textbf{Curva \textit{PR} (\textit{precision-recall curve)}}:  Representación gráfica de la precisión frente al \textit{recall}. Cuando se presenta un \textit{class imbalance problem} con muy pocas clases positivas, es adecuado utilizar una curva de estas características debido a que la \textit{precision} y el \textit{recall} permiten evaluar la actuación del clasificador en la clase minoritaria~\cite{imbalanced2013Haibo}.
@@ -200,17 +200,6 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	\end{figure}
 	
 \end{itemize}
-
-
-
-
-
-
-
-
-
-
-
 
 \section{\textit{Co-forest}}
 
@@ -342,9 +331,9 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 
 Además de los aspectos expuestos en el apartado anterior, hay dos decisiones adicionales que se han tomado en la implementación por no estar contempladas en el algoritmo original.
 
-En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de U ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantenerlo alto pero limitar a $\theta\times|U|$.
+En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de $U$ ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantenerlo alto pero limitar a $\theta\times|U|$.
 
-Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de U, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
+Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas iteraciones en las que no se cumple que $\hat{e}_{i,t} < \hat{e}_{i,t-1}$. Se puede pensar que se debe iniciar a 0. Sin embargo, esto causaría que en iteraciones posteriores nunca se genere una submuestra de $U$, pues como se puede comprobar en la ecuación~\ref{eqn:Wmax} el tamaño de $W_{max}$ sería $0$. Por este motivo, se ha decidido iniciar $W_{i,t} \leftarrow W_{i,t-1}$.
 
 
 \section{\textit{Tri-Training}}
@@ -445,7 +434,7 @@ El último paso sería reentrenar los clasificadores base que hayan recibido nue
 
 \subsection{Tratamiento del ruido y teoría de errores}
 
-En este algoritmo, no es necesario calcular explícitamente la <<confianza>> del conjunto para cada muestra de $U$ debido a que, para que se añada a $L_i$, es suficiente con que los otros dos estimadores base del conjunto coincidan en la etiqueta~\cite{tritraining2005@original}. Puede ocurrir que tanto $j$ como $k$ se equivoquen en una predicción y, por lo tanto, se añada ruido al conjunto de entrenamiento de $i$. Sin embargo, como se comentó anteriormente en el \textit{co-forest}, de acuerdo con el trabajo de Angluin y Laird~\cite{noisyExamplesCoforest1988Dana}, si el tamaño de los datos utilizados en el entrenamiento ($m$), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante ($c$) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el estimador $h_{i}$ converge a la hipótesis verdadera.
+En este algoritmo no es necesario calcular explícitamente la <<confianza>> del conjunto para cada muestra de $U$ debido a que, para que se añada a $L_i$, es suficiente con que los otros dos estimadores base del conjunto coincidan en la etiqueta~\cite{tritraining2005@original}. Puede ocurrir que tanto $j$ como $k$ se equivoquen en una predicción y, por lo tanto, se añada ruido al conjunto de entrenamiento de $i$. Sin embargo, como se comentó anteriormente en el \textit{co-forest}, de acuerdo con el trabajo de Angluin y Laird~\cite{noisyExamplesCoforest1988Dana}, si el tamaño de los datos utilizados en el entrenamiento ($m$), la tasa de ruido ($\eta$), el error de la hipótesis en el peor caso ($\epsilon$) y una constante ($c$) cumplen la relación de la ecuación~\ref{eqn:rel_convergencia_hipotesis}, entonces la hipótesis aprendida por el estimador $h_{i}$ converge a la hipótesis verdadera.
 
 Para cada iteración del algoritmo, se considera un $L_i$ independiente y obtenido considerando todo $U$. El ratio del ruido de clasificación en la iteración $t$-ésima se puede calcular mediante la ecuación~\ref{eqn:ruido_it_tritraining}, donde $\check{e}_{1}^{t}$ es el límite superior del error cometido por $j$ y $k$ en la iteración $t$, $L^t$ es el conjunto de pseudo-etiquetas para $i$ en la iteración $t$ y $\eta_L$ es la tasa de ruido en $L$.
 
@@ -599,19 +588,16 @@ Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíp
 
 \subsection{Peticiones HTTP}
 
-En la programación web, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza \textit{requests} (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
+En la programación web, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza peticiones (\textit{requests}) (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
 
 Estas peticiones contienen cabeceras y código de estado. Para el desarrollo de este proyecto, es importante conocer ciertos campos de la cabecera, entre ellos las \textit{cookies} (pueden ser usadas para indicar que se ha iniciado sesión), los \textit{proxies} (o servidores intermedios) y el \textit{user-agent} (información sobre el dispositivo que realiza una consulta). Estos campos pueden ser introducidos mediante código~\cite{httpHeaders}.
 
 Además es destacable el código de estado, ya que permite conocer si una petición ha sido completada con éxito. En concreto, aquellos códigos comprendidos entre el 100 y el 199 son informativos, entre el 200 y el 299 son operaciones exitosas, entre el 300 y el 399 son redirecciones, entre el 400 y el 499 son errores por parte del cliente y entre el 500 y el 599 son errores por parte del servidor~\cite{httpStatus}.
 
 
-
-
-
 \subsection{Comunicaciones anónimas}
 
-Las redes clásicas son sencillamente rastreables. Póngase un ejemplo: hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o por el contrario pasar por un mayor número de nodos intermedios.
+Las redes clásicas son sencillamente rastreables, como por ejemplo, hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o, por el contrario, pasar por un mayor número de nodos intermedios.
 
 Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que los ISP tienen acceso a los metadatos de las comunicaciones. Adicionalmente, si el contenido de los mensajes se encuentra incorrectamente cifrado, puede derivar en un ataque a los mismos en caso de intercepción por parte de alguno de los nodos intermedios. Se puede pensar que ocultar esta información a terceros es tan sencillo como, por ejemplo, utilizar una de las bien conocidas VPN (\textit{virtual private network}). Sin embargo, los proveedores de servicio de las VPN serán ahora quienes puedan acceder a los metadatos de las comunicaciones~\cite{TorKeepCoding2022}.
 
@@ -624,23 +610,23 @@ Uno de los protocolos que permite ocultar esta información es el llamado enruta
 	\caption[Enrutado cebolla.]{Infografía de la red Tor y del enrutado cebolla.}
 	\label{img:red_tor}
 	\centering
-	\includegraphics[scale=0.45]{../img/memoria/3_onion_routing}
+	\includegraphics[width=\textwidth]{../img/memoria/3_onion_routing.pdf}
 \end{figure}
 
 \begin{enumerate}
 	\item Fase uno: la petición se cifra en varias capas (el estándar es 3). Es decir, con la clave pública del nodo de salida, la del nodo intermedio y, por último, al del nodo de entrada. Recordemos que para descifrar una capa, es necesario la clave privada del nodo correspondiente.
 	\item Fase dos: el servidor de entrada recibe la petición cifrada, y se encarga de descifrar la capa externa (posee la clave), obteniendo la dirección IP del nodo intermedio. De este modo, el servidor puede reenviar el mensaje a este último.
 	\item Fase tres: el servidor del medio descifra la siguiente capa y encuentra la dirección IP del nodo de salida. Reenvía el resto de la petición cifrada.
-	\item Fase cuatro: el servidor de salida descifra la última capa y accede a la petición. Sin embargo, no tiene información acerca de quién la realizo. Sí sabe, en su defecto, la dirección del nodo inmediatamente anterior, por lo que puede resolverla y devolvérsela.
+	\item Fase cuatro: el servidor de salida descifra la última capa y accede a la petición. Sin embargo, no tiene información acerca de quién la realizó. Sí sabe, en su defecto, la dirección del nodo inmediatamente anterior, por lo que puede resolverla y devolvérsela.
 \end{enumerate}
 
-La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuándo como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
+La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuando como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
 
 \subsection{Ataques web y vulnerabilidades en navegadores}
 
 Cada vez que se visita una web, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
 
-Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: www.atacante.com)~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
+Un ataque web es aquel en el que el atacante controla el sitio visitado (por ejemplo: \url{www.atacante.com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
 
 \begin{itemize}
 	\item \textbf{SQL \textit{Injection} (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
@@ -649,7 +635,7 @@ Un ataque web es aquel en el que el atacante controla el sitio visitado (por eje
 	\caption[Ataques web: SQLi]{Infografía de un ataque SQLi.}
 	\label{img:sqli}
 	\centering
-	\includegraphics[scale=0.5]{../img/memoria/3_sqli}
+	\includegraphics[width=\textwidth]{../img/memoria/3_sqli.pdf}
 \end{figure}
 
 	\item \textbf{\textit{Cross-site request forgery} (CSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición HTTP maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas webs maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad y se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF~\cite{csrfatatus}.
@@ -658,16 +644,16 @@ Un ataque web es aquel en el que el atacante controla el sitio visitado (por eje
 		\caption[Ataques web: CSRF]{Infografía de un ataque CSRF.}
 		\label{img:csrf}
 		\centering
-		\includegraphics[scale=0.5]{../img/memoria/3_csrf}
+		\includegraphics[width=\textwidth]{../img/memoria/3_csrf.pdf}
 	\end{figure}
 	
 	\item \textbf{\textit{Cross Site Scripting} (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con \textit{JavaScript} y HTML (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la web)~\cite{xssDibus}.
 	
 	\begin{figure}[h]
-		\caption[Ataques web: XSS]{Infografía de un ataque XSS.}
+		\caption[Ataques web: XSS]{Infografía de los tipos de ataque XSS existentes: reflejado y almacenado.}
 		\label{img:xss}
 		\centering
-		\includegraphics[scale=0.35]{../img/memoria/3_xss}
+		\includegraphics[width=\textwidth]{../img/memoria/3_xss.pdf}
 	\end{figure}
 \end{itemize}
 

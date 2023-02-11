@@ -2,10 +2,6 @@
 
 \section{Técnicas}
 
-Entornos virtuales? Conda?
-
-Preguntar: las herramientas (nombres propios) en inglés, ¿van en cursiva? cambiar en todo el documento. Ejemplos: windows, python, etc.
-
 \section{Herramientas}
 
 Se muestra a continuación algunas de las herramientas más relevantes en el desarrollo del proyecto.
@@ -62,11 +58,19 @@ Portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. H
 
 Herramienta desarrollada en Java por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{keelRepo}. Proporciona implementaciones de \textit{machine learning}, y ha sido utilizada para probar aquellos algoritmos no disponibles en las librerías de Python mencionadas anteriormente.
 
-\subsubsection{Otros}
+\subsection{Entorno de programación}
+
+\begin{itemize}
+	\item \textbf{Python}:
+	\item \textbf{\textit{Visual Studio Code}}: editor y depurador de código empleado junto a algunas de sus principales extensiones.
+	\item \textbf{Entornos virtuales}: 
+	\item \textbf{\textit{Conda}}:
+\end{itemize}
+
+\subsection{Otros}
 
 \begin{itemize}
 	\item \textbf{\TeX{}Studio}: editor de \LaTeX{} utilizado.
-	\item \textbf{\textit{Visual Studio Code}}: editor y depurador de código empleado junto a algunas de sus principales extensiones.
 	\item \textbf{\textit{Git BASH}}: emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
 \end{itemize}
 
@@ -80,6 +84,6 @@ Durante la extracción de vectores de características, se realizan peticiones a
 
 Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de \textit{Tor} como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 
-Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a <<http://ipinfo.io/ip>> y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy http} levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). 
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la librería \textit{requests}.
 
-Debido a que el puerto Tor se abre <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el \textit{PID}, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.
+Debido a que el puerto Tor queda <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el \textit{PID}, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.
