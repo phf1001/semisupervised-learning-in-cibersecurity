@@ -3,12 +3,13 @@ import numpy as np
 import numbers
 from math import floor, ceil
 
-class TriTraining:  
+
+class TriTraining:
 
     def __init__(self, h_0, h_1, h_2, random_state=None):
         """
         Constructor. Creates the tri-training instance.
-        
+
         Parameters
         ----------
         h_0, h_1, h_2:
@@ -16,12 +17,11 @@ class TriTraining:
         random_state:
             Random object or seed
         """
-        
+
         self.n = 3
         self.classes = []
         self.rd = self.check_random_state(random_state)
-        self.classifiers = {0 : h_0, 1: h_1, 2: h_2}
-
+        self.classifiers = {0: h_0, 1: h_1, 2: h_2}
 
     def fit(self, L, y, U):
         """
@@ -60,7 +60,8 @@ class TriTraining:
                     cls_pseudo_updates[i] = self.create_pseudolabeled_set(i, U)
 
                     if previous_l[i] == 0:
-                        previous_l[i] = floor((e[i] / (previous_e[i]-e[i])) + 1)
+                        previous_l[i] = floor(
+                            (e[i] / (previous_e[i]-e[i])) + 1)
 
                     L_i_size = cls_pseudo_updates[i][0].shape[0]
 
@@ -68,11 +69,13 @@ class TriTraining:
 
                         if e[i] * L_i_size < previous_e[i] * previous_l[i]:
                             cls_changes[i] = True
-                        
+
                         elif previous_l[i] > (e[i] / (previous_e[i] - e[i])):
 
-                            L_index = self.rd.choice(L_i_size, ceil((previous_e[i] * previous_l[i] / e[i]) - 1))
-                            cls_pseudo_updates[i] = (cls_pseudo_updates[i][0][L_index, :], cls_pseudo_updates[i][1][L_index])
+                            L_index = self.rd.choice(L_i_size, ceil(
+                                (previous_e[i] * previous_l[i] / e[i]) - 1))
+                            cls_pseudo_updates[i] = (
+                                cls_pseudo_updates[i][0][L_index, :], cls_pseudo_updates[i][1][L_index])
                             cls_changes[i] = True
 
             if cls_changes.sum() == 0:
@@ -84,17 +87,17 @@ class TriTraining:
 
                     X_train = np.concatenate((L, cls_pseudo_updates[i][0]))
                     y_train = np.concatenate((y, cls_pseudo_updates[i][1]))
-                    self.classifiers[i] = self.classifiers[i].fit(X_train, y_train)
+                    self.classifiers[i] = self.classifiers[i].fit(
+                        X_train, y_train)
 
                     previous_e[i] = e[i]
-                    previous_l[i] = cls_pseudo_updates[i][0].shape[0] #Tamaño de Li anterior
-
+                    previous_l[i] = cls_pseudo_updates[i][0].shape[0]
 
     def initialize_classifiers(self, L, y, percentage=0.8):
         """
         Initializes each base classifier bootstrapping
         from L.
-        
+
         Parameters
         ----------
         L: np.array
@@ -102,9 +105,10 @@ class TriTraining:
         """
 
         for i in range(self.n):
-            rand_rows = self.rd.choice(L.shape[0], replace = True, size = (int(percentage * L.shape[0])) )
-            self.classifiers[i] = self.classifiers[i].fit(L[rand_rows, :], y[rand_rows])
-
+            rand_rows = self.rd.choice(
+                L.shape[0], replace=True, size=(int(percentage * L.shape[0])))
+            self.classifiers[i] = self.classifiers[i].fit(
+                L[rand_rows, :], y[rand_rows])
 
     def measure_error(self, i, L, y):
         """
@@ -124,15 +128,15 @@ class TriTraining:
         y: np.array
             Labeled data tags used for training
         """
-        
+
         prediction_j = self.classifiers[(i+1) % self.n].predict(L)
         prediction_k = self.classifiers[(i+2) % self.n].predict(L)
 
-        incorrect_classification = np.logical_and(prediction_j != y, prediction_k == prediction_j)
+        incorrect_classification = np.logical_and(
+            prediction_j != y, prediction_k == prediction_j)
         concordance = (prediction_j == prediction_k)
 
         return sum(incorrect_classification) / sum(concordance)
-
 
     def create_pseudolabeled_set(self, i, U):
         """
@@ -153,7 +157,6 @@ class TriTraining:
         concordances = (U_y_j == U_y_k)
 
         return (U[concordances], U_y_k[concordances])
-
 
     def check_random_state(self, seed=None):
         """
@@ -182,8 +185,7 @@ class TriTraining:
         if isinstance(seed, np.random.RandomState):
             return seed
 
-
-    def single_predict(self, sample): 
+    def single_predict(self, sample):
         """
         Returns the class predicted by tri-training.
 
@@ -198,14 +200,12 @@ class TriTraining:
             label predicted by tri-training.
         """
 
-        count = {i: 0  for i in self.classes}
+        count = {i: 0 for i in self.classes}
 
         for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
-            count[i]+= 1
+            count[i] += 1
 
-        max_agreement = max(count.values())
-        return list(count.keys())[list(count.values()).index(max_agreement)]
-
+        return max(count, key=count.get)
 
     def predict(self, samples):
         """
@@ -222,10 +222,10 @@ class TriTraining:
         np.array:
             labels predicted by tri-training.
         """
-        
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(samples)
-        return np.array([self.single_predict(sample) for sample in samples])
 
+        samples = (lambda x: np.expand_dims(x, axis=0)
+                   if x.ndim == 1 else x)(samples)
+        return np.array([self.single_predict(sample) for sample in samples])
 
     def single_predict_proba(self, sample):
         """
@@ -243,14 +243,13 @@ class TriTraining:
             array containing probability for each class.
         """
 
-        count = {i: 0  for i in self.classes}
+        count = {i: 0 for i in self.classes}
 
         for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
-                count[i]+= 1
+            count[i] += 1
 
         votes = np.array(list(count.values()))
         return votes / self.n
-
 
     def predict_proba(self, samples: np.array):
         """
@@ -270,9 +269,9 @@ class TriTraining:
             class.
         """
 
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(samples)
+        samples = (lambda x: np.expand_dims(x, axis=0)
+                   if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])
-
 
     def score(self, X, y_true):
         """
@@ -291,4 +290,4 @@ class TriTraining:
             percentage of hits.
         """
         y_predictions = self.predict(X)
-        return np.count_nonzero(y_predictions==y_true)/len(y_true)
+        return np.count_nonzero(y_predictions == y_true)/len(y_true)
