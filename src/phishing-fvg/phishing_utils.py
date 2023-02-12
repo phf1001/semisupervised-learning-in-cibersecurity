@@ -107,6 +107,27 @@ def get_splitted_url(url):
     return [x for x in url if x != '']
 
 
+def get_splitted_url_keep_dots(url):
+    """
+    Returns an array containing all words in lower
+    case in a url once it has been splitted.
+
+    Keeps dots.
+
+    Returns
+    -------
+    set
+        set containing (lower) words in url
+
+    """
+
+    url = url.lower()
+    url = url.replace(".", " .")
+    url = re.split(':|/| |\-', url)
+
+    return set([x for x in url if x != ''])
+
+
 def get_suspicious_keywords():
     """
     Returns a set containing typical phishing
@@ -513,7 +534,7 @@ def get_text_cleaned(html):
         string containing html cleaned.
     """
 
-    raw = BeautifulSoup(html, features='lxml').get_text()
+    raw = BeautifulSoup(html, features='lxml').get_text(" ")
     tokens = nltk.word_tokenize(raw)
 
     htmlwords = ['https', 'http', 'display', 'button', 'hover',
@@ -594,7 +615,7 @@ def get_top_keywords(tfidf, text, n=10):
     """
 
     response = tfidf.transform([text])
-    feature_names = tfidf.get_feature_names()
+    feature_names = tfidf.get_feature_names_out()
     feature_array = np.array(feature_names)
     tfidf_sorting = np.argsort(response.toarray()).flatten()[::-1]
     return feature_array[tfidf_sorting][:n]

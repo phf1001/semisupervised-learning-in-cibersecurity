@@ -8,7 +8,7 @@
   <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"> Semisupervised learning in cibersecurity </a>
 </h1>
 
-<h3 align="center">Recommender systems attacks and phishing automatic detection.</h3>
+<h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
 
 <p align="center">
     <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/commits/main">

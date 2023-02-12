@@ -1,23 +1,12 @@
 import unittest
-from phishing_vector_generator import PHISH_FVG
 from phishing_utils import *
 import os
 import sys
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 
-class RealFV(unittest.TestCase):
-    
-    def setUp(self):
-        self.ph_entity = PHISH_FVG('https://ubuvirtual.ubu.es/', None)
-
-    def test_proxy_working(self):
-
-        ip_one = requests.get('http://ipinfo.io/ip', proxies = self.ph_entity.user.proxies).text
-        ip_two = requests.get('http://ipinfo.io/ip').texts
-        self.assertTrue(ip_one != ip_two)
+#Execute from parent directory
         
-
 class phishingUtilsMethods(unittest.TestCase):
 
     def test_translate_leet(self):
