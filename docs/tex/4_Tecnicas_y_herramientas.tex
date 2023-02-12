@@ -24,6 +24,9 @@ Librería desarrollada por José Luis Garrido-Labrador dedicada al aprendizaje s
 
 Biblioteca de Python utilizada para extraer datos de ficheros \texttt{HTML} obtenidos mediante la realización de \textit{web scraping} a la hora de sintetizar vectores de características para la detección de \textit{phishing}. Se ha recurrido a ella, principalmente, cuando la obtención de ciertos campos en las etiquetas puede ser vulnerada mediante el uso de expresiones regulares corrientes~\cite{bs4Docs}.
 
+\subsubsection{TLD}
+
+Librería de Python utilizada para extraer dominios de alto nivel (TLDs) de los enlaces facilitados~\cite{tldLibreria}. Para evitar dependencias de biblitecas externas, en un primer momento se consideró trabajar con una lista del \textit{top} dominios más comunes (extraída de~\cite{tldLista}). Sin embargo, se descartó la idea debido a que no existe una forma intrínseca de saber qué cadenas son TLD y cuales son subdominios. Por ejemplo, \texttt{zap.co.it} es un subdominio ya que existe el TLD \texttt{co.it}. Sin embargo, en un país que no venda dominios de la forma \texttt{co.<<pais>>} sería un TLD~\cite{tldNogenerico}.
 
 \subsubsection{NLTK}
 
