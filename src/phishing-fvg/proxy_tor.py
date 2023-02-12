@@ -7,8 +7,8 @@ class proxy_tor:
     def __init__(self, number_instance):
 
         self.number_instance = number_instance
-        self.socks_port = (9050 + 2*  number_instance) #Default tor 9050
-        self.control_port = (9051 + 2 * number_instance) #Default tor 9051
+        self.socks_port = (9052 + 2*  number_instance) #Default tor 9050
+        self.control_port = (9053 + 2 * number_instance) #Default tor 9051
         self.hash = '16:52F8D50726E4C0D2605124196C6B846377A62ABB9F998C51E0C77CF20C' #tor --hash-password "contrasena"
         self.file = self.create_tor_file()
 
