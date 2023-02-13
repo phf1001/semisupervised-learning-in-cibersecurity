@@ -789,7 +789,31 @@ Además de los ataques previamente ilustrados, existen otros con objetivos más 
 
 \section{\textit{Phishing}}
 
-\subsection{TF-IDF}
+El \textit{phishing} es una técnica de ingeniería social\footnote{Técnica empleada por atacantes para ganarse la confianza de un usuario y conseguir que realice las acciones que desea (por ejemplo, ejecutar programas maliciosos, comprar en sitios fraudulentos, facilitar sus claves, etc.)~\cite{ingenieriaSocialINCIBE}.} en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque suele enviarse mediante correo electrónico o mensajes de texto, y suelen incluir imágenes de la marca y un enlace con sintaxis muy parecida a la original (camuflada mediante el uso de técnicas como Leet Speak). Generalmente suelen redireccionar a páginas \textit{web} con formularios de inicio de sesión o algún campo similar para que el usuario introduzca sus datos, pero también pueden incluir archivos infectados~\cite{phishingBBVA}.
+
+Hay multitud de variaciones dentro del \textit{phishing}, pero algunos de los ataques más comunes se enumeran a continuación~\cite{phishingKeeperSecurity}: 
+
+\begin{itemize}
+	\item \textbf{\textit{Spear phishing}}: este tipo de ataque es <<personalizado>>, es decir, el atacante conoce la información personal de la víctima y la utiliza con el fin de que sus ataques parezcan más legítimos.
+	
+	\item \textbf{\textit{Whaling phishing}}: es similar al anterior, solo que el objetivo suele ser un subconjunto de personas (por ejemplo, una pequeña red dentro de una empresa). La intención en este caso suele ser conseguir información clasificada de una entidad en concreto.
+	\item \textbf{\textit{Smishing}}: nombre que recibe la variación de \textit{phishing} que se realiza por mensajes SMS.
+	\item \textbf{\textit{Malvertising}}: en este caso, los atacantes pagan a anunciantes verídicos para que muestren sus páginas en redes sociales u otros sitios \textit{web} con el fin de que los usuarios de estas naveguen a los enlaces maliciosos.
+\end{itemize}
+
+El impacto de un ataque de \textit{phishing} varía en función de la victima. A nivel personal, una estafa exitosa puede suponer cargos económicos fraudulentos, pérdida de acceso a archivos personales y suplantación, entre otros. Sin embargo, a nivel corporativo, un ataque realizado correctamente puede acarrear filtraciones de datos clasificados e información de clientes, pérdida de acceso a archivos, exposición de los trabajadores, etc. Debido a que los daños pueden ser irreparables y este tipo de ataque es uno de los más comunes, se han de encontrar medidas de seguridad aplicables a la detección de los mismos~\cite{phishingMicrosoft}.
+
+\subsection{Técnicas auxiliares}
+
+Se exponen a continuación algunas de las técnicas auxiliares más comunes tanto a la hora de realizar ataques de \textit{phishing} como a la hora de detectarlos.
+
+\subsubsection{Leet Speak, 1337 5p34k o escritura \textit{leet}}
+
+La escritura \textit{leet} es un lenguaje utilizado en la informática cuando se quiere evitar que ciertos archivos (o páginas \textit{web}) se descubran mediante la búsqueda por palabras clave~\cite{leetSpectrum}. La aplicación más sencilla es sustituir aquellas letras que se parezcan a números por estos mismos. Por ejemplo, en lugar de escribir \textit{password}, se podría utilizar \texttt{p4\$\$w0rd}.
+
+Es común que páginas de \textit{phishing} utilicen estas técnicas con el fin de confundir al usuario. Por ejemplo, si un enlace contiene la palabra \textit{0ffice} en lugar de \textit{Office}, es sencillo que un usuario que no esté prestando especial atención caiga en la estafa por no haberse percatado de que la letra O mayúscula es, en realidad, un cero.
+
+\subsubsection{TF-IDF}
 
 TF-IDF es un algoritmo que pretende definir la importancia que tiene una determinada palabra dentro de un documento teniendo en cuenta la relación que pueda tener con otros documentos dentro del mismo cuerpo~\cite{tfidfmarius2020}. Es decir, es una especie de <<puntuación>> para cada palabra del texto que aumenta cada vez que hay una ocurrencia, pero disminuye gradualmente cada vez que aparece en el resto de la colección. Por este motivo, puede ser realmente útil a la hora de extraer \textit{keywords}~\cite{cantinatfidf}. Se basa en dos principios:
 
@@ -814,15 +838,6 @@ Para calcular esta puntuación, se han de utilizar las ecuaciones facilitadas a 
 	\begin{equation}\label{eqn:tfidf} \textrm{tf-idf(w,d,D)} = tf(w,d) \times idf(w,D) \end{equation}
 	
 \end{itemize}
-
-
-\subsection{Leet Speak, 1337 5p34k o escritura \textit{leet}}
-
-La escritura \textit{leet} es un lenguaje utilizado en la informática cuando se quiere evitar que ciertos archivos (o páginas \textit{web}) se descubran mediante la búsqueda por palabras clave~\cite{leetSpectrum}. La aplicación más sencilla es sustituir aquellas letras que se parezcan a números por estos mismos. Por ejemplo, en lugar de escribir \textit{password}, se podría utilizar \texttt{p4\$\$w0rd}.
-
-Es común que páginas de \textit{phishing} utilicen estas técnicas con el fin de confundir al usuario. Por ejemplo, si un enlace contiene la palabra \textit{0ffice} en lugar de \textit{Office}, es sencillo que un usuario que no esté prestando especial atención caiga en la estafa por no haberse percatado de que la letra O mayúscula es, en realidad, un cero.
-
-
 
 
 

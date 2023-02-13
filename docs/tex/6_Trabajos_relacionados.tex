@@ -1,6 +1,21 @@
 \capitulo{6}{Trabajos relacionados}
 
-Dentro de este proyecto se pueden diferenciar distintas líneas de investigación, principalmente las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado y las centradas en formalizar ataques a sistemas de recomendación.
+Dentro de este proyecto se pueden diferenciar distintas líneas de investigación. Entre ellas se distinguen las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado, las centradas en formalizar ataques a sistemas de recomendación y las dedicadas a la detección de \textit{phishing} mediante algoritmos de \textit{machine learning}.
+
+\subsection{Algoritmos de aprendizaje semisupervisado}
+
+\subsubsection{\textit{Co-Forest}}
+
+A pesar de que el paper principal del proyecto (Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}) expone que se utiliza la versión original del \textit{co-forest}~\cite{originalCoForest2007}, es destacable mencionar que ciertos aspectos de implementación no han sido contemplados en estos artículos. Por ello, la implementación propia se ha basado también en <<\textit{Semi-supervised ensemble learning. Master’s thesis}>>, desarrollada por Engelen y Hoos~\cite{engelen2018thesis}.
+
+\subsubsection{\textit{Tri-Training}}
+
+En este algoritmo únicamente se ha tenido en cuenta un trabajo de referencia, <<\textit{Tri-Training: Exploiting Unlabeled Data Using Three Classifiers}>>, de Zhi-Hua Zhou y Ming Li~\cite{tritraining2005@original}.
+
+\subsubsection{\textit{Democratic-co learning}}
+
+Tanto la sección teórica como el pseudocódigo han sido realizados siguiendo el \textit{paper} denominado <<\textit{Democratic Co-Learning}>>, de Yan Zhou y Sally Goldman~\cite{democraticCoLearning2004original}.
+
 
 \subsection{Aprendizaje semisupervisado aplicado a la detección de ataques en sistemas de recomendación}
 
@@ -20,11 +35,10 @@ Respecto a la descripción de los tipos de intrusión, la correcta definición f
 \subsubsection{Definición de conceptos~\cite{Mobasher2006Thesis}}
 Previo a este documento,también es relevante contemplar otros trabajos, como la tesis de William y Mobasher <<\textit{Thesis: Profile injection attack detection for securing collaborative recommender systems}>>~\cite{Mobasher2006Thesis}. En ella se introduce el concepto de inyección y se parametrizan características como el tamaño de ataque. Es destacable la autoridad de estos investigadores en la materia, siendo propietarios de muchos documentos de interés.
 
-	\subsubsection{Primeras definiciones formales~\citep{mahony2004CollaborativeRecommendation}}
+\subsubsection{Primeras definiciones formales~\citep{mahony2004CollaborativeRecommendation}}
 <<\textit{Collaborative recommendation: A robustness analysis}>>~\cite{mahony2004CollaborativeRecommendation}, de O'Mahony y Hurley, es uno de los trabajos con más antiguedad pero mayor número de referencias que se encuentra. En él se definen los modelos de construcciones en base a conocimiento del sistema y pone a prueba la robustez de los recomendadores evaluando su estabilidad y precisión ante la presencia de perfiles inyectados (análisis matemático muy completo).
 
-\subsection{Algoritmos de aprendizaje semisupervisado}
+\subsection{Detección de \textit{phishing} mediante algoritmos de \textit{machine learning}}
 
-\subsubsection{\textit{Co-Forest}}
-
-A pesar de que el paper principal del proyecto (Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}) expone que se utiliza la versión original del \textit{co-forest}~\cite{originalCoForest2007}, es destacable mencionar que ciertos aspectos de implementación no han sido contemplados en estos artículos. Por ello, la implementación propia se ha basado también en <<\textit{Semi-supervised ensemble learning. Master’s thesis}>>, desarrollada por Engelen y Hoos~\cite{engelen2018thesis}.
+\subsubsection{\textit{Machine Learning} aplicado a la detección de \textit{phishing}}
+El artículo más destacable es <<\textit{Towards detection of phishing websites on client-side using machine learning based approach}>>~\cite{featuresPhishing2018Gupta}. En este \textit{paper}, se propone un método de detección muy destacable debido a que la detección se realiza en el lado del <<cliente>> y es independiente de terceras partes (como herramientas de OSINT). Por este motivo, la generación de vectores de características es rápida y confiable.

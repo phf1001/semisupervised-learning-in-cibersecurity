@@ -345,7 +345,8 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 
 \section{Detección de \textit{phishing}}
-...
+
+Se detalla a continuación el proceso seguido en sus distintas fases: desde la obtención del \textit{dataset} hasta los resultados obtenidos.
 
 \subsection{Extracción de las URL del \textit{dataset}}
 
@@ -498,7 +499,7 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 	\[F17 = \left\{ \begin{array}{lr} 0, & \text{si las palabras del \textit{copyright} están en el dominio base}\\
 	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f17} \end{array}\right.\]
 	
-	\item \textit{\textbf{F18}}: para cada página \textit{web}, se ha construido un conjunto de \textit{keywords} compuesto por las palabras contenidas en el título, en las etiquetas \textit{meta} (cuyo campo \textit{name} equivalga a \textit{description} o \textit{keywords}) y por las más relevantes del cuerpo del sitio (extraídas mediante el algoritmo TF-IDF~\cite{cantinatfidf}). Lo más común es que los sitios legítimos contengan al menos una de estas palabras en el dominio base. En caso contrario, se considera un intento de \textit{phishing}.
+	\item \textit{\textbf{F18}}: para cada página \textit{web}, se ha construido un conjunto de \textit{keywords} compuesto por las palabras contenidas en el título, en las etiquetas \textit{meta} (cuyo campo \textit{name} equivalga a \textit{description} o \textit{keywords}~\cite{metatags}) y por las más relevantes del cuerpo del sitio (extraídas mediante el algoritmo TF-IDF~\cite{cantinatfidf}). Lo más común es que los sitios legítimos contengan al menos una de estas palabras en el dominio base. En caso contrario, se considera un intento de \textit{phishing}.
 	
 	\[F18 = \left\{ \begin{array}{lr} 0, & \text{si una \textit{keyword} coincide con el dominio base}\\
 	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f18} \end{array}\right.\]
