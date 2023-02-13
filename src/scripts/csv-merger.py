@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 
 actual_directory = os.getcwd()
-path = os.chdir(os.path.join(actual_directory, 'training-sets'))
+os.chdir(os.path.join(actual_directory, 'training-sets'))
 
 file_out = 'train-merged.csv'
 
