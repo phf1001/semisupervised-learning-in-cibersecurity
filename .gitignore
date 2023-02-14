@@ -10,3 +10,4 @@ src/models/notebooks/wine
 *__pycache__*
 *proxies.json*
 *html_dump*
+.vscode

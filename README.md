@@ -63,6 +63,14 @@
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=code_smells" alt="sc-codesmells">
 </a>
+
+<a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
+<img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=active+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-activeissues">
+</a>
+
+<a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
+<img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=resolved+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-solvedissues">
+</a>
  
 </p>
       
