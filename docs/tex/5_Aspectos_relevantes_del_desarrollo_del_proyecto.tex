@@ -27,7 +27,7 @@ Para evaluar la calidad de las implementaciones, se han realizado distintos expe
 
 
 
-\subsection{\textit{Co-forest}}
+\subsection{Co-forest}
 
 Para comprobar la correctitud del algoritmo se han realizado diversos experimentos. En primer lugar, se ha evaluado el modelo en diversas situaciones de su ciclo de vida. Posteriormente, se ha realizado una comparativa contra la implementación proporcionada por KEEL.
 
@@ -149,7 +149,7 @@ Dentro de los ficheros fuente de KEEL, se pueden encontrar distintos conjuntos d
 Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keelvsnuestro}. Como se puede comprobar, ambos algoritmos obtienen resultados prácticamente idénticos, siendo un poco superior el porcentaje de acierto logrado por la herramienta implementada propia en el caso del \textit{dataset} Vino.
 
 
-\subsection{\textit{Tri-Training}}
+\subsection{Tri-Training}
 
 Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra sslearn y LAMDA para probar la implementación.
 
@@ -184,7 +184,7 @@ Los resultados se pueden observar en las gráficas~\ref{gr:tt_train-iterations} 
 
 \subsubsection{Comparativa contra sslearn y LAMDA}
 
-En el caso del \textit{tri-training}, existen implementaciones en \texttt{python} que, además, permiten que los estimadores base utilizados sean los disponibles en la librería Scikit-learn. Estas son sslearn, biblioteca de aprendizaje semisupervisado escrita por José Luis Garrido-Labrador y disponible en Github~\cite{sslearnRepo} y LAMDA, un \textit{toolkit}~\cite{lamdasslPaper} desarrollado por Lin-Han Jia (y su equipo) que se encuentra públicamente disponible para su uso~\cite{lamdasslRepo}.
+En el caso del \textit{tri-training}, existen implementaciones en Python que, además, permiten que los estimadores base utilizados sean los disponibles en la librería Scikit-learn. Estas son sslearn, biblioteca de aprendizaje semisupervisado escrita por José Luis Garrido-Labrador y disponible en Github~\cite{sslearnRepo} y LAMDA, un \textit{toolkit}~\cite{lamdasslPaper} desarrollado por Lin-Han Jia (y su equipo) que se encuentra públicamente disponible para su uso~\cite{lamdasslRepo}.
 
 Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{folds}. Evidentemente, ambos modelos han sido entrenados con el mismo conjunto de entrenamiento (más concretamente, idénticos $L$ y $U$) y probados con el mismo conjunto de \textit{test}. Como estimadores base se ha utilizado el árbol de decisión disponible en la librería Scikit-learn.
 
@@ -202,6 +202,56 @@ En el caso de la comparativa contra \textit{sslearn}, el resultado se puede cont
 	\centering
 	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_sslearn}
 	\label{gr:tt_vs_sslearn}
+\end{figure}
+
+
+\subsection{Democratic-co Learning}
+
+En este algoritmo se facilitan las mismas experimentaciones previas, además de una comparativa contra sslearn~\cite{sslearnRepo}.
+
+\subsubsection{Experimentación con el algoritmo}
+Los resultados se pueden observar en las gráficas~\ref{gr:dc_train-iterations} y~\ref{gr:dc_time-percentage}.
+
+\begin{figure}[h]
+	\caption[\textit{Democratic-co}: resultados experimentación (iteraciones-entrenamiento)]{Evolución de la \textit{accuracy} para cada conjunto de datos y desviación individual durante las iteraciones del entrenamiento del \textit{democratic-co learning}.}
+	\centering
+	\includegraphics[scale=0.5]{../img/memoria/5_tritraining_score-iteraciones}
+	\label{gr:dc_train-iterations}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Democratic-co}: resultados experimentación (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento, además de la evolución del \textit{score} en función del porcentaje total de instancias respecto a cada \textit{dataset}.}
+	\centering
+	\includegraphics[scale=0.4]{../img/memoria/5_tritraining_time-percentage}
+	\label{gr:dc_time-percentage}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{Fase de entrenamiento:} como estimadores base para el \textit{democratic-co learning} se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$. Nuevamente, los resultados representados han sido obtenidos mediante validación cruzada y se representan en la gráfica~\ref{gr:dc_train-iterations}.
+	
+	...
+	
+	
+	\item \textbf{Tiempo de entrenamiento:} los resultados se plasman en la gráfica~\ref{gr:dc_time-percentage}....
+	
+	\item \textbf{Datos de entrenamiento:} se muestra en la gráfica~\ref{gr:dc_time-percentage} (segundo cuadrante) la variación del \textit{score} del \textit{democratic-co} en función del porcentaje del conjunto de datos destinado al entrenamiento....
+\end{itemize} 
+
+
+\subsubsection{Comparativa contra sslearn}
+
+En el caso del \textit{democratic-co}, se ha optado por comparar la implementación propia contra sslearn~\cite{sslearnRepo}. Nuevamente, los resultados mostrados son producto de experimentos realizados mediante validación cruzada con 10 \textit{folds}, y ambos modelos han sido entrenados con los mismos $L$ y $U$ y probados con idénticos conjuntos de \textit{test}.
+
+Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
+
+
+El resultado se puede contemplar en la gráfica~\ref{gr:dc_vs_sslearn}, donde se muestra la \textit{score} obtenida en cada \textit{fold} y la media de los $10$.
+
+\begin{figure}[h]
+	\caption[\textit{Democratic-co}: comparativa contra \textit{sslearn}]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
+	\centering
+	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_sslearn}
+	\label{gr:dc_vs_sslearn}
 \end{figure}
 
 

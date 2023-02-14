@@ -527,6 +527,10 @@ Se facilita a continuación (pseudocódigo~\ref{alg:democratic-co}) el pseudocó
 	\caption{\textit{Democratic-co}}\label{alg:democratic-co}
 \end{algorithm}
 
+Es probable que surja una cuestión: ¿qué ocurre con aquellas instancias de $U$ que han sido permanentemente añadidas a un $L_i$ en iteraciones posteriores? 
+
+Debido a la implementación del algoritmo, es altamente improbable que, si una muestra $x$ de $U$ ya ha sido previamente añadida a un $L_i$, se vuelva a añadir con una etiqueta distinta. Para que eso ocurriese, el cambio en todos los clasificadores debería ser muy notable (debido al sistema de pesos que sigue el algoritmo). Por ello y tras consultarlo con expertos en el área, no se ha considerado un aspecto a tener en cuenta en la implementación (es muy improbable que ocurra, y comprobar que no lo hace penaliza en complejidad el resto de las ejecuciones).
+
 \subsubsection{Fases}
 
 Durante el entrenamiento se pueden diferenciar distintas fases. De manera similar a otros algoritmos, el criterio de parada es que ningún clasificador reciba nuevas pseudoetiquetas (Es decir, ningún $L_i$ cambia).
