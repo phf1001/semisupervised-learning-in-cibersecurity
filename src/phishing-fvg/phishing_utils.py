@@ -264,9 +264,7 @@ def is_empty(url):
 
 
 def remove_stop_words(data):
-    """
-    Removes non functional words from a web.
-    """
+    """Removes non functional words from a web."""
 
     stop_words = ( stopwords.words('english') + stopwords.words('spanish'))
 
@@ -278,9 +276,7 @@ def remove_stop_words(data):
 
 
 def remove_punctuation(data):
-    """
-    Removes punctuation from a web.
-    """
+    """Removes punctuation from a web."""
 
     symbols = "!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n"
     for i in range(len(symbols)):
@@ -291,9 +287,7 @@ def remove_punctuation(data):
 
 
 def remove_apostrophe(data):
-    """
-    Deletes apostrophe from a website.
-    """
+    """Deletes apostrophe from a website."""
     return np.char.replace(data, "'", "")
 
 
@@ -469,9 +463,7 @@ def extract_url_href(tag):
 
 
 def get_meta(html):
-    """
-    Returns the content of a meta tag.
-    """
+    """Returns the content of a meta tag."""
 
     keywords = []
     found = re.findall('(?:<meta)([^>]*)(?:>)', html)
@@ -488,9 +480,7 @@ def get_meta(html):
 
 
 def get_title(html):
-    """
-    Returns the title of an html page.
-    """
+    """Returns the title of an html page."""
     matches = re.findall('(?:<title>)([^<]*)(?:</title>)', html)
 
     if len(matches) > 0:
@@ -509,9 +499,7 @@ def find_hyperlinks(html):
 
 
 def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
-    """
-    Extracts binary source code from webpage.
-    """
+    """Extracts binary source code from webpage."""
 
     response = requests.get(url, headers=headers, proxies=proxies, timeout=15)
 
