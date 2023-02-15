@@ -155,7 +155,7 @@ def get_available_proxies():
         list containing Tor proxies.
     """
 
-    f = open('proxies.json')
+    f = open('./data/proxies.json')
     data = json.load(f)
     f.close()
     return data
