@@ -1,4 +1,4 @@
-import json
+import json, os, time
 from proxy_tor import proxy_tor
 from multiprocessing import Process
 
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     try:
         n_desired_proxies = int(input('\nNumber of desired proxies: '))
         counter = 0
-        available_proxies = [ ]
+        available_proxies = []
 
         while len(available_proxies) < n_desired_proxies:
             left = n_desired_proxies - len(available_proxies)
@@ -19,7 +19,7 @@ if __name__ == '__main__':
                        for proxy in proxies]
 
             for w in workers:
-                w.start() 
+                w.start()
 
             new_available_ips = [proxy.get_ip() for proxy in proxies]
             new_available_proxies = [
@@ -29,6 +29,7 @@ if __name__ == '__main__':
 
             counter += left
             available_proxies += new_available_proxies
+            time.sleep(3)
 
         print(f'\n\n-> Available proxies: {available_proxies}')
 
@@ -44,3 +45,9 @@ if __name__ == '__main__':
         if len(workers) > 0:
             for w in workers:
                 w.terminate()
+
+        for id_file in range(counter):
+
+            tor_file = f'/etc/tor/torrc.{id_file}'
+            if os.path.exists(tor_file):
+                os.remove(tor_file)
