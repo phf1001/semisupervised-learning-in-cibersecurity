@@ -247,7 +247,7 @@ def remove_tld(netloc):
     try:
         return netloc[:netloc.rindex('.')]
 
-    except:
+    except ValueError:
         return netloc
 
 def is_empty(url):
@@ -387,10 +387,10 @@ def get_number_errors(hyperlinks, headers, proxies):
 
             try:
                 code = get_response_code(h, headers, proxies)
-                if code == 404 or code == 403:
+                if code in (404, 403):
                     n_errors += 1
             
-            except:
+            except requests.exceptions.RequestException:
                 pass
 
     return n_errors
@@ -416,10 +416,10 @@ def get_number_redirects(hyperlinks, headers, proxies):
 
             try:
                 code = get_response_code(h, headers, proxies)
-                if code == 302 or code == 301:
+                if code in (301, 302):
                     n_redirects += 1
             
-            except:
+            except requests.exceptions.RequestException:
                 pass
 
     return n_redirects
@@ -568,7 +568,7 @@ def get_tfidf_corpus(urls, headers, proxies):
             html = html.decode("utf-8", errors='ignore')
             corpus.append(get_text_cleaned(html))
 
-        except:
+        except requests.exceptions.RequestException:
             pass
 
     return corpus
@@ -632,7 +632,9 @@ def get_csv_data(file):
     set
         Set containing legitimate domains.
     """
-
+    if '.csv' not in file:
+        return 'Invalid file'
+        
     with open(file) as f:
         reader = csv.reader(f)
         data = list(reader)
@@ -771,5 +773,5 @@ def get_phish_tank_urls(n = 20):
         
         return set(urls[:n])
 
-    except:
+    except requests.exceptions.RequestException:
         return set([])
