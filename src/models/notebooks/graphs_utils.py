@@ -27,7 +27,7 @@ def read_irregular_csv(file):
         return data
 
     raise Exception("File must be a csv file")
-        
+
 
 def create_graph_matrix(file):
 
