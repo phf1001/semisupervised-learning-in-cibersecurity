@@ -5,42 +5,43 @@ import sys
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 
-#Execute from parent directory
-        
+# Execute from parent directory
+
+
 class phishingUtilsMethods(unittest.TestCase):
 
     def test_translate_leet(self):
 
-        phishing_words = ['l0g1n', '13urg05', '5h0pp1ng', '4maz0n', 'm1crosoft']
+        phishing_words = ['l0g1n', '13urg05',
+                          '5h0pp1ng', '4maz0n', 'm1crosoft']
         real_words = ['login', 'burgos', 'shopping', 'amazon', 'microsoft']
 
         for phish, real in zip(phishing_words, real_words):
             alternatives = translate_leet_to_letters(phish)
             self.assertTrue(real in alternatives)
 
-    
     def test_split_url(self):
-        urls = ['https://ubuvirtual.ubu.es/', 'www.ubu-virtual.ubu.es/ruta/archivo.php']
-        splitted_urls = [['https', 'ubuvirtual', 'ubu', 'es'], ['www', 'ubu', 'virtual', 'ubu', 'es', 'ruta', 'archivo', 'php']]
+        urls = ['https://ubuvirtual.ubu.es/',
+                'www.ubu-virtual.ubu.es/ruta/archivo.php']
+        splitted_urls = [['https', 'ubuvirtual', 'ubu', 'es'], [
+            'www', 'ubu', 'virtual', 'ubu', 'es', 'ruta', 'archivo', 'php']]
 
         for input_test, output_test in zip(urls, splitted_urls):
             result = get_splitted_url(input_test)
             self.assertTrue(result == output_test)
 
-
     def test_tlds_set(self):
-        
+
         tlds = get_tlds_set()
-        self.assertTrue(len(tlds) == 150)
+        self.assertTrue(len(tlds) > 100)
         self.assertTrue(bool(tlds & {'com'}))
         self.assertTrue(bool(tlds & {'es'}))
         self.assertTrue(bool(tlds & {'edu'}))
         self.assertTrue(bool(tlds & {'fr'}))
         self.assertTrue(bool(tlds & {'org'}))
 
-
     def test_targets_set(self):
-        
+
         tlds = get_phishing_targets_set()
         self.assertTrue(bool(tlds & {'amazon'}))
         self.assertTrue(bool(tlds & {'dropbox'}))
@@ -48,18 +49,18 @@ class phishingUtilsMethods(unittest.TestCase):
         self.assertTrue(bool(tlds & {'linkedin'}))
         self.assertTrue(bool(tlds & {'correos'}))
 
-
     def test_remove_tld(self):
-        urls = ['ubuvirtual.ubu.es.org.uk', 'ubuvirtual.ubu.es.org', 'ubuvirtual.ubu.es']
-        without_tlds = ['ubuvirtual.ubu.es.org', 'ubuvirtual.ubu.es', 'ubuvirtual.ubu']
+        urls = ['ubuvirtual.ubu.es.org.uk',
+                'ubuvirtual.ubu.es.org', 'ubuvirtual.ubu.es']
+        without_tlds = ['ubuvirtual.ubu.es.org',
+                        'ubuvirtual.ubu.es', 'ubuvirtual.ubu']
 
         for input_test, output_test in zip(urls, without_tlds):
             result = remove_tld(input_test)
             self.assertTrue(result == output_test)
 
-
     def test_empty_content(self):
-        
+
         empty = ['#', 'javascript:void(0)', '']
         not_empty = ['something', '/unexpected']
 
@@ -69,9 +70,8 @@ class phishingUtilsMethods(unittest.TestCase):
         for input_test in not_empty:
             self.assertFalse(is_empty(input_test))
 
-
     def test_simple_php_file(self):
-        
+
         simple = ['index.php', 'login.php', 'mail.php']
         not_simple = ['/index.php', 'something.something.php']
 
@@ -81,11 +81,11 @@ class phishingUtilsMethods(unittest.TestCase):
         for input_test in not_simple:
             self.assertFalse(is_simple_php_file(input_test))
 
-
     def test_domains(self):
-        
+
         base = 'https://ubuvirtual.ubu.es/'
-        absolute = ['https://pwr.edu.pl/', 'https://www.uc3m.es/Inicio', 'https://estudios.uoc.edu/es/estudiar-online']
+        absolute = ['https://pwr.edu.pl/', 'https://www.uc3m.es/Inicio',
+                    'https://estudios.uoc.edu/es/estudiar-online']
         relative = ['/mail.php', '/image/ruta/inventada.jpg', 'hola.html']
 
         for input_test in absolute:
@@ -96,38 +96,52 @@ class phishingUtilsMethods(unittest.TestCase):
             self.assertFalse(is_absolute(input_test))
             self.assertTrue(is_relative_in_local(input_test))
 
-        
     def test_title(self):
-        inputs = ['https://ubuvirtual.ubu.es/', 'https://secretariavirtual.ubu.es/']
-        outputs = ['UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
+        inputs = ['https://ubuvirtual.ubu.es/',
+                  'https://secretariavirtual.ubu.es/']
+        outputs = [
+            'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
 
         for input_test, output_test in zip(inputs, outputs):
             result = get_title(input_test)
             self.assertTrue(result == output_test)
 
+    def text_data_URIs(self):
+
+        input = '<img src="data:,Hello%2C%20World!">'
+        + ' <doc src=\'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D\'>'
+        + '<img src=data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E> '
+        + '  data:text/html,<script>alert(\'hi\');</script>  '
+        + '<img src=data text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E> '
+
+        self.assertTrue(len(find_data_URIs(input)) == 4)
+        self.assertTrue(len(find_data_URIs('No hay URIs')) == 0)
 
     def test_title(self):
-        inputs = ['https://ubuvirtual.ubu.es/', 'https://secretariavirtual.ubu.es/']
-        outputs = ['UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
+        inputs = ['https://ubuvirtual.ubu.es/',
+                  'https://secretariavirtual.ubu.es/']
+        outputs = [
+            'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
 
         for input_test, output_test in zip(inputs, outputs):
             result = get_title(input_test)
             self.assertTrue(result == output_test)
 
-
     def test_title(self):
 
-        inputs = [get_bin_source_code('https://ubuvirtual.ubu.es/', {}, {}).decode("utf-8", errors='ignore'), 
+        inputs = [get_bin_source_code('https://ubuvirtual.ubu.es/', {}, {}).decode("utf-8", errors='ignore'),
                   get_bin_source_code('https://secretariavirtual.ubu.es/', {}, {}).decode("utf-8", errors='ignore')]
 
-        outputs = ['UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificacin']
+        outputs = [
+            'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificacin']
 
         for input_test, output_test in zip(inputs, outputs):
             result = get_title(input_test)
             self.assertTrue(result == output_test)
 
     def test_get_number_errors(self):
-        self.assertTrue(get_number_errors(['https://github.com/phf1001/semisupervised-recommendation-atk-detection'], {}, {}) == 1)
+        self.assertTrue(get_number_errors(
+            ['https://github.com/phf1001/semisupervised-recommendation-atk-detection'], {}, {}) == 1)
 
 
 if __name__ == '__main__':

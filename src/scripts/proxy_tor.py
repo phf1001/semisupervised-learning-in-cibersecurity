@@ -2,6 +2,7 @@ import os
 import shlex
 import re
 import requests
+import time
 
 
 class proxy_tor:
@@ -16,14 +17,25 @@ class proxy_tor:
 
     def get_ip(self):
 
-        state = os.system(f'curl --proxy socks5h://localhost:{self.socks_port} http://ipinfo.io/ip ')
+        time.sleep(1)
+        intentos = 0
 
-        if state == 0:
-            given_ip = requests.get(
-                'http://ipinfo.io/ip', proxies={'http': f'socks5h://127.0.0.1:{self.socks_port}'}).text
+        while intentos < 3:
 
-            if len(re.findall(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", given_ip)) > 0:
-                return given_ip
+            state = os.system(f'curl --proxy socks5h://localhost:{self.socks_port} http://ipinfo.io/ip >/dev/null 2>&1')
+
+            if state == 0:
+                given_ip = requests.get(
+                    'http://ipinfo.io/ip', proxies={'http': f'socks5h://127.0.0.1:{self.socks_port}'}).text
+
+                if len(re.findall(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", given_ip)) > 0:
+                    return given_ip
+                
+                return ''
+
+            else:
+                time.sleep(1)
+                intentos += 1
 
         return ''
 

@@ -1,6 +1,6 @@
 import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import numpy as np
@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
+import pandas as pd
+
 
 def translate_leet_to_letters(word):
     """
@@ -42,7 +44,7 @@ def translate_leet_to_letters(word):
 
             if substitute in word_lower:
                 word_lower = word_lower.replace(substitute, key)
-            
+
             if substitute in word_upper:
                 word_upper = word_upper.replace(substitute, key)
 
@@ -87,7 +89,7 @@ def dictionary_leetspeak():
         "y": ["j", "`/", "\\|/", "\\//"],
         "z": ["2", "7_", "-/_", "%", ">_", "~/_", "-\_", "-|_"],
     }
-    
+
 
 def get_splitted_url(url):
     """
@@ -142,9 +144,6 @@ def get_suspicious_keywords():
     return set(('security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'))
 
 
-
-
-
 def get_available_proxies():
     """
     Returns directions included in proxies.json
@@ -159,7 +158,7 @@ def get_available_proxies():
     data = json.load(f)
     f.close()
     return data
-    
+
 
 def get_proxy():
     """
@@ -170,6 +169,7 @@ def get_proxy():
     """
 
     return get_available_proxies()[0]
+
 
 def is_simple_php_file(name):
     """
@@ -226,7 +226,7 @@ def is_foreign(self_url, url):
     """
 
     return not is_empty(url) and not is_relative_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
-    
+
 
 def remove_tld(netloc):
     """
@@ -250,6 +250,7 @@ def remove_tld(netloc):
     except ValueError:
         return netloc
 
+
 def is_empty(url):
     """
     Checks if a URL is empty.
@@ -263,10 +264,22 @@ def is_empty(url):
     return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
 
 
+def find_data_URIs(html):
+    """
+    Finds data URIs in a web.
+
+    Syntax: data:[<mime type>][;charset=<charset>][;base64],<encoded data>
+    """
+
+    matches = re.findall(
+        'data:(?:[^;,]+)?(?:;charset=[^;,]*)?(?:;base64)?,[^)"\';>]+[^)"\';>]', html)
+
+    return matches
+
 def remove_stop_words(data):
     """Removes non functional words from a web."""
 
-    stop_words = ( stopwords.words('english') + stopwords.words('spanish'))
+    stop_words = (stopwords.words('english') + stopwords.words('spanish'))
 
     new_text = ''
     for w in data:
@@ -318,11 +331,11 @@ def get_popular_words(html, k=10):
     n_words = len(tokens)
 
     for token in np.unique(tokens):
-    
+
         tf = counter[token]/n_words
         #df = doc_freq(token)
         #idf = np.log((N+1)/(df+1))
-    
+
     #tf_idf[doc, token] = tf*idf
     return counter.most_common(k)
 
@@ -389,7 +402,7 @@ def get_number_errors(hyperlinks, headers, proxies):
                 code = get_response_code(h, headers, proxies)
                 if code in (404, 403):
                     n_errors += 1
-            
+
             except requests.exceptions.RequestException:
                 pass
 
@@ -418,7 +431,7 @@ def get_number_redirects(hyperlinks, headers, proxies):
                 code = get_response_code(h, headers, proxies)
                 if code in (301, 302):
                     n_redirects += 1
-            
+
             except requests.exceptions.RequestException:
                 pass
 
@@ -458,7 +471,7 @@ def extract_url_href(tag):
 
     if len(matches) > 0:
         return matches[0]
-    
+
     return ''
 
 
@@ -485,7 +498,7 @@ def get_title(html):
 
     if len(matches) > 0:
         return matches[0]
-    
+
     return ''
 
 
@@ -495,7 +508,7 @@ def find_hyperlinks(html):
     from the src attribute and href attribute of anchor
     tags.
     """
-    return ( re.findall('(?:src\b*=\b*")([^"]*)(?:")', html) + re.findall('(?:href\b*=\b*")([^"]*)(?:")', html) )
+    return (re.findall('(?:src\b*=\b*")([^"]*)(?:")', html) + re.findall('(?:href\b*=\b*")([^"]*)(?:")', html))
 
 
 def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
@@ -526,24 +539,24 @@ def get_text_cleaned(html):
     tokens = nltk.word_tokenize(raw)
 
     htmlwords = ['https', 'http', 'display', 'button', 'hover',
-                'color', 'background', 'height', 'none', 'target',
-                'WebPage', 'reload', 'fieldset', 'padding', 'input',
-                'select', 'textarea', 'html', 'form', 'cursor',
-                'overflow', 'format', 'italic', 'normal', 'truetype',
-                'before', 'name', 'label', 'float', 'title', 'arial', 'type',
-                'block', 'audio', 'inline', 'canvas', 'margin', 'serif', 'menu',
-                'woff', 'content', 'fixed', 'media', 'position', 'relative', 'hidden',
-                'width', 'clear', 'body', 'standard', 'expandable', 'helvetica',
-                'fullwidth', 'embed', 'expandfull', 'fullstandardwidth', 'left', 'middle',
-                'iframe', 'rgba', 'selected', 'scroll', 'opacity',
-                'center', 'false', 'right', 'div', 'page', 'data']
+                 'color', 'background', 'height', 'none', 'target',
+                 'WebPage', 'reload', 'fieldset', 'padding', 'input',
+                 'select', 'textarea', 'html', 'form', 'cursor',
+                 'overflow', 'format', 'italic', 'normal', 'truetype',
+                 'before', 'name', 'label', 'float', 'title', 'arial', 'type',
+                 'block', 'audio', 'inline', 'canvas', 'margin', 'serif', 'menu',
+                 'woff', 'content', 'fixed', 'media', 'position', 'relative', 'hidden',
+                 'width', 'clear', 'body', 'standard', 'expandable', 'helvetica',
+                 'fullwidth', 'embed', 'expandfull', 'fullstandardwidth', 'left', 'middle',
+                 'iframe', 'rgba', 'selected', 'scroll', 'opacity',
+                 'center', 'false', 'right', 'div', 'page', 'data']
 
     text = ' '
 
     for w in tokens:
         if w.isalpha() and w.lower() not in htmlwords:
             text += (' ' + w)
-        
+
     return text
 
 
@@ -572,7 +585,6 @@ def get_tfidf_corpus(urls, headers, proxies):
             pass
 
     return corpus
-
 
 
 def get_tfidf(corpus):
@@ -615,13 +627,14 @@ def get_site_keywords(html, tfidf, n=10):
     a website. Extracted from the title, meta 
     tag and text.
     """
-    
+
     list = get_title(html).split(" ") + get_meta(html)
     words = ' '.join(list)
     set_one = set(preprocess(words))
     set_two = set(get_top_keywords(tfidf, html, n))
 
     return set_one.union(set_two)
+
 
 def get_csv_data(file):
     """
@@ -634,13 +647,13 @@ def get_csv_data(file):
     """
     if '.csv' not in file:
         return 'Invalid file'
-        
+
     with open(file) as f:
         reader = csv.reader(f)
         data = list(reader)
 
     f.close()
-    return [d[0] for d in data]
+    return [d[0] for d in data if len(d) > 0]
 
 
 def get_phishing_targets_set():
@@ -741,16 +754,16 @@ def get_open_fish_urls():
         Set containing phishing domains.
     """
 
-    request = requests.get(  'https://openphish.com/feed.txt', 
-                              headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
-                        ).content
-
+    request = requests.get('https://openphish.com/feed.txt',
+                           headers={
+                               'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
+                           ).content
 
     list = request.decode("utf-8", errors='ignore').split("\n")
     return set(list)
 
 
-def get_phish_tank_urls(n = 20):
+def get_phish_tank_urls_json(n=2000, proxy=None):
     """
     Returns a set containing phishing
     sites extracted from phish tank.
@@ -763,14 +776,49 @@ def get_phish_tank_urls(n = 20):
 
     try:
 
-        request = requests.get(  'http://data.phishtank.com/data/online-valid.json', 
-                                headers = {'User-Agent': 'phishtank/bob'},
-                                proxies = {'http': 'socks5h://127.0.0.1:9052'} )
+        request = requests.get('http://data.phishtank.com/data/online-valid.json',
+                               headers={'User-Agent': 'phishtank/patrick'},
+                               allow_redirects=True,
+                               proxies=proxy)
 
         y = request.content.decode("utf-8", errors='ignore')
         list = json.loads(y)
         urls = [dictionary['url'].replace("\\", "") for dictionary in list]
-        
+
+        if len(urls) < n:
+            return set(urls)
+
+        return set(urls[:n])
+
+    except requests.exceptions.RequestException or json.JSONDecodeError:
+        return set([])
+
+
+def get_phish_tank_urls_csv(n=2000):
+    """
+    Returns a set containing phishing
+    sites extracted from phish tank.
+
+    Returns
+    -------
+    set
+        Set containing phishing domains.
+    """
+
+    try:
+
+        request = requests.get('http://data.phishtank.com/data/online-valid.csv',
+                               headers={'User-Agent': 'phishtank/patrick'},
+                               allow_redirects=True)
+
+        csv_reader = csv.reader(request.text.splitlines(), delimiter=',')
+        content = [row for row in csv_reader]
+        df = pd.DataFrame(content[1:], columns=content[0])
+        urls = df['url'].to_list()
+
+        if len(urls) < n:
+            return set(urls)
+
         return set(urls[:n])
 
     except requests.exceptions.RequestException:
