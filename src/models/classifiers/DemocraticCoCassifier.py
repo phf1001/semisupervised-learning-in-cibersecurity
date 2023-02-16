@@ -21,7 +21,6 @@ class DemocraticCo:
         random_state:
             Random object or seed
         """
-
         self.n = len(base_cls)
         self.classes = []
         self.rd = self.check_random_state(random_state)
@@ -42,7 +41,6 @@ class DemocraticCo:
         U: np.array
             Unlabeled data used for training
         """
-
         classes = np.unique(y)
         self.classes = classes
         changes = True
@@ -170,7 +168,6 @@ class DemocraticCo:
         numpy.random.RandomState
             The random state object based on seed parameter.
         """
-
         if seed is None or seed is np.random:
             return np.random.mtrand._rand
 
@@ -195,7 +192,6 @@ class DemocraticCo:
         np.array:
             labels predicted by democratic-co
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict(sample) for sample in samples])
@@ -214,7 +210,6 @@ class DemocraticCo:
         np.array:
             label predicted by democratic-co
         """
-
         groups = {i: set() for i in self.classes}
 
         for id_cls, cls in self.classifiers.items():
@@ -257,7 +252,6 @@ class DemocraticCo:
         np.array:
             array containing probability for each class.
         """
-
         count = {i: 0 for i in self.classes}
 
         for id_cls, cls in self.classifiers.items():
@@ -285,7 +279,6 @@ class DemocraticCo:
             sample with probabilities for each 
             class.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])
