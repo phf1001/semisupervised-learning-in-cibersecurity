@@ -63,22 +63,22 @@ class DemocraticCo:
             U_tag_votes = [{i: set() for i in self.classes} for x in U]
             U_y = []
 
-            for x in enumerate(U):
+            for x_id, x in enumerate(U):
                 for id_cls, cls in self.classifiers.items():
-                    prediction = cls.predict([U[x]])[0]
-                    U_tag_votes[x][prediction].add(id_cls)
+                    prediction = cls.predict([x])[0]
+                    U_tag_votes[x_id][prediction].add(id_cls)
 
                 U_y.append(
-                    max(U_tag_votes[x], key=lambda k: len(U_tag_votes[x].get(k))))
+                    max(U_tag_votes[x_id], key=lambda k: len(U_tag_votes[x_id].get(k))))
 
             # Choose which exs to propose for labeling
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
 
-            for x in enumerate(U):
+            for x_id, x in enumerate(U):
 
-                most_voted_tag = U_y[x]
-                cls_agree_tag = U_tag_votes[x][most_voted_tag]
+                most_voted_tag = U_y[x_id]
+                cls_agree_tag = U_tag_votes[x_id][most_voted_tag]
 
                 exp_1 = 0
                 for cls in cls_agree_tag:
@@ -88,15 +88,15 @@ class DemocraticCo:
                 for tag in classes:
                     if tag != most_voted_tag:
                         weight_tag = 0
-                        for cls in U_tag_votes[x][tag]:
+                        for cls in U_tag_votes[x_id][tag]:
                             weight_tag += w[cls]
                         exp_2 = max(exp_2, weight_tag)
 
                 if exp_1 > exp_2:
                     for id_cls in (set(self.classifiers.keys()) - cls_agree_tag):
                         Li_prime, y_Li_prime = L_prime[id_cls]
-                        Li_prime.append(U[x])
-                        y_Li_prime.append(U_y[x])
+                        Li_prime.append(x)
+                        y_Li_prime.append(U_y[x_id])
 
             # Estimate if adding this is better
             l_mean = 0
