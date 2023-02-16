@@ -30,7 +30,7 @@ class proxy_tor:
 
                 if len(re.findall(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", given_ip)) > 0:
                     return given_ip
-                
+
                 return ''
 
             time.sleep(1)

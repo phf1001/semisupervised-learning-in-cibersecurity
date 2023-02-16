@@ -3,7 +3,7 @@ from phishing_utils import get_proxy
 class user_browsing:
 
     def __init__(self):
-        
+
         self.user = None
         self.password = None
         self.cookies = None

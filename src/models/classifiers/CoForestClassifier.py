@@ -293,7 +293,7 @@ class CoForest:
         count = {i: 0 for i in self.classes}
         for i in (tree.predict([sample])[0] for tree in self.ensemble.values()):
             count[i] += 1
-            
+
         return max(count, key=count.get)
 
     def predict(self, samples):
