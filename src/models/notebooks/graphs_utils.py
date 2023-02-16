@@ -3,23 +3,35 @@ import csv
 import pandas as pd
 
 def append_to_csv(file, array):
-    f = open( file, 'a')
-    np.savetxt(f, array, fmt='%1.3f', newline=",")
-    f.write("\n")
-    f.close()
+
+    if '.csv' in file:
+        f = open( file, 'a')
+        np.savetxt(f, array, fmt='%1.3f', newline=",")
+        f.write("\n")
+        f.close()
+
+    else:
+        raise Exception("File must be a csv file")
 
 
 def read_irregular_csv(file):
 
-    data = []
 
-    with open(file) as csv_file:
+    if '.csv' in file:
+
+        data = []
+
+        with open(file) as csv_file:
+            
+            for row in csv.reader(csv_file):
+                data.append([float(x) for x in row if x != ""])
+            csv_file.close()
+
+        return data
+
+    else:
+        raise Exception("File must be a csv file")
         
-        for row in csv.reader(csv_file):
-            data.append([float(x) for x in row if x != ""])
-        csv_file.close()
-
-    return data
 
 def create_graph_matrix(file):
 

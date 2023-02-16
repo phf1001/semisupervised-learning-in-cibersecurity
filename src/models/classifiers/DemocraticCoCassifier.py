@@ -126,6 +126,7 @@ class DemocraticCo:
                 self.w = [self.get_w(cls, L, y)
                           for cls in self.classifiers.values()]
 
+    @staticmethod
     def get_w(self, cls, L, y):
         """
         Returns the weight of a given classifier.
@@ -151,6 +152,7 @@ class DemocraticCo:
         li, hi = confidence_interval(cls, L, y)
         return ((li + hi) / 2)
 
+    @staticmethod
     def check_random_state(self, seed=None):
         """
         Turn seed into a np.random.RandomState instance.

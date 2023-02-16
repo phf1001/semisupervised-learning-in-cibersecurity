@@ -382,6 +382,7 @@ class CoForest:
         y_predictions = self.predict(X_test)
         return np.count_nonzero(y_predictions == y_test)/len(y_test)
 
+    @staticmethod
     def check_random_state(self, seed=None):
         """
         Turn seed into a np.random.RandomState instance.
@@ -409,6 +410,7 @@ class CoForest:
         if isinstance(seed, np.random.RandomState):
             return seed
 
+    @staticmethod
     def recall(self, y_true, y_pred):
         """
         Returns recall.
@@ -424,6 +426,7 @@ class CoForest:
         """
         return recall_score(y_true, y_pred)
 
+    @staticmethod
     def precision(self, y_true, y_pred):
         """
         Returns precision.

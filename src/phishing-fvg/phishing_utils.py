@@ -291,7 +291,7 @@ def remove_stop_words(data):
 def remove_punctuation(data):
     """Removes punctuation from a web."""
 
-    symbols = "!\"#$%&()*+-./:;<=>?@[\]^_`{|}~\n"
+    symbols = "!\"#$%&()*+-./:;\\<=>?@[]^_`{|}~\n"
     for i in range(len(symbols)):
         data = np.char.replace(data, symbols[i], ' ')
         data = np.char.replace(data, "  ", " ")
@@ -790,7 +790,7 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
 
         return set(urls[:n])
 
-    except requests.exceptions.RequestException or json.JSONDecodeError:
+    except (requests.exceptions.RequestException, json.JSONDecodeError):
         return set([])
 
 
@@ -812,7 +812,7 @@ def get_phish_tank_urls_csv(n=2000):
                                allow_redirects=True)
 
         csv_reader = csv.reader(request.text.splitlines(), delimiter=',')
-        content = [row for row in csv_reader]
+        content = list(csv_reader)
         df = pd.DataFrame(content[1:], columns=content[0])
         urls = df['url'].to_list()
 
