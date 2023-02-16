@@ -48,7 +48,7 @@ def translate_leet_to_letters(word):
             if substitute in word_upper:
                 word_upper = word_upper.replace(substitute, key)
 
-    return set((word, word_original.lower(), word_lower.lower(), word_upper.lower()))
+    return {word, word_original.lower(), word_lower.lower(), word_upper.lower()}
 
 
 def dictionary_leetspeak():
@@ -141,7 +141,7 @@ def get_suspicious_keywords():
         Set containing phishing keywords.
     """
 
-    return set(('security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'))
+    return {'security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'}
 
 
 def get_available_proxies():
@@ -212,7 +212,7 @@ def is_relative_in_local(url):
     if is_absolute(url):
         return False
 
-    return url[0] == '/' or not '/' in url
+    return url[0] == '/' or '/' not in url
 
 
 def is_foreign(self_url, url):
@@ -292,7 +292,7 @@ def remove_punctuation(data):
     """Removes punctuation from a web."""
 
     symbols = "!\"#$%&()*+-./:;\\<=>?@[]^_`{|}~\n"
-    for i in range(len(symbols)):
+    for i in enumerate(symbols):
         data = np.char.replace(data, symbols[i], ' ')
         data = np.char.replace(data, "  ", " ")
     data = np.char.replace(data, ',', '')
@@ -329,14 +329,6 @@ def get_popular_words(html, k=10):
     tokens = preprocess(cleaned)
     counter = Counter(tokens)
     n_words = len(tokens)
-
-    for token in np.unique(tokens):
-
-        tf = counter[token]/n_words
-        #df = doc_freq(token)
-        #idf = np.log((N+1)/(df+1))
-
-    #tf_idf[doc, token] = tf*idf
     return counter.most_common(k)
 
 
@@ -628,8 +620,8 @@ def get_site_keywords(html, tfidf, n=10):
     tag and text.
     """
 
-    list = get_title(html).split(" ") + get_meta(html)
-    words = ' '.join(list)
+    list_words = get_title(html).split(" ") + get_meta(html)
+    words = ' '.join(list_words)
     set_one = set(preprocess(words))
     set_two = set(get_top_keywords(tfidf, html, n))
 
@@ -759,8 +751,8 @@ def get_open_fish_urls():
                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
                            ).content
 
-    list = request.decode("utf-8", errors='ignore').split("\n")
-    return set(list)
+    list_s = request.decode("utf-8", errors='ignore').split("\n")
+    return set(list_s)
 
 
 def get_phish_tank_urls_json(n=2000, proxy=None):
@@ -782,8 +774,8 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
                                proxies=proxy)
 
         y = request.content.decode("utf-8", errors='ignore')
-        list = json.loads(y)
-        urls = [dictionary['url'].replace("\\", "") for dictionary in list]
+        json_content = json.loads(y)
+        urls = [dictionary['url'].replace("\\", "") for dictionary in json_content]
 
         if len(urls) < n:
             return set(urls)
@@ -791,7 +783,7 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
         return set(urls[:n])
 
     except (requests.exceptions.RequestException, json.JSONDecodeError):
-        return set([])
+        return set()
 
 
 def get_phish_tank_urls_csv(n=2000):
@@ -822,4 +814,4 @@ def get_phish_tank_urls_csv(n=2000):
         return set(urls[:n])
 
     except requests.exceptions.RequestException:
-        return set([])
+        return set()

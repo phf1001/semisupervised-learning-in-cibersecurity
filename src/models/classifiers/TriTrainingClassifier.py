@@ -159,7 +159,7 @@ class TriTraining:
         return (U[concordances], U_y_k[concordances])
 
     @staticmethod
-    def check_random_state(self, seed=None):
+    def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn

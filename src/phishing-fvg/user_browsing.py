@@ -8,7 +8,7 @@ class user_browsing:
         self.password = None
         self.cookies = None
         self.proxies = get_proxy()
-        self.user_agent = self.set_user_agent()
+        self.set_user_agent()
         self.header = None
 
     def set_standard_header(self, url):
@@ -29,5 +29,5 @@ class user_browsing:
         self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0"
 
     @staticmethod
-    def get_simple_user_header_agent(self):
+    def get_simple_user_header_agent():
         return {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}

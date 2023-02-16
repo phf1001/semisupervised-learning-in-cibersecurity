@@ -1,5 +1,5 @@
 import unittest
-from phishing_utils import *
+from phishing_utils import translate_leet_to_letters, get_splitted_url, get_tlds_set, get_phishing_targets_set, remove_tld, is_empty, is_simple_php_file, is_absolute, is_foreign, is_relative_in_local, find_data_URIs, get_title, get_number_errors, get_bin_source_code
 import os
 import sys
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -96,36 +96,17 @@ class phishingUtilsMethods(unittest.TestCase):
             self.assertFalse(is_absolute(input_test))
             self.assertTrue(is_relative_in_local(input_test))
 
-    def test_title(self):
-        inputs = ['https://ubuvirtual.ubu.es/',
-                  'https://secretariavirtual.ubu.es/']
-        outputs = [
-            'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
+    def test_data_URIs(self):
 
-        for input_test, output_test in zip(inputs, outputs):
-            result = get_title(input_test)
-            self.assertTrue(result == output_test)
+        input_test = '<img src="data:,Hello%2C%20World!">'
+        input_test += ' <doc src=\'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D\'>'
+        input_test += '<img src=data:text/html,%3Ch1%Hello%2C%20World!%3C%h1> '
+        input_test += '  data:text/html,<script>alert(\'hi\');</script>  '
+        input_test += '<img src=data text/html,%3Ch1Hello%2C%20World!%3C%h1%3> '
+        input_test += '<img src ="/ruta/inventada.png">'
 
-    def text_data_URIs(self):
-
-        input = '<img src="data:,Hello%2C%20World!">'
-        + ' <doc src=\'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D\'>'
-        + '<img src=data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E> '
-        + '  data:text/html,<script>alert(\'hi\');</script>  '
-        + '<img src=data text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E> '
-
-        self.assertTrue(len(find_data_URIs(input)) == 4)
+        self.assertTrue(len(find_data_URIs(input_test)) == 4)
         self.assertTrue(len(find_data_URIs('No hay URIs')) == 0)
-
-    def test_title(self):
-        inputs = ['https://ubuvirtual.ubu.es/',
-                  'https://secretariavirtual.ubu.es/']
-        outputs = [
-            'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificación']
-
-        for input_test, output_test in zip(inputs, outputs):
-            result = get_title(input_test)
-            self.assertTrue(result == output_test)
 
     def test_title(self):
 

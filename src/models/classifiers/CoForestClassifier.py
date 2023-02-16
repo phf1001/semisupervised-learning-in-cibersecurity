@@ -383,7 +383,7 @@ class CoForest:
         return np.count_nonzero(y_predictions == y_test)/len(y_test)
 
     @staticmethod
-    def check_random_state(self, seed=None):
+    def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn
@@ -411,7 +411,7 @@ class CoForest:
             return seed
 
     @staticmethod
-    def recall(self, y_true, y_pred):
+    def recall(y_true, y_pred):
         """
         Returns recall.
 
@@ -427,7 +427,7 @@ class CoForest:
         return recall_score(y_true, y_pred)
 
     @staticmethod
-    def precision(self, y_true, y_pred):
+    def precision(y_true, y_pred):
         """
         Returns precision.
 

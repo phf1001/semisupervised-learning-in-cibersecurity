@@ -63,7 +63,7 @@ class DemocraticCo:
             U_tag_votes = [{i: set() for i in self.classes} for x in U]
             U_y = []
 
-            for x in range(len(U)):
+            for x in enumerate(U):
                 for id_cls, cls in self.classifiers.items():
                     prediction = cls.predict([U[x]])[0]
                     U_tag_votes[x][prediction].add(id_cls)
@@ -75,7 +75,7 @@ class DemocraticCo:
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
 
-            for x in range(len(U)):
+            for x in enumerate(U):
 
                 most_voted_tag = U_y[x]
                 cls_agree_tag = U_tag_votes[x][most_voted_tag]
@@ -127,7 +127,7 @@ class DemocraticCo:
                           for cls in self.classifiers.values()]
 
     @staticmethod
-    def get_w(self, cls, L, y):
+    def get_w(cls, L, y):
         """
         Returns the weight of a given classifier.
 
@@ -153,7 +153,7 @@ class DemocraticCo:
         return ((li + hi) / 2)
 
     @staticmethod
-    def check_random_state(self, seed=None):
+    def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn
