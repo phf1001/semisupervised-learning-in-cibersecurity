@@ -28,7 +28,6 @@ def translate_leet_to_letters(word):
         Set containing alternatives + original,
         all of them in lower case.
     """
-
     word_original = str(word)
     word_lower = word.lower()
     word_upper = word.upper()
@@ -60,7 +59,6 @@ def dictionary_leetspeak():
     dict
         Dictionary containing common substitutions
     """
-
     return {
         "a": ["4", "@", "/-\\", "^"],
         "b": ["I3", "8", "13", "|3"],
@@ -102,7 +100,6 @@ def get_splitted_url(url):
         Array containing (lower) words in url
 
     """
-
     url = url.lower()
     url = re.split(':|/|\.| |\-', url)
 
@@ -122,7 +119,6 @@ def get_splitted_url_keep_dots(url):
         set containing (lower) words in url
 
     """
-
     url = url.lower()
     url = url.replace(".", " .")
     url = re.split(':|/| |\-', url)
@@ -140,7 +136,6 @@ def get_suspicious_keywords():
     set
         Set containing phishing keywords.
     """
-
     return {'security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'}
 
 
@@ -153,7 +148,6 @@ def get_available_proxies():
     list
         list containing Tor proxies.
     """
-
     f = open('./data/proxies.json')
     data = json.load(f)
     f.close()
@@ -167,7 +161,6 @@ def get_proxy():
     dict
         dict containing http proxy
     """
-
     return get_available_proxies()[0]
 
 
@@ -181,7 +174,6 @@ def is_simple_php_file(name):
     bool
         True if it is, False if not.
     """
-
     return bool(re.match('[A-Za-z0-9_-]*\.php', name))
 
 
@@ -194,7 +186,6 @@ def is_absolute(url):
     bool
         True if it is, False if not.
     """
-
     return bool(urlparse(url).netloc)
 
 
@@ -208,7 +199,6 @@ def is_relative_in_local(url):
     bool
         True if it is, False if not.
     """
-
     if is_absolute(url):
         return False
 
@@ -224,7 +214,6 @@ def is_foreign(self_url, url):
     bool
         True if it is, False if not.
     """
-
     return not is_empty(url) and not is_relative_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
 
 
@@ -243,7 +232,6 @@ def remove_tld(netloc):
     str
         netloc without tld
     """
-
     try:
         return netloc[:netloc.rindex('.')]
 
@@ -260,7 +248,6 @@ def is_empty(url):
     bool
         True if it is, False if not.
     """
-
     return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
 
 
@@ -270,7 +257,6 @@ def find_data_URIs(html):
 
     Syntax: data:[<mime type>][;charset=<charset>][;base64],<encoded data>
     """
-
     matches = re.findall(
         'data:(?:[^;,]+)?(?:;charset=[^;,]*)?(?:;base64)?,[^)"\';>]+[^)"\';>]', html)
 
@@ -278,7 +264,6 @@ def find_data_URIs(html):
 
 def remove_stop_words(data):
     """Removes non functional words from a web."""
-
     stop_words = (stopwords.words('english') + stopwords.words('spanish'))
 
     new_text = ''
@@ -290,7 +275,6 @@ def remove_stop_words(data):
 
 def remove_punctuation(data):
     """Removes punctuation from a web."""
-
     symbols = "!\"#$%&()*+-./:;\\<=>?@[]^_`{|}~\n"
     for i in enumerate(symbols):
         data = np.char.replace(data, symbols[i], ' ')
@@ -309,7 +293,6 @@ def preprocess(data):
     Returns tokens of the words in a text
     once it has been processed.
     """
-
     data = data.split()
     data = np.char.lower(data)
     data = remove_punctuation(data)
@@ -324,7 +307,6 @@ def get_popular_words(html, k=10):
     Extracts a number of the most repeated
     words in a website.
     """
-
     cleaned = BeautifulSoup(html, "lxml").text
     tokens = preprocess(cleaned)
     counter = Counter(tokens)
@@ -342,7 +324,6 @@ def get_number_foreign_hyperlinks(url, hyperlinks):
     int
         number of foreign hyperlinks
     """
-
     n_foreigns = 0
 
     for h in hyperlinks:
@@ -362,7 +343,6 @@ def get_number_empty_hyperlinks(hyperlinks):
     int
         number of empty hyperlinks
     """
-
     n_empty = 0
 
     for h in hyperlinks:
@@ -383,7 +363,6 @@ def get_number_errors(hyperlinks, headers, proxies):
     int
         number of errors
     """
-
     n_errors = 0
 
     for h in hyperlinks:
@@ -412,7 +391,6 @@ def get_number_redirects(hyperlinks, headers, proxies):
     int
         number of redirections
     """
-
     n_redirects = 0
 
     for h in hyperlinks:
@@ -458,7 +436,6 @@ def extract_url_href(tag):
         extracted link (empty if none)
 
     """
-
     matches = re.findall('(?:href=")([^"]*)(?:")', str(tag))
 
     if len(matches) > 0:
@@ -469,7 +446,6 @@ def extract_url_href(tag):
 
 def get_meta(html):
     """Returns the content of a meta tag."""
-
     keywords = []
     found = re.findall('(?:<meta)([^>]*)(?:>)', html)
 
@@ -505,7 +481,6 @@ def find_hyperlinks(html):
 
 def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
     """Extracts binary source code from webpage."""
-
     response = requests.get(url, headers=headers, proxies=proxies, timeout=15)
 
     if response.status_code != 400:
@@ -526,7 +501,6 @@ def get_text_cleaned(html):
     str:
         string containing html cleaned.
     """
-
     raw = BeautifulSoup(html, features='lxml').get_text(" ")
     tokens = nltk.word_tokenize(raw)
 
@@ -563,7 +537,6 @@ def get_tfidf_corpus(urls, headers, proxies):
     array:
             array of texts
     """
-
     corpus = []
 
     for url in urls:
@@ -589,7 +562,6 @@ def get_tfidf(corpus):
     TfidfVectorizer:
         object trained.
     """
-
     tfidf = TfidfVectorizer(stop_words=['english', 'spanish'])
     tfidf.fit_transform(corpus)
     return tfidf
@@ -605,7 +577,6 @@ def get_top_keywords(tfidf, text, n=10):
     array
         array containing n keywords.
     """
-
     response = tfidf.transform([text])
     feature_names = tfidf.get_feature_names_out()
     feature_array = np.array(feature_names)
@@ -619,7 +590,6 @@ def get_site_keywords(html, tfidf, n=10):
     a website. Extracted from the title, meta 
     tag and text.
     """
-
     list_words = get_title(html).split(" ") + get_meta(html)
     words = ' '.join(list_words)
     set_one = set(preprocess(words))
@@ -658,7 +628,6 @@ def get_phishing_targets_set():
     set
         Set containing phishing targets.
     """
-
     return set(get_csv_data('data' + os.sep + 'phishing_targets.csv'))
 
 
@@ -699,7 +668,6 @@ def get_payment_gateways():
     set
         Set containing payment gateways.
     """
-
     return set(get_csv_data('data' + os.sep + 'payment_gateways.csv'))
 
 
@@ -713,7 +681,6 @@ def get_banking_sites():
     set
         Set containing banking sites
     """
-
     return set(get_csv_data('data' + os.sep + 'banking_sites.csv'))
 
 
@@ -727,7 +694,6 @@ def get_legitimate_urls():
     set
         Set containing legitimate domains.
     """
-
     set_one = get_alexa_sites()
     set_two = get_payment_gateways()
     set_three = get_banking_sites()
@@ -745,7 +711,6 @@ def get_open_fish_urls():
     set
         Set containing phishing domains.
     """
-
     request = requests.get('https://openphish.com/feed.txt',
                            headers={
                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
@@ -765,7 +730,6 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
     set
         Set containing phishing domains.
     """
-
     try:
 
         request = requests.get('http://data.phishtank.com/data/online-valid.json',
@@ -796,7 +760,6 @@ def get_phish_tank_urls_csv(n=2000):
     set
         Set containing phishing domains.
     """
-
     try:
 
         request = requests.get('http://data.phishtank.com/data/online-valid.csv',

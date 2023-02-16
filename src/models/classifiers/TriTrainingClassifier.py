@@ -17,7 +17,6 @@ class TriTraining:
         random_state:
             Random object or seed
         """
-
         self.n = 3
         self.classes = []
         self.rd = self.check_random_state(random_state)
@@ -37,7 +36,6 @@ class TriTraining:
         U: np.array
             Unlabeled data used for training
         """
-
         self.initialize_classifiers(L, y)
         self.classes = np.unique(y)
 
@@ -103,7 +101,6 @@ class TriTraining:
         L: np.array
             Labeled data used for training
         """
-
         for i in range(self.n):
             rand_rows = self.rd.choice(
                 L.shape[0], replace=True, size=(int(percentage * L.shape[0])))
@@ -128,7 +125,6 @@ class TriTraining:
         y: np.array
             Labeled data tags used for training
         """
-
         prediction_j = self.classifiers[(i+1) % self.n].predict(L)
         prediction_k = self.classifiers[(i+2) % self.n].predict(L)
 
@@ -150,7 +146,6 @@ class TriTraining:
         U: np.array
             Unlabeled data used for training
         """
-
         U_y_j = self.classifiers[(i+1) % self.n].predict(U)
         U_y_k = self.classifiers[(i+2) % self.n].predict(U)
 
@@ -176,7 +171,6 @@ class TriTraining:
         numpy.random.RandomState
             The random state object based on seed parameter.
         """
-
         if seed is None or seed is np.random:
             return np.random.mtrand._rand
 
@@ -200,7 +194,6 @@ class TriTraining:
         np.array:
             label predicted by tri-training.
         """
-
         count = {i: 0 for i in self.classes}
 
         for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
@@ -223,7 +216,6 @@ class TriTraining:
         np.array:
             labels predicted by tri-training.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict(sample) for sample in samples])
@@ -243,7 +235,6 @@ class TriTraining:
         np.array:
             array containing probability for each class.
         """
-
         count = {i: 0 for i in self.classes}
 
         for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
@@ -269,7 +260,6 @@ class TriTraining:
             sample with probabilities for each 
             class.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])
