@@ -292,3 +292,4 @@ class TriTraining:
         """
         y_predictions = self.predict(X)
         return np.count_nonzero(y_predictions == y_true)/len(y_true)
+        

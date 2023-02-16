@@ -1,9 +1,8 @@
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import recall_score, precision_score
 import numpy as np
 import numbers
 from copy import deepcopy
-from sklearn.metrics import recall_score, precision_score
-
 
 class CoForest:
 
@@ -192,7 +191,7 @@ class CoForest:
         W = 0
         U_subsampled = []
 
-        while (W < Wmax):
+        while W < Wmax:
 
             rand_row = self.random_state.choice(U.shape[0])
             W += self.concomitant_confidence(hi, U[rand_row, :])[0]
@@ -238,7 +237,7 @@ class CoForest:
                         n_hits += 1
                     n_votes += 1
 
-            if (n_votes > 0):
+            if n_votes > 0:
                 errors.append(1 - (n_hits/n_votes))
 
         return np.mean(errors)
@@ -442,3 +441,4 @@ class CoForest:
         """
 
         return precision_score(y_true, y_pred)
+        

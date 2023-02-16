@@ -1,4 +1,6 @@
-import json, os, time
+import json
+import os
+import time
 from proxy_tor import proxy_tor
 from multiprocessing import Process
 

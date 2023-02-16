@@ -31,3 +31,4 @@ class user_browsing:
     @staticmethod
     def get_simple_user_header_agent():
         return {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
+        

@@ -150,7 +150,7 @@ class DemocraticCo:
         c = self_confidence_interval_joselu(classifier, L, y)
 
         li, hi = confidence_interval(classifier, L, y)
-        return ((li + hi) / 2)
+        return (li + hi) / 2
 
     @staticmethod
     def check_random_state(seed=None):
