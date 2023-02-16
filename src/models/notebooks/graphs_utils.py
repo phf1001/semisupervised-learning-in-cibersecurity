@@ -16,21 +16,17 @@ def append_to_csv(file, array):
 
 def read_irregular_csv(file):
 
-
     if '.csv' in file:
-
         data = []
 
         with open(file) as csv_file:
-            
             for row in csv.reader(csv_file):
                 data.append([float(x) for x in row if x != ""])
             csv_file.close()
 
         return data
 
-    else:
-        raise Exception("File must be a csv file")
+    raise Exception("File must be a csv file")
         
 
 def create_graph_matrix(file):

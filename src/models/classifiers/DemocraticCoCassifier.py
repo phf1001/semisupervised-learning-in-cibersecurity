@@ -127,7 +127,7 @@ class DemocraticCo:
                           for cls in self.classifiers.values()]
 
     @staticmethod
-    def get_w(cls, L, y):
+    def get_w(classifier, L, y):
         """
         Returns the weight of a given classifier.
 
@@ -145,11 +145,11 @@ class DemocraticCo:
         float
             weight of the classifier
         """
-        a = confidence_interval_cesar(cls, L, y)
-        b = confidence_interval_alvar(cls, L, y)
-        c = self_confidence_interval_joselu(cls, L, y)
+        a = confidence_interval_cesar(classifier, L, y)
+        b = confidence_interval_alvar(classifier, L, y)
+        c = self_confidence_interval_joselu(classifier, L, y)
 
-        li, hi = confidence_interval(cls, L, y)
+        li, hi = confidence_interval(classifier, L, y)
         return ((li + hi) / 2)
 
     @staticmethod

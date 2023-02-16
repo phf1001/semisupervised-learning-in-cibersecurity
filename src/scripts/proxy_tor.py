@@ -33,9 +33,8 @@ class proxy_tor:
                 
                 return ''
 
-            else:
-                time.sleep(1)
-                intentos += 1
+            time.sleep(1)
+            intentos += 1
 
         return ''
 
