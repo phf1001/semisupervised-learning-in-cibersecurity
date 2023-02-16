@@ -1,5 +1,5 @@
 import unittest
-from phishing_utils import translate_leet_to_letters, get_splitted_url, get_tlds_set, get_phishing_targets_set, remove_tld, is_empty, is_simple_php_file, is_absolute, is_foreign, is_relative_in_local, find_data_URIs, get_title, get_number_errors, get_bin_source_code
+from phishing_utils import translate_leet_to_letters, get_splitted_url, get_tlds_set, get_phishing_targets_set, remove_tld, is_empty, is_simple_php_file, is_absolute, is_foreign, is_in_local, find_data_URIs, get_title, get_number_errors, get_bin_source_code
 import os
 import sys
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -61,7 +61,7 @@ class phishingUtilsMethods(unittest.TestCase):
 
     def test_empty_content(self):
 
-        empty = ['#', 'javascript:void(0)', '']
+        empty = ['#', 'javascript:void(0)', '', '#content']
         not_empty = ['something', '/unexpected']
 
         for input_test in empty:
@@ -86,15 +86,16 @@ class phishingUtilsMethods(unittest.TestCase):
         base = 'https://ubuvirtual.ubu.es/'
         absolute = ['https://pwr.edu.pl/', 'https://www.uc3m.es/Inicio',
                     'https://estudios.uoc.edu/es/estudiar-online']
-        relative = ['/mail.php', '/image/ruta/inventada.jpg', 'hola.html']
+        relative = ['/mail.php', '/image/ruta/inventada.jpg', 'hola.html', 'otra/ruta/.png', '../otra/ruta/mas.html']
 
         for input_test in absolute:
             self.assertTrue(is_absolute(input_test))
             self.assertTrue(is_foreign(base, input_test))
+            self.assertFalse(is_in_local(input_test))
 
         for input_test in relative:
             self.assertFalse(is_absolute(input_test))
-            self.assertTrue(is_relative_in_local(input_test))
+            self.assertTrue(is_in_local(input_test))
 
     def test_data_URIs(self):
 

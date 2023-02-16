@@ -198,7 +198,7 @@ def is_absolute(url):
     return bool(urlparse(url).netloc)
 
 
-def is_relative_in_local(url):
+def is_in_local(url):
     """
     Checks if a url is relative in the
     server.
@@ -212,7 +212,7 @@ def is_relative_in_local(url):
     if is_absolute(url):
         return False
 
-    return url[0] == '/' or '/' not in url
+    return url[0] == '/' or bool(re.match('[^.:*?<>]+.[A-Za-z0-9]+', url))
 
 
 def is_foreign(self_url, url):
@@ -225,7 +225,7 @@ def is_foreign(self_url, url):
         True if it is, False if not.
     """
 
-    return not is_empty(url) and not is_relative_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
+    return not is_empty(url) and not is_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
 
 
 def remove_tld(netloc):
@@ -293,7 +293,7 @@ def remove_punctuation(data):
 
     symbols = "!\"#$%&()*+-./:;\\<=>?@[]^_`{|}~\n"
     for i in enumerate(symbols):
-        data = np.char.replace(data, symbols[i], ' ')
+        data = np.char.replace(data, i[1], ' ')
         data = np.char.replace(data, "  ", " ")
     data = np.char.replace(data, ',', '')
     return data
@@ -388,7 +388,7 @@ def get_number_errors(hyperlinks, headers, proxies):
 
     for h in hyperlinks:
 
-        if not is_empty(h) and not is_relative_in_local(h):
+        if not is_empty(h) and not is_in_local(h):
 
             try:
                 code = get_response_code(h, headers, proxies)
@@ -417,7 +417,7 @@ def get_number_redirects(hyperlinks, headers, proxies):
 
     for h in hyperlinks:
 
-        if not is_empty(h) and not is_relative_in_local(h):
+        if not is_empty(h) and not is_in_local(h):
 
             try:
                 code = get_response_code(h, headers, proxies)
@@ -497,11 +497,30 @@ def get_title(html):
 def find_hyperlinks(html):
     """
     Finds number of pages in a website extracting them
-    from the src attribute and href attribute of anchor
-    tags.
+    from the src attribute and href attribute.
     """
-    return (re.findall('(?:src\b*=\b*")([^"]*)(?:")', html) + re.findall('(?:href\b*=\b*")([^"]*)(?:")', html))
+    links_one = re.findall('(?:src\b*=\b*(?:"|\'))([^"\']*)(?:"|\')', html) 
+    links_two = re.findall('(?:href\b*=\b*(?:"|\'))([^"\']*)(?:"|\')', html)
+    return links_one + links_two
 
+
+def find_hyperlinks_tags(soup):
+    """
+    Finds number of pages in a website extracting them
+    from the src attribute and href attribute of given
+    tags (paper).
+    """
+
+    links = []
+    tags = ['img', 'script', 'frame', 'input', 'link']
+
+    for tag in tags:
+        links += [html_tag['src'] for html_tag in soup.find_all(tag, src=True)]
+
+    links += [html_tag['href'] for html_tag in soup.find_all('a', href=True)]
+
+    return links
+        
 
 def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
     """Extracts binary source code from webpage."""
