@@ -1,20 +1,6 @@
-#from classifiers.utils import confidence_interval
-from utils import confidence_interval
+from classifiers.utils import confidence_interval
 import numpy as np
 import numbers
-
-
-
-from sklearn.datasets import load_digits
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
-import cProfile
-from sklearn.neural_network import MLPClassifier
-import numpy as np
-
 
 
 class DemocraticCo:
@@ -56,7 +42,7 @@ class DemocraticCo:
 
         e = [0] * self.n
         L_ = [(list(L), list(y)) for i in range(self.n)]
-        L_available = [np.ones(U.shape[0]).astype(bool) for i in range(self.n)]
+        U_in_L_ = [dict() for i in range(self.n)]
         cls_changes = np.ones(self.n, dtype=bool)
 
         while changes:
@@ -64,52 +50,46 @@ class DemocraticCo:
             for i in np.arange(self.n)[cls_changes]:
                 self.classifiers[i] = self.classifiers[i].fit(*L_[i])
             cls_changes = np.zeros(self.n, dtype=bool)
-            L_general_available = np.sum(L_available, axis=0) != 0
 
             U_tag_votes = [{i: set() for i in self.classes} for x in U]
             U_y = []
 
             for x_id, x in enumerate(U):
-                if L_general_available[x_id]:
-                    for id_cls, cls in self.classifiers.items():
-                        prediction = cls.predict([x])[0]
-                        U_tag_votes[x_id][prediction].add(id_cls)
+                for id_cls, cls in self.classifiers.items():
+                    prediction = cls.predict([x])[0]
+                    U_tag_votes[x_id][prediction].add(id_cls)
 
-                    U_y.append(
-                        max(U_tag_votes[x_id], key=lambda k: len(U_tag_votes[x_id].get(k))))
-
-                else:
-                    U_y.append(-1)
+                U_y.append(
+                    max(U_tag_votes[x_id], key=lambda k: len(U_tag_votes[x_id].get(k))))
 
             # Choose which exs to propose for labeling
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
-            L_prime_ids = [[] for i in range(self.n)]
+            Li_prime_ids = [set() for i in range(self.n)]
 
             for x_id, x in enumerate(U):
 
-                if L_general_available[x_id]:
-                    most_voted_tag = U_y[x_id]
-                    cls_agree_tag = U_tag_votes[x_id][most_voted_tag]
+                most_voted_tag = U_y[x_id]
+                cls_agree_tag = U_tag_votes[x_id][most_voted_tag]
 
-                    exp_1 = 0
-                    for cls in cls_agree_tag:
-                        exp_1 += w[cls]
+                exp_1 = 0
+                for cls in cls_agree_tag:
+                    exp_1 += w[cls]
 
-                    exp_2 = 0
-                    for tag in classes:
-                        if tag != most_voted_tag:
-                            weight_tag = 0
-                            for cls in U_tag_votes[x_id][tag]:
-                                weight_tag += w[cls]
-                            exp_2 = max(exp_2, weight_tag)
+                exp_2 = 0
+                for tag in classes:
+                    if tag != most_voted_tag:
+                        weight_tag = 0
+                        for cls in U_tag_votes[x_id][tag]:
+                            weight_tag += w[cls]
+                        exp_2 = max(exp_2, weight_tag)
 
-                    if exp_1 > exp_2:
-                        for id_cls in (set(self.classifiers.keys()) - cls_agree_tag):
-                            Li_prime, y_Li_prime = L_prime[id_cls]
-                            Li_prime.append(x)
-                            y_Li_prime.append(U_y[x_id])
-                            L_prime_ids[id_cls].append(x_id)
+                if exp_1 > exp_2:
+                    for id_cls in (set(self.classifiers.keys()) - cls_agree_tag):
+                        Li_prime, y_Li_prime = L_prime[id_cls]
+                        Li_prime.append(x)
+                        y_Li_prime.append(U_y[x_id])
+                        Li_prime_ids[id_cls].add(x_id)
 
             # Estimate if adding this is better
             l_mean = 0
@@ -131,10 +111,17 @@ class DemocraticCo:
 
                 if q_i_prime > q_i:
                     cls_changes[i] = True
-                    L_[i] = (Li_union_Li_prime, y_Li + y_Li_prime)
                     e[i] = e[i] + e_i_prime
-                    for x_id in L_prime_ids:
-                        L_available[i][x_id] = False
+
+                    for x_id, x, y_x in zip(Li_prime_ids[i], Li_prime, y_Li_prime):
+                        if x_id in U_in_L_[i].keys():
+                            index = U_in_L_[i][x_id]
+                            y_Li[index] = y_x
+
+                        else:
+                            U_in_L_[i][x_id] = len(Li)
+                            Li.append(x)
+                            y_Li.append(y_x)
 
             if cls_changes.sum() == 0:
                 changes = False
@@ -314,12 +301,3 @@ class DemocraticCo:
         """
         y_predictions = self.predict(X)
         return np.count_nonzero(y_predictions == y_true)/len(y_true)
-
-
-
-
-X, y = load_digits(return_X_y=True)
-L, U, Ly, Uy = train_test_split(X, y, test_size=0.8, random_state=5, stratify=y)
-classifiers = [DecisionTreeClassifier(), GaussianNB(), KNeighborsClassifier(n_neighbors=3)]
-dc = DemocraticCo(classifiers, random_state=5)
-dc.fit(L, Ly, U)
