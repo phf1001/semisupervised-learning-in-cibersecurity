@@ -2,6 +2,7 @@ import unittest
 from phishing_utils import translate_leet_to_letters, get_splitted_url, get_tlds_set, get_phishing_targets_set, remove_tld, is_empty, is_simple_php_file, is_absolute, is_foreign, is_in_local, find_data_URIs, get_title, get_number_errors, get_bin_source_code
 import os
 import sys
+from html import unescape
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 
@@ -111,14 +112,17 @@ class phishingUtilsMethods(unittest.TestCase):
 
     def test_title(self):
 
-        inputs = [get_bin_source_code('https://ubuvirtual.ubu.es/', {}, {}).decode("utf-8", errors='ignore'),
-                  get_bin_source_code('https://secretariavirtual.ubu.es/', {}, {}).decode("utf-8", errors='ignore')]
+        content_one = get_bin_source_code('https://ubuvirtual.ubu.es/', {}, {})
+        content_two = get_bin_source_code('https://secretariavirtual.ubu.es/', {}, {})
+        inputs = [unescape(content_one.decode("utf-8", errors='ignore')), 
+                  unescape(content_two.decode("utf-8", errors='ignore'))]
 
         outputs = [
             'UBUVirtual - Aula Virtual de la Universidad de Burgos', 'Identificacin']
 
         for input_test, output_test in zip(inputs, outputs):
             result = get_title(input_test)
+            print(result)
             self.assertTrue(result == output_test)
 
     def test_get_number_errors(self):

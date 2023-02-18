@@ -214,7 +214,6 @@ def is_foreign(self_url, url):
     bool
         True if it is, False if not.
     """
-
     return not is_empty(url) and not is_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
 
 
@@ -277,8 +276,8 @@ def remove_stop_words(data):
 def remove_punctuation(data):
     """Removes punctuation from a web."""
     symbols = "!\"#$%&()*+-./:;\\<=>?@[]^_`{|}~\n"
-    for i in enumerate(symbols):
-        data = np.char.replace(data, i[1], ' ')
+    for symbol in symbols:
+        data = np.char.replace(data, symbol, ' ')
         data = np.char.replace(data, "  ", " ")
     data = np.char.replace(data, ',', '')
     return data
@@ -487,7 +486,6 @@ def find_hyperlinks_tags(soup):
     from the src attribute and href attribute of given
     tags (paper).
     """
-
     links = []
     tags = ['img', 'script', 'frame', 'input', 'link']
 
@@ -613,7 +611,7 @@ def get_site_keywords(html, tfidf, n=10):
     list_words = get_title(html).split(" ") + get_meta(html)
     words = ' '.join(list_words)
     set_one = set(preprocess(words))
-    set_two = set(get_top_keywords(tfidf, html, n))
+    set_two = set(get_top_keywords(tfidf, get_text_cleaned(html), n))
 
     return set_one.union(set_two)
 

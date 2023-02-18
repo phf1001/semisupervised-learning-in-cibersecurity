@@ -8,7 +8,10 @@ import time
 class proxy_tor:
 
     def __init__(self, number_instance):
-
+        """
+        Class. Creates the file corresponding to
+        the instance and assigns ports.
+        """
         self.number_instance = number_instance
         self.socks_port = (9052 + 2 * number_instance)  # Default tor 9050
         self.control_port = (9053 + 2 * number_instance)  # Default tor 9051
@@ -16,7 +19,10 @@ class proxy_tor:
         self.file = self.create_tor_file()
 
     def get_ip(self):
-
+        """
+        Checks if the given proxy is working and
+        returns its ip.
+        """
         time.sleep(1)
         intentos = 0
 
@@ -39,7 +45,9 @@ class proxy_tor:
         return ''
 
     def create_tor_file(self):
-
+        """
+        Creates Tor file for an instance.
+        """
         file_path = f'/etc/tor/torrc.{self.number_instance}'
 
         with open(file_path, 'w') as f:
@@ -54,4 +62,7 @@ class proxy_tor:
         return file_path
 
     def launch_file(self):
+        """
+        Executes the file.
+        """
         os.system(f'tor -f {self.file} > /dev/null')
