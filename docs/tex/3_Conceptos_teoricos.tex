@@ -527,9 +527,7 @@ Se facilita a continuación (pseudocódigo~\ref{alg:democratic-co}) el pseudocó
 	\caption{\textit{Democratic-co}}\label{alg:democratic-co}
 \end{algorithm}
 
-Es probable que surja una cuestión: ¿qué ocurre con aquellas instancias de $U$ que han sido permanentemente añadidas a un $L_i$ en iteraciones posteriores? 
-
-Debido a la implementación del algoritmo, es altamente improbable que, si una muestra $x$ de $U$ ya ha sido previamente añadida a un $L_i$, se vuelva a añadir con una etiqueta distinta. Para que eso ocurriese, el cambio en todos los clasificadores debería ser muy notable (debido al sistema de pesos que sigue el algoritmo). Por ello y tras consultarlo con expertos en el área, no se ha considerado un aspecto a tener en cuenta en la implementación (es muy improbable que ocurra, y comprobar que no lo hace penaliza en complejidad el resto de las ejecuciones).
+Es probable que surja una cuestión: ¿qué ocurre con aquellas instancias de $U$ que han sido permanentemente añadidas a un $L_i$ en iteraciones posteriores? En este caso, se ha decidido actualizar la etiqueta existente previamente.
 
 \subsubsection{Fases}
 
@@ -543,12 +541,6 @@ Antes de añadir las muestras propuestas al conjunto de entrenamiento de los cla
 
 \subsection{Combinación de los resultados y corrección de errores}
 
-Aunque la forma más simple de crear la hipótesis final es combinando mediante votación por mayoría, el \textit{democratic-co learning} tiene en cuenta, además, la confianza individual que se tiene en cada clasificador ($w_i$) a la hora de realizar la predicción global.
-
-De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de Laplace (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
-
-Debido a que este ajuste puede no resultar efectivo cuando los valores de confianza individuales para cada clasificador son muy dispares, se ignoran aquellos clasificadores con $w$ < 0.5 (consultar algoritmo~\ref{alg:democratic-co-combination}).
-
 \begin{algorithm}
 	
 	\KwIn{Conjunto de instancias a predecir.}
@@ -561,15 +553,48 @@ Debido a que este ajuste puede no resultar efectivo cuando los valores de confia
 				$G_j = G_j \cup \{H_i\} $\\
 			}
 		}
-	
+		
 		\For{j = 1,...,r}{
 			$\overline{C}_{G_j} = \frac{|G_j| + 0.5}{|G_j| + 1} \times \frac{\sum_{H_i \in G_j}^{}w_i}{|G_j|}$
 		}
-	
+		
 		$H$ predice con $G_k$ para toda $k$ = argmax$_j(\overline{C}_{G_j})$
 	}
 	\caption{\textit{Combinación del \textit{democratic-co learning}}}\label{alg:democratic-co-combination}
 \end{algorithm}
+
+Aunque la forma más simple de crear la hipótesis final es combinando mediante votación por mayoría, el \textit{democratic-co learning} tiene en cuenta, además, la confianza individual que se tiene en cada clasificador ($w_i$) a la hora de realizar la predicción global.
+
+De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de Laplace (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
+
+Debido a que este ajuste puede no resultar efectivo cuando los valores de confianza individuales para cada clasificador son muy dispares, se ignoran aquellos clasificadores con $w$ < 0.5 (consultar algoritmo~\ref{alg:democratic-co-combination}).
+
+
+\section{Proceso de minería de datos}
+
+Aunque es probable que el lector se sienta atraído por los algoritmos mostrados en secciones anteriores, se calcula que aproximadamente un 80\%~\cite{apuntesMineria} del esfuerzo en un proceso de minería de datos se destina a fases previas a la aplicación de los algoritmos. Por ello, se muestra a continuación el ciclo de vida del proceso (ilustrado en la imagen~\ref{img:proceso_mineria}), donde se pueden diferenciar distintas fases~\cite{apuntesSisint}:
+
+\begin{enumerate}
+	\item \textbf{Definición y comprensión del problema}: como se puede deducir, para que un modelo pueda llegar a ser útil, se han de definir bien las instancias. Es decir, la calidad de la solución depende de lo bien que pueda el programador definir y modelar el problema. Por ello, es fundamental que la mayor parte del esfuerzo se dedique a conseguir un \textit{dataset} apropiado y de calidad. Para ello, el primer paso, es comprender qué se quiere conseguir aplicando la minería y cuáles son los objetivos a conseguir.
+	
+	\item \textbf{Adquisición de los datos}: el siguiente paso consiste en obtener los datos del problema que se quiere resolver. Para ello, se han de identificar las fuentes necesarias, recolectar e integrar los datos (incluso si este proceso requiere conversión y alineación). El resultado es un \textit{dataset} coherente, aunque no listo para ser introducido en un algoritmo.
+	
+	\item \textbf{Preparación de los datos}: se distinguen dos fases: la exploración y el preprocesado de los datos. El objetivo de la exploración es entender y definir los datos. Es decir, encontrar posibles correlaciones, tendencias o valores atípicos (\textit{outliers}) con el fin de facilitar las fases posteriores. Por otro lado, el preprocesado busca preparar los datos para poder ser analizados. Para ello se ha de limpiar las instancias (eliminar duplicados, inconsistencias, valores perdidos, ruido, etc.), transformarlas (escalar rangos, reducir dimensiones o realizar filtrados) y, optativamente, seleccionar los atributos (o las instancias) que resulten relevantes para resolver el problema.
+	
+	\item \textbf{Análisis de los datos}: en este apartado se seleccionan los algoritmos de ML apropiados para los datos (se recuerda que no existe ningún algoritmo que funcione siempre mejor que otros sino que cada problema tiene uno mejor adecuado), se construye el modelo, se entrena con los datos preparados y se evalúa el desempeño.
+	\item \textbf{Informe}: en esta fase se comunican los resultados utilizando gráficos.
+	\item \textbf{Actuación}: el último paso consiste en la toma de decisiones basadas en los informes generados. Es importante destacar que el impacto de las acciones tomadas ha de ser evaluado.
+\end{enumerate}
+
+\begin{figure}[h]
+	\caption[Proceso de minería de datos]{Representación del proceso de minería de dataos.}
+	\label{img:proceso_mineria}
+	\centering
+	\includegraphics[scale=0.5]{../img/memoria/3_ML_phases.pdf}
+\end{figure}
+
+
+Este proceso es iterativo~\cite{apuntesMineria} y los resultados de unas fases pueden alimentar otras con nueva información mejorando así los resultados.
 
 
 \section{Conceptos básicos de ciberseguridad}
