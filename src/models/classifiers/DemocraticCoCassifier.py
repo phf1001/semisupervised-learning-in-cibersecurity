@@ -65,7 +65,7 @@ class DemocraticCo:
             # Choose which exs to propose for labeling
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
-            Li_prime_ids = [set() for i in range(self.n)]
+            Li_prime_ids = [[] for i in range(self.n)]
 
             for x_id, x in enumerate(U):
 
@@ -89,7 +89,7 @@ class DemocraticCo:
                         Li_prime, y_Li_prime = L_prime[id_cls]
                         Li_prime.append(x)
                         y_Li_prime.append(U_y[x_id])
-                        Li_prime_ids[id_cls].add(x_id)
+                        Li_prime_ids[id_cls].append(x_id)
 
             # Estimate if adding this is better
             l_mean = 0
@@ -114,7 +114,7 @@ class DemocraticCo:
                     e[i] = e[i] + e_i_prime
 
                     for x_id, x, y_x in zip(Li_prime_ids[i], Li_prime, y_Li_prime):
-                        if x_id in U_in_L_[i].keys():
+                        if x_id in U_in_L_[i]:
                             index = U_in_L_[i][x_id]
                             y_Li[index] = y_x
 
