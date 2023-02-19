@@ -1,0 +1,19 @@
+language: python
+python:
+  - "3.10"
+
+install:
+  - pip install -r requirements.txt
+
+branches:
+  only:
+  - main
+  - dev
+  
+jobs:
+  include:
+    - stage: test
+      script:
+        - pushd src/tests
+        - python3 tests_phishing_utils.py
+        - popd

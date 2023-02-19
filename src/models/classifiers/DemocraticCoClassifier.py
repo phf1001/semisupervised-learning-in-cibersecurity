@@ -1,11 +1,6 @@
-from classifiers.utils import *
+from classifiers.utils import confidence_interval
 import numpy as np
 import numbers
-import sys
-import os
-
-src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-sys.path.append(src_path)
 
 
 class DemocraticCo:
@@ -21,7 +16,6 @@ class DemocraticCo:
         random_state:
             Random object or seed
         """
-
         self.n = len(base_cls)
         self.classes = []
         self.rd = self.check_random_state(random_state)
@@ -42,16 +36,13 @@ class DemocraticCo:
         U: np.array
             Unlabeled data used for training
         """
-
         classes = np.unique(y)
         self.classes = classes
         changes = True
 
-        e = np.zeros(self.n, dtype=float)  # [0.0 for i in range(self.n)]
-        q = np.zeros(self.n, dtype=float)
-        e_prime = np.zeros(self.n, dtype=float)
-        q_prime = np.zeros(self.n, dtype=float)
+        e = [0] * self.n
         L_ = [(list(L), list(y)) for i in range(self.n)]
+        U_in_L_ = [dict() for i in range(self.n)]
         cls_changes = np.ones(self.n, dtype=bool)
 
         while changes:
@@ -63,22 +54,23 @@ class DemocraticCo:
             U_tag_votes = [{i: set() for i in self.classes} for x in U]
             U_y = []
 
-            for x in range(len(U)):
+            for x_id, x in enumerate(U):
                 for id_cls, cls in self.classifiers.items():
-                    prediction = cls.predict([U[x]])[0]
-                    U_tag_votes[x][prediction].add(id_cls)
+                    prediction = cls.predict([x])[0]
+                    U_tag_votes[x_id][prediction].add(id_cls)
 
                 U_y.append(
-                    max(U_tag_votes[x], key=lambda k: len(U_tag_votes[x].get(k))))
+                    max(U_tag_votes[x_id], key=lambda k: len(U_tag_votes[x_id].get(k))))
 
             # Choose which exs to propose for labeling
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
+            Li_prime_ids = [[] for i in range(self.n)]
 
-            for x in range(len(U)):
+            for x_id, x in enumerate(U):
 
-                most_voted_tag = U_y[x]
-                cls_agree_tag = U_tag_votes[x][most_voted_tag]
+                most_voted_tag = U_y[x_id]
+                cls_agree_tag = U_tag_votes[x_id][most_voted_tag]
 
                 exp_1 = 0
                 for cls in cls_agree_tag:
@@ -88,15 +80,16 @@ class DemocraticCo:
                 for tag in classes:
                     if tag != most_voted_tag:
                         weight_tag = 0
-                        for cls in U_tag_votes[x][tag]:
+                        for cls in U_tag_votes[x_id][tag]:
                             weight_tag += w[cls]
                         exp_2 = max(exp_2, weight_tag)
 
                 if exp_1 > exp_2:
                     for id_cls in (set(self.classifiers.keys()) - cls_agree_tag):
                         Li_prime, y_Li_prime = L_prime[id_cls]
-                        Li_prime.append(U[x])
-                        y_Li_prime.append(U_y[x])
+                        Li_prime.append(x)
+                        y_Li_prime.append(U_y[x_id])
+                        Li_prime_ids[id_cls].append(x_id)
 
             # Estimate if adding this is better
             l_mean = 0
@@ -111,22 +104,32 @@ class DemocraticCo:
                 Li_prime, y_Li_prime = L_prime[i]
                 Li_union_Li_prime = Li + Li_prime
 
-                q[i] = len(Li) * (1 - 2 * (e[i] / len(Li))) ** 2
-                e_prime[i] = (1 - l_mean) * len(Li_prime)
-                q_prime[i] = len(
-                    Li_union_Li_prime) * (1 - (2*(e[i] + e_prime[i]) / len(Li_union_Li_prime))) ** 2
+                q_i = len(Li) * (1 - 2 * (e[i] / len(Li))) ** 2
+                e_i_prime = (1 - l_mean) * len(Li_prime)
+                q_i_prime = len(
+                    Li_union_Li_prime) * (1 - (2*(e[i] + e_i_prime) / len(Li_union_Li_prime))) ** 2
 
-                if q_prime[i] > q[i]:
+                if q_i_prime > q_i:
                     cls_changes[i] = True
-                    L_[i] = (Li_union_Li_prime, y_Li + y_Li_prime)
-                    e[i] = e[i] + e_prime[i]
+                    e[i] = e[i] + e_i_prime
+
+                    for x_id, x, y_x in zip(Li_prime_ids[i], Li_prime, y_Li_prime):
+                        if x_id in U_in_L_[i]:
+                            index = U_in_L_[i][x_id]
+                            y_Li[index] = y_x
+
+                        else:
+                            U_in_L_[i][x_id] = len(Li)
+                            Li.append(x)
+                            y_Li.append(y_x)
 
             if cls_changes.sum() == 0:
                 changes = False
                 self.w = [self.get_w(cls, L, y)
                           for cls in self.classifiers.values()]
 
-    def get_w(self, cls, L, y):
+    @staticmethod
+    def get_w(classifier, L, y):
         """
         Returns the weight of a given classifier.
 
@@ -144,14 +147,11 @@ class DemocraticCo:
         float
             weight of the classifier
         """
-        a = confidence_interval_cesar(cls, L, y)
-        b = confidence_interval_alvar(cls, L, y)
-        c = self_confidence_interval_joselu(cls, L, y)
+        li, hi = confidence_interval(classifier, L, y)
+        return (li + hi) / 2
 
-        li, hi = confidence_interval(cls, L, y)
-        return ((li + hi) / 2)
-
-    def check_random_state(self, seed=None):
+    @staticmethod
+    def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn
@@ -168,7 +168,6 @@ class DemocraticCo:
         numpy.random.RandomState
             The random state object based on seed parameter.
         """
-
         if seed is None or seed is np.random:
             return np.random.mtrand._rand
 
@@ -193,7 +192,6 @@ class DemocraticCo:
         np.array:
             labels predicted by democratic-co
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict(sample) for sample in samples])
@@ -212,7 +210,6 @@ class DemocraticCo:
         np.array:
             label predicted by democratic-co
         """
-
         groups = {i: set() for i in self.classes}
 
         for id_cls, cls in self.classifiers.items():
@@ -255,7 +252,6 @@ class DemocraticCo:
         np.array:
             array containing probability for each class.
         """
-
         count = {i: 0 for i in self.classes}
 
         for id_cls, cls in self.classifiers.items():
@@ -283,7 +279,6 @@ class DemocraticCo:
             sample with probabilities for each 
             class.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])

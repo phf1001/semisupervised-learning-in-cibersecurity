@@ -1,9 +1,8 @@
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import recall_score, precision_score
 import numpy as np
 import numbers
 from copy import deepcopy
-from sklearn.metrics import recall_score, precision_score
-
 
 class CoForest:
 
@@ -23,7 +22,6 @@ class CoForest:
             Number of features to consider when looking 
             for the best split
         """
-
         self.random_state = self.check_random_state(random_state)
         self.n = n
         self.theta = theta
@@ -51,7 +49,6 @@ class CoForest:
             Mask with samples from L used for each tree
 
         """
-
         self.classes = np.unique(y)
 
         ensemble = {}
@@ -83,7 +80,6 @@ class CoForest:
         U: np.array
             Unlabeled data used for training
         """
-
         mask_L = self.create_trees(L, y)
 
         e = [0 for i in range(self.n)]
@@ -160,7 +156,6 @@ class CoForest:
         mask_L: np.array
             Mask with samples from L used for each tree
         """
-
         pseudo_labeled_data = (lambda x: np.expand_dims(
             x, axis=0) if x.ndim == 1 else x)(pseudo_labeled_data)
         X_train = np.concatenate((L[mask_L[:, i] == 1], pseudo_labeled_data))
@@ -188,11 +183,10 @@ class CoForest:
             Array containing the index of the chosen
             samples from U
         """
-
         W = 0
         U_subsampled = []
 
-        while (W < Wmax):
+        while W < Wmax:
 
             rand_row = self.random_state.choice(U.shape[0])
             W += self.concomitant_confidence(hi, U[rand_row, :])[0]
@@ -221,7 +215,6 @@ class CoForest:
         float
             OOBE if trees voted, nan if not
         """
-
         errors = []
 
         for sample, tag in zip(L, y):
@@ -238,7 +231,7 @@ class CoForest:
                         n_hits += 1
                     n_votes += 1
 
-            if (n_votes > 0):
+            if n_votes > 0:
                 errors.append(1 - (n_hits/n_votes))
 
         return np.mean(errors)
@@ -262,7 +255,6 @@ class CoForest:
             float: confidence for the sample
             int: most agreed class
         """
-
         count = {i: 0 for i in self.classes}
 
         for tree in self.ensemble.values():
@@ -289,11 +281,10 @@ class CoForest:
         np.array:
             label predicted by coforest.
         """
-
         count = {i: 0 for i in self.classes}
         for i in (tree.predict([sample])[0] for tree in self.ensemble.values()):
             count[i] += 1
-            
+
         return max(count, key=count.get)
 
     def predict(self, samples):
@@ -311,7 +302,6 @@ class CoForest:
         np.array:
             labels predicted by the coforest.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict(sample) for sample in samples])
@@ -331,7 +321,6 @@ class CoForest:
         np.array:
             array containing probability for each class.
         """
-
         count = {i: 0 for i in self.classes}
 
         for i in (tree.predict([sample])[0] for tree in self.ensemble.values()):
@@ -357,7 +346,6 @@ class CoForest:
             sample with probabilities for each 
             class.
         """
-
         samples = (lambda x: np.expand_dims(x, axis=0)
                    if x.ndim == 1 else x)(samples)
         return np.array([self.single_predict_proba(sample) for sample in samples])
@@ -382,7 +370,8 @@ class CoForest:
         y_predictions = self.predict(X_test)
         return np.count_nonzero(y_predictions == y_test)/len(y_test)
 
-    def check_random_state(self, seed=None):
+    @staticmethod
+    def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
         Source: SkLearn
@@ -399,7 +388,6 @@ class CoForest:
         numpy.random.RandomState
             The random state object based on seed parameter.
         """
-
         if seed is None or seed is np.random:
             return np.random.mtrand._rand
 
@@ -409,7 +397,8 @@ class CoForest:
         if isinstance(seed, np.random.RandomState):
             return seed
 
-    def recall(self, y_true, y_pred):
+    @staticmethod
+    def recall(y_true, y_pred):
         """
         Returns recall.
 
@@ -424,7 +413,8 @@ class CoForest:
         """
         return recall_score(y_true, y_pred)
 
-    def precision(self, y_true, y_pred):
+    @staticmethod
+    def precision(y_true, y_pred):
         """
         Returns precision.
 
@@ -437,5 +427,5 @@ class CoForest:
         -------
         Precision score
         """
-
         return precision_score(y_true, y_pred)
+        
