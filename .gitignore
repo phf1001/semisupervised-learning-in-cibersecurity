@@ -1,9 +1,6 @@
-src_experiments/
-src/ML10-fvg/dataset
-src/recommendation-attack-detection-fvg/dataset
+src/recommendation_attack_detection_fvg/dataset
 src/scripts/t*
 *pycache
-*pruebas*
 *prueba*
 src/models/notebooks/iris
 src/models/notebooks/wine
@@ -11,4 +8,4 @@ src/models/notebooks/wine
 *__pycache__*
 *proxies.json*
 *html_dump*
-.vscode
+*.vscode*

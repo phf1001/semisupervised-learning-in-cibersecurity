@@ -16,6 +16,13 @@ import os
 import pandas as pd
 
 
+def get_data_path():
+    """
+    Returns data directory absolute path.
+    """
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
+
+
 def translate_leet_to_letters(word):
     """
     Returns a set containing possible alternatives
@@ -148,9 +155,9 @@ def get_available_proxies():
     list
         list containing Tor proxies.
     """
-    f = open('./data/proxies.json')
-    data = json.load(f)
-    f.close()
+    with open(get_data_path() + os.sep + 'proxies.json') as f:
+        data = json.load(f)
+        f.close()
     return data
 
 
@@ -261,6 +268,7 @@ def find_data_URIs(html):
         'data:(?:[^;,]+)?(?:;charset=[^;,]*)?(?:;base64)?,[^)"\';>]+[^)"\';>]', html)
 
     return matches
+
 
 def remove_stop_words(data):
     """Removes non functional words from a web."""
@@ -475,7 +483,7 @@ def find_hyperlinks(html):
     Finds number of pages in a website extracting them
     from the src attribute and href attribute.
     """
-    links_one = re.findall('(?:src\b*=\b*(?:"|\'))([^"\']*)(?:"|\')', html) 
+    links_one = re.findall('(?:src\b*=\b*(?:"|\'))([^"\']*)(?:"|\')', html)
     links_two = re.findall('(?:href\b*=\b*(?:"|\'))([^"\']*)(?:"|\')', html)
     return links_one + links_two
 
@@ -495,9 +503,9 @@ def find_hyperlinks_tags(soup):
     links += [html_tag['href'] for html_tag in soup.find_all('a', href=True)]
 
     return links
-        
 
-def get_bin_source_code(url, headers, proxies, fichero='data' + os.sep + 'html_dump'):
+
+def get_bin_source_code(url, headers, proxies, fichero=get_data_path() + os.sep + 'html_dump'):
     """Extracts binary source code from webpage."""
     response = requests.get(url, headers=headers, proxies=proxies, timeout=15)
 
@@ -646,7 +654,7 @@ def get_phishing_targets_set():
     set
         Set containing phishing targets.
     """
-    return set(get_csv_data('data' + os.sep + 'phishing_targets.csv'))
+    return set(get_csv_data(get_data_path() + os.sep + 'phishing_targets.csv'))
 
 
 def get_tlds_set():
@@ -659,7 +667,7 @@ def get_tlds_set():
     set
         Set containing 150 TLDs.
     """
-    return set(get_csv_data('data' + os.sep + '150_tlds.csv'))
+    return set(get_csv_data(get_data_path() + os.sep + '150_tlds.csv'))
 
 
 def get_alexa_sites(n=1802):
@@ -672,7 +680,7 @@ def get_alexa_sites(n=1802):
     set
         Set containing sites from alexa top
     """
-    data = get_csv_data('data' + os.sep + 'alexa_top_10k.csv')
+    data = get_csv_data(get_data_path() + os.sep + 'alexa_top_10k.csv')
     return set(data[:n])
 
 
@@ -686,7 +694,7 @@ def get_payment_gateways():
     set
         Set containing payment gateways.
     """
-    return set(get_csv_data('data' + os.sep + 'payment_gateways.csv'))
+    return set(get_csv_data(get_data_path() + os.sep + 'payment_gateways.csv'))
 
 
 def get_banking_sites():
@@ -699,7 +707,7 @@ def get_banking_sites():
     set
         Set containing banking sites
     """
-    return set(get_csv_data('data' + os.sep + 'banking_sites.csv'))
+    return set(get_csv_data(get_data_path() + os.sep + 'banking_sites.csv'))
 
 
 def get_legitimate_urls():
@@ -757,7 +765,8 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
 
         y = request.content.decode("utf-8", errors='ignore')
         json_content = json.loads(y)
-        urls = [dictionary['url'].replace("\\", "") for dictionary in json_content]
+        urls = [dictionary['url'].replace("\\", "")
+                for dictionary in json_content]
 
         if len(urls) < n:
             return set(urls)
