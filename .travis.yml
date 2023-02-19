@@ -5,6 +5,11 @@ python:
 install:
   - pip install -r requirements.txt
 
+branches:
+  only:
+  - main
+  - dev
+  
 jobs:
   include:
     - stage: test
