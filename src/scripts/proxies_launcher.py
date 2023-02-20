@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
         print(f'\n\n-> Available proxies: {available_proxies}')
 
-        with open('../phishing-fvg/data/proxies.json', 'w') as f:
+        with open('../phishing_fvg/data/proxies.json', 'w') as f:
             json.dump(available_proxies, f)
             f.close()
 

@@ -22,6 +22,11 @@ def get_data_path():
     """
     return os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 
+def get_fv_path():
+    """
+    Returns fv directory absolute path.
+    """
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), 'fv'))
 
 def translate_leet_to_letters(word):
     """
@@ -209,7 +214,7 @@ def is_in_local(url):
     if is_absolute(url):
         return False
 
-    return url[0] == '/' or bool(re.match('[^.:*?<>]+.[A-Za-z0-9]+', url))
+    return url[:3] == '../' or url[0] == '/' or bool(re.match('[^.]+\.[A-Za-z]+', url))
 
 
 def is_foreign(self_url, url):
@@ -301,13 +306,17 @@ def preprocess(data):
     Returns tokens of the words in a text
     once it has been processed.
     """
-    data = data.split()
-    data = np.char.lower(data)
-    data = remove_punctuation(data)
-    data = remove_apostrophe(data)
-    data = remove_stop_words(data)
 
-    return word_tokenize(str(data))
+    try:
+        data = data.split()
+        data = np.char.lower(data)
+        data = remove_punctuation(data)
+        data = remove_apostrophe(data)
+        data = remove_stop_words(data)
+        return word_tokenize(str(data))
+    
+    except TypeError:
+        return data
 
 
 def get_popular_words(html, k=10):
@@ -475,7 +484,7 @@ def get_title(html):
     if len(matches) > 0:
         return matches[0]
 
-    return ''
+    return ' '
 
 
 def find_hyperlinks(html):
@@ -670,7 +679,7 @@ def get_tlds_set():
     return set(get_csv_data(get_data_path() + os.sep + '150_tlds.csv'))
 
 
-def get_alexa_sites(n=1802):
+def get_alexa_sites(n=-1):
     """
     Returns a set containing the number of desired
     Alexa domains.
@@ -680,7 +689,11 @@ def get_alexa_sites(n=1802):
     set
         Set containing sites from alexa top
     """
-    data = get_csv_data(get_data_path() + os.sep + 'alexa_top_10k.csv')
+    data = get_csv_data(get_data_path() + os.sep + 'alexa_filtered.csv')
+
+    if n == -1 or len(data) < n:
+        return set(data)
+
     return set(data[:n])
 
 

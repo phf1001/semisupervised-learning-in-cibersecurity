@@ -1,7 +1,11 @@
-from classifiers.utils import confidence_interval
+import os
+import sys
 import numpy as np
 import numbers
 
+src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(src_path)
+from models.classifiers.utils import confidence_interval
 
 class DemocraticCo:
 
