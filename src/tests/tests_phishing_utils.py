@@ -84,21 +84,21 @@ class phishingUtilsMethods(unittest.TestCase):
         for input_test in not_simple:
             self.assertFalse(is_simple_php_file(input_test))
 
-    # def test_domains(self):
+    def test_domains(self):
 
-    #     base = 'https://ubuvirtual.ubu.es/'
-    #     absolute = ['https://pwr.edu.pl/', 'https://www.uc3m.es/Inicio',
-    #                 'https://estudios.uoc.edu/es/estudiar-online']
-    #     relative = ['/mail.php', '/image/ruta/inventada.jpg', 'hola.html', 'otra/ruta/.png', '../otra/ruta/mas.html']
+        base = 'https://ubuvirtual.ubu.es/'
+        absolute = ['https://pwr.edu.pl/', 'https://www.uc3m.es/Inicio',
+                    'https://estudios.uoc.edu/es/estudiar-online']
+        relative = ['/mail.php', '/image/ruta/inventada.jpg', 'hola.html', 'otra/ruta/.png', '../otra/ruta/mas.html']
 
-    #     for input_test in absolute:
-    #         self.assertTrue(is_absolute(input_test))
-    #         self.assertTrue(is_foreign(base, input_test))
-    #         self.assertFalse(is_in_local(input_test))
+        for input_test in absolute:
+            self.assertTrue(is_absolute(input_test))
+            self.assertTrue(is_foreign(base, input_test))
+            self.assertFalse(is_in_local(input_test))
 
-    #     for input_test in relative:
-    #         self.assertFalse(is_absolute(input_test))
-    #         self.assertTrue(is_in_local(input_test))
+        for input_test in relative:
+            self.assertFalse(is_absolute(input_test))
+            self.assertTrue(is_in_local(input_test))
 
     def test_data_URIs(self):
 

@@ -209,7 +209,7 @@ def is_in_local(url):
     if is_absolute(url):
         return False
 
-    return url[0] == '/' or bool(re.match('[^.:*?<>]+.[A-Za-z0-9]+', url))
+    return url[:3] == '../' or url[0] == '/' or bool(re.match('[^.]+\.[A-Za-z]+', url))
 
 
 def is_foreign(self_url, url):
@@ -670,7 +670,7 @@ def get_tlds_set():
     return set(get_csv_data(get_data_path() + os.sep + '150_tlds.csv'))
 
 
-def get_alexa_sites(n=1802):
+def get_alexa_sites(n=-1):
     """
     Returns a set containing the number of desired
     Alexa domains.
@@ -681,6 +681,10 @@ def get_alexa_sites(n=1802):
         Set containing sites from alexa top
     """
     data = get_csv_data(get_data_path() + os.sep + 'alexa_top_10k.csv')
+
+    if n == -1 or len(data) < n:
+        return set(data)
+
     return set(data[:n])
 
 
