@@ -215,26 +215,27 @@ Los resultados se pueden observar en las gráficas~\ref{gr:dc_train-iterations} 
 \begin{figure}[h]
 	\caption[\textit{Democratic-co}: resultados experimentación (iteraciones-entrenamiento)]{Evolución de la \textit{accuracy} para cada conjunto de datos y desviación individual durante las iteraciones del entrenamiento del \textit{democratic-co learning}.}
 	\centering
-	\includegraphics[scale=0.5]{../img/memoria/5_tritraining_score-iteraciones}
+	\includegraphics[scale=0.5]{../img/memoria/5_democraticco_score-iteraciones}
 	\label{gr:dc_train-iterations}
-\end{figure}
-
-\begin{figure}[h]
-	\caption[\textit{Democratic-co}: resultados experimentación (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento, además de la evolución del \textit{score} en función del porcentaje total de instancias respecto a cada \textit{dataset}.}
-	\centering
-	\includegraphics[scale=0.4]{../img/memoria/5_tritraining_time-percentage}
-	\label{gr:dc_time-percentage}
 \end{figure}
 
 \begin{itemize}
 	\item \textbf{Fase de entrenamiento:} como estimadores base para el \textit{democratic-co learning} se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$. Nuevamente, los resultados representados han sido obtenidos mediante validación cruzada y se representan en la gráfica~\ref{gr:dc_train-iterations}.
 	
-	...
+	Como se puede observar, todos los \textit{datasets} mejoran la \textit{score} inicial excepto Dígitos. Habiendo \textit{debuggeado} el algoritmo y comprobado cómo funciona internamente, se piensa que es debido a la gran cantidad de clases disponibles en el \textit{dataset} (las etiquetas pueden adoptar un valor entre $0$ y $9$). En la fase del algoritmo en la que se escoge la etiqueta, puede ocurrir que no haya una mayoría entre la votación, lo que da lugar a un mayor error que en los \textit{datasets} con menos etiquetas (por ejemplo, los binarios). Se piensa que una posible solución sería incrementar el número de estimadores base, pero también se dispararía el tiempo de entrenamiento, que es muy superior al resto de algoritmos (compruébese que el número de iteraciones en este caso puede llegar a ser $200$).
+	
+\begin{figure}[h]
+	\caption[\textit{Democratic-co}: resultados experimentación (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento, además de la evolución del \textit{score} en función del porcentaje total de instancias respecto a cada \textit{dataset}.}
+	\centering
+	\includegraphics[scale=0.4]{../img/memoria/5_democraticco_time-percentage}
+	\label{gr:dc_time-percentage}
+\end{figure}
+	
+	\item \textbf{Tiempo de entrenamiento:} los resultados se plasman en la gráfica~\ref{gr:dc_time-percentage}. Como se puede comprobar, en este algoritmo el tiempo de entrenamiento requerido es muy superior a los anteriores y, aparentemente, no se asemeja a ninguna función estándar (los puntos están más dispersos que en otras ocasiones).
+	
+	\item \textbf{Datos de entrenamiento:} se muestra en la gráfica~\ref{gr:dc_time-percentage} (segundo cuadrante) la variación del \textit{score} del \textit{democratic-co} en función del porcentaje del conjunto de datos destinado al entrenamiento. En este caso la variación es menos notoria que en algoritmos anteriores para la mayoría de los \textit{datasets}, lo que puede implicar que el número de instancias etiquetadas puede ser inferior sin afectar tanto el desempeño del algoritmo.
 	
 	
-	\item \textbf{Tiempo de entrenamiento:} los resultados se plasman en la gráfica~\ref{gr:dc_time-percentage}....
-	
-	\item \textbf{Datos de entrenamiento:} se muestra en la gráfica~\ref{gr:dc_time-percentage} (segundo cuadrante) la variación del \textit{score} del \textit{democratic-co} en función del porcentaje del conjunto de datos destinado al entrenamiento....
 \end{itemize} 
 
 
@@ -244,15 +245,16 @@ En el caso del \textit{democratic-co}, se ha optado por comparar la implementaci
 
 Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
 
-
-El resultado se puede contemplar en la gráfica~\ref{gr:dc_vs_sslearn}, donde se muestra la \textit{score} obtenida en cada \textit{fold} y la media de los $10$.
-
 \begin{figure}[h]
 	\caption[\textit{Democratic-co}: comparativa contra \textit{sslearn}]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
 	\centering
-	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_sslearn}
+	\includegraphics[scale=0.62]{../img/memoria/5_democraticco_sslearn}
 	\label{gr:dc_vs_sslearn}
 \end{figure}
+
+El resultado se puede contemplar en la gráfica~\ref{gr:dc_vs_sslearn}, donde se muestra la \textit{score} obtenida en cada \textit{fold} y la media de los $10$. En el caso de Iris, la \textit{score} obtenida para cada \textit{fold} es idéntica en ambas implementaciones y, por lo tanto, la media también. El caso del conjunto de datos Vino es el que menos se asemeja, pero igualmente se ha obtenido la misma exactitud en un 60\% de las ocasiones y la media se diferencia en apenas dos centésimas. En el último \textit{dataset} binario se encuentra alguna pequeña varición en algunos \textit{folds}, pero la media obtenida es la misma.
+
+Debido a que las pequeñas variaciones se deben a cuestiones de implementación no definidas en el pseudocódigo de Zhou y Goldman~\cite{democraticCoLearning2004original} (por ejemplo, el tratamiento de instancias duplicadas de $U$ en $L_i$), se considera que la comparativa es exitosa (el \textit{score} obtenido es idéntico en dos de los \textit{datasets} y muy similar en el otro) y el algoritmo ha sido implementado correctamente.
 
 
 \section{Detección de ataques en sistemas de recomendación}
