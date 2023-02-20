@@ -306,13 +306,17 @@ def preprocess(data):
     Returns tokens of the words in a text
     once it has been processed.
     """
-    data = data.split()
-    data = np.char.lower(data)
-    data = remove_punctuation(data)
-    data = remove_apostrophe(data)
-    data = remove_stop_words(data)
 
-    return word_tokenize(str(data))
+    try:
+        data = data.split()
+        data = np.char.lower(data)
+        data = remove_punctuation(data)
+        data = remove_apostrophe(data)
+        data = remove_stop_words(data)
+        return word_tokenize(str(data))
+    
+    except TypeError:
+        return data
 
 
 def get_popular_words(html, k=10):
@@ -480,7 +484,7 @@ def get_title(html):
     if len(matches) > 0:
         return matches[0]
 
-    return ''
+    return ' '
 
 
 def find_hyperlinks(html):

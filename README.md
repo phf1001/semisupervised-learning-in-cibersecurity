@@ -20,58 +20,45 @@
     <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/pulls">
     <img src="https://img.shields.io/github/issues-pr-raw/phf1001/semisupervised-learning-in-cibersecurity.svg?style=flat-square&logo=github&logoColor=white"
          alt="GitHub pull requests">
+    <a href="https://app.travis-ci.com/phf1001/semisupervised-learning-in-cibersecurity">
+    <img src="https://app.travis-ci.com/phf1001/semisupervised-learning-in-cibersecurity.svg?branch=main"
+         alt="travis-build">        
 </p>
 
 <p align="center">
-
-<a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
-<img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=code_smells" alt="sc-codesmells">
-</a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=ncloc" alt="sc-loc">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=alert_status" alt="sc-qualitygate">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=reliability_rating" alt="sc-reliability">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=duplicated_lines_density" alt="sc-duplicated">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=vulnerabilities" alt="sc-vulnerabilities">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=bugs" alt="sc-bugs">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=security_rating" alt="sc-security">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=sqale_rating" alt="sc-maintainab">
 </a>
-
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=code_smells" alt="sc-codesmells">
 </a>
-
 <a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
 <img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=active+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-activeissues">
 </a>
-
 <a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
 <img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=resolved+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-solvedissues">
 </a>
- 
 </p>
       
 <p align="center">
