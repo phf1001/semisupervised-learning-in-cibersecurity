@@ -680,7 +680,7 @@ def get_alexa_sites(n=-1):
     set
         Set containing sites from alexa top
     """
-    data = get_csv_data(get_data_path() + os.sep + 'alexa_top_10k.csv')
+    data = get_csv_data(get_data_path() + os.sep + 'alexa_filtered.csv')
 
     if n == -1 or len(data) < n:
         return set(data)
