@@ -22,6 +22,11 @@ def get_data_path():
     """
     return os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 
+def get_fv_path():
+    """
+    Returns fv directory absolute path.
+    """
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), 'fv'))
 
 def translate_leet_to_letters(word):
     """
