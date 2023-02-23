@@ -6,13 +6,16 @@
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
+        <li><a href="{{ url_for('scanner.index') }}">Scan URL</a>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
+      <li><a href="{{ url_for('scanner.index') }}">Scan URL</a>
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
   </ul>
 </nav>
+
 <section class="content">
   <header>
     {% block header %}{% endblock %}

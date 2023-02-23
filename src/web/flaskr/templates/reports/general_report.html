@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Informe de resultados{% endblock %}</h1>
+  <h1>{% block title %}Informe de resultados para {{ url }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <label for="username">{{ url }}</label>
 {% endblock %}
