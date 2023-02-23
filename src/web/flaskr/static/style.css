@@ -1,72 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
-    background-color: #FFFFFF;
-    color: #000000;
-    padding: 20px;
-    margin: 3px;
-    font-family: 'trebuchet ms';
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-align: justify;
+  background-color: #FFFFFF;
+  color: #000000;
+  margin: 0px;
+  font-family: 'trebuchet ms';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-align: justify;
+}
+
+body { max-width: 100%; 
+     padding: 10px;
+     background: white; 
   }
 
-body { max-width: 960px; 
-       margin: 0 auto; 
-       background: white; 
-    }
+form {
+  text-align: center;
+}
 
-h1 { font-family: 'trebuchet ms'; 
-    color: #377ba8; 
-    margin: 1rem 0; 
-   }
+/* Header/Blog Title */
+.header {
+  padding: 30px;
+  text-align: center;
+  background: white;
+}
 
-a { color: #377ba8; 
+.header h1 {
+  font-size: 50px;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {   
+  float: left;
+  width: 75%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  background-color: #f1f1f1;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {   
+    width: 100%;
+    padding: 0;
   }
-
-
-hr { border: none; 
-    border-top: 1px solid lightgray; 
 }
 
-nav { background: lightgray; 
-    display: flex; 
-    align-items: center; 
-    padding: 0 0.5rem; 
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
 }
-
-nav h1 { 
-    flex: auto; margin: 0; 
-}
-
-nav h1 a { 
-    text-decoration: none; 
-    padding: 0.25rem 0.5rem; 
-}
-
-nav ul  { 
-    display: flex; 
-    list-style: none; 
-    margin: 0; padding: 0; 
-}
-
-nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
-.content { padding: 0 1rem 1rem; }
-.content > header { border-bottom: 1px solid lightgray; display: flex; align-items: flex-end; }
-.content > header h1 { flex: auto; margin: 1rem 0 0.25rem 0; }
-.flash { margin: 1em 0; padding: 1em; background: #cae6f6; border: 1px solid #377ba8; }
-.post > header { display: flex; align-items: flex-end; font-size: 0.85em; }
-.post > header > div:first-of-type { flex: auto; }
-.post > header h1 { font-size: 1.5em; margin-bottom: 0; }
-.post .about { color: slategray; font-style: italic; }
-.post .body { white-space: pre-line; }
-.content:last-child { margin-bottom: 0; }
-.content form { margin: 1em 0; display: flex; flex-direction: column; }
-.content label { font-weight: bold; margin-bottom: 0.5em; }
-.content input, .content textarea { margin-bottom: 1em; }
-.content textarea { min-height: 12em; resize: vertical; }
-input.danger { color: #cc2f2e; }
-input[type=submit] { align-self: start; min-width: 10em; }
-
 
 .button-scan {
   background-color: #c2fbd7;
@@ -85,7 +132,7 @@ input[type=submit] { align-self: start; min-width: 10em; }
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 22%;
+  width: 10%;
 }
 
 .button-scan:hover {

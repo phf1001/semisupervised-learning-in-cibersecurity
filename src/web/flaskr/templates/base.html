@@ -2,18 +2,24 @@
 <title>{% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h1></h1>
-  <ul>
+
+  <div class="header">
+    <h1>PHISHING SCANNER 🎣</h1>
+  </div>
+
+  <div class="topnav">
     {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
-        <li><a href="{{ url_for('scanner.index') }}">Scan URL</a>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      
+      <a href="{{ url_for('scanner.index') }}">Scan URL</a>
+      <a style="float:right" href="{{ url_for('auth.logout') }}">Log Out</a>
+      <a style="float:right">{{ g.user['username'] }}</a>
     {% else %}
-      <li><a href="{{ url_for('scanner.index') }}">Scan URL</a>
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+      <a href="{{ url_for('scanner.index') }}">Scan URL</a>
+      <a style="float:right" href="{{ url_for('auth.register') }}">Register</a>
+      <a style="float:right" href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
-  </ul>
+  </div>
+
 </nav>
 
 <section class="content">
@@ -25,3 +31,7 @@
   {% endfor %}
   {% block content %}{% endblock %}
 </section>
+
+<div class="footer">
+  <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"><img src="../static/images/GitHub-Mark.png" width="50" height="50"></a
+</div>
