@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Phishing scaner{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    Introduce your URL: <input name="url"/>
+    <br/><br/>
+    <button type="Scan!">Submit</button>
+  </form>
+{% endblock %}
