@@ -2,6 +2,7 @@ import functools
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from flaskr.db import get_db
 from werkzeug.security import check_password_hash, generate_password_hash
+import psycopg2
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -19,16 +20,28 @@ def register():
             error = 'Password is required.'
 
         if error is None:
+
             try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
+                db.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
                 db.commit()
-            except db.IntegrityError:
+
+            except Exception as e:
                 error = f"User {username} is already registered."
+                error = e.text
             else:
                 return redirect(url_for("auth.login"))
+    
+
+            # try:
+            #     db.execute(
+            #         "INSERT INTO user (username, password) VALUES (?, ?)",
+            #         (username, generate_password_hash(password)),
+            #     )
+            #     db.commit()
+            # except db.IntegrityError:
+            #     error = f"User {username} is already registered."
+            # else:
+            #     return redirect(url_for("auth.login"))
 
         flash(error)
 
