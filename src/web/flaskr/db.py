@@ -7,13 +7,13 @@ def get_db():
         g.db = psycopg2.connect(
                             database="white_fountain",
                             user="dev",
-                            password = "123",
+                            password="123",
                             host="127.0.0.1"
                         )
 
     return g.db
 
-def close_db(e=None):
+def close_db():
     db = g.pop('db', None)
 
     if db is not None:

@@ -179,6 +179,8 @@ class TriTraining:
 
         if isinstance(seed, np.random.RandomState):
             return seed
+        
+        return None
 
     def single_predict(self, sample):
         """

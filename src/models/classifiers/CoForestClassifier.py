@@ -396,6 +396,8 @@ class CoForest:
 
         if isinstance(seed, np.random.RandomState):
             return seed
+        
+        return None
 
     @staticmethod
     def recall(y_true, y_pred):

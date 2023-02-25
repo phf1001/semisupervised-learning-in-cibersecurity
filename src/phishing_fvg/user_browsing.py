@@ -8,7 +8,7 @@ class user_browsing:
         self.password = None
         self.cookies = None
 
-        if proxy == None:
+        if proxy is None:
             self.proxies = get_proxy()
         else:
             self.proxies = proxy
@@ -30,7 +30,8 @@ class user_browsing:
                         "Sec-Fetch-Site": "none",
                         "Sec-Fetch-User": "?1"}
 
-    def get_user_agent(self):
+    @staticmethod
+    def get_user_agent():
         return 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0'
 
     @staticmethod

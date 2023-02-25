@@ -5,7 +5,7 @@ import pandas as pd
 def append_to_csv(file, array):
 
     if '.csv' in file:
-        with open( file, 'a') as f:
+        with open(file, 'a') as f:
             np.savetxt(f, array, fmt='%1.3f', newline=",")
             f.write("\n")
             f.close()
@@ -37,7 +37,7 @@ def create_graph_matrix(file):
 
     for individual_list in l:
         individual_list = np.array(individual_list)
-        new = np.ones(shape = (max_iters)) * individual_list[-1]
+        new = np.ones(shape=(max_iters)) * individual_list[-1]
         i = np.arange(0, individual_list.shape[0])
         new[i] = individual_list[i]
         m.append(new)

@@ -46,7 +46,7 @@ class DemocraticCo:
 
         e = [0] * self.n
         L_ = [(list(L), list(y)) for i in range(self.n)]
-        U_in_L_ = [dict() for i in range(self.n)]
+        U_in_L_ = [{} for i in range(self.n)]
         cls_changes = np.ones(self.n, dtype=bool)
 
         while changes:
@@ -180,6 +180,8 @@ class DemocraticCo:
 
         if isinstance(seed, np.random.RandomState):
             return seed
+        
+        return None
 
     def predict(self, samples):
         """
