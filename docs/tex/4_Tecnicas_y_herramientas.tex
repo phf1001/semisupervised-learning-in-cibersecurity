@@ -2,6 +2,30 @@
 
 \section{Técnicas}
 
+Scrum???
+revisar redacción
+
+\subsection{CRISP-DM}
+Una metodología común, no propietaria y abierta de desarrollo para proyectos de ML es CRISP-DM. Nacida del trabajo conjunto de un grupo de empresas, consta de un proceso iterativo y adaptable.
+
+Sin pretender desarrollar exhaustivamente la misma, se muestra a continuación un resumen de sus 6 principales fases~\cite{apuntesSisint}.
+
+\begin{enumerate}
+	\item \textbf{Compresión del negocio:} el objetivo de esta fase es entender los requerimientos del proyecto observados bajo un prisma empresarial y aplicar dicho conocimiento a la definición del problema de minería de datos.
+	
+	\item \textbf{Compresión de los datos:} consiste en recopilar y explorar los datos con el objetivo de conocerlos. También se pretende identificar problemas de calidad y posibles subconjuntos de datos con especial interés para ser analizados.
+	
+	\item \textbf{Preparación de los datos:} se busca procesar el conjunto de datos seleccionado con el fin de ser utilizable en algoritmos de ML. Por lo tanto, se incluyen todas las tareas de adecuación de los datos al problema de aprendizaje que se consideren necesarios.
+	
+	\item \textbf{Modelado:} en esta fase se pretende aplicar las técnicas de ML seleccionadas a las vistas obtenidas anteriormente, y se evalúa utilizando técnicas específicas de aprendizaje. 
+	
+	\item \textbf{Evaluación:} a diferencia de la fase anterior, se busca evaluar el modelo desde el punto de vista del objetivo del negocio. Es decir, determinar si responde ante los objetivos empresariales planteados con anterioridad.
+	
+	\item \textbf{Despliegue y explotación:} en la última fase, se integran los modelos en los procesos de la organización y se aprovecha el conocimiento generado.
+\end{enumerate}
+
+Es relevante destacar la naturaleza cíclica y no rígida de la metodología, permitiendo que algunas fases alimenten sus predecesoras o que incluso algunos proyectos motiven el lanzamiento de otros.
+
 \section{Herramientas}
 
 Se muestra a continuación algunas de las herramientas más relevantes en el desarrollo del proyecto.
@@ -88,7 +112,7 @@ Herramienta desarrollada en Java por distintas universidades españolas y financ
 
 \subsection{\textit{Scripts}} 
 \subsubsection{\textit{Script} para levantar proxies SOCKS5}
-
+\label{sec:script_tor}
 Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
 
 Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de Tor como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.

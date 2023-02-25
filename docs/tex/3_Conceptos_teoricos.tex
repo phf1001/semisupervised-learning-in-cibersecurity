@@ -560,22 +560,23 @@ Antes de añadir las muestras propuestas al conjunto de entrenamiento de los cla
 		
 		$H$ predice con $G_k$ para toda $k$ = argmax$_j(\overline{C}_{G_j})$
 	}
-	\caption{\textit{Combinación del \textit{democratic-co learning}}}\label{alg:democratic-co-combination}
+	\caption{\textit{Predicción del \textit{democratic-co learning}}}\label{alg:democratic-co-combination}
 \end{algorithm}
 
 Aunque la forma más simple de crear la hipótesis final es combinando mediante votación por mayoría, el \textit{democratic-co learning} tiene en cuenta, además, la confianza individual que se tiene en cada clasificador ($w_i$) a la hora de realizar la predicción global.
 
-De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de Laplace (de la forma $s=\frac{n+0.5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
+De este modo, se dividen los clasificadores en grupos dependiendo de la etiqueta a la que hayan votado y se calcula la confianza media que se tiene en cada grupo. Para ello, además, se utiliza una corrección de Laplace (de la forma $s=\frac{n+0\text{.}5}{n+1}$) para evitar el sesgo generado cuando se tiene un grupo muy pequeño~\cite{democraticCoLearning2004original}.
 
 Debido a que este ajuste puede no resultar efectivo cuando los valores de confianza individuales para cada clasificador son muy dispares, se ignoran aquellos clasificadores con $w$ < 0.5 (consultar algoritmo~\ref{alg:democratic-co-combination}).
 
 
 \section{Proceso de minería de datos}
+\label{sec:proceso_mineria_datos}
 
 Aunque es probable que el lector se sienta atraído por los algoritmos mostrados en secciones anteriores, se calcula que aproximadamente un 80\%~\cite{apuntesMineria} del esfuerzo en un proceso de minería de datos se destina a fases previas a la aplicación de los algoritmos. Por ello, se muestra a continuación el ciclo de vida del proceso (ilustrado en la imagen~\ref{img:proceso_mineria}), donde se pueden diferenciar distintas fases~\cite{apuntesSisint}:
 
 \begin{enumerate}
-	\item \textbf{Definición y comprensión del problema}: como se puede deducir, para que un modelo pueda llegar a ser útil, se han de definir bien las instancias. Es decir, la calidad de la solución depende de lo bien que pueda el programador definir y modelar el problema. Por ello, es fundamental que la mayor parte del esfuerzo se dedique a conseguir un \textit{dataset} apropiado y de calidad. Para ello, el primer paso, es comprender qué se quiere conseguir aplicando la minería y cuáles son los objetivos a conseguir.
+	\item \textbf{Definición y comprensión del problema}: como se puede deducir, para que un modelo pueda llegar a ser útil, se han de definir bien las instancias. Es decir, la calidad de la solución depende de lo bien que pueda el analista (o ingeniero de datos) definir y modelar el problema. Por ello, es fundamental que la mayor parte del esfuerzo se dedique a conseguir un \textit{dataset} apropiado y de calidad. Para ello, el primer paso, es comprender qué se quiere conseguir aplicando la minería y cuáles son los objetivos a conseguir.
 	
 	\item \textbf{Adquisición de los datos}: el siguiente paso consiste en obtener los datos del problema que se quiere resolver. Para ello, se han de identificar las fuentes necesarias, recolectar e integrar los datos (incluso si este proceso requiere conversión y alineación). El resultado es un \textit{dataset} coherente, aunque no listo para ser introducido en un algoritmo.
 	
@@ -709,6 +710,7 @@ Múltiples estudios se han centrado en formalizar las características de estos 
 \end{itemize}
 
 \subsection{Tipos de ataques}
+\label{sec:tipos_ataques_recomendacion}
 
 En la actualidad se distinguen multitud de ataques distintos. Con el fin de formalizarlos matemáticamente, se han establecido ciertos conjuntos de interés dependiendo de los ítems que contengan~\cite{zhou2021SemisupervisedRecommendationAttack}.
 
@@ -818,7 +820,7 @@ Además de los ataques previamente ilustrados, existen otros con objetivos más 
 
 \section{\textit{Phishing}}
 
-El \textit{phishing} es una técnica de ingeniería social\footnote{Técnica empleada por atacantes para ganarse la confianza de un usuario y conseguir que realice las acciones que desea (por ejemplo, ejecutar programas maliciosos, comprar en sitios fraudulentos, facilitar sus claves, etc.)~\cite{ingenieriaSocialINCIBE}.} en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque suele enviarse mediante correo electrónico o mensajes de texto, y suelen incluir imágenes de la marca y un enlace con sintaxis muy parecida a la original (camuflada mediante el uso de técnicas como Leet Speak). Generalmente suelen redireccionar a páginas \textit{web} con formularios de inicio de sesión o algún campo similar para que el usuario introduzca sus datos, pero también pueden incluir archivos infectados~\cite{phishingBBVA}.
+El \textit{phishing} es una técnica de ingeniería social\footnote{Técnica empleada por atacantes para ganarse la confianza de un usuario y conseguir que realice las acciones que desea (por ejemplo, ejecutar programas maliciosos, comprar en sitios fraudulentos, facilitar sus claves, etc.)~\cite{ingenieriaSocialINCIBE}.} en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque suele enviarse mediante correo electrónico o mensajes de texto, y suelen incluir imágenes de la marca y un enlace con sintaxis muy parecida a la original (camuflada mediante el uso de técnicas como Leet Speak\footnote{Lenguaje utilizado para evitar la búsqueda por palabras clave (por ejemplo, sustituyendo caracteres por dígitos de apariencia similar).}). Generalmente suelen redireccionar a páginas \textit{web} con formularios de inicio de sesión o algún campo similar para que el usuario introduzca sus datos personales, pero también pueden incluir archivos infectados~\cite{phishingBBVA}.
 
 Hay multitud de variaciones dentro del \textit{phishing}, pero algunos de los ataques más comunes se enumeran a continuación~\cite{phishingKeeperSecurity}: 
 
@@ -830,7 +832,7 @@ Hay multitud de variaciones dentro del \textit{phishing}, pero algunos de los at
 	\item \textbf{\textit{Malvertising}}: en este caso, los atacantes pagan a anunciantes verídicos para que muestren sus páginas en redes sociales u otros sitios \textit{web} con el fin de que los usuarios de estas naveguen a los enlaces maliciosos.
 \end{itemize}
 
-El impacto de un ataque de \textit{phishing} varía en función de la victima. A nivel personal, una estafa exitosa puede suponer cargos económicos fraudulentos, pérdida de acceso a archivos personales y suplantación, entre otros. Sin embargo, a nivel corporativo, un ataque realizado correctamente puede acarrear filtraciones de datos clasificados e información de clientes, pérdida de acceso a archivos, exposición de los trabajadores, etc. Debido a que los daños pueden ser irreparables y este tipo de ataque es uno de los más comunes, se han de encontrar medidas de seguridad aplicables a la detección de los mismos~\cite{phishingMicrosoft}.
+El impacto de un ataque de \textit{phishing} varía en función de la víctima. A nivel personal, una estafa exitosa puede suponer cargos económicos fraudulentos, pérdida de acceso a archivos personales y suplantación, entre otros. Sin embargo, a nivel corporativo, un ataque realizado correctamente puede acarrear filtraciones de datos clasificados e información de clientes, pérdida de acceso a archivos, exposición de los trabajadores, etc. Debido a que los daños pueden ser irreparables y este tipo de ataque es uno de los más comunes, se han de encontrar medidas de seguridad aplicables a la detección de los mismos~\cite{phishingMicrosoft}.
 
 \subsection{Técnicas auxiliares}
 
