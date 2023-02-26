@@ -179,7 +179,7 @@ class TriTraining:
 
         if isinstance(seed, np.random.RandomState):
             return seed
-        
+
         return None
 
     def single_predict(self, sample):
@@ -284,4 +284,4 @@ class TriTraining:
         """
         y_predictions = self.predict(X)
         return np.count_nonzero(y_predictions == y_true)/len(y_true)
-        
+

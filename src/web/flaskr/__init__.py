@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     app.register_blueprint(scanner.bp)
     app.add_url_rule('/', endpoint='index')
-    
+
     app.register_blueprint(reports.bp)
 
     return app

@@ -314,7 +314,7 @@ def preprocess(data):
         data = remove_apostrophe(data)
         data = remove_stop_words(data)
         return word_tokenize(str(data))
-    
+
     except TypeError:
         return data
 

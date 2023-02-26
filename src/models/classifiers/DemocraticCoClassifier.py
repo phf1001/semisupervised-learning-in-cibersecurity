@@ -180,7 +180,7 @@ class DemocraticCo:
 
         if isinstance(seed, np.random.RandomState):
             return seed
-        
+
         return None
 
     def predict(self, samples):

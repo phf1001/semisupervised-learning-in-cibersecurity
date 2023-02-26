@@ -396,7 +396,7 @@ class CoForest:
 
         if isinstance(seed, np.random.RandomState):
             return seed
-        
+
         return None
 
     @staticmethod
@@ -430,4 +430,4 @@ class CoForest:
         Precision score
         """
         return precision_score(y_true, y_pred)
-        
+
