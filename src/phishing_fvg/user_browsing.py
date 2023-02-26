@@ -12,7 +12,7 @@ class user_browsing:
             self.proxies = get_proxy()
         else:
             self.proxies = proxy
-            
+
         self.user_agent = self.get_user_agent()
         self.header = self.get_simple_user_header_agent()
 
@@ -37,4 +37,4 @@ class user_browsing:
     @staticmethod
     def get_simple_user_header_agent():
         return {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0'}
-        
+

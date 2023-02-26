@@ -73,4 +73,4 @@ def extract_test_data(csv_file):
     X = X_y_all[:, :-1]
 
     return X, y
-    
+

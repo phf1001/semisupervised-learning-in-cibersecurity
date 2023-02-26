@@ -8,7 +8,7 @@ bp = Blueprint('scanner', __name__)
 
 @bp.route('/', methods=['GET', 'POST'])
 def index():
-    
+
     if request.method == 'POST':
         session['messages'] = {'url' : request.form['url']}
         return redirect(url_for('reports.general_report'))
