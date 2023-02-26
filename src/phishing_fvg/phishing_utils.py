@@ -327,7 +327,6 @@ def get_popular_words(html, k=10):
     cleaned = BeautifulSoup(html, "lxml").text
     tokens = preprocess(cleaned)
     counter = Counter(tokens)
-    n_words = len(tokens)
     return counter.most_common(k)
 
 
