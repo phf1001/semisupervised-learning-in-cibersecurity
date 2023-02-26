@@ -2,8 +2,9 @@ import numpy as np
 import csv
 import pandas as pd
 
-def append_to_csv(file, array):
 
+def append_to_csv(file, array):
+    """Appends an array to a csv file"""
     if '.csv' in file:
         with open(file, 'a') as f:
             np.savetxt(f, array, fmt='%1.3f', newline=",")
@@ -15,7 +16,10 @@ def append_to_csv(file, array):
 
 
 def read_irregular_csv(file):
-
+    """
+    Reads an irregular csv file and
+    returns a list of lists
+    """
     if '.csv' in file:
         data = []
 
@@ -30,7 +34,10 @@ def read_irregular_csv(file):
 
 
 def create_graph_matrix(file):
-
+    """
+    Creates a matrix from an
+    irregular csv file
+    """
     m = []
     l = read_irregular_csv(file)
     max_iters = max([[len(x)] for x in l])[0]
@@ -46,7 +53,8 @@ def create_graph_matrix(file):
 
 
 def extract_training_data(csv_file):
-
+    """Extracts the training data from
+    a csv file"""
     df = pd.read_csv(csv_file)
 
     caract_cols = df.columns
@@ -63,7 +71,7 @@ def extract_training_data(csv_file):
 
 
 def extract_test_data(csv_file):
-
+    """Extracts the test data from a csv file"""
     df = pd.read_csv(csv_file)
 
     caract_cols = df.columns
@@ -73,4 +81,3 @@ def extract_test_data(csv_file):
     X = X_y_all[:, :-1]
 
     return X, y
-

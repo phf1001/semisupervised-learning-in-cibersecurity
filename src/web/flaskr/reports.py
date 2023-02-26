@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, session
 
+
 bp = Blueprint('reports', __name__)
+
 
 @bp.route('/general_report', methods=['GET'])
 def general_report():

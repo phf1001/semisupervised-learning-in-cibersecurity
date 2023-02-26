@@ -5,10 +5,14 @@ import time
 
 
 class proxy_tor:
+    """
+    Class containing the methods to
+    create and manage a tor proxy.
+    """
 
     def __init__(self, number_instance):
         """
-        Class. Creates the file corresponding to
+        Creates the file corresponding to
         the instance and assigns ports.
         """
         self.number_instance = number_instance
