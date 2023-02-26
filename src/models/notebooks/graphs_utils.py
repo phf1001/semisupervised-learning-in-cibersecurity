@@ -53,8 +53,10 @@ def create_graph_matrix(file):
 
 
 def extract_training_data(csv_file):
-    """Extracts the training data from
-    a csv file"""
+    """
+    Extracts the training data from
+    a csv file
+    """
     df = pd.read_csv(csv_file)
 
     caract_cols = df.columns

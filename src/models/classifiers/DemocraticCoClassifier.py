@@ -9,13 +9,12 @@ from models.classifiers.utils import confidence_interval
 
 
 class DemocraticCo:
-    """ 
+    """
     Democratic co-learning Classifier.
     
     Y. Zhou and S. Goldman, "Democratic co-learning"
     """
-
-
+    
     def __init__(self, base_cls, random_state=None):
         """
         Constructor. Creates the democratic-co instance.

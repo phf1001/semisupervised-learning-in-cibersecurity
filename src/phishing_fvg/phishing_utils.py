@@ -17,16 +17,12 @@ import pandas as pd
 
 
 def get_data_path():
-    """
-    Returns data directory absolute path.
-    """
+    """Returns data directory absolute path."""
     return os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 
 
 def get_fv_path():
-    """
-    Returns fv directory absolute path.
-    """
+    """Returns fv directory absolute path."""
     return os.path.abspath(os.path.join(os.path.dirname(__file__), 'fv'))
 
 
@@ -61,7 +57,12 @@ def translate_leet_to_letters(word):
             if substitute in word_upper:
                 word_upper = word_upper.replace(substitute, key)
 
-    return {word, word_original.lower(), word_lower.lower(), word_upper.lower()}
+    return {
+        word,
+        word_original.lower(),
+        word_lower.lower(),
+        word_upper.lower()
+    }
 
 
 def dictionary_leetspeak():
@@ -150,7 +151,10 @@ def get_suspicious_keywords():
     set
         Set containing phishing keywords.
     """
-    return {'security', 'login', 'signin', 'sign', 'bank', 'account', 'update', 'include', 'webs', 'online'}
+    return {
+        'security', 'login', 'signin', 'sign', 'bank', 'account', 'update',
+        'include', 'webs', 'online'
+    }
 
 
 def get_available_proxies():
@@ -216,7 +220,8 @@ def is_in_local(url):
     if is_absolute(url):
         return False
 
-    return url[:3] == '../' or url[0] == '/' or bool(re.match('[^.]+\.[A-Za-z]+', url))
+    return url[:3] == '../' or url[0] == '/' or bool(
+        re.match('[^.]+\.[A-Za-z]+', url))
 
 
 def is_foreign(self_url, url):
@@ -228,7 +233,8 @@ def is_foreign(self_url, url):
     bool
         True if it is, False if not.
     """
-    return not is_empty(url) and not is_in_local(url) and urlparse(self_url).netloc != urlparse(url).netloc
+    return not is_empty(url) and not is_in_local(
+        url) and urlparse(self_url).netloc != urlparse(url).netloc
 
 
 def remove_tld(netloc):
@@ -262,7 +268,8 @@ def is_empty(url):
     bool
         True if it is, False if not.
     """
-    return url == '' or url[0] == '#' or bool(re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
+    return url == '' or url[0] == '#' or bool(
+        re.match('[Jj]ava[Ss]cript::?void\(0\)', url))
 
 
 def find_data_URIs(html):
@@ -272,7 +279,8 @@ def find_data_URIs(html):
     Syntax: data:[<mime type>][;charset=<charset>][;base64],<encoded data>
     """
     matches = re.findall(
-        'data:(?:[^;,]+)?(?:;charset=[^;,]*)?(?:;base64)?,[^)"\';>]+[^)"\';>]', html)
+        'data:(?:[^;,]+)?(?:;charset=[^;,]*)?(?:;base64)?,[^)"\';>]+[^)"\';>]',
+        html)
 
     return matches
 
@@ -308,7 +316,6 @@ def preprocess(data):
     Returns tokens of the words in a text
     once it has been processed.
     """
-
     try:
         data = data.split()
         data = np.char.lower(data)
@@ -436,7 +443,11 @@ def get_response_code(url, headers, proxies):
         status code
 
     """
-    return requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=15).status_code
+    return requests.get(url,
+                        headers=headers,
+                        proxies=proxies,
+                        allow_redirects=False,
+                        timeout=15).status_code
 
 
 def extract_url_href(tag):
@@ -515,7 +526,10 @@ def find_hyperlinks_tags(soup):
     return links
 
 
-def get_bin_source_code(url, headers, proxies, fichero=get_data_path() + os.sep + 'html_dump'):
+def get_bin_source_code(url,
+                        headers,
+                        proxies,
+                        fichero=get_data_path() + os.sep + 'html_dump'):
     """Extracts binary source code from webpage."""
     response = requests.get(url, headers=headers, proxies=proxies, timeout=15)
 
@@ -540,18 +554,19 @@ def get_text_cleaned(html):
     raw = BeautifulSoup(html, features='lxml').get_text(" ")
     tokens = nltk.word_tokenize(raw)
 
-    htmlwords = ['https', 'http', 'display', 'button', 'hover',
-                 'color', 'background', 'height', 'none', 'target',
-                 'WebPage', 'reload', 'fieldset', 'padding', 'input',
-                 'select', 'textarea', 'html', 'form', 'cursor',
-                 'overflow', 'format', 'italic', 'normal', 'truetype',
-                 'before', 'name', 'label', 'float', 'title', 'arial', 'type',
-                 'block', 'audio', 'inline', 'canvas', 'margin', 'serif', 'menu',
-                 'woff', 'content', 'fixed', 'media', 'position', 'relative', 'hidden',
-                 'width', 'clear', 'body', 'standard', 'expandable', 'helvetica',
-                 'fullwidth', 'embed', 'expandfull', 'fullstandardwidth', 'left', 'middle',
-                 'iframe', 'rgba', 'selected', 'scroll', 'opacity',
-                 'center', 'false', 'right', 'div', 'page', 'data']
+    htmlwords = [
+        'https', 'http', 'display', 'button', 'hover', 'color', 'background',
+        'height', 'none', 'target', 'WebPage', 'reload', 'fieldset', 'padding',
+        'input', 'select', 'textarea', 'html', 'form', 'cursor', 'overflow',
+        'format', 'italic', 'normal', 'truetype', 'before', 'name', 'label',
+        'float', 'title', 'arial', 'type', 'block', 'audio', 'inline',
+        'canvas', 'margin', 'serif', 'menu', 'woff', 'content', 'fixed',
+        'media', 'position', 'relative', 'hidden', 'width', 'clear', 'body',
+        'standard', 'expandable', 'helvetica', 'fullwidth', 'embed',
+        'expandfull', 'fullstandardwidth', 'left', 'middle', 'iframe', 'rgba',
+        'selected', 'scroll', 'opacity', 'center', 'false', 'right', 'div',
+        'page', 'data'
+    ]
 
     text = ' '
 
@@ -751,10 +766,12 @@ def get_open_fish_urls():
     set
         Set containing phishing domains.
     """
-    request = requests.get('https://openphish.com/feed.txt',
-                           headers={
-                               'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'}
-                           ).content
+    request = requests.get(
+        'https://openphish.com/feed.txt',
+        headers={
+            'User-Agent':
+            'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'
+        }).content
 
     list_s = request.decode("utf-8", errors='ignore').split("\n")
     return set(list_s)
@@ -772,15 +789,17 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
     """
     try:
 
-        request = requests.get('http://data.phishtank.com/data/online-valid.json',
-                               headers={'User-Agent': 'phishtank/patrick'},
-                               allow_redirects=True,
-                               proxies=proxy)
+        request = requests.get(
+            'http://data.phishtank.com/data/online-valid.json',
+            headers={'User-Agent': 'phishtank/patrick'},
+            allow_redirects=True,
+            proxies=proxy)
 
         y = request.content.decode("utf-8", errors='ignore')
         json_content = json.loads(y)
-        urls = [dictionary['url'].replace("\\", "")
-                for dictionary in json_content]
+        urls = [
+            dictionary['url'].replace("\\", "") for dictionary in json_content
+        ]
 
         if len(urls) < n:
             return set(urls)
@@ -803,9 +822,10 @@ def get_phish_tank_urls_csv(n=2000):
     """
     try:
 
-        request = requests.get('http://data.phishtank.com/data/online-valid.csv',
-                               headers={'User-Agent': 'phishtank/patrick'},
-                               allow_redirects=True)
+        request = requests.get(
+            'http://data.phishtank.com/data/online-valid.csv',
+            headers={'User-Agent': 'phishtank/patrick'},
+            allow_redirects=True)
 
         csv_reader = csv.reader(request.text.splitlines(), delimiter=',')
         content = list(csv_reader)

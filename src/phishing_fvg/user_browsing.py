@@ -6,6 +6,7 @@ class user_browsing:
     Class containing the methods to simulate
     a user browsing.
     """
+    
     def __init__(self, proxy=None):
         """
         Creates the class and initializes

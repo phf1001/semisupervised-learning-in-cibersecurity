@@ -13,6 +13,7 @@ class phishingUtilsMethods(unittest.TestCase):
     Tests for `phishing_utils.py
     Execute from parent directory
     """
+    
     def test_translate_leet(self):
         """
         Test to check if the leet translator
@@ -98,7 +99,6 @@ class phishingUtilsMethods(unittest.TestCase):
         Checks if the simple php file is being detected
         (just the name and extension)
         """
-
         simple = ['index.php', 'login.php', 'mail.php']
         not_simple = ['/index.php', 'something.something.php']
 
@@ -148,7 +148,8 @@ class phishingUtilsMethods(unittest.TestCase):
         self.assertTrue(len(find_data_URIs('No hay URIs')) == 0)
 
     def test_title(self):
-        """Checks if the title is being extracted
+        """
+        Checks if the title is being extracted
         correctly from a HTML file
         """
         content_one = get_bin_source_code('https://ubuvirtual.ubu.es/', {}, {})
@@ -176,5 +177,5 @@ class phishingUtilsMethods(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    """This is executed when run from the command line"""
+    '''This is executed when run from the command line'''
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

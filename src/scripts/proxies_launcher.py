@@ -5,10 +5,10 @@ from proxy_tor import proxy_tor
 from multiprocessing import Process
 
 if __name__ == '__main__':
-    """
+    '''
     Entry point for the script. 
     Check pysocks dependencies.
-    """
+    '''
 
     try:
         n_desired_proxies = int(input('\nNumber of desired proxies: '))

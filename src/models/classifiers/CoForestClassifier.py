@@ -6,13 +6,12 @@ from copy import deepcopy
 
 
 class CoForest:
-    """ 
+    """
     SSL Co-Forest Classifier.
-    
+
     M. Li and Z. -H. Zhou, "Improve Computer-Aided Diagnosis With
     Machine Learning Techniques Using Undiagnosed Samples"
     """
-
     
     def __init__(self, n, theta, max_features='log2', random_state=None):
         """
