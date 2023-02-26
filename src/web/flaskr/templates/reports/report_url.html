@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Report URL{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+
+<form id="url_report_type" method="POST">
+    <label for="lbl_url">URL</label>
+    <input name="txt_url" id="txt_url" required>
+    <br/> <br/>
+    <select name="type_url" required>
+        <option value="whitelist">URL verificada</option>
+        <option value="blacklist">phishing</option>
+    </select>
+    <br></br>
+    <input type="submit" value="Enviar"/>
+  </form>
+{% endblock %}

@@ -4,6 +4,14 @@ import psycopg2
 
 
 def get_db():
+    """
+    Connect to the application's 
+    configured database.
+
+    Returns
+    -------
+    database connection.
+    """
     if 'db' not in g:
         g.db = psycopg2.connect(
                             database="white_fountain",
@@ -16,6 +24,7 @@ def get_db():
 
 
 def close_db(e=None):
+    """Close the database connection."""
     db = g.pop('db', None)
 
     if db is not None:
@@ -26,6 +35,7 @@ def close_db(e=None):
 
 
 def init_db():
+    """Creates new tables if requiered."""
     db = get_db()
     cursor = db.cursor()
 
@@ -43,5 +53,6 @@ def init_db_command():
 
 
 def init_app(app):
+    """Register database functions with the Flask app."""
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)

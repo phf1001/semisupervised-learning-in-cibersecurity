@@ -4,13 +4,15 @@
 <nav>
 
   <div class="header">
-    <h1>PHISHING SCANNER 🎣</h1>
+    <h1>KRINI</h1>
+    <h2>PHISHING SCANNER 🎣</h2>
   </div>
 
   <div class="topnav">
     {% if g.user %}
       
       <a href="{{ url_for('scanner.index') }}">Scan URL</a>
+      <a href="{{ url_for('reports.report_url') }}">Report URL</a>
       <a style="float:right" href="{{ url_for('auth.logout') }}">Log Out</a>
       <a style="float:right">{{ g.user['username'] }}</a>
     {% else %}

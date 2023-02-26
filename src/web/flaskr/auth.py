@@ -9,6 +9,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    """Register a new user."""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -25,13 +26,15 @@ def register():
             try:
                 cursor = db.cursor()
                 cursor.execute(
-                    "INSERT INTO users (username, password) VALUES (%s, %s)",
-                    (username, generate_password_hash(password)))
+                    "INSERT INTO users (username, password, role) VALUES (%s, %s, %s)",
+                    (username, generate_password_hash(password), 'user'))
                 db.commit()
                 cursor.close()
 
             except psycopg2.IntegrityError:
                 error = f"User {username} is already registered."
+                db.rollback()
+                cursor.close()
 
             else:
                 return redirect(url_for("auth.login"))
@@ -43,6 +46,10 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    """
+    Log in a registered user by
+    adding the user id to the session.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -50,36 +57,43 @@ def login():
         error = None
         cursor = db.cursor()
 
-        user = cursor.execute('SELECT * FROM users WHERE username = %s', [
+        user = cursor.execute('SELECT userID, username, password FROM users WHERE username = %s', [
             username,
         ])
 
         user = cursor.fetchone()
-        cursor.close()
-
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user[2], password):
-            error = 'Incorrect password.'
+        
+        if user is None or not check_password_hash(user[2], password):
+            error = 'Incorrect credentials.'
 
         if error is None:
+            error = user
             session.clear()
             session['user_id'] = user[0]
             return redirect(url_for('index'))
 
         flash(error)
+        cursor.close()
 
     return render_template('auth/login.html')
 
 
 @bp.route('/logout')
 def logout():
+    """
+    Clear the current session,
+    including the stored user id.
+    """
     session.clear()
     return redirect(url_for('index'))
 
 
 @bp.before_app_request
 def load_logged_in_user():
+    """
+    Return the user object
+    if a user is logged in.
+    """
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -92,6 +106,7 @@ def load_logged_in_user():
 
 
 def login_required(view):
+    """Wrap a view to require a logged in user."""
 
     @functools.wraps(view)
     def wrapped_view(**kwargs):

@@ -6,9 +6,10 @@ bp = Blueprint('scanner', __name__)
 
 @bp.route('/', methods=['GET', 'POST'])
 def index():
+    """Scan a website and checks if phishing"""
 
     if request.method == 'POST':
         session['messages'] = {'url' : request.form['url']}
-        return redirect(url_for('reports.general_report'))
+        return redirect(url_for('results.general_results'))
 
     return render_template('scanner/index.html')
