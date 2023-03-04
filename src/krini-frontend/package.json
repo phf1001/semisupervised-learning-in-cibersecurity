@@ -1,0 +1,21 @@
+{
+    "name": "argon-dashboard-flask",
+    "mastertemplate": "boilerplate-code-django-dashboard",
+    "version": "1.0.4",
+    "description": "Template project - Django Boilerplate Code ",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/creativetimofficial/argon-dashboard-flask"
+    },
+    "bugs": {
+        "url": "https://github.com/creativetimofficial/argon-dashboard-flask/issues",
+        "email": "support@appseed.us"
+    },
+    "author": "Creative-Tim / AppSeed.us",
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}
