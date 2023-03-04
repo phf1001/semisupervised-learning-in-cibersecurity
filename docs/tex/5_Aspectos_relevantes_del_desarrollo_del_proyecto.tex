@@ -2,9 +2,9 @@
 
 \section{Algoritmos de aprendizaje semisupervisado}
 
-A continuación se facilitan los resultados de las experimentaciones realizadas con las implementaciones propias de algunos métodos de aprendizaje semisupervisado.
+Uno de los principales objetivos del proyecto es entender e implementar (siendo capaz de tomar decisiones de implementación no arbitrarias en caso de que sea requerido) algunos de los algoritmos de aprendizaje semisupervisado más relevantes. Además, se ha querido ser crítico con estos métodos, y para ello se ha buscado validar su funcionamiento mediante diversos experimentos.
 
-Para evaluar la calidad de las implementaciones, se han realizado distintos experimentos con algunos de los \textit{dataset} más comunes en métodos de clasificación. En concreto, se han utilizado los que están disponibles en la librería Scikit-learn, que se muestran en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
+A continuación se facilitan los resultados de las pruebas realizadas con las implementaciones propias de algunos métodos de aprendizaje semisupervisado. Para evaluar la calidad de las implementaciones, se han utilizado algunos de los \textit{dataset} más comunes en métodos de clasificación. En concreto, se han utilizado los que están disponibles en la librería Scikit-learn, que se muestran en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
 
 \begin{table}
 	\small
@@ -173,7 +173,7 @@ Los resultados se pueden observar en las gráficas~\ref{gr:tt_train-iterations} 
 \end{figure}
 
 \begin{itemize}
-	\item \textbf{Fase de entrenamiento:} se ha querido evaluar la evolución de la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre. En este caso, el \textit{tri-training} utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}. Al igual que en el \textit{co-forest}, los resultados representados son la media de 10 experimentos realizados mediante validación cruzada (10 <<entrenamientos>> distintos) y se pueden observar en la gráfica~\ref{gr:tt_train-iterations}, donde el primer cuadrante compara todos los \textit{datasets} y el resto representa la desviación entre las distintas fases de entenamiento para cada \textit{dataset}.
+	\item \textbf{Fase de entrenamiento:} se ha querido evaluar la evolución de la \textit{accuracy} del modelo en función de la iteración del entrenamiento en la que se encuentre. En este caso, el \textit{tri-training} utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN}. Al igual que en el \textit{co-forest}, los resultados representados son la media de 10 experimentos realizados mediante validación cruzada (10 <<entrenamientos>> distintos) y se pueden observar en la gráfica~\ref{gr:tt_train-iterations}, donde el primer cuadrante compara todos los \textit{datasets} y el resto representa la desviación entre las distintas fases de entenamiento para cada \textit{dataset}.
 	
 	Como se puede comprobar, el modelo mejora los resultados iniciales (exactitud obtenida en la iteración $0$, cuando todavía no se ha comenzado el algoritmo de entrenamiento semisupervisado), siendo especialmente notable en los \textit{datasets} Vino y Dígitos. Por ello, se deduce que la incorporación del conjunto de datos no etiquetado durante el entrenamiento es útil y mejora la hipótesis aprendida en cada uno de los clasificadores base (y, por ello, la general del \textit{ensemble}).
 	
@@ -220,9 +220,9 @@ Los resultados se pueden observar en las gráficas~\ref{gr:dc_train-iterations} 
 \end{figure}
 
 \begin{itemize}
-	\item \textbf{Fase de entrenamiento:} como estimadores base para el \textit{democratic-co learning} se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$. Nuevamente, los resultados representados han sido obtenidos mediante validación cruzada y se representan en la gráfica~\ref{gr:dc_train-iterations}.
+	\item \textbf{Fase de entrenamiento:} como estimadores base para el \textit{democratic-co learning} se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$. Nuevamente, los resultados representados han sido obtenidos mediante validación cruzada y se representan en la gráfica~\ref{gr:dc_train-iterations}.
 	
-	Como se puede observar, todos los \textit{datasets} mejoran la \textit{score} inicial excepto Dígitos. Habiendo \textit{debuggeado} el algoritmo y comprobado cómo funciona internamente, se piensa que es debido a la gran cantidad de clases disponibles en el \textit{dataset} (las etiquetas pueden adoptar un valor entre $0$ y $9$). En la fase del algoritmo en la que se escoge la etiqueta, puede ocurrir que no haya una mayoría entre la votación, lo que da lugar a un mayor error que en los \textit{datasets} con menos etiquetas (por ejemplo, los binarios). Se piensa que una posible solución sería incrementar el número de estimadores base, pero también se dispararía el tiempo de entrenamiento, que es muy superior al resto de algoritmos (compruébese que el número de iteraciones en este caso puede llegar a ser $200$).
+	Como se puede observar, todos los \textit{datasets} mejoran la \textit{score} inicial excepto Dígitos. Habiendo depurado el algoritmo y comprobado cómo funciona internamente, se piensa que es debido a la gran cantidad de clases disponibles en el \textit{dataset} (las etiquetas pueden adoptar un valor entre $0$ y $9$). En la fase del algoritmo en la que se escoge la etiqueta, puede ocurrir que no haya una mayoría entre la votación, lo que da lugar a un mayor error que en los \textit{datasets} con menos etiquetas (por ejemplo, los binarios). Se piensa que una posible solución sería incrementar el número de estimadores base, pero también se dispararía el tiempo de entrenamiento, que es muy superior al resto de algoritmos (compruébese que el número de iteraciones en este caso puede llegar a ser $200$).
 	
 \begin{figure}[h]
 	\caption[\textit{Democratic-co}: resultados experimentación (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento, además de la evolución del \textit{score} en función del porcentaje total de instancias respecto a cada \textit{dataset}.}
@@ -243,7 +243,7 @@ Los resultados se pueden observar en las gráficas~\ref{gr:dc_train-iterations} 
 
 En el caso del \textit{democratic-co}, se ha optado por comparar la implementación propia contra sslearn~\cite{sslearnRepo}. Nuevamente, los resultados mostrados son producto de experimentos realizados mediante validación cruzada con 10 \textit{folds}, y ambos modelos han sido entrenados con los mismos $L$ y $U$ y probados con idénticos conjuntos de \textit{test}.
 
-Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
+Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
 
 \begin{figure}[h]
 	\caption[\textit{Democratic-co}: comparativa contra \textit{sslearn}]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
@@ -268,45 +268,12 @@ MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicam
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
 
-\subsubsection{Extracción de vectores de características}
-
-Como se puede comprobar en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack} los perfiles de usuarios normales son distinguibles de los atacantes debido a su forma de puntuar. En función de estos hábitos, se puede elaborar un método de detección basado en ventanas.
-
-En primer lugar, se dividen todos los ítems del \textit{dataset} en ventanas, consiguiendo un conjunto de $J$ ventanas (\{$w_1, w_2, ..., w_J$\}). No se aplica ningún orden especial, sino que se respeta el que aparece en la propia base de datos. El número de ítems que posee cada ventana se reparte como se muestra en la ecuación~\ref{eqn:window_reparto}, donde $Q$ es el cociente de dividir el número total de ítems entre $J$.
-	
-\[|w_j| = \left\{ \begin{array}{lr} Q + 1, & j < q\\ Q, & j \ge q \label{eqn:window_reparto} \end{array} \right. \] 
-
-Posteriormente se calcula, para cada usuario y ventana, $NRW_{u, w_j}$ y  $WNRW_{u, w_j}$ como se muestra en las ecuaciones~\ref{eqn:NRW} y \ref{eqn:WNRW} respectivamente. $NRW$ son las siglas de \textit{number of ratings per window}, y $WNRW$ \textit{weighted number of ratings per window}. Es decir, para un determinado usuario, el número de votaciones que haya realizado en una ventana y el ratio de esta respecto al total.
-
-\begin{equation}\label{eqn:NRW} NRW_{u, w_j} = \sum_{i\in w_j, r_{u,i} \ne 0}^{} 1 \end{equation}
-\begin{equation}\label{eqn:WNRW} WNRW_{u, w_j} = \frac{\sum_{i\in w_j, r_{u,i} \ne 0}^{} 1}{\sum_{i\in I, r_{u,i} \ne 0}^{} 1} \end{equation}
-
-Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_feature_extraction}, se obtienen los vectores de características. Como se puede deducir, este algoritmo se aplica indistintamente a perfiles genuinos y atacantes, ya que únicamente se precisan las reseñas del usuario. Para una mayor comodidad a la hora de experimentar con estos datos, se han generado ficheros \texttt{.csv} con los vectores de características que posteriormente se importarán mediante Pandas para generar conjuntos de entrenamiento y \textit{test}. Debido a que se trata de un problema de clasificación binaria, los perfiles atacantes reciben una etiqueta de $1$ y los verdaderos un $0$. Cabe destacar, que debido a que en el conjunto de MovieLens todos los usuarios son genuinos, se han de generar las reseñas de los perfiles atacantes. 
-
-\begin{algorithm}
-	\KwIn{Conjunto de usuarios $S$, número de ventanas $J$, conjunto de reseñas del usuario $R$.}
-	\KwOut{Conjunto de vectores de características $X$.}
-	\BlankLine
-	$X \leftarrow \emptyset$\\
-	\For{$u \in S$}{
-		\For{$j \in J$}{
-			Calcular $NRW_{u, w_j}$\\
-			Calcular $WNRW_{u, w_j}$\\
-		}
-		$x_u \leftarrow \{NRW_{u, w_1},  WNRW_{u, w_1},  ..., NRW_{u, w_j},  WNRW_{u, w_j}\}$\\
-		$X \leftarrow X \cup x_u$\\
-	}
-	\Return{$X$}
-	\caption{Algoritmo de generación de vectores de características.}
-	\label{alg:window_feature_extraction}
-\end{algorithm}
-
-
 \subsubsection{Creación de reseñas atacantes}
+\label{sec:creacion_reseñas_atacantes}
 
 Se han incluido tres tipos de ataques distintos: \textit{random}, \textit{average} y \textit{bandwagon}. En primer lugar, se han sintetizado las reseñas y posteriormente se han generado los vectores de características idénticamente a los perfiles verdaderos.
 
-La metodología de construcción de las valoraciones sigue los modelos estadísticos expuestos en la sección teórica del proyecto. Sin embargo, se puede visualizar un resumen de los escogidos en la tabla~\ref{ataques_coforest}.
+La metodología de construcción de las valoraciones sigue los modelos estadísticos expuestos en la sección~\ref{sec:tipos_ataques_recomendacion}. Sin embargo, se puede visualizar un resumen de los escogidos en la tabla~\ref{ataques_coforest}.
 
 \begin{table}
 \begin{centering}
@@ -334,7 +301,7 @@ Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente ig
 
 Para generar el conjunto de entrenamiento, se ha utilizado el mismo proceso que el descrito en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}. La distribución de los datos utilizados se muestra en la tabla~\ref{tbl:entrenamiento_ML10M}.
 
-En primer lugar, se han seleccionado 1000 perfiles aleatorios verdaderos y se han extraído sus vectores de características como se ha indicado previamente. Posteriormente, se han generado reseñas para perfiles de atacantes, y se han extraído sus vectores.
+En primer lugar, se han seleccionado 1\,000 perfiles aleatorios verdaderos y se han extraído sus vectores de características como se ha indicado previamente en la sección~\ref{sec:vectores_catacterísticas_ataquesisrec}. Posteriormente, se han generado reseñas para perfiles de atacantes, y se han extraído sus vectores.
 
 \begin{table}
 	\begin{centering}
@@ -364,7 +331,7 @@ Cabe destacar que, debido a que es escaso el número de instancias positivas, se
 
 Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados. Se ilustran en las respectivas gráficas: \textit{random attack}~\ref{5_random_attack}, \textit{average attack}~\ref{5_average_attack} y \textit{bandwagon attack}~\ref{5_bandwagon_attack}.
 
-En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML. Para comparar el \textit{co-forest} con el \textit{random forest}, se han utilizado dos versiones de este mismo (etiquetadas como <<RF-A>> y <<RF-L>>). RF-A es un \textit{random forest} que ha sido entrenado con el conjunto de entrenamiento al completo (es decir, con el $100\%$ de las etiquetas disponibles). RF-L también es un \textit{random forest}, pero la diferencia reside en que, en este caso, únicamente se han utilizado un $30\%$ de las etiquetas disponibles en su entrenamiento (las mismas que se proporcionan al \textit{co-forest}). Este \textit{ensemble} permite deducir si el \textit{co-forest} (algoritmo semisupervisado) resulta verdaderamente útil en una situación de escasez de etiquetas, o si por el contrario es mejor utilizar la versión supervisada. Por último, también se ha incluído un \textit{tri-training} que utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{K-neighbors}.
+En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML. Para comparar el \textit{co-forest} con el \textit{random forest}, se han utilizado dos versiones de este mismo (etiquetadas como <<RF-A>> y <<RF-L>>). RF-A es un \textit{random forest} que ha sido entrenado con el conjunto de entrenamiento al completo (es decir, con el $100\%$ de las etiquetas disponibles). RF-L también es un \textit{random forest}, pero la diferencia reside en que, en este caso, únicamente se han utilizado un $30\%$ de las etiquetas disponibles en su entrenamiento (las mismas que se proporcionan al \textit{co-forest}). Este \textit{ensemble} permite deducir si el \textit{co-forest} (algoritmo semisupervisado) resulta verdaderamente útil en una situación de escasez de etiquetas, o si por el contrario es mejor utilizar la versión supervisada. Por último, también se ha incluído un \textit{tri-training} que utiliza como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN}.
 
 \begin{figure}[h]
 	\caption[\textit{Random attack}: Detección.]{Gráfica que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
@@ -398,7 +365,7 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 \section{Detección de \textit{phishing}}
 
-Se detalla a continuación el proceso seguido en sus distintas fases: desde la obtención del \textit{dataset} hasta los resultados obtenidos.
+Se detalla a continuación el proceso seguido en las distintas fases relacionadas con la experimentación.
 
 \subsection{Extracción de las URL del \textit{dataset}}
 
@@ -419,148 +386,13 @@ Se detalla a continuación el proceso seguido en sus distintas fases: desde la o
 	\end{centering}
 \end{table}
 
-Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código, por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo SOCKS5. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección 4 de este proyecto.
+Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código, por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo SOCKS5. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección~\ref{sec:script_tor}.
 
-Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas. El resultado final se muestra en la tabla~\ref{tbl:dataset_phishing}.
+Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas y el resultado final se muestra en la tabla~\ref{tbl:dataset_phishing}.
 
-En el caso de Phish Tank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se ha tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de Open Phish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, se recupera en peticiones mediante código.
+En el caso de Phish Tank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se han tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de Open Phish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, se recupera en peticiones mediante código.
 
 Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de Expired domains~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de Shopify~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de Similar Web~\cite{banksitesTop} (solo que el número está limitado a 50). Debido a que los enlaces facilitados por estas plataformas no contienen protocolo, se ha generado un \textit{script} auxiliar que encuentra el correspondiente y filtra aquellas páginas en inglés y español (no se ha utilizado el \textit{header} para realizar esta tarea porque no se incluye en la librería de Python, por lo que se ha analizado el lenguaje).
-
-\subsection{Extracción de vectores de características}
-
-Para caracterizar un enlace de \textit{phishing} desde el lado del cliente, es suficiente con fijarse en cinco tipos de atributos clasificados en función de lo que definen~\cite{featuresPhishing2018Gupta}: las características basadas en la URL, las basadas en la aparición del formulario de \textit{login}, las  basadas en los hiperenlaces contenidos, las basadas en el fichero \texttt{CSS} y, por último, las basadas en la identidad de la página web.
-
-
-\begin{figure}[h]
-	\caption[\textit{Phishing}: Anatomía de una URL.]{Ilustración que muestra la anatomía de una URL.}
-	\centering
-	\includegraphics[scale=1]{../img/memoria/5_url_anatomia.pdf}
-	\label{img:5_url_anatomia}
-\end{figure}
-
-
-\subsubsection{Características basadas en la URL}
-Estas son aquellas que se extraen de una URL (cuya anatomía se muestra en la ilustración~\ref{img:5_url_anatomia}) y están definidas por parámetros como la longitud, tipo de caracteres contenidos, etc. En concreto, se extraen 8 características distintas enumeradas a continuación:
-
-\begin{itemize}
-	\item \textit{\textbf{F1:}} en general, los dominios legítimos no contienen más de tres puntos en la URL~\cite{featuresPhishing2018Gupta}. Por lo tanto, esta característica se establece a 1 si el número de puntos en la URL es mayor o igual que 4.
-	
-	\[F1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f1} \end{array} \right. \] 
-	
-	\item \textit{\textbf{F2:}} determina la existencia de ciertos caracteres especiales en las URL. En concreto, el uso de <<@>> (provoca que se ignore todo lo escrito anteriormente al símbolo) y <<->> (utilizado para engañar a los usuarios en enlaces como por ejemplo \url{www[.]paypal-india[.]com})~\cite{featuresPhishing2018Gupta}.
-	
-	\[F2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene <<@>> o <<->>}\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f2} \end{array} \right. \]
-	
-	\item \textit{\textbf{F3}}: normalmente, los dominios oficiales son cortos y significativos. Sin embargo, aquellos sitios de \textit{phishing} suelen ser más largos (con el fin de confundir al usuario u ocultar información).
-	
-	\[F3 = \left\{ \begin{array}{lr} 1, & \text{si la longitud de la URL} \ge 74\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f3} \end{array} \right. \]
-	
-	\item \textit{\textbf{F4}}: según~\cite{featuresPhishing2018Gupta}, es común que las páginas de \textit{phishing} añadan palabras clave en los enlaces para ganar la confianza de sus víctimas. En concreto, estas palabras son: \textit{security}, \textit{login}, \textit{signin}, \textit{bank}, \textit{account}, \textit{update}, \textit{include}, \textit{webs} y \textit{online}. Como aportación propia, se ha tenido en cuenta que estas palabras puedan estar escritas utilizando el lenguaje \textit{leet}.
-	
-	\[F4 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene palabras sospechosas}\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f4} \end{array} \right. \]
-
-	\item \textit{\textbf{F5}}: en los dominios legítimos, el TDL no está presente en la parte perteneciente al dominio base, ni ocurre más de una vez en la dirección.
-	
-	\[F5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\ 
-	1, & \text{si hay más de un TDL en la URL} \\
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f5} \end{array} \right. \]
-	
-	
-	\item \textit{\textbf{F6}}: en sitios genuinos, la cadena <<http>> sólo se encuentra una vez en la sección del protocolo. Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio \textit{phishing}.
-	
-	\[F6 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene más de una vez la cadena <<http>>}\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f6} \end{array} \right. \]
-
-	\item \textit{\textbf{F7}}: la gran mayoría de los sitios de \textit{phishing} contienen el nombre de la marca objetivo en la URL. Por ello, se han seleccionado algunos de los objetivos más comunes para los atacantes (por ejemplo, Google o PayPal) y, si se encuentra el nombre en una posición incorrecta, se asume que se trata de un intento de estafa. Nuevamente, se ha tenido en consideración que dichas palabras puedan estar escritas utilizando \textit{leet}.
-	
-	\[F7 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene el nombre de una marca famosa en la}\\ & \text{URL y la posición no es la correcta}\\ 
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f7} \end{array} \right. \]
-	
-	\item \textit{\textbf{F8}}: según~\cite{featuresPhishing2018Gupta}, los ataques basados en la existencia de un \textit{Data} URI son muy comunes. Este esquema permite insertar datos en línea dentro de un documento. El peligro reside en que esos datos pueden codificar cualquier tipo de archivo (por ejemplo, un \textit{script} de Javascript), pudiendo extraer datos o incluso realizar ataques XSS~\cite{dataUri2020neoguias}. Un \textit{Data} URI se reconoce por seguir la siguiente sintaxis: \texttt{data:[<mime type>][;charset=<charset>][;base64],<encoded data>}~\cite{dataUri2010csstrick}.
-	
-	\[F8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún \textit{Data URI}}\\ 
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f8} \end{array} \right. \]
-	\end{itemize}
-
-\subsubsection{Características basadas en la aparición del formulario de \textit{login}}
-Esta es aquella que se basa en la aparición de un formulario de inicio de sesión.
-
-\begin{itemize}
-	\item \textit{\textbf{F9}}: es común que los sitios de \textit{phishing} incluyan formularios de inicio de sesión debido a que es una forma común de introducir datos personales. En concreto, la diferencia reside en que en los sitios legítimos el campo de acción suele contener un enlace con el mismo dominio base que el sitio inicial. Sin embargo, en los sitios de \textit{phishing} esto no es así. Hay otras variaciones como campos vacíos, con enlaces nulos o archivos PHP (por ejemplo: \texttt{login.php}) que almacenen las credenciales. Por lo tanto:
-
-	\[F9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío, <<\#>> o}\\ & \text{es } \texttt{javascript:void(0)}\\ 
-	1, & \text{si el valor del campo de acción posee una sintáxis} \\ &  \text{compatible con <<fichero.php>>} \\
-	0, & \text{cualquier otro caso} \label{eqn:phishing_f9} \end{array} \right. \]
-\end{itemize}
-
-\subsubsection{Características basadas en los hiperenlaces contenidos}
-
-\begin{itemize}
-	\item \textit{\textbf{F10}}: normalmente, los sitios \textit{phishing} contienen menos páginas (por ejemplo, un enlace a una página de \textit{login}) que los legítimos. Estos se encuentran contenidos en el atributo <<\textit{src}>> de las etiquetas pertenecientes a imágenes, \textit{scripts}, \textit{frames}, etc., además del atributo <<\textit{href}>> de la etiqueta ancla~\cite{anclaMozilla}.
-	
-	\begin{equation}\label{eqn:phishing_f10} F10 = \text{enlaces presentes en el sitio \textit{web}} \end{equation}
-		
-	\item \textit{\textbf{F11}}: por el contrario, también es muy sospechoso que una página \textit{web} no contenga ningún hiperenlace debido a que se podrían estar utilizando técnicas de ocultación de sitios peligrosos para esquivar sistemas \textit{anti-phishing}~\cite{hiperlinkHidingTechniques}.
-
-	\[F11 = \left\{ \begin{array}{lr} 1, & \text{si la página no contiene enlaces}\\ 
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f11} \end{array}\right.\]
-	
-	\item \textit{\textbf{F12}}: debido a que los sitios atacantes suelen imitar la estética de sus objetivos, es común que posean múltiples hiperenlaces que apunten a sitios externos. Se consideran externos a aquellos enlaces absolutos~\cite{enlacesAbsRel} distintos al sitio base.
-
-	\[F12 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces externos}}{\text{enlaces totales}} \text{> 0.5 y el número de enlaces > 0} \\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f12} \end{array}\right.\]
-
-
-	\item \textit{\textbf{F13}}: cuando un enlace está vacío, si el usuario pulsa, es redirigido a la misma página de la que se parte (es decir, no hay redirección a un sitio distinto), lo que incrementa las posibilidades de que la víctima caiga en el ataque. Además, también se pueden utilizar otro tipo de vulnerabilidades existentes en los navegadores para aumentar la tasa de éxito. Algunos ejemplos son~\cite{featuresPhishing2018Gupta}: \texttt{<a href = “\#”>, <a href = “\#content”>} o \texttt{<a href = “javascript::void(0)”>}.
-
-	\[F13 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces vacíos}}{\text{enlaces totales}} \text{> 0.34 y el número de enlaces > 0} \\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f13} \end{array}\right.\]
-
-	\item \textit{\textbf{F14}}: se considera un enlace erróneo aquel que devuelve un código 403 o 404 cuando se pulsa en él.
-
-	\[F14 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces erróneos}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f14} \end{array}\right.\]
-
-	\item \textit{\textbf{F15}}: es común que los atacantes traten de confundir al usuario redirigiendo su solicitud a lugares externos. Una redirección se identifica gracias a su código de respuesta, que es un 301 o un 302.
-
-	\[F15 = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces que redirigen}}{\text{enlaces totales}} \text{> 0.3 y el número de enlaces > 0} \\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f15} \end{array}\right.\]
-\end{itemize}
-
-
-\subsubsection{Características basadas en el fichero \texttt{CSS}}
-
-\begin{itemize}
-	\item \textit{\textbf{F16}}: para imitar la estética de un sitio legítimo, los atacantes podrían utilizar su fichero \texttt{CSS}. Un \texttt{CSS} es una hoja de estilos que define el aspecto visual de una página \textit{web}, y puede estar incrustado en el propio HTML de la página o ser un fichero externo~\cite{cssExternos}. En el caso de ser único y externo, se entiende que puede tratarse de un intento de estafa.
-
-	\[F16 = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero \texttt{CSS} y es externo}\\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f16} \end{array}\right.\]
-\end{itemize}
-
-
-\subsubsection{Características basadas en la identidad de la página \textit{web}}
-
-\begin{itemize}
-	\item \textit{\textbf{F17}}: las páginas legítimas suelen contener el nombre del dominio en la sección dedicada a \textit{copyright} (que se ubica por encontrarse a continuación de los símbolos <<@>>, <<©>>, o de las frases \textit{\& copy}, \textit{copyright} o \textit{all right reserved}).
-
-	\[F17 = \left\{ \begin{array}{lr} 0, & \text{si las palabras del \textit{copyright} están en el dominio base}\\
-	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f17} \end{array}\right.\]
-	
-	\item \textit{\textbf{F18}}: para cada página \textit{web}, se ha construido un conjunto de \textit{keywords} compuesto por las palabras contenidas en el título, en las etiquetas \textit{meta} (cuyo campo \textit{name} equivalga a \textit{description} o \textit{keywords}~\cite{metatags}) y por las más relevantes del cuerpo del sitio (extraídas mediante el algoritmo TF-IDF~\cite{cantinatfidf}). Lo más común es que los sitios legítimos contengan al menos una de estas palabras en el dominio base. En caso contrario, se considera un intento de \textit{phishing}.
-	
-	\[F18 = \left\{ \begin{array}{lr} 0, & \text{si una \textit{keyword} coincide con el dominio base}\\
-	1, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f18} \end{array}\right.\]
-	
-	\item \textit{\textbf{F19}}: un \textit{favicon} es una miniatura asociada a una página \textit{web}. Por ello, los atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. De este modo, se considera intento de estafa cualquier icono que contenga un enlace externo. Para localizarlos, se ubica el atributo <<\textit{rel}>> dentro de las etiquetas <<\textit{link}>> y se comprueba que su valor sea la cadena \textit{shortcut icon} o \textit{icon}  (por ejemplo: \texttt{<link type='image/png' href='<<enlace>>' rel='shortcut icon'>}).
-	
-	\[F19 = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el \textit{favicon}}\\
-	0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f19} \end{array}\right.\]
-\end{itemize}
 
 
 

@@ -7,8 +7,14 @@ src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from models.classifiers.utils import confidence_interval
 
-class DemocraticCo:
 
+class DemocraticCo:
+    """
+    Democratic co-learning Classifier.
+    
+    Y. Zhou and S. Goldman, "Democratic co-learning"
+    """
+    
     def __init__(self, base_cls, random_state=None):
         """
         Constructor. Creates the democratic-co instance.
@@ -46,7 +52,7 @@ class DemocraticCo:
 
         e = [0] * self.n
         L_ = [(list(L), list(y)) for i in range(self.n)]
-        U_in_L_ = [dict() for i in range(self.n)]
+        U_in_L_ = [{} for i in range(self.n)]
         cls_changes = np.ones(self.n, dtype=bool)
 
         while changes:
@@ -180,6 +186,8 @@ class DemocraticCo:
 
         if isinstance(seed, np.random.RandomState):
             return seed
+
+        return None
 
     def predict(self, samples):
         """

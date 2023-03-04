@@ -2,12 +2,23 @@ from statsmodels.stats.proportion import proportion_confint
 from math import sqrt
 from scipy import stats
 
+
 def confidence_interval(cls, L, y):
+    """
+    Returns the confidence interval
+    for the classifier cls given a set
+    of labeled data L and the labels y.
+    """
     return self_confidence_interval_joselu(cls, L, y)
 
-def confidence_interval_cesar(cls, L, y):
 
-    cte = stats.norm.isf(0.05/ 2.)
+def confidence_interval_cesar(cls, L, y):
+    """
+    Returns the confidence interval
+    for the classifier cls given a set
+    of labeled data L and the labels y.
+    """
+    cte = stats.norm.isf(0.05 / 2.)
     y_pred = cls.predict(L)
     n_total = len(y)
     n_hits = (y_pred == y).sum()
@@ -18,11 +29,15 @@ def confidence_interval_cesar(cls, L, y):
 
 
 def confidence_interval_alvar(cls, L, y):
-
+    """
+    Returns the confidence interval
+    for the classifier cls given a set
+    of labeled data L and the labels y.
+    """
     y_pred = cls.predict(L)
     n_total = len(y)
     n_hits = (y_pred == y).sum()
-    cte = stats.norm.isf(0.05/ 2.)
+    cte = stats.norm.isf(0.05 / 2.)
 
     zSq = cte ** 2
     f = n_hits / n_total
@@ -36,7 +51,11 @@ def confidence_interval_alvar(cls, L, y):
 
 
 def self_confidence_interval_joselu(cls, L, y):
-
+    """
+    Returns the confidence interval
+    for the classifier cls given a set
+    of labeled data L and the labels y.
+    """
     y_pred = cls.predict(L)
     n_total = len(y)
     n_hits = (y_pred == y).sum()

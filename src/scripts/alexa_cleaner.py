@@ -29,7 +29,7 @@ if __name__ == '__main__':
                 soup = BeautifulSoup(html, "lxml")
                 [s.decompose() for s in soup("script")]
 
-                if soup.body != None:
+                if soup.body is not None:
                     body_text = soup.body.get_text()
 
                     if detect(body_text) in ['es', 'en']:

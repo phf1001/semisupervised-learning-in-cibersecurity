@@ -5,6 +5,12 @@ from math import floor, ceil
 
 
 class TriTraining:
+    """
+    SSL Tri-Training Classifier.
+
+    Zhi-Hua Zhou and Ming Li, "Tri-training: exploiting
+    unlabeled data using three classifiers"
+    """
 
     def __init__(self, h_0, h_1, h_2, random_state=None):
         """
@@ -180,6 +186,8 @@ class TriTraining:
         if isinstance(seed, np.random.RandomState):
             return seed
 
+        return None
+
     def single_predict(self, sample):
         """
         Returns the class predicted by tri-training.
@@ -282,4 +290,3 @@ class TriTraining:
         """
         y_predictions = self.predict(X)
         return np.count_nonzero(y_predictions == y_true)/len(y_true)
-        

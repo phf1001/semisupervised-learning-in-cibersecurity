@@ -1,15 +1,18 @@
 import os
-import shlex
 import re
 import requests
 import time
 
 
 class proxy_tor:
+    """
+    Class containing the methods to
+    create and manage a tor proxy.
+    """
 
     def __init__(self, number_instance):
         """
-        Class. Creates the file corresponding to
+        Creates the file corresponding to
         the instance and assigns ports.
         """
         self.number_instance = number_instance
@@ -45,9 +48,7 @@ class proxy_tor:
         return ''
 
     def create_tor_file(self):
-        """
-        Creates Tor file for an instance.
-        """
+        """Creates Tor file for an instance."""
         file_path = f'/etc/tor/torrc.{self.number_instance}'
 
         with open(file_path, 'w') as f:
@@ -62,7 +63,5 @@ class proxy_tor:
         return file_path
 
     def launch_file(self):
-        """
-        Executes the file.
-        """
+        """Executes the file."""
         os.system(f'tor -f {self.file} > /dev/null')
