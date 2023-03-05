@@ -519,6 +519,8 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 \subsubsection{\textit{Sprint 14: Chimichurri}}
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
+	
+	Se decidió trabajar en:
 	\begin{enumerate}
 		\item Corrección de los vectores de características de \textit{phishing} y de la API de extracción de enlaces. Generación de \textit{dataset} parcial y gráficas de pruebas para comprobar el nivel de detección de la propuesta.
 		\item Documentar algún aspecto pendiente. En especial herramientas nuevas, anexos y el proceso de minería de datos (realizar ilustraciones).
@@ -545,7 +547,45 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 
 	\item \textbf{\textit{Sprint review meeting}}
+	
+	En el \textit{feedback} se estimó que los algoritmos de semisupervisado están correctamente implementados y se decidió avanzar otros aspectos del proyecto.
 \end{itemize}
+
+
+\subsubsection{\textit{Sprint 15: Anise}}
+\begin{itemize}
+	\item \textbf{\textit{Planning meeting}}
+	
+	Se decidió trabajar en:
+	\begin{enumerate}
+		\item Comienzo de la \textit{web}: aprender a utilizar Flask y desarrollar la aplicación. Manejar archivos \texttt{.css} básicos y aprender a usar (por encima) ciertas librerías como Bootstrap, SQL Alchemy, Flask WTF, etc. Búsqueda de una plantilla atractiva y desplegable.
+		\item Sistema de bases de datos: buscar servidor (comparativa entre MariaDB y PostgreSQL) y desplegar en local.
+		\item Despliegue: despliegue en Heroku y gestión de errores. Levantar tanto la \textit{web} como el servidor de bases de datos.
+		\item Documentación: corrección de aspectos indicados por el tutor, redacción de anexos, inclusión del apartado <<técnicas>> en la memoria principal.
+		\item Experimentación: generación del \textit{dataset} real de \textit{phishing} (2000 instancias) y realización de las gráficas verdaderas. Posible búsqueda de alternativas a la generación de vectores.
+		\item Calidad: corrección de \textit{issues} utilizando Deep Source Bot.
+		\item Diagramas: comenzar a realizar diagramas de casos de uso, clases, etc.
+		
+	\end{enumerate}
+	\item \textbf{Marcas temporales}		
+	
+	El \textit{sprint} fue desarrollado entre el 23 de febrero y el 6 de marzo de 2022.
+	
+	\item \textbf{\textit{Burndown Report}}
+	
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 15}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s15_bdr}
+	\end{figure}
+	
+	El tiempo estimado de trabajo fue de 29 horas. Sin embargo, el tiempo real ha sido de 37.5 horas, y no todos los \textit{issues} pudieron ser cerrados. En concreto, se decidió posponer la búsqueda de nuevas formas de generar vectores de características por los buenos resultados reportados y no se dedicó tanto tiempo como el esperado a la generación de diagramas (únicamente se realizó el de casos de uso).
+	
+	Claramente se subestimó el tiempo requerido en realizar pantallas \textit{web}, desplegar en Heroku y gestionar servidores de bases de datos. Hubo complicaciones debido a que se ha escogido una plantilla profesional, y el uso del lenguaje es complejo. Todavía hay ciertos aspectos que arreglar respecto al despliegue en Heroku (no renderiza correctamente los menús desplegables a diferencia de <<local>>).
+	
+	\item \textbf{\textit{Sprint review meeting}}
+\end{itemize}
+
 
 
 
@@ -562,7 +602,6 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	\item \textbf{\textit{Burndown Report}}
 	\item \textbf{\textit{Sprint review meeting}}
 \end{itemize}
-
 \section{Estudio de viabilidad}
 
 \subsection{Viabilidad económica}
