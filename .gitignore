@@ -1,6 +1,5 @@
 src/recommendation_attack_detection_fvg/dataset
 src/scripts/t*
-*pycache
 *prueba*
 src/models/notebooks/iris
 src/models/notebooks/wine
@@ -9,18 +8,7 @@ src/models/notebooks/wine
 *proxies.json*
 *html_dump*
 *.vscode*
-
-venv/
-
-*.pyc
 __pycache__/
-
-instance/
-
 .pytest_cache/
 .coverage
-htmlcov/
 
-dist/
-build/
-*.egg-info/
