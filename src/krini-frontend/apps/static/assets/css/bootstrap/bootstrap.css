@@ -5185,7 +5185,7 @@ input[type='button'].btn-block
 {
     color: #495057;
     border-color: #dee2e6 #dee2e6 #fff; 
-    background-color: #fff;
+    background-color: #6610f2
 }
 .nav-tabs .dropdown-menu
 {
@@ -5203,7 +5203,7 @@ input[type='button'].btn-block
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link
 {
-    color: #fff;
+    color: #6610f2;
     background-color: #007bff;
 }
 

@@ -43,9 +43,9 @@ def report_url():
             db.session.commit()
             flash('URL reported succesfully!')
 
-        return redirect(url_for('home_blueprint.report_url'))
+        return redirect(url_for('home_blueprint.report_url'), segment=get_segment(request))
 
-    return render_template('home/report_url.html', form=form)
+    return render_template('home/report_url.html', form=form, segment=get_segment(request))
 
 
 @blueprint.route('/index', methods=['GET', 'POST'])
@@ -58,21 +58,20 @@ def index():
         flash(url)
         return redirect(url_for('home_blueprint.dashboard'))
 
-    return render_template('home/index.html', form=form)
+    return render_template('home/index.html', form=form, segment=get_segment(request))
 
 
 @blueprint.route('/map', methods=['GET', 'POST'])
 def map():
-    return render_template('home/map.html')
+    return render_template('home/map.html', segment=get_segment(request))
 
 
 @blueprint.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('home/dashboard.html')
+    return render_template('home/dashboard.html', segment=get_segment(request))
 
 
 @blueprint.route('/<template>')
-@login_required
 def route_template(template):
 
     try:
