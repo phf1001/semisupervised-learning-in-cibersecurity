@@ -13,33 +13,46 @@
             <!-- Nav items -->
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="/">
-                  <i class="ni ni-world-2 text-yellow"></i>
-                  <span class="nav-link-text">Scan URL</span>
+                <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="/">
+                  {% if 'index' in segment %}
+                    <i class="ni ni-world-2 text-indigo"></i>
+                    <span class="text-indigo">Scan URL</span>
+                  {% else %}
+                    <i class="ni ni-world-2 text-white"></i>
+                    <span class="nav-link-text">Scan URL</span>
+                  {% endif %}
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                  <i class="ni ni-tv-2 text-white"></i>
-                  <span class="nav-link-text">Dashboard</span>
+                <a class="nav-link {% if 'dashboard' in segment %} active {% endif %}" href="/dashboard">
+                  {% if 'dashboard' in segment %}
+                    <i class="ni ni-tv-2 text-indigo"></i>
+                    <span class="text-indigo">Dashboard</span>
+                  {% else %}
+                    <i class="ni ni-tv-2 text-white"></i>
+                    <span class="nav-link-text">Dashboard</span>
+                  {% endif %}
                 </a>
               </li>
+
+              {% if current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/report_url">
-                  <i class="ni ni-notification-70 text-yellow"></i>
-                  <span class="nav-link-text">Report URL</span>
+                <a class="nav-link {% if 'report_url' in segment %} active {% endif %}" href="/report_url">
+                  {% if 'report_url' in segment %}
+                    <i class="ni ni-notification-70 text-indigo"></i>
+                    <span class="text-indigo">Report URL</span>
+                  {% else %}
+                    <i class="ni ni-notification-70 text-white"></i>
+                    <span class="nav-link-text">Report URL</span>
+                  {% endif %}
                 </a>
               </li>
+              {% endif %}
+              
               <li class="nav-item">
                 <a class="nav-link" href="/map.html">
                   <i class="ni ni-pin-3 text-white"></i>
                   <span class="nav-link-text">Google</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/profile.html">
-                  <i class="ni ni-single-02 text-yellow"></i>
-                  <span class="nav-link-text">Profile</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -48,12 +61,27 @@
                   <span class="nav-link-text">Tables</span>
                 </a>
               </li>
+
+              {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
+                  {% if 'profile' in segment %}
+                    <i class="ni ni-single-02 text-indigo"></i>
+                    <span class="text-indigo">Profile</span>
+                  {% else %}
+                    <i class="ni ni-single-02 text-white"></i>
+                    <span class="nav-link-text">Profile</span>
+                  {% endif %}
+                </a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('authentication_blueprint.logout') }}">
-                  <i class="ni ni-user-run text-yellow"></i>
+                  <i class="ni ni-user-run text-white"></i>
                   <span class="nav-link-text">Logout</span>
                 </a>
-              </li>            
+              </li>      
+              
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -96,8 +124,7 @@
     </a>
 
   {% else %}
-        <a href="{{ url_for('authentication_blueprint.login') }}" 
-           target="_blank" class="btn btn-neutral btn-icon">
+        <a href="{{ url_for('authentication_blueprint.login') }}" class="btn btn-neutral btn-icon">
           <span class="nav-link-inner--text">Sign in</span>
         </a>
   {% endif %}

@@ -1,6 +1,6 @@
 {% extends 'layouts/base-fullscreen.html' %}
 
-{% block title %} Error 404 {% endblock title %}
+{% block title %} Error 403 {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -13,12 +13,20 @@
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-transparent pb-5">
+
               <div class="text-muted text-center mt-2 mb-3">
                 Oups! Error 404      
               </div>
+
               <div class="text-center mb-4">
-                Page not found - <a href="/">Home</a>
+                Page not found :(
               </div>
+
+            </div>
+          </div>
+          <div class="row mt-3 text-center">
+            <div class="col-12">
+              <a href="/" class="text-light"><medium>Home</medium></a>
             </div>
           </div>
         </div>
