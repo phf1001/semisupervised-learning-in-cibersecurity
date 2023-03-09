@@ -14,14 +14,13 @@ class Config(object):
     SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_007')
     WTF_CSRF_SECRET_KEY = config('WTF_CSRF_SECRET_KEY', default='S#perS3crEt_007')
 
-    # database_url = os.environ.get('DATABASE_URL')
+    database_url = os.environ.get('DATABASE_URL')
 
-    # if database_url and database_url.startswith('postgres://'):
-    #     database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
 
-    # SQLALCHEMY_DATABASE_URI = database_url
+    SQLALCHEMY_DATABASE_URI = database_url
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://lbvyrxyfyhhqbt:2182a41c1e4d47a23fc359d8b4a2b14d52134a2522c41df3dda760b5efb17c8b@ec2-3-230-122-20.compute-1.amazonaws.com:5432/d3jk36qcrp5fm5'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):
