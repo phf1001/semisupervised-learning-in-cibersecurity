@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from apps.home import blueprint
 from apps import db
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
+# import pickle
+# import numpy as np
+import time
 
 from apps.home.forms import ReportURLForm, SearchURLForm
 from apps.home.models import Reported_URL, Repeated_URL
@@ -55,20 +58,37 @@ def index():
 
     if 'search' in request.form:
         url = request.form['url']
-        flash(url)
-        return redirect(url_for('home_blueprint.dashboard'))
+        return render_template ("home/loading.html", url=url)
 
     return render_template('home/index.html', form=form, segment=get_segment(request))
+
+
+@blueprint.route('/task/<url>', methods=['POST', 'GET'])
+def task(url):
+
+    #Generas vector caracterśiticas
+    fv = [0,0,0,0,0,0,0,0,0,8,0,1,0,0,0,1,1,1,1]
+    session['messages'] = {"fv": fv, "url": url}
+
+    time.sleep(20)
+    return redirect(url_for('home_blueprint.dashboard'))
+
+
+@blueprint.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+
+    messages = session.get('messages', None)
+    #analizas el vector
+
+    if messages:
+        flash(messages['url'])
+
+    return render_template('home/dashboard.html', segment=get_segment(request))
 
 
 @blueprint.route('/map', methods=['GET', 'POST'])
 def map():
     return render_template('home/map.html', segment=get_segment(request))
-
-
-@blueprint.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
-    return render_template('home/dashboard.html', segment=get_segment(request))
 
 
 @blueprint.route('/<template>')

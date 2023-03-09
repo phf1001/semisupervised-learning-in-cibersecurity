@@ -1,0 +1,96 @@
+
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Loading {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    #loader {
+        border: 12px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 12px solid #444444;
+        width: 70px;
+        height: 70px;
+        animation: spin 1s linear infinite;
+    }
+      
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+      
+    .center {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header pb-5" style="position: relative;">
+                    <div class="text-muted text-center mt-2 mb-3">
+                        <h1>Analizando URL</h1>   
+                        Espera unos segundos...
+                        <br></br>
+                        <br></br>
+                        <div class="loader" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);"></div>
+                        <br></br>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 text-center">
+                <div class="col-12">
+                    <a href="/" class="text-light"><medium>Home</medium></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script>
+    window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+        loader.classList.add("loader-hidden");
+        loader.addEventListener("transitionend", () => {
+            document.body.removeChild("loader")
+        })
+    });
+</script>
+
+<script src="{{url_for('static', filename='main.js')}}"></script>
+<script> window.location.replace('/task/{{url}}'); </script>
+{% endblock javascripts %}
+
+
+<!-- 
+<!doctype html>
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "{{url_for('static',filename='styles/main.css') }}">
+</head>
+
+<div id="preloader">
+    <div id="status">&nbsp</div>
+    <h1 class="ml13">ANALYZING...</h1>
+</div>
+
+<title>Title</title>
+
+<script src="{{url_for('static', filename='main.js')}}"></script>
+
+<script> window.location.replace('/task/{{url}}'); </script> -->

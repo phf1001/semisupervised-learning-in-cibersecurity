@@ -17606,4 +17606,38 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
 .bootstrap-datetimepicker-widget.dropdown-black table td .btn[data-action="togglePeriod"] {
   background: transparent; }
 
+.loader{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+.loader.hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 15px solid #dddddd;
+    border-top-color: #5e72e4;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+@keyframes loading {
+    from{
+        transform: rotate(0turn);
+    }
+    to{
+        transform: rotate(1turn);
+    }
+}
+
 /*# sourceMappingURL=argon.css.map */
