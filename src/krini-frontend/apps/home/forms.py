@@ -3,8 +3,8 @@
 from flask_wtf import FlaskForm
 from wtforms import TextField, SelectField, SubmitField
 from wtforms.validators import DataRequired
+from apps.home.models import Available_models
 
-#  report blacklist/whitelist url
 
 class ReportURLForm(FlaskForm):
     url = TextField('url',
@@ -20,3 +20,7 @@ class SearchURLForm(FlaskForm):
     url = TextField('url',
                          id='url_search',
                          validators=[DataRequired()])
+    selected_model = SelectField('selected_model',
+                            id='selected_model',
+                            validators=[DataRequired()],
+                            choices=Available_models.get_models_ids_and_names_list() )

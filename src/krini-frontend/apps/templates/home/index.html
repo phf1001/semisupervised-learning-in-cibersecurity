@@ -82,8 +82,14 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                           </div>
-                          {{ form.url(placeholder="url",class="form-control") }}
+                          {{ form.url(placeholder="Introduce your URL",class="form-control") }} 
                         </div>
+                      </div>
+
+                      <div class="form-group mb-0">
+                            <br></br>
+                            <h4 style="color: #5e72e4">Select one machine learning model to analyze (optional)</h4>
+                            {{ form.selected_model(placeholder="Please select a model",class="form-control") }}
                       </div>
 
                       <div class="text-center">
