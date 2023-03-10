@@ -96,6 +96,7 @@ class Available_models(db.Model):
     def __repr__(self):
         return str(self.model_id)
     
+    @staticmethod
     def get_models_ids_and_names_list():
         """
         Returns a list of tuples with the model id and name
