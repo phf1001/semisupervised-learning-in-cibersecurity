@@ -14,13 +14,11 @@
         height: 70px;
         animation: spin 1s linear infinite;
     }
-      
     @keyframes spin {
         100% {
             transform: rotate(360deg);
         }
     }
-      
     .center {
         position: absolute;
         top: 0;
@@ -55,9 +53,6 @@
             </div>
         </div>
     </div>
-
-    
-
 </div>
 {% endblock content %}
 
@@ -74,23 +69,5 @@
 </script>
 
 <script src="{{url_for('static', filename='main.js')}}"></script>
-<script> window.location.replace('/task/{{url}}'); </script>
+<script> window.location.replace('/task'); </script>
 {% endblock javascripts %}
-
-
-<!-- 
-<!doctype html>
-<head>
-    <link rel= "stylesheet" type= "text/css" href= "{{url_for('static',filename='styles/main.css') }}">
-</head>
-
-<div id="preloader">
-    <div id="status">&nbsp</div>
-    <h1 class="ml13">ANALYZING...</h1>
-</div>
-
-<title>Title</title>
-
-<script src="{{url_for('static', filename='main.js')}}"></script>
-
-<script> window.location.replace('/task/{{url}}'); </script> -->

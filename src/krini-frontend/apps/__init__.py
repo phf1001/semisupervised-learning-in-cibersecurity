@@ -26,7 +26,6 @@ def create_app(config):
     register_blueprints(app)
     configure_database(app)
     CSRFProtect(app).init_app(app)
-
     return app
 
 
