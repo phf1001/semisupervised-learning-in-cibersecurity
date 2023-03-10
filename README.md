@@ -8,6 +8,11 @@
   <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"> Semisupervised learning in cibersecurity </a>
 </h1>
 
+<h2 align="center">
+  <br>
+  <a href="https://krini.herokuapp.com/index"> krini </a>
+</h2>
+
 <h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
 
 <p align="center">
@@ -50,12 +55,6 @@
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=sqale_rating" alt="sc-maintainab">
 </a>
-<a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
-<img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=code_smells" alt="sc-codesmells">
-</a>
-<a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
-<img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=active+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-activeissues">
-</a>
 <a href = "https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity/?ref=repository-badge">
 <img src="https://deepsource.io/gh/phf1001/semisupervised-learning-in-cibersecurity.svg/?label=resolved+issues&show_trend=true&token=9pyDIDWYZ_eVj1NoPBRHUXM0" alt="dsbot-solvedissues">
 </a>
@@ -85,7 +84,6 @@ Regarding this repository, two investigation lines have been opened: detection o
 </td>
 </tr>
 </table>
-
 
 ## Features
 
