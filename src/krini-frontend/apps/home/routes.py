@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
+
+# Web dependencies
 from apps.home import blueprint
 from apps import db
 from flask import render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
-# import pickle
-# import numpy as np
-import time
 
+# DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm
 from apps.home.models import Reported_URL, Repeated_URL
-from apps.ssl_utils.ml_models_generator import create_coforest, serialize_model, deserialize_model
+
+# ML dependencies
+import pickle
+import numpy as np
+import time
+from apps.ssl_utils.ml_utils import obtain_model
+
 
 @blueprint.route('/report_url', methods=['GET', 'POST'])
 @login_required
@@ -67,12 +73,13 @@ def index():
 @blueprint.route('/task/<url>', methods=['POST', 'GET'])
 def task(url):
 
-    #Generas vector caracterśiticas
-    fv = [0,0,0,0,0,0,0,0,0,8,0,1,0,0,0,1,1,1,1]
-    session['messages'] = {"fv": fv, "url": url}
-
+    #Generas vector características
     time.sleep(5)
-    create_coforest()
+    fv = np.array([0,0,0,0,0,0,0,0,0,8,0,1,0,0,0,1,1,1,1])
+
+
+    #Enviamos el vector al dashboard
+    session['messages'] = {"fv": fv.tolist(), "url": url, "model": 'dc_v1'}
     return redirect(url_for('home_blueprint.dashboard'))
 
 
@@ -80,10 +87,15 @@ def task(url):
 def dashboard():
 
     messages = session.get('messages', None)
-    #analizas el vector
+    url = messages['url']
+    fv = np.array(messages['fv'])
+    model = messages['model']
+
+    cls = obtain_model(model)
+    predicted_tag = cls.predict(fv)
 
     if messages:
-        flash(messages['url'])
+        flash(predicted_tag)
 
     return render_template('home/dashboard.html', segment=get_segment(request))
 
