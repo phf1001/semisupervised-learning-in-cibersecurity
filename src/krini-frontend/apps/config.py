@@ -13,7 +13,10 @@ class Config(object):
     # Set up the App SECRET_KEY
     SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_007')
     WTF_CSRF_SECRET_KEY = config('WTF_CSRF_SECRET_KEY', default='S#perS3crEt_007')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+class ProductionConfig(Config):
+    DEBUG = False
     database_url = os.environ.get('DATABASE_URL')
 
     if database_url and database_url.startswith('postgres://'):
@@ -21,12 +24,6 @@ class Config(object):
 
     SQLALCHEMY_DATABASE_URI = database_url
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-class ProductionConfig(Config):
-    DEBUG = False
-
-    # Security
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600
@@ -34,6 +31,14 @@ class ProductionConfig(Config):
 class DebugConfig(Config):
     DEBUG = True
 
+    SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
+        config('DB_ENGINE', default='postgresql'),
+        config('DB_USERNAME', default='dev'),
+        config('DB_PASS', default='123'),
+        config('DB_HOST', default='localhost'),
+        config('DB_PORT', default=5432),
+        config('DB_NAME', default='krini')
+    )
 
 # Load all possible configurations
 config_dict = {
