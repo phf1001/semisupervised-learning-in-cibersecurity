@@ -11,6 +11,7 @@ import time
 
 from apps.home.forms import ReportURLForm, SearchURLForm
 from apps.home.models import Reported_URL, Repeated_URL
+from apps.ssl_utils.ml_models_generator import create_coforest, serialize_model, deserialize_model
 
 @blueprint.route('/report_url', methods=['GET', 'POST'])
 @login_required
@@ -70,7 +71,8 @@ def task(url):
     fv = [0,0,0,0,0,0,0,0,0,8,0,1,0,0,0,1,1,1,1]
     session['messages'] = {"fv": fv, "url": url}
 
-    time.sleep(20)
+    time.sleep(5)
+    create_coforest()
     return redirect(url_for('home_blueprint.dashboard'))
 
 
