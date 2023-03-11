@@ -42,6 +42,7 @@ def register_blueprints(app):
         # app.register_blueprint(scanner.bp)
         # app.add_url_rule('/', endpoint='index')
 
+
 def configure_database(app):
 
     @app.before_first_request

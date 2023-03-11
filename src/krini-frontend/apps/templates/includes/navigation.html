@@ -64,7 +64,7 @@
 
               {% if current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
+                <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{{ url_for('home_blueprint.profile') }}">
                   {% if 'profile' in segment %}
                     <i class="ni ni-single-02 text-indigo"></i>
                     <span class="text-indigo">Profile</span>

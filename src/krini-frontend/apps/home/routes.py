@@ -138,6 +138,14 @@ def dashboard():
     return redirect(url_for("home_blueprint.index"))
 
 
+@login_required
+@blueprint.route("/profile", methods=["GET"])
+def profile():
+
+    n_reports = Reported_URL.query.filter_by(user_id=current_user.id).count()
+    return render_template("home/profile.html", n_reports=n_reports, segment=get_segment(request))
+
+
 @blueprint.route("/map", methods=["GET", "POST"])
 def map():
     return render_template("home/map.html", segment=get_segment(request))
