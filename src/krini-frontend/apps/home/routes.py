@@ -7,10 +7,16 @@ from flask import render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
+from sqlalchemy.orm import load_only
 
 # DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm
-from apps.home.models import Reported_URL, Repeated_URL, Available_models
+from apps.home.models import (
+    Available_instances,
+    Candidate_instances,
+    Available_models,
+    Available_tags,
+)
 
 # ML dependencies
 import pickle
@@ -50,7 +56,6 @@ def task():
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-
     messages = session.get("messages", None)
 
     if messages:
@@ -78,20 +83,40 @@ def dashboard():
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
-    n_reports = Reported_URL.query.filter_by(user_id=current_user.id).count()
-    return render_template("home/profile.html", n_reports=n_reports, segment=get_segment(request))
+    n_reports_accepted = Available_instances.query.filter_by(
+        reported_by=current_user.id
+    ).count()
+
+    n_reports_reviewing = 0
+    users_reports = Candidate_instances.query.options(load_only("reported_by")).all()
+    users_reports = [report.reported_by for report in users_reports]
+
+    for user_report in users_reports:
+        if current_user.id in user_report:
+            n_reports_reviewing += 1
+
+    return render_template(
+        "home/profile.html",
+        n_reports_accepted=n_reports_accepted,
+        n_reports_reviewing=n_reports_reviewing,
+        segment=get_segment(request),
+    )
 
 
 @login_required
 @blueprint.route("/instances", methods=["GET"])
 def instances():
-    return render_template("home/instances-administration.html", segment=get_segment(request))
+    return render_template(
+        "home/instances-administration.html", segment=get_segment(request)
+    )
 
 
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
-    return render_template("home/models-administration.html", segment=get_segment(request))
+    return render_template(
+        "home/models-administration.html", segment=get_segment(request)
+    )
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
@@ -105,40 +130,49 @@ def report_url():
     if "report" in request.form:
         url = request.form["url"]
         type = request.form["type"]
+
+        if type == "blacklist":
+            type = Available_tags.black_list
+        elif type == "whitelist":
+            type = Available_tags.white_list
+
         date = datetime.now()
         user_ID = current_user.id
-        existing_url = Reported_URL.query.filter_by(url=url).first()
+        existing_instance = Candidate_instances.query.filter_by(
+            instance_URL=url
+        ).first()
 
-        if existing_url:
-            previous_type = existing_url.type
-
-            if previous_type != type:
-                repeated_url = Repeated_URL.query.filter_by(url=url).first()
-
-                if not repeated_url:
-                    db.session.add(
-                        Repeated_URL(
-                            url=url,
-                            previous_type=previous_type,
-                            date=date,
-                            user_id=user_ID,
-                        )
-                    )
-                    db.session.commit()
-                    flash("URL reported succesfully! Our admins will review it soon.")
+        if existing_instance:
+            existing_instance.reported_by.append(user_ID)
+            existing_instance.date.append(date)
+            existing_instance.suggestions.append(type)
+            db.session.flush()
+            db.session.commit()
+            flash(
+                "URL reported succesfully! Our admins will review it soon."
+                + str(existing_instance)
+            )
 
         else:
-            db.session.add(Reported_URL(url=url, type=type, date=date, user_id=user_ID))
+            db.session.add(
+                Candidate_instances(
+                    instance_URL=url,
+                    reported_by=([user_ID],),
+                    date=([date],),
+                    suggestions=([type],),
+                )
+            )
             db.session.commit()
             flash("URL reported succesfully!")
 
         return render_template(
-        "home/report_url.html", form=form, segment=get_segment(request)
-    )
+            "home/report_url.html", form=form, segment=get_segment(request)
+        )
 
     return render_template(
         "home/report_url.html", form=form, segment=get_segment(request)
     )
+
 
 @blueprint.route("/map", methods=["GET", "POST"])
 def map():
@@ -175,6 +209,7 @@ def get_segment(request):
 
     except:
         return None
+
 
 def get_model(model_id):
     requested_model = Available_models.query.filter_by(model_id=model_id).first()

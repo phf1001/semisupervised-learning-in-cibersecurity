@@ -1,80 +1,141 @@
-
 from apps import db
 from decouple import config
 from apps import create_app
 from apps.config import config_dict
-from sqlalchemy.dialects.postgresql import ENUM as pgEnum
-from enum import Enum, unique
+import enum
+from sqlalchemy import Integer, Enum
+from sqlalchemy.ext.mutable import MutableList
 
-DEBUG = config('DEBUG', default=True, cast=bool)
-get_config_mode = 'Debug' if DEBUG else 'Production'
+DEBUG = config("DEBUG", default=True, cast=bool)
+get_config_mode = "Debug" if DEBUG else "Production"
 
 try:
     app_config = config_dict[get_config_mode.capitalize()]
 
 except KeyError:
-    exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
+    exit("Error: Invalid <config_mode>. Expected values [Debug, Production] ")
 
 app = create_app(app_config)
 app.app_context().push()
 
 
-class Reported_URL(db.Model):
+# class Available_tags(enum.Enum):
+#     """
+#     Create an Available_tags table containing the
+#     tags that are available for the instances.
+#     """
+#     white_list = 1
+#     black_list = 2
+#     nueva = 3
+#     revisar = 4
+#     mal_etiquetada_clasificador = 5
+#     sug_white_list = 6
+#     sug_black_list = 7
+#     sug_phishing = 8
+#     sug_legitimate = 9
+
+
+class Available_tags:
     """
-    Create a Reported_URL table containing the 
-    URLs that have been reported by logged users. 
-    Acts like blacklist/whitelist.
+    Create an Available_tags table containing the
+    tags that are available for the instances.
     """
 
-    __tablename__ = 'Reported_URLs'
+    tags = [
+        "white_list",
+        "black_list",
+        "nueva",
+        "revisar",
+        "mal_etiquetada_clasificador",
+        "sug_white_list",
+        "sug_black_list",
+        "sug_phishing",
+        "sug_legitimate",
+    ]
 
-    url_id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(64), unique=True)
-    type = db.Column(db.String(64))
+    black_list = "black_list"
+    white_list = "white_list"
+    nueva = "nueva"
+    revisar = "revisar"
+    mal_etiquetada_clasificador = "mal_etiquetada_clasificador"
+    sug_white_list = "sug_white_list"
+    sug_black_list = "sug_black_list"
+    sug_phishing = "sug_phishing"
+    sug_legitimate = "sug_legitimate"
+
+
+class Available_instances(db.Model):
+    """
+    Create an Available_instances table containing the
+    URLs that are available for the user to use.
+    """
+
+    __tablename__ = "Available_instances"
+
+    instance_id = db.Column(db.Integer, primary_key=True)
+    instance_URL = db.Column(db.String(64), unique=True)
     date = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    reported_by = db.Column(db.Integer, db.ForeignKey("Users.id"))
+    reviewed_by = db.Column(db.Integer, db.ForeignKey("Users.id"))
+    instance_class = db.Column(db.Integer)
+    instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
+    tags = db.Column(
+        MutableList.as_mutable(db.ARRAY(db.String(64)))
+    )  # db.Column(db.ARRAY(Enum(Available_tags)))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
-
-            if hasattr(value, '__iter__') and not isinstance(value, str):
+            if hasattr(value, "__iter__") and not isinstance(value, str):
                 value = value[0]
-
             setattr(self, property, value)
 
     def __repr__(self):
-        return str(self.url_id)
+        return (
+            str(self.instance_id)
+            + " "
+            + str(self.instance_URL)
+            + " "
+            + str(self.reported_by)
+            + " "
+            + str(self.reviewed_by)
+        )
 
 
-class Repeated_URL(db.Model):
+class Candidate_instances(db.Model):
     """
-    Create a Repeated_URL table
-    This table will contain the URLs that have been
-    reported more than once and should be reviewerd 
-    by an admin because the type reported is different
-    than the one that was already stored.
+    Create a Candidate_instances table.
+    This table will contain the instances reported
+    by users that are not yet in the Available_instances table
+    and will be once they are reviewed by an admin.
     """
 
-    __tablename__ = 'Repeated_URLs'
+    __tablename__ = "Candidate_instances"
 
-    url_id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(64), db.ForeignKey('Reported_URLs.url'), unique=True, nullable=False)
-    date = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    instance_id = db.Column(db.Integer, primary_key=True)
+    instance_URL = db.Column(db.String(64), unique=True, nullable=False)
+    reported_by = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
+    date = db.Column(MutableList.as_mutable(db.ARRAY(db.DateTime)))
+    suggestions = db.Column(MutableList.as_mutable(db.ARRAY(db.String(64))))
+    instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
-
-            if hasattr(value, '__iter__') and not isinstance(value, str):
+            if hasattr(value, "__iter__") and not isinstance(value, str):
                 value = value[0]
-
             setattr(self, property, value)
 
     def __repr__(self):
-        return str(self.url_id)
+        return (
+            str(self.instance_id)
+            + " "
+            + str(self.instance_URL)
+            + " "
+            + str(self.reported_by)
+            + " "
+            + str(self.suggestions)
+        )
 
 
-  
 class Available_models(db.Model):
     """
     Create a Available_models table.
@@ -82,24 +143,23 @@ class Available_models(db.Model):
     that are available for the user to choose.
     """
 
-    __tablename__ = 'Available_models'
+    __tablename__ = "Available_models"
 
     model_id = db.Column(db.Integer, primary_key=True)
     model_name = db.Column(db.String(64), unique=True, nullable=False)
     file_name = db.Column(db.String(64), unique=True, nullable=False)
-    #algorithm = db.Column()
+    # algorithm = db.Column()
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
-
-            if hasattr(value, '__iter__') and not isinstance(value, str):
+            if hasattr(value, "__iter__") and not isinstance(value, str):
                 value = value[0]
 
             setattr(self, property, value)
 
     def __repr__(self):
         return str(self.model_id)
-    
+
     @staticmethod
     def get_models_ids_and_names_list():
         """
@@ -107,7 +167,7 @@ class Available_models(db.Model):
         """
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models]
-    
+
 
 class CoForest_model(Available_models):
     pass

@@ -33,7 +33,6 @@
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
         </div>
-
         <!-- Box right -->
         <div class="card-body pt-0">
           <div class="row">
@@ -47,12 +46,12 @@
               </div>
             </div>
           </div>
-          <div class="text-center">
-            <h5 class="h3">
-              {{ n_reports }}
-            </h5>
+          <div class="card-profile-stats d-flex justify-content-center">
             <div class="h5 font-weight-300">
-              Reported URLs
+              <h3>{{ n_reports_accepted }}</h3>&nbsp;&nbsp;Accepted reported URLs
+            </div>
+            <div class="h5 font-weight-300">
+              <h3>{{ n_reports_reviewing }}</h3>&nbsp;&nbsp;Reviewing URLs
             </div>
           </div>
         </div>
