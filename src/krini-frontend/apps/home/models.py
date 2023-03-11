@@ -3,6 +3,8 @@ from apps import db
 from decouple import config
 from apps import create_app
 from apps.config import config_dict
+from sqlalchemy.dialects.postgresql import ENUM as pgEnum
+from enum import Enum, unique
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 get_config_mode = 'Debug' if DEBUG else 'Production'
@@ -70,8 +72,9 @@ class Repeated_URL(db.Model):
 
     def __repr__(self):
         return str(self.url_id)
-    
-    
+
+
+  
 class Available_models(db.Model):
     """
     Create a Available_models table.
@@ -84,6 +87,7 @@ class Available_models(db.Model):
     model_id = db.Column(db.Integer, primary_key=True)
     model_name = db.Column(db.String(64), unique=True, nullable=False)
     file_name = db.Column(db.String(64), unique=True, nullable=False)
+    #algorithm = db.Column()
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -103,3 +107,7 @@ class Available_models(db.Model):
         """
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models]
+    
+
+class CoForest_model(Available_models):
+    pass

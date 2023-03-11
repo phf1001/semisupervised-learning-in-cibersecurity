@@ -7,6 +7,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
         </nav>
+        
         <div class="navbar-inner">
           <!-- Collapse -->
           <div class="collapse navbar-collapse" id="sidenav-collapse-main">
@@ -26,15 +27,14 @@
               <li class="nav-item">
                 <a class="nav-link {% if 'dashboard' in segment %} active {% endif %}" href="/dashboard">
                   {% if 'dashboard' in segment %}
-                    <i class="ni ni-tv-2 text-indigo"></i>
+                    <i class="ni ni-chart-pie-35 text-indigo"></i>
                     <span class="text-indigo">Dashboard</span>
                   {% else %}
-                    <i class="ni ni-tv-2 text-white"></i>
+                    <i class="ni ni-chart-pie-35 text-white"></i>
                     <span class="nav-link-text">Dashboard</span>
                   {% endif %}
                 </a>
               </li>
-
               {% if current_user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link {% if 'report_url' in segment %} active {% endif %}" href="/report_url">
@@ -48,7 +48,31 @@
                 </a>
               </li>
               {% endif %}
-              
+
+              {% if current_user.user_rol == "admin" %}
+              <li class="nav-item">
+                <a class="nav-link {% if 'instances' in segment %} active {% endif %}" href="{{ url_for('home_blueprint.instances') }}">
+                  {% if 'instances' in segment %}
+                    <i class="ni ni-books text-indigo"></i>
+                    <span class="text-indigo">Instances</span>
+                  {% else %}
+                    <i class="ni ni-books text-white"></i>
+                    <span class="nav-link-text">Instances</span>
+                  {% endif %}
+                </a>
+              </li>    
+              <li class="nav-item">
+                <a class="nav-link {% if 'models' in segment %} active {% endif %}" href="{{ url_for('home_blueprint.models') }}">
+                  {% if 'models' in segment %}
+                    <i class="ni ni-atom text-indigo"></i>
+                    <span class="text-indigo">Models</span>
+                  {% else %}
+                    <i class="ni ni-atom text-white"></i>
+                    <span class="nav-link-text">Models</span>
+                  {% endif %}
+                </a>
+              </li> 
+
               <li class="nav-item">
                 <a class="nav-link" href="/map.html">
                   <i class="ni ni-pin-3 text-white"></i>
@@ -61,6 +85,9 @@
                   <span class="nav-link-text">Tables</span>
                 </a>
               </li>
+
+              {% endif %}
+
 
               {% if current_user.is_authenticated %}
               <li class="nav-item">
@@ -80,7 +107,6 @@
                   <span class="nav-link-text">Logout</span>
                 </a>
               </li>      
-              
               {% endif %}
             </ul>
           </div>

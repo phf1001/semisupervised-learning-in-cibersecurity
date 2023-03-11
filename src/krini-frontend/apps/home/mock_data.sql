@@ -33,3 +33,17 @@ VALUES ('https://www.youtube.es/', 'white-list', '2020-01-01', 2);
 
 INSERT INTO "Reported_URLs" (url, type, date, user_id)
 VALUES ('https://www.youtube.fr/', 'white-list', '2020-01-01', 2);
+
+UPDATE "Users" SET user_rol = 'admin' WHERE username = 'admin';
+
+INSERT INTO "Available_models" (model_name, file_name)
+VALUES ('Default', 'default.pkl');
+
+INSERT INTO "Available_models" (model_name, file_name)
+VALUES ('Democratic-co v.1.0', 'dc_v1.pkl');
+
+INSERT INTO "Available_models" (model_name, file_name)
+VALUES ('Co-forest v.1.0', 'cf_v1.pkl');
+
+INSERT INTO "Available_models" (model_name, file_name)
+VALUES ('Tri-training v.1.0', 'tt_v1.pkl');
