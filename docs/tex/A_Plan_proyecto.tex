@@ -562,7 +562,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 		\item Sistema de bases de datos: buscar servidor (comparativa entre MariaDB y PostgreSQL) y desplegar en local.
 		\item Despliegue: despliegue en Heroku y gestión de errores. Levantar tanto la \textit{web} como el servidor de bases de datos.
 		\item Documentación: corrección de aspectos indicados por el tutor, redacción de anexos, inclusión del apartado <<técnicas>> en la memoria principal.
-		\item Experimentación: generación del \textit{dataset} real de \textit{phishing} (2000 instancias) y realización de las gráficas verdaderas. Posible búsqueda de alternativas a la generación de vectores.
+		\item Experimentación: generación del \textit{dataset} real de \textit{phishing} (2\,000 instancias) y realización de las gráficas con datos reales. Posible búsqueda de alternativas a la generación de vectores.
 		\item Calidad: corrección de \textit{issues} utilizando Deep Source Bot.
 		\item Diagramas: comenzar a realizar diagramas de casos de uso, clases, etc.
 		
@@ -583,6 +583,41 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	
 	Claramente se subestimó el tiempo requerido en realizar pantallas \textit{web}, desplegar en Heroku y gestionar servidores de bases de datos. Hubo complicaciones debido a que se ha escogido una plantilla profesional, y el uso del lenguaje es complejo. Todavía hay ciertos aspectos que arreglar respecto al despliegue en Heroku (no renderiza correctamente los menús desplegables a diferencia de <<local>>).
 	
+	\item \textbf{\textit{Sprint review meeting}}
+	
+	En esta reunión se concluyó que el incremento había sido desarrollado correctamente con la excepción de los diagramas (debido a que se dedicó poco tiempo). Por lo tanto, se ofreció retroalimentación con respecto a los mismos con el fin de volverlos a generar. También se recibió \textit{feedback} relacionado con la documentación.
+\end{itemize}
+
+
+\subsubsection{\textit{Sprint 16: Vanilla}}
+\begin{itemize}
+	
+	\item \textbf{\textit{Planning meeting}}
+	
+	En esta reunión se plantearon los siguientes objetivos:
+	\begin{enumerate}
+		\item Diagramas: repetir el diagrama de casos de uso partiendo de la retroalimentación proporcionada por el \textit{product owner}. Realizar el diagrama de clases de la base de datos relacional y generar \textit{mockups} de las interfaces para la página \textit{web}.
+		\item \textit{Web}: implementación de funcionalidad. Serialización y deserialización de clasificadores, generación de funciones de utilidades para modularizar el ML y diseño de la interacción entre elementos (comunicación en variables de sesión, formularios nuevos, etc.). Nuevas pantallas (carga con animaciones para tareas que requieran más tiempo), adaptación del modelo de datos de la \textit{web} al nuevo diagrama de clases e introducción de roles y permisos. Pantallas asociadas al administrador (esqueleto realizado y adaptación del menú). Mejoras estilísticas (segmentos utilizados, usuarios activos, \textit{badges} y más) y corrección de errores (encabezados y sesiones activas). Implementación definitiva de los modelos de la base de datos (sustituidos los anteriores por no ser suficiente para cubrir los nuevos requerimientos).
+		\item Documentación: corregir aspectos previos y realizar anexos. Introducir sección de CD/CI y complementar las herramientas (Travis, Heroku). Planificación temporal del \textit{sprint}.
+		\item Herramientas: realizar una primera <<toma de contacto>> con \texttt{D3.js} y decidir si merece la pena introducir esta tecnología en la página \textit{web}.
+		
+	\end{enumerate}
+	\item \textbf{Marcas temporales}
+	
+	El \textit{sprint} fue desarrollado entre el 7 de marzo y el 13 de marzo del 2023.
+			
+	\item \textbf{\textit{Burndown Report}}
+	
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 16}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s16_bdr}
+	\end{figure}
+
+	En este \textit{sprint} todos los \textit{issues} fueron cerrados. Se estimó un tiempo total de trabajo de 29 horas y coincide con el tiempo real dedicado. Cabe destacar que los \textit{issues} de realización de \textit{mockups} requirieron menos tiempo del estimado y que el tiempo sobrante se empleó en seguir programando la página \textit{web}.
+	
+	Aunque no estaba planificado, también se incluyó la tecnología GitGuardian en el flujo de Git con el fin de proteger la aplicación ante posibles filtraciones de contraseñas (en concreto, de la base de datos).
+
 	\item \textbf{\textit{Sprint review meeting}}
 \end{itemize}
 
