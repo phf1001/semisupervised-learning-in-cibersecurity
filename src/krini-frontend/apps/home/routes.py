@@ -31,8 +31,8 @@ def index():
 
     if "search" in request.form:
         url = request.form["url"]
-        model = request.form["selected_model"]
-        session["messages"] = {"url": url, "model": model}
+        models = form.selected_model.data
+        session["messages"] = {"url": url, "models": models}
 
         return render_template("home/loading.html")
 
@@ -43,14 +43,14 @@ def index():
 def task():
     messages = session.get("messages", None)
     url = messages["url"]
-    model_id = messages["model"]
+    models_ids = messages["models"]
 
     # Generas vector características
     time.sleep(2)
     fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
 
     # Enviamos el vector al dashboard
-    session["messages"] = {"fv": fv.tolist(), "url": url, "model_id": model_id}
+    session["messages"] = {"fv": fv.tolist(), "url": url, "models_ids": models_ids}
     return redirect(url_for("home_blueprint.dashboard"))
 
 
@@ -61,18 +61,25 @@ def dashboard():
     if messages:
         url = messages["url"]
         fv = np.array(messages["fv"])
-        cls, model_name = get_model(messages["model_id"])
-        predicted_tag = cls.predict(fv)
 
-        information = (
-            "RESULTS: URL '"
-            + url
-            + "' is "
-            + translate_tag(predicted_tag[0])
-            + " according to '"
-            + model_name
-            + "' classifier."
-        )
+        #cls, model_name 
+        classifiers_tuples = [get_model(model_id) for model_id in messages["models_ids"]]
+        classifiers = [cls for cls, model_name in classifiers_tuples]
+        model_names = [model_name for cls, model_name in classifiers_tuples]
+        predicted_tags = [cls.predict(fv) for cls in classifiers]
+
+        information = ''
+        for model_name, predicted_tag in zip(model_names, predicted_tags):
+
+            information += (
+                "RESULTS: URL '"
+                + url
+                + "' is "
+                + translate_tag(predicted_tag)
+                + " according to '"
+                + model_name
+                + "' classifier.\n"
+            )
 
         flash(information)
         return render_template("home/dashboard.html", segment=get_segment(request))
