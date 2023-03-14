@@ -27,16 +27,18 @@ from apps.ssl_utils.ml_utils import obtain_model, translate_tag
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
-    form = SearchURLForm(request.form)
+    # form = SearchURLForm(request.form)
 
-    if "search" in request.form:
-        url = request.form["url"]
-        models = form.selected_model.data
-        session["messages"] = {"url": url, "models": models}
+    # if "search" in request.form:
+    #     url = request.form["url"]
+    #     models = form.selected_model.data
+    #     session["messages"] = {"url": url, "models": models}
 
-        return render_template("home/loading.html")
+    #     return render_template("home/loading.html")
 
-    return render_template("home/index.html", form=form, segment=get_segment(request))
+    # return render_template("home/index.html", form=form, segment=get_segment(request))
+
+    return render_template("home/dropdown-multiselect.html")
 
 
 @blueprint.route("/task", methods=["POST", "GET"])

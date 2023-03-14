@@ -8,15 +8,12 @@
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/assets/css/bootstrap/bootstrap-select.css">
-
-
   <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
   {% endblock stylesheets %}
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -184,52 +181,12 @@
     </div>
   </div>
   </div>
-    
     {% endblock content %}
     {% include "includes/footer-fullscreen.html" %}
-
   </div>
-
 
   {% include "includes/scripts.html" %}
   {% block javascripts %}
-  <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-
-  <script>
-    $(document).ready(function(){
-        $('.selectpicker').selectpicker();
-          
-        $('#skills').change(function(){
-          $('#hidden_skills').val($('#skills').val());
-        });
-          
-        $('#multiple_select_form').on('submit', function(event){
-            event.preventDefault();
-            if($('#skills').val() != '')
-            {
-                var form_data = $(this).serialize();
-                $.ajax({
-                    url:"/ajax_add",
-                    method:"POST",
-                    data:form_data,
-                    success:function(data)
-                    {
-                    //console.log(data);
-                    $('#hidden_skills').val('');
-                    $('.selectpicker').selectpicker('val', '');
-                    alert(data);
-                    }
-                })
-            }
-            else
-            {
-                alert("Please select framework");
-                return false;
-            }
-        });
-    });
-    </script>
-
   {% endblock javascripts %}
 
   

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head> 
+    <title>
+        Phishing Scanner
+    </title>
+
+    <!-- Specific CSS goes HERE -->
+    {% block stylesheets %}
+    <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+    <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
+    {% endblock stylesheets %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    </head>
+
+    
+    <body class="bg-default">
+        <div class="container-multi-select">
+            <div class="select-btn">
+                <span class="btn-text">Select your models</span>
+                <span class="arrow-dwn">
+                    <i class="ni ni-bold-down"></i>
+                </span>
+            </div>
+
+            <ul class="list-items-multi-select">
+
+                <li class="item">
+                    <span class="checkbox">
+                        <i class="ni ni-check-bold"></i>
+                    </span>
+                    <span class="item-text"> COF </span>
+                </li>
+
+                <li class="item">
+                    <span class="checkbox"></span>
+                    <span class="item-text"> TT </span>
+                </li>
+
+                <li class="item">
+                    <span class="checkbox"></span>
+                    <span class="item-text"> DC </span>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+
+
+
+    {% include "includes/footer-fullscreen.html" %}
+    </div>
+    {% include "includes/scripts.html" %}
+    {% block javascripts %}
+    <script src="/static/assets/js/multiselect.js"></script>
+    {% endblock javascripts %}
+    </body>
+</html>
