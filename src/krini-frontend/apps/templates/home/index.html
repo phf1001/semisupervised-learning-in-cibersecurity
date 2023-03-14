@@ -6,18 +6,22 @@
     Phishing Scanner
   </title>
 
+  <!-- Specific CSS goes HERE -->
+  {% block stylesheets %}
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/bootstrap/bootstrap-select.css">
+
+
   <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
-  <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <!-- Icons -->
   <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <!-- Argon CSS -->
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  {% endblock stylesheets %}
 
-  <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 </head>
 
 <body class="bg-default">
@@ -61,8 +65,7 @@
           <!-- Light table -->
           <div class="table-responsive">
             
-            <form role="form" method="post" action="">
-              {{ form.hidden_tag() }}
+            <form method="post" id="multiple_select_form">
               <table class="table align-items-center table-flush">
                 <caption></caption>
                 <thead class="thead-light">
@@ -86,22 +89,26 @@
                           {{ form.url(placeholder="Introduce your URL",class="form-control") }} 
                         </div>
                       </div>
-
                       <div class="form-group mb-0">
                             <br></br>
                             <h4 style="color: #5e72e4">Select one machine learning model to analyze (optional)</h4>
-                            {{ form.selected_model(placeholder="Please select a model",class="form-control") }}
+                            <!-- {{ form.selected_model(placeholder="Please select a model",class="form-control") }} -->
+                            <select name="skills" id="skills" class="form-control selectpicker" data-live-search="true" multiple>
+                              <option value="0">Select a model</option>
+                              <option value="1">Logistic Regression</option>
+                              <option value="2">Random Forest</option>
+                              <option value="3">Support Vector Machine</option>
+                            </select>
                       </div>
-
                       <div class="text-center">
                         <button type="submit" name="search" class="btn btn-primary my-4">Scan</button>
                       </div>
-
                     </td> 
                     <td></td>
                   </tr>
                 </tbody>
               </table>
+              <input type="hidden" name="hidden_skills" id="hidden_skills" />
             </form>
           </div>
         </div>
@@ -182,8 +189,49 @@
     {% include "includes/footer-fullscreen.html" %}
 
   </div>
+
+
   {% include "includes/scripts.html" %}
-  {% block javascripts %}{% endblock javascripts %}
+  {% block javascripts %}
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
+
+  <script>
+    $(document).ready(function(){
+        $('.selectpicker').selectpicker();
+          
+        $('#skills').change(function(){
+          $('#hidden_skills').val($('#skills').val());
+        });
+          
+        $('#multiple_select_form').on('submit', function(event){
+            event.preventDefault();
+            if($('#skills').val() != '')
+            {
+                var form_data = $(this).serialize();
+                $.ajax({
+                    url:"/ajax_add",
+                    method:"POST",
+                    data:form_data,
+                    success:function(data)
+                    {
+                    //console.log(data);
+                    $('#hidden_skills').val('');
+                    $('.selectpicker').selectpicker('val', '');
+                    alert(data);
+                    }
+                })
+            }
+            else
+            {
+                alert("Please select framework");
+                return false;
+            }
+        });
+    });
+    </script>
+
+  {% endblock javascripts %}
+
+  
 </body>
 </html>
