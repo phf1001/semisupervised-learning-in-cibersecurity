@@ -6,26 +6,21 @@
     Phishing Scanner
   </title>
 
-  <!-- Specific CSS goes HERE -->
   {% block stylesheets %}
-  <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
-  <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
+    <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+    <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
   {% endblock stylesheets %}
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 </head>
 
 <body class="bg-default">
+
   {% include "includes/navigation.html" %}
-
   <div class="main-content">
-
     <!-- Header -->
     <div class="header bg-gradient-primary py-3 py-lg-3">
       <div class="container">
@@ -47,9 +42,7 @@
       </div>
     </div>
 
-
     {% block content %}
-
   <!-- Page content -->
   <div class="container-fluid mt-5">
     <div class="row">
@@ -62,7 +55,8 @@
           <!-- Light table -->
           <div class="table-responsive">
             
-            <form method="post" id="multiple_select_form">
+            <form role="form" method="post" action="">
+              {{ form.hidden_tag() }}
               <table class="table align-items-center table-flush">
                 <caption></caption>
                 <thead class="thead-light">
@@ -86,26 +80,58 @@
                           {{ form.url(placeholder="Introduce your URL",class="form-control") }} 
                         </div>
                       </div>
+
+
+
+
+
                       <div class="form-group mb-0">
-                            <br></br>
+                            <!-- <br></br>
                             <h4 style="color: #5e72e4">Select one machine learning model to analyze (optional)</h4>
-                            <!-- {{ form.selected_model(placeholder="Please select a model",class="form-control") }} -->
-                            <select name="skills" id="skills" class="form-control selectpicker" data-live-search="true" multiple>
-                              <option value="0">Select a model</option>
-                              <option value="1">Logistic Regression</option>
-                              <option value="2">Random Forest</option>
-                              <option value="3">Support Vector Machine</option>
-                            </select>
+                            {{ form.selected_model(placeholder="Please select a model",class="form-control") }} -->
+
+
+                            <div class="container-multi-select">
+                              <div class="select-btn">
+                                  <span class="btn-text">Select your models</span>
+                                  <span class="arrow-dwn">
+                                      <i class="ni ni-bold-down"></i>
+                                  </span>
+                              </div>
+                              <ul class="list-items-multi-select">
+                  
+                                  <li class="item">
+                                      <span class="checkbox"></span>
+                                      <span class="item-text"> COF </span>
+                                  </li>
+                  
+                                  <li class="item">
+                                      <span class="checkbox"></span>
+                                      <span class="item-text"> TT </span>
+                                  </li>
+                  
+                                  <li class="item">
+                                      <span class="checkbox"></span>
+                                      <span class="item-text"> DC </span>
+                                  </li>
+                  
+                  
+                              </ul>
+                          </div>
+                      </div>
+
+
+
                       </div>
                       <div class="text-center">
                         <button type="submit" name="search" class="btn btn-primary my-4">Scan</button>
                       </div>
+
                     </td> 
                     <td></td>
                   </tr>
                 </tbody>
               </table>
-              <input type="hidden" name="hidden_skills" id="hidden_skills" />
             </form>
           </div>
         </div>
@@ -181,14 +207,15 @@
     </div>
   </div>
   </div>
+    
     {% endblock content %}
     {% include "includes/footer-fullscreen.html" %}
-  </div>
 
+  </div>
   {% include "includes/scripts.html" %}
   {% block javascripts %}
+  <script src="/static/assets/js/argon.js?v=1.2.0"></script>
+  <script src="/static/assets/js/multiselect.js"></script>
   {% endblock javascripts %}
-
-  
 </body>
 </html>
