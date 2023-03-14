@@ -6,28 +6,32 @@ selectBtn.addEventListener('click', () => {
 });
 
 items.forEach(item => {
+
     item.addEventListener('click', () => {
+
         item.classList.toggle("checked");
-
         let checked = document.querySelectorAll('.checked');
-        let checked_names = document.querySelectorAll('.checked').forEach(item => item.innerText);
-
         btnText = document.querySelector('.btn-text');
         
         if (checked && checked.length > 0) {
             btnText.innerText = `Selected (${checked.length})`;
-            
         } else {
             btnText.innerText = "Select your models";
         }
-
-        let selected_names = [];
-
-        for(var i=0; i<checked.length; i++){
-            selected_names.push(checked[i].innerText);
-        }
-
-        console.log(selected_names)
-
     })
 })
+
+
+var saveButton = document.getElementById('btn-submit');
+
+saveButton.addEventListener('click', function () {
+
+    let checked = document.querySelectorAll('.checked');
+    let selected_names = [];
+
+    for (var i = 0; i < checked.length; i++) {
+        selected_names.push(checked[i].innerText);
+    }
+
+    document.getElementById('selected_models').value = selected_names;
+});

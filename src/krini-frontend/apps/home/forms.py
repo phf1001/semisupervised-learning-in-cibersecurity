@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import TextField, SelectField, SubmitField, SelectMultipleField
+from wtforms import TextField, SelectField, SubmitField, SelectMultipleField, HiddenField
 from wtforms.validators import DataRequired
 from apps.home.models import Available_models
 
@@ -25,7 +25,9 @@ class SearchURLForm(FlaskForm):
     #                         validators=[DataRequired()],
     #                         choices=Available_models.get_models_ids_and_names_list() )
 
-    selected_model = SelectMultipleField('selected_model',
-                            id='selected_model',
-                            validators=[DataRequired()],
-                            choices=Available_models.get_models_ids_and_names_list() )
+    # selected_model = SelectMultipleField('selected_model',
+    #                         id='selected_model',
+    #                         validators=[DataRequired()],
+    #                         choices=Available_models.get_models_ids_and_names_list() )
+
+    selected_models = HiddenField('selected_models', render_kw={'id': 'selected_models'})

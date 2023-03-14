@@ -31,7 +31,7 @@ def index():
 
     if "search" in request.form:
         url = request.form["url"]
-        models = form.selected_model.data
+        models = request.form["selected_models"]
         session["messages"] = {"url": url, "models": models}
 
         return render_template("home/loading.html")
@@ -54,6 +54,11 @@ def task():
     return redirect(url_for("home_blueprint.dashboard"))
 
 
+def translate_array_js(selected):
+    splitted = selected.split(",")
+    return [int(elem) for elem in splitted]
+
+
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
     messages = session.get("messages", None)
@@ -61,25 +66,26 @@ def dashboard():
     if messages:
         url = messages["url"]
         fv = np.array(messages["fv"])
+        selected_models = translate_array_js(messages['models_ids'])
+        information = selected_models
 
-        #cls, model_name 
-        classifiers_tuples = [get_model(model_id) for model_id in messages["models_ids"]]
-        classifiers = [cls for cls, model_name in classifiers_tuples]
-        model_names = [model_name for cls, model_name in classifiers_tuples]
-        predicted_tags = [cls.predict(fv) for cls in classifiers]
+        # classifiers_tuples = [get_model(model_id) for model_id in selected_models]
+        # classifiers = [cls for cls, model_name in classifiers_tuples]
+        # model_names = [model_name for cls, model_name in classifiers_tuples]
+        # predicted_tags = [cls.predict(fv) for cls in classifiers]
 
-        information = ''
-        for model_name, predicted_tag in zip(model_names, predicted_tags):
+        # information = ''
+        # for model_name, predicted_tag in zip(model_names, predicted_tags):
 
-            information += (
-                "RESULTS: URL '"
-                + url
-                + "' is "
-                + translate_tag(predicted_tag)
-                + " according to '"
-                + model_name
-                + "' classifier.\n"
-            )
+        #     information += (
+        #         "RESULTS: URL '"
+        #         + url
+        #         + "' is "
+        #         + translate_tag(predicted_tag)
+        #         + " according to '"
+        #         + model_name
+        #         + "' classifier.\n"
+        #     )
 
         flash(information)
         return render_template("home/dashboard.html", segment=get_segment(request))
@@ -224,6 +230,10 @@ def get_model(model_id):
     if requested_model:
         model_name = requested_model.model_name
         model_file = requested_model.file_name
+
+    else:
+        model_name = "Default model"
+        model_file = "default_model.pkl"
 
     cls, file_found = obtain_model(model_file)
 

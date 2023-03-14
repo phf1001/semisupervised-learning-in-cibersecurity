@@ -86,11 +86,8 @@
 
 
                       <div class="form-group mb-0">
-                            <!-- <br></br>
-                            <h4 style="color: #5e72e4">Select one machine learning model to analyze (optional)</h4>
-                            {{ form.selected_model(placeholder="Please select a model",class="form-control") }} -->
 
-
+                            {{ form.selected_models }}
                             <div class="container-multi-select">
                               <div class="select-btn">
                                   <span class="btn-text">Select your models</span>
@@ -99,32 +96,25 @@
                                   </span>
                               </div>
                               <ul class="list-items-multi-select">
-                  
                                   <li class="item">
                                       <span class="checkbox"></span>
-                                      <span class="item-text"> COF </span>
+                                      <span class="item-text">0</span>
                                   </li>
-                  
                                   <li class="item">
                                       <span class="checkbox"></span>
-                                      <span class="item-text"> TT </span>
+                                      <span class="item-text">1</span>
                                   </li>
-                  
                                   <li class="item">
                                       <span class="checkbox"></span>
-                                      <span class="item-text"> DC </span>
+                                      <span class="item-text">2</span>
                                   </li>
-                  
-                  
                               </ul>
                           </div>
                       </div>
 
-
-
                       </div>
                       <div class="text-center">
-                        <button type="submit" name="search" class="btn btn-primary my-4">Scan</button>
+                        <button id ="btn-submit" type="submit" name="search" class="btn btn-primary my-4">Scan</button>
                       </div>
 
                     </td> 
