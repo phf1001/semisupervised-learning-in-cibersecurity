@@ -8,6 +8,7 @@ from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
 from sqlalchemy.orm import load_only
+from apps.home.models import Available_models
 
 # DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm
@@ -36,7 +37,12 @@ def index():
 
         return render_template("home/loading.html")
 
-    return render_template("home/index.html", form=form, segment=get_segment(request))
+    return render_template(
+        "home/index.html",
+        form=form,
+        segment=get_segment(request),
+        available_models=Available_models.get_models_ids_and_names_list(),
+    )
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
@@ -66,26 +72,25 @@ def dashboard():
     if messages:
         url = messages["url"]
         fv = np.array(messages["fv"])
-        selected_models = translate_array_js(messages['models_ids'])
-        information = selected_models
+        selected_models = translate_array_js(messages["models_ids"])
 
-        # classifiers_tuples = [get_model(model_id) for model_id in selected_models]
-        # classifiers = [cls for cls, model_name in classifiers_tuples]
-        # model_names = [model_name for cls, model_name in classifiers_tuples]
-        # predicted_tags = [cls.predict(fv) for cls in classifiers]
+        classifiers_tuples = [get_model(model_id) for model_id in selected_models]
+        classifiers = [cls for cls, model_name in classifiers_tuples]
+        model_names = [model_name for cls, model_name in classifiers_tuples]
+        predicted_tags = [cls.predict(fv) for cls in classifiers]
 
-        # information = ''
-        # for model_name, predicted_tag in zip(model_names, predicted_tags):
+        information = 'Selected models: {} '.format(selected_models)
+        for model_name, predicted_tag in zip(model_names, predicted_tags):
 
-        #     information += (
-        #         "RESULTS: URL '"
-        #         + url
-        #         + "' is "
-        #         + translate_tag(predicted_tag)
-        #         + " according to '"
-        #         + model_name
-        #         + "' classifier.\n"
-        #     )
+            information += (
+                "RESULTS: URL '"
+                + url
+                + "' is "
+                + translate_tag(predicted_tag)
+                + " according to '"
+                + model_name
+                + "' classifier.\n"
+            )
 
         flash(information)
         return render_template("home/dashboard.html", segment=get_segment(request))

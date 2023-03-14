@@ -21,7 +21,6 @@ items.forEach(item => {
     })
 })
 
-
 var saveButton = document.getElementById('btn-submit');
 
 saveButton.addEventListener('click', function () {
@@ -30,7 +29,7 @@ saveButton.addEventListener('click', function () {
     let selected_names = [];
 
     for (var i = 0; i < checked.length; i++) {
-        selected_names.push(checked[i].innerText);
+        selected_names.push(checked[i].value);
     }
 
     document.getElementById('selected_models').value = selected_names;

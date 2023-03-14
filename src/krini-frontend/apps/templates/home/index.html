@@ -5,7 +5,6 @@
   <title>
     Phishing Scanner
   </title>
-
   {% block stylesheets %}
     <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
@@ -14,11 +13,9 @@
     <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
     <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
   {% endblock stylesheets %}
-
 </head>
 
 <body class="bg-default">
-
   {% include "includes/navigation.html" %}
   <div class="main-content">
     <!-- Header -->
@@ -54,7 +51,6 @@
           </div>
           <!-- Light table -->
           <div class="table-responsive">
-            
             <form role="form" method="post" action="">
               {{ form.hidden_tag() }}
               <table class="table align-items-center table-flush">
@@ -80,13 +76,7 @@
                           {{ form.url(placeholder="Introduce your URL",class="form-control") }} 
                         </div>
                       </div>
-
-
-
-
-
                       <div class="form-group mb-0">
-
                             {{ form.selected_models }}
                             <div class="container-multi-select">
                               <div class="select-btn">
@@ -96,27 +86,19 @@
                                   </span>
                               </div>
                               <ul class="list-items-multi-select">
-                                  <li class="item">
+                                {% for model in available_models %}
+                                  <li class="item" value="{{ model.0 }}">
                                       <span class="checkbox"></span>
-                                      <span class="item-text">0</span>
+                                      <span class="item-text">{{ model.1 }}</span>
                                   </li>
-                                  <li class="item">
-                                      <span class="checkbox"></span>
-                                      <span class="item-text">1</span>
-                                  </li>
-                                  <li class="item">
-                                      <span class="checkbox"></span>
-                                      <span class="item-text">2</span>
-                                  </li>
+                                {% endfor %}
                               </ul>
                           </div>
                       </div>
-
                       </div>
                       <div class="text-center">
                         <button id ="btn-submit" type="submit" name="search" class="btn btn-primary my-4">Scan</button>
                       </div>
-
                     </td> 
                     <td></td>
                   </tr>
