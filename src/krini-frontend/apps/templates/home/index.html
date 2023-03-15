@@ -86,6 +86,12 @@
                                   </span>
                               </div>
                               <ul class="list-items-multi-select">
+                                <li style="list-style-type: none;">
+                                  <div style:="display: inline-block; width: 50%; text-align: center;">
+                                    <span id ="select-all" name="btn:select-all" class="btn btn-primary my-4">Select all</span>
+                                    <span id ="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4" style="float: right;">Unselect all</span>
+                                  </div>
+                                </li>
                                 {% for model in available_models %}
                                   <li class="item" value="{{ model.0 }}">
                                       <span class="checkbox"></span>

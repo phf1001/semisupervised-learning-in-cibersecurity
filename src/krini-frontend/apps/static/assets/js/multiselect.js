@@ -21,8 +21,27 @@ items.forEach(item => {
     })
 })
 
-var saveButton = document.getElementById('btn-submit');
+select_all = document.getElementById("select-all");
+select_all.addEventListener('click', () => { 
 
+    items.forEach(item => {
+        if (!(item.classList.contains("checked"))) {
+            item.classList.toggle("checked");
+        }
+    })
+})
+
+deselect_all = document.getElementById("deselect-all");
+deselect_all.addEventListener('click', () => { 
+
+    items.forEach(item => {
+        if (item.classList.contains("checked")) {
+            item.classList.toggle("checked");
+        }
+    })
+})
+
+var saveButton = document.getElementById('btn-submit');
 saveButton.addEventListener('click', function () {
 
     let checked = document.querySelectorAll('.checked');
