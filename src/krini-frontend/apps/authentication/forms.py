@@ -5,10 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
-from wtforms.validators import Email, DataRequired
-
-# login and registration
-
+from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
     username = TextField('Username',
@@ -25,7 +22,7 @@ class CreateAccountForm(FlaskForm):
                          validators=[DataRequired()])
     email = TextField('Email',
                       id='email_create',
-                      validators=[DataRequired(), Email()])
+                      validators=[DataRequired()])
     password = PasswordField('Password',
                              id='pwd_create',
                              validators=[DataRequired()])
