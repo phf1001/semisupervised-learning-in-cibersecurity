@@ -20,7 +20,7 @@ from apps.home.models import (
 )
 
 # ML dependencies
-import pickle
+import re
 import numpy as np
 import time
 from apps.ssl_utils.ml_utils import obtain_model, translate_tag
@@ -30,19 +30,19 @@ from apps.ssl_utils.ml_utils import obtain_model, translate_tag
 def index():
     form = SearchURLForm(request.form)
 
-    if "search" in request.form:
-        url = request.form["url"]
-        models = request.form["selected_models"]
-        session["messages"] = {"url": url, "models": models}
+    if not form.validate_on_submit():
+        return render_template(
+            "home/index.html",
+            form=form,
+            segment=get_segment(request),
+            available_models=Available_models.get_models_ids_and_names_list(),
+        )
 
-        return render_template("home/loading.html")
+    url = request.form["url"]
+    models = request.form["selected_models"]
+    session["messages"] = {"url": url, "models": models}
 
-    return render_template(
-        "home/index.html",
-        form=form,
-        segment=get_segment(request),
-        available_models=Available_models.get_models_ids_and_names_list(),
-    )
+    return render_template("home/loading.html")
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
@@ -61,8 +61,12 @@ def task():
 
 
 def translate_array_js(selected):
-    splitted = selected.split(",")
-    return [int(elem) for elem in splitted]
+    if bool(re.search(r"\d", selected)):
+        splitted = selected.split(",")
+        return [int(elem) for elem in splitted]
+
+    # Get default model control aquí
+    return []
 
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
@@ -72,6 +76,7 @@ def dashboard():
     if messages:
         url = messages["url"]
         fv = np.array(messages["fv"])
+
         selected_models = translate_array_js(messages["models_ids"])
 
         classifiers_tuples = [get_model(model_id) for model_id in selected_models]
@@ -79,9 +84,8 @@ def dashboard():
         model_names = [model_name for cls, model_name in classifiers_tuples]
         predicted_tags = [cls.predict(fv) for cls in classifiers]
 
-        information = 'Selected models: {} '.format(selected_models)
+        information = "Selected models: {} ".format(selected_models)
         for model_name, predicted_tag in zip(model_names, predicted_tags):
-
             information += (
                 "RESULTS: URL '"
                 + url

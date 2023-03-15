@@ -29,6 +29,8 @@ select_all.addEventListener('click', () => {
             item.classList.toggle("checked");
         }
     })
+    btnText = document.querySelector('.btn-text');
+    btnText.innerText = `Selected (${items.length})`;
 })
 
 deselect_all = document.getElementById("deselect-all");
@@ -39,6 +41,8 @@ deselect_all.addEventListener('click', () => {
             item.classList.toggle("checked");
         }
     })
+    btnText = document.querySelector('.btn-text');
+    btnText.innerText = "Select your models";
 })
 
 var saveButton = document.getElementById('btn-submit');
