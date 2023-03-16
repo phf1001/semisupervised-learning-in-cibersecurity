@@ -4,6 +4,194 @@
 
 \section{Diseño de datos}
 
+
+\subsection{Diccionario de datos}
+
+Se adjunta a continuación, para cada tabla, el diccionario de datos correspondiente.
+
+\subsubsection{Tabla de usuarios (\texttt{Users})}
+Esta tabla (\ref{datadic:users}) almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{12em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo y tamaño} & \textbf{Otros} & \textbf{Descripción}\\
+			\midrule
+			\textbf{\underline{id}} & &  \textbf{\underline{PK}} & Identificador \\
+			username &  &  &   Nombre de usuario\\
+			email &  &  &  Email del usuario \\
+			password &  &  &  Contraseña\\
+			user\_first\_name &  &  &  Nombre \\
+			user\_last\_name &  &  &  Apellidos \\
+			user\_rol &  & Por defecto: <<standard>> & Rol. Puede ser <<standard>> o <<admin>>. \\
+			n\_urls\_accepted &  &  &  Atributo de usuarios <<standard>>. Contador de aquellas instancias que han sido reportadas y aceptadas por un administrador. \\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Users]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Users}.}
+	\label{datadic:users}
+\end{table}
+
+\subsubsection{Tabla de instancias (\texttt{Available\_instances})}
+
+Esta tabla (\ref{datadic:instances}) almacena la información asociada a cada instancia disponible en el \textit{dataset}. Las instancias son URLs que pueden ser utilizadas posteriormente para entrenar y probar modelos. Además, esta tabla también almacena enlaces reportados por usuarios por pertenecer a una lista blanca o negra.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+			\midrule
+			instance\_id & INTEGER 8 & anterior & PK & Identificador \\
+			reviewed\_by &  &  &  &  \\
+			instance\_url &  &  &  &   \\
+			instance\_fv &  &  &  &   \\
+			instance\_class &  &  &  &   \\
+			colour\_list &  &  &  &   \\
+			instance\_labels &  &  &  &   \\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Available\_instances]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Available\_instances}.}
+	\label{datadic:instances}
+\end{table}
+
+
+\subsubsection{Tabla de modelos (\texttt{Available\_models})}
+
+Esta tabla (\ref{datadic:models}) almacena los modelos de aprendizaje que han sido creados por un administrador y están disponibles en la \textit{web} para su uso.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+			\midrule
+			model\_id & INTEGER 8 & anterior & PK & Identificador \\
+			created\_by &  &  &  &  \\
+			model\_name &  &  &  &   \\
+			file\_name &  &  &  &   \\
+			date &  &  &  &   \\
+			default &  &  &  &   \\
+			visible &  &  &  &   \\
+			random\_state &  &  &  &   \\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Available\_models]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_models}.}
+	\label{datadic:models}
+\end{table}
+
+Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. En este caso se ha decidido implementar considerando que es una interrelación 1:1. Por ello, se ha creado una tabla para la generalización y otra tabla para cada una de las especializaciones. Estas se enumeran a continuación:
+
+\begin{itemize}
+	\item \textbf{\texttt{Available\_co\_forests}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:coforest}.
+	
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\midrule
+				model\_id & INTEGER 8 & anterior & PK & Identificador \\
+				max\_features &  &  &  &  \\
+				thetha &  &  &  &   \\
+				n\_trees &  &  &  &   \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_co\_forests]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_co\_forests}.}
+		\label{datadic:coforest}
+	\end{table}
+
+	\item \textbf{\texttt{Available\_tri\_trainings}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:tritraining}.
+
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\midrule
+				model\_id & INTEGER 8 & anterior & PK & Identificador \\
+				cls\_one &  &  &  &  \\
+				cls\_two &  &  &  &   \\
+				cls\_three &  &  &  &   \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_tri\_trainings]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_tri\_trainings}.}
+		\label{datadic:tritraining}
+	\end{table}
+
+	\item \textbf{\texttt{Available\_democratic\_cos}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:democraticco}.
+
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\midrule
+				model\_id & INTEGER 8 & anterior & PK & Identificador \\
+				base\_clss &  &  &  &  \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_democratic\_cos]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_democratic\_cos}.}
+		\label{datadic:democraticco}
+	\end{table}
+\end{itemize}
+
+\subsubsection{Tablas de relación}
+
+Se enumeran a continuación las tablas que son resultado de una relación entre entidades.
+
+\begin{itemize}
+	\item \textbf{\texttt{Candidate instances}}: en esta tabla (~\ref{datadic:candidate_instances}) se almacenan aquellas instancias que han sido reportadas por un usuario estándar y necesitan ser revisadas por un administrador antes de ser incluidas en el \textit{dataset} utilizable de la aplicación.
+	
+		\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\midrule
+				user\_id & INTEGER 8 & anterior & PK & Identificador \\
+				instance\_id &  &  &  &  \\
+				date &  &  &  &   \\
+				suggestion &  &  &  &   \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Candidate\_instances]{Diccionario de datos: tabla correspondiente a la clase \texttt{Candidate\_instances}.}
+		\label{datadic:candidate_instances}
+		\end{table}
+
+	\item \textbf{\texttt{Model\_is\_trained\_with}}: en esta tabla (\ref{datadic:modeltrainedwith}) se almacena qué instancia ha sido utilizada para entrenar qué modelo en el sistema.
+	
+		\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\midrule
+				model\_id & INTEGER 8 & anterior & PK & Identificador \\
+				instance\_id &  &  &  &  \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Model\_is\_trained\_with]{Diccionario de datos: tabla correspondiente a la clase \texttt{Model\_is\_trained\_with}.}
+		\label{datadic:modeltrainedwith}
+	\end{table}
+\end{itemize}
+
 \section{Diseño procedimental}
 
 \section{Diseño arquitectónico}
