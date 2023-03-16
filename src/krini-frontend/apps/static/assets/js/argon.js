@@ -1086,3 +1086,61 @@ var Scrollbar = (function() {
 	}
 
 })();
+
+
+
+
+
+
+
+
+
+
+
+// Krini graphs
+
+//
+// Bars chart
+//
+
+var BarsChartModels = (function() {
+
+	//
+	// Variables
+	//
+
+	var $chart = $('#chart-bars-models');
+
+
+	//
+	// Methods
+	//
+
+	// Init chart
+	function initChart($chart) {
+
+		// Create chart
+		var scoresChart = new Chart($chart, {
+			type: 'bar',
+			data: {
+				labels: ['Accuracy', 'Precision', 'Recall'],
+				datasets: [{
+					label: 'Score',
+					data: [1, 1, 1]
+				}]
+			}
+		});
+
+		// Save to jQuery object
+		$chart.data('chart', scoresChart);
+	}
+
+
+	// Init chart
+	if ($chart.length) {
+		initChart($chart);
+	}
+
+})();
+
+'use strict';
