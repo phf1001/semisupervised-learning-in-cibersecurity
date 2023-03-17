@@ -74,37 +74,13 @@
 <!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
-    <div class="col-xl-8">
+    <div class="col-xl-4">
       <div class="card bg-default">
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-              <h5 class="h3 text-white mb-0">Sales value</h5>
-            </div>
-            <div class="col">
-
-              <ul class="nav nav-pills justify-content-end">
-                <!-- graph 1 -->
-                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark"
-                  data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$"
-                  data-suffix="k">
-                  <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
-                    <span class="d-none d-md-block">Month</span>
-                    <span class="d-md-none">M</span>
-                  </a>
-                </li>
-                <li class="nav-item" data-toggle="chart" data-target="#chart-sales-dark"
-                  data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="$"
-                  data-suffix="k">
-                  <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
-                    <span class="d-none d-md-block">Week</span>
-                    <span class="d-md-none">W</span>
-                  </a>
-                </li>
-              </ul>
-
-
+              <h6 class="text-light text-uppercase ls-1 mb-1">RESUMEN</h6>
+              <h5 class="h3 text-white mb-0">CLASIFICACIÓN</h5>
             </div>
           </div>
         </div>
@@ -112,11 +88,72 @@
           <!-- Chart -->
           <div class="chart">
             <!-- Chart wrapper -->
-            <canvas id="chart-sales-dark" class="chart-canvas"></canvas>
+            <canvas id="chart-pie-phishing" class="chart-canvas"></canvas>
           </div>
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+    <div class="col-xl-4">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Social traffic</h3>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">CLASIFICADOR</th>
+                <th scope="col">PREDICCIÓN</th>
+                <th scope="col">SEGURIDAD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  Facebook
+                </th>
+                <td>
+                  1,480
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2">60%</span>
+                    <div>
+                      <div class="progress">
+                        <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60"
+                          aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
 
 
     <!-- <div id="cls-scores-dict" data-cls-scores-dict="{{ information_to_display['scores_cls'] }}"></div> -->
@@ -125,15 +162,21 @@
     <div class="col-xl-4">
       <div class="card">
         <div class="card-header bg-transparent">
-          <div class="row align-items-center">
+          <div class="row">
             <div class="col">
               <h6 id="h6-cls-score-graph" class="text-uppercase text-muted ls-1 mb-1"> </h6>
-              <h5 class="h3 mb-0">Métricas del clasificador</h5>
-              <ul class="nav nav-pills justify-content-end">
-                <li class="nav-item">
-                  <button id="btn-next-cls-graph" class="btn btn-primary my-4">Siguiente</button>
-                </li>
-              </ul>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h5 class="h3 mb-0" style="float:left;">Métricas del clasificador</h5>
+                </div>
+                <div class="col text-right">
+                  <button id="btn-next-cls-graph" class="btn btn-sm btn-primary" style="float: right;">Siguiente</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -240,129 +283,6 @@
                 </td>
                 <td>
                   <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Social traffic</h3>
-            </div>
-            <div class="col text-right">
-              <a href="#!" class="btn btn-sm btn-primary">See all</a>
-            </div>
-          </div>
-        </div>
-        <div class="table-responsive">
-          <!-- Projects table -->
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Referral</th>
-                <th scope="col">Visitors</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  1,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">60%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60"
-                          aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  5,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">70%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="70"
-                          aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Google
-                </th>
-                <td>
-                  4,807
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">80%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-primary" role="progressbar" aria-valuenow="80"
-                          aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Instagram
-                </th>
-                <td>
-                  3,678
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">75%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="75"
-                          aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  twitter
-                </th>
-                <td>
-                  2,645
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">30%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-warning" role="progressbar" aria-valuenow="30"
-                          aria-valuemin="0" aria-valuemax="100" style="width: 30%;"></div>
-                      </div>
-                    </div>
-                  </div>
                 </td>
               </tr>
             </tbody>

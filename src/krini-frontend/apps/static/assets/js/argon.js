@@ -1092,14 +1092,18 @@ var Scrollbar = (function () {
 
 // Krini graphs
 
+Chart.Legend.prototype.afterFit = function () {
+	this.height = this.height + 50;
+};
+
 
 // Bars chart
 
-var clsNames = $('#cls-names').data('cls-names'); 
+var clsNames = $('#cls-names').data('cls-names');
 var clsValues = $('#cls-scores').data('cls-scores');
 var scoresChartGlobal;
 var lastClsIndex = 0;
-var nCls = 3;
+var nCls = clsNames.length;
 
 var BarsChartModels = (function () {
 
@@ -1132,8 +1136,9 @@ var BarsChartModels = (function () {
 				scales: {
 					yAxes: [{
 						ticks: {
-							beginAtZero: true,
-							stepSize: 0.1
+							min: 0,
+							max: 1,
+							precision: 1
 						}
 					}]
 				},
@@ -1185,3 +1190,71 @@ nextClsButton.addEventListener('click', function () {
 
 	lastClsIndex = nextClsIndex;
 });
+
+
+
+
+var PieChartPhishing = (function () {
+
+	//
+	// Variables
+	//
+
+	var $chart = $('#chart-pie-phishing');
+	var model_data = [1, 1, 0];
+
+	//
+	// Methods
+	//
+
+	// Init chart
+	function initChart($chart) {
+
+		// Create chart
+		var piePhishingChart = new Chart($chart, {
+
+			type: 'doughnut',
+
+			data: {
+				datasets: [
+					{
+						data: [2, 1],
+						backgroundColor: [
+							'rgb(255, 99, 132)',
+							'rgb(75, 192, 192)'
+						],
+					},
+				],
+				labels: ['Phishing', 'Legítima'],
+			},
+			options: {
+				cutoutPercentage: 45,
+				legend: {
+					display: true
+				}
+			},
+			plugins: {
+				legend: {
+					display: true,
+					position: 'bottom',
+					title: {
+						display: true,
+						padding: 10,
+					},
+				}
+			}
+	});
+
+		// Save to jQuery object
+		$chart.data('chart', piePhishingChart);
+	}
+
+
+	// Init chart
+	if ($chart.length) {
+		initChart($chart);
+	}
+
+})();
+
+'use strict';

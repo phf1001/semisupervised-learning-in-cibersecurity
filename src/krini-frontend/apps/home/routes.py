@@ -108,7 +108,8 @@ def dashboard():
             "class": "phishing",
             "model_names": json.dumps(model_names),
             "predicted_tags": predicted_tags,
-            "model_scores": json.dumps(model_scores)
+            "model_scores": json.dumps(model_scores),
+            "model_confidence": json.dumps([0.98, 0.86, 0.12])
         }
 
         return render_template(
