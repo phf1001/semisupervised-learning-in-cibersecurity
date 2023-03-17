@@ -1088,22 +1088,17 @@ var Scrollbar = (function () {
 })();
 
 
-
-
 // Krini graphs
-
-Chart.Legend.prototype.afterFit = function () {
-	this.height = this.height + 50;
-};
-
-
-// Bars chart
-
 var clsNames = $('#cls-names').data('cls-names');
+clsNames = clsNames.replace(/'/g, '"');
+clsNames = JSON.parse(clsNames);
 var clsValues = $('#cls-scores').data('cls-scores');
 var scoresChartGlobal;
 var lastClsIndex = 0;
 var nCls = clsNames.length;
+
+
+// Bars chart
 
 var BarsChartModels = (function () {
 
