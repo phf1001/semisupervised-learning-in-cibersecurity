@@ -97,7 +97,7 @@ def dashboard():
                 + "' classifier.\n"
             )
 
-        flash(information)
+        #flash(information)
 
         model_scores = [[0.98, 0.86, 0.12], [0.33, 0.82, 0.62], [0.12, 0.22, 0.32]]
 
