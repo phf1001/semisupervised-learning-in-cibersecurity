@@ -1090,19 +1090,17 @@ var Scrollbar = (function () {
 
 
 
-
-
-
-
-
-
-
 // Krini graphs
 
 
 // Bars chart
 
+var clsNames = $('#cls-names').data('cls-names'); 
+var clsValues = $('#cls-scores').data('cls-scores');
 var scoresChartGlobal;
+var lastClsIndex = 0;
+var nCls = 3;
+
 var BarsChartModels = (function () {
 
 	//
@@ -1110,8 +1108,8 @@ var BarsChartModels = (function () {
 	//
 
 	var $chart = $('#chart-bars-models');
-	var model_data = $('#array-data').data('array-data');
-	console.log(model_data);
+	var model_data = clsValues[0];
+	document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
 
 	//
 	// Methods
@@ -1162,11 +1160,6 @@ var BarsChartModels = (function () {
 'use strict';
 
 
-var lastClsIndex = 0;
-var nCls = 3;
-var clsNames = ['Model 1', 'Model 2', 'Model 3'];
-var clsValues = [[1,2,3], [3,2,1], [2,1,2]];
-
 var nextClsButton = document.getElementById('btn-next-cls-graph');
 nextClsButton.addEventListener('click', function () {
 
@@ -1183,7 +1176,6 @@ nextClsButton.addEventListener('click', function () {
 		var scoresChart = scoresChartGlobal;
 		scoresChart.data.datasets[0].data = model_data;
 		scoresChart.update();
-		// Save to jQuery object
 		$chart.data('chart', scoresChart);
 	}
 

@@ -99,30 +99,22 @@ def dashboard():
 
         flash(information)
 
-        scores_cls = {
-            "tt": [0.98, 0.86, 0.12],
-            "cf": [0.33, 0.82, 0.62],
-            "dc": [0.12, 0.22, 0.32],
-        }
+        model_scores = [[0.98, 0.86, 0.12], [0.33, 0.82, 0.62], [0.12, 0.22, 0.32]]
 
-        tags_cls = {
-            "tt": 0,
-            "cf": 1,
-            "dc": 1,
-        }
-
+        # Todo en arrays por orden
         information_to_display = {
             "url": url,
             "fv": list(fv),
             "class": "phishing",
-            "scores_cls": scores_cls,
-            "tags_cls": tags_cls,
+            "model_names": json.dumps(model_names),
+            "predicted_tags": predicted_tags,
+            "model_scores": json.dumps(model_scores)
         }
 
         return render_template(
             "home/dashboard.html",
             segment=get_segment(request),
-            information_to_display=information_to_display
+            information_to_display=information_to_display,
         )
 
     return redirect(url_for("home_blueprint.index"))
