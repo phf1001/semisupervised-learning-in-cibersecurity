@@ -100,7 +100,7 @@
                     </li>
 
 
-                    <li class="nav-item" data-toggle="chart" data-target="#chart-bars" data-update='{"data":{"labels": ["Accuracy", "Precision", "Recall"], "datasets":[{"data":[0.6, 0.7, 0.8]}]}}' data-prefix="$" data-suffix="k">
+                    <li class="nav-item" data-toggle="chart" data-target="#chart-bars-models" data-update='{"data":{"labels": ["Accuracy", "Precision", "Recall"], "datasets":[{"data":[0.6, 0.7, 0.8]}]}}' data-prefix="$" data-suffix="k">
                       <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
                         <span class="d-none d-md-block">lsdmas</span>
                         <span class="d-md-none">W</span>
@@ -132,6 +132,8 @@
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
+
+
                   <h6 class="text-uppercase text-muted ls-1 mb-1">Co-Forest</h6>
                   <h5 class="h3 mb-0">Métricas del clasificador</h5>
                 </div>
@@ -139,14 +141,18 @@
             </div>
             <div class="card-body">
               <!-- Chart -->
+
+
+              <div id="array-data" data-array-data='{{ array_data }}'></div>
+
               <div class="chart">
                 <canvas id="chart-bars-models" class="chart-canvas"></canvas>
               </div>
+              
             </div>
           </div>
         </div>
       </div>
-      <span data-target="#chart-bars-models" data-update='{"data":{"datasets":[{"data":[0.1, 0.6, 0.5]}]}}' data-prefix="" data-suffix=""></span>
 
 
       
@@ -388,6 +394,6 @@
 
   <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-  <script src="/static/assets/js/components/charts-krini/try.js"></script>
 
+  
 {% endblock javascripts %}

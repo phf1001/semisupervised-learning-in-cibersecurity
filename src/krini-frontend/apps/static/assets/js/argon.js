@@ -1099,9 +1099,10 @@ var Scrollbar = (function() {
 
 // Krini graphs
 
-//
+
 // Bars chart
-//
+
+var data_v = [1,2,3];
 
 var BarsChartModels = (function() {
 
@@ -1110,7 +1111,8 @@ var BarsChartModels = (function() {
 	//
 
 	var $chart = $('#chart-bars-models');
-
+	var model_data = $('#array-data').data('array-data');
+	console.log(model_data);
 
 	//
 	// Methods
@@ -1126,8 +1128,21 @@ var BarsChartModels = (function() {
 				labels: ['Accuracy', 'Precision', 'Recall'],
 				datasets: [{
 					label: 'Score',
-					data: [1, 1, 1]
+					data: model_data
 				}]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							stepSize: 0.1
+						}
+					}]
+				},
+				legend: {
+					display: false
+				}
 			}
 		});
 
