@@ -67,7 +67,7 @@ def translate_array_js(selected):
         return [int(elem) for elem in splitted]
 
     # Get default model control aquí
-    return []
+    return [1]
 
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
@@ -77,41 +77,32 @@ def dashboard():
     if messages:
         url = messages["url"]
         fv = np.array(messages["fv"])
-
         selected_models = translate_array_js(messages["models_ids"])
 
-        classifiers_tuples = [get_model(model_id) for model_id in selected_models]
-        classifiers = [cls for cls, model_name in classifiers_tuples]
-        model_names = [model_name for cls, model_name in classifiers_tuples]
-        predicted_tags = [cls.predict(fv) for cls in classifiers]
+        classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
-        information = "Selected models: {} ".format(selected_models)
-        for model_name, predicted_tag in zip(model_names, predicted_tags):
-            information += (
-                "RESULTS: URL '"
-                + url
-                + "' is "
-                + translate_tag(predicted_tag)
-                + " according to '"
-                + model_name
-                + "' classifier.\n"
-            )
+        model_names = [tupla[0] for tupla in classifiers_info_tuples]
+        classifiers = [tupla[1] for tupla in classifiers_info_tuples]
+        model_scores = [tupla[2] for tupla in classifiers_info_tuples]
 
-        #flash(information)
-
-        model_scores = [[0.98, 0.86, 0.12], [0.33, 0.82, 0.62], [0.12, 0.22, 0.32]]
+        predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
+        count = np.bincount(predicted_tags)
+        models_confidence = [
+            int(100 * cls.predict_proba(fv)[0][prediction])
+            for cls, prediction in zip(classifiers, predicted_tags)
+        ]
 
         # Todo en arrays por orden
         information_to_display = {
             "url": url,
             "fv": list(fv),
-            "class": "legitimate",
+            "class": translate_tag(count.argmax()),
             "colour-list": "white-list",
-            "model_names": json.loads(json.dumps(model_names)), #evitar string slicing
-            "predicted_tags_numeric": predicted_tags,
-            "predicted_tags_labeled": json.loads(json.dumps([translate_tag(tag, True) for tag in predicted_tags])),
+            "model_names": make_array_safe(model_names),  # evitar string slicing
+            "sum_tags_numeric": make_array_safe([int(count[0]), int(count[1])]),
+            "predicted_tags_labeled": make_array_safe([translate_tag(tag, True) for tag in predicted_tags]),
             "model_scores": json.dumps(model_scores),
-            "model_confidence": json.loads(json.dumps([98, 86, 12])) #sobre 100
+            "model_confidence": make_array_safe(models_confidence),  # sobre 100
         }
 
         return render_template(
@@ -122,6 +113,8 @@ def dashboard():
 
     return redirect(url_for("home_blueprint.index"))
 
+def make_array_safe(vector):
+    return json.loads(json.dumps(vector))
 
 @login_required
 @blueprint.route("/profile", methods=["GET"])
@@ -260,14 +253,21 @@ def get_model(model_id):
     if requested_model:
         model_name = requested_model.model_name
         model_file = requested_model.file_name
+        model_scores = requested_model.model_scores
 
     else:
         model_name = "Default model"
-        model_file = "default_model.pkl"
+        model_file = "default.pkl"
+        model_scores = (
+            Available_models.query.filter_by(model_name="Default").first().model_scores
+        )
 
     cls, file_found = obtain_model(model_file)
 
     if not file_found:
         model_name = "Default model"
+        model_scores = (
+            Available_models.query.filter_by(model_name="Default").first().model_scores
+        )
 
-    return cls, model_name
+    return model_name, cls, model_scores

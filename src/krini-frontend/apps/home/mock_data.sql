@@ -1,7 +1,7 @@
-DROP TABLE "Available_models";
-DROP TABLE "Repeated_URLs";
-DROP TABLE "Reported_URLs";
-DROP TABLE "Users";
+DROP TABLE "Available_models" CASCADE;
+DROP TABLE "Available_instances" CASCADE;
+DROP TABLE "Candidate_instances" CASCADE;
+DROP TABLE "Users" CASCADE;
 
 DROP SEQUENCE Available_models_id_seq;
 DROP SEQUENCE Repeated_URLs_id_seq;
@@ -36,14 +36,30 @@ VALUES ('https://www.youtube.fr/', 'white-list', '2020-01-01', 2);
 
 UPDATE "Users" SET user_rol = 'admin' WHERE username = 'admin';
 
-INSERT INTO "Available_models" (model_name, file_name)
-VALUES ('Default', 'default.pkl');
 
-INSERT INTO "Available_models" (model_name, file_name)
-VALUES ('Democratic-co v.1.0', 'dc_v1.pkl');
 
-INSERT INTO "Available_models" (model_name, file_name)
-VALUES ('Co-forest v.1.0', 'cf_v1.pkl');
 
-INSERT INTO "Available_models" (model_name, file_name)
-VALUES ('Tri-training v.1.0', 'tt_v1.pkl');
+
+INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
+VALUES (1, 'Default', 'default.pkl', '2020-01-01', true, true, ARRAY [0.6, 0.8, 0.7], 5, 'Default model');
+
+INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
+VALUES (1, 'Co-Forest v1.0.0', 'cf_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [0.9, 0.85, 0.8], 5, 'Nothing');
+
+INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
+VALUES (1, 'Tri-Training v1.0.0', 'tt_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [0.7, 1.0, 1.0], 5, 'kNN neightbors = 5');
+
+INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
+VALUES (1, 'Democratic-co v1.0.0', 'dc_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [1.0, 1.0, 1.0], 5, 'kNN neightbors = 5');
+
+INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
+VALUES (1, 3, ARRAY ['kNN', 'NB', 'Tree']);
+
+INSERT INTO "Available_co_forests" (model_id, n_trees, thetha, max_features)
+VALUES (2, 6, 0.75, 'log2');
+
+INSERT INTO "Available_tri_trainings" (model_id, cls_one, cls_two, cls_three)
+VALUES (3, 'kNN', 'NB', 'Tree');
+
+INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
+VALUES (4, 3, ARRAY ['kNN', 'NB', 'Tree']);

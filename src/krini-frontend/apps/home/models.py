@@ -146,9 +146,15 @@ class Available_models(db.Model):
     __tablename__ = "Available_models"
 
     model_id = db.Column(db.Integer, primary_key=True)
+    created_by = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
     model_name = db.Column(db.String(64), unique=True, nullable=False)
-    file_name = db.Column(db.String(64), unique=True, nullable=False)
-    # algorithm = db.Column()
+    file_name = db.Column(db.String(16), unique=True, nullable=False)
+    creation_date = db.Column(db.DateTime)
+    is_default = db.Column(db.Boolean, default=False)
+    is_visible = db.Column(db.Boolean, default=True)
+    model_scores = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)), default=[0.0, 0.0, 0.0])
+    random_state = db.Column(db.Integer)
+    model_notes = db.Column(db.String(128))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -169,5 +175,25 @@ class Available_models(db.Model):
         return [(model.model_id, model.model_name) for model in models]
 
 
-class CoForest_model(Available_models):
-    pass
+class Available_co_forests(Available_models):
+
+    __tablename__ = "Available_co_forests"
+    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    n_trees = db.Column(db.Integer, default=6, nullable=False)
+    thetha = db.Column(db.Float, default=0.75, nullable=False)
+    max_features = db.Column(db.String(8), default='log2', nullable=False)
+
+class Available_tri_trainings(Available_models):
+
+    __tablename__ = "Available_tri_trainings"
+    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    cls_one = db.Column(db.String(8), nullable=False)
+    cls_two = db.Column(db.String(8), nullable=False)
+    cls_three = db.Column(db.String(8), nullable=False)
+
+class Available_democratic_cos(Available_models):
+
+    __tablename__ = "Available_democratic_cos"
+    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    n_clss = db.Column(db.Integer, default=3, nullable=False)
+    base_clss = db.Column(MutableList.as_mutable(db.ARRAY(db.String(8))), nullable=False)

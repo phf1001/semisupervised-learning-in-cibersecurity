@@ -1196,7 +1196,8 @@ var PieChartPhishing = (function () {
 	//
 
 	var $chart = $('#chart-pie-phishing');
-	var model_data = [1, 1, 0];
+	var sum_data = $('#cls-numeric-predictions-sum').data('cls-numeric-predictions-sum');
+	console.log(sum_data)
 
 	//
 	// Methods
@@ -1213,14 +1214,14 @@ var PieChartPhishing = (function () {
 			data: {
 				datasets: [
 					{
-						data: [2, 1],
+						data: sum_data,
 						backgroundColor: [
-							'rgb(255, 99, 132)',
-							'rgb(75, 192, 192)'
+							'rgb(75, 192, 192)',
+							'rgb(255, 99, 132)'
 						],
 					},
 				],
-				labels: ['Phishing', 'Legítima'],
+				labels: ['Legítima', 'Phishing'],
 			},
 			options: {
 				cutoutPercentage: 45,

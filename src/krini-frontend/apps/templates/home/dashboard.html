@@ -10,13 +10,17 @@
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
+        <div class="col-lg-12 col-7">
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
               <li class="breadcrumb-item active" aria-current="page">Resultados del análisis</li>
             </ol>
           </nav>
+          <a href="/">
+            <button id="btn-repeat-analysis" class="btn btn-white" style="color: #5e72e4; float: right;">Analiza otra URL</button>
+          </a>
+          
         </div>
       </div>
       <div class="row text-center h-100">
@@ -24,7 +28,6 @@
           <div class="card card-block d-flex">
             <div class="card-body align-items-center d-flex justify-content-center">
               <span class="h1 text-gray font-weight-bold mb-0" style="word-spacing: 3px">
-                LA URL
                 <span class="h1 badge badge-info" style="font-size:2rem;">{{ information_to_display["url"] }}</span>
                 HA SIDO MAYORITARIAMENTE CLASIFICADA COMO
                 {% if information_to_display["class"] == 'phishing' %}
@@ -146,6 +149,8 @@
 <!-- <div id="cls-scores-dict" data-cls-scores-dict="{{ information_to_display['scores_cls'] }}"></div> -->
 <div id="cls-names" data-cls-names="{{ information_to_display['model_names'] }}"></div>
 <div id="cls-scores" data-cls-scores="{{ information_to_display['model_scores'] }}"></div>
+<div id="cls-numeric-predictions-sum" data-cls-numeric-predictions-sum="{{ information_to_display['sum_tags_numeric'] }}"></div>
+
 <div class="col-xl-4">
   <div class="card bg-default">
     <div class="card-header bg-transparent">
@@ -160,9 +165,15 @@
             <div class="col">
               <h5 class="h3 text-white mb-0" style="float:left;">MÉTRICAS DEL CLASIFICADOR</h5>
             </div>
-            <div class="col text-right">
-              <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;">Siguiente</button>
-            </div>
+            {% if information_to_display['model_names']|length > 1 %}
+              <div class="col text-right">
+                <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;">Siguiente</button>
+              </div>
+            {% else %}
+              <div class="col text-right">
+                <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;" hidden>Siguiente</button>
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
