@@ -1,15 +1,8 @@
 {% extends 'layouts/base.html' %}
-
 {% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
-<style>
-  th,
-  td {
-    border: 1px solid #000;
-  }
-</style>
 {% block content %}
 
 <!-- Header -->
@@ -18,48 +11,39 @@
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-              <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Default</li>
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item active" aria-current="page">Resultados del análisis</li>
             </ol>
           </nav>
         </div>
       </div>
+      <div class="row text-center h-100">
+        <div class="col-md-12 text-center my-auto">
+          <div class="card card-block d-flex">
+            <div class="card-body align-items-center d-flex justify-content-center">
+              <span class="h1 text-gray font-weight-bold mb-0" style="word-spacing: 3px">
+                LA URL
+                <span class="h1 badge badge-info" style="font-size:2rem;">{{ information_to_display["url"] }}</span>
+                HA SIDO MAYORITARIAMENTE CLASIFICADA COMO
+                {% if information_to_display["class"] == 'phishing' %}
+                <span class="h1 badge badge-danger" style="font-size:2rem;">PHISHING</span>
+                {% else %}
+                <span class="h1 badge badge-success" style="font-size:2rem;">LEGÍTIMA</span>
+                {% endif %}
 
-
-
-      <!-- Result -->
-      <div class="row">
-        <div class="col-xl-12 col-md-6">
-          <div class="card card-stats">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">RESULTADOS DEL ANÁLISIS</h5>
-                  <p>
-                    <span class="h1 text-lead font-weight-bold mb-0">LA URL</span>
-                    <span class="h1 font-weight-bold mb-0">{{ information_to_display["url"] }}</span>
-                    <span class="h1 font-weight-bold mb-0">ES</span>
-                    {% if information_to_display["class"] == 'phishing' %}
-                    <span class="h1 text-danger font-weight-bold mb-0">PHISHING</span>
-                    {% else %}
-                    <span class="h1 text-success font-weight-bold mb-0">LEGÍTIMA</span>
-                    {% endif %}
-                  </p>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                    <i class="ni ni-chart-bar-32"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-sm">
-                <span class="text-success mr-2"><i class="fa fa-cross"></i> 3.48%</span>
-                <span class="text-nowrap">Since last month</span>
-              </p>
+                {% if information_to_display["colour-list"] != '' %}
+                Y ESTÁ CONTENIDA EN LA
+                {% if information_to_display["colour-list"] == 'white-list' %}
+                <span class="h1 badge"
+                  style="font-size:2rem; color: #5e72e4; border: 2px solid #5e72e4; background-color: transparent;">LISTA
+                  BLANCA</span>
+                {% elif information_to_display["colour-list"] == 'black-list' %}
+                <span class="h1 badge badge-dark text-white" style="font-size:2rem;">LISTA NEGRA</span>
+                {% endif %}
+                {% endif %}
+              </span>
             </div>
           </div>
         </div>
@@ -96,7 +80,7 @@
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">En detalle</h3>
+              <h3 class="mb-0">EN DETALLE</h3>
             </div>
           </div>
         </div>
@@ -177,7 +161,7 @@
               <h5 class="h3 text-white mb-0" style="float:left;">MÉTRICAS DEL CLASIFICADOR</h5>
             </div>
             <div class="col text-right">
-              <button id="btn-next-cls-graph" class="btn btn-sm btn-primary" style="float: right;">Siguiente</button>
+              <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;">Siguiente</button>
             </div>
           </div>
         </div>
@@ -280,8 +264,8 @@
               <td colspan="6" class="hiddenRow">
                 <div id="info-f2" class="accordian-body collapse">
                   <h4 class="h3 text-primary mb-0" style="text-align: center;">En una URL, el uso de "@" provoca que
-                      se ignore todo lo escrito anteriormente al símbolo, y "-" es comunmente utilizado para engañar a
-                        los usuarios en enlaces como por ejemplo www[.]paypal-india[.]com</h4>
+                    se ignore todo lo escrito anteriormente al símbolo, y "-" es comunmente utilizado para engañar a
+                    los usuarios en enlaces como por ejemplo www[.]paypal-india[.]com</h4>
                 </div>
               </td>
             </tr>
@@ -809,10 +793,11 @@
                 <div id="info-f19" class="accordian-body collapse">
                   <h3 class="text-primary mb-0" style="text-align: center;">
                     Un favicon es una miniatura asociada a una página web. Por ello, los atacantes
-                    pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. <br>De este
+                    pueden plagiar los iconos de los sitios legítimos para ganarse la confianza de los usuarios. <br>De
+                    este
                     modo, se considera intento de estafa cualquier icono que contenga un enlace externo. <br>Para
                     localizarlos, se ubica el atributo "rel" dentro de las etiquetas "link" y se
-                        comprueba que su valor sea la cadena "shortcut icon" o "icon".
+                    comprueba que su valor sea la cadena "shortcut icon" o "icon".
                   </h3>
                 </div>
               </td>

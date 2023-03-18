@@ -20,12 +20,21 @@ from models.classifiers.TriTrainingClassifier import TriTraining
 from models.classifiers.CoForestClassifier import CoForest
 
 
-def translate_tag(tag):
+def translate_tag(tag, caps=False):
     """Translates numerical tags to string."""
-    if tag == 1:
-        return "phishing"
 
-    return "legitimate"
+    translated_tag = ""
+
+    if tag == 0:
+        translated_tag = "LEGÍTIMA"
+
+    elif tag == 1:
+        translated_tag = "PHISHING"
+
+    if caps:
+        return translated_tag
+
+    return translated_tag.lower()
 
 
 def get_models_directory():

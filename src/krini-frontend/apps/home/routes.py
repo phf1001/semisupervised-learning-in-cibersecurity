@@ -105,10 +105,11 @@ def dashboard():
         information_to_display = {
             "url": url,
             "fv": list(fv),
-            "class": "phishing",
+            "class": "legitimate",
+            "colour-list": "white-list",
             "model_names": json.loads(json.dumps(model_names)), #evitar string slicing
             "predicted_tags_numeric": predicted_tags,
-            "predicted_tags_labeled": json.loads(json.dumps([translate_tag(tag) for tag in predicted_tags])),
+            "predicted_tags_labeled": json.loads(json.dumps([translate_tag(tag, True) for tag in predicted_tags])),
             "model_scores": json.dumps(model_scores),
             "model_confidence": json.loads(json.dumps([98, 86, 12])) #sobre 100
         }
