@@ -5,10 +5,11 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 <style>
-  th, td {
-      border: 1px solid #000;
+  th,
+  td {
+    border: 1px solid #000;
   }
-  </style>
+</style>
 {% block content %}
 
 <!-- Header -->
@@ -206,37 +207,270 @@
       </div>
       <div class="table-responsive">
         <!-- Projects table -->
-        <table class="table align-items-center table-flush">
+        <table class="table align-items-center table-flush" style="width: 100%;">
           <thead class="thead-light">
             <tr>
-              
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Característica</h5></th>
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Basada en</h5></th>
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Valor vector</h5></th>
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Parámetros</h5></th>
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Fórmula</h5></th>
-              <th scope="col" style="text-align: center;"><h5 class="text-gray mb-0">Descripción</h5></th>
+
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Característica</h5>
+              </th>
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Basada en</h5>
+              </th>
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Valor vector</h5>
+              </th>
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Parámetros</h5>
+              </th>
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Fórmula</h5>
+              </th>
+              <th scope="col" style="text-align: center;">
+                <h5 class="text-gray mb-0">Descripción</h5>
+              </th>
             </tr>
           </thead>
           <tbody>
             <!-- F1-->
             <tr data-toggle="collapse" data-target="#info-f1" class="accordion-toggle">
-              <td style="text-align: center;"><h6 class="name mb-0 text-sm">Característica 1</h6></td>
-              <td style="text-align: center;"><h3><span class="badge rounded-pill bg-info">URL</span></h3></td>
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 1</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
               <td style="text-align: center;">$$0$$</td>
               <td style="text-align: center;">$$\text{Puntos en la URL} = 4$$</td>
               <td style="text-align: center;">
-                
-                $$F1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\ 
+                $$F_1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
               </td>
-              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i class="ni ni-bulb-61 text-white"></i></button></td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
             </tr>
             <tr>
               <td colspan="6" class="hiddenRow">
                 <div id="info-f1" class="accordian-body collapse">
-                  <h4 class="h3 text-primary mb-0" style="text-align: center;">En general, los dominios legítimos no contienen más de tres puntos en la URL. Por lo tanto, esta
+                  <h4 class="h3 text-primary mb-0" style="text-align: center;">En general, los dominios legítimos no
+                    contienen más de tres puntos en la URL. Por lo tanto, esta
                     característica se establece a 1 si el número de puntos en la URL es mayor o igual que 4.</h4>
+                </div>
+              </td>
+            </tr>
+
+            <!-- F2-->
+            <tr data-toggle="collapse" data-target="#info-f2" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 2</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$\text{URL contiene <<@>> o <<->>} = 4$$</td>
+              <td style="text-align: center;">
+                $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f2" class="accordian-body collapse">
+                  <h4 class="h3 text-primary mb-0" style="text-align: center;">En una URL, el uso de <<@>> provoca que
+                      se ignore todo lo escrito anteriormente al símbolo, y <<->> es comunmente utilizado para engañar a
+                        los usuarios en enlaces como por ejemplo www[.]paypal-india[.]com</h4>
+                </div>
+              </td>
+            </tr>
+
+            <!-- F3-->
+            <tr data-toggle="collapse" data-target="#info-f3" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 3</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$\text{Longitud de la URL} = 4$$</td>
+              <td style="text-align: center;">
+                $$F_3 = \left\{ \begin{array}{lr} 1, & \text{si la longitud de la URL} \ge 74\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f3" class="accordian-body collapse">
+                  <h4 class="h3 text-primary mb-0" style="text-align: center;"> Normalmente, los dominios oficiales son
+                    cortos y significativos. Sin embargo, aquellos sitios de phishing suelen ser más largos
+                    (con el fin de confundir al usuario u ocultar información).</h4>
+                </div>
+              </td>
+            </tr>
+
+
+            <!-- F4-->
+            <tr data-toggle="collapse" data-target="#info-f4" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 4</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$\text{URL SÍ contiene palabras sospechosas}$$</td>
+              <td style="text-align: center;">
+                $$F_4 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene palabras sospechosas}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f4" class="accordian-body collapse">
+                  <h3 class="text-primary mb-0" style="text-align: center;"> Según <a
+                      href="https://link.springer.com/article/10.1007/s11235-017-0414-0" target="_blank"
+                      rel="noopener noreferrer" style="color:chocolate">Ankit Kumar Jain y B. B.
+                      Gupta</a>, es común que las páginas de phishing añadan palabras clave en los enlaces para ganar la
+                    confianza de sus víctimas. <br> En concreto, se buscan y tienen encuenta enlaces que contengan
+                    las palabras: security, login, signin, bank, account, update, include, webs y online. <br>
+                    Como aportación propia, se ha tenido en cuenta que estas palabras puedan estar
+                    escritas utilizando el <a
+                      href="https://www.ionos.es/digitalguide/online-marketing/redes-sociales/que-es-la-escritura-leet/"
+                      target="_blank" rel="noopener noreferrer" style="color:chocolate">lenguaje
+                      leet</a>.
+                  </h3>
+                </div>
+              </td>
+            </tr>
+
+            <!-- F5-->
+            <tr data-toggle="collapse" data-target="#info-f5" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 5</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$1$$</td>
+              <td style="text-align: center;">
+                $$F_5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\
+                1, & \text{si hay más de un TDL en la URL} \\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f5" class="accordian-body collapse">
+                  <h3 class="text-primary mb-0" style="text-align: center;"> En los dominios legítimos, el TDL no está
+                    presente en la parte perteneciente al dominio base, ni ocurre más de una vez en la dirección.
+                  </h3>
+                </div>
+              </td>
+            </tr>
+
+            <!-- F6-->
+            <tr data-toggle="collapse" data-target="#info-f6" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 6</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$1$$</td>
+              <td style="text-align: center;">
+                $$F_6 = \left\{ \begin{array}{lr} 1, & \text{si http en URL -gt 1}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f6" class="accordian-body collapse">
+                  <h3 class="text-primary mb-0" style="text-align: center;"> En sitios genuinos, la cadena "http" sólo
+                    se encuentra una vez en la sección del protocolo. Sin embargo, puede ser que ocurra más de una vez
+                    si se trata de un sitio phishing.
+                  </h3>
+                </div>
+              </td>
+            </tr>
+
+            <!-- F7-->
+            <tr data-toggle="collapse" data-target="#info-f7" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 7</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$1$$</td>
+              <td style="text-align: center;">
+                $$F_7 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene el nombre de una marca famosa en la}\\ &
+                \text{URL y la posición no es la correcta}\\
+                0, & \text{cualquier otro caso} \label{eqn:phishing_f7} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f7" class="accordian-body collapse">
+                  <h3 class="text-primary mb-0" style="text-align: center;"> la gran mayoría de los sitios de
+                    phishing contienen el nombre de la marca objetivo en la URL. <br>
+                    Por ello, se han seleccionado
+                    algunos de los objetivos más comunes para los atacantes (por ejemplo, Google o PayPal) y, si se
+                    encuentra el nombre en una posición incorrecta, se asume que se trata de un intento de estafa. <br>
+                    Nuevamente, se ha tenido en consideración que dichas palabras puedan estar escritas utilizando <a
+                      href="https://www.ionos.es/digitalguide/online-marketing/redes-sociales/que-es-la-escritura-leet/"
+                      target="_blank" rel="noopener noreferrer" style="color:chocolate">lenguaje
+                      leet</a>
+                  </h3>
+                </div>
+              </td>
+            </tr>
+
+
+            <!-- F8-->
+            <tr data-toggle="collapse" data-target="#info-f8" class="accordion-toggle">
+              <td style="text-align: center;">
+                <h6 class="name mb-0 text-sm">Característica 8</h6>
+              </td>
+              <td style="text-align: center;">
+                <h3><span class="badge rounded-pill bg-info">URL</span></h3>
+              </td>
+              <td style="text-align: center;">$$0$$</td>
+              <td style="text-align: center;">$$1$$</td>
+              <td style="text-align: center;">
+                $$F_8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún Data URI}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;"><button class="btn btn-icon-only bg-primary"><i
+                    class="ni ni-bulb-61 text-white"></i></button></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f8" class="accordian-body collapse">
+                  <h3 class="text-primary mb-0" style="text-align: center;"> Según <a
+                      href="https://link.springer.com/article/10.1007/s11235-017-0414-0" target="_blank"
+                      rel="noopener noreferrer" style="color:chocolate">Ankit Kumar Jain y B. B.
+                      Gupta</a>, los
+                    ataques basados en la existencia de un Data URI son muy comunes. Este esquema permite
+                    insertar datos en línea dentro de un documento. <br>El peligro reside en que esos datos pueden codificar
+                    cualquier tipo de archivo (por ejemplo, un script de Javascript), pudiendo extraer datos o
+                    incluso realizar ataques XSS.
+                  </h3>
                 </div>
               </td>
             </tr>
@@ -259,6 +493,7 @@
 <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
 <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 {% endblock javascripts %}
