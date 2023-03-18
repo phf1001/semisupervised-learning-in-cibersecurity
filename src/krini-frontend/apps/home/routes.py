@@ -56,8 +56,34 @@ def task():
     time.sleep(2)
     fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
 
+    fv_extra_information = {"f1": 322, 
+                            "f2": '@',
+                            "f3": 56,
+                            "f4": 'login',
+                            "f5": '.cat', #TDL extra encontrado
+                            "f6": 'No',
+                            "f7": 'Google',
+                            "f8": 'No',
+                            "f9": 'asterisco',
+                            "f10": '5',
+                            "f11": 'No', #vacia
+                            "f12": 2,
+                            "f13": 3,
+                            "f14": 4,
+                            "f15": 5,
+                            "f16": 'No',
+                            "f17": 'Natura',
+                            "f18": 'Natura',
+                            "f19": 'No'
+                            }
+
     # Enviamos el vector al dashboard
-    session["messages"] = {"fv": fv.tolist(), "url": url, "models_ids": models_ids}
+    session["messages"] = {
+        "fv": fv.tolist(),
+        "fv_extra_information": fv_extra_information,
+        "url": url,
+        "models_ids": models_ids,
+    }
     return redirect(url_for("home_blueprint.dashboard"))
 
 
@@ -96,11 +122,14 @@ def dashboard():
         information_to_display = {
             "url": url,
             "fv": list(fv),
+            "fv_extra_information": messages["fv_extra_information"],
             "class": translate_tag(count.argmax()),
             "colour-list": "white-list",
             "model_names": make_array_safe(model_names),  # evitar string slicing
             "sum_tags_numeric": make_array_safe([int(count[0]), int(count[1])]),
-            "predicted_tags_labeled": make_array_safe([translate_tag(tag, True) for tag in predicted_tags]),
+            "predicted_tags_labeled": make_array_safe(
+                [translate_tag(tag, True) for tag in predicted_tags]
+            ),
             "model_scores": json.dumps(model_scores),
             "model_confidence": make_array_safe(models_confidence),  # sobre 100
         }
@@ -113,8 +142,10 @@ def dashboard():
 
     return redirect(url_for("home_blueprint.index"))
 
+
 def make_array_safe(vector):
     return json.loads(json.dumps(vector))
+
 
 @login_required
 @blueprint.route("/profile", methods=["GET"])
