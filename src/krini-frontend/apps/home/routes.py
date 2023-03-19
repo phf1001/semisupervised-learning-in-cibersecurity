@@ -24,7 +24,7 @@ from apps.home.models import (
 import re
 import numpy as np
 import time
-from apps.ssl_utils.ml_utils import obtain_model, translate_tag
+from apps.ssl_utils.ml_utils import obtain_model, translate_tag, generate_tfidf_object, get_tfidf_object, get_fv_and_info, get_mock_values_fv
 
 
 @blueprint.route("/index", methods=["GET", "POST"])
@@ -52,40 +52,37 @@ def task():
     url = messages["url"]
     models_ids = messages["models"]
 
-    # Generas vector características
-    time.sleep(2)
-    fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
+    # Get feature vector and extra information
 
-    fv_extra_information = {"f1": 322, 
-                            "f2": '@',
-                            "f3": 56,
-                            "f4": 'login',
-                            "f5": '.cat', #TDL extra encontrado
-                            "f6": 'No',
-                            "f7": 'Google',
-                            "f8": 'No',
-                            "f9": 'asterisco',
-                            "f10": '5',
-                            "f11": 'No', #vacia
-                            "f12": 2,
-                            "f13": 3,
-                            "f14": 4,
-                            "f15": 5,
-                            "f16": 'No',
-                            "f17": 'Natura',
-                            "f18": 'Natura',
-                            "f19": 'No'
-                            }
+    try:
+        fv, fv_extra_information = get_fv_and_info(url)
 
-    # Enviamos el vector al dashboard
-    session["messages"] = {
-        "fv": fv.tolist(),
-        "fv_extra_information": fv_extra_information,
-        "url": url,
-        "models_ids": models_ids,
-    }
-    return redirect(url_for("home_blueprint.dashboard"))
+        # Enviamos el vector al dashboard
+        session["messages"] = {
+            "fv": fv.tolist(),
+            "fv_extra_information": fv_extra_information,
+            "url": url,
+            "models_ids": models_ids,
+        }
 
+        return redirect(url_for("home_blueprint.dashboard"))
+
+    except Exception as e:
+
+        time.sleep(2)
+        fv, fv_extra_information = get_mock_values_fv()
+
+        # Enviamos el vector al dashboard
+        session["messages"] = {
+            "fv": fv.tolist(),
+            "fv_extra_information": fv_extra_information,
+            "url": url,
+            "models_ids": models_ids,
+        }
+
+        flash("Ha saltado una excepción. Mostrando resultados de mockeo.")
+        return redirect(url_for("home_blueprint.dashboard"))
+    
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
@@ -95,6 +92,27 @@ def translate_array_js(selected):
     # Get default model control aquí
     return [1]
 
+
+def get_sum_tags_numeric(predicted_tags):
+    """
+    Devuelve un array con la suma de los tags numéricos.
+    En el index 0 están las votaciones para 0, en el
+    1 las votaciones para 1. Devuelve también la
+    etiqueta mayoritaria.
+    """
+
+    count = [0, 0]
+
+    for tag in predicted_tags:
+        if tag == 0:
+            count[0] += 1
+        elif tag == 1:
+            count[1] += 1
+
+    if count[0] <= count[1]:
+        return count, 1
+    
+    return count, 0
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -112,7 +130,8 @@ def dashboard():
         model_scores = [tupla[2] for tupla in classifiers_info_tuples]
 
         predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
-        count = np.bincount(predicted_tags)
+        count, numeric_class = get_sum_tags_numeric(predicted_tags)
+
         models_confidence = [
             int(100 * cls.predict_proba(fv)[0][prediction])
             for cls, prediction in zip(classifiers, predicted_tags)
@@ -123,10 +142,10 @@ def dashboard():
             "url": url,
             "fv": list(fv),
             "fv_extra_information": messages["fv_extra_information"],
-            "class": translate_tag(count.argmax()),
+            "class": translate_tag(numeric_class),
             "colour-list": "white-list",
             "model_names": make_array_safe(model_names),  # evitar string slicing
-            "sum_tags_numeric": make_array_safe([int(count[0]), int(count[1])]),
+            "sum_tags_numeric": make_array_safe(count), 
             "predicted_tags_labeled": make_array_safe(
                 [translate_tag(tag, True) for tag in predicted_tags]
             ),

@@ -456,7 +456,7 @@
                 <h3><span class="badge rounded-pill bg-gradient-warning text-white">URL</span></h3>
               </td>
               <td style="text-align: center;"> {{ information_to_display["fv"][7] }}</td>
-              <td style="text-align: center;">$$ \text{¿Data URI encontrado? } {{ information_to_display["fv_extra_information"]["f8"]}}$$</td>
+              <td style="text-align: center;">$$ \text{Nº Data URIs encontrados = } {{ information_to_display["fv_extra_information"]["f8"]}}$$</td>
               <td style="text-align: center;">
                 $$F_8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún Data URI}\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
@@ -714,7 +714,7 @@
                 <h3><span class="badge rounded-pill bg-gradient-info text-white">Fichero CSS</span></h3>
               </td>
               <td style="text-align: center;"> {{ information_to_display["fv"][15] }}</td>
-              <td style="text-align: center;">$$\text{¿Existencia de fichero CSS? } {{
+              <td style="text-align: center;">$$\text{CSS externo encontrado: } {{
                 information_to_display["fv_extra_information"]["f16"]}}$$</td>
               <td style="text-align: center;">
                 $$F_{16} = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero CSS y es externo}\\
