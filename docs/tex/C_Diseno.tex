@@ -10,23 +10,23 @@
 Se adjunta a continuación, para cada tabla, el diccionario de datos correspondiente.
 
 \subsubsection{Tabla de usuarios (\texttt{Users})}
-Esta tabla (\ref{datadic:users}) almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla.
+Esta tabla (\ref{datadic:users}) almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla. Cabe destacar que la contraseña está correctamente cifrada mediante  cifrada mediante \texttt{sha-512} y la sal\footnote{\textit{Salt} es un término que se refiere a bits aleatorios usados como entrada (junto a la contraseña) en una función derivadora de claves (cuya salida es la contraseña cifrada).} se ha cifrado en \texttt{sha-256}.
 
 \begin{table}
 	\small
 	\begin{centering}
-		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{12em}@{}}
+		\begin{tabular}{@{}p{6em} p{7em} p{20em}@{}}
 			\toprule
-			\textbf{Nombre} & \textbf{Tipo y tamaño} & \textbf{Otros} & \textbf{Descripción}\\
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 			\midrule
-			\textbf{\underline{id}} & &  \textbf{\underline{PK}} & Identificador \\
-			username &  &  &   Nombre de usuario\\
-			email &  &  &  Email del usuario \\
-			password &  &  &  Contraseña\\
-			user\_first\_name &  &  &  Nombre \\
-			user\_last\_name &  &  &  Apellidos \\
-			user\_rol &  & Por defecto: <<standard>> & Rol. Puede ser <<standard>> o <<admin>>. \\
-			n\_urls\_accepted &  &  &  Atributo de usuarios <<standard>>. Contador de aquellas instancias que han sido reportadas y aceptadas por un administrador. \\
+			\texttt{\textbf{\underline{id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{username} &  \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Nombre de usuario proporcionado en el registro.\\
+			\texttt{email} & \texttt{VARCHAR(256) UNIQUE NOT NULL} & Inmutable. Email del usuario proporcionado en el registro.\\
+			\texttt{password} &  \texttt{BYTEA NOT NULL} & Contraseña cifrada mediante \texttt{sha-512}. La \textit{salt} se obtiene aleatoriamente y está cifrada en \texttt{sha-256}.\\
+			\texttt{user\_first \_name} & \texttt{VARCHAR(64)} & Nombre del usuario.\\
+			\texttt{user\_last \_name} & \texttt{VARCHAR(64)} & Apellidos del usuario. \\
+			\texttt{user\_rol} & \texttt{VARCHAR(8)} & Rol del usuario. Puede ser <<standard>> o <<admin>>. Por defecto: <<standard>>. \\
+			\texttt{n\_urls \_accepted} & \texttt{INTEGER} &    Atributo de usuarios <<standard>>. Contador de aquellas instancias que han sido reportadas y aceptadas por un administrador. \\
 			\bottomrule
 		\end{tabular}
 	\end{centering}
@@ -41,17 +41,17 @@ Esta tabla (\ref{datadic:instances}) almacena la información asociada a cada in
 \begin{table}
 	\small
 	\begin{centering}
-		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+		\begin{tabular}{@{}p{7em} p{6em} p{20em}@{}}
 			\toprule
-			\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 			\midrule
-			instance\_id & INTEGER 8 & anterior & PK & Identificador \\
-			reviewed\_by &  &  &  &  \\
-			instance\_url &  &  &  &   \\
-			instance\_fv &  &  &  &   \\
-			instance\_class &  &  &  &   \\
-			colour\_list &  &  &  &   \\
-			instance\_labels &  &  &  &   \\
+			\texttt{\textbf{\underline{instance\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{reviewed\_by} & \texttt{INTEGER FK(Users)} & En caso de estar vacío, significa que la URL todavía no ha sido aprobada por un administrador y está en proceso de revisión, por lo que no se puede utilizar para entrenar modelos.\\
+			\texttt{instance\_url} & \texttt{VARCHAR(256) UNIQUE NOT NULL} &  URL de la instancia. Inmutable.\\
+			\texttt{instance\_fv} &  \texttt{INTEGER ARRAY[19] NOT NULL} & Vector de características de la URL.   \\
+			\texttt{instance \_class} & \texttt{INTEGER NOT NULL} & Etiqueta de la clase. Puede valer $0$ si la URL es legítima o $1$ en caso de que sea \textit{phishing}. \\
+			\texttt{colour\_list} & \texttt{VARCHAR(12)} & Puede ser <<black-list>>, <<white-list>> o estar vacío. En caso de contener un valor ha de ser aprobada por un administrador. \\
+			\texttt{instance \_labels} & \texttt{CHAR(128)} &  Se preve que el campo varíe bastante, por lo que el tipo de dato no se ha definido como \texttt{VARCHAR}. Contiene etiquetas relacionadas con la instancia.\\
 			\bottomrule
 		\end{tabular}
 	\end{centering}
@@ -67,18 +67,20 @@ Esta tabla (\ref{datadic:models}) almacena los modelos de aprendizaje que han si
 \begin{table}
 	\small
 	\begin{centering}
-		\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+		\begin{tabular}{@{}p{7em} p{6em} p{20em}@{}}
 			\toprule
-			\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 			\midrule
-			model\_id & INTEGER 8 & anterior & PK & Identificador \\
-			created\_by &  &  &  &  \\
-			model\_name &  &  &  &   \\
-			file\_name &  &  &  &   \\
-			date &  &  &  &   \\
-			default &  &  &  &   \\
-			visible &  &  &  &   \\
-			random\_state &  &  &  &   \\
+			\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{created\_by} & \texttt{INTEGER FK(Users) NOT NULL} &  Enlace al administrador que ha creado un determinado modelo. Dependencia por existencia.\\
+			\texttt{model\_name} & \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Nombre común y visible para los usuarios. \\
+			\texttt{file\_name} & \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Preferiblemente seguirá la sintáxis \texttt{nombre\_v-a-b-c.pkl}, donde $a$, $b$, $c$ son los números de versión (ejemplo: \texttt{cof\_v-1-0-0.pkl})    \\
+			\texttt{creation\_date} & \texttt{TIMESTAMP} &  Fecha de creación.   \\
+			\texttt{is\_default} & \texttt{BOOLEAN NOT NULL} & Por defecto <<false>>. Determina si un clasificador es el utilizado por defecto (cuando un usuario realiza una consulta y no selecciona ningún modelo).   \\
+			\texttt{is\_visible} & \texttt{BOOLEAN NOT NULL} & Por defecto <<true>>. Determina si un clasificador está visible en la \textit{web} y disponible para ser utilizado.\\
+			\texttt{model\_scores} & \texttt{FLOAT(3) ARRAY NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (¡en orden!) corresponden a las métricas \textit{accuracy}, \textit{precision} y \textit{recall}. \\			
+			\texttt{model\_notes} & \texttt{VARCHAR(128)} & Notas acerca de los clasificadores base utilizados para crear el \textit{ensemble}. No debería cambiar de valor.\\
+			\texttt{random\_state} & \texttt{INTEGER} &  Semilla aleatoria.  \\
 			\bottomrule
 		\end{tabular}
 	\end{centering}
@@ -94,14 +96,14 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 	\begin{table}
 		\small
 		\begin{centering}
-			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\begin{tabular}{@{}p{6em} p{9em} p{19em}@{}}
 				\toprule
-				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 				\midrule
-				model\_id & INTEGER 8 & anterior & PK & Identificador \\
-				max\_features &  &  &  &  \\
-				thetha &  &  &  &   \\
-				n\_trees &  &  &  &   \\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir). \\
+				\texttt{max\_features} & \texttt{VARCHAR(4) NOT NULL} & Parámetro del árbol de decisión. Puede ser <<sqrt>> o <<log2>>. Por defecto <<log2>>.   \\
+				\texttt{thetha} & \texttt{FLOAT(3) NOT NULL} & Parámetro thetha del \textit{ensemble} (umbral de confianza). Por defecto 0.75.   \\
+				\texttt{n\_trees} & \texttt{INTEGER NOT NULL} & Número de árboles. Por defecto 3.   \\
 				\bottomrule
 			\end{tabular}
 		\end{centering}
@@ -114,14 +116,14 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 	\begin{table}
 		\small
 		\begin{centering}
-			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\begin{tabular}{@{}p{6em} p{12em} p{16em}@{}}
 				\toprule
-				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 				\midrule
-				model\_id & INTEGER 8 & anterior & PK & Identificador \\
-				cls\_one &  &  &  &  \\
-				cls\_two &  &  &  &   \\
-				cls\_three &  &  &  &   \\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{cls\_one} & \texttt{VARCHAR(4) NOT NULL}  &  Algoritmo del primer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{cls\_two} & \texttt{VARCHAR(4) NOT NULL} & Algoritmo del segundo estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{cls\_three} & \texttt{VARCHAR(4) NOT NULL} & Algoritmo del tercer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
 				\bottomrule
 			\end{tabular}
 		\end{centering}
@@ -134,12 +136,13 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 	\begin{table}
 		\small
 		\begin{centering}
-			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\begin{tabular}{@{}p{6em} p{8em} p{19em}@{}}
 				\toprule
-				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 				\midrule
-				model\_id & INTEGER 8 & anterior & PK & Identificador \\
-				base\_clss &  &  &  &  \\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{n\_clss} & \texttt{INTEGER NOT NULL} & Número de clasificadores base.\\
+				\texttt{base\_clss} & \texttt{VARCHAR(4) ARRAY NOT NULL}  & Array con los algoritmos pertenecientes a los estimadores base. Los valores que puede contener son <<kNN>>, <<NB>> o <<tree>>.\\
 				\bottomrule
 			\end{tabular}
 		\end{centering}
@@ -158,14 +161,15 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 		\begin{table}
 		\small
 		\begin{centering}
-			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\begin{tabular}{@{}p{7em} p{7em} p{18em}@{}}
 				\toprule
-				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 				\midrule
-				user\_id & INTEGER 8 & anterior & PK & Identificador \\
-				instance\_id &  &  &  &  \\
-				date &  &  &  &   \\
-				suggestion &  &  &  &   \\
+				\texttt{user\_id} & \texttt{INTEGER FK(Users)} & Identificador del usuario que ha reportado la URL. \\
+				\texttt{instance\_id} & \texttt{INTEGER FK(Available \_instances)} & Identificador de la URL reportada. \\
+				\texttt{date\_reported} & \texttt{TIMESTAMP} & Fecha de envío del formulario.     \\
+				\texttt{suggestion} & \texttt{VARCHAR(16) NOT NULL} & Lo que el usuario denuncia que la URL es (ejemplo: <<white-list>>).   \\\\
+				\multicolumn{3}{l}{\texttt{\textbf{\underline{PK(user\_id, instance\_id)}}} Clave primaria compuesta de la relación.} \\
 				\bottomrule
 			\end{tabular}
 		\end{centering}
@@ -178,12 +182,13 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 		\begin{table}
 		\small
 		\begin{centering}
-			\begin{tabular}{@{}p{6em} p{6em} p{6em} p{6em} p{6em}@{}}
+			\begin{tabular}{@{}p{7em} p{7em} p{18em}@{}}
 				\toprule
-				\textbf{Nombre} & \textbf{Tipo de dato y tamaño} & \textbf{Por defecto}& \textbf{Otros} & \textbf{Descripción}\\
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
 				\midrule
-				model\_id & INTEGER 8 & anterior & PK & Identificador \\
-				instance\_id &  &  &  &  \\
+				\texttt{model\_id} & \texttt{INTEGER FK(Available \_models)} & Identificador del modelo que ha sido entrenado. \\
+				\texttt{instance\_id} & \texttt{INTEGER FK(Available \_instances)} & Identificador de la instancia utilizada en la fase de entrenamiento. \\\\\\
+				\multicolumn{3}{l}{\texttt{\textbf{\underline{PK(model\_id, instance\_id)}}} Clave primaria compuesta de la relación.} \\
 				\bottomrule
 			\end{tabular}
 		\end{centering}
