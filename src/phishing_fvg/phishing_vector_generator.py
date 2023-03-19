@@ -1,15 +1,17 @@
 import numpy as np
-import requests
 import re
 from urllib.parse import urlparse
-from os import path
+import os
+import sys
 from tld import get_tld
 from bs4 import BeautifulSoup
-from phishing_utils import *
-from user_browsing import user_browsing
 from difflib import SequenceMatcher
 from html import unescape
 
+src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(src_path)
+from phishing_fvg.phishing_utils import *
+from phishing_fvg.user_browsing import user_browsing
 
 class PHISH_FVG:
     """
@@ -272,16 +274,16 @@ class PHISH_FVG:
 
                     elif is_simple_php_file(action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information["f9"] = "Compatible con _fichero.php_"
+                        self.extra_information["f9"] = "compatible con _fichero.php_"
                         return
 
                     elif is_foreign(self.url, action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information["f9"] = "Dominio extranjero"
+                        self.extra_information["f9"] = "dominio extranjero"
                         return
 
         self.fv[8] = 0
-        self.extra_information["f9"] = "No peligroso"
+        self.extra_information["f9"] = "no peligroso"
 
     def set_f10_f11(self):
         """

@@ -1,5 +1,8 @@
-from phishing_utils import get_proxy
-
+import os
+import sys
+src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(src_path)
+from phishing_fvg.phishing_utils import get_proxy
 
 class user_browsing:
     """
