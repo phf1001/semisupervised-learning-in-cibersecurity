@@ -8,7 +8,8 @@ from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
 from sqlalchemy.orm import load_only
-from apps.home.models import Available_models
+from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.authentication.models import Users
 import json
 
 # DB Models
@@ -82,7 +83,7 @@ def task():
 
         flash("Ha saltado una excepción. Mostrando resultados de mockeo.")
         return redirect(url_for("home_blueprint.dashboard"))
-    
+
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
@@ -111,8 +112,9 @@ def get_sum_tags_numeric(predicted_tags):
 
     if count[0] <= count[1]:
         return count, 1
-    
+
     return count, 0
+
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -123,7 +125,8 @@ def dashboard():
         fv = np.array(messages["fv"])
         selected_models = translate_array_js(messages["models_ids"])
 
-        classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
+        classifiers_info_tuples = [
+            get_model(model_id) for model_id in selected_models]
 
         model_names = [tupla[0] for tupla in classifiers_info_tuples]
         classifiers = [tupla[1] for tupla in classifiers_info_tuples]
@@ -144,13 +147,15 @@ def dashboard():
             "fv_extra_information": messages["fv_extra_information"],
             "class": translate_tag(numeric_class),
             "colour-list": "white-list",
-            "model_names": make_array_safe(model_names),  # evitar string slicing
-            "sum_tags_numeric": make_array_safe(count), 
+            # evitar string slicing
+            "model_names": make_array_safe(model_names),
+            "sum_tags_numeric": make_array_safe(count),
             "predicted_tags_labeled": make_array_safe(
                 [translate_tag(tag, True) for tag in predicted_tags]
             ),
             "model_scores": json.dumps(model_scores),
-            "model_confidence": make_array_safe(models_confidence),  # sobre 100
+            # sobre 100
+            "model_confidence": make_array_safe(models_confidence),
         }
 
         return render_template(
@@ -174,7 +179,8 @@ def profile():
     ).count()
 
     n_reports_reviewing = 0
-    users_reports = Candidate_instances.query.options(load_only("reported_by")).all()
+    users_reports = Candidate_instances.query.options(
+        load_only("reported_by")).all()
     users_reports = [report.reported_by for report in users_reports]
 
     for user_report in users_reports:
@@ -200,9 +206,71 @@ def instances():
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
+
+    
+    information_to_display = []
+
+    algorithms = [(Available_co_forests, 'CO-FOREST'), 
+                  (Available_tri_trainings, 'TRI-TRAINING'), 
+                  (Available_democratic_cos, 'DEMOCRATIC-CO')]
+    
+    for algorithm in algorithms:
+        for model in algorithm[0].query.all():
+            information_to_display.append(get_model_dict(model, algorithm[1]))
+
     return render_template(
-        "home/models-administration.html", segment=get_segment(request)
+        "home/models-administration.html", segment=get_segment(request), information_to_display=information_to_display
     )
+
+
+def get_parameters(model, algorithm="Unsupervised"):
+    if algorithm == "Unsupervised":
+        return [], 'red'
+
+    elif algorithm == "CO-FOREST":
+        return ["Max features = {}".format(model.max_features), 
+                "Thetha = {}".format(model.thetha), 
+                "Nº árboles = {}".format(model.n_trees)], 'pink'
+
+    elif algorithm == "TRI-TRAINING":
+        return ["Clasificador 1: {}".format(model.cls_one), 
+                "Clasificador 2: {}".format(model.cls_two), 
+                "Clasificador 3: {}".format(model.cls_three)], 'yellow'
+
+    elif algorithm == "DEMOCRATIC-CO":
+
+        information = cls_to_string_list(model.base_clss)
+        information.append("Nº clasificadores = {}".format(model.n_clss))
+        return information, 'cyan'
+
+
+def cls_to_string_list(mutable_clss):
+    return ["Clasificador {}: {}".format(i+1, cls) for i, cls in enumerate(mutable_clss)]
+
+def get_username(user_id):
+    user = Users.query.filter_by(id=user_id).first()
+    
+    if user:
+        return user.username.upper()
+    else:
+        return "?"
+
+def get_model_dict(model, algorithm="Unsupervised"):
+
+    params = get_parameters(model, algorithm)
+    return {
+        "model_name": model.model_name.upper(),
+        "model_parameters":  params[0],
+        "algorithm": algorithm,
+        "badge_colour": params[1],
+        "created_by": get_username(model.created_by), 
+        "creation_date": model.creation_date,
+        "is_default": model.is_default,
+        "is_visible": model.is_visible,
+        "model_scores": model.model_scores,
+        "random_state": model.random_state,
+        "model_notes": model.model_notes,
+    }
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
@@ -298,7 +366,8 @@ def get_segment(request):
 
 
 def get_model(model_id):
-    requested_model = Available_models.query.filter_by(model_id=model_id).first()
+    requested_model = Available_models.query.filter_by(
+        model_id=model_id).first()
 
     if requested_model:
         model_name = requested_model.model_name
@@ -309,7 +378,8 @@ def get_model(model_id):
         model_name = "Default model"
         model_file = "default.pkl"
         model_scores = (
-            Available_models.query.filter_by(model_name="Default").first().model_scores
+            Available_models.query.filter_by(
+                model_name="Default").first().model_scores
         )
 
     cls, file_found = obtain_model(model_file)
@@ -317,7 +387,8 @@ def get_model(model_id):
     if not file_found:
         model_name = "Default model"
         model_scores = (
-            Available_models.query.filter_by(model_name="Default").first().model_scores
+            Available_models.query.filter_by(
+                model_name="Default").first().model_scores
         )
 
     return model_name, cls, model_scores
