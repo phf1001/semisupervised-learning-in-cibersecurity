@@ -24,3 +24,38 @@ class SearchURLForm(FlaskForm):
     selected_models = HiddenField(
         "selected_models", render_kw={"id": "selected_models"}
     )
+
+class NewModelForm(FlaskForm):
+    model_name = TextField(
+        "model_name", id="model_name", validators=[DataRequired("Introduce un nombre")]
+    )
+
+    model_version = TextField(
+        "model_version", id="model_version", validators=[DataRequired("Introduce una versión")]
+    )
+
+    model_description = TextField(
+        "model_description", id="model_description", validators=[DataRequired("Introduce una descripción")]
+    )
+
+    is_visible = SelectField(
+        "is_visible", id="is_visible", choices=[("True", "Visible"), ("False", "No visible")]
+    )
+
+    is_default = SelectField(
+        "is_default", id="is_default", choices=[("True", "Predeterminado"), ("False", "No predeterminado")]
+    )
+
+
+class NewCoforestForm(NewModelForm):
+    max_features = SelectField(
+        "max_features", id="max_features", choices=[("log2", "Logaritmo base 2"), ("sqrt", "Raíz cuadrada")]
+    )
+
+    n_trees = TextField(  
+        "n_trees", id="n_trees", validators=[DataRequired("Introduce un número")]
+    )
+
+    thetha = TextField(
+        "thetha", id="thetha", validators=[DataRequired("Introduce un número")]
+    )

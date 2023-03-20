@@ -17,8 +17,20 @@
           </nav>
         </div>
         <div class="col-lg-6 col-5 text-right">
-          <a href="#" class="btn btn-sm btn-neutral">New</a>
-          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+
+          <div class="dropdown">
+            <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Nuevo modelo
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+              <a class="dropdown-item" href="/nuevocoforest">Co-forest</a>
+              <a class="dropdown-item" href="/nuevomodelo">Democratic-co learning</a>
+              <a class="dropdown-item" href="/nuevomodelo">Tri-training</a>
+            </div>
+          </div>
+
+          <!-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
         </div>
       </div>
     </div>
@@ -34,8 +46,6 @@
         <div class="card-header border-0">
           <h3 class="mb-0">MODELOS DISPONIBLES</h3>
         </div>
-
-
         <!-- Light table -->
         <div class="table-responsive">
           <table class="table align-items-center table-flush">

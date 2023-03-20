@@ -13,7 +13,7 @@ from apps.authentication.models import Users
 import json
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm
+from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, NewCoforestForm
 from apps.home.models import (
     Available_instances,
     Candidate_instances,
@@ -271,6 +271,64 @@ def get_model_dict(model, algorithm="Unsupervised"):
         "random_state": model.random_state,
         "model_notes": model.model_notes,
     }
+
+@blueprint.route("/nuevomodelo", methods=["GET", "POST"])
+def new_model():
+    return render_template("home/new-model.html", segment=get_segment(request))
+
+@blueprint.route("/nuevocoforest", methods=["GET", "POST"])
+def new_coforest():
+
+    form = NewCoforestForm(request.form)
+
+    if not current_user.is_authenticated:
+        return redirect(url_for("authentication_blueprint.login"))
+
+    if "create" in request.form:
+        # url = request.form["url"]
+        # type = request.form["type"]
+
+        # if type == "blacklist":
+        #     type = Available_tags.black_list
+        # elif type == "whitelist":
+        #     type = Available_tags.white_list
+
+        # date = datetime.now()
+        # user_ID = current_user.id
+        # existing_instance = Candidate_instances.query.filter_by(
+        #     instance_URL=url
+        # ).first()
+
+        # if existing_instance:
+        #     existing_instance.reported_by.append(user_ID)
+        #     existing_instance.date.append(date)
+        #     existing_instance.suggestions.append(type)
+        #     db.session.flush()
+        #     db.session.commit()
+        #     flash(
+        #         "URL reported succesfully! Our admins will review it soon."
+        #         + str(existing_instance)
+        #     )
+
+        # else:
+        #     db.session.add(
+        #         Candidate_instances(
+        #             instance_URL=url,
+        #             reported_by=([user_ID],),
+        #             date=([date],),
+        #             suggestions=([type],),
+        #         )
+        #     )
+        #     db.session.commit()
+        #     flash("URL reported succesfully!")
+
+        return render_template(
+            "home/models-administration.html", form=form, segment=get_segment(request)
+        )
+
+    return render_template(
+            "home/new-coforest.html", form=form, segment=get_segment(request)
+    )
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
