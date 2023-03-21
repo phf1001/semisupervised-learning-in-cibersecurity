@@ -50,6 +50,14 @@ class NewModelForm(FlaskForm):
         "random_state", id="random_state"
     )
 
+    uploaded_csv = FileField(
+        "train_file", id="train_file"
+    )
+
+    train_n_instances = IntegerField(
+        "train_n_instances", id="train_n_instances"
+    )
+
 
 class NewCoforestForm(NewModelForm):
     max_features = SelectField(

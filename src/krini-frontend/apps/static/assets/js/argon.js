@@ -1266,3 +1266,25 @@ $("[data-toggle=myCollapse]").click(function( ev ) {
 	};
 	target.toggleClass("in");
   });
+
+
+  function showDiv(hd1, hd2, hd3, element) {
+
+	if (element.value == 1) {
+		document.getElementById(hd1).style.display = 'block'
+		document.getElementById(hd2).style.display = 'none'
+		document.getElementById(hd3).style.display = 'none'
+	}
+
+	else if (element.value == 2) {
+		document.getElementById(hd1).style.display = 'none'
+		document.getElementById(hd2).style.display = 'block'
+		document.getElementById(hd3).style.display = 'none'
+	}
+
+	else if (element.value == 3) {
+		document.getElementById(hd1).style.display = 'none'
+		document.getElementById(hd2).style.display = 'none'
+		document.getElementById(hd3).style.display = 'block'
+	}
+  }

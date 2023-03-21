@@ -178,20 +178,48 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <label
-                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTANTE&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">Rellena todo antes de continuar.
-                        Al pulsar el botón serás redirigido a otra pantalla.</label>
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">SELECCIONA
+                        UN MÉTODO&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">
+                        de subida de datos de entrenamiento.
+                      </label>
+
+                      <br></br>
+                      <select class="form-control" id="select-upload-method" name="form_select_data_method"
+                        onchange="showDiv('hd1', 'hd2', 'hd3', this)">
+                        <option value="1">Importar CSV</option>
+                        <option value="2">Generar datos aleatoriamente</option>
+                        <option value="3">Seleccionar instancias</option>
+                      </select>
+
+                      <br></br>
+                      
+                      <div id="hd1" style="display: block">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTAR
+                          CSV&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">Tamaño máximo 200MB</label>
+                        {{ form.uploaded_csv(placeholder="csv subido", class="form-control") }}
+                      </div>
+                      <div id="hd2" style="display: none">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">NÚMERO DE
+                          INSTANCIAS&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">MÁXIMO: 80, RECOMENDADO:
+                          60</label>
+                        {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control",
+                        required="required",
+                        oninvalid="this.setCustomValidity('Por favor, introduce un número.')",
+                        oninput="setCustomValidity('')") }}
+                      </div>
+                      <div id="hd3" style="display: none">
+                      </div>
                     </div>
                   </td>
                 </tr>
 
                 <tr>
                   <td colspan="2">
-                    <div style="justify-content: center;">
-                        <button type="submit" name="generar" class="btn btn-primary my-4">Generar aleatoriamente</button>
-                        <button type="submit" name="importar" class="btn btn-primary my-4">Importar CSV</button>
-                        <button type="submit" name="seleccionar" class="btn btn-primary my-4">Seleccionar instancias</button>
+                    <div style="align-items: center;">
+                      <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
                     </div>
                   </td>
                 </tr>

@@ -17641,3 +17641,7 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
 }
 
 /*# sourceMappingURL=argon.css.map */
+
+#hidden_div {
+  display: none;
+}
