@@ -11,6 +11,8 @@ from sqlalchemy.orm import load_only
 from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
 from apps.authentication.models import Users
 import json
+from werkzeug.utils import secure_filename
+from os import path
 
 # DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, NewCoforestForm
@@ -24,8 +26,9 @@ from apps.home.models import (
 # ML dependencies
 import re
 import numpy as np
+import pandas as pd
 import time
-from apps.ssl_utils.ml_utils import obtain_model, translate_tag, generate_tfidf_object, get_tfidf_object, get_fv_and_info, get_mock_values_fv
+from apps.ssl_utils.ml_utils import obtain_model, translate_tag, get_temporary_train_files_directory, get_fv_and_info, get_mock_values_fv
 
 
 @blueprint.route("/index", methods=["GET", "POST"])
@@ -276,55 +279,28 @@ def get_model_dict(model, algorithm="Unsupervised"):
 def new_model():
     return render_template("home/new-model.html", segment=get_segment(request))
 
+
+
+
 @blueprint.route("/nuevocoforest", methods=["GET", "POST"])
 def new_coforest():
 
-    form = NewCoforestForm(request.form)
+    form = NewCoforestForm()
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
-    if "create" in request.form:
-        # url = request.form["url"]
-        # type = request.form["type"]
+    if "siguiente" in request.form:
 
-        # if type == "blacklist":
-        #     type = Available_tags.black_list
-        # elif type == "whitelist":
-        #     type = Available_tags.white_list
+        flash("Pulsado siguiente")
 
-        # date = datetime.now()
-        # user_ID = current_user.id
-        # existing_instance = Candidate_instances.query.filter_by(
-        #     instance_URL=url
-        # ).first()
+        f = form.uploaded_csv.data
+        filename = secure_filename(f.filename)
+        path_one = get_temporary_train_files_directory()
+        file_path = path.join(path_one, filename)
+        f.save(file_path)
 
-        # if existing_instance:
-        #     existing_instance.reported_by.append(user_ID)
-        #     existing_instance.date.append(date)
-        #     existing_instance.suggestions.append(type)
-        #     db.session.flush()
-        #     db.session.commit()
-        #     flash(
-        #         "URL reported succesfully! Our admins will review it soon."
-        #         + str(existing_instance)
-        #     )
-
-        # else:
-        #     db.session.add(
-        #         Candidate_instances(
-        #             instance_URL=url,
-        #             reported_by=([user_ID],),
-        #             date=([date],),
-        #             suggestions=([type],),
-        #         )
-        #     )
-        #     db.session.commit()
-        #     flash("URL reported succesfully!")
-
-        return render_template(
-            "home/models-administration.html", form=form, segment=get_segment(request)
-        )
+        return redirect(url_for('home_blueprint.models'))
 
     return render_template(
             "home/new-coforest.html", form=form, segment=get_segment(request)

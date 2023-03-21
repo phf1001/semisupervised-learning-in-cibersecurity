@@ -49,7 +49,7 @@
         </div>
         <!-- Light table -->
         <div class="table-responsive">
-          <form role="form" method="post" action="">
+          <form role="form" method="post" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
@@ -193,22 +193,19 @@
                       </select>
 
                       <br></br>
-                      
+
                       <div id="hd1" style="display: block">
                         <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTAR
                           CSV&nbsp;</label>
                         <label style="font-size: medium; color: gray; text-align: left;">Tamaño máximo 200MB</label>
-                        {{ form.uploaded_csv(placeholder="csv subido", class="form-control") }}
+                        {{ form.uploaded_csv }}
                       </div>
                       <div id="hd2" style="display: none">
                         <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">NÚMERO DE
                           INSTANCIAS&nbsp;</label>
                         <label style="font-size: medium; color: gray; text-align: left;">MÁXIMO: 80, RECOMENDADO:
                           60</label>
-                        {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control",
-                        required="required",
-                        oninvalid="this.setCustomValidity('Por favor, introduce un número.')",
-                        oninput="setCustomValidity('')") }}
+                        {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
                       </div>
                       <div id="hd3" style="display: none">
                       </div>
@@ -223,7 +220,6 @@
                     </div>
                   </td>
                 </tr>
-
               </tbody>
             </table>
           </form>
