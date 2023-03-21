@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import TextField, SelectField, HiddenField
+from wtforms import TextField, SelectField, HiddenField, IntegerField, FileField
 from wtforms.validators import DataRequired
 
 
@@ -35,7 +35,7 @@ class NewModelForm(FlaskForm):
     )
 
     model_description = TextField(
-        "model_description", id="model_description", validators=[DataRequired("Introduce una descripción")]
+        "model_description", id="model_description"
     )
 
     is_visible = SelectField(
@@ -43,7 +43,11 @@ class NewModelForm(FlaskForm):
     )
 
     is_default = SelectField(
-        "is_default", id="is_default", choices=[("True", "Predeterminado"), ("False", "No predeterminado")]
+        "is_default", id="is_default", choices=[("False", "No"), ("True", "Sí")]
+    )
+
+    random_state = IntegerField(
+        "random_state", id="random_state"
     )
 
 

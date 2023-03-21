@@ -20,8 +20,8 @@
         <div class="col-lg-6 col-5 text-right">
 
           <div class="dropdown">
-            <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
               Nuevo modelo
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
@@ -51,44 +51,151 @@
         <div class="table-responsive">
           <form role="form" method="post" action="">
             {{ form.hidden_tag() }}
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort" data-sort="name">CAMPO</th>
-                  <th scope="col" class="sort" data-sort="type">VALOR</th>
-                  <th scope="col"></th>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros generales
+                  </th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                 </tr>
               </thead>
               <tbody class="list">
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <div class="input-group input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="ni ni-world-2"></i></span>
-                        </div>
-                        
-                        {{ form.model_name(placeholder="Introduce el nombre del modelo", class="form-control", required="required",
-                        oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
-                        oninput="setCustomValidity('')") }}
-                      </div>
-                    </div>
-                  </td>
-                  <td colspan="2">
-                    <div class="form-group mb-3">
-                      {{ form.is_default(placeholder="Defecto",class="form-control") }}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" colspan="2">
-                    <div class="text-center">
-                      <button type="submit" name="report" class="btn btn-primary my-4">Send!</button>
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Nombre del
+                        modelo</label>
+                      {{ form.model_name(placeholder="co-forest-administrador", class="form-control",
+                      required="required",
+                      oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
+                      oninput="setCustomValidity('')") }}
                     </div>
                   </td>
                   <td>
+                    <div class="form-group mb-3">
+                      <label
+                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Versión&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(máximo tres enteros separados
+                        por puntos)</label>
+                      {{ form.model_version(placeholder="1.0.0", class="form-control", required="required",
+                      oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
+                      oninput="setCustomValidity('')") }}
+                    </div>
                   </td>
                 </tr>
+
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">¿Es
+                        visible?&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(implica que el resto de usuarios
+                        pueden utilizar el modelo)</label>
+                      {{ form.is_visible(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">¿Convertir
+                        en 'default'?&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(será el nuevo clasificador usado
+                        por defecto)</label>
+                      {{ form.is_default(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <label
+                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Notas</label>
+                      {{ form.model_description(placeholder="Descripción", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="sort" data-sort="name"
+                      style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros propios
+                      del co-forest</th>
+                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                  </tr>
+                </thead>
+
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Max
+                        Features&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(máximo de atributos utilizados
+                        al dividir en la construcción del árbol)</label>
+                      {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número de
+                        árboles&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(número de clasificadores
+                        base)</label>
+                      {{ form.n_trees(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label
+                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Thetha&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(umbral de confianza)</label>
+                      {{ form.thetha(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Semilla
+                        aleatoria&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">(un entero)</label>
+                      {{ form.random_state(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="sort" data-sort="name"
+                      style="font-size: medium; color: gray; font-weight: bold; text-align: left;"> DATOS DE
+                      ENTRENAMIENTO
+                    </th>
+                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                  </tr>
+                </thead>
+
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <label
+                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTANTE&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">Rellena todo antes de continuar.
+                        Al pulsar el botón serás redirigido a otra pantalla.</label>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <div style="justify-content: center;">
+                        <button type="submit" name="generar" class="btn btn-primary my-4">Generar aleatoriamente</button>
+                        <button type="submit" name="importar" class="btn btn-primary my-4">Importar CSV</button>
+                        <button type="submit" name="seleccionar" class="btn btn-primary my-4">Seleccionar instancias</button>
+                    </div>
+                  </td>
+                </tr>
+
               </tbody>
             </table>
           </form>
