@@ -108,7 +108,7 @@
       </div>
     </div>
 
-
+    <!-- Tabla atributos modelo -->
     <div class="row">
       <div class="col">
         <div class="card">
@@ -116,8 +116,6 @@
           <div class="card-header border-0">
             <h3 class="mb-0">ALGORITMO DE APRENDIZAJE</h3>
           </div>
-
-          <!-- Tabla atributos modelo -->
           <div class="table-responsive">
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
@@ -139,7 +137,7 @@
                         de aprendizaje semisupervisado.
                       </label>
                       <br></br>
-                      <select class="form-control" id="select-upload-method" name="form_select_data_method"
+                      <select class="form-control" id="select-ssl-alg" name="form_select_ssl_alg"
                         onchange="showDiv('hd4', 'hd5', 'hd6', this)">
                         <option value="1">Co-Forest</option>
                         <option value="2">Democratic-co</option>
@@ -148,27 +146,25 @@
                       <br></br>
                       <div id="hd4" style="display: block">
                         {% include "home/form-co-forest.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'co-forest') %}
                       </div>
                       <div id="hd5" style="display: none">
                         {% include "home/form-democratic-co.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'democratic-co') %}
                       </div>
                       <div id="hd6" style="display: none">
                         {% include "home/form-tri-training.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'tri-training') %}
                       </div>
                     </div>
                   </td>
                 </tr>
-
               </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-
-
-
-
 
     <!-- Tabla del dataset -->
     <div class="row">

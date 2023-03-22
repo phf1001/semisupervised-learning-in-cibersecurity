@@ -47,7 +47,7 @@ def index():
     models = request.form["selected_models"]
     session["messages"] = {"url": url, "models": models}
 
-    return render_template("home/loading.html")
+    return render_template("specials/processing-url.html")
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
@@ -210,13 +210,12 @@ def instances():
 @blueprint.route("/models", methods=["GET"])
 def models():
 
-    
     information_to_display = []
 
-    algorithms = [(Available_co_forests, 'CO-FOREST'), 
-                  (Available_tri_trainings, 'TRI-TRAINING'), 
+    algorithms = [(Available_co_forests, 'CO-FOREST'),
+                  (Available_tri_trainings, 'TRI-TRAINING'),
                   (Available_democratic_cos, 'DEMOCRATIC-CO')]
-    
+
     for algorithm in algorithms:
         for model in algorithm[0].query.all():
             information_to_display.append(get_model_dict(model, algorithm[1]))
@@ -231,13 +230,13 @@ def get_parameters(model, algorithm="Unsupervised"):
         return [], 'red'
 
     elif algorithm == "CO-FOREST":
-        return ["Max features = {}".format(model.max_features), 
-                "Thetha = {}".format(model.thetha), 
+        return ["Max features = {}".format(model.max_features),
+                "Thetha = {}".format(model.thetha),
                 "Nº árboles = {}".format(model.n_trees)], 'pink'
 
     elif algorithm == "TRI-TRAINING":
-        return ["Clasificador 1: {}".format(model.cls_one), 
-                "Clasificador 2: {}".format(model.cls_two), 
+        return ["Clasificador 1: {}".format(model.cls_one),
+                "Clasificador 2: {}".format(model.cls_two),
                 "Clasificador 3: {}".format(model.cls_three)], 'yellow'
 
     elif algorithm == "DEMOCRATIC-CO":
@@ -250,13 +249,15 @@ def get_parameters(model, algorithm="Unsupervised"):
 def cls_to_string_list(mutable_clss):
     return ["Clasificador {}: {}".format(i+1, cls) for i, cls in enumerate(mutable_clss)]
 
+
 def get_username(user_id):
     user = Users.query.filter_by(id=user_id).first()
-    
+
     if user:
         return user.username.upper()
     else:
         return "?"
+
 
 def get_model_dict(model, algorithm="Unsupervised"):
 
@@ -266,7 +267,7 @@ def get_model_dict(model, algorithm="Unsupervised"):
         "model_parameters":  params[0],
         "algorithm": algorithm,
         "badge_colour": params[1],
-        "created_by": get_username(model.created_by), 
+        "created_by": get_username(model.created_by),
         "creation_date": model.creation_date,
         "is_default": model.is_default,
         "is_visible": model.is_visible,
@@ -286,19 +287,162 @@ def new_model():
 
     if "siguiente" in request.form:
 
-        flash("Pulsado siguiente")
+        selected_method = translate_form_select_data_method(request.form["form_select_data_method"])
 
-        f = form.uploaded_csv.data
-        filename = secure_filename(f.filename)
-        path_one = get_temporary_train_files_directory()
-        file_path = path.join(path_one, filename)
-        f.save(file_path)
+        if selected_method == "csv":
+            f = form.uploaded_csv.data
 
-        return redirect(url_for('home_blueprint.models'))
+            if f is not None:
+                filename = secure_filename(f.filename)
+                path_one = get_temporary_train_files_directory()
+                file_path = path.join(path_one, filename)
+                f.save(file_path)
+                dataset_tuple = ("csv", file_path)
+
+            else:
+                selected_method = "generate"
+
+        # Esto no sé si funciona, probar el entero
+        #N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
+        if selected_method == "generate":
+
+            n_instances = request.form["train_n_instances"]
+
+            if n_instances > 0 and n_instances < 100:
+                dataset_tuple = ("generate", n_instances)
+            else:
+                dataset_tuple = ("generate", 80)
+
+
+        session["messages"] = {"form_data": request.form,
+                               "dataset_method" : dataset_tuple
+                               }
+        
+        return render_template("specials/creating-model.html")
 
     return render_template(
-            "home/new-model.html", form=form, algorithm='coforest', segment=get_segment(request)
+        "home/new-model.html", form=form, segment=get_segment(request)
     )
+
+def translate_form_select_data_method(user_input):
+    if user_input == '1':
+        return "csv"
+    elif user_input == '2':
+        return "generate"
+    
+
+@blueprint.route("/creatingmodel", methods=["POST", "GET"])
+def creatingmodel():
+
+    time.sleep(2)
+
+    messages = session.get("messages", None)
+    form_data = messages["form_data"]
+
+    # COMPROBAR DICCIONARIO DE ENTRADA Y EL RESTO, PASO A TRATAR LOS DATOS
+    # if messages is not None:
+    #     form_data = correct_user_input(messages["form_data"])
+
+    #Hasta aquí se tiene un formulario correcto y se supone que 
+    #se tiene un objeto clasificador para entrenar
+
+    dataset_method, dataset_params = messages["dataset_method"]
+    return_X_y(dataset_method, dataset_params)
+
+
+    flash("{}".format(form_data))
+    return redirect(url_for("home_blueprint.report_url"))
+
+
+
+def return_X_y(dataset_method, dataset_params):
+
+    if dataset_method == "csv":
+        pandas_df = pd.read_csv(dataset_params)
+        file_path = path.join(get_temporary_train_files_directory(), 'copia.csv')
+        pandas_df.to_csv(file_path, index=False)
+
+    pass
+
+def translate_form_select_ssl_alg(user_input):
+    if user_input == '1':
+        return "co-forest"
+    elif user_input == '2':
+        return "democratic-co"
+    elif user_input == '3':
+        return "tri-training"
+
+def correct_user_input(form_data):
+
+    form_data = correct_model_values(form_data)
+
+    selected_algorithm = form_data.get("model_algorithm", None)
+
+    if selected_algorithm == "tri-training":
+        form_data = check_correct_values_tri_training(form_data)
+    elif selected_algorithm == "democratic-co":
+        form_data = check_correct_values_democratic_co(form_data)
+    else:
+        form_data = check_correct_values_coforest(form_data)
+
+
+def correct_model_values(form_data):
+
+    # Comprobar nombres no duplicados, versiones bien introducidas, etc
+    return form_data
+
+
+def check_correct_values_coforest(form_data):
+
+    try:
+
+        if not isinstance(form_data.get("max_features", None), str):
+            form_data["max_features"] = 'log2'
+
+        if not isinstance(form_data.get("thetha", None), float):
+            form_data["thetha"] = 0.75
+
+        if not isinstance(form_data.get("n_trees", None), int):
+            form_data["n_trees"] = 6
+
+        form_data["model_algorithm"] = "co-forest"
+
+        return form_data
+    
+    except Exception as e:
+        raise Exception("ay sigueña")
+
+
+def check_correct_values_tri_training(form_data):
+
+    base_clss = ["kNN", "NB", "tree"]
+    for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
+
+        if not form_data[keys_to_ckeck] in base_clss:
+            form_data[keys_to_ckeck] = base_clss[i]
+
+    form_data["model_algorithm"] = "tri-training"
+
+    return form_data
+
+
+def check_correct_values_democratic_co(form_data):
+
+    base_clss = ["kNN", "NB", "tree"]
+    for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
+
+        n_clss = "n_{}".format(keys_to_ckeck)
+
+        if not form_data[keys_to_ckeck] in base_clss:
+            form_data[keys_to_ckeck] = base_clss[i]
+            form_data[n_clss] = 1
+
+        elif not isinstance(form_data[n_clss], int):
+            form_data[n_clss] = 0
+
+    form_data["model_algorithm"] = "democratic-co"
+
+    return form_data
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])

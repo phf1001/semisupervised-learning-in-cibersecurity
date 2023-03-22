@@ -39,6 +39,10 @@ class NewModelForm(FlaskForm):
         "model_description", id="model_description"
     )
 
+    model_algorithm = TextField(
+        "model_algorithm", id="model_algorithm"
+    )
+
     is_visible = SelectField(
         "is_visible", id="is_visible", choices=[("True", "Visible"), ("False", "No visible")]
     )

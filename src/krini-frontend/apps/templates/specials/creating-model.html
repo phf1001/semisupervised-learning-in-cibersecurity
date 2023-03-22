@@ -1,35 +1,6 @@
 
 {% extends 'layouts/base-fullscreen.html' %}
-
 {% block title %} Loading {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}
-<style>
-    #loader {
-        border: 12px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 12px solid #444444;
-        width: 70px;
-        height: 70px;
-        animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-    .center {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-</style>
-{% endblock stylesheets %}
-
 {% block content %}
 <div class="container mt--8 pb-5">
     <div class="row justify-content-center">
@@ -37,8 +8,8 @@
             <div class="card bg-secondary shadow border-0">
                 <div class="card-header pb-5" style="position: relative;">
                     <div class="text-muted text-center mt-2 mb-3">
-                        <h1>Analizando URL</h1>   
-                        Espera unos segundos...
+                        <h1>Creando y entrenando el modelo</h1>   
+                        Esto puede requerir unos minutos...
                         <br></br>
                         <br></br>
                         <div class="loader" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);"></div>
@@ -69,5 +40,5 @@
 </script>
 
 <script src="{{url_for('static', filename='main.js')}}"></script>
-<script> window.location.replace('/task'); </script>
+<script> window.location.replace('/creatingmodel'); </script>
 {% endblock javascripts %}
