@@ -1,0 +1,50 @@
+<!-- Tabla atributos coforest -->
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+        <tbody class="list">
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Max
+                            Features&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(máximo de atributos
+                            utilizados
+                            al dividir en la construcción del árbol)</label>
+                        {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número
+                            de
+                            árboles&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(número de
+                            clasificadores
+                            base)</label>
+                        {{ form.n_trees(placeholder="defecto", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label
+                            style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Thetha&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(umbral de
+                            confianza)</label>
+                        {{ form.thetha(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Semilla
+                            aleatoria&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(un entero)</label>
+                        {{ form.random_state(placeholder="defecto", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

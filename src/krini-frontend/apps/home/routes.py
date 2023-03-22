@@ -275,15 +275,9 @@ def get_model_dict(model, algorithm="Unsupervised"):
         "model_notes": model.model_notes,
     }
 
+
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
-    return render_template("home/new-model.html", segment=get_segment(request))
-
-
-
-
-@blueprint.route("/nuevocoforest", methods=["GET", "POST"])
-def new_coforest():
 
     form = NewCoforestForm()
 
@@ -303,7 +297,7 @@ def new_coforest():
         return redirect(url_for('home_blueprint.models'))
 
     return render_template(
-            "home/new-coforest.html", form=form, segment=get_segment(request)
+            "home/new-model.html", form=form, algorithm='coforest', segment=get_segment(request)
     )
 
 

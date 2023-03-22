@@ -39,18 +39,19 @@
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <!-- Card header -->
-        <div class="card-header border-0">
-          <h3 class="mb-0">NUEVO CO-FOREST</h3>
-        </div>
-        <!-- Light table -->
-        <div class="table-responsive">
-          <form role="form" method="post" action="" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
+<form role="form" method="post" action="" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">NUEVO MODELO</h3>
+          </div>
+
+          <!-- Tabla atributos modelo -->
+          <div class="table-responsive">
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
                 <tr>
@@ -116,122 +117,145 @@
                   </td>
                 </tr>
 
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col" class="sort" data-sort="name"
-                      style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros propios
-                      del co-forest</th>
-                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
-                  </tr>
-                </thead>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
+
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">NUEVO MODELO</h3>
+          </div>
+
+          <!-- Tabla atributos modelo -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <thead class="thead-light">
                 <tr>
-                  <td>
-                    <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Max
-                        Features&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(máximo de atributos utilizados
-                        al dividir en la construcción del árbol)</label>
-                      {{ form.max_features(placeholder="visibilidad", class="form-control") }}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número de
-                        árboles&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(número de clasificadores
-                        base)</label>
-                      {{ form.n_trees(placeholder="defecto", class="form-control") }}
-                    </div>
-                  </td>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros
+                    propios
+                    del algoritmo</th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                 </tr>
-
-                <tr>
-                  <td>
-                    <div class="form-group mb-3">
-                      <label
-                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Thetha&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(umbral de confianza)</label>
-                      {{ form.thetha(placeholder="visibilidad", class="form-control") }}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Semilla
-                        aleatoria&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(un entero)</label>
-                      {{ form.random_state(placeholder="defecto", class="form-control") }}
-                    </div>
-                  </td>
-                </tr>
-
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col" class="sort" data-sort="name"
-                      style="font-size: medium; color: gray; font-weight: bold; text-align: left;"> DATOS DE
-                      ENTRENAMIENTO
-                    </th>
-                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
-                  </tr>
-                </thead>
-
+              </thead>
+              <tbody class="list">
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
                       <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">SELECCIONA
-                        UN MÉTODO&nbsp;</label>
+                        UN ALGORITMO&nbsp;</label>
                       <label style="font-size: medium; color: gray; text-align: left;">
-                        de subida de datos de entrenamiento.
+                        de aprendizaje semisupervisado.
                       </label>
-
                       <br></br>
                       <select class="form-control" id="select-upload-method" name="form_select_data_method"
-                        onchange="showDiv('hd1', 'hd2', 'hd3', this)">
-                        <option value="1">Importar CSV</option>
-                        <option value="2">Generar datos aleatoriamente</option>
-                        <option value="3">Seleccionar instancias</option>
+                        onchange="showDiv('hd4', 'hd5', 'hd6', this)">
+                        <option value="1">Co-Forest</option>
+                        <option value="2">Democratic-co</option>
+                        <option value="3">Tri-training</option>
                       </select>
-
                       <br></br>
-
-                      <div id="hd1" style="display: block">
-                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTAR
-                          CSV&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">Tamaño máximo 200MB</label>
-                        {{ form.uploaded_csv }}
+                      <div id="hd4" style="display: block">
+                        {% include "home/form-coforest.html" %}
                       </div>
-                      <div id="hd2" style="display: none">
-                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">NÚMERO DE
-                          INSTANCIAS&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">MÁXIMO: 80, RECOMENDADO:
-                          60</label>
-                        {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
+                      <div id="hd5" style="display: none">
+                        hola
                       </div>
-                      <div id="hd3" style="display: none">
+                      <div id="hd6" style="display: none">
+                        holita
                       </div>
                     </div>
                   </td>
                 </tr>
 
-                <tr>
-                  <td colspan="2">
-                    <div style="align-items: center;">
-                      <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
-          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- Tabla del dataset -->
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">CONJUNTO DE DATOS</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <!-- subida de datos-->
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;"> DATOS DE
+                    ENTRENAMIENTO
+                  </th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                </tr>
+              </thead>
+              <tr>
+                <td colspan="2">
+                  <div class="form-group mb-3">
+                    <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">SELECCIONA
+                      UN MÉTODO&nbsp;</label>
+                    <label style="font-size: medium; color: gray; text-align: left;">
+                      de subida de datos de entrenamiento.
+                    </label>
+                    <br></br>
+                    <select class="form-control" id="select-upload-method" name="form_select_data_method"
+                      onchange="showDiv('hd1', 'hd2', 'hd3', this)">
+                      <option value="1">Importar CSV</option>
+                      <option value="2">Generar datos aleatoriamente</option>
+                      <option value="3">Seleccionar instancias</option>
+                    </select>
+                    <br></br>
+                    <div id="hd1" style="display: block">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTAR
+                        CSV&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">Tamaño máximo 200MB</label>
+                      {{ form.uploaded_csv }}
+                    </div>
+                    <div id="hd2" style="display: none">
+                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">NÚMERO DE
+                        INSTANCIAS&nbsp;</label>
+                      <label style="font-size: medium; color: gray; text-align: left;">MÁXIMO: 80, RECOMENDADO:
+                        60</label>
+                      {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
+                    </div>
+                    <div id="hd3" style="display: none">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div style="align-items: center;">
+                    <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  {% include "includes/footer.html" %}
-
-</div>
-
+</form>
+{% include "includes/footer.html" %}
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
