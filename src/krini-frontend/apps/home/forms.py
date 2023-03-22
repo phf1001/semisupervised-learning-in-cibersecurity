@@ -55,8 +55,12 @@ class NewModelForm(FlaskForm):
         "random_state", id="random_state"
     )
 
-    uploaded_csv = FileField(
+    uploaded_train_csv = FileField(
         "train_file", id="train_file"
+    )
+
+    uploaded_test_csv = FileField(
+        "test_file", id="test_file"
     )
 
     train_n_instances = IntegerField(

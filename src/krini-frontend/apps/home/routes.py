@@ -287,49 +287,57 @@ def new_model():
 
     if "siguiente" in request.form:
 
-        selected_method = translate_form_select_data_method(request.form["form_select_data_method"])
+        # Se guarda lo que haya subido el usuario
+        selected_method = translate_form_select_data_method(
+            request.form["form_select_data_method"])
 
         if selected_method == "csv":
-            f = form.uploaded_csv.data
 
-            if f is not None:
-                filename = secure_filename(f.filename)
-                path_one = get_temporary_train_files_directory()
-                file_path = path.join(path_one, filename)
-                f.save(file_path)
-                dataset_tuple = ("csv", file_path)
+            dataset_tuple = ("csv", {})
 
-            else:
-                selected_method = "generate"
+            for tipo, f in zip(["train", "test"], [form.uploaded_train_csv.data, form.uploaded_test_csv.data]):
+
+                if f is not None:
+                    filename = secure_filename(f.filename)
+                    path_one = get_temporary_train_files_directory()
+                    file_path = path.join(path_one, filename)
+                    f.save(file_path)
+                    dataset_tuple[1][tipo] = file_path
+
+                # Si cualquiera de los dos es None ya genera
+                else:
+                    selected_method = "generate"
+                    break
 
         # Esto no sé si funciona, probar el entero
-        #N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
+        # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
         if selected_method == "generate":
 
             n_instances = request.form["train_n_instances"]
+            n_instances = int(n_instances)
 
             if n_instances > 0 and n_instances < 100:
                 dataset_tuple = ("generate", n_instances)
             else:
                 dataset_tuple = ("generate", 80)
 
-
         session["messages"] = {"form_data": request.form,
-                               "dataset_method" : dataset_tuple
+                               "dataset_method": dataset_tuple
                                }
-        
+
         return render_template("specials/creating-model.html")
 
     return render_template(
         "home/new-model.html", form=form, segment=get_segment(request)
     )
 
+
 def translate_form_select_data_method(user_input):
     if user_input == '1':
         return "csv"
     elif user_input == '2':
         return "generate"
-    
+
 
 @blueprint.route("/creatingmodel", methods=["POST", "GET"])
 def creatingmodel():
@@ -343,26 +351,34 @@ def creatingmodel():
     # if messages is not None:
     #     form_data = correct_user_input(messages["form_data"])
 
-    #Hasta aquí se tiene un formulario correcto y se supone que 
-    #se tiene un objeto clasificador para entrenar
+    # Hasta aquí se tiene un formulario correcto y se supone que
+    # se tiene un objeto clasificador para entrenar
 
     dataset_method, dataset_params = messages["dataset_method"]
     return_X_y(dataset_method, dataset_params)
-
 
     flash("{}".format(form_data))
     return redirect(url_for("home_blueprint.report_url"))
 
 
-
 def return_X_y(dataset_method, dataset_params):
+    # params diccionario train:file, test:file o un entero
 
     if dataset_method == "csv":
-        pandas_df = pd.read_csv(dataset_params)
-        file_path = path.join(get_temporary_train_files_directory(), 'copia.csv')
-        pandas_df.to_csv(file_path, index=False)
+        train_file = dataset_params["train"]
+        test_file = dataset_params["test"]
 
-    pass
+        pandas_train = pd.read_csv(train_file)
+        pandas_test = pd.read_csv(test_file)
+
+        file_path = path.join(
+            get_temporary_train_files_directory(), 'copia_train.csv')
+        file_path_2 = path.join(
+            get_temporary_train_files_directory(), 'copia_test.csv')
+
+        pandas_train.to_csv(file_path, index=False)
+        pandas_test.to_csv(file_path_2, index=False)
+
 
 def translate_form_select_ssl_alg(user_input):
     if user_input == '1':
@@ -371,6 +387,7 @@ def translate_form_select_ssl_alg(user_input):
         return "democratic-co"
     elif user_input == '3':
         return "tri-training"
+
 
 def correct_user_input(form_data):
 
@@ -408,7 +425,7 @@ def check_correct_values_coforest(form_data):
         form_data["model_algorithm"] = "co-forest"
 
         return form_data
-    
+
     except Exception as e:
         raise Exception("ay sigueña")
 

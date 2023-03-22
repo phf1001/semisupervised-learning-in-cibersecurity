@@ -40,7 +40,8 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="name"
-                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros generales
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    Parámetros generales
                   </th>
                   <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                 </tr>
@@ -49,8 +50,8 @@
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Nombre del
-                        modelo</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Nombre del
+                        modelo</p>
                       {{ form.model_name(placeholder="co-forest-administrador", class="form-control",
                       required="required",
                       oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
@@ -59,10 +60,11 @@
                   </td>
                   <td>
                     <div class="form-group mb-3">
-                      <label
-                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Versión&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(máximo tres enteros separados
-                        por puntos)</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">
+                        Versión&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(máximo tres
+                          enteros separados por puntos)</span></p>
                       {{ form.model_version(placeholder="1.0.0", class="form-control", required="required",
                       oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
                       oninput="setCustomValidity('')") }}
@@ -73,19 +75,23 @@
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">¿Es
-                        visible?&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(implica que el resto de usuarios
-                        pueden utilizar el modelo)</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">¿Es
+                        visible?&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(implica que el
+                          resto de usuarios
+                          pueden utilizar el modelo)</span></p>
                       {{ form.is_visible(placeholder="visibilidad", class="form-control") }}
                     </div>
                   </td>
                   <td>
                     <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">¿Convertir
-                        en 'default'?&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">(será el nuevo clasificador usado
-                        por defecto)</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">¿Convertir
+                        en 'default'?&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(será el
+                          nuevo clasificador usado
+                          por defecto)</span></p>
                       {{ form.is_default(placeholder="defecto", class="form-control") }}
                     </div>
                   </td>
@@ -94,8 +100,8 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <label
-                        style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Notas</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">Notas</p>
                       {{ form.model_description(placeholder="Descripción", class="form-control") }}
                     </div>
                   </td>
@@ -121,7 +127,8 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="name"
-                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;">Parámetros
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    Parámetros
                     propios
                     del algoritmo</th>
                   <th scope="col" class="sort" data-sort="type">&nbsp;</th>
@@ -131,11 +138,12 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">SELECCIONA
-                        UN ALGORITMO&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">
-                        de aprendizaje semisupervisado.
-                      </label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">SELECCIONA
+                        UN ALGORITMO&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">
+                          de aprendizaje semisupervisado.
+                        </span></p>
                       <br></br>
                       <select class="form-control" id="select-ssl-alg" name="form_select_ssl_alg"
                         onchange="showDiv('hd4', 'hd5', 'hd6', this)">
@@ -180,8 +188,8 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="name"
-                    style="font-size: medium; color: gray; font-weight: bold; text-align: left;"> DATOS DE
-                    ENTRENAMIENTO
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    DATOS DE ENTRENAMIENTO
                   </th>
                   <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                 </tr>
@@ -189,11 +197,11 @@
               <tr>
                 <td colspan="2">
                   <div class="form-group mb-3">
-                    <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">SELECCIONA
-                      UN MÉTODO&nbsp;</label>
-                    <label style="font-size: medium; color: gray; text-align: left;">
-                      de subida de datos de entrenamiento.
-                    </label>
+                    <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                    white-space: normal;">SELECCIONA UN MÉTODO&nbsp;<span
+                        style="font-size: medium; color: gray; font-weight: normal; text-align: left;">
+                        de subida de datos de entrenamiento.
+                      </span></p>
                     <br></br>
                     <select class="form-control" id="select-upload-method" name="form_select_data_method"
                       onchange="showDiv('hd1', 'hd2', 'hd3', this)">
@@ -203,16 +211,35 @@
                     </select>
                     <br></br>
                     <div id="hd1" style="display: block">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">IMPORTAR
-                        CSV&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">Tamaño máximo 200MB</label>
-                      {{ form.uploaded_csv }}
+
+
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">DATOS ENTRENAMIENTO&nbsp;
+                        <span style="font-size: medium; color: gray; font-weight: normal; text-align: left;">Tamaño
+                          máximo 200MB</span>
+                      </p>
+
+                      <div class="form-control">
+                        {{ form.uploaded_train_csv }}
+                      </div>
+                      <br></br>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">DATOS DE
+                        TEST&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">Tamaño máximo
+                          200MB</span></p>
+                      <div class="form-control">
+                        {{ form.uploaded_test_csv }}
+                      </div>
+
                     </div>
                     <div id="hd2" style="display: none">
-                      <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">NÚMERO DE
-                        INSTANCIAS&nbsp;</label>
-                      <label style="font-size: medium; color: gray; text-align: left;">MÁXIMO: 80, RECOMENDADO:
-                        60</label>
+                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
+                      white-space: normal;">NÚMERO DE
+                        INSTANCIAS&nbsp;<span
+                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">MÁXIMO: 80,
+                          RECOMENDADO:
+                          60</span></p>
                       {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
                     </div>
                     <div id="hd3" style="display: none">
