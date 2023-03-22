@@ -1,0 +1,68 @@
+<!-- Tabla atributos tri-training -->
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+        <tbody class="list">
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Primer
+                            clasificador&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(algoritmo base
+                            utilizado)</label>
+                        {{ form.cls_one(placeholder="Primer clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número
+                            de clasificadores &nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(número de
+                            clasificadores base de este tipo)</label>
+                        {{ form.n_cls_one(placeholder="defecto", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Segundo
+                            clasificador&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(algoritmo base
+                            utilizado)</label>
+                        {{ form.cls_two(placeholder="Segundo clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número
+                            de clasificadores &nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(número de
+                            clasificadores base de este tipo)</label>
+                        {{ form.n_cls_two(placeholder="defecto", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Tercer
+                            clasificador&nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(algoritmo base
+                            utilizado)</label>
+                        {{ form.cls_three(placeholder="Tercer clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número
+                            de clasificadores &nbsp;</label>
+                        <label style="font-size: medium; color: gray; text-align: left;">(número de
+                            clasificadores base de este tipo)</label>
+                        {{ form.n_cls_three(placeholder="defecto", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

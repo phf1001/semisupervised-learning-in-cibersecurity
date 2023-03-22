@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 from os import path
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, NewCoforestForm
+from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
 from apps.home.models import (
     Available_instances,
     Candidate_instances,
@@ -279,7 +279,7 @@ def get_model_dict(model, algorithm="Unsupervised"):
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
 
-    form = NewCoforestForm()
+    form = NewModelForm()
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
