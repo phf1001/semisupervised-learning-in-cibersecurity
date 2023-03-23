@@ -50,7 +50,7 @@
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Nombre del
+                      <p class="primary-label-forms">Nombre del
                         modelo</p>
                       {{ form.model_name(placeholder="co-forest-administrador", class="form-control",
                       required="required",
@@ -60,11 +60,9 @@
                   </td>
                   <td>
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">
-                        Versión&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(máximo tres
-                          enteros separados por puntos)</span></p>
+                      <p class="primary-label-forms">
+                        Versión&nbsp;<span class="gray-description-forms">(máximo tres enteros separados por
+                          puntos)</span></p>
                       {{ form.model_version(placeholder="1.0.0", class="form-control", required="required",
                       oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
                       oninput="setCustomValidity('')") }}
@@ -75,33 +73,37 @@
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">¿Es
-                        visible?&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(implica que el
-                          resto de usuarios
-                          pueden utilizar el modelo)</span></p>
+                      <p class="primary-label-forms">¿Es visible?&nbsp;<span class="gray-description-forms">(implica que
+                          el
+                          resto de usuarios pueden utilizar el modelo)</span></p>
                       {{ form.is_visible(placeholder="visibilidad", class="form-control") }}
                     </div>
                   </td>
                   <td>
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">¿Convertir
-                        en 'default'?&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">(será el
+                      <p class="primary-label-forms">¿Convertir
+                        en 'default'?&nbsp;<span class="gray-description-forms">(será el
                           nuevo clasificador usado
                           por defecto)</span></p>
                       {{ form.is_default(placeholder="defecto", class="form-control") }}
                     </div>
                   </td>
                 </tr>
-
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">Notas</p>
+                      <p class="primary-label-forms">Semilla
+                        aleatoria&nbsp;
+                        <span class="gray-description-forms">(un entero)</span>
+                      </p>
+                      {{ form.random_state(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">Notas</p>
                       {{ form.model_description(placeholder="Descripción", class="form-control") }}
                     </div>
                   </td>
@@ -138,10 +140,8 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">SELECCIONA
-                        UN ALGORITMO&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">
+                      <p class="primary-label-forms">SELECCIONA
+                        UN ALGORITMO&nbsp;<span class="gray-description-forms">
                           de aprendizaje semisupervisado.
                         </span></p>
                       <br></br>
@@ -197,9 +197,7 @@
               <tr>
                 <td colspan="2">
                   <div class="form-group mb-3">
-                    <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                    white-space: normal;">SELECCIONA UN MÉTODO&nbsp;<span
-                        style="font-size: medium; color: gray; font-weight: normal; text-align: left;">
+                    <p class="primary-label-forms">SELECCIONA UN MÉTODO&nbsp;<span class="gray-description-forms">
                         de subida de datos de entrenamiento.
                       </span></p>
                     <br></br>
@@ -213,9 +211,8 @@
                     <div id="hd1" style="display: block">
 
 
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">DATOS ENTRENAMIENTO&nbsp;
-                        <span style="font-size: medium; color: gray; font-weight: normal; text-align: left;">Tamaño
+                      <p class="primary-label-forms">DATOS ENTRENAMIENTO&nbsp;
+                        <span class="gray-description-forms">Tamaño
                           máximo 200MB</span>
                       </p>
 
@@ -223,10 +220,8 @@
                         {{ form.uploaded_train_csv }}
                       </div>
                       <br></br>
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">DATOS DE
-                        TEST&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">Tamaño máximo
+                      <p class="primary-label-forms">DATOS DE
+                        TEST&nbsp;<span class="gray-description-forms">Tamaño máximo
                           200MB</span></p>
                       <div class="form-control">
                         {{ form.uploaded_test_csv }}
@@ -234,12 +229,9 @@
 
                     </div>
                     <div id="hd2" style="display: none">
-                      <p style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left; word-break: break-all;
-                      white-space: normal;">NÚMERO DE
-                        INSTANCIAS&nbsp;<span
-                          style="font-size: medium; color: gray; font-weight: normal; text-align: left;">MÁXIMO: 80,
-                          RECOMENDADO:
-                          60</span></p>
+                      <p class="primary-label-forms">PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO&nbsp;<span class="gray-description-forms">
+                        Introduce sólo el número (ejemplo 80).
+                      </span></p>
                       {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
                     </div>
                     <div id="hd3" style="display: none">

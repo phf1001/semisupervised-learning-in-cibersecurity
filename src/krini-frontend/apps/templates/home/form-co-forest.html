@@ -6,42 +6,36 @@
             <tr>
                 <td>
                     <div class="form-group mb-3">
-                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Max
-                            Features&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">(máximo de atributos
-                            utilizados
-                            al dividir en la construcción del árbol)</label>
-                        {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                        <p class="primary-label-forms">Thetha&nbsp;
+                        <span class="gray-description-forms">(umbral de
+                            confianza)</span>
+                        </p>
+                        {{ form.thetha(placeholder="visibilidad", class="form-control") }}
                     </div>
+
                 </td>
                 <td>
                     <div class="form-group mb-3">
-                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Número
+                        <p class="primary-label-forms">Número
                             de
-                            árboles&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">(número de
+                            árboles&nbsp;
+                        <span class="gray-description-forms">(número de
                             clasificadores
-                            base)</label>
+                            base)</span>
+                        </p>
                         {{ form.n_trees(placeholder="defecto", class="form-control") }}
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                     <div class="form-group mb-3">
-                        <label
-                            style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Thetha&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">(umbral de
-                            confianza)</label>
-                        {{ form.thetha(placeholder="visibilidad", class="form-control") }}
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group mb-3">
-                        <label style="font-size: medium; color: #5e72e4; font-weight: bold; text-align: left;">Semilla
-                            aleatoria&nbsp;</label>
-                        <label style="font-size: medium; color: gray; text-align: left;">(un entero)</label>
-                        {{ form.random_state(placeholder="defecto", class="form-control") }}
+                        <p class="primary-label-forms">Max
+                        <span class="gray-description-forms">(máximo de atributos
+                            utilizados
+                            al dividir en la construcción del árbol)</span>
+                        </p>
+                        {{ form.max_features(placeholder="visibilidad", class="form-control") }}
                     </div>
                 </td>
             </tr>
