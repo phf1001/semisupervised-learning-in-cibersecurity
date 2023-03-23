@@ -278,11 +278,45 @@ def get_model_dict(model, algorithm="Unsupervised"):
     }
 
 
+@blueprint.route("/nuevomodelo", methods=["GET", "POST"])
+def new_model():
+
+    form = NewModelForm()
+
+    if not current_user.is_authenticated:
+        return redirect(url_for("authentication_blueprint.login"))
+
+    if "siguiente" in request.form:
+
+        selected_method = translate_form_select_data_method(
+            request.form["form_select_data_method"])
+
+        # Se cargan los archivos del usuario. Si uno de los dos no carga,
+        # se pasa a generar los conjuntos aleatoriamente
+        if selected_method == "csv":
+            selected_method, dataset_tuple = save_files_to_temp(
+                form.uploaded_train_csv.data, form.uploaded_test_csv.data)
+
+        # Esto no sé si funciona, probar el entero
+        # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
+        # Si falla la carga también se genera
+        if selected_method == "generate":
+            dataset_tuple = check_n_instances(
+                request.form["train_n_instances"])
+
+        session["messages"] = {"form_data": request.form,
+                               "dataset_method": dataset_tuple}
+
+        return render_template("specials/creating-model.html")
+
+    return render_template(
+        "home/new-model.html", form=form, segment=get_segment(request)
+    )
+
 def save_files_to_temp(form_file_one, form_file_two):
     """
     Returns true y la tupla
     """
-
     dataset_tuple = ("csv", {})
 
     for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):
@@ -314,41 +348,6 @@ def check_n_instances(n_instances):
 
     except ValueError:
         return ("generate", 80)
-
-
-@blueprint.route("/nuevomodelo", methods=["GET", "POST"])
-def new_model():
-
-    form = NewModelForm()
-
-    if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
-
-    if "siguiente" in request.form:
-
-        # Se guarda lo que haya subido el usuario
-        selected_method = translate_form_select_data_method(
-            request.form["form_select_data_method"])
-
-        if selected_method == "csv":
-            selected_method, dataset_tuple = save_files_to_temp(
-                form.uploaded_train_csv.data, form.uploaded_test_csv.data)
-
-        # Esto no sé si funciona, probar el entero
-        # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
-        # Si falla la carga también se genera
-        if selected_method == "generate":
-            dataset_tuple = check_n_instances(
-                request.form["train_n_instances"])
-
-        session["messages"] = {"form_data": request.form,
-                               "dataset_method": dataset_tuple}
-
-        return render_template("specials/creating-model.html")
-
-    return render_template(
-        "home/new-model.html", form=form, segment=get_segment(request)
-    )
 
 
 def translate_form_select_data_method(user_input):
@@ -386,10 +385,8 @@ def creatingmodel():
     scores = get_array_scores(y_test, y_pred)
     flash(scores)
 
-
     #Serializamos el nuevo modelo y lo guardamos en la bbdd
     serialize_store_coforest(form_data, cls, scores)
-
 
     #flash("{}".format(form_data))
     return redirect(url_for("home_blueprint.report_url"))

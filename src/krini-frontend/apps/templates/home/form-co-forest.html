@@ -7,23 +7,18 @@
                 <td>
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Thetha&nbsp;
-                        <span class="gray-description-forms">(umbral de
-                            confianza)</span>
+                        <span class="gray-description-forms">(umbral de confianza)</span>
                         </p>
-                        {{ form.thetha(placeholder="visibilidad", class="form-control") }}
+                        {{ form.thetha(placeholder="0.75", class="form-control") }}
                     </div>
 
                 </td>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Número
-                            de
-                            árboles&nbsp;
-                        <span class="gray-description-forms">(número de
-                            clasificadores
-                            base)</span>
+                        <p class="primary-label-forms">Número de árboles&nbsp;
+                        <span class="gray-description-forms">(número de clasificadores base)</span>
                         </p>
-                        {{ form.n_trees(placeholder="defecto", class="form-control") }}
+                        {{ form.n_trees(placeholder="5", class="form-control") }}
                     </div>
                 </td>
             </tr>
@@ -32,8 +27,7 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Max
                         <span class="gray-description-forms">(máximo de atributos
-                            utilizados
-                            al dividir en la construcción del árbol)</span>
+                            utilizados al dividir en la construcción del árbol)</span>
                         </p>
                         {{ form.max_features(placeholder="visibilidad", class="form-control") }}
                     </div>
