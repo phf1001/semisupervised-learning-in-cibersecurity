@@ -12,7 +12,7 @@ from apps.home.models import Available_models, Available_co_forests, Available_d
 from apps.authentication.models import Users
 import json
 from werkzeug.utils import secure_filename
-from os import path
+from os import path, remove
 
 # DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
@@ -28,7 +28,8 @@ import re
 import numpy as np
 import pandas as pd
 import time
-from apps.ssl_utils.ml_utils import obtain_model, translate_tag, get_temporary_train_files_directory, get_fv_and_info, get_mock_values_fv
+from sklearn.model_selection import train_test_split
+from apps.ssl_utils.ml_utils import obtain_model, translate_tag, get_temporary_train_files_directory, get_fv_and_info, get_mock_values_fv, get_co_forest, get_tri_training, get_democratic_co, get_array_scores, serialize_model
 
 
 @blueprint.route("/index", methods=["GET", "POST"])
@@ -277,6 +278,44 @@ def get_model_dict(model, algorithm="Unsupervised"):
     }
 
 
+def save_files_to_temp(form_file_one, form_file_two):
+    """
+    Returns true y la tupla
+    """
+
+    dataset_tuple = ("csv", {})
+
+    for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):
+
+        if f is not None:
+            filename = secure_filename(f.filename)
+            path_one = get_temporary_train_files_directory()
+            file_path = path.join(path_one, filename)
+            f.save(file_path)
+            dataset_tuple[1][tipo] = file_path
+
+        # Si cualquiera de los dos es None ya genera
+        else:
+            return "generate", ()
+
+    return "csv", dataset_tuple
+
+
+def check_n_instances(n_instances):
+    try:
+        n_instances = int(n_instances)
+
+        if n_instances > 0 and n_instances < 100:
+            dataset_tuple = ("generate", n_instances)
+        else:
+            dataset_tuple = ("generate", 80)
+
+        return dataset_tuple
+
+    except ValueError:
+        return ("generate", 80)
+
+
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
 
@@ -292,38 +331,18 @@ def new_model():
             request.form["form_select_data_method"])
 
         if selected_method == "csv":
-
-            dataset_tuple = ("csv", {})
-
-            for tipo, f in zip(["train", "test"], [form.uploaded_train_csv.data, form.uploaded_test_csv.data]):
-
-                if f is not None:
-                    filename = secure_filename(f.filename)
-                    path_one = get_temporary_train_files_directory()
-                    file_path = path.join(path_one, filename)
-                    f.save(file_path)
-                    dataset_tuple[1][tipo] = file_path
-
-                # Si cualquiera de los dos es None ya genera
-                else:
-                    selected_method = "generate"
-                    break
+            selected_method, dataset_tuple = save_files_to_temp(
+                form.uploaded_train_csv.data, form.uploaded_test_csv.data)
 
         # Esto no sé si funciona, probar el entero
         # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
+        # Si falla la carga también se genera
         if selected_method == "generate":
-
-            n_instances = request.form["train_n_instances"]
-            n_instances = int(n_instances)
-
-            if n_instances > 0 and n_instances < 100:
-                dataset_tuple = ("generate", n_instances)
-            else:
-                dataset_tuple = ("generate", 80)
+            dataset_tuple = check_n_instances(
+                request.form["train_n_instances"])
 
         session["messages"] = {"form_data": request.form,
-                               "dataset_method": dataset_tuple
-                               }
+                               "dataset_method": dataset_tuple}
 
         return render_template("specials/creating-model.html")
 
@@ -353,31 +372,94 @@ def creatingmodel():
 
     # Hasta aquí se tiene un formulario correcto y se supone que
     # se tiene un objeto clasificador para entrenar
+    cls = get_co_forest()
 
+    #Obtenemos datos de entrenamiento y test
     dataset_method, dataset_params = messages["dataset_method"]
-    return_X_y(dataset_method, dataset_params)
+    X_train, X_test, y_train, y_test = return_X_y_train_test(dataset_method, dataset_params)
+    L_train, U_train, Ly_train, Uy_train = train_test_split(
+            X_train, y_train, test_size=0.8, random_state=5, stratify=y_train)
+    #flash("{} {} {} {}".format(X_train, X_test, y_train, y_test))
 
-    flash("{}".format(form_data))
+    cls.fit(L_train, Ly_train, U_train)
+    y_pred = cls.predict(X_test)
+    scores = get_array_scores(y_test, y_pred)
+    flash(scores)
+
+
+    #Serializamos el nuevo modelo y lo guardamos en la bbdd
+    serialize_store_coforest(form_data, cls, scores)
+
+
+    #flash("{}".format(form_data))
     return redirect(url_for("home_blueprint.report_url"))
 
 
-def return_X_y(dataset_method, dataset_params):
+
+def serialize_store_coforest(form_data, cls, scores):
+    
+    try:
+        
+        existing_instance = Available_co_forests.query.filter_by(model_name = form_data["model_name"]).first()
+
+        if existing_instance:
+            form_data["model_name"] = form_data["model_name"] + time.time()
+
+        file_name = form_data["model_name"] + ".pkl"
+
+        serialize_model(cls, file_name)
+
+        new_model = Available_co_forests(  
+            model_name = form_data["model_name"],
+            created_by = current_user.id,
+            file_name = file_name,
+            model_scores = (scores,),
+            model_notes = form_data["model_description"],
+            creation_date = datetime.now(),
+            is_visible = to_bolean(form_data["is_visible"]),
+            is_default = to_bolean(form_data["is_default"]),
+            random_state = form_data["random_state"],
+            n_trees = form_data["n_trees"],
+            thetha = form_data["thetha"],
+            max_features = form_data["max_features"]
+        )
+        
+        db.session.add(new_model)
+        db.session.commit()
+        flash("Modelo guardado correctamente.")
+        return True
+
+    except Exception as e:
+        flash("Error al guardar el modelo." + str(e))
+        return False
+
+def to_bolean(string):
+    if string == "True":
+        return True
+    else:
+        return False
+    
+def return_X_y_train_test(dataset_method, dataset_params):
     # params diccionario train:file, test:file o un entero
 
     if dataset_method == "csv":
-        train_file = dataset_params["train"]
-        test_file = dataset_params["test"]
+        X_train, y_train = extract_X_y_csv(dataset_params["train"])
+        X_test, y_test = extract_X_y_csv(dataset_params["test"])
+ 
 
-        pandas_train = pd.read_csv(train_file)
-        pandas_test = pd.read_csv(test_file)
+    # if generate etc
 
-        file_path = path.join(
-            get_temporary_train_files_directory(), 'copia_train.csv')
-        file_path_2 = path.join(
-            get_temporary_train_files_directory(), 'copia_test.csv')
+    return X_train, X_test, y_train, y_test
 
-        pandas_train.to_csv(file_path, index=False)
-        pandas_test.to_csv(file_path_2, index=False)
+
+def extract_X_y_csv(file_name):
+    # Comprobar dimensiones, que está bien todo etc
+
+    df = pd.read_csv(file_name)
+    X = df.iloc[:, :-1].values
+    y = df.iloc[:, -1].values
+    remove(file_name)
+    return X, y
 
 
 def translate_form_select_ssl_alg(user_input):
