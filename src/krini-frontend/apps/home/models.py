@@ -94,6 +94,10 @@ class Available_instances(db.Model):
             + " "
             + str(self.instance_URL)
         )
+    
+    @staticmethod
+    def all_paginated(page=1, per_page=15):
+        return Available_instances.query.paginate(page, per_page, False)
 
 
 class Candidate_instances(db.Model):
@@ -127,6 +131,10 @@ class Candidate_instances(db.Model):
             + " "
             + str(self.suggestions)
         )
+    
+    @staticmethod
+    def all_paginated(page=1, per_page=15):
+        return Candidate_instances.query.paginate(page, per_page, False)
 
 # class Available_instances(db.Model):
 #     """

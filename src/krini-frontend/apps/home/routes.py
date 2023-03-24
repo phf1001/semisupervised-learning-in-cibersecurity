@@ -255,14 +255,25 @@ def creatingmodel():
 @blueprint.route("/instances", methods=["GET"])
 def instances():
 
-    information_to_display = []
 
-    for instance in Available_instances.query.all():
-        information_to_display.append(get_instance_dict(instance))
+    page = int(request.args.get("page", 1))
+
+    post_pagination = Available_instances.all_paginated(page, 3)
+
+    pages_list = list(post_pagination.iter_pages())
+    r = len(pages_list) // 2 - 1
+
+    selected = [page - r, page - r/2, page, page + r/2, page + r]
+    selected = [1, 2, page, len(pages_list) - 1, len(pages_list)]
+
+    if page != len(pages_list):
+        selected = [i for i in range(1, len(pages_list) + 1)]
+    else:
+        selected = [i for i in range(1, len(pages_list) + 2)]
 
     return render_template(
-        "home/instances-administration.html", segment=get_segment(request), information_to_display=information_to_display
-    )
+        "home/instances-administration.html", segment=get_segment(request), post_pagination=post_pagination, selected=selected)
+
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])

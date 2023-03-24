@@ -51,8 +51,53 @@ VALUES (1, 'http:/phishing.super.cantoso.es/', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,
 INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
 VALUES (1, 'http://phishing.discreto.net/', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
 
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'https://ubuvirtual.ubu.es/2', ARRAY [0,0,0,0,0,0,0,0,0,270,0,0,0,0,0,0,1,1,0], 0, 'white-list', ARRAY ['white-list', 'reviewed']);
 
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, instance_labels)
+VALUES (1, 'https://www.naturaselection.com/es/2', ARRAY [0,0,0,0,0,0,0,1,0,591,0,1,0,0,0,1,0,0,1], 0, ARRAY ['reviewed']);
 
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'http:/phishing.super.cantoso.es/2', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0], 1, 'black-list', ARRAY ['black-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
+VALUES (1, 'http://phishing.discreto.net/2', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'https://ubuvirtual.ubu.es/3', ARRAY [0,0,0,0,0,0,0,0,0,270,0,0,0,0,0,0,1,1,0], 0, 'white-list', ARRAY ['white-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, instance_labels)
+VALUES (1, 'https://www.naturaselection.com/es/3', ARRAY [0,0,0,0,0,0,0,1,0,591,0,1,0,0,0,1,0,0,1], 0, ARRAY ['reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'http:/phishing.super.cantoso.es/3', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0], 1, 'black-list', ARRAY ['black-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
+VALUES (1, 'http://phishing.discreto.net/3', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'https://ubuvirtual.ubu.es/4', ARRAY [0,0,0,0,0,0,0,0,0,270,0,0,0,0,0,0,1,1,0], 0, 'white-list', ARRAY ['white-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, instance_labels)
+VALUES (1, 'https://www.naturaselection.com/es/4', ARRAY [0,0,0,0,0,0,0,1,0,591,0,1,0,0,0,1,0,0,1], 0, ARRAY ['reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'http:/phishing.super.cantoso.es/4', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0], 1, 'black-list', ARRAY ['black-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
+VALUES (1, 'http://phishing.discreto.net/4', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'https://ubuvirtual.ubu.es/5', ARRAY [0,0,0,0,0,0,0,0,0,270,0,0,0,0,0,0,1,1,0], 0, 'white-list', ARRAY ['white-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, instance_labels)
+VALUES (1, 'https://www.naturaselection.com/es/5', ARRAY [0,0,0,0,0,0,0,1,0,591,0,1,0,0,0,1,0,0,1], 0, ARRAY ['reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'http:/phishing.super.cantoso.es/5', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0], 1, 'black-list', ARRAY ['black-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
+VALUES (1, 'http://phishing.discreto.net/5', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
 
 
 
