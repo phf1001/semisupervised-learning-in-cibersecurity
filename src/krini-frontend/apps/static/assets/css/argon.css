@@ -17685,3 +17685,13 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
   text-align: left; 
   word-break: break-all
 }
+
+
+.light-gray-description-forms {
+
+  font-size:15px; 
+  color: #ebebeb; 
+  font-weight: normal;
+  word-break: break-all;
+  text-align: center;
+}

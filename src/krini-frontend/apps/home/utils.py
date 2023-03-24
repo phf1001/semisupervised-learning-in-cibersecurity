@@ -2,7 +2,7 @@ from apps.ssl_utils.ml_utils import obtain_model, get_temporary_train_files_dire
 from werkzeug.utils import secure_filename
 from os import path, remove
 from apps.authentication.models import Users
-from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings, Available_instances
 import re
 import pandas as pd
 import json
@@ -45,8 +45,8 @@ def get_sum_tags_numeric(predicted_tags):
 def make_array_safe(vector):
     return json.loads(json.dumps(vector))
 
-def get_parameters(model, algorithm="Unsupervised"):
-    if algorithm == "Unsupervised":
+def get_parameters(model, algorithm="semi-supervised"):
+    if algorithm == "semi-supervised":
         return [], 'red'
 
     elif algorithm == "CO-FOREST":
@@ -79,7 +79,7 @@ def get_username(user_id):
         return "?"
 
 
-def get_model_dict(model, algorithm="Unsupervised"):
+def get_model_dict(model, algorithm="semi-supervised"):
 
     params = get_parameters(model, algorithm)
     return {
@@ -94,6 +94,25 @@ def get_model_dict(model, algorithm="Unsupervised"):
         "model_scores": model.model_scores,
         "random_state": model.random_state,
         "model_notes": model.model_notes,
+    }
+
+def translate_tag(tag):
+    if tag == 0:
+        return "legítimo", 'green'
+    elif tag == 1:
+        return "phishing", 'red'
+
+def get_instance_dict(instance):
+
+    return {
+        "instance_id": instance.instance_id,
+        "reviewed_by": get_username(instance.reviewed_by),
+        "instance_URL": instance.instance_URL,
+        "instance_fv": instance.instance_fv,
+        "instance_class": translate_tag(instance.instance_class)[0],
+        "badge_colour": translate_tag(instance.instance_class)[1],
+        "colour_list": instance.colour_list,
+        "instance_labels": instance.instance_labels if instance.instance_labels else [],
     }
 
 def save_files_to_temp(form_file_one, form_file_two):

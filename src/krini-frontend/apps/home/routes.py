@@ -161,15 +161,6 @@ def profile():
         segment=get_segment(request),
     )
 
-
-@login_required
-@blueprint.route("/instances", methods=["GET"])
-def instances():
-    return render_template(
-        "home/instances-administration.html", segment=get_segment(request)
-    )
-
-
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
@@ -259,6 +250,19 @@ def creatingmodel():
 
     # flash("{}".format(form_data))
     return redirect(url_for("home_blueprint.report_url"))
+
+@login_required
+@blueprint.route("/instances", methods=["GET"])
+def instances():
+
+    information_to_display = []
+
+    for instance in Available_instances.query.all():
+        information_to_display.append(get_instance_dict(instance))
+
+    return render_template(
+        "home/instances-administration.html", segment=get_segment(request), information_to_display=information_to_display
+    )
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])

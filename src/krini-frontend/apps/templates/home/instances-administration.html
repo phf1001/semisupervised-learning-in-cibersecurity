@@ -49,35 +49,29 @@
     <div class="col">
       <div class="card bg-default shadow">
         <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">Dark table</h3>
+          <h3 class="text-white mb-0">ADMINISTRACIÓN DE INSTANCIAS</h3>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">
             <thead class="thead-dark">
               <tr>
                 <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Nombre</h5>
+                  <h5 class="text-gray mb-0">&nbsp;</h5>
                 </th>
                 <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Algoritmo</h5>
+                  <h5 class="text-gray mb-0">URL</h5>
                 </th>
-                <th scope="col" class="sort" data-sort="parameters" style="text-align: left;">
-                  <h5 class="text-gray mb-0">Parámetros</h5>
+                <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
+                  <h5 class="text-gray mb-0">Vector de características</h5>
+                </th>
+                <th scope="col" class="sort" data-sort="parameters" style="text-align: center;">
+                  <h5 class="text-gray mb-0">Clase</h5>
                 </th>
                 <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Autor</h5>
+                  <h5 class="text-gray mb-0">Revisor</h5>
                 </th>
                 <th scope="col" class="sort" data-sort="date" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Fecha</h5>
-                </th>
-                <th scope="col" class="sort" data-sort="visible" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Visible</h5>
-                </th>
-                <th scope="col" class="sort" data-sort="default" style="text-align: center;">
-                  <h5 class="text-gray mb-0">Defecto</h5>
-                </th>
-                <th scope="col" class="sort" data-sort="default" style="text-align: left;">
-                  <h5 class="text-gray mb-0">Notas</h5>
+                  <h5 class="text-gray mb-0">Etiquetas</h5>
                 </th>
                 <th scope="col">
                   <h5 class="text-gray mb-0" style="text-align: center;">Más</h5>
@@ -85,47 +79,34 @@
               </tr>
             </thead>
             <tbody class="list">
-              {% for model in information_to_display %}
+              {% for instance in information_to_display %}
               <!-- Table row -->
               <tr>
                 <td style="text-align: center;">
-                  <h6 class="name mb-0 text-sm">{{ model["model_name"] }}</h6>
+                  <input type="checkbox" style="width: 20px; height: 20px;">
                 </td>
                 <td style="text-align: center;">
-                  <h3><span class="badge rounded-pill" style="background-color: {{ model["badge_colour"] }}; color: gray;">{{
-                      model["algorithm"] }}</span></h3>
+                  <span class="light-gray-description-forms" style="font-weight: bold;">{{ instance["instance_URL"] }}</span>
                 </td>
-                <td style="text-align: left;">
-                  <ul style="list-style-type: none; padding: 0; margin: 0;">
-                    {% for item in model["model_parameters"] %}
-                    <li style="font-size:15px">{{ item }}</li>
-                    {% endfor %}
-                  </ul>
-
+                <td style="text-align: center;">
+                  <span class="light-gray-description-forms">{{ instance["instance_fv"] }}</span>
+                </td>
+                <td style="text-align: center;">
+                  <span class="badge rounded-pill" style="font-size: 12px; background-color: {{ instance["badge_colour"] }}; color: white; font-weight: bold;">{{
+                      instance["instance_class"] }}</span>
                 </td>
                 <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
-                  {{ model["created_by"] }}
+                  {{ instance["reviewed_by"] }}
                 </td>
-                <td style="text-align: center; font-size:15px">
-                  {{ model["creation_date"] }}
+
+                <td style="text-align: left;">
+                    {% for tag in instance["instance_labels"] %}
+                      <span class="badge badge-primary rounded-pill" style="font-size: 12px">{{ tag }}</span>
+                      &nbsp;
+                    {% endfor %}
                 </td>
-                <td style="text-align: center; font-size:25px">
-                  {% if model["is_visible"] %}
-                  <i class="fas fa-check-circle" style="color: green"></i>
-                  {% else %}
-                  <i class="fas fa-times-circle" style="color: red"></i>
-                  {% endif %}
-                </td>
-                <td style="text-align: center; font-size:25px">
-                  {% if model["is_default"] %}
-                  <i class="fas fa-check-circle" style="color: green"></i>
-                  {% else %}
-                  <i class="fas fa-times-circle" style="color: red"></i>
-                  {% endif %}
-                </td>
-                <td style="text-align: left; font-size:13px">
-                  {{ model["model_notes"] }}
-                </td>
+               
+
                 <td style="text-align: center;">
                   <div class="dropdown">
                     <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown"
@@ -133,7 +114,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="#">Testear</a>
+                      <a class="dropdown-item" href="#">Editar</a>
                       <a class="dropdown-item" style="color: red" href="#">Eliminar</a>
                     </div>
                   </div>
