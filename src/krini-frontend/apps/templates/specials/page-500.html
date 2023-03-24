@@ -1,6 +1,6 @@
 {% extends 'layouts/base-fullscreen.html' %}
 
-{% block title %} Error 404 {% endblock title %}
+{% block title %} Error 500 {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -13,24 +13,17 @@
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-transparent pb-5">
-
               <div class="text-muted text-center mt-2 mb-3">
-                Oups! Error 500      
+                ¡Oh oh! Error 500  
               </div>
-
               <div class="text-center mb-4">
-                Server error, please contact support - <a href="/">Home</a>.
+                Error interno de servidor. Por favor, inténtelo de nuevo más tarde.
               </div>
-
             </div>
           </div>
           <div class="row mt-3 text-center">
             <div class="col-12">
-              <a href="/" class="text-light"><medium>Home</medium></a>
-            </div>
-            <div class="col-6 text-right">
-              <a target="_blank" 
-                 href="https://appseed.us/support" class="text-light"><small>Get Support</small></a>
+              <a href="/" class="text-light"><medium>Página principal</medium></a>
             </div>
           </div>
         </div>
@@ -38,6 +31,4 @@
     </div>
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE --> 
 {% block javascripts %}{% endblock javascripts %}

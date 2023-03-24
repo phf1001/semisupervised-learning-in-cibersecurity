@@ -614,10 +614,10 @@ def route_template(template):
         return render_template("home/" + template, segment=segment)
 
     except TemplateNotFound:
-        return render_template("home/page-404.html"), 404
+        return render_template("specials/page-404.html"), 404
 
     except:
-        return render_template("home/page-500.html"), 500
+        return render_template("specials/page-500.html"), 500
 
 
 def get_segment(request):
@@ -660,3 +660,17 @@ def get_model(model_id):
         )
 
     return model_name, cls, model_scores
+
+@blueprint.errorhandler(403)
+def access_forbidden(error):
+    return render_template("specials/page-403.html"), 403
+
+
+@blueprint.errorhandler(404)
+def not_found_error(error):
+    return render_template("specials/page-404.html"), 404
+
+
+@blueprint.errorhandler(500)
+def internal_error(error):
+    return render_template("specials/page-500.html"), 500

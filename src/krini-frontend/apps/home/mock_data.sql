@@ -19,22 +19,38 @@ CREATE TABLE "Available_models" (
 ALTER SEQUENCE Available_models_id_seq OWNED BY "Available_models".model_id; 
 
 
-INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol)
-VALUES ('a', 'a@gmail.com', 'a', 'Nombre', 'Apellidos', 'standard');
+-- INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol)
+-- VALUES ('a', 'a@gmail.com', 'a', 'Nombre', 'Apellidos', 'standard');
 
-INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol)
-VALUES ('ams', 'ams@gmail.com', 'ams', 'Nombre', 'Apellidos', 'admin');
+-- INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol)
+-- VALUES ('ams', 'ams@gmail.com', 'ams', 'Nombre', 'Apellidos', 'admin');
 
-INSERT INTO "Reported_URLs" (url, type, date, user_id)
-VALUES ('https://www.youtube.com/', 'white-list', '2020-01-01', 1);
+-- INSERT INTO "Reported_URLs" (url, type, date, user_id)
+-- VALUES ('https://www.youtube.com/', 'white-list', '2020-01-01', 1);
 
-INSERT INTO "Reported_URLs" (url, type, date, user_id)
-VALUES ('https://www.youtube.es/', 'white-list', '2020-01-01', 2);
+-- INSERT INTO "Reported_URLs" (url, type, date, user_id)
+-- VALUES ('https://www.youtube.es/', 'white-list', '2020-01-01', 2);
 
-INSERT INTO "Reported_URLs" (url, type, date, user_id)
-VALUES ('https://www.youtube.fr/', 'white-list', '2020-01-01', 2);
+-- INSERT INTO "Reported_URLs" (url, type, date, user_id)
+-- VALUES ('https://www.youtube.fr/', 'white-list', '2020-01-01', 2);
+
 
 UPDATE "Users" SET user_rol = 'admin' WHERE username = 'admin';
+
+
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'https://ubuvirtual.ubu.es/', ARRAY [0,0,0,0,0,0,0,0,0,270,0,0,0,0,0,0,1,1,0], 0, 'white-list', ARRAY ['white-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, instance_labels)
+VALUES (1, 'https://www.naturaselection.com/es/', ARRAY [0,0,0,0,0,0,0,1,0,591,0,1,0,0,0,1,0,0,1], 0, ARRAY ['reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class, colour_list, instance_labels)
+VALUES (1, 'http:/phishing.super.cantoso.es/', ARRAY [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0], 1, 'black-list', ARRAY ['black-list', 'reviewed']);
+
+INSERT INTO "Available_instances" (reviewed_by, "instance_URL", instance_fv, instance_class)
+VALUES (1, 'http://phishing.discreto.net/', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0,1,0,1,1,0], 1);
+
 
 
 
