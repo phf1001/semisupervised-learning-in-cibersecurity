@@ -256,28 +256,26 @@ def creatingmodel():
 def instances():
 
     form = CheckBoxForm(request.form)
+    
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
-    if "mypage" in request.form:
+    if "my_page" in request.form:
 
         #page = int(request.args.get("page", 1))
-
-        page = int(request.form["mypage"])
+        page = int(request.form["my_page"])
         logger.info("page form: {}".format(page))
 
+        # Ids de las instancias en la bbdd
+        for new_check in request.form.getlist('checkbox-instance'):
+            session["checks"][new_check] = new_check
 
+        logger.info("checks: {}".format(session["checks"]))
 
-        # if "chck-sub" in form:
-        #     flash(request.form.getlist('checkbox-instance'))
-        #     return render_template(
-        #         "home/report_url.html", segment=get_segment(request)
-        #     )
-
-    
     else:
         page = 1
+        session["checks"] = {}
         logger.info("page hardcoded: {}".format(page))
 
 
