@@ -52,8 +52,8 @@
 
 <!-- Page content -->
 <div class="container-fluid mt--6">
-  <form name="myform" method="POST" action="" onsubmit="updatePage();">
-    <input type="hidden" name="mypage" value="0" />
+  <form name="my_form" method="POST" action="">
+    <input type="hidden" name="my_page" value="1" />
     {{ form.hidden_tag() }}
     {{ form.csrf_token() }}
   <div class="row">
@@ -145,7 +145,6 @@
             </tbody>
           </table>
         </div>
-
         <!-- Pagination footer -->
         <div class="card-footer py-4 bg-default shadow">
           <nav aria-label="...">
@@ -153,10 +152,10 @@
               {% if post_pagination.has_prev %}
               <li class="page-item">
                 {% set page = post_pagination.page - 1 %}
-                <a class="page-link" type="submit" href="{{ url_for('home_blueprint.instances', page=page) }}">
+                <button class="page-link" type="submit" onclick="document.my_form.my_page.value={{page}}; return true;">
                   <i class="fas fa-angle-left"></i>
                   <span class="sr-only">Previous</span>
-                </a>
+                </button>
               </li>
               {% else %}
                 <li class="page-item disabled">
@@ -170,7 +169,7 @@
               {% if page %}
               {% if page != post_pagination.page %}
               <li class="page-item">
-                <a class="page-link" name="chck-sub" type="submit" href="{{ url_for('home_blueprint.instances', page=page) }}">{{ page }}</a>
+                <button class="page-link" type="submit" onclick="document.my_form.my_page.value={{page}}; return true;">{{ page }}</button>
               </li>
               {% else %}
               <li class="page-item active">
@@ -186,12 +185,10 @@
               {% if post_pagination.has_next %}
               <li class="page-item">
                 {% set page = post_pagination.page + 1 %}
-                
-                <input class="page-link" type="submit" name="pepe" onclick="document.myform.mypage.value={{page}}; return true;">
-                  <!-- {% set _ = form.__setattr__('page', page) %} -->
+                <button class="page-link" type="submit" onclick="document.my_form.my_page.value={{page}}; return true;">
                   <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</input>
-              </input>
+                  <span class="sr-only">Next</span>
+                </button>
               </li>
               {% else %}
                 <li class="page-item disabled">
@@ -209,9 +206,7 @@
   </div>
   </form>
   {% include "includes/footer.html" %}
-
 </div>
-
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->

@@ -260,11 +260,11 @@ def instances():
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
-    if "mypage" in form:
+    if "mypage" in request.form:
 
         #page = int(request.args.get("page", 1))
 
-        page = request.form["mypage"]
+        page = int(request.form["mypage"])
         logger.info("page form: {}".format(page))
 
 
@@ -281,7 +281,7 @@ def instances():
         logger.info("page hardcoded: {}".format(page))
 
 
-    post_pagination = Available_instances.all_paginated(page, 10)
+    post_pagination = Available_instances.all_paginated(page, 5)
     new_items_list = [get_instance_dict(instance) for instance in post_pagination.items]
     post_pagination.items = new_items_list
     selected = post_pagination.iter_pages(left_edge=1, left_current=1, right_current=1, right_edge=1)
