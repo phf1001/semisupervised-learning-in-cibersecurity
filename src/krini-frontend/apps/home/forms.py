@@ -17,6 +17,15 @@ class ReportURLForm(FlaskForm):
         choices=[("blacklist", "Blacklist"), ("whitelist", "Whitelist")],
     )
 
+class CheckBoxForm(FlaskForm):
+    selected_checkboxes = HiddenField(
+        "selected_checkboxes", render_kw={"id": "selected_models"}
+    )
+
+    page = IntegerField(
+        "page"
+    )
+
 
 class SearchURLForm(FlaskForm):
     url = TextField(

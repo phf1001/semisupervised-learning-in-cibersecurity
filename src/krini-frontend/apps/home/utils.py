@@ -11,6 +11,29 @@ from datetime import datetime
 import time
 from apps import db
 from flask import flash
+import logging
+
+def get_logger(name, fichero='log_krini', nivel_logger=logging.DEBUG, nivel_fichero=logging.DEBUG, nivel_consola=logging.ERROR):
+
+    logger = logging.getLogger(name)
+
+    if (logger.hasHandlers()):
+        logger.handlers.clear()
+
+    logger.setLevel(nivel_logger)
+    
+    fh = logging.FileHandler(fichero)
+    fh.setLevel(nivel_fichero)
+    fh.setFormatter(logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'))
+    logger.addHandler(fh)
+    
+    # ch = logging.StreamHandler()
+    # ch.setLevel(nivel_consola)
+    # formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    # ch.setFormatter(formatter)
+    # logger.addHandler(ch)
+    
+    return logger
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
@@ -96,7 +119,7 @@ def get_model_dict(model, algorithm="semi-supervised"):
         "model_notes": model.model_notes,
     }
 
-def translate_tag(tag):
+def translate_tag_colour(tag):
     if tag == 0:
         return "legítimo", 'green'
     elif tag == 1:
@@ -109,10 +132,11 @@ def get_instance_dict(instance):
         "reviewed_by": get_username(instance.reviewed_by),
         "instance_URL": instance.instance_URL,
         "instance_fv": instance.instance_fv,
-        "instance_class": translate_tag(instance.instance_class)[0],
-        "badge_colour": translate_tag(instance.instance_class)[1],
+        "instance_class": translate_tag_colour(instance.instance_class)[0],
+        "badge_colour": translate_tag_colour(instance.instance_class)[1],
         "colour_list": instance.colour_list,
         "instance_labels": instance.instance_labels if instance.instance_labels else [],
+        "is_selected": 0
     }
 
 def save_files_to_temp(form_file_one, form_file_two):

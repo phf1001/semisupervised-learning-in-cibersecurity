@@ -12,7 +12,7 @@ from apps.home.models import Available_models, Available_co_forests, Available_d
 import json
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
+from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, CheckBoxForm
 from apps.home.models import (
     Available_instances,
     Candidate_instances,
@@ -28,7 +28,7 @@ from apps.ssl_utils.ml_utils import translate_tag, get_fv_and_info, get_mock_val
 
 # Utils
 from apps.home.utils import *
-
+logger = get_logger('krini-frontend')
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
@@ -252,27 +252,42 @@ def creatingmodel():
     return redirect(url_for("home_blueprint.report_url"))
 
 @login_required
-@blueprint.route("/instances", methods=["GET"])
+@blueprint.route("/instances", methods=["GET", "POST"])
 def instances():
 
+    form = CheckBoxForm(request.form)
 
-    page = int(request.args.get("page", 1))
+    if not current_user.is_authenticated:
+        return redirect(url_for("authentication_blueprint.login"))
 
-    post_pagination = Available_instances.all_paginated(page, 3)
+    if "mypage" in form:
 
-    pages_list = list(post_pagination.iter_pages())
-    r = len(pages_list) // 2 - 1
+        #page = int(request.args.get("page", 1))
 
-    selected = [page - r, page - r/2, page, page + r/2, page + r]
-    selected = [1, 2, page, len(pages_list) - 1, len(pages_list)]
+        page = request.form["mypage"]
+        logger.info("page form: {}".format(page))
 
-    if page != len(pages_list):
-        selected = [i for i in range(1, len(pages_list) + 1)]
+
+
+        # if "chck-sub" in form:
+        #     flash(request.form.getlist('checkbox-instance'))
+        #     return render_template(
+        #         "home/report_url.html", segment=get_segment(request)
+        #     )
+
+    
     else:
-        selected = [i for i in range(1, len(pages_list) + 2)]
+        page = 1
+        logger.info("page hardcoded: {}".format(page))
+
+
+    post_pagination = Available_instances.all_paginated(page, 10)
+    new_items_list = [get_instance_dict(instance) for instance in post_pagination.items]
+    post_pagination.items = new_items_list
+    selected = post_pagination.iter_pages(left_edge=1, left_current=1, right_current=1, right_edge=1)
 
     return render_template(
-        "home/instances-administration.html", segment=get_segment(request), post_pagination=post_pagination, selected=selected)
+            "home/instances-administration.html", segment=get_segment(request), post_pagination=post_pagination, selected=selected, form=form)
 
 
 

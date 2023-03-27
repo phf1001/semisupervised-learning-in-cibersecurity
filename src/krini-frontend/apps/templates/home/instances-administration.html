@@ -52,6 +52,10 @@
 
 <!-- Page content -->
 <div class="container-fluid mt--6">
+  <form name="myform" method="POST" action="" onsubmit="updatePage();">
+    <input type="hidden" name="mypage" value="0" />
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token() }}
   <div class="row">
     <div class="col">
       <div class="card bg-default shadow">
@@ -86,25 +90,20 @@
               </tr>
             </thead>
             <tbody class="list">
-
-              <!-- {% set page = 1 %}
-              {% set n_instances = instances|length %}
-              {% set n_per_page = 15 %}
-              {% set offset = (page - 1) * n_per_page %}
-
-              {% if offset + n_per_page > n_instances %}
-                  {% set last_item = n_instances %}
-              {% else %}
-                  {%set last_item = offset + n_per_page %}
-              {% endif %} -->
-
               {% for instance in post_pagination.items %}
               <!-- Table row -->
               <tr>
-                <td style="text-align: center;">
-                  <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
-                    type="checkbox" style="width: 20px; height: 20px;">
-                </td>
+                  <td style="text-align: center;">
+                    <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                      type="checkbox" style="width: 20px; height: 20px;" name='checkbox-instance'>
+                    <!-- {% if instance["is_selected"] == "1" %}
+                      <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                        type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance" checked>
+                    {% else %}
+                      <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                      type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance">
+                    {% endif %} -->
+                  </td>
                 <td style="text-align: center;">
                   <span class="light-gray-description-forms" style="font-weight: bold;">{{ instance["instance_URL"]
                     }}</span>
@@ -128,7 +127,6 @@
                   &nbsp;
                   {% endfor %}
                   {% endif %}
-
                 </td>
                 <td style="text-align: center;">
                   <div class="dropdown">
@@ -143,7 +141,6 @@
                   </div>
                 </td>
               </tr>
-              <!--end-->
               {% endfor %}
             </tbody>
           </table>
@@ -156,7 +153,7 @@
               {% if post_pagination.has_prev %}
               <li class="page-item">
                 {% set page = post_pagination.page - 1 %}
-                <a class="page-link" href="{{ url_for('home_blueprint.instances', page=page) }}">
+                <a class="page-link" type="submit" href="{{ url_for('home_blueprint.instances', page=page) }}">
                   <i class="fas fa-angle-left"></i>
                   <span class="sr-only">Previous</span>
                 </a>
@@ -173,7 +170,7 @@
               {% if page %}
               {% if page != post_pagination.page %}
               <li class="page-item">
-                <a class="page-link" href="{{ url_for('home_blueprint.instances', page=page) }}">{{ page }}</a>
+                <a class="page-link" name="chck-sub" type="submit" href="{{ url_for('home_blueprint.instances', page=page) }}">{{ page }}</a>
               </li>
               {% else %}
               <li class="page-item active">
@@ -189,10 +186,12 @@
               {% if post_pagination.has_next %}
               <li class="page-item">
                 {% set page = post_pagination.page + 1 %}
-                <a class="page-link" href="{{ url_for('home_blueprint.instances', page=page) }}">
+                
+                <input class="page-link" type="submit" name="pepe" onclick="document.myform.mypage.value={{page}}; return true;">
+                  <!-- {% set _ = form.__setattr__('page', page) %} -->
                   <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
+                  <span class="sr-only">Next</input>
+              </input>
               </li>
               {% else %}
                 <li class="page-item disabled">
@@ -208,7 +207,7 @@
       </div>
     </div>
   </div>
-
+  </form>
   {% include "includes/footer.html" %}
 
 </div>
