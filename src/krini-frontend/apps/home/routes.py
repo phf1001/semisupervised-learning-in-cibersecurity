@@ -5,6 +5,7 @@ from apps.home import blueprint
 from apps import db
 from flask import render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
+from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
 from datetime import datetime
 from sqlalchemy.orm import load_only
@@ -17,7 +18,7 @@ from apps.home.models import (
 import json
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, CheckBoxForm
+from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
 from apps.home.models import (
     Available_instances,
     Candidate_instances,
@@ -271,70 +272,40 @@ def creatingmodel():
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances():
-    logger.info("checks: {}".format(session.get("checks", None)))
-    form = CheckBoxForm(request.form)
+    form = FlaskForm(request.form)
 
-    if not current_user.is_authenticated:
+    if not current_user.is_authenticated:  # meter if admin
         return redirect(url_for("authentication_blueprint.login"))
 
     if "my_page" in request.form:
-        # page = int(request.args.get("page", 1))
         page = int(request.form["my_page"])
         previous_page = int(request.form["previous_page"])
-        logger.info("page form: {}. prev: {}".format(page, previous_page))
         checks = session.get("checks", None)
-
-        #imprimimos las previas
-        post_pagination = Available_instances.all_paginated(previous_page, 5)
-        ids_previous = [instance.instance_id for instance in post_pagination.items]
-        checks_update = request.form.getlist("checkbox-instance") #Ids de las instancias actualmente seleccionadas
-        checks_update = [int(id_elem) for id_elem in checks_update]
-
-        # Ids de las instancias en la bbdd
-        logger.info("ids_previous: {}".format(ids_previous))
-        logger.info("checks_update: {}".format(checks_update))
-        logger.info("checks: {}".format(checks))
-                    
-        logger.info("checks: {}".format(checks))
-        for id_instance in ids_previous:
-            if id_instance in checks_update and str(id_instance) not in checks:
-                checks[str(id_instance)] = id_instance
-
-            elif id_instance not in checks_update and str(id_instance) in checks:
-                del checks[str(id_instance)]
-
-        session["checks"] = checks
-        logger.info("checks: {}".format(checks))
+        update_checks(previous_page, request.form.getlist("checkbox-instance"), checks)
 
     else:
         page = 1
         checks = {}
-        session["checks"] = checks
-
+    
+    session["checks"] = checks
     post_pagination = Available_instances.all_paginated(page, 5)
-    new_items_list = [get_instance_dict(instance) for instance in post_pagination.items]
-    ids_checked = [int(id_elem) for id_elem in session["checks"].keys()]
+    post_pagination.items = get_instances_view_dictionary(post_pagination.items, checks.values())
 
-    # Se comprueba si la instancia está en la lista de checks
-    for item in new_items_list:
-        if item["instance_id"] in ids_checked:
-            item["is_selected"] = 1
-            logger.info("selected: {}".format(item["instance_id"]))
-        else:
-            item["is_selected"] = 0
 
-    #logger.info("new_items_list: {}".format(new_items_list))
-    logger.info("checks: {}".format(checks))
-    post_pagination.items = new_items_list
-    selected = post_pagination.iter_pages(
-        left_edge=1, left_current=1, right_current=1, right_edge=1
-    )
+    if request.form["button_pressed"] == "deliminar":
+        pass
+    elif request.form["button_pressed"] == "descargar":
+        pass
+
+    logger.info("pressed {}".format(request.form["button_pressed"]))
 
     return render_template(
         "home/instances-administration.html",
         segment=get_segment(request),
         post_pagination=post_pagination,
-        selected=selected,
+        selected=post_pagination.iter_pages(
+            left_edge=1, left_current=1, right_current=1, right_edge=1
+        ),
         form=form,
     )
 
