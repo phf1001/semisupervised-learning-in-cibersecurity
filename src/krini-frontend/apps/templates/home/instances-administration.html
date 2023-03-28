@@ -136,7 +136,7 @@
                 <li class="page-item">
                   {% set page = post_pagination.page - 1 %}
                   <button class="page-link" type="submit"
-                    onclick="document.my_form.my_page.value={{page}}; return true;">
+                    onclick="document.my_form.my_page.value={{page}}; document.my_form.button_pressed.value='ninguno'; return true;">
                     <i class="fas fa-angle-left"></i>
                     <span class="sr-only">Previous</span>
                   </button>
@@ -154,7 +154,8 @@
                 {% if page != post_pagination.page %}
                 <li class="page-item">
                   <button class="page-link" type="submit"
-                    onclick="document.my_form.my_page.value={{page}}; return true;">{{ page }}</button>
+                    onclick="document.my_form.my_page.value={{page}}; document.my_form.button_pressed.value='ninguno'; return true;">{{
+                    page }}</button>
                 </li>
                 {% else %}
                 <li class="page-item active">
@@ -171,7 +172,7 @@
                 <li class="page-item">
                   {% set page = post_pagination.page + 1 %}
                   <button class="page-link" type="submit"
-                    onclick="document.my_form.my_page.value={{page}}; return true;">
+                    onclick="document.my_form.my_page.value={{page}}; document.my_form.button_pressed.value='ninguno'; return true;">
                     <i class="fas fa-angle-right"></i>
                     <span class="sr-only">Next</span>
                   </button>

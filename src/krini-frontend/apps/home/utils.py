@@ -2,6 +2,7 @@ from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
     serialize_model,
+    get_temporary_download_directory
 )
 from werkzeug.utils import secure_filename
 from os import path, remove
@@ -20,9 +21,8 @@ from flask_login import current_user
 from datetime import datetime
 import time
 from apps import db
-from flask import flash
+from flask import flash, send_from_directory, send_file
 import logging
-
 
 def get_logger(
     name,
@@ -56,6 +56,7 @@ def get_logger(
 
     return logger
 
+logger = get_logger("krini-frontend")
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
@@ -169,9 +170,9 @@ def get_instance_dict(instance):
     }
 
 
-def update_checks(previous_page, new_checks, checks):
+def update_checks(previous_page, new_checks, checks, n_per_page):
     # Update previous page selected instances
-    post_pagination = Available_instances.all_paginated(previous_page, 5)
+    post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
     ids_previous = [instance.instance_id for instance in post_pagination.items]
     checks_update = [int(id_elem) for id_elem in new_checks]
 
@@ -195,6 +196,28 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
             item["is_selected"] = 0
 
     return new_items_list
+
+
+def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
+
+    instances = Available_instances.query.filter(
+        Available_instances.instance_id.in_(ids_instances)
+    ).all()
+
+    data = []
+    for instance in instances:
+        fv = instance.instance_fv
+        fv.append(instance.instance_class)
+        data.append(fv)
+
+    df = pd.DataFrame(data,
+                      columns=["f{}".format(i) for i in range(1,20)] + ["tag"])
+
+    download_directory = get_temporary_download_directory()
+    download_path = path.join(download_directory, filename)
+
+    #Ojo porque los enteros pasan a ser flotantes. No crea problemas pero podría.
+    df.to_csv(download_path, index=False)
 
 
 def save_files_to_temp(form_file_one, form_file_two):

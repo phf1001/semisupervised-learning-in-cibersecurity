@@ -43,6 +43,7 @@ from apps.home.utils import *
 
 logger = get_logger("krini-frontend")
 
+from apps.ssl_utils.ml_utils import (get_temporary_download_directory)
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
@@ -271,7 +272,7 @@ def creatingmodel():
 
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
-def instances():
+def instances(n_per_page=10):
     form = FlaskForm(request.form)
 
     if not current_user.is_authenticated:  # meter if admin
@@ -281,23 +282,23 @@ def instances():
         page = int(request.form["my_page"])
         previous_page = int(request.form["previous_page"])
         checks = session.get("checks", None)
-        update_checks(previous_page, request.form.getlist("checkbox-instance"), checks)
+        update_checks(previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page)
+
+        if request.form["button_pressed"] == "deliminar":
+            pass
+
+        elif request.form["button_pressed"] == "descargar":
+            filename="selected_instances.csv"
+            create_csv_selected_instances(list(checks.values()), filename)
+            return send_from_directory(get_temporary_download_directory(), filename, as_attachment=True)
 
     else:
         page = 1
         checks = {}
     
     session["checks"] = checks
-    post_pagination = Available_instances.all_paginated(page, 5)
+    post_pagination = Available_instances.all_paginated(page, n_per_page)
     post_pagination.items = get_instances_view_dictionary(post_pagination.items, checks.values())
-
-
-    if request.form["button_pressed"] == "deliminar":
-        pass
-    elif request.form["button_pressed"] == "descargar":
-        pass
-
-    logger.info("pressed {}".format(request.form["button_pressed"]))
 
     return render_template(
         "home/instances-administration.html",
