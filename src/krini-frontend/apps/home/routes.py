@@ -271,6 +271,7 @@ def creatingmodel():
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances():
+    logger.info("checks: {}".format(session.get("checks", None)))
     form = CheckBoxForm(request.form)
 
     if not current_user.is_authenticated:
@@ -283,14 +284,32 @@ def instances():
         logger.info("page form: {}. prev: {}".format(page, previous_page))
         checks = session.get("checks", None)
 
+        #imprimimos las previas
+        post_pagination = Available_instances.all_paginated(previous_page, 5)
+        ids_previous = [instance.instance_id for instance in post_pagination.items]
+        checks_update = request.form.getlist("checkbox-instance") #Ids de las instancias actualmente seleccionadas
+        checks_update = [int(id_elem) for id_elem in checks_update]
+
         # Ids de las instancias en la bbdd
-        for new_check in request.form.getlist("checkbox-instance"):
-            checks[new_check] = new_check
+        logger.info("ids_previous: {}".format(ids_previous))
+        logger.info("checks_update: {}".format(checks_update))
+        logger.info("checks: {}".format(checks))
+                    
+        logger.info("checks: {}".format(checks))
+        for id_instance in ids_previous:
+            if id_instance in checks_update and str(id_instance) not in checks:
+                checks[str(id_instance)] = id_instance
+
+            elif id_instance not in checks_update and str(id_instance) in checks:
+                del checks[str(id_instance)]
+
         session["checks"] = checks
+        logger.info("checks: {}".format(checks))
 
     else:
         page = 1
-        session["checks"] = {}
+        checks = {}
+        session["checks"] = checks
 
     post_pagination = Available_instances.all_paginated(page, 5)
     new_items_list = [get_instance_dict(instance) for instance in post_pagination.items]
@@ -304,7 +323,8 @@ def instances():
         else:
             item["is_selected"] = 0
 
-    logger.info("new_items_list: {}".format(new_items_list))
+    #logger.info("new_items_list: {}".format(new_items_list))
+    logger.info("checks: {}".format(checks))
     post_pagination.items = new_items_list
     selected = post_pagination.iter_pages(
         left_edge=1, left_current=1, right_current=1, right_edge=1

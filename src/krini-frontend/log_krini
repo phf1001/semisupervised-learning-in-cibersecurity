@@ -1,245 +1,114 @@
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:28:03] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - id: 9
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - id: 10
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - id: 11
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - id: 12
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - id: 13
-[2023-03-28 10:28:04] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - page form: 3. prev: 2
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - id: 14
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - id: 15
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - id: 16
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - id: 17
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - id: 18
-[2023-03-28 10:28:05] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - page form: 1. prev: 3
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:28:35] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - page form: 1. prev: 3
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:29:20] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - id: 9
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - id: 10
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - id: 11
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - id: 12
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - id: 13
-[2023-03-28 10:29:21] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:29:22] [krini-frontend] [INFO] - checks: dict_keys(['12', '18', '5', '6', '7', '9'])
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:34:41] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - page form: 4. prev: 1
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - id: 19
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - id: 20
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - id: 21
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - id: 22
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - id: 23
-[2023-03-28 10:34:42] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - page form: 1. prev: 4
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:34:50] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - page form: 1. prev: 4
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - selected: 5
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - selected: 6
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - selected: 7
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:35:36] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - id: 9
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - selected: 9
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - id: 10
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - id: 11
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - id: 12
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - selected: 12
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - id: 13
-[2023-03-28 10:35:38] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - selected: 5
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - selected: 6
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - selected: 7
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:35:39] [krini-frontend] [INFO] - checks: ['12', '18', '5', '6', '7', '9']
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - checks: [12, 18, 5, 6, 7, 9]
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - selected: 5
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - selected: 6
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - selected: 7
-[2023-03-28 10:37:09] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - checks: [12, 18, 5, 6, 7, 9]
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - id: 9
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - selected: 9
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - id: 10
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - id: 11
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - id: 12
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - selected: 12
-[2023-03-28 10:37:10] [krini-frontend] [INFO] - id: 13
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - page form: 3. prev: 2
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - checks: {'12': '12', '18': '18', '5': '5', '6': '6', '7': '7', '9': '9'}
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - checks: [12, 18, 5, 6, 7, 9]
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - id: 14
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - id: 15
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - id: 16
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - id: 17
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - id: 18
-[2023-03-28 10:37:11] [krini-frontend] [INFO] - selected: 18
-[2023-03-28 10:39:06] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:39:06] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:39:06] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:39:06] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:39:06] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - id: 9
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - id: 10
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - id: 11
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - id: 12
-[2023-03-28 10:39:10] [krini-frontend] [INFO] - id: 13
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - id: 4
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - id: 5
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - id: 6
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - selected: 6
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - id: 7
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - selected: 7
-[2023-03-28 10:39:14] [krini-frontend] [INFO] - id: 8
-[2023-03-28 10:40:34] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 4, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 5, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 6, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 7, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 8, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:40:45] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:40:45] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 9, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 10, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 11, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/2', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 12, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 13, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}]
-[2023-03-28 10:40:47] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:40:47] [krini-frontend] [INFO] - selected: 4
-[2023-03-28 10:40:47] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 4, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 1}, {'instance_id': 5, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 6, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 7, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 8, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:27] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:41:27] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 9, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 10, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 11, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/2', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 12, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 13, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:29] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:41:29] [krini-frontend] [INFO] - selected: 4
-[2023-03-28 10:41:29] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 4, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 1}, {'instance_id': 5, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 6, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 7, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 8, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:30] [krini-frontend] [INFO] - page form: 2. prev: 1
-[2023-03-28 10:41:30] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 9, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 10, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 11, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/2', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 12, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 13, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:31] [krini-frontend] [INFO] - page form: 3. prev: 2
-[2023-03-28 10:41:31] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 14, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 15, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/3', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 16, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 17, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 18, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:35] [krini-frontend] [INFO] - page form: 2. prev: 3
-[2023-03-28 10:41:35] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 9, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 10, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 11, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/2', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 12, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 13, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:36] [krini-frontend] [INFO] - page form: 3. prev: 2
-[2023-03-28 10:41:36] [krini-frontend] [INFO] - selected: 15
-[2023-03-28 10:41:36] [krini-frontend] [INFO] - selected: 16
-[2023-03-28 10:41:36] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 14, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 15, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/3', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 1}, {'instance_id': 16, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 1}, {'instance_id': 17, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 18, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:37] [krini-frontend] [INFO] - page form: 4. prev: 3
-[2023-03-28 10:41:37] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 19, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/4', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 20, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/5', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 21, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/5', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 22, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/5', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 23, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/5', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}]
-[2023-03-28 10:41:38] [krini-frontend] [INFO] - page form: 3. prev: 4
-[2023-03-28 10:41:38] [krini-frontend] [INFO] - selected: 15
-[2023-03-28 10:41:38] [krini-frontend] [INFO] - selected: 16
-[2023-03-28 10:41:38] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 14, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 15, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/3', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 1}, {'instance_id': 16, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 1}, {'instance_id': 17, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 18, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/4', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:39] [krini-frontend] [INFO] - page form: 2. prev: 3
-[2023-03-28 10:41:39] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 9, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 10, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 11, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/2', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 12, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 13, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/3', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}]
-[2023-03-28 10:41:39] [krini-frontend] [INFO] - page form: 1. prev: 2
-[2023-03-28 10:41:39] [krini-frontend] [INFO] - selected: 4
-[2023-03-28 10:41:39] [krini-frontend] [INFO] - new_items_list: [{'instance_id': 4, 'reviewed_by': 'ADMIN', 'instance_URL': 'http:/phishing.super.cantoso.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': 'black-list', 'instance_labels': ['black-list', 'reviewed'], 'is_selected': 1}, {'instance_id': 5, 'reviewed_by': 'ADMIN', 'instance_URL': 'http://phishing.discreto.net/', 'instance_fv': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 29.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'phishing', 'badge_colour': 'red', 'colour_list': None, 'instance_labels': [], 'is_selected': 0}, {'instance_id': 6, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}, {'instance_id': 7, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://www.naturaselection.com/es/', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 591.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': None, 'instance_labels': ['reviewed'], 'is_selected': 0}, {'instance_id': 8, 'reviewed_by': 'ADMIN', 'instance_URL': 'https://ubuvirtual.ubu.es/2', 'instance_fv': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0], 'instance_class': 'legítimo', 'badge_colour': 'green', 'colour_list': 'white-list', 'instance_labels': ['white-list', 'reviewed'], 'is_selected': 0}]
+[2023-03-28 11:10:26] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:35] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:35] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - page form: 2. prev: 1
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - ids_previous: [4, 5, 6, 7, 8]
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks_update: [5, 6]
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks: {}
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks: {5: 5, 6: 6}
+[2023-03-28 11:13:40] [krini-frontend] [INFO] - checks: {5: 5, 6: 6}
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - page form: 1. prev: 2
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks_update: []
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - selected: 5
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - selected: 6
+[2023-03-28 11:13:47] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - page form: 2. prev: 1
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - ids_previous: [4, 5, 6, 7, 8]
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks_update: [5, 6]
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:22] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - page form: 1. prev: 2
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks_update: [11, 12]
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6}
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6, '11': 11, '12': 12}
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - selected: 5
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - selected: 6
+[2023-03-28 11:14:25] [krini-frontend] [INFO] - checks: {'5': 5, '6': 6, '11': 11, '12': 12}
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - page form: 2. prev: 1
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - ids_previous: [4, 5, 6, 7, 8]
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks_update: [5, 6]
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - selected: 11
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - selected: 12
+[2023-03-28 11:14:26] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - page form: 3. prev: 2
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks_update: [11, 12]
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:27] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - page form: 2. prev: 3
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - ids_previous: [14, 15, 16, 17, 18]
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks_update: [18]
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6, '18': 18}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - selected: 11
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - selected: 12
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '5': 5, '6': 6, '18': 18}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - page form: 1. prev: 2
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks_update: [11, 12]
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - selected: 5
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - selected: 6
+[2023-03-28 11:14:31] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - page form: 2. prev: 1
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - ids_previous: [4, 5, 6, 7, 8]
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks_update: [5]
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5, '6': 6}
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - selected: 11
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - selected: 12
+[2023-03-28 11:14:34] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - page form: 3. prev: 2
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks_update: [12]
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks: {'11': 11, '12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks: {'12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - selected: 18
+[2023-03-28 11:14:36] [krini-frontend] [INFO] - checks: {'12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks: {'12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - page form: 2. prev: 3
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - ids_previous: [14, 15, 16, 17, 18]
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks_update: []
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks: {'12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks: {'12': 12, '18': 18, '5': 5}
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - selected: 12
+[2023-03-28 11:14:39] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - page form: 1. prev: 2
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - ids_previous: [9, 10, 11, 12, 13]
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks_update: [12]
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - selected: 5
+[2023-03-28 11:14:40] [krini-frontend] [INFO] - checks: {'12': 12, '5': 5}
