@@ -8,7 +8,12 @@ from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
 from datetime import datetime
 from sqlalchemy.orm import load_only
-from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.home.models import (
+    Available_models,
+    Available_co_forests,
+    Available_democratic_cos,
+    Available_tri_trainings,
+)
 import json
 
 # DB Models
@@ -24,11 +29,19 @@ from apps.home.models import (
 import numpy as np
 import time
 from sklearn.model_selection import train_test_split
-from apps.ssl_utils.ml_utils import translate_tag, get_fv_and_info, get_mock_values_fv, get_co_forest, get_array_scores
+from apps.ssl_utils.ml_utils import (
+    translate_tag,
+    get_fv_and_info,
+    get_mock_values_fv,
+    get_co_forest,
+    get_array_scores,
+)
 
 # Utils
 from apps.home.utils import *
-logger = get_logger('krini-frontend')
+
+logger = get_logger("krini-frontend")
+
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
@@ -71,7 +84,6 @@ def task():
         return redirect(url_for("home_blueprint.dashboard"))
 
     except Exception as e:
-
         time.sleep(2)
         fv, fv_extra_information = get_mock_values_fv()
 
@@ -96,8 +108,7 @@ def dashboard():
         fv = np.array(messages["fv"])
         selected_models = translate_array_js(messages["models_ids"])
 
-        classifiers_info_tuples = [
-            get_model(model_id) for model_id in selected_models]
+        classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
         model_names = [tupla[0] for tupla in classifiers_info_tuples]
         classifiers = [tupla[1] for tupla in classifiers_info_tuples]
@@ -146,8 +157,7 @@ def profile():
     ).count()
 
     n_reports_reviewing = 0
-    users_reports = Candidate_instances.query.options(
-        load_only("reported_by")).all()
+    users_reports = Candidate_instances.query.options(load_only("reported_by")).all()
     users_reports = [report.reported_by for report in users_reports]
 
     for user_report in users_reports:
@@ -161,53 +171,58 @@ def profile():
         segment=get_segment(request),
     )
 
+
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
-
     information_to_display = []
 
-    algorithms = [(Available_co_forests, 'CO-FOREST'),
-                  (Available_tri_trainings, 'TRI-TRAINING'),
-                  (Available_democratic_cos, 'DEMOCRATIC-CO')]
+    algorithms = [
+        (Available_co_forests, "CO-FOREST"),
+        (Available_tri_trainings, "TRI-TRAINING"),
+        (Available_democratic_cos, "DEMOCRATIC-CO"),
+    ]
 
     for algorithm in algorithms:
         for model in algorithm[0].query.all():
             information_to_display.append(get_model_dict(model, algorithm[1]))
 
     return render_template(
-        "home/models-administration.html", segment=get_segment(request), information_to_display=information_to_display
+        "home/models-administration.html",
+        segment=get_segment(request),
+        information_to_display=information_to_display,
     )
 
 
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
-
     form = NewModelForm()
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
     if "siguiente" in request.form:
-
         selected_method = translate_form_select_data_method(
-            request.form["form_select_data_method"])
+            request.form["form_select_data_method"]
+        )
 
         # Se cargan los archivos del usuario. Si uno de los dos no carga,
         # se pasa a generar los conjuntos aleatoriamente
         if selected_method == "csv":
             selected_method, dataset_tuple = save_files_to_temp(
-                form.uploaded_train_csv.data, form.uploaded_test_csv.data)
+                form.uploaded_train_csv.data, form.uploaded_test_csv.data
+            )
 
         # Esto no sé si funciona, probar el entero
         # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
         # Si falla la carga también se genera
         if selected_method == "generate":
-            dataset_tuple = check_n_instances(
-                request.form["train_n_instances"])
+            dataset_tuple = check_n_instances(request.form["train_n_instances"])
 
-        session["messages"] = {"form_data": request.form,
-                               "dataset_method": dataset_tuple}
+        session["messages"] = {
+            "form_data": request.form,
+            "dataset_method": dataset_tuple,
+        }
 
         return render_template("specials/creating-model.html")
 
@@ -218,7 +233,6 @@ def new_model():
 
 @blueprint.route("/creatingmodel", methods=["POST", "GET"])
 def creatingmodel():
-
     time.sleep(2)
 
     messages = session.get("messages", None)
@@ -235,9 +249,11 @@ def creatingmodel():
     # Obtenemos datos de entrenamiento y test
     dataset_method, dataset_params = messages["dataset_method"]
     X_train, X_test, y_train, y_test = return_X_y_train_test(
-        dataset_method, dataset_params)
+        dataset_method, dataset_params
+    )
     L_train, U_train, Ly_train, Uy_train = train_test_split(
-        X_train, y_train, test_size=0.8, random_state=5, stratify=y_train)
+        X_train, y_train, test_size=0.8, random_state=5, stratify=y_train
+    )
     # flash("{} {} {} {}".format(X_train, X_test, y_train, y_test))
 
     cls.fit(L_train, Ly_train, U_train)
@@ -251,42 +267,56 @@ def creatingmodel():
     # flash("{}".format(form_data))
     return redirect(url_for("home_blueprint.report_url"))
 
+
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances():
-
     form = CheckBoxForm(request.form)
-    
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
     if "my_page" in request.form:
-
-        #page = int(request.args.get("page", 1))
+        # page = int(request.args.get("page", 1))
         page = int(request.form["my_page"])
-        logger.info("page form: {}".format(page))
+        previous_page = int(request.form["previous_page"])
+        logger.info("page form: {}. prev: {}".format(page, previous_page))
+        checks = session.get("checks", None)
 
         # Ids de las instancias en la bbdd
-        for new_check in request.form.getlist('checkbox-instance'):
-            session["checks"][new_check] = new_check
-
-        logger.info("checks: {}".format(session["checks"]))
+        for new_check in request.form.getlist("checkbox-instance"):
+            checks[new_check] = new_check
+        session["checks"] = checks
 
     else:
         page = 1
         session["checks"] = {}
-        logger.info("page hardcoded: {}".format(page))
-
 
     post_pagination = Available_instances.all_paginated(page, 5)
     new_items_list = [get_instance_dict(instance) for instance in post_pagination.items]
+    ids_checked = [int(id_elem) for id_elem in session["checks"].keys()]
+
+    # Se comprueba si la instancia está en la lista de checks
+    for item in new_items_list:
+        if item["instance_id"] in ids_checked:
+            item["is_selected"] = 1
+            logger.info("selected: {}".format(item["instance_id"]))
+        else:
+            item["is_selected"] = 0
+
+    logger.info("new_items_list: {}".format(new_items_list))
     post_pagination.items = new_items_list
-    selected = post_pagination.iter_pages(left_edge=1, left_current=1, right_current=1, right_edge=1)
+    selected = post_pagination.iter_pages(
+        left_edge=1, left_current=1, right_current=1, right_edge=1
+    )
 
     return render_template(
-            "home/instances-administration.html", segment=get_segment(request), post_pagination=post_pagination, selected=selected, form=form)
-
+        "home/instances-administration.html",
+        segment=get_segment(request),
+        post_pagination=post_pagination,
+        selected=selected,
+        form=form,
+    )
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])

@@ -54,6 +54,7 @@
 <div class="container-fluid mt--6">
   <form name="my_form" method="POST" action="">
     <input type="hidden" name="my_page" value="1" />
+    <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
     {{ form.hidden_tag() }}
     {{ form.csrf_token() }}
   <div class="row">
@@ -94,15 +95,15 @@
               <!-- Table row -->
               <tr>
                   <td style="text-align: center;">
-                    <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
-                      type="checkbox" style="width: 20px; height: 20px;" name='checkbox-instance'>
-                    <!-- {% if instance["is_selected"] == "1" %}
+                    <!-- <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                      type="checkbox" style="width: 20px; height: 20px;" name='checkbox-instance'> -->
+                    {% if instance["is_selected"] == 1 %}
                       <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
                         type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance" checked>
                     {% else %}
                       <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
                       type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance">
-                    {% endif %} -->
+                    {% endif %}
                   </td>
                 <td style="text-align: center;">
                   <span class="light-gray-description-forms" style="font-weight: bold;">{{ instance["instance_URL"]
@@ -173,12 +174,12 @@
               </li>
               {% else %}
               <li class="page-item active">
-                <a class="page-link" href="#">{{ page }}</a>
+                <a class="page-link">{{ page }}</a>
               </li>
               {% endif %}
               {% else %}
               <li class="page-item disabled">
-                <a class="page-link" href="#">...</a>
+                <a class="page-link">...</a>
               </li>
               {% endif %}
               {% endfor %}
