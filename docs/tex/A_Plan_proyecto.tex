@@ -619,8 +619,47 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	Aunque no estaba planificado, también se incluyó la tecnología GitGuardian en el flujo de Git con el fin de proteger la aplicación ante posibles filtraciones de contraseñas (en concreto, de la base de datos).
 
 	\item \textbf{\textit{Sprint review meeting}}
+	
+	En esta reunión se concluyó que todos los \textit{issues} fueron desarrollados correctamente a excepción de los diagramas (puesto que se realizó directamente un diagrama de <<clases>> para una base de datos en lugar de realizar la progresión correcta (entidad-relación, relacional, etc.)). Por ello, se estimó conveniente repetir los diagramas.
 \end{itemize}
 
+
+\subsubsection{\textit{Sprint 17: Sriracha}}
+\begin{itemize}
+	
+	\item \textbf{\textit{Planning meeting}}
+	
+	En esta reunión se decidió realizar un \textit{sprint} más largo para avanzar en la funcionalidad general de la \textit{web}. Para ello, se plantearon los siguientes objetivos:
+	\begin{enumerate}
+		\item Diagramas: corregir pequeños aspectos del diagrama de casos de uso, realizar el diagrama entidad-relación y el relacional de la base de datos. Redactar el diccionario de datos.
+		\item \textit{Web}: implementación de funcionalidad vinculada con el nuevo modelo de datos (cambiar la base de datos anterior). Completar un \textit{dashboard} funcional (con gráficas y que realice la extracción del vector de características, además de mostrar cómo se ha logrado y estadísticas de las URLs analizadas). Iniciar la administración de modelos e implementar la interfaz principal y el formulario de creación de nuevos modelos desde la web (con funcionalidad, serializando los modelos generados en cada petición). Programar la interfaz principal de administración de instancias (consultas paginadas con formularios de \textit{checkboxes}) y generar \texttt{csv} compatibles (y descargables) con el entrenamiento de modelos.
+		\item Herramientas: generar archivos de utilidades (refactorizar) y permitir la subida de archivos al servidor y la descarga desde el mismo. Corregir el \textit{select all} del menú principal y hacerlo estético. Hacer comprobación de \textit{emails} propia y eliminar la dependencia, además de asegurar que los formularios no dejen avanzar si no están completados los datos requeridos.
+		\item Documentación: corregir aspectos previos y realizar anexos. Documentar el despliegue en Heroku, revisar la memoria (en busca de posibles pérdidas de información), corregir el \textit{mockup} del \textit{dashboard} y repasar los trabajos relacionados.
+		\item Semisupervisado: revisar el \textit{feedback} proporcionado por Álvar Arnaiz y César Ignacio García acerca de la inicialización del parámetro $w$ en el \textit{co-forest}. Corregir el código, repetir experimentos y documentar los resultados.
+		\item Calidad: corregir defectos de código.
+		\item Despliegue: desplegar el repositorio desde raíz (en lugar de sólo la \textit{web}) y cambiar las dependencias (minimizando al máximo y solucionando incompatibilidades) del \texttt{requirements.txt}.
+		
+	\end{enumerate}
+	\item \textbf{Marcas temporales}
+	
+	El \textit{sprint} fue desarrollado entre el 14 de marzo y el 28 de marzo del 2023.
+	
+	\item \textbf{\textit{Burndown Report}}
+	
+	\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 17}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s17_bdr}
+	\end{figure}
+	
+	En este \textit{sprint} no se consiguió cerrar todos los \textit{issues} planificados.
+	
+	Los diagramas y la redacción del diccionario de datos requirieron el doble de tiempo del estimado debido a las múltiples revisiones (con sus respectivas correcciones) por parte del tutor y otros profesores (Jesús Maudes).  Además, se subestimó completamente el tiempo requerido en la realización de la \textit{web} y, aunque se cerraron los \textit{issues}, algunos de ellos se implementaron de forma <<optimista>> (falta <<hacer segura>> la implementación mediante comprobaciones de tipos, tratamiento de excepciones, etc.).
+	
+	Por este motivo, no se cerraron los ítems 5, 6 y 7 y únicamente se documentaron los anexos (dentro del ítem 4). El tiempo real dedicado a la realización del \textit{sprint} ha sido de 52.5 horas.
+	
+	\item \textbf{\textit{Sprint review meeting}}
+\end{itemize}
 
 
 
