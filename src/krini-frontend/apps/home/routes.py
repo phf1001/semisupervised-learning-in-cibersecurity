@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Web dependencies
+from sqlalchemy import exc
 from apps.home import blueprint
 from apps import db
 from flask import render_template, request, flash, redirect, url_for, session
@@ -154,16 +155,17 @@ def dashboard():
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
-    n_reports_accepted = Available_instances.query.filter_by(
-        reported_by=current_user.id
-    ).count()
+    n_reports_accepted = Users.query.filter_by(id=current_user.id).first().n_urls_accepted
+
+    if n_reports_accepted is None:
+        n_reports_accepted = 0
 
     n_reports_reviewing = 0
-    users_reports = Candidate_instances.query.options(load_only("reported_by")).all()
-    users_reports = [report.reported_by for report in users_reports]
+    users_reports = Candidate_instances.query.options(load_only("user_id")).all()
+    users_reports = [report.user_id for report in users_reports]
 
     for user_report in users_reports:
-        if current_user.id in user_report:
+        if current_user.id == user_report:
             n_reports_reviewing += 1
 
     return render_template(
@@ -172,7 +174,6 @@ def profile():
         n_reports_reviewing=n_reports_reviewing,
         segment=get_segment(request),
     )
-
 
 @login_required
 @blueprint.route("/models", methods=["GET"])
@@ -320,46 +321,41 @@ def report_url():
         return redirect(url_for("authentication_blueprint.login"))
 
     if "report" in request.form:
-        url = request.form["url"]
-        type = request.form["type"]
 
-        if type == "blacklist":
-            type = Available_tags.black_list
-        elif type == "whitelist":
-            type = Available_tags.white_list
+        try:
+            url = request.form["url"]
+            type = request.form["type"]
 
-        date = datetime.now()
-        user_ID = current_user.id
-        existing_instance = Candidate_instances.query.filter_by(
-            instance_URL=url
-        ).first()
+            if type == "blacklist":
+                type = Available_tags.black_list
+            elif type == "whitelist":
+                type = Available_tags.white_list
 
-        if existing_instance:
-            existing_instance.reported_by.append(user_ID)
-            existing_instance.date.append(date)
-            existing_instance.suggestions.append(type)
-            db.session.flush()
-            db.session.commit()
-            flash(
-                "URL reported succesfully! Our admins will review it soon."
-                + str(existing_instance)
-            )
+            existing_instance = Available_instances.query.filter_by(
+                instance_URL=url
+            ).first()
 
-        else:
+            if not existing_instance:
+                existing_instance = Available_instances(instance_URL=url)
+                db.session.add(existing_instance)
+                db.session.flush()
+
             db.session.add(
                 Candidate_instances(
-                    instance_URL=url,
-                    reported_by=([user_ID],),
-                    date=([date],),
-                    suggestions=([type],),
+                    instance_id=existing_instance.instance_id,
+                    user_id=current_user.id,
+                    date_reported=datetime.now(),
+                    suggestions=type
                 )
             )
-            db.session.commit()
-            flash("URL reported succesfully!")
 
-        return render_template(
-            "home/report_url.html", form=form, segment=get_segment(request)
-        )
+            db.session.commit()
+            flash("Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!")
+
+        except exc.SQLAlchemyError as e:
+            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.")
+            db.session.rollback()
+            logger.info("Error al reportar la URL: {}".format(e))
 
     return render_template(
         "home/report_url.html", form=form, segment=get_segment(request)

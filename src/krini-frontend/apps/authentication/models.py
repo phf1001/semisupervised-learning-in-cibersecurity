@@ -20,6 +20,7 @@ class Users(db.Model, UserMixin):
     user_first_name = db.Column(db.String(64), default='')
     user_last_name = db.Column(db.String(64), default='')
     user_rol = db.Column(db.String(64), default='standard')
+    n_urls_accepted = db.Column(db.Integer, default=0)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
