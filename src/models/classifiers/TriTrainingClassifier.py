@@ -1,4 +1,14 @@
 
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   TriTrainingClassifier.py
+@Time    :   2023/03/30 20:51:39
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 import numpy as np
 import numbers
 from math import floor, ceil

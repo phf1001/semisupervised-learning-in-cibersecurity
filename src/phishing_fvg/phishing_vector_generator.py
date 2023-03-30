@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   phishing_vector_generator.py
+@Time    :   2023/03/30 21:02:32
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 import numpy as np
 import re
 from urllib.parse import urlparse

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   CoForestClassifier.py
+@Time    :   2023/03/30 20:50:46
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import recall_score, precision_score
 import numpy as np
