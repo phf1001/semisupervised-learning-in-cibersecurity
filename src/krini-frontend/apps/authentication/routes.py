@@ -1,7 +1,14 @@
-# -*- encoding: utf-8 -*-
-"""
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   models.py
+@Time    :   2023/03/30
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+
 Copyright (c) 2019 - present AppSeed.us
-"""
+'''
 
 from flask import render_template, redirect, request, url_for
 from flask_login import current_user, login_user, logout_user

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   utils.py
+@Time    :   2023/03/30 21:06:56
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,

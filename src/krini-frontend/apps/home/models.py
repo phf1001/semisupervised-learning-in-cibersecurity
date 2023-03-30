@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   models.py
+@Time    :   2023/03/30 21:06:32
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 from apps import db
 from decouple import config
 from apps import create_app

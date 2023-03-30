@@ -1,4 +1,13 @@
-# Utils file to create the ML models for the site
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   ml_utils.py
+@Time    :   2023/03/30 21:07:19
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+@Desc    :   Utils file to create the ML models for the site
+'''
 
 import os
 import sys
