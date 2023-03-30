@@ -1,8 +1,10 @@
 \capitulo{4}{Técnicas y herramientas}
 
+En esta sección se pretende introducir al lector en algunas de las técnicas y herramientas relevantes en el desarrollo del proyecto.
+
 \section{Técnicas}
 
-Scrum???
+Se presentan a continuación algunas de las técnicas más influyentes en materias relacionadas con este trabajo de investigación:
 
 \subsection{CRISP-DM}
 Una metodología común, no propietaria y abierta de desarrollo para proyectos de ML es CRISP-DM (Cross-Industry Standard Process for Data Mining). Nacida del trabajo conjunto de un grupo de empresas, consta de un proceso iterativo y adaptable.
@@ -25,12 +27,39 @@ Sin pretender desarrollar exhaustivamente la misma, se muestra a continuación u
 
 Es relevante destacar la naturaleza cíclica y no rígida de la metodología, permitiendo que algunas fases alimenten sus predecesoras o que incluso algunos proyectos motiven el lanzamiento de otros.
 
+\subsection{DevOps y CI/CD}
+
+CI/CD (\textit{continuous integration and continuous delivery}) se refiere al conjunto de prácticas de desarrollo que permite la entrega rápida y fiable de código gracias a la automatización de procesos~\cite{cdciUnity}, mientras que DevOps es la cultura que engloba estas prácticas buscando lograr un desarrollo de \textit{software} más eficaz. El ciclo de vida\footnote{Fuente: \url{https://es.parasoft.com/blog/implementing-qa-in-a-ci-cd-pipeline/}} se muestra en la imagen~\ref{img:4_cicd}.
+
+\begin{figure}[h]
+	\caption[Técnicas: Ciclo de vida del CI/CD]{Representación del ciclo de vida del CI/CD.}
+	\centering
+	\includegraphics[scale=0.6]{../img/memoria/4_cicd.png}
+	\label{img:4_cicd}
+\end{figure}
+
+
+CI (integración continua) es la práctica que permite integrar repetidas veces en pequeños segmentos temporales cambios en un repositorio de código. En este proyecto, para garantizar que los nuevos cambios introducidos en el repositorio son seguros y el \textit{merge} de las nuevas ramas no va a perjudicar versiones anteriores de código, se han automatizado distintos procesos (ejecución automática de \textit{tests}, análisis de código, escáneres de filtraciones de credenciales, etc.) utilizando las herramientas descritas en la sección~\ref{sec:herramientas_control_calidad}. Por otro lado, la entrega continua automatiza el despliegue de código a los usuarios finales, liberando a los equipos de operaciones de procesos manuales~\cite{cdciRedHat}. 
+
+DevOps, sin embargo, abarca más. Esta cultura busca cubrir el ciclo completo del desarrollo de \textit{software}, desde la estructura del equipo hasta el control de versiones, y se sirve de las prácticas de CI/CD para lograr este fin.
+
+\subsection{Gitflow}
+
+Gitflow es un modelo alternativo de creación de ramas. Se caracteriza por contar con ramas de función y ramas principales, siendo recomendable aplicarlo en proyectos que trabajen con CD/CI~\cite{gitFlow}. En concreto, han sido utilizadas ramas principales y de desarrollo, fusionando el resultado de ésta última al final de cada \textit{sprint}. Debido a que en el equipo trabaja un único desarrollador, se ha desestimado crear una rama por \textit{feature} lanzada. Para garantizar que los \textit{merge} a la rama principal son seguros, se ha automatizado el uso de las herramientas desarrolladas en la sección~\ref{sec:herramientas_control_calidad}, generando \textit{builds} cada vez que se integra una rama nueva.
+
+\subsection{Scrum}
+
+Scrum es una metodología ágil basada en cuatro valores~\cite{scrumMaster2022}. Sintetizando sus principios, se puede deducir que se pretende valorar a los individuos por encima de las herramientas, el software apropiado a la documentación exhaustiva, la colaboración con el cliente y la habilidad de dar respuesta al cambio ante imprevistos.
+
+Se describe en profundidad este método y cómo se ha desarrollado el trabajo siguiendo sus principios en los anexos.
+
 \section{Herramientas}
 
 Se muestra a continuación algunas de las herramientas más relevantes en el desarrollo del proyecto.
 
 \subsection{Librerías}
 
+Principalmente de Python, se destacan las siguientes utilidades:
 \subsubsection{Scikit-Learn}
 
 Una de las librerías referentes en el ámbito de \textit{machine learning} y Python. Además de utilizar la vertiente relacionada con aprendizaje automático, también se aprovecharon otras ramas del módulo como la de extracción de características de texto (TF-IDF)~\cite{sslearnRepo}. Debido a que proporciona una interfaz estándar para los clasificadores base de muchos algoritmos, posee muy buena documentación y es compatible con otras librerías, ha sido muy utilizada.
@@ -69,6 +98,8 @@ Otras de las dependencias (estándar) del proyecto se enumeran a continuación.
 
 \subsection{Extensiones y portales}
 
+Principalmente utilizados para control de versiones y seguimiento de la metodología Scrum, se encuentran:
+
 \subsubsection{ZenHub}
 
 Zenhub es una extensión dedicada a la gestión de proyectos \textit{software} que se integra directamente con Github. Permite visualizar proyectos, \textit{sprints}, gráficos propios de Scrum y crear tableros. Debido a que el equipo de desarrollo cuenta con un único integrante, se considera la alternativa óptima (por ejemplo, a Jira) por su sencillez~\cite{zenhubHome}.
@@ -80,11 +111,21 @@ Portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. H
 
 \subsection{Programas}
 
+En versión de escritorio, únicamente ha sido necesario recurrir a:
+
 \subsubsection{KEEL}
 
 Herramienta desarrollada en Java por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{keelRepo}. Proporciona implementaciones de \textit{machine learning}, y ha sido utilizada para probar aquellos algoritmos no disponibles en las librerías de Python mencionadas anteriormente.
 
+\subsubsection{\TeX{}Studio}
+Editor de \LaTeX{} utilizado.
+
+\subsubsection{Git BASH}
+Emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
+
 \subsection{Entorno de programación}
+
+Relativo a la creación de un entorno que pueda ser reproducible, se facilita la siguiente información:
 
 \begin{itemize}
 	\item \textbf{Python}: lenguaje de programación interpretado de propósito general. Ha sido escogido para realizar este proyecto debido a la gran cantidad de paquetes dedicados a la ciencia de datos que posee~\cite{python}.
@@ -94,28 +135,28 @@ Herramienta desarrollada en Java por distintas universidades españolas y financ
 \end{itemize}
 
 \subsection{Control de calidad}
+\label{sec:herramientas_control_calidad}
+
+Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del código desarrollado. Para ello se han utilizado diversas herramientas, entre ellas:
 
 \begin{itemize}
 	\item \textbf{SonarCloud}: se trata de un servicio de análisis estático de código que notifica diversos parámetros a revisar como \textit{codesmells}, \textit{bugs} o vulnerabilidades. Se ha integrado en el repositorio con la intención de realizar código limpio y aumentar la calidad del proyecto~\cite{sonarCloud}.
 	\item \textbf{DeepSource}: se trata de una plataforma que fusiona el análisis estático de código, SAST (\textit{static application security testing}), cobertura de código y más para mejorar la calidad de los proyectos. Además, posee un \textit{bot} que realiza ciertas correcciones automáticas (por ejemplo, modifica errores de documentación) y facilita \textit{badges} para los repositorios~\cite{deepSourceBot}.
 	\item \textbf{Travis CI}: se ha utilizado el servicio para la realización automática de \textit{tests} cada vez que se actualiza el repositorio. Para ello, se ha configurado una \textit{build} y recreado el entorno del programador. De este modo, antes de realizar un \textit{merge} a la rama principal se puede comprobar rápidamente si las pruebas siguen pasando, lo que mejora la integración y despliegue continuo~\cite{travisCI}.
-\end{itemize}
-
-\subsection{Otros}
-
-\begin{itemize}
-	\item \textbf{\TeX{}Studio}: editor de \LaTeX{} utilizado.
-	\item \textbf{Git BASH}: emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
+	\item \textbf{Git Guardian}: herramienta que escanea los repositorios en busca de posibles filtraciones de credenciales, se ha utilizado para garantizar que las contraseñas de acceso a bases de datos y otros secretos permanezcan ocultos. Ha sido incluida, junto con las anteriores, en el flujo de Git~\cite{gitGuardian}.
 \end{itemize}
 
 
 \subsection{\textit{Scripts}} 
+
+En algunos casos no se han encontrado soluciones de terceros y ha sido necesario implementar \textit{scripts} propios. Los mas relevantes se citan a continuación:
+
 \subsubsection{\textit{Script} para levantar proxies SOCKS5}
 \label{sec:script_tor}
 Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
 
 Para ello, se ha implementado en python un \textit{script} auxiliar que levanta en paralelo tantas instancias de Tor como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 
-Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números~\cite{TorficheroComando}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la librería Requests.
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números\footnote{Solución basada en la respuesta del usuario <<zkilnbqi>> en Stack Overflow \url{https://stackoverflow.com/questions/14321214/how-to-run-multiple-tor-processes-at-once-with-different-exit-ips}.}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la librería Requests.
 
 Debido a que el puerto Tor queda <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el PID, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.

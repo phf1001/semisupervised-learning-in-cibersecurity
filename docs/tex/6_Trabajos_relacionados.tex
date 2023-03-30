@@ -4,6 +4,8 @@ Dentro de este proyecto se pueden diferenciar distintas líneas de investigació
 
 \subsection{Algoritmos de aprendizaje semisupervisado}
 
+El estudio de los algoritmos se ha basado principalmente en los artículos enumerados a continuación:
+
 \subsubsection{\textit{Co-Forest}}
 
 A pesar de que el paper principal del proyecto (Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}) expone que se utiliza la versión original del \textit{co-forest}~\cite{originalCoForest2007}, es destacable mencionar que ciertos aspectos de implementación no han sido contemplados en estos artículos. Por ello, la implementación propia se ha basado también en <<\textit{Semi-supervised ensemble learning. Master’s thesis}>>, desarrollada por Engelen y Hoos~\cite{engelen2018thesis}.
@@ -19,6 +21,8 @@ Tanto la sección teórica como el pseudocódigo han sido realizados siguiendo e
 
 \subsection{Aprendizaje semisupervisado aplicado a la detección de ataques en sistemas de recomendación}
 
+Se enumeran a continuación algunos de los artículos más relevantes en el estudio de la materia:
+
 \subsubsection{\textit{Co-Forest} aplicado a la detección de ataques~\cite{zhou2021SemisupervisedRecommendationAttack}}
 En esta sección, el artículo fundamental es <<\textit{Semi-supervised recommendation attack detection based on Co-Forest}>>~\cite{zhou2021SemisupervisedRecommendationAttack}. En este \textit{paper}, se propone un método de detección basado en \textit{co-forest} y se producen distintas comparativas con otros algoritmos para comprobar su eficacia, consiguiendo unos resultados muy aceptables. Partiendo de esta base nace el presente documento, que pretende explorar la solución propuesta por estos autores y expandirla.
 
@@ -27,7 +31,7 @@ También es muy relevante citar el trabajo expuesto en <<\textit{HySAD: A semi-s
 
 \subsection{Ataques en sistemas de recomendación}
 
-La importancia de proteger los sistemas de recomendación ha sido contemplada desde principio de siglo, siendo común la proposición de otros tipos de aprendizaje para detectar los ataques.
+La importancia de proteger los sistemas de recomendación ha sido contemplada desde principio de siglo, siendo común la proposición de otros tipos de aprendizaje para detectar los ataques. Por ello, se muestra bibliografía relacionada con la investigación:
 
 \subsubsection{Recolección de los tipos de ataques y propuestas de reconocimiento~\cite{mingdan2018ShillingAttacksAReview}}
 Respecto a la descripción de los tipos de intrusión, la correcta definición formal (matemática) de sus parámetros y una recopilación de la gran mayoría de ataques existentes, es fundamental referenciar el artículo de Mingdan, Quingshan <<\textit{Shilling attacks against collaborative recommender systems: a review}>>~\cite{mingdan2018ShillingAttacksAReview}. Se trata de una recopilación reciente (2018) de las principales investigaciones de los autores más populares en la materia que destaca por su completitud.
@@ -39,6 +43,8 @@ Previo a este documento,también es relevante contemplar otros trabajos, como la
 <<\textit{Collaborative recommendation: A robustness analysis}>>~\cite{mahony2004CollaborativeRecommendation}, de O'Mahony y Hurley, es uno de los trabajos con más antiguedad pero mayor número de referencias que se encuentra. En él se definen los modelos de construcciones en base a conocimiento del sistema y pone a prueba la robustez de los recomendadores evaluando su estabilidad y precisión ante la presencia de perfiles inyectados (análisis matemático muy completo).
 
 \subsection{Detección de \textit{phishing} mediante algoritmos de \textit{machine learning}}
+
+El estudio de la aplicación de los algoritmos de aprendizaje dedicado a la detección de \textit{phishing} se ha basado principalmente en los artículos enumerados a continuación:
 
 \subsubsection{\textit{Machine Learning} aplicado a la detección de \textit{phishing}}
 El artículo más destacable es <<\textit{Towards detection of phishing websites on client-side using machine learning based approach}>>~\cite{featuresPhishing2018Gupta}. En este \textit{paper}, se propone un método de detección muy destacable debido a que la detección se realiza en el lado del <<cliente>> y es independiente de terceras partes (como herramientas de OSINT). Por este motivo, la generación de vectores de características es rápida y confiable.

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   CoForestClassifier.py
+@Time    :   2023/03/30 20:50:46
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import recall_score, precision_score
 import numpy as np
@@ -12,7 +22,7 @@ class CoForest:
     M. Li and Z. -H. Zhou, "Improve Computer-Aided Diagnosis With
     Machine Learning Techniques Using Undiagnosed Samples"
     """
-    
+
     def __init__(self, n, theta, max_features='log2', random_state=None):
         """
         Constructor. Creates the Co-Forest.
@@ -75,7 +85,7 @@ class CoForest:
         self.ensemble = ensemble
         return mask_L
 
-    def fit(self, L, y, U):
+    def fit(self, L, y, U, w_init_criteria='percentage_L'):
         """
         Fits the ensemble using both labeled and
         pseudo-labeled data.
@@ -88,6 +98,12 @@ class CoForest:
             Tags of the labeled data used for training
         U: np.array
             Unlabeled data used for training
+        w_init_criteria: str
+            'percentage_L': w is initialized to 0.1 * len(L) (max 100)
+            'confidence_L_all': w is initialized to the confidence of the 
+                            ensemble in L (includying low confidence values)
+            'confidence_L_thetha': w is initialized to the confidence of the 
+                            ensemble in L (excluding low confidence values)
         """
         mask_L = self.create_trees(L, y)
 
@@ -95,7 +111,7 @@ class CoForest:
         W = [0 for i in range(self.n)]
 
         previous_e = [0.5 for i in range(self.n)]
-        previous_W = [min(0.1 * len(L), 100) for i in range(self.n)]
+        previous_W = self.initialize_previous_W(L, w_init_criteria)
 
         new_data = True
 
@@ -146,6 +162,58 @@ class CoForest:
 
             if tree_changes.sum() == 0:
                 new_data = False
+
+    def initialize_previous_W(self, L, w_init_criteria):
+        """
+        Initializes the previous_W array.
+
+        The original paper suggests to use 0 as the initial value
+        of previous_W. However, this leads to a situation where
+        U can't be subsampled, since Wmax is always 0. We propose
+        several alternatives to initialize previous_W.
+
+        Parameters
+        ----------
+        L: np.array
+            Labeled data used for training
+        w_init_criteria: str
+            'percentage_L': w is initialized to 0.1 * len(L) (max 100)
+            'confidence_L_all': w is initialized to the confidence of the 
+                            ensemble in L (includying low confidence values)
+            'confidence_L_thetha': w is initialized to the confidence of the 
+                            ensemble in L (excluding low confidence values)
+        Returns
+        -------
+        W: np.array
+            Weights of the unlabeled data
+        """
+
+        if w_init_criteria == 'percentage_L':
+            return [min(0.1 * len(L), 100) for i in range(self.n)]
+
+        elif 'confidence_L' in w_init_criteria:
+            if w_init_criteria == 'confidence_L_all':
+                exclude_low_confidence = False
+            elif w_init_criteria == 'confidence_L_thetha':
+                exclude_low_confidence = True
+
+            previous_W = [0 for i in range(self.n)]
+
+            for i, hi in self.ensemble.items():
+
+                for x in L:
+                    concomitant_confidence = self.concomitant_confidence(hi, x)[0]
+
+                    if exclude_low_confidence and concomitant_confidence > self.theta:
+                        previous_W[i] += concomitant_confidence
+
+                    elif not exclude_low_confidence:
+                        previous_W[i] += concomitant_confidence
+
+            return previous_W
+
+        else:
+            raise ValueError('w_init_criteria not in the allowed values')
 
     def retrain_tree(self, i, L, y, pseudo_labeled_data, pseudo_labeled_tags,
                      mask_L):

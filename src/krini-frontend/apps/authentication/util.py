@@ -1,7 +1,14 @@
-# -*- encoding: utf-8 -*-
-"""
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   models.py
+@Time    :   2023/03/30
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+
 Copyright (c) 2019 - present AppSeed.us
-"""
+'''
 
 import os
 import hashlib

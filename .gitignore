@@ -3,7 +3,11 @@ src/scripts/t*
 *prueba*
 src/models/notebooks/iris
 src/models/notebooks/wine
+*file(_[A-Za-z])*.csv
 *file.csv
+*file_A.csv
+*file_B.csv
+*file_C.csv
 *__pycache__*
 *proxies.json*
 *html_dump*

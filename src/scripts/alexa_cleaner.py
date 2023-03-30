@@ -1,4 +1,13 @@
-# pushd src/scripts && python3 alexa_cleaner.py && popd
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   alexa_cleaner.py
+@Time    :   2023/03/30 20:55:24
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+@Desc    :   pushd src/scripts && python3 alexa_cleaner.py && popd
+'''
 
 import requests
 from html import unescape

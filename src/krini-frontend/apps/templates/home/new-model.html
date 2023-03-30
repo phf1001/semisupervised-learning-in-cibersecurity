@@ -1,0 +1,259 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary-gradient pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/models">Administración de modelos</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Nuevo modelo</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<form role="form" method="post" action="" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">NUEVO MODELO</h3>
+          </div>
+
+          <!-- Tabla atributos modelo -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    Parámetros generales
+                  </th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">Nombre del modelo</p>
+                      {{ form.model_name(placeholder="co-forest-administrador", class="form-control",
+                      required="required",
+                      oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
+                      oninput="setCustomValidity('')") }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">
+                        Versión&nbsp;<span class="gray-description-forms">(máximo tres enteros separados por
+                          puntos)</span></p>
+                      {{ form.model_version(placeholder="1.0.0", class="form-control", required="required",
+                      oninvalid="this.setCustomValidity('Por favor, introduce un nombre.')",
+                      oninput="setCustomValidity('')") }}
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">¿Es visible?&nbsp;<span class="gray-description-forms">(implica que
+                          el
+                          resto de usuarios pueden utilizar el modelo)</span></p>
+                      {{ form.is_visible(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">¿Convertir
+                        en 'default'?&nbsp;<span class="gray-description-forms">(será el
+                          nuevo clasificador usado
+                          por defecto)</span></p>
+                      {{ form.is_default(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">Semilla aleatoria&nbsp;
+                        <span class="gray-description-forms">(un entero)</span>
+                      </p>
+                      {{ form.random_state(placeholder="5", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">Notas</p>
+                      {{ form.model_description(placeholder="Descripción", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla atributos modelo -->
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">ALGORITMO DE APRENDIZAJE</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    Parámetros
+                    propios
+                    del algoritmo</th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">SELECCIONA
+                        UN ALGORITMO&nbsp;<span class="gray-description-forms">
+                          de aprendizaje semisupervisado.
+                        </span></p>
+                      <br></br>
+                      <select class="form-control" id="select-ssl-alg" name="form_select_ssl_alg"
+                        onchange="showDiv('hd4', 'hd5', 'hd6', this)">
+                        <option value="1">Co-Forest</option>
+                        <option value="2">Democratic-co</option>
+                        <option value="3">Tri-training</option>
+                      </select>
+                      <br></br>
+                      <div id="hd4" style="display: block">
+                        {% include "home/form-co-forest.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'co-forest') %}
+                      </div>
+                      <div id="hd5" style="display: none">
+                        {% include "home/form-democratic-co.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'democratic-co') %}
+                      </div>
+                      <div id="hd6" style="display: none">
+                        {% include "home/form-tri-training.html" %}
+                        {% set _ = form.__setattr__('model_algorithm', 'tri-training') %}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla del dataset -->
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">CONJUNTO DE DATOS</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <!-- subida de datos-->
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    DATOS DE ENTRENAMIENTO
+                  </th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                </tr>
+              </thead>
+              <tr>
+                <td colspan="2">
+                  <div class="form-group mb-3">
+                    <p class="primary-label-forms">SELECCIONA UN MÉTODO&nbsp;<span class="gray-description-forms">
+                        de subida de datos de entrenamiento.
+                      </span></p>
+                    <br></br>
+                    <select class="form-control" id="select-upload-method" name="form_select_data_method"
+                      onchange="showDiv('hd1', 'hd2', 'hd3', this)">
+                      <option value="1">Importar CSV</option>
+                      <option value="2">Generar datos aleatoriamente</option>
+                      <option value="3">Seleccionar instancias</option>
+                    </select>
+                    <br></br>
+                    <div id="hd1" style="display: block">
+
+
+                      <p class="primary-label-forms">DATOS ENTRENAMIENTO&nbsp;
+                        <span class="gray-description-forms">Tamaño
+                          máximo 200MB</span>
+                      </p>
+
+                      <div class="form-control">
+                        {{ form.uploaded_train_csv }}
+                      </div>
+                      <br></br>
+                      <p class="primary-label-forms">DATOS DE
+                        TEST&nbsp;<span class="gray-description-forms">Tamaño máximo
+                          200MB</span></p>
+                      <div class="form-control">
+                        {{ form.uploaded_test_csv }}
+                      </div>
+
+                    </div>
+                    <div id="hd2" style="display: none">
+                      <p class="primary-label-forms">PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO&nbsp;<span class="gray-description-forms">
+                        Introduce sólo el número (ejemplo 80).
+                      </span></p>
+                      {{ form.train_n_instances(placeholder="Introduce un entero", class="form-control")}}
+                    </div>
+                    <div id="hd3" style="display: none">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div style="align-items: center;">
+                    <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% include "includes/footer.html" %}
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,68 @@
+<!-- Tabla atributos tri-training -->
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+        <tbody class="list">
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Primer
+                            clasificador&nbsp;
+                        <span class="gray-description-forms">(algoritmo base
+                            utilizado)</span></p>
+                        {{ form.cls_one(placeholder="Primer clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Número
+                            de clasificadores &nbsp;
+                        <span class="gray-description-forms">(número de
+                            clasificadores base de este tipo)</span></p>
+                        {{ form.n_cls_one(placeholder="1", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Segundo
+                            clasificador&nbsp;
+                        <span class="gray-description-forms">(algoritmo base
+                            utilizado)</span></p>
+                        {{ form.cls_two(placeholder="Segundo clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Número
+                            de clasificadores &nbsp;
+                        <span class="gray-description-forms">(número de
+                            clasificadores base de este tipo)</span></p>
+                        {{ form.n_cls_two(placeholder="1", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Tercer
+                            clasificador&nbsp;
+                        <span class="gray-description-forms">(algoritmo base
+                            utilizado)</span></p>
+                        {{ form.cls_three(placeholder="Tercer clasificador", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">Número
+                            de clasificadores &nbsp;
+                        <span class="gray-description-forms">(número de
+                            clasificadores base de este tipo)</span></p>
+                        {{ form.n_cls_three(placeholder="1", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

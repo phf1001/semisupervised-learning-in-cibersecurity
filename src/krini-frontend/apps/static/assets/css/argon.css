@@ -17641,3 +17641,57 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
 }
 
 /*# sourceMappingURL=argon.css.map */
+
+#hidden_div {
+  display: none;
+}
+
+#loader {
+  border: 12px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 12px solid #444444;
+  width: 70px;
+  height: 70px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  100% {
+      transform: rotate(360deg);
+  }
+}
+.center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.primary-label-forms {
+  font-size: medium; 
+  color: #5e72e4; 
+  font-weight: bold; 
+  text-align: left; 
+  word-break: break-all;
+  white-space: normal;
+}
+
+.gray-description-forms {
+
+  font-size: medium; 
+  color: gray; 
+  font-weight: normal; 
+  text-align: left; 
+  word-break: break-all
+}
+
+
+.light-gray-description-forms {
+
+  font-size:15px; 
+  color: #ebebeb; 
+  font-weight: normal;
+  word-break: break-all;
+  text-align: center;
+}

@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/99904180/218280226-c3d0187c-7866-478f-adbc-859cf05df5cd.png" width="200" height="220" />
+  <img src="https://user-images.githubusercontent.com/99904180/228915777-fcfb115c-37f3-45e6-b5a0-78457d13bba9.png" width="200" height="220" />
 </p>
-
 
 <h1 align="center">
   <br>
@@ -115,3 +114,7 @@ Feel free to reach me out! 💌
 ## License
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+### Used images
+
+> [Robot](https://www.flaticon.com/free-icon/robot_3398643) &nbsp;&middot;&nbsp; [Shield](https://www.flaticon.com/free-icon/shield_5781297) &nbsp;&middot;&nbsp; [Forbidden](https://www.flaticon.com/free-icon/walk_1661941) &nbsp;&middot;&nbsp; [Question marks](https://www.flaticon.com/free-icon/question-mark_5726532) &nbsp;&middot;&nbsp; [Cogwheel](https://www.flaticon.com/free-icon/breakdown_9760208)

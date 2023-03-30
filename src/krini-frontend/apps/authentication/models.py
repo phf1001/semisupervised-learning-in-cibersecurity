@@ -1,7 +1,14 @@
-# -*- encoding: utf-8 -*-
-"""
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   models.py
+@Time    :   2023/03/30
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+
 Copyright (c) 2019 - present AppSeed.us
-"""
+'''
 
 from flask_login import UserMixin
 
@@ -17,14 +24,14 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.LargeBinary)
+    user_first_name = db.Column(db.String(64), default='')
+    user_last_name = db.Column(db.String(64), default='')
+    user_rol = db.Column(db.String(64), default='standard')
+    n_urls_accepted = db.Column(db.Integer, default=0)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
-            # depending on whether value is an iterable or not, we must
-            # unpack it's value (when **kwargs is request.form, some values
-            # will be a 1-element list)
             if hasattr(value, '__iter__') and not isinstance(value, str):
-                # the ,= unpack of a singleton fails PEP8 (travis flake8 test)
                 value = value[0]
 
             if property == 'password':

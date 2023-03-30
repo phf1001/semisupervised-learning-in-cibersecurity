@@ -1,35 +1,6 @@
 
-{% extends 'layouts/base-fullscreen.html' %}
-
+{% extends 'layouts/base-specials.html' %}
 {% block title %} Loading {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}
-<style>
-    #loader {
-        border: 12px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 12px solid #444444;
-        width: 70px;
-        height: 70px;
-        animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-    .center {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-</style>
-{% endblock stylesheets %}
-
 {% block content %}
 <div class="container mt--8 pb-5">
     <div class="row justify-content-center">
@@ -38,7 +9,7 @@
                 <div class="card-header pb-5" style="position: relative;">
                     <div class="text-muted text-center mt-2 mb-3">
                         <h1>Analizando URL</h1>   
-                        Espera unos segundos...
+                        Tiempo estimado: 40 segundos
                         <br></br>
                         <br></br>
                         <div class="loader" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);"></div>
@@ -48,7 +19,7 @@
             </div>
             <div class="row mt-3 text-center">
                 <div class="col-12">
-                    <a href="/" class="text-light"><medium>Home</medium></a>
+                    <a href="/" class="text-light"><medium>Página principal</medium></a>
                 </div>
             </div>
         </div>

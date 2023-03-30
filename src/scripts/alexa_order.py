@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   alexa_order.py
+@Time    :   2023/03/30 20:58:27
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+'''
+
 from difflib import SequenceMatcher
 import os
 import sys

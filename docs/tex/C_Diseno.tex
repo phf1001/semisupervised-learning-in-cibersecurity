@@ -4,6 +4,199 @@
 
 \section{Diseño de datos}
 
+
+\subsection{Diccionario de datos}
+
+Se adjunta a continuación, para cada tabla, el diccionario de datos correspondiente.
+
+\subsubsection{Tabla de usuarios (\texttt{Users})}
+Esta tabla (\ref{datadic:users}) almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla. Cabe destacar que la contraseña está correctamente cifrada mediante  cifrada mediante \texttt{sha-512} y la sal\footnote{\textit{Salt} es un término que se refiere a bits aleatorios usados como entrada (junto a la contraseña) en una función derivadora de claves (cuya salida es la contraseña cifrada).} se ha cifrado en \texttt{sha-256}.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{6em} p{7em} p{20em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{username} &  \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Nombre de usuario proporcionado en el registro.\\
+			\texttt{email} & \texttt{VARCHAR(256) UNIQUE NOT NULL} & Inmutable. Email del usuario proporcionado en el registro.\\
+			\texttt{password} &  \texttt{BYTEA NOT NULL} & Contraseña cifrada mediante \texttt{sha-512}. La \textit{salt} se obtiene aleatoriamente y está cifrada en \texttt{sha-256}.\\
+			\texttt{user\_first \_name} & \texttt{VARCHAR(64)} & Nombre del usuario.\\
+			\texttt{user\_last \_name} & \texttt{VARCHAR(64)} & Apellidos del usuario. \\
+			\texttt{user\_rol} & \texttt{VARCHAR(8)} & Rol del usuario. Puede ser <<standard>> o <<admin>>. Por defecto: <<standard>>. \\
+			\texttt{n\_urls \_accepted} & \texttt{INTEGER} &    Atributo de usuarios <<standard>>. Contador de aquellas instancias que han sido reportadas y aceptadas por un administrador. \\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Users]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Users}.}
+	\label{datadic:users}
+\end{table}
+
+\subsubsection{Tabla de instancias (\texttt{Available\_instances})}
+
+Esta tabla (\ref{datadic:instances}) almacena la información asociada a cada instancia disponible en el \textit{dataset}. Las instancias son URLs que pueden ser utilizadas posteriormente para entrenar y probar modelos. Además, esta tabla también almacena enlaces reportados por usuarios por pertenecer a una lista blanca o negra.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{7em} p{6em} p{20em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{instance\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{reviewed\_by} & \texttt{INTEGER FK(Users)} & En caso de estar vacío, significa que la URL todavía no ha sido aprobada por un administrador y está en proceso de revisión, por lo que no se puede utilizar para entrenar modelos.\\
+			\texttt{instance\_url} & \texttt{VARCHAR(256) UNIQUE NOT NULL} &  URL de la instancia. Inmutable.\\
+			\texttt{instance\_fv} &  \texttt{INTEGER ARRAY[19] NOT NULL} & Vector de características de la URL.   \\
+			\texttt{instance \_class} & \texttt{INTEGER NOT NULL} & Etiqueta de la clase. Puede valer $0$ si la URL es legítima o $1$ en caso de que sea \textit{phishing}. \\
+			\texttt{colour\_list} & \texttt{VARCHAR(12)} & Puede ser <<black-list>>, <<white-list>> o estar vacío. En caso de contener un valor ha de ser aprobada por un administrador. \\
+			\texttt{instance \_labels} & \texttt{CHAR(128)} &  Se preve que el campo varíe bastante, por lo que el tipo de dato no se ha definido como \texttt{VARCHAR}. Contiene etiquetas relacionadas con la instancia.\\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Available\_instances]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Available\_instances}.}
+	\label{datadic:instances}
+\end{table}
+
+
+\subsubsection{Tabla de modelos (\texttt{Available\_models})}
+
+Esta tabla (\ref{datadic:models}) almacena los modelos de aprendizaje que han sido creados por un administrador y están disponibles en la \textit{web} para su uso.
+
+\begin{table}
+	\small
+	\begin{centering}
+		\begin{tabular}{@{}p{7em} p{6em} p{20em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
+			\texttt{created\_by} & \texttt{INTEGER FK(Users) NOT NULL} &  Enlace al administrador que ha creado un determinado modelo. Dependencia por existencia.\\
+			\texttt{model\_name} & \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Nombre común y visible para los usuarios. \\
+			\texttt{file\_name} & \texttt{VARCHAR(32) UNIQUE NOT NULL} & Inmutable. Preferiblemente seguirá la sintáxis \texttt{nombre\_v-a-b-c.pkl}, donde $a$, $b$, $c$ son los números de versión (ejemplo: \texttt{cof\_v-1-0-0.pkl})    \\
+			\texttt{creation\_date} & \texttt{TIMESTAMP} &  Fecha de creación.   \\
+			\texttt{is\_default} & \texttt{BOOLEAN NOT NULL} & Por defecto <<false>>. Determina si un clasificador es el utilizado por defecto (cuando un usuario realiza una consulta y no selecciona ningún modelo).   \\
+			\texttt{is\_visible} & \texttt{BOOLEAN NOT NULL} & Por defecto <<true>>. Determina si un clasificador está visible en la \textit{web} y disponible para ser utilizado.\\
+			\texttt{model\_scores} & \texttt{FLOAT(3) ARRAY NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (¡en orden!) corresponden a las métricas \textit{accuracy}, \textit{precision} y \textit{recall}. \\			
+			\texttt{model\_notes} & \texttt{VARCHAR(128)} & Notas acerca de los clasificadores base utilizados para crear el \textit{ensemble}. No debería cambiar de valor.\\
+			\texttt{random\_state} & \texttt{INTEGER} &  Semilla aleatoria.  \\
+			\bottomrule
+		\end{tabular}
+	\end{centering}
+	\caption[Diccionario de datos: Available\_models]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_models}.}
+	\label{datadic:models}
+\end{table}
+
+Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. En este caso se ha decidido implementar considerando que es una interrelación 1:1. Por ello, se ha creado una tabla para la generalización y otra tabla para cada una de las especializaciones. Estas se enumeran a continuación:
+
+\begin{itemize}
+	\item \textbf{\texttt{Available\_co\_forests}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:coforest}.
+	
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{9em} p{19em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+				\midrule
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir). \\
+				\texttt{max\_features} & \texttt{VARCHAR(4) NOT NULL} & Parámetro del árbol de decisión. Puede ser <<sqrt>> o <<log2>>. Por defecto <<log2>>.   \\
+				\texttt{thetha} & \texttt{FLOAT(3) NOT NULL} & Parámetro thetha del \textit{ensemble} (umbral de confianza). Por defecto 0.75.   \\
+				\texttt{n\_trees} & \texttt{INTEGER NOT NULL} & Número de árboles. Por defecto 3.   \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_co\_forests]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_co\_forests}.}
+		\label{datadic:coforest}
+	\end{table}
+
+	\item \textbf{\texttt{Available\_tri\_trainings}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:tritraining}.
+
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{12em} p{16em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+				\midrule
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{cls\_one} & \texttt{VARCHAR(4) NOT NULL}  &  Algoritmo del primer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{cls\_two} & \texttt{VARCHAR(4) NOT NULL} & Algoritmo del segundo estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{cls\_three} & \texttt{VARCHAR(4) NOT NULL} & Algoritmo del tercer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_tri\_trainings]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_tri\_trainings}.}
+		\label{datadic:tritraining}
+	\end{table}
+
+	\item \textbf{\texttt{Available\_democratic\_cos}}: los modelos pertenecientes a este algoritmo poseen los atributos de la tabla~\ref{datadic:democraticco}.
+
+	\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{6em} p{8em} p{19em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+				\midrule
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER \textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{n\_clss} & \texttt{INTEGER NOT NULL} & Número de clasificadores base.\\
+				\texttt{base\_clss} & \texttt{VARCHAR(4) ARRAY NOT NULL}  & Array con los algoritmos pertenecientes a los estimadores base. Los valores que puede contener son <<kNN>>, <<NB>> o <<tree>>.\\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Available\_democratic\_cos]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_democratic\_cos}.}
+		\label{datadic:democraticco}
+	\end{table}
+\end{itemize}
+
+\subsubsection{Tablas de relación}
+
+Se enumeran a continuación las tablas que son resultado de una relación entre entidades.
+
+\begin{itemize}
+	\item \textbf{\texttt{Candidate instances}}: en esta tabla (~\ref{datadic:candidate_instances}) se almacenan aquellas instancias que han sido reportadas por un usuario y necesitan ser revisadas por un administrador antes de ser incluidas en el \textit{dataset} utilizable de la aplicación. Como se puede comprobar, se trata de una relación ternaria entre el usuario, la instancia reportada y la fecha (puede ser que un usuario reporte la misma URL más de una vez en dos fechas distintas). Es destacable que este es uno de los casos (excepción) en los que no merece la pena que la entidad Fecha pase a ser tabla debido a que no posee ninguna característica relevante.
+	
+		\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{7em} p{7em} p{18em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+				\midrule
+				\texttt{user\_id} & \texttt{INTEGER FK(Users)} & Identificador del usuario que ha reportado la URL. \\
+				\texttt{instance\_id} & \texttt{INTEGER FK(Available \_instances)} & Identificador de la URL reportada. \\
+				\texttt{date\_reported} & \texttt{TIMESTAMP} & Fecha de envío del formulario.     \\
+				\texttt{suggestion} & \texttt{VARCHAR(16) NOT NULL} & Lo que el usuario denuncia que la URL es (ejemplo: <<white-list>>).   \\\\
+				\multicolumn{3}{l}{\texttt{\textbf{\underline{PK(user\_id, instance\_id, date\_reported)}}} Clave primaria compuesta de la relación.} \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Candidate\_instances]{Diccionario de datos: tabla correspondiente a la clase \texttt{Candidate\_instances}.}
+		\label{datadic:candidate_instances}
+		\end{table}
+
+	\item \textbf{\texttt{Model\_is\_trained\_with}}: en esta tabla (\ref{datadic:modeltrainedwith}) se almacena qué instancia ha sido utilizada para entrenar qué modelo en el sistema.
+	
+		\begin{table}
+		\small
+		\begin{centering}
+			\begin{tabular}{@{}p{7em} p{7em} p{18em}@{}}
+				\toprule
+				\textbf{Nombre} & \textbf{Tipo} & \textbf{Descripción}\\
+				\midrule
+				\texttt{model\_id} & \texttt{INTEGER FK(Available \_models)} & Identificador del modelo que ha sido entrenado. \\
+				\texttt{instance\_id} & \texttt{INTEGER FK(Available \_instances)} & Identificador de la instancia utilizada en la fase de entrenamiento. \\\\\\
+				\multicolumn{3}{l}{\texttt{\textbf{\underline{PK(model\_id, instance\_id)}}} Clave primaria compuesta de la relación.} \\
+				\bottomrule
+			\end{tabular}
+		\end{centering}
+		\caption[Diccionario de datos: Model\_is\_trained\_with]{Diccionario de datos: tabla correspondiente a la clase \texttt{Model\_is\_trained\_with}.}
+		\label{datadic:modeltrainedwith}
+	\end{table}
+\end{itemize}
+
 \section{Diseño procedimental}
 
 \section{Diseño arquitectónico}

@@ -1,4 +1,13 @@
-# Utils file to create the ML models for the site
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+'''
+@File    :   ml_utils.py
+@Time    :   2023/03/30 21:07:19
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+@Desc    :   Utils file to create the ML models for the site
+'''
 
 import os
 import sys
@@ -9,6 +18,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 from apps.home.models import Available_models
 
@@ -18,14 +28,118 @@ sys.path.append(src_path)
 from models.classifiers.DemocraticCoClassifier import DemocraticCo
 from models.classifiers.TriTrainingClassifier import TriTraining
 from models.classifiers.CoForestClassifier import CoForest
+from phishing_fvg.phishing_vector_generator import PHISH_FVG
+from phishing_fvg.user_browsing import user_browsing
+from phishing_fvg.phishing_utils import get_tfidf, get_tfidf_corpus, get_csv_data, get_data_path
 
 
-def translate_tag(tag):
+def get_co_forest(n_trees=3, theta=0.75, max_features='log2', random_state=None):
+    return CoForest(n_trees, theta, max_features, random_state)
+
+
+def get_tri_training(h_0, h_1, h_2, random_state=None):
+    return TriTraining(get_base_cls(h_0), get_base_cls(h_1), get_base_cls(h_2), random_state)
+
+
+def get_democratic_co():
+    return DemocraticCo()
+
+
+def get_array_scores(y_test, y_pred):
+    """Returns the accuracy, precision and recall scores of the model"""
+    return [float(accuracy_score(y_test, y_pred)), float(precision_score(y_test, y_pred)), float(recall_score(y_test, y_pred))]
+
+
+def get_base_cls(wanted_cls):
+    if wanted_cls == 'tree':
+        return DecisionTreeClassifier()
+
+    elif wanted_cls == 'kNN':
+        return KNeighborsClassifier()
+
+    elif wanted_cls == 'NB':
+        return GaussianNB()
+
+    else:
+        # raise Exception("Classifier not found")
+        return DecisionTreeClassifier()
+
+
+def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
+
+    user = user_browsing()
+    urls = get_csv_data(get_data_path() + os.sep +
+                        "alexa_filtered.csv")[: n_documents]
+    corpus = get_tfidf_corpus(
+        urls, user.get_simple_user_header_agent(), user.proxies)
+    tfidf = get_tfidf(corpus)
+    serialize_model(tfidf, file_name, get_tfidf_directory())
+
+
+def get_tfidf_object(file_name):
+    return deserialize_model(file_name, get_tfidf_directory())
+
+
+def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, proxy=None):
+    """Returns the feature vector and the info of a url"""
+
+    # Reintentos, comprobar protocolos, etc
+    try:
+        msg = "tfidf"
+        tfidf = get_tfidf_object(tfidf_file)
+
+        msg = "phishing_fvg"
+        ph_entity = PHISH_FVG(url, tfidf, get_proxy_from_file, proxy)
+        ph_entity.set_feature_vector()
+        return ph_entity.fv, ph_entity.extra_information
+
+    # De momento mock values pero esta función hay que trabajarla mucho
+    except:
+        raise Exception(msg)
+
+
+def get_mock_values_fv():
+    """Returns a mock feature vector and extra information"""
+    fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
+    fv_extra_information = {"f1": 322,
+                            "f2": '@',
+                            "f3": 56,
+                            "f4": 'login',
+                            "f5": '.cat',  # TDL extra encontrado
+                            "f6": 'No',
+                            "f7": 'Google',
+                            "f8": 'No',
+                            "f9": 'asterisco',
+                            "f10": '5',
+                            "f11": 'No',  # vacia
+                            "f12": 2,
+                            "f13": 3,
+                            "f14": 4,
+                            "f15": 5,
+                            "f16": 'No',
+                            "f17": 'Natura',
+                            "f18": 'Natura',
+                            "f19": 'No'
+                            }
+
+    return fv, fv_extra_information
+
+
+def translate_tag(tag, caps=False):
     """Translates numerical tags to string."""
-    if tag == 1:
-        return "phishing"
 
-    return "legitimate"
+    translated_tag = ""
+
+    if tag == 0:
+        translated_tag = "LEGÍTIMA"
+
+    elif tag == 1:
+        translated_tag = "PHISHING"
+
+    if caps:
+        return translated_tag
+
+    return translated_tag.lower()
 
 
 def get_models_directory():
@@ -36,7 +150,53 @@ def get_models_directory():
     current_dir = os.path.abspath(os.path.realpath(__file__))
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
     models_path = os.path.abspath(os.path.join(parent_dir, "pickle_models"))
+
+    if not os.path.exists(models_path):
+        os.makedirs(models_path)
+    
     return models_path
+
+
+def get_temporary_train_files_directory():
+    """
+    Returns the path to the directory
+    where the temporary train files are stored.
+    """
+    current_dir = os.path.abspath(os.path.realpath(__file__))
+    parent_dir = os.path.abspath(os.path.dirname(current_dir))
+    files_path = os.path.abspath(os.path.join(
+        parent_dir, "temporal" + os.path.sep + "train_files"))
+    
+    if not os.path.exists(files_path):
+        os.makedirs(files_path)
+    
+    return files_path
+
+
+def get_temporary_download_directory():
+    """
+    Returns the path to the directory
+    where the temporary downloads files are stored.
+    """
+    current_dir = os.path.abspath(os.path.realpath(__file__))
+    parent_dir = os.path.abspath(os.path.dirname(current_dir))
+    files_path = os.path.abspath(os.path.join(
+        parent_dir, "temporal" + os.path.sep + "downloads"))
+    
+    if not os.path.exists(files_path):
+        os.makedirs(files_path)
+
+    return files_path
+
+
+def get_tfidf_directory():
+    """
+    Returns the path to the directory
+    where the tfidf objects are stored.
+    """
+    current_dir = os.path.abspath(os.path.realpath(__file__))
+    parent_dir = os.path.abspath(os.path.dirname(current_dir))
+    return os.path.abspath(os.path.join(parent_dir, "tfidf_objects"))
 
 
 def get_models_files_list():
@@ -69,15 +229,21 @@ def obtain_model(model_file_name):
         return deserialize_model("default.pkl"), False
 
 
-def serialize_model(model, filename):
+def serialize_model(model, filename, models_path=None):
     """Serializes a model to a pickle file"""
-    with open(get_models_directory() + os.sep + filename, "wb") as f:
+    if models_path is None:
+        models_path = get_models_directory()
+
+    with open(models_path + os.sep + filename, "wb") as f:
         pickle.dump(model, f)
 
 
-def deserialize_model(filename):
+def deserialize_model(filename, models_path=None):
     """Deserializes a model from a pickle file"""
-    with open(get_models_directory() + os.sep + filename, "rb") as f:
+    if models_path is None:
+        models_path = get_models_directory()
+
+    with open(models_path + os.sep + filename, "rb") as f:
         return pickle.load(f)
 
 
