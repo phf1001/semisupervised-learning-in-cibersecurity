@@ -3,7 +3,7 @@
 
 <head>
   <title>
-    Phishing Scanner
+    Página principal
   </title>
   {% block stylesheets %}
   <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
@@ -24,9 +24,13 @@
         <div class="header-body text-center mb-4">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Phishing Scanner</h1>
+              <div class="text-center mt-2">
+                <img src="/static/assets/img/theme/logo.png" style="width: 45%; height: 45%">     
+              </div>
+              <br>
+              <h1 class="text-white">KRINI</h1>
               <p class="text-lead text-light">
-                Introduce a URL to scan
+                Analizador de phishing
               </p>
             </div>
           </div>
@@ -70,20 +74,25 @@
                       <td></td>
                       <td colspan="3">
                         <div class="form-group mb-0" name="search">
+                          <!-- <p class="primary-label-forms">Thetha&nbsp;
+                            <span class="gray-description-forms">(umbral de confianza)</span>
+                          </p> -->
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            {{ form.url(placeholder="Introduce your URL", class="form-control", required="required",
+                            {{ form.url(placeholder="https://google.com", class="form-control", required="required",
                             oninvalid="this.setCustomValidity('Por favor, introduce una URL')",
                             oninput="setCustomValidity('')") }}
                           </div>
                         </div>
                         <div class="form-group mb-0">
+                          <br>
                           {{ form.selected_models }}
+
                           <div class="container-multi-select">
                             <div class="select-btn">
-                              <span class="btn-text">Select your models</span>
+                              <span class="btn-text">Modelos disponibles</span>
                               <span class="arrow-dwn">
                                 <i class="ni ni-bold-down"></i>
                               </span>

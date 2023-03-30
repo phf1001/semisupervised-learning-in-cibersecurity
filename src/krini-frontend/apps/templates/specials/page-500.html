@@ -1,23 +1,22 @@
-{% extends 'layouts/base-fullscreen.html' %}
-
+{% extends 'layouts/base-specials.html' %}
 {% block title %} Error 500 {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
-
 {% block content %}
-
     <!-- Page content -->
     <div class="container mt--8 pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-transparent pb-5">
-              <div class="text-muted text-center mt-2 mb-3">
-                ¡Oh oh! Error 500  
+              <div class="text-center mt-2">
+                <img src="/static/assets/img/theme/500-robot-broken.png" style="width: 45%; height: 45%">     
               </div>
-              <div class="text-center mb-4">
-                Error interno de servidor. Por favor, inténtelo de nuevo más tarde.
+              <div class="primary-label-forms text-center mt-2 mb-2" style="font-size: 22px;">
+                <br>
+                ¡Oh oh! Error 500      
+              </div>
+              <div class="text-center mb-2">
+                Hay un error interno en el servidor. Inténtalo más tarde.
               </div>
             </div>
           </div>
@@ -29,6 +28,4 @@
         </div>
       </div>
     </div>
-
 {% endblock content %}
-{% block javascripts %}{% endblock javascripts %}
