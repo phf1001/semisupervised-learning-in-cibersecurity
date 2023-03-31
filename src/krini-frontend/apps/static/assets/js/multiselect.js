@@ -14,9 +14,9 @@ items.forEach(item => {
         btnText = document.querySelector('.btn-text');
         
         if (checked && checked.length > 0) {
-            btnText.innerText = `Selected (${checked.length})`;
+            btnText.innerText = `Seleccionados (${checked.length})`;
         } else {
-            btnText.innerText = "Select your models";
+            btnText.innerText = "Modelos disponibles";
         }
     })
 })
@@ -30,7 +30,7 @@ select_all.addEventListener('click', () => {
         }
     })
     btnText = document.querySelector('.btn-text');
-    btnText.innerText = `Selected (${items.length})`;
+    btnText.innerText = `Seleccionados (${items.length})`;
 })
 
 deselect_all = document.getElementById("deselect-all");

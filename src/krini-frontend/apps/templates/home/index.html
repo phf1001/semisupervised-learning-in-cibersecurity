@@ -18,36 +18,6 @@
 <body class="bg-default">
   {% include "includes/navigation.html" %}
   <div class="main-content">
-    <!-- Header -->
-    <!-- <div class="header bg-gradient-primary py-3 py-lg-3">
-      <div class="container">
-        <div class="header-body text-center mb-4">
-          <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6">
-              <h1 class="text-white" style="font-size: 30px;">KRINI</h1>
-              <div class="text-center mt-2">
-                <img src="/static/assets/img/theme/logo.png" style="width: 35%; height: 35%">     
-              </div>
-              <br>
-              <p class="text-lead text-light">
-                Analizador de phishing
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="separator separator-bottom separator-skew zindex-100">
-
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
-          xmlns="http://www.w3.org/2000/svg">
-          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-        <div class="text-center mt-2">
-          <img src="/static/assets/img/theme/logo.png" style="width: 35%; height: 35%">     
-        </div>
-      </div>
-    </div> -->
-
     <div class="header bg-gradient-primary py-3 py-lg-3">
       <div class="container">
         <div class="header-body text-center mb-7">
@@ -64,23 +34,14 @@
         </svg>
       </div>
     </div>
-
-    
     {% block content %}
-
-    <div class="container mt--100 pb-5 bg-transparent">
+    <div class="container mt--100 pb-2 bg-transparent">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-5">
-          <div class="card bg-aliceblue shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-              <div class="text-center mt-2">
-                <img src="/static/assets/img/theme/logo.png" style="width: 40%; height: 40%">     
-              </div>
-              <div class="text-primary text-center mt-2 mb-3" style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
-                KRINI
-              </div>
-              <div class="text-muted text-center mt--1 mb--3" style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
-                ANALIZADOR DE PHISHING
+          <div class="card bg-transparent" style="text-shadow: none; box-shadow: none;">
+            <div class="card-header bg-transparent pb-5 border-0">
+              <div class="text-center">
+                <img src="/static/assets/img/theme/logo.png" style="width: 50%; height: 50%">     
               </div>
             </div>
           </div>
@@ -94,8 +55,7 @@
         <div class="col">
           <div class="card">
             <!-- Card header -->
-            <div class="card-header border-0">
-              <!-- <h6 class="mb-0">&nbsp;</h6> -->
+            <div class="card-header">
               <div class="text-primary text-center" style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
                 KRINI
               </div>
@@ -107,12 +67,7 @@
                 <table class="table align-items-center table-flush">
                   <caption></caption>
                   <thead class="thead-light">
-                    <tr colspan="5">
-                      <!-- <th scope="col">&nbsp;</th>
-                      <th scope="col">&nbsp;</th>
-                      <th scope="col">&nbsp;</th>
-                      <th scope="col">&nbsp;</th>
-                      <th scope="col">&nbsp;</th> -->
+                    <tr>
                       <th colspan="5" class="text-muted text-center" style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
                         ANALIZADOR DE PHISHING
                       </th>
@@ -124,7 +79,7 @@
                       <td></td>
                       <td colspan="3">
                         <div class="form-group mb-0" name="search">
-                          <br><br><br>
+                          <br><br>
                           <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
                             <span class="gray-description-forms">preferiblemente con protocolo (http:// o https://) y sin www.</span>
                           </p>
@@ -154,10 +109,9 @@
                             <ul class="list-items-multi-select">
                               <li style="list-style-type: none;">
                                 <div style:="display: inline-block; width: 50%; text-align: center;">
-                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Select
-                                    all</span>
+                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Selecciona todos</span>
                                   <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4"
-                                    style="float: right;">Unselect all</span>
+                                    style="float: right;">Elimina todos</span>
                                 </div>
                               </li>
                               {% for model in available_models %}
@@ -170,7 +124,7 @@
                           </div>
                         </div>
                         <div class="text-center">
-                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">Analiza</button>
+                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi URL!</button>
                         </div>
                       </td>
                       <td></td>
@@ -184,7 +138,7 @@
       </div>
 
       <!-- Card stats -->
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-xl-4 col-md-6">
           <div class="card card-stats">
             <!-- Card body -->
