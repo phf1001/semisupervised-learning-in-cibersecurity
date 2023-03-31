@@ -68,20 +68,49 @@ def index():
 
     url = request.form["url"]
     models = request.form["selected_models"]
-    session["messages"] = {"url": url, "models": models}
+    quick_analysis = 0
+    if request.form.get("checkbox-quick-scan"):
+        quick_analysis = 1
+        
+    session["messages"] = {"url": url, "models": models, "quick_analysis": quick_analysis}
 
     return render_template("specials/processing-url.html")
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    messages = session.get("messages", None)
-    url = messages["url"]
-    models_ids = messages["models"]
-
-    # Get feature vector and extra information
-
+    """
+    Gets the feature vector for an URL.
+    If the URL is not callable, it tries to reconstruct it.
+    """
     try:
+
+        messages = session.get("messages", None)
+        url = messages["url"]
+        models_ids = messages["models"]
+        quick_analysis = messages["quick_analysis"]
+
+        # esto se quitará, es un mock para hacer más rápido el desarrollo
+        if url == "mock":
+            fv, fv_extra_information = get_mock_values_fv()
+            session["messages"] = {
+                "fv": fv.tolist(),
+                "fv_extra_information": fv_extra_information,
+                "url": url,
+                "models_ids": models_ids,
+                "quick_analysis": quick_analysis,
+            }
+            return redirect(url_for("home_blueprint.dashboard"))
+        # Fin de lo que se quitará
+
+
+        # Comprobamos si la URL es llamable y se intenta corregir si no lo es
+        callable_url = get_callable_url(url)
+
+        if callable_url is None:
+            raise Exception("No se ha podido llamar la url {} ni reconstruir.".format(url))
+        
+
         fv, fv_extra_information = get_fv_and_info(url)
 
         # Enviamos el vector al dashboard
@@ -90,25 +119,16 @@ def task():
             "fv_extra_information": fv_extra_information,
             "url": url,
             "models_ids": models_ids,
+            "quick_analysis": quick_analysis,
         }
 
         return redirect(url_for("home_blueprint.dashboard"))
 
     except Exception as e:
-        time.sleep(2)
-        fv, fv_extra_information = get_mock_values_fv()
-
-        # Enviamos el vector al dashboard
-        session["messages"] = {
-            "fv": fv.tolist(),
-            "fv_extra_information": fv_extra_information,
-            "url": url,
-            "models_ids": models_ids,
-        }
-
-        flash("Ha saltado una excepción. Mostrando resultados de mockeo.")
-        return redirect(url_for("home_blueprint.dashboard"))
-
+        logger.error(e)
+        flash("La URL {} no puede ser llamada. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(url))
+        return redirect(url_for("home_blueprint.index"))
+    
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -136,6 +156,7 @@ def dashboard():
         # Todo en arrays por orden
         information_to_display = {
             "url": url,
+            "quick_analysis": messages["quick_analysis"],
             "fv": list(fv),
             "fv_extra_information": messages["fv_extra_information"],
             "class": translate_tag(numeric_class),

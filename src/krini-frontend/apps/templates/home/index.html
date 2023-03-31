@@ -17,6 +17,15 @@
 
 <body class="bg-default">
   {% include "includes/navigation.html" %}
+
+  {% with messages=get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <div class='alert alert-{{category}} text-center alert-dismissible fade show m-auto'>
+      {{ message }}
+    </div>
+  {% endfor %}
+  {% endwith %}
+  
   <div class="main-content">
     <div class="header bg-gradient-primary py-3 py-lg-3">
       <div class="container">
@@ -81,7 +90,7 @@
                         <div class="form-group mb-0" name="search">
                           <br><br>
                           <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
-                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o https://) y sin www.</span>
+                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o https://)</span>
                           </p>
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
@@ -122,6 +131,19 @@
                               {% endfor %}
                             </ul>
                           </div>
+                        </div>
+                        <div class="form-group mb-0">
+                          <br><br>
+                          <p class="primary-label-forms">
+                            <input id="checkbox-quick-scan" value="0"
+                            type="checkbox" style="width: 20px; height: 20px;" name="checkbox-quick-scan">
+                            &nbsp;&nbsp;¿Análisis rápido?&nbsp;
+                            <span class="gray-description-forms">Si la URL se encuentra en nuestra base de datos, los resultados se mostrarán
+                              inmediatamente. Si no, se realizará un análisis completo (unos 40 segundos).
+                              En caso de encontrar la instancia en la base de datos, no se mostrarán los valores utilizados en 
+                              la extracción del vector de características.
+                            </nav></span>
+                          </p>
                         </div>
                         <div class="text-center">
                           <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi URL!</button>

@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   utils.py
 @Time    :   2023/03/30 21:06:56
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
     serialize_model,
-    get_temporary_download_directory
+    get_temporary_download_directory,
+    get_mock_values_fv,
 )
 from werkzeug.utils import secure_filename
 from os import path, remove
@@ -33,14 +34,20 @@ import time
 from apps import db
 from flask import flash, send_from_directory, send_file
 import logging
+import requests
+import urllib.parse
+
 
 def get_logger(
     name,
     fichero="log_krini",
     nivel_logger=logging.DEBUG,
-    nivel_fichero=logging.DEBUG,
-    nivel_consola=logging.ERROR,
+    nivel_fichero=logging.DEBUG
 ):
+    """
+    Returns a logger with the given name and the given
+    parameters.
+    """
     logger = logging.getLogger(name)
 
     if logger.hasHandlers():
@@ -58,15 +65,90 @@ def get_logger(
     )
     logger.addHandler(fh)
 
-    # ch = logging.StreamHandler()
-    # ch.setLevel(nivel_consola)
-    # formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    # ch.setFormatter(formatter)
-    # logger.addHandler(ch)
-
     return logger
 
+
 logger = get_logger("krini-frontend")
+
+
+def get_callable_url(url):
+    """
+    Tries to get the URL content. If it fails, it tries
+    to complete the URL
+    """
+
+    try:
+        requests.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+            },
+            timeout=5,
+        ).content
+
+        return url
+
+    except requests.exceptions.RequestException:
+        return complete_uncallable_url(url)
+
+
+def complete_uncallable_url(url):
+    """
+    Tries to complete the URL with the protocol.
+    Several checks are made.
+    """
+    try:
+        parsed = urllib.parse.urlparse(url)
+
+        if not parsed.netloc and not parsed.path:
+            return None
+
+        elif not parsed.netloc and parsed.path:
+            url = parsed.path
+
+        if not parsed.scheme:
+            protocol = find_url_protocol(url)
+
+            if not protocol:
+                return None
+
+            url = protocol + url
+
+        requests.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+            },
+            timeout=5,
+        ).content
+
+        return url
+
+    except requests.exceptions.RequestException:
+        return None
+
+
+def find_url_protocol(url, protocols=["https://", "http://"]):
+    """
+    Tries to find a protocol for the given URL
+    """
+    for protocol in protocols:
+        try:
+            url = protocol + url
+            requests.get(
+                url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+                },
+                timeout=5,
+            ).content
+
+            return protocol
+
+        except requests.exceptions.RequestException:
+            pass
+
+    return None
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
@@ -209,7 +291,6 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
 
 
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
-
     instances = Available_instances.query.filter(
         Available_instances.instance_id.in_(ids_instances)
     ).all()
@@ -220,13 +301,12 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
         fv.append(instance.instance_class)
         data.append(fv)
 
-    df = pd.DataFrame(data,
-                      columns=["f{}".format(i) for i in range(1,20)] + ["tag"])
+    df = pd.DataFrame(data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"])
 
     download_directory = get_temporary_download_directory()
     download_path = path.join(download_directory, filename)
 
-    #Ojo porque los enteros pasan a ser flotantes. No crea problemas pero podría.
+    # Ojo porque los enteros pasan a ser flotantes. No crea problemas pero podría.
     df.to_csv(download_path, index=False)
 
 

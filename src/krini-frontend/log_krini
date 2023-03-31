@@ -1,0 +1,11 @@
+[2023-03-31 12:26:41] [krini-frontend] [INFO] - quick_analysis: 0
+[2023-03-31 12:27:59] [krini-frontend] [INFO] - quick_analysis: True
+[2023-03-31 12:28:10] [krini-frontend] [INFO] - quick_analysis: False
+[2023-03-31 12:28:20] [krini-frontend] [INFO] - quick_analysis: True
+[2023-03-31 12:29:01] [krini-frontend] [INFO] - quick_analysis: False
+[2023-03-31 12:29:12] [krini-frontend] [INFO] - quick_analysis: True
+[2023-03-31 12:30:19] [krini-frontend] [INFO] - URL: s
+[2023-03-31 12:30:19] [krini-frontend] [INFO] - Models: 
+[2023-03-31 12:30:19] [krini-frontend] [INFO] - Quick analysis: 0
+[2023-03-31 12:58:21] [krini-frontend] [ERROR] - No se ha podido llamar la url a ni reconstruir.
+[2023-03-31 13:18:55] [krini-frontend] [ERROR] - No se ha podido llamar la url a ni reconstruir.
