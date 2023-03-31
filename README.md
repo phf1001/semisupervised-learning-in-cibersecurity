@@ -9,7 +9,7 @@
 
 <h2 align="center">
   <br>
-  <a href="https://krini.herokuapp.com/index"> krini </a>
+  <a href=""> KRINI </a>
 </h2>
 
 <h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
@@ -117,4 +117,4 @@ Feel free to reach me out! 💌
 
 ### Used images
 
-> [Robot](https://www.flaticon.com/free-icon/robot_3398643) &nbsp;&middot;&nbsp; [Shield](https://www.flaticon.com/free-icon/shield_5781297) &nbsp;&middot;&nbsp; [Forbidden](https://www.flaticon.com/free-icon/walk_1661941) &nbsp;&middot;&nbsp; [Question marks](https://www.flaticon.com/free-icon/question-mark_5726532) &nbsp;&middot;&nbsp; [Cogwheel](https://www.flaticon.com/free-icon/breakdown_9760208)
+> [Robot](https://www.flaticon.com/free-icon/robot_3398643) &nbsp;&middot;&nbsp; [Shield](https://www.flaticon.com/free-icon/shield_5781297) &nbsp;&middot;&nbsp; [Forbidden](https://www.flaticon.com/free-icon/walk_1661941) &nbsp;&middot;&nbsp; [Question marks](https://www.flaticon.com/free-icon/question-mark_5726532) &nbsp;&middot;&nbsp; [Cogwheel](https://www.flaticon.com/free-icon/breakdown_9760208) &nbsp;&middot;&nbsp; [Crafts] (https://www.flaticon.com/free-icon/paper-crafts_3813693) &nbsp;&middot;&nbsp; [Analyze](https://www.flaticon.com/free-icon/analyze_993845) 
