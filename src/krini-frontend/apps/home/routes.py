@@ -83,7 +83,7 @@ def trigger_mock_dashboard(url, models_ids, quick_analysis):
     Trigger the dashboard with mock values.
     Coded to make the development process faster.
     """
-    time.sleep(2)
+    time.sleep(3)
     fv, fv_extra_information = get_mock_values_fv()
     session["messages"] = {
         "fv": fv.tolist(),
@@ -91,6 +91,7 @@ def trigger_mock_dashboard(url, models_ids, quick_analysis):
         "url": url,
         "models_ids": models_ids,
         "quick_analysis": quick_analysis,
+        "colour_list": "black-list"
     }
     return redirect(url_for("home_blueprint.dashboard"))
 
