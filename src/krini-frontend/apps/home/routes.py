@@ -63,7 +63,7 @@ def index():
             "home/index.html",
             form=form,
             segment=get_segment(request),
-            available_models=Available_models.get_models_ids_and_names_list(),
+            available_models=Available_models.get_visible_models_ids_and_names_list()
         )
 
     url = request.form["url"]

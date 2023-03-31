@@ -255,6 +255,14 @@ class Available_models(db.Model):
         """
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models]
+    
+    @staticmethod
+    def get_visible_models_ids_and_names_list():
+        """
+        Returns a list of tuples with the model id and name
+        """
+        models = Available_models.query.all()
+        return [(model.model_id, model.model_name) for model in models if model.is_visible]
 
 
 class Available_co_forests(Available_models):
