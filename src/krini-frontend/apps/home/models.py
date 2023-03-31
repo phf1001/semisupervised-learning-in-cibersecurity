@@ -52,26 +52,26 @@ class Available_tags:
     """
 
     tags = [
-        "white_list",
-        "black_list",
+        "white,list",
+        "black,list",
         "nueva",
         "revisar",
-        "mal_etiquetada_clasificador",
-        "sug_white_list",
-        "sug_black_list",
-        "sug_phishing",
-        "sug_legitimate",
+        "mal-etiquetada-clasificador",
+        "sug-white-list",
+        "sug-black-list",
+        "sug-phishing",
+        "sug-legitimate",
     ]
 
-    black_list = "black_list"
-    white_list = "white_list"
+    black_list = "black-list"
+    white_list = "white-list"
     nueva = "nueva"
     revisar = "revisar"
-    mal_etiquetada_clasificador = "mal_etiquetada_clasificador"
-    sug_white_list = "sug_white_list"
-    sug_black_list = "sug_black_list"
-    sug_phishing = "sug_phishing"
-    sug_legitimate = "sug_legitimate"
+    mal_etiquetada_clasificador = "mal-etiquetada-clasificador"
+    sug_white_list = "sug-white-list"
+    sug_black_list = "sug-black-list"
+    sug_phishing = "sug-phishing"
+    sug_legitimate = "sug-legitimate"
 
 
 class Available_instances(db.Model):

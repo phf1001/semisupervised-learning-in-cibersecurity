@@ -111,42 +111,37 @@
                     <div>
                       <div class="progress">
                         {% if information_to_display['model_confidence'][loop.index0] < 40 %} 
-                      <div
+                        <div
                           class="progress-bar bg-gradient-warning" role="progressbar"
                           aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}"
                           aria-valuemin="0" aria-valuemax="100"
                           style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
-                      </div>
-
-                      {% elif information_to_display['model_confidence'][loop.index0] < 70 %} <div
+                        </div>
+                        {% elif information_to_display['model_confidence'][loop.index0] < 70 %} 
+                        <div
                         class="progress-bar bg-gradient-info" role="progressbar"
                         aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}" aria-valuemin="0"
                         aria-valuemax="100"
                         style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
+                        </div>
+                        {% else %}
+                        <div class="progress-bar bg-gradient-success" role="progressbar"
+                          aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}" aria-valuemin="0"
+                          aria-valuemax="100"
+                          style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
+                        </div>
+                        {% endif %}
+                      </div>
                     </div>
-
-                    {% else %}
-                    <div class="progress-bar bg-gradient-success" role="progressbar"
-                      aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}" aria-valuemin="0"
-                      aria-valuemax="100"
-                      style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
-                    </div>
-
-                    {% endif %}
                   </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
-      </td>
-      </tr>
-      {% endfor %}
-      </tbody>
-      </table>
     </div>
-  </div>
-</div>
-
-
-
     <div id="cls-names" data-cls-names="{{ information_to_display['model_names'] }}"></div>
     <div id="cls-scores" data-cls-scores="{{ information_to_display['model_scores'] }}"></div>
     <div id="cls-numeric-predictions-sum"

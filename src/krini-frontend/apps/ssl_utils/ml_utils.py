@@ -81,19 +81,20 @@ def get_tfidf_object(file_name):
 
 
 def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, proxy=None):
-    """Returns the feature vector and the info of a url"""
+    """
+    Returns the feature vector and the info of a url.
+    It is assumed that the URL is callable via requests.
+    """
 
-    # Reintentos, comprobar protocolos, etc
     try:
-        msg = "tfidf"
+        msg = "Error reconstruyendo el objeto TFIDF"
         tfidf = get_tfidf_object(tfidf_file)
 
-        msg = "phishing_fvg"
+        msg = "Error extrayendo el vector de características"
         ph_entity = PHISH_FVG(url, tfidf, get_proxy_from_file, proxy)
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
 
-    # De momento mock values pero esta función hay que trabajarla mucho
     except:
         raise Exception(msg)
 

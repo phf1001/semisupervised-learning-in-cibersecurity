@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   routes.py
 @Time    :   2023/03/30 21:06:45
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 # Web dependencies
 from sqlalchemy import exc
@@ -47,12 +47,9 @@ from apps.ssl_utils.ml_utils import (
     get_array_scores,
 )
 
-# Utils
+from apps.ssl_utils.ml_utils import get_temporary_download_directory
 from apps.home.utils import *
-
 logger = get_logger("krini-frontend")
-
-from apps.ssl_utils.ml_utils import (get_temporary_download_directory)
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
@@ -63,7 +60,7 @@ def index():
             "home/index.html",
             form=form,
             segment=get_segment(request),
-            available_models=Available_models.get_visible_models_ids_and_names_list()
+            available_models=Available_models.get_visible_models_ids_and_names_list(),
         )
 
     url = request.form["url"]
@@ -71,10 +68,31 @@ def index():
     quick_analysis = 0
     if request.form.get("checkbox-quick-scan"):
         quick_analysis = 1
-        
-    session["messages"] = {"url": url, "models": models, "quick_analysis": quick_analysis}
+
+    session["messages"] = {
+        "url": url.replace(" ", ""),
+        "models": models,
+        "quick_analysis": quick_analysis,
+    }
 
     return render_template("specials/processing-url.html")
+
+
+def trigger_mock_dashboard(url, models_ids, quick_analysis):
+    """
+    Trigger the dashboard with mock values.
+    Coded to make the development process faster.
+    """
+    time.sleep(2)
+    fv, fv_extra_information = get_mock_values_fv()
+    session["messages"] = {
+        "fv": fv.tolist(),
+        "fv_extra_information": fv_extra_information,
+        "url": url,
+        "models_ids": models_ids,
+        "quick_analysis": quick_analysis,
+    }
+    return redirect(url_for("home_blueprint.dashboard"))
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
@@ -82,53 +100,60 @@ def task():
     """
     Gets the feature vector for an URL.
     If the URL is not callable, it tries to reconstruct it.
+    If there is an existing instance on the DB returns the FV.
     """
     try:
-
         messages = session.get("messages", None)
         url = messages["url"]
         models_ids = messages["models"]
         quick_analysis = messages["quick_analysis"]
+        colour_list = ''
 
-        # esto se quitará, es un mock para hacer más rápido el desarrollo
         if url == "mock":
-            fv, fv_extra_information = get_mock_values_fv()
-            session["messages"] = {
-                "fv": fv.tolist(),
-                "fv_extra_information": fv_extra_information,
-                "url": url,
-                "models_ids": models_ids,
-                "quick_analysis": quick_analysis,
-            }
-            return redirect(url_for("home_blueprint.dashboard"))
-        # Fin de lo que se quitará
+            return trigger_mock_dashboard(url, models_ids, quick_analysis)
 
-
-        # Comprobamos si la URL es llamable y se intenta corregir si no lo es
         callable_url = get_callable_url(url)
 
         if callable_url is None:
             raise Exception("No se ha podido llamar la url {} ni reconstruir.".format(url))
-        
 
-        fv, fv_extra_information = get_fv_and_info(url)
+        # The URL is callable and has protocol
+        if quick_analysis == 1:
+            previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
+
+            if previous_instance:
+                fv = list(previous_instance.instance_fv)
+                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                fv_extra_information = {}
+
+            else:
+                fv, fv_extra_information = get_fv_and_info(callable_url)
+                fv = fv.tolist()
+
+        else:
+            fv, fv_extra_information = get_fv_and_info(callable_url)
+            fv = fv.tolist()
 
         # Enviamos el vector al dashboard
         session["messages"] = {
-            "fv": fv.tolist(),
+            "fv": fv,
             "fv_extra_information": fv_extra_information,
-            "url": url,
+            "url": callable_url,
             "models_ids": models_ids,
             "quick_analysis": quick_analysis,
+            "colour_list": colour_list,
         }
 
         return redirect(url_for("home_blueprint.dashboard"))
 
     except Exception as e:
         logger.error(e)
-        flash("La URL {} no puede ser llamada. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(url))
+        message = "La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(
+            url
+        )
+        flash(message, "danger")
         return redirect(url_for("home_blueprint.index"))
-    
+
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -160,7 +185,7 @@ def dashboard():
             "fv": list(fv),
             "fv_extra_information": messages["fv_extra_information"],
             "class": translate_tag(numeric_class),
-            "colour-list": "white-list",
+            "colour-list": messages["colour_list"],
             # evitar string slicing
             "model_names": make_array_safe(model_names),
             "sum_tags_numeric": make_array_safe(count),
@@ -184,7 +209,9 @@ def dashboard():
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
-    n_reports_accepted = Users.query.filter_by(id=current_user.id).first().n_urls_accepted
+    n_reports_accepted = (
+        Users.query.filter_by(id=current_user.id).first().n_urls_accepted
+    )
 
     if n_reports_accepted is None:
         n_reports_accepted = 0
@@ -203,6 +230,7 @@ def profile():
         n_reports_reviewing=n_reports_reviewing,
         segment=get_segment(request),
     )
+
 
 @login_required
 @blueprint.route("/models", methods=["GET"])
@@ -312,23 +340,29 @@ def instances(n_per_page=10):
         page = int(request.form["my_page"])
         previous_page = int(request.form["previous_page"])
         checks = session.get("checks", None)
-        update_checks(previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page)
+        update_checks(
+            previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
+        )
 
         if request.form["button_pressed"] == "deliminar":
             pass
 
         elif request.form["button_pressed"] == "descargar":
-            filename="selected_instances.csv"
+            filename = "selected_instances.csv"
             create_csv_selected_instances(list(checks.values()), filename)
-            return send_from_directory(get_temporary_download_directory(), filename, as_attachment=True)
+            return send_from_directory(
+                get_temporary_download_directory(), filename, as_attachment=True
+            )
 
     else:
         page = 1
         checks = {}
-    
+
     session["checks"] = checks
     post_pagination = Available_instances.all_paginated(page, n_per_page)
-    post_pagination.items = get_instances_view_dictionary(post_pagination.items, checks.values())
+    post_pagination.items = get_instances_view_dictionary(
+        post_pagination.items, checks.values()
+    )
 
     return render_template(
         "home/instances-administration.html",
@@ -350,7 +384,6 @@ def report_url():
         return redirect(url_for("authentication_blueprint.login"))
 
     if "report" in request.form:
-
         try:
             url = request.form["url"]
             type = request.form["type"]
@@ -374,12 +407,14 @@ def report_url():
                     instance_id=existing_instance.instance_id,
                     user_id=current_user.id,
                     date_reported=datetime.now(),
-                    suggestions=type
+                    suggestions=type,
                 )
             )
 
             db.session.commit()
-            flash("Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!")
+            flash(
+                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
+            )
 
         except exc.SQLAlchemyError as e:
             flash("Error al reportar la URL. Inténtalo de nuevo más tarde.")
