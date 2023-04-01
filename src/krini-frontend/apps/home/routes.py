@@ -184,9 +184,11 @@ def dashboard():
 
         predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
         count, numeric_class = get_sum_tags_numeric(predicted_tags)
+        messages["numeric_class"] = numeric_class
 
         if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
             save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
+            messages["update_bbdd"] = False
 
         models_confidence = [
             int(100 * cls.predict_proba(fv)[0][prediction])
@@ -210,14 +212,63 @@ def dashboard():
             "model_confidence": make_array_safe(models_confidence),
         }
 
+        session["messages"] = messages
+
         return render_template(
             "home/dashboard.html",
             segment=get_segment(request),
             information_to_display=information_to_display,
         )
 
+    flash("No hay información para mostrar. Realiza un primer análisis para acceder al dashboard.", "danger")
     return redirect(url_for("home_blueprint.index"))
 
+@blueprint.route("/report_false_positive", methods=["GET"])
+def report_false_positive():
+
+    try:
+        if not current_user.is_authenticated:
+            raise Exception("Usuario no autenticado")
+        
+        messages = session.get("messages", None)
+        if messages:
+            # Todas las URL llamables analizadas por usuarios están como instancias ya
+            url =  messages["url"]
+            tag = messages["numeric_class"]
+            existing_instance = Available_instances.query.filter_by(instance_URL=url).first()
+
+            if existing_instance:
+                # Sugiero lo contrario ya que reporto falso resultado
+                if tag == 1:
+                    suggestion = Available_tags.sug_legitimate
+                elif tag == 0:
+                    suggestion = Available_tags.sug_phishing
+                else:
+                    suggestion = Available_tags.revisar
+
+                report = Candidate_instances(
+                    user_id=current_user.id,
+                    instance_id = existing_instance.instance_id,
+                    date_reported=datetime.now(),
+                    suggestions=suggestion
+                )
+
+                db.session.add(report)
+                db.session.commit()
+                flash("Falso resultado reportado correctamente. ¡Gracias por tu colaboración!", "success")
+
+            else:
+                raise Exception("Instancia no encontrada")
+            
+        else:
+            raise Exception("Información no recuperada")
+
+    except Exception as e:
+        logger.error(str(e))
+        message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Comprueba que has iniciado sesión o inténtalo de nuevo más adelante. Gracias por tu colaboración."
+        flash(message, "warning")
+
+    return redirect(url_for('home_blueprint.dashboard'))
 
 @login_required
 @blueprint.route("/profile", methods=["GET"])
@@ -248,6 +299,10 @@ def profile():
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for("authentication_blueprint.login"))
+    
     information_to_display = []
 
     algorithms = [

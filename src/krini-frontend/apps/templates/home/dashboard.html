@@ -811,6 +811,7 @@
   </div>
   {% endif %}
 
+  {% if current_user.is_authenticated %}
   <div class="row text-center h-100">
     <div class="col-md-12 text-center my-auto">
       <div class="card card-block d-flex">
@@ -819,14 +820,15 @@
             <img src="/static/assets/img/theme/robot.png" style="width: 5%; height: 5%; margin-right: 25px; display: inline-block;">
             <span class="primary-label-forms" style="font-size: 25px;">¡Oye, tú, humano!</span>
             Si piensas que el análisis es erróneo y se trata de un falso resultado, ¡Háznoslo saber! 
-            <button id="btn-report-false-positive" class="btn btn-primary" style="margin-left: 25px; display: inline-block;">
+            <a id="btn-report-false-positive" class="btn btn-primary" style="margin-left: 25px; display: inline-block;" href="{{ url_for('home_blueprint.report_false_positive') }}">
               Reporta análisis erróneo
-            </button>
+            </a>
           </span>
         </div>
       </div>
     </div>
   </div>
+  {% endif %}
 
   {% include "includes/footer.html" %}
 </div>
