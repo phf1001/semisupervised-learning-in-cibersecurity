@@ -1108,6 +1108,7 @@ var BarsChartModels = (function () {
 
 	var $chart = $('#chart-bars-models');
 	var model_data = clsValues[0];
+	model_data = model_data.map(function(x) { return x * 100; })
 	document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
 
 	//
@@ -1123,7 +1124,7 @@ var BarsChartModels = (function () {
 			data: {
 				labels: ['Accuracy', 'Precision', 'Recall'],
 				datasets: [{
-					label: 'Score',
+					label: 'Score (%)',
 					data: model_data
 				}]
 			},
@@ -1132,8 +1133,12 @@ var BarsChartModels = (function () {
 					yAxes: [{
 						ticks: {
 							min: 0,
-							max: 1,
-							precision: 1
+							max: 100
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Score (%)'
 						}
 					}]
 				},
@@ -1169,6 +1174,7 @@ nextClsButton.addEventListener('click', function () {
 
 	var $chart = $('#chart-bars-models');
 	var model_data = clsValues[nextClsIndex];
+	model_data = model_data.map(function(x) { return x * 100; })
 
 	// Update chart
 	function updateChart($chart) {
@@ -1219,6 +1225,7 @@ var PieChartPhishing = (function () {
 							'rgb(75, 192, 192)',
 							'rgb(255, 99, 132)'
 						],
+						borderColor: 'transparent',
 					},
 				],
 				labels: ['Legítima', 'Phishing'],
