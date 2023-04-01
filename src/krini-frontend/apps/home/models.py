@@ -28,41 +28,11 @@ except KeyError:
 app = create_app(app_config)
 app.app_context().push()
 
-
-# class Available_tags(enum.Enum):
-#     """
-#     Create an Available_tags table containing the
-#     tags that are available for the instances.
-#     """
-#     white_list = 1
-#     black_list = 2
-#     nueva = 3
-#     revisar = 4
-#     mal_etiquetada_clasificador = 5
-#     sug_white_list = 6
-#     sug_black_list = 7
-#     sug_phishing = 8
-#     sug_legitimate = 9
-
-
 class Available_tags:
     """
     Create an Available_tags table containing the
     tags that are available for the instances.
     """
-
-    tags = [
-        "white,list",
-        "black,list",
-        "nueva",
-        "revisar",
-        "mal-etiquetada-clasificador",
-        "sug-white-list",
-        "sug-black-list",
-        "sug-phishing",
-        "sug-legitimate",
-    ]
-
     black_list = "black-list"
     white_list = "white-list"
     nueva = "nueva"
@@ -72,6 +42,7 @@ class Available_tags:
     sug_black_list = "sug-black-list"
     sug_phishing = "sug-phishing"
     sug_legitimate = "sug-legitimate"
+    sug_analized_review = "sug-analized-review"
 
 
 class Available_instances(db.Model):

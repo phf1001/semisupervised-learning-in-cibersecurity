@@ -24,3 +24,19 @@
 [2023-03-31 14:13:09] [krini-frontend] [ERROR] - 'MutableList' object has no attribute 'tolist'
 [2023-03-31 14:14:17] [krini-frontend] [ERROR] - 'list' object has no attribute 'tolist'
 [2023-03-31 14:20:41] [krini-frontend] [ERROR] - No se ha podido llamar la url asrtsdtgdsgsdg ni reconstruir.
+[2023-04-01 09:17:24] [krini-frontend] [ERROR] - Error saving instance in the database: Attribute 'instance_fv' does not accept objects of type <class 'int'>
+[2023-04-01 09:21:26] [krini-frontend] [ERROR] - Error saving instance in the database: Attribute 'instance_fv' does not accept objects of type <class 'float'>
+[2023-04-01 09:23:20] [krini-frontend] [ERROR] - Error saving instance in the database: 'AnonymousUserMixin' object has no attribute 'user_id'
+[2023-04-01 09:25:31] [krini-frontend] [ERROR] - Error saving instance in the database: (psycopg2.errors.NotNullViolation) null value in column "suggestions" of relation "Candidate_instances" violates not-null constraint
+DETAIL:  Failing row contains (2023-04-01 09:25:31.589229, 37, -1, null).
+
+[SQL: INSERT INTO "Candidate_instances" (date_reported, instance_id, user_id, suggestions) VALUES (%(date_reported)s, %(instance_id)s, %(user_id)s, %(suggestions)s)]
+[parameters: {'date_reported': datetime.datetime(2023, 4, 1, 9, 25, 31, 589229), 'instance_id': 37, 'user_id': -1, 'suggestions': None}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+[2023-04-01 09:27:15] [krini-frontend] [ERROR] - Error saving instance in the database: (psycopg2.errors.ForeignKeyViolation) insert or update on table "Candidate_instances" violates foreign key constraint "Candidate_instances_user_id_fkey"
+DETAIL:  Key (user_id)=(-1) is not present in table "Users".
+
+[SQL: INSERT INTO "Candidate_instances" (date_reported, instance_id, user_id, suggestions) VALUES (%(date_reported)s, %(instance_id)s, %(user_id)s, %(suggestions)s)]
+[parameters: {'date_reported': datetime.datetime(2023, 4, 1, 9, 27, 15, 827849), 'instance_id': 38, 'user_id': -1, 'suggestions': 'sug-analized-review'}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+[2023-04-01 09:32:47] [krini-frontend] [ERROR] - Error saving instance in the database. 'Users' object has no attribute 'user_id'

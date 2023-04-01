@@ -109,6 +109,8 @@ def task():
         models_ids = messages["models"]
         quick_analysis = messages["quick_analysis"]
         colour_list = ''
+        fv_extra_information = {}
+        update_bbdd = False
 
         if url == "mock":
             return trigger_mock_dashboard(url, models_ids, quick_analysis)
@@ -116,24 +118,31 @@ def task():
         callable_url = get_callable_url(url)
 
         if callable_url is None:
-            raise Exception("No se ha podido llamar la url {} ni reconstruir.".format(url))
-
-        # The URL is callable and has protocol
-        if quick_analysis == 1:
-            previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
-
+            previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
             if previous_instance:
+                callable_url = url
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
-                fv_extra_information = {}
+                
+            else:
+                raise Exception("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
+
+        else: # The URL is callable and has protocol
+            previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
+
+            if previous_instance and quick_analysis:
+                fv = list(previous_instance.instance_fv)
+                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
 
             else:
                 fv, fv_extra_information = get_fv_and_info(callable_url)
                 fv = fv.tolist()
 
-        else:
-            fv, fv_extra_information = get_fv_and_info(callable_url)
-            fv = fv.tolist()
+                if previous_instance:
+                    colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                else:
+                    update_bbdd = True # Will be stored with majority voting tag
+                    colour_list = ''
 
         # Enviamos el vector al dashboard
         session["messages"] = {
@@ -143,6 +152,7 @@ def task():
             "models_ids": models_ids,
             "quick_analysis": quick_analysis,
             "colour_list": colour_list,
+            "update_bbdd": update_bbdd,
         }
 
         return redirect(url_for("home_blueprint.dashboard"))
@@ -173,6 +183,9 @@ def dashboard():
 
         predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
         count, numeric_class = get_sum_tags_numeric(predicted_tags)
+
+        if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
+            save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
 
         models_confidence = [
             int(100 * cls.predict_proba(fv)[0][prediction])

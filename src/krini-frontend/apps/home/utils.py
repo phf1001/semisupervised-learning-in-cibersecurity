@@ -19,11 +19,13 @@ from werkzeug.utils import secure_filename
 from os import path, remove
 from apps.authentication.models import Users
 from apps.home.models import (
+    Available_tags,
     Available_models,
     Available_co_forests,
     Available_democratic_cos,
     Available_tri_trainings,
     Available_instances,
+    Candidate_instances,
 )
 import re
 import pandas as pd
@@ -39,10 +41,7 @@ import urllib.parse
 
 
 def get_logger(
-    name,
-    fichero="log_krini",
-    nivel_logger=logging.DEBUG,
-    nivel_fichero=logging.DEBUG
+    name, fichero="log_krini", nivel_logger=logging.DEBUG, nivel_fichero=logging.DEBUG
 ):
     """
     Returns a logger with the given name and the given
@@ -149,6 +148,51 @@ def find_url_protocol(url, protocols=["https://", "http://"]):
             pass
 
     return None
+
+
+def save_bbdd_analized_instance(callable_url, fv, tag=-1):
+    """
+    Tries to save an analized instance in the database.
+    If it fails, it returns False.
+    """
+
+    try:
+
+        if current_user.is_authenticated:
+            instance = Available_instances(
+                instance_URL=callable_url,
+                instance_fv=(fv,),
+                instance_class=tag,
+                instance_labels=([
+                    Available_tags.sug_analized_review,
+                    Available_tags.nueva,
+                    Available_tags.sug_phishing
+                    if tag == 1
+                    else Available_tags.sug_legitimate,
+                ],),
+            )
+
+            db.session.add(instance)
+            db.session.flush()
+
+            candidate_instance = Candidate_instances(
+                instance_id=instance.instance_id,
+                user_id=current_user.id if current_user.is_authenticated else -1,
+                date_reported=datetime.now(),
+                suggestions=Available_tags.sug_analized_review,
+            )
+
+            db.session.add(candidate_instance)
+            db.session.commit()
+
+        else:
+            raise Exception("User not authenticated. {} not saved.".format(callable_url))
+
+    except Exception as e:
+        db.session.rollback()
+        logger.error("Error saving instance in the database. {}".format(e))
+        return False
+
 
 def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
