@@ -91,7 +91,8 @@ def trigger_mock_dashboard(url, models_ids, quick_analysis):
         "url": url,
         "models_ids": models_ids,
         "quick_analysis": quick_analysis,
-        "colour_list": "black-list"
+        "colour_list": "black-list",
+        "update_bbdd": False
     }
     return redirect(url_for("home_blueprint.dashboard"))
 
@@ -200,14 +201,12 @@ def dashboard():
             "fv_extra_information": messages["fv_extra_information"],
             "class": translate_tag(numeric_class),
             "colour-list": messages["colour_list"],
-            # evitar string slicing
             "model_names": make_array_safe(model_names),
             "sum_tags_numeric": make_array_safe(count),
             "predicted_tags_labeled": make_array_safe(
                 [translate_tag(tag, True) for tag in predicted_tags]
             ),
             "model_scores": json.dumps(model_scores),
-            # sobre 100
             "model_confidence": make_array_safe(models_confidence),
         }
 

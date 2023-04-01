@@ -28,7 +28,8 @@
           <div class="card card-block d-flex">
             <div class="card-body align-items-center d-flex justify-content-center">
               <span class="h1 text-gray font-weight-bold mb-0" style="word-spacing: 3px">
-                <span class="h1 badge badge-info" style="font-size:2rem;">{{ information_to_display["url"] }}</span>
+                <!-- <span class="h1 badge badge-info" style="font-size:2rem;">{{ information_to_display["url"] }}</span> -->
+                <span class="primary-label-forms" style="font-size:2rem;">{{ information_to_display["url"] }}</span>
                 HA SIDO MAYORITARIAMENTE CLASIFICADA COMO
                 {% if information_to_display["class"] == 'phishing' %}
                 <span class="h1 badge badge-danger" style="font-size:2rem;">PHISHING</span>
@@ -809,6 +810,23 @@
     </div>
   </div>
   {% endif %}
+
+  <div class="row text-center h-100">
+    <div class="col-md-12 text-center my-auto">
+      <div class="card card-block d-flex">
+        <div class="card-body align-items-center d-flex justify-content-center">
+          <span class="gray-description-forms" style="font-weight:bold; font-size: 23px;word-spacing: 3px; text-align: center;">
+            <img src="/static/assets/img/theme/robot.png" style="width: 5%; height: 5%; margin-right: 25px; display: inline-block;">
+            <span class="primary-label-forms" style="font-size: 25px;">¡Oye, tú, humano!</span>
+            Si piensas que el análisis es erróneo y se trata de un falso resultado, ¡Háznoslo saber! 
+            <button id="btn-report-false-positive" class="btn btn-primary" style="margin-left: 25px; display: inline-block;">
+              Reporta análisis erróneo
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% include "includes/footer.html" %}
 </div>
