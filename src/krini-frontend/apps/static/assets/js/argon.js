@@ -1123,239 +1123,266 @@ $("[data-toggle=myCollapse]").click(function( ev ) {
 	}
   }
 
+
+
 // Krini graphs
-const clsColours = [
+const colours = [
 	'rgba(255, 26, 104, 1)',
 	'rgba(54, 162, 235, 1)',
 	'rgba(255, 206, 86, 1)',
-	'rgba(75, 192, 192, 1)'
+	'rgba(75, 192, 192, 1)',
+	'rgba(153, 102, 255, 1)',
+	'rgba(255, 159, 64, 1)',
+	'rgba(255, 99, 132, 1)',
+	'rgba(0, 128, 128, 1)',
+	'rgba(170, 255, 195, 1)',
+	'rgba(210, 245, 60, 1)',
+	'rgba(145, 30, 180, 1)',
+	'rgba(0, 0, 128, 1)',
+	'rgba(230, 190, 255, 1)',
+	'rgba(255, 215, 180, 1)',
+	'rgba(170, 110, 40, 1)',
 ]
 
 var clsNames = $('#cls-names').data('cls-names');
-clsNames = clsNames.replace(/'/g, '"');
-clsNames = JSON.parse(clsNames);
+// Cls values is a list of lists containing decimals
 var clsValues = $('#cls-scores').data('cls-scores');
-var scoresChartGlobal;
-var lastClsIndex = 0;
-var nCls = clsNames.length;
 
-// Bars chart - indivicual for each cls
+// Only the dashboard contains those elements
+if (clsNames && clsValues) {
+	var clsNames = $('#cls-names').data('cls-names');
+	clsNames = clsNames.replace(/'/g, '"');
+	clsNames = JSON.parse(clsNames);
+	var nMetrics = clsValues[0].length;
+	var metrics = ['Accuracy', 'Precision', 'Recall'];
+	var accuracys = [];
+	var precisions = [];
+	var recalls = [];
+	var lastClsIndex = 0;
+	var nCls = clsNames.length;
+	var clsColours = [];
 
-var BarsChartModels = (function () {
+	for (var i = 0; i < nCls; i++) {
+		for (var j = 0; j < nMetrics; j++) {
+			clsValues[i][j] = Math.round(clsValues[i][j] * 10000) / 100;
+		}
+		clsColours.push(colours[i%colours.length]);
+		accuracys.push(clsValues[i][0]);
+		precisions.push(clsValues[i][1]);
+		recalls.push(clsValues[i][2]);
+	}
 
-	var $chart = $('#chart-bars-models');
-	var model_data = clsValues[lastClsIndex];
-	model_data = model_data.map(function(x) { return x * 100; })
-	document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
+	var scoresChartGlobal;
 
-	function initChart($chart) {
+	// Bars chart - indivicual for each cls
+	var BarsChartModels = (function () {
 
-		var scoresChart = new Chart($chart, {
-			type: 'bar',
-			data: {
-				labels: ['Accuracy', 'Precision', 'Recall'],
-				datasets: [{
-					label: 'Score (%)',
-					data: model_data,
-					backgroundColor: [clsColours[lastClsIndex], clsColours[lastClsIndex], clsColours[lastClsIndex]]
-				}]
-			},
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							min: 0,
-							max: 100
-						},
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Score (%)'
-						}
+		var $chart = $('#chart-bars-models');
+		var model_data = clsValues[lastClsIndex];
+		document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
+
+		function initChart($chart) {
+
+			var scoresChart = new Chart($chart, {
+				type: 'bar',
+				data: {
+					labels: metrics,
+					datasets: [{
+						label: 'Score (%)',
+						data: model_data,
+						backgroundColor: [clsColours[lastClsIndex], clsColours[lastClsIndex], clsColours[lastClsIndex]]
 					}]
 				},
-				legend: {
-					display: false
-				}
-			}
-		});
-
-		scoresChartGlobal = scoresChart;
-
-		// Save to jQuery object
-		$chart.data('chart', scoresChart);
-	}
-
-	if ($chart.length) {
-		initChart($chart);
-	}
-
-})();
-
-'use strict';
-
-
-var nextClsButton = document.getElementById('btn-next-cls-graph');
-nextClsButton.addEventListener('click', function () {
-
-	var nextClsIndex = (lastClsIndex + 1) % nCls;
-	var nameCls = clsNames[nextClsIndex];
-	document.getElementById("h6-cls-score-graph").innerText = nameCls;
-
-	var $chart = $('#chart-bars-models');
-	var model_data = clsValues[nextClsIndex];
-	model_data = model_data.map(function(x) { return x * 100; })
-
-	// Update chart
-	function updateChart($chart) {
-
-		var scoresChart = scoresChartGlobal;
-		scoresChart.data.datasets[0].data = model_data;
-		scoresChart.data.datasets[0].backgroundColor = [clsColours[lastClsIndex], clsColours[lastClsIndex], clsColours[lastClsIndex]]
-		scoresChart.update();
-		$chart.data('chart', scoresChart);
-	}
-
-	if ($chart.length) {
-		updateChart($chart);
-	}
-
-	lastClsIndex = nextClsIndex;
-});
-
-// Pie chart phishing or not
-var PieChartPhishing = (function () {
-
-	var $chart = $('#chart-pie-phishing');
-	var sum_data = $('#cls-numeric-predictions-sum').data('cls-numeric-predictions-sum');
-
-	function initChart($chart) {
-
-		var piePhishingChart = new Chart($chart, {
-
-			type: 'doughnut',
-			data: {
-				datasets: [
-					{
-						data: sum_data,
-						backgroundColor: [
-							'rgb(75, 192, 192)',
-							'rgb(255, 99, 132)'
-						],
-						borderColor: 'transparent',
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								min: 0,
+								max: 100
+							},
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Score (%)'
+							}
+						}]
 					},
-				],
-				labels: ['Legítima', 'Phishing'],
-			},
-			options: {
-				cutoutPercentage: 45,
-				legend: {
-					display: true
+					legend: {
+						display: false
+					}
 				}
-			},
-			plugins: {
-				legend: {
-					display: true,
-					position: 'bottom',
-					title: {
-						display: true,
-						padding: 10,
-					},
-				}
-			}
+			});
+
+			scoresChartGlobal = scoresChart;
+			// Save to jQuery object
+			$chart.data('chart', scoresChart);
+		}
+
+		if ($chart.length) {
+			initChart($chart);
+		}
+	})();
+
+	'use strict';
+
+	var nextClsButton = document.getElementById('btn-next-cls-graph');
+	nextClsButton.addEventListener('click', function () {
+
+		var nextClsIndex = (lastClsIndex + 1) % nCls;
+		var nameCls = clsNames[nextClsIndex];
+		document.getElementById("h6-cls-score-graph").innerText = nameCls;
+		var $chart = $('#chart-bars-models');
+		var model_data = clsValues[nextClsIndex];
+
+
+		// Update chart
+		function updateChart($chart) {
+
+			var scoresChart = scoresChartGlobal;
+			scoresChart.data.datasets[0].data = model_data;
+			scoresChart.data.datasets[0].backgroundColor = [clsColours[nextClsIndex], clsColours[nextClsIndex], clsColours[nextClsIndex]]
+			scoresChart.update();
+			$chart.data('chart', scoresChart);
+		}
+		if ($chart.length) {
+			updateChart($chart);
+		}
+
+		lastClsIndex = nextClsIndex;
 	});
-		$chart.data('chart', piePhishingChart);
-	}
 
-	if ($chart.length) {
-		initChart($chart);
-	}
+	// Pie chart phishing or not
+	var PieChartPhishing = (function () {
 
-})();
+		var $chart = $('#chart-pie-phishing');
+		var sum_data = $('#cls-numeric-predictions-sum').data('cls-numeric-predictions-sum');
 
-'use strict';
+		function initChart($chart) {
 
-// Big chart comparations
+			var piePhishingChart = new Chart($chart, {
 
-Chart.plugins.register({
-    beforeDraw: function(c) {
-        c.legend.options.labels.labelColor = 'hsl(0,0%,85%)';
-    }
-});
-
-var GeneralChartScores = (function () {
-
-	var $chart = $('#myChart');
-
-	const data = {
-		labels: ['Cls1', 'Cls2', 'Cls3', 'Cls4'],
-		datasets: [{
-		  label: 'Acuracy',
-		  labelColor: 'blue',
-		  data: [90, 95, 99, 87],
-		  backgroundColor: clsColours
-		},
-
-		{
-			label: 'Precision',
-			color: 'red',
-			data: [89, 56, 78, 90],
-			backgroundColor: clsColours
-		  },
-
-		  {
-			label: 'Recall',
-			data: [90, 88, 78, 95],
-			backgroundColor: clsColours
-		  },]
-	  };
-
-	// Init chart
-	function initChart($chart) {
-
-		// Create chart
-		var generalChartScores = new Chart($chart, {
-
-			type: 'bar',
-			data: data,
-
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							min: 0,
-							max: 100
+				type: 'doughnut',
+				data: {
+					datasets: [
+						{
+							data: sum_data,
+							backgroundColor: [
+								'rgb(75, 192, 192)',
+								'rgb(255, 99, 132)'
+							],
+							borderColor: 'transparent',
 						},
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Score (%)'
-						}
-					}]
+					],
+					labels: ['Legítima', 'Phishing'],
 				},
-				legend: {
-					display: true,
+				options: {
+					cutoutPercentage: 45,
+					legend: {
+						display: true
+					}
 				},
 				plugins: {
 					legend: {
-						labels: {
-							color: 'rgb(1, 1, 1)'
-						}
+						display: true,
+						position: 'bottom',
+						title: {
+							display: true,
+							padding: 10,
+						},
 					}
 				}
-			}
+		});
+			$chart.data('chart', piePhishingChart);
+		}
+
+		if ($chart.length) {
+			initChart($chart);
+		}
+
+	})();
+
+	'use strict';
+
+	// Big chart comparations
+
+	Chart.plugins.register({
+		beforeDraw: function(c) {
+			c.legend.options.labels.labelColor = 'hsl(0,0%,85%)';
+		}
 	});
 
-		// Save to jQuery object
-		$chart.data('chart', generalChartScores);
-	}
+	var GeneralChartScores = (function () {
 
+		var $chart = $('#chart-bars-general');
 
-	// Init chart
-	if ($chart.length) {
-		initChart($chart);
-	}
+		const data = {
+			labels: clsNames,
+			datasets: [{
+			label: metrics[0],
+			//   labelColor: 'blue',
+			data: accuracys,
+			//backgroundColor: clsColours
+			backgroundColor: 'rgb(75, 192, 192)'
+			},
 
-})();
+			{
+				label: metrics[1],
+				color: 'red',
+				data: precisions,
+				//backgroundColor: clsColours
+				backgroundColor: 'rgb(255, 99, 132)'
+			},
 
-'use strict';
+			{
+				label: metrics[2],
+				data: recalls,
+				//backgroundColor: clsColours
+				backgroundColor: 'rgb(255, 205, 86)'
+			},]
+		};
+
+		// Init chart
+		function initChart($chart) {
+
+			// Create chart
+			var generalChartScores = new Chart($chart, {
+
+				type: 'bar',
+				data: data,
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								min: 0,
+								max: 100
+							},
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Score (%)'
+							}
+						}]
+					},
+
+					legend: {
+						display: true,
+						// labels: {
+						// 	generateLabels: {
+						// 		fillStyle: rgb(0, 0, 0),
+						// 	 }
+						// },
+					}
+				},
+		});
+			// Save to jQuery object
+			$chart.data('chart', generalChartScores);
+		}
+
+		// Init chart
+		if ($chart.length) {
+			initChart($chart);
+		}
+	})();
+
+	'use strict';
+}
