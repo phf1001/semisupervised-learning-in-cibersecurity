@@ -169,59 +169,66 @@ def task():
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    messages = session.get("messages", None)
 
-    if messages:
-        url = messages["url"]
-        fv = np.array(messages["fv"])
-        selected_models = translate_array_js(messages["models_ids"])
+    try:
+        messages = session.get("messages", None)
 
-        classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
+        if messages:
+            url = messages["url"]
+            fv = np.array(messages["fv"])
+            selected_models = translate_array_js(messages["models_ids"])
 
-        model_names = [tupla[0] for tupla in classifiers_info_tuples]
-        classifiers = [tupla[1] for tupla in classifiers_info_tuples]
-        model_scores = [tupla[2] for tupla in classifiers_info_tuples]
+            classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
-        predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
-        count, numeric_class = get_sum_tags_numeric(predicted_tags)
-        messages["numeric_class"] = numeric_class
+            model_names = [tupla[0] for tupla in classifiers_info_tuples]
+            classifiers = [tupla[1] for tupla in classifiers_info_tuples]
+            model_scores = [tupla[2] for tupla in classifiers_info_tuples]
 
-        if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
-            save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
-            messages["update_bbdd"] = False
+            predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
+            count, numeric_class = get_sum_tags_numeric(predicted_tags)
+            messages["numeric_class"] = numeric_class
 
-        models_confidence = [
-            int(100 * cls.predict_proba(fv)[0][prediction])
-            for cls, prediction in zip(classifiers, predicted_tags)
-        ]
+            if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
+                save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
+                messages["update_bbdd"] = False
 
-        # Todo en arrays por orden
-        information_to_display = {
-            "url": url,
-            "quick_analysis": messages["quick_analysis"],
-            "fv": list(fv),
-            "fv_extra_information": messages["fv_extra_information"],
-            "class": translate_tag(numeric_class),
-            "colour-list": messages["colour_list"],
-            "model_names": make_array_safe(model_names),
-            "sum_tags_numeric": make_array_safe(count),
-            "predicted_tags_labeled": make_array_safe(
-                [translate_tag(tag, True) for tag in predicted_tags]
-            ),
-            "model_scores": json.dumps(model_scores),
-            "model_confidence": make_array_safe(models_confidence),
-        }
+            models_confidence = [
+                int(100 * cls.predict_proba(fv)[0][prediction])
+                for cls, prediction in zip(classifiers, predicted_tags)
+            ]
 
-        session["messages"] = messages
+            # Todo en arrays por orden
+            information_to_display = {
+                "url": url,
+                "quick_analysis": messages["quick_analysis"],
+                "fv": list(fv),
+                "fv_extra_information": messages["fv_extra_information"],
+                "class": translate_tag(numeric_class),
+                "colour-list": messages["colour_list"],
+                "model_names": make_array_safe(model_names),
+                "sum_tags_numeric": make_array_safe(count),
+                "predicted_tags_labeled": make_array_safe(
+                    [translate_tag(tag, True) for tag in predicted_tags]
+                ),
+                "model_scores": json.dumps(model_scores),
+                "model_confidence": make_array_safe(models_confidence),
+            }
 
-        return render_template(
-            "home/dashboard.html",
-            segment=get_segment(request),
-            information_to_display=information_to_display,
-        )
+            session["messages"] = messages
 
-    flash("No hay información para mostrar. Realiza un primer análisis para acceder al dashboard.", "danger")
-    return redirect(url_for("home_blueprint.index"))
+            return render_template(
+                "home/dashboard.html",
+                segment=get_segment(request),
+                information_to_display=information_to_display,
+            )
+        
+        else:
+            raise Exception("No hay variables de sesión.")
+        
+    except Exception as e: # Pueden saltar por no existir la clave en el diccionario
+        logger.error(e)
+        flash("No hay información para mostrar o ha caducado. Realiza un análisis para acceder al dashboard.", "danger")
+        return redirect(url_for("home_blueprint.index"))
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
@@ -386,14 +393,13 @@ def creatingmodel():
 
     cls.fit(L_train, Ly_train, U_train)
     y_pred = cls.predict(X_test)
-    scores = get_array_scores(y_test, y_pred)
-    flash(scores)
+    y_pred_proba = cls.predict_proba(X_test)
+    scores = get_array_scores(y_test, y_pred, y_pred_proba)
+    flash("Scores del modelo: {}".format(scores), "info")
 
     # Serializamos el nuevo modelo y lo guardamos en la bbdd
     serialize_store_coforest(form_data, cls, scores)
-
-    # flash("{}".format(form_data))
-    return redirect(url_for("home_blueprint.report_url"))
+    return redirect(url_for("home_blueprint.models"))
 
 
 @login_required

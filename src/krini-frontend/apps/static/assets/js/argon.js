@@ -1154,10 +1154,12 @@ if (clsNames && clsValues) {
 	clsNames = clsNames.replace(/'/g, '"');
 	clsNames = JSON.parse(clsNames);
 	var nMetrics = clsValues[0].length;
-	var metrics = ['Accuracy', 'Precision', 'Recall'];
+	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1', 'ROC'];
 	var accuracys = [];
 	var precisions = [];
 	var recalls = [];
+	var f1s = [];
+	var rocs = [];
 	var lastClsIndex = 0;
 	var nCls = clsNames.length;
 	var clsColours = [];
@@ -1170,6 +1172,8 @@ if (clsNames && clsValues) {
 		accuracys.push(clsValues[i][0]);
 		precisions.push(clsValues[i][1]);
 		recalls.push(clsValues[i][2]);
+		f1s.push(clsValues[i][3]);
+		rocs.push(clsValues[i][4]);
 	}
 
 	var scoresChartGlobal;
@@ -1180,6 +1184,10 @@ if (clsNames && clsValues) {
 		var $chart = $('#chart-bars-models');
 		var model_data = clsValues[lastClsIndex];
 		document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
+		var bckColor = [];
+		for (var i = 0; i < nMetrics; i++) {
+			bckColor.push(clsColours[0]);
+		}
 
 		function initChart($chart) {
 
@@ -1190,7 +1198,7 @@ if (clsNames && clsValues) {
 					datasets: [{
 						label: 'Score (%)',
 						data: model_data,
-						backgroundColor: [clsColours[lastClsIndex], clsColours[lastClsIndex], clsColours[lastClsIndex]]
+						backgroundColor: bckColor,
 					}]
 				},
 				options: {
@@ -1240,7 +1248,13 @@ if (clsNames && clsValues) {
 
 			var scoresChart = scoresChartGlobal;
 			scoresChart.data.datasets[0].data = model_data;
-			scoresChart.data.datasets[0].backgroundColor = [clsColours[nextClsIndex], clsColours[nextClsIndex], clsColours[nextClsIndex]]
+
+			var bckColor = [];
+			for (var i = 0; i < nMetrics; i++) {
+				bckColor.push(clsColours[nextClsIndex]);
+			}
+
+			scoresChart.data.datasets[0].backgroundColor = bckColor;
 			scoresChart.update();
 			$chart.data('chart', scoresChart);
 		}
@@ -1305,11 +1319,11 @@ if (clsNames && clsValues) {
 
 	// Big chart comparations
 
-	Chart.plugins.register({
-		beforeDraw: function(c) {
-			c.legend.options.labels.labelColor = 'hsl(0,0%,85%)';
-		}
-	});
+	// Chart.plugins.register({
+	// 	beforeDraw: function(c) {
+	// 		c.legend.options.labels.labelColor = 'rgb(75, 192, 192)';
+	// 	}
+	// });
 
 	var GeneralChartScores = (function () {
 
@@ -1338,7 +1352,19 @@ if (clsNames && clsValues) {
 				data: recalls,
 				//backgroundColor: clsColours
 				backgroundColor: 'rgb(255, 205, 86)'
-			},]
+			},
+			{
+				label: metrics[3],
+				data: f1s,
+				//backgroundColor: clsColours
+				backgroundColor: 'rgb(54, 162, 235)'
+			},
+			{
+				label: metrics[4],
+				data: rocs,
+				//backgroundColor: clsColours
+				backgroundColor: 'rgb(153, 102, 255)'
+			}]
 		};
 
 		// Init chart

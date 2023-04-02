@@ -1,3 +1,5 @@
 [2023-04-02 09:06:03] [krini-frontend] [ERROR] - No se ha podido llamar la url mcok ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.
 [2023-04-02 09:18:24] [krini-frontend] [ERROR] - Error saving instance in the database. User not authenticated. https://google.es not saved.
 [2023-04-02 09:19:46] [krini-frontend] [ERROR] - No se ha podido llamar la url mockdasda ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.
+[2023-04-02 10:18:37] [krini-frontend] [ERROR] - 'url'
+[2023-04-02 10:19:56] [krini-frontend] [ERROR] - 'url'

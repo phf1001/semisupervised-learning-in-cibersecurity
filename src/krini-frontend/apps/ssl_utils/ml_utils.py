@@ -18,7 +18,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 from apps.home.models import Available_models
 
@@ -45,9 +45,24 @@ def get_democratic_co():
     return DemocraticCo()
 
 
-def get_array_scores(y_test, y_pred):
-    """Returns the accuracy, precision and recall scores of the model"""
-    return [float(accuracy_score(y_test, y_pred)), float(precision_score(y_test, y_pred)), float(recall_score(y_test, y_pred))]
+def get_array_scores(y_test, y_pred, y_pred_proba):
+    """
+    Returns the accuracy, precision, recall 
+    f1 and ROC auc scores of the model
+    """
+
+    try:
+        auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
+
+    except:
+        auc_score = 0.0
+
+    return [    float(accuracy_score(y_test, y_pred)), 
+                float(precision_score(y_test, y_pred)), 
+                float(recall_score(y_test, y_pred)),
+                float(f1_score(y_test, y_pred)),
+                auc_score
+            ]
 
 
 def get_base_cls(wanted_cls):

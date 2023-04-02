@@ -427,7 +427,7 @@ def serialize_store_coforest(form_data, cls, scores):
 
         db.session.add(new_model)
         db.session.commit()
-        flash("Modelo guardado correctamente.")
+        flash("Modelo guardado correctamente.", "success")
         return True
 
     except Exception as e:
