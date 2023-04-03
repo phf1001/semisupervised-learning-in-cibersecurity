@@ -125,7 +125,7 @@ def task():
                 callable_url = url
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
-                
+
             else:
                 raise KriniException("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
 
@@ -225,21 +225,21 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-        
+
         else:
             raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
-        
+
     except KriniException as e:
         logger.error(e.message)
         flash(e.message, "danger")
         return redirect(url_for("home_blueprint.index"))
-    
+
     except KeyError:
         msg = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
         logger.error("KeyError dashboard" + msg)
         flash(msg, "danger")
         return redirect(url_for("home_blueprint.index"))
-    
+
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
@@ -247,7 +247,7 @@ def report_false_positive():
     try:
         if not current_user.is_authenticated:
             raise KriniNotLoggedException("Usuario no autenticado")
-        
+
         messages = session.get("messages", None)
         if messages:
             # Todas las URL llamables analizadas por usuarios están como instancias ya
@@ -277,7 +277,7 @@ def report_false_positive():
 
             else:
                 raise KriniException("Instancia no encontrada")
-            
+
         else:
             raise KriniException("Información no recuperada")
 
@@ -325,7 +325,7 @@ def models():
 
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
-    
+
     information_to_display = []
 
     algorithms = [

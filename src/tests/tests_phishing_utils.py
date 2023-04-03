@@ -23,7 +23,7 @@ class phishingUtilsMethods(unittest.TestCase):
     Tests for `phishing_utils.py
     Execute from parent directory
     """
-    
+
     def test_translate_leet(self):
         """
         Test to check if the leet translator
