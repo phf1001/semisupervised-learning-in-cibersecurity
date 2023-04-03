@@ -94,7 +94,6 @@ def get_callable_url(url):
     Tries to get the URL content. If it fails, it tries
     to complete the URL
     """
-
     try:
         requests.get(
             url,
@@ -150,7 +149,6 @@ def find_url_protocol(url, protocols=[]):
     """
     Tries to find a protocol for the given URL
     """
-
     if len(protocols) == 0:
         protocols = ["https://", "http://"]
 
@@ -178,7 +176,6 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
     Tries to save an analized instance in the database.
     If it fails, it returns False.
     """
-
     try:
 
         if current_user.is_authenticated:
@@ -260,7 +257,6 @@ def get_sum_tags_numeric(predicted_tags):
     1 las votaciones para 1. Devuelve también la
     etiqueta mayoritaria.
     """
-
     count = [0, 0]
 
     for tag in predicted_tags:
