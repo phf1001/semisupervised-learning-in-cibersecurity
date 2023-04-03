@@ -12,7 +12,7 @@
 from sqlalchemy import exc
 from apps.home import blueprint
 from apps import db
-from flask import render_template, request, flash, redirect, url_for, session
+from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
@@ -79,7 +79,7 @@ def index():
     return render_template("specials/processing-url.html")
 
 
-def trigger_mock_dashboard(url, models_ids, quick_analysis):
+def trigger_mock_dashboard(models_ids, quick_analysis):
     """
     Trigger the dashboard with mock values.
     Coded to make the development process faster.
@@ -89,7 +89,7 @@ def trigger_mock_dashboard(url, models_ids, quick_analysis):
     session["messages"] = {
         "fv": fv.tolist(),
         "fv_extra_information": fv_extra_information,
-        "url": url,
+        "url": "http://phishing.com/query?param=1",
         "models_ids": models_ids,
         "quick_analysis": quick_analysis,
         "colour_list": "black-list",
@@ -115,7 +115,7 @@ def task():
         update_bbdd = False
 
         if url == "mock":
-            return trigger_mock_dashboard(url, models_ids, quick_analysis)
+            return trigger_mock_dashboard(models_ids, quick_analysis)
 
         callable_url = get_callable_url(url)
 
@@ -203,7 +203,7 @@ def dashboard():
 
             # Todo en arrays por orden
             information_to_display = {
-                "url": url,
+                "url": url if numeric_class == 0 else sanitize_url(url),
                 "quick_analysis": messages["quick_analysis"],
                 "fv": list(fv),
                 "fv_extra_information": messages["fv_extra_information"],

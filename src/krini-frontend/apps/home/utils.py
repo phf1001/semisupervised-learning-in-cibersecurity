@@ -76,6 +76,19 @@ def get_logger(
 logger = get_logger("krini-frontend")
 
 
+def sanitize_url(url):
+    """
+    Transform a dangerours URL into a not-clickable one.
+    """
+    url = url.replace('http', 'hxxp')
+    url = url.replace('://', '[://]')
+    url = url.replace('.', '[.]')
+    url = url.replace('?', '[?]')
+    url = url.replace('&', '[&]')
+    url = url.replace('=', '[=]')
+    return url
+
+
 def get_callable_url(url):
     """
     Tries to get the URL content. If it fails, it tries
