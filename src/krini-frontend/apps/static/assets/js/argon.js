@@ -400,7 +400,7 @@ var Charts = (function () {
 	// Toggle ticks
 	function toggleTicks(elem, $chart) {
 
-		if (elem.data('prefix') !== undefined || elem.data('prefix') !== undefined) {
+		if (elem.data('prefix') !== undefined || elem.data('suffix') !== undefined) {
 			var prefix = elem.data('prefix') ? elem.data('prefix') : '';
 			var suffix = elem.data('suffix') ? elem.data('suffix') : '';
 

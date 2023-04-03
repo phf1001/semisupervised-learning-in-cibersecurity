@@ -129,10 +129,14 @@ def complete_uncallable_url(url):
         return None
 
 
-def find_url_protocol(url, protocols=["https://", "http://"]):
+def find_url_protocol(url, protocols=[]):
     """
     Tries to find a protocol for the given URL
     """
+
+    if len(protocols) == 0:
+        protocols = ["https://", "http://"]
+
     for protocol in protocols:
         try:
             url = protocol + url
