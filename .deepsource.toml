@@ -1,4 +1,11 @@
-version = 1
+version = 2
+
+exclude_patterns = [
+  "**/env/**",
+  "**/media/**",
+  "**/nginx/**",
+  "**/static/**"
+]
 
 [[analyzers]]
 name = "python"
