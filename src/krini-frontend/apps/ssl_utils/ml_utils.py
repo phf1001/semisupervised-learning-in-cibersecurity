@@ -164,7 +164,7 @@ def get_models_directory():
 
     if not os.path.exists(models_path):
         os.makedirs(models_path)
-    
+
     return models_path
 
 
@@ -177,10 +177,10 @@ def get_temporary_train_files_directory():
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
     files_path = os.path.abspath(os.path.join(
         parent_dir, "temporal" + os.path.sep + "train_files"))
-    
+
     if not os.path.exists(files_path):
         os.makedirs(files_path)
-    
+
     return files_path
 
 
@@ -193,7 +193,7 @@ def get_temporary_download_directory():
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
     files_path = os.path.abspath(os.path.join(
         parent_dir, "temporal" + os.path.sep + "downloads"))
-    
+
     if not os.path.exists(files_path):
         os.makedirs(files_path)
 

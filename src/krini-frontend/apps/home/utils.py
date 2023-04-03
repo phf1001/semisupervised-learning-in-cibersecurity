@@ -214,7 +214,7 @@ def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
         splitted = selected.split(",")
         return [int(elem) for elem in splitted]
-    
+
     return []
 
 
@@ -237,12 +237,12 @@ def get_selected_models_ids(selected):
 
     if default_id:
         return [default_id.model_id]
-    
+
     else:
         random_model = Available_models.query.first()
         if random_model:
             return [random_model.model_id]
-    
+
     return []
 
 
@@ -332,7 +332,7 @@ def translate_tag_colour(tag):
         return "legítimo", "green"
     elif tag == 1:
         return "phishing", "red"
-    
+
     else:
         return "no disponible", "grey"
 
