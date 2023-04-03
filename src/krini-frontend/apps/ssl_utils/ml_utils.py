@@ -49,7 +49,6 @@ def get_array_scores(y_test, y_pred, y_pred_proba):
     Returns the accuracy, precision, recall 
     f1 and ROC auc scores of the model
     """
-
     try:
         auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
 
@@ -98,7 +97,6 @@ def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, prox
     Returns the feature vector and the info of a url.
     It is assumed that the URL is callable via requests.
     """
-
     try:
         msg = "Error reconstruyendo el objeto TFIDF"
         tfidf = get_tfidf_object(tfidf_file)
@@ -141,7 +139,6 @@ def get_mock_values_fv():
 
 def translate_tag(tag, caps=False):
     """Translates numerical tags to string."""
-
     translated_tag = ""
 
     if tag == 0:

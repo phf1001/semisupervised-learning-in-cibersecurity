@@ -187,7 +187,6 @@ class CoForest:
         W: np.array
             Weights of the unlabeled data
         """
-
         if w_init_criteria == 'percentage_L':
             return [min(0.1 * len(L), 100) for i in range(self.n)]
 

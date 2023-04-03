@@ -78,7 +78,6 @@ class PHISH_FVG:
         F1 = 1, if dots in url >= 4
         F1 = 0, otherwise
         """
-
         n_dots = self.url.count(".")
         self.extra_information["f1"] = n_dots
 
@@ -94,7 +93,6 @@ class PHISH_FVG:
         F2 = 1, if URL contains '@' or '-' symbols
         F2 = 0, otherwise
         """
-
         at_found = "@" in self.url
         minus_found = "-" in self.url
 
@@ -123,7 +121,6 @@ class PHISH_FVG:
         F3 = 1, if URL length >= 74
         F3 = 0, otherwise
         """
-
         self.extra_information["f3"] = len(self.url)
 
         if len(self.url) >= 74:
@@ -138,7 +135,6 @@ class PHISH_FVG:
         F4 = 1, if URL contains any suspicious word
         F4 = 0, otherwise
         """
-
         splitted_url = get_splitted_url(self.url)
         suspicious_words = get_suspicious_keywords()
 
@@ -159,7 +155,6 @@ class PHISH_FVG:
         F5 = 1, if tlds in URL > 1
         F5 = 0, otherwise
         """
-
         tld = get_tld(self.url, fix_protocol=True)
         base_without_tld = self.base[: -len(tld) - 1]
         rest = base_without_tld + self.path
@@ -184,7 +179,6 @@ class PHISH_FVG:
         F6 = 1, if http count in URL > 1
         F6 = 0, otherwise
         """
-
         if len(re.findall("http", self.url)) > 1:
             self.fv[5] = 1
             self.extra_information["f6"] = "Sí"
@@ -199,7 +193,6 @@ class PHISH_FVG:
         F7 = 1, if brand in incorrect position.
         F7 = 0, otherwise
         """
-
         targets = get_phishing_targets_set()
 
         lower_url = self.url.lower()
@@ -247,7 +240,6 @@ class PHISH_FVG:
         F8 = 1, if data URI present in website.
         F8 = 0, otherwise
         """
-
         matches = find_data_URIs(self.html)
 
         if len(matches) > 0:
@@ -266,7 +258,6 @@ class PHISH_FVG:
         F9 = 1, if action field contains foreign base domain
         F9 = 0, otherwise
         """
-
         forms_found = re.findall("<form[^>]+>", self.html)
 
         if len(forms_found) > 0:
@@ -304,7 +295,6 @@ class PHISH_FVG:
         F11 = 1, if no hyperlinks found in source.
         F11 = 0, otherwise
         """
-
         n_hyperlinks_found = len(self.hyperlinks)
         self.fv[9] = n_hyperlinks_found
         self.extra_information["f10"] = n_hyperlinks_found
@@ -422,7 +412,6 @@ class PHISH_FVG:
 
         #'assets/bootstrap/css/bootstrap.min.css' foreign?
         """
-
         external_csss = self.soup.findAll("link", rel="stylesheet")
 
         for css in external_csss:
@@ -442,7 +431,6 @@ class PHISH_FVG:
         F17 = 0 if copyright keyword matches base domain
         F17 = 1, otherwise
         """
-
         copyright_clues = [
             "©",
             "&#169",
@@ -481,7 +469,6 @@ class PHISH_FVG:
         F18 = 1 if no keyword matches domain name
         F18 = 0 Otherwise
         """
-
         keywords = get_site_keywords(self.html, self.tfidf, 15)
 
         for keyword in keywords:
@@ -499,7 +486,6 @@ class PHISH_FVG:
         F19 = 1, if foreign domain found in favicon link
         F19 = 0, otherwise
         """
-
         icons = self.soup.findAll("link", rel="icon")
         icons += self.soup.findAll("link", rel="shortcut icon")
 
