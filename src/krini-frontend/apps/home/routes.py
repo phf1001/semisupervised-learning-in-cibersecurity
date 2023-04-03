@@ -470,12 +470,12 @@ def report_url():
     if "report" in request.form:
         try:
             url = request.form["url"]
-            type = request.form["type"]
+            report_type = request.form["type"]
 
-            if type == "blacklist":
-                type = Available_tags.black_list
-            elif type == "whitelist":
-                type = Available_tags.white_list
+            if report_type == "blacklist":
+                report_type = Available_tags.black_list
+            elif report_type == "whitelist":
+                report_type = Available_tags.white_list
 
             existing_instance = Available_instances.query.filter_by(
                 instance_URL=url
@@ -491,7 +491,7 @@ def report_url():
                     instance_id=existing_instance.instance_id,
                     user_id=current_user.id,
                     date_reported=datetime.now(),
-                    suggestions=type,
+                    suggestions=report_type,
                 )
             )
 
@@ -530,7 +530,7 @@ def route_template(template):
     except TemplateNotFound:
         return render_template("specials/page-404.html"), 404
 
-    except:
+    except Exception:
         return render_template("specials/page-500.html"), 500
 
 

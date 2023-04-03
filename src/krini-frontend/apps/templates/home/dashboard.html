@@ -28,7 +28,6 @@
           <div class="card card-block d-flex">
             <div class="card-body align-items-center d-flex justify-content-center">
               <span class="h1 text-gray font-weight-bold mb-0" style="word-spacing: 3px">
-                <!-- <span class="h1 badge badge-info" style="font-size:2rem;">{{ information_to_display["url"] }}</span> -->
                 <span class="primary-label-forms" style="font-size:2rem;">{{ information_to_display["url"] }}</span>
                 HA SIDO MAYORITARIAMENTE CLASIFICADA COMO
                 {% if information_to_display["class"] == 'phishing' %}
@@ -120,6 +119,7 @@
         <div class="table-responsive">
           <!-- Projects table -->
           <table class="table align-items-center table-flush">
+            <caption>Predict proba results of each classifier</caption>
             <thead class="thead-light">
               <tr>
                 <th scope="col">CLASIFICADOR</th>
@@ -234,6 +234,7 @@
         <div class="table-responsive">
           <!-- Projects table -->
           <table class="table align-items-center table-flush" style="width: 100%;">
+            <caption>Features vector</caption>
             <thead class="thead-light">
               <tr>
 

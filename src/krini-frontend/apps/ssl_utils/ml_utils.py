@@ -76,8 +76,7 @@ def get_base_cls(wanted_cls):
         return GaussianNB()
 
     else:
-        # raise Exception("Classifier not found")
-        return DecisionTreeClassifier()
+        raise Exception("Clasificador no encontrado")
 
 
 def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):

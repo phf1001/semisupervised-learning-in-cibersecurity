@@ -12,8 +12,6 @@ from apps import db
 from decouple import config
 from apps import create_app
 from apps.config import config_dict
-import enum
-from sqlalchemy import Integer, Enum
 from sqlalchemy.ext.mutable import MutableList
 
 DEBUG = config("DEBUG", default=True, cast=bool)
@@ -116,77 +114,6 @@ class Candidate_instances(db.Model):
     @staticmethod
     def all_paginated(page=1, per_page=15):
         return Candidate_instances.query.paginate(page, per_page, False)
-
-# class Available_instances(db.Model):
-#     """
-#     Create an Available_instances table containing the
-#     URLs that are available for the user to use.
-#     """
-
-#     __tablename__ = "Available_instances"
-
-#     instance_id = db.Column(db.Integer, primary_key=True)
-#     instance_URL = db.Column(db.String(64), unique=True)
-#     date = db.Column(db.DateTime)
-#     reported_by = db.Column(db.Integer, db.ForeignKey("Users.id"))
-#     reviewed_by = db.Column(db.Integer, db.ForeignKey("Users.id"))
-#     instance_class = db.Column(db.Integer)
-#     instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
-#     tags = db.Column(
-#         MutableList.as_mutable(db.ARRAY(db.String(64)))
-#     )  # db.Column(db.ARRAY(Enum(Available_tags)))
-
-#     def __init__(self, **kwargs):
-#         for property, value in kwargs.items():
-#             if hasattr(value, "__iter__") and not isinstance(value, str):
-#                 value = value[0]
-#             setattr(self, property, value)
-
-#     def __repr__(self):
-#         return (
-#             str(self.instance_id)
-#             + " "
-#             + str(self.instance_URL)
-#             + " "
-#             + str(self.reported_by)
-#             + " "
-#             + str(self.reviewed_by)
-#         )
-
-
-# class Candidate_instances(db.Model):
-#     """
-#     Create a Candidate_instances table.
-#     This table will contain the instances reported
-#     by users that are not yet in the Available_instances table
-#     and will be once they are reviewed by an admin.
-#     """
-
-#     __tablename__ = "Candidate_instances"
-
-#     instance_id = db.Column(db.Integer, primary_key=True)
-#     instance_URL = db.Column(db.String(64), unique=True, nullable=False)
-#     reported_by = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
-#     date = db.Column(MutableList.as_mutable(db.ARRAY(db.DateTime)))
-#     suggestions = db.Column(MutableList.as_mutable(db.ARRAY(db.String(64))))
-#     instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
-
-#     def __init__(self, **kwargs):
-#         for property, value in kwargs.items():
-#             if hasattr(value, "__iter__") and not isinstance(value, str):
-#                 value = value[0]
-#             setattr(self, property, value)
-
-#     def __repr__(self):
-#         return (
-#             str(self.instance_id)
-#             + " "
-#             + str(self.instance_URL)
-#             + " "
-#             + str(self.reported_by)
-#             + " "
-#             + str(self.suggestions)
-#         )
 
 
 class Available_models(db.Model):

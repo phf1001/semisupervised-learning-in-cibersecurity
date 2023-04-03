@@ -9,6 +9,7 @@
 """
 
 DEFAULT_MODEL_NAME = "Default"
+DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
 
 from apps.ssl_utils.ml_utils import (
     obtain_model,
@@ -82,7 +83,7 @@ def get_callable_url(url):
         requests.get(
             url,
             headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+                "User-Agent": DEFAULT_USER_AGENT
             },
             timeout=5,
         ).content
@@ -118,7 +119,7 @@ def complete_uncallable_url(url):
         requests.get(
             url,
             headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+                "User-Agent": DEFAULT_USER_AGENT
             },
             timeout=5,
         ).content
@@ -143,7 +144,7 @@ def find_url_protocol(url, protocols=[]):
             requests.get(
                 url,
                 headers={
-                    "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+                    "User-Agent": DEFAULT_USER_AGENT
                 },
                 timeout=5,
             ).content
@@ -542,14 +543,14 @@ def check_correct_values_coforest(form_data):
 
         return form_data
 
-    except Exception as e:
-        raise Exception("ay sigueña")
+    except Exception:
+        raise Exception("Corregir excepciones valores coforest (fichero utils.py)")
 
 
 def check_correct_values_tri_training(form_data):
     base_clss = ["kNN", "NB", "tree"]
     for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
-        if not form_data[keys_to_ckeck] in base_clss:
+        if form_data[keys_to_ckeck] not in base_clss:
             form_data[keys_to_ckeck] = base_clss[i]
 
     form_data["model_algorithm"] = "tri-training"
@@ -562,7 +563,7 @@ def check_correct_values_democratic_co(form_data):
     for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
         n_clss = "n_{}".format(keys_to_ckeck)
 
-        if not form_data[keys_to_ckeck] in base_clss:
+        if form_data[keys_to_ckeck] not in base_clss:
             form_data[keys_to_ckeck] = base_clss[i]
             form_data[n_clss] = 1
 
