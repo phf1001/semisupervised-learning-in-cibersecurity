@@ -49,6 +49,7 @@ from apps.ssl_utils.ml_utils import (
 
 from apps.ssl_utils.ml_utils import get_temporary_download_directory
 from apps.home.utils import *
+from apps.home.exceptions import KriniException, KriniNotLoggedException
 logger = get_logger("krini-frontend")
 
 @blueprint.route("/index", methods=["GET", "POST"])
@@ -126,7 +127,7 @@ def task():
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
                 
             else:
-                raise Exception("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
+                raise KriniException("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
 
         else: # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
@@ -158,8 +159,8 @@ def task():
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except Exception as e:
-        logger.error(e)
+    except KriniException as e:
+        logger.error(e.message)
         message = "La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(
             url
         )
@@ -179,7 +180,7 @@ def dashboard():
             selected_models = get_selected_models_ids(messages["models_ids"])
 
             if len(selected_models) == 0:
-                raise Exception("No hay ningún modelo disponible. Inténtalo de nuevo más tarde.")
+                raise KriniException("No hay ningún modelo disponible. Inténtalo de nuevo más tarde.")
 
             classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
@@ -226,26 +227,26 @@ def dashboard():
             )
         
         else:
-            raise Exception("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
+            raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
         
-    except Exception as e: # Pueden saltar por no existir la clave en el diccionario
-
-        if e.__class__.__name__ == "KeyError":
-            e = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
-
-        else:
-            e = str(e)
-
-        logger.error(e)
-        flash(e, "danger")
+    except KriniException as e:
+        logger.error(e.message)
+        flash(e.message, "danger")
         return redirect(url_for("home_blueprint.index"))
+    
+    except KeyError:
+        msg = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
+        logger.error("KeyError dashboard" + msg)
+        flash(msg, "danger")
+        return redirect(url_for("home_blueprint.index"))
+    
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
 
     try:
         if not current_user.is_authenticated:
-            raise Exception("Usuario no autenticado")
+            raise KriniNotLoggedException("Usuario no autenticado")
         
         messages = session.get("messages", None)
         if messages:
@@ -275,14 +276,19 @@ def report_false_positive():
                 flash("Falso resultado reportado correctamente. ¡Gracias por tu colaboración!", "success")
 
             else:
-                raise Exception("Instancia no encontrada")
+                raise KriniException("Instancia no encontrada")
             
         else:
-            raise Exception("Información no recuperada")
+            raise KriniException("Información no recuperada")
 
-    except Exception as e:
-        logger.error(str(e))
-        message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Comprueba que has iniciado sesión o inténtalo de nuevo más adelante. Gracias por tu colaboración."
+    except KriniException as e:
+        logger.error(e.message)
+        message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
+        flash(message, "warning")
+
+    except KriniNotLoggedException as e:
+        logger.error(e.message)
+        message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
         flash(message, "warning")
 
     return redirect(url_for('home_blueprint.dashboard'))

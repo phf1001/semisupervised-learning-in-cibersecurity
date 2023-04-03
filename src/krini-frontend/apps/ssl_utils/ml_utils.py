@@ -19,8 +19,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-
-from apps.home.models import Available_models
+from apps.home.exceptions import KriniException
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -54,7 +53,7 @@ def get_array_scores(y_test, y_pred, y_pred_proba):
     try:
         auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
 
-    except:
+    except ValueError:
         auc_score = 0.0
 
     return [    float(accuracy_score(y_test, y_pred)), 
@@ -109,8 +108,8 @@ def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, prox
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
 
-    except:
-        raise Exception(msg)
+    except Exception:
+        raise KriniException(msg)
 
 
 def get_mock_values_fv():

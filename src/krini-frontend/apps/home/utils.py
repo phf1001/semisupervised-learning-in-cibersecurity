@@ -15,8 +15,7 @@ from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
     serialize_model,
-    get_temporary_download_directory,
-    get_mock_values_fv,
+    get_temporary_download_directory
 )
 from werkzeug.utils import secure_filename
 from os import path, remove
@@ -37,10 +36,14 @@ from flask_login import current_user
 from datetime import datetime
 import time
 from apps import db
-from flask import flash, send_from_directory, send_file
+from flask import flash
 import logging
 import requests
 import urllib.parse
+from pickle import PickleError
+
+from apps.home.exceptions import KriniNotLoggedException
+from sqlalchemy import exc
 
 
 def get_logger(
@@ -193,9 +196,9 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
             db.session.commit()
 
         else:
-            raise Exception("User not authenticated. {} not saved.".format(callable_url))
+            raise KriniNotLoggedException("User not authenticated. {} not saved.".format(callable_url))
 
-    except Exception as e:
+    except (KriniNotLoggedException, exc.SQLAlchemyError) as e:
         db.session.rollback()
         logger.error("Error saving instance in the database. {}".format(e))
         return False
@@ -467,7 +470,7 @@ def serialize_store_coforest(form_data, cls, scores):
         flash("Modelo guardado correctamente.", "success")
         return True
 
-    except Exception as e:
+    except (exc.SQLAlchemyError, PickleError) as e:
         flash("Error al guardar el modelo." + str(e))
         return False
 
@@ -584,7 +587,7 @@ def get_segment(request):
 
         return segment
 
-    except:
+    except Exception:
         return None
 
 

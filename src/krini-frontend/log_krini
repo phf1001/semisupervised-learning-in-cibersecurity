@@ -11,3 +11,7 @@
 [2023-04-03 10:40:16] [krini-frontend] [ERROR] - No hay ningún modelo disponible. Inténtalo de nuevo más tarde.
 [2023-04-03 10:41:14] [krini-frontend] [ERROR] - No existe información para mostrar. Realiza un análisis para acceder al dashboard.
 [2023-04-03 10:46:03] [krini-frontend] [ERROR] - Instancia no encontrada
+[2023-04-03 13:23:45] [krini-frontend] [ERROR] - No se ha podido llamar la url dasdasggs ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.
+[2023-04-03 13:24:28] [krini-frontend] [ERROR] - No se ha podido llamar la url sdf ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.
+[2023-04-03 13:24:36] [krini-frontend] [ERROR] - Usuario no autenticado
+[2023-04-03 13:24:36] [krini-frontend] [ERROR] - KeyError dashboardLa información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard.
