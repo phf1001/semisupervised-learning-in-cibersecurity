@@ -8,6 +8,8 @@
 @Contact :   phf1001@alu.ubu.es
 """
 
+DEFAULT_MODEL_NAME = "Default"
+
 from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
@@ -198,9 +200,36 @@ def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
         splitted = selected.split(",")
         return [int(elem) for elem in splitted]
+    
+    return []
 
-    # Get default model control aquí
-    return [1]
+
+def get_selected_models_ids(selected):
+    """
+    Returns the ids of the selected models.
+    If there are no selected models, it returns
+    the default model or any other if the default
+    model is not available.
+    """
+    selected_models = translate_array_js(selected)
+
+    if len(selected_models) != 0:
+        return selected_models  
+
+    # We try to return the default model or any other if its empty
+    default_id = Available_models.query.filter_by(
+        model_name=DEFAULT_MODEL_NAME
+    ).first()
+
+    if default_id:
+        return [default_id.model_id]
+    
+    else:
+        random_model = Available_models.query.first()
+        if random_model:
+            return [random_model.model_id]
+    
+    return []
 
 
 def get_sum_tags_numeric(predicted_tags):
@@ -290,6 +319,9 @@ def translate_tag_colour(tag):
         return "legítimo", "green"
     elif tag == 1:
         return "phishing", "red"
+    
+    else:
+        return "no disponible", "grey"
 
 
 def get_instance_dict(instance):

@@ -1127,11 +1127,11 @@ $("[data-toggle=myCollapse]").click(function( ev ) {
 
 // Krini graphs
 const colours = [
-	'rgba(255, 26, 104, 1)',
 	'rgba(54, 162, 235, 1)',
 	'rgba(255, 206, 86, 1)',
 	'rgba(75, 192, 192, 1)',
 	'rgba(153, 102, 255, 1)',
+	'rgb(255, 102, 153)',
 	'rgba(255, 159, 64, 1)',
 	'rgba(255, 99, 132, 1)',
 	'rgba(0, 128, 128, 1)',
@@ -1154,7 +1154,7 @@ if (clsNames && clsValues) {
 	clsNames = clsNames.replace(/'/g, '"');
 	clsNames = JSON.parse(clsNames);
 	var nMetrics = clsValues[0].length;
-	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1', 'ROC'];
+	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC'];
 	var accuracys = [];
 	var precisions = [];
 	var recalls = [];
@@ -1331,39 +1331,38 @@ if (clsNames && clsValues) {
 
 		const data = {
 			labels: clsNames,
+
 			datasets: [{
 			label: metrics[0],
-			//   labelColor: 'blue',
 			data: accuracys,
 			//backgroundColor: clsColours
-			backgroundColor: 'rgb(75, 192, 192)'
+			backgroundColor: 'rgb(153, 255, 102)'
 			},
 
 			{
 				label: metrics[1],
-				color: 'red',
 				data: precisions,
 				//backgroundColor: clsColours
-				backgroundColor: 'rgb(255, 99, 132)'
+				backgroundColor: 'rgb(255, 153, 255)'
 			},
 
 			{
 				label: metrics[2],
 				data: recalls,
 				//backgroundColor: clsColours
-				backgroundColor: 'rgb(255, 205, 86)'
+				backgroundColor: 'rgb(255, 255, 102)'
 			},
 			{
 				label: metrics[3],
 				data: f1s,
 				//backgroundColor: clsColours
-				backgroundColor: 'rgb(54, 162, 235)'
+				backgroundColor: 'rgb(153, 204, 255)'
 			},
 			{
 				label: metrics[4],
 				data: rocs,
 				//backgroundColor: clsColours
-				backgroundColor: 'rgb(153, 102, 255)'
+				backgroundColor: 'rgb(255, 204, 102)'
 			}]
 		};
 

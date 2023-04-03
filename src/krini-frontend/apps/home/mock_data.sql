@@ -1,4 +1,9 @@
 DROP TABLE "Available_models" CASCADE;
+DROP TABLE "Available_co_forests" CASCADE;
+DROP TABLE "Available_democratic_cos" CASCADE;
+DROP TABLE "Available_tri_trainings" CASCADE;
+
+
 DROP TABLE "Available_instances" CASCADE;
 DROP TABLE "Candidate_instances" CASCADE;
 DROP TABLE "Users" CASCADE;
@@ -104,6 +109,10 @@ VALUES (1, 'http://phishing.discreto.net/5', ARRAY [0,1,0,0,0,0,0,1,0,29,0,1,0,0
 INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
 VALUES (1, 'Default', 'default.pkl', '2020-01-01', true, true, ARRAY [0.6, 0.8, 0.7, 0.9, 0.5], 5, 'Default model');
 
+INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
+VALUES (1, 3, ARRAY ['kNN', 'NB', 'Tree']);
+
+
 INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
 VALUES (1, 'Co-Forest v1.0.0', 'cf_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [0.9, 0.85, 0.8, 0.87, 0.9], 5, 'Nothing');
 
@@ -113,8 +122,6 @@ VALUES (1, 'Tri-Training v1.0.0', 'tt_v-1-0-0.pkl', '2020-01-01', false, true, A
 INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes)
 VALUES (1, 'Democratic-co v1.0.0', 'dc_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [1.0, 1.0, 1.0, 0.55, 0.5], 5, 'kNN neightbors = 5');
 
-INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
-VALUES (1, 3, ARRAY ['kNN', 'NB', 'Tree']);
 
 INSERT INTO "Available_co_forests" (model_id, n_trees, thetha, max_features)
 VALUES (2, 6, 0.75, 'log2');

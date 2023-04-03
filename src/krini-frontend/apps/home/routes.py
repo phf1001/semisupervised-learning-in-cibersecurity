@@ -176,7 +176,10 @@ def dashboard():
         if messages:
             url = messages["url"]
             fv = np.array(messages["fv"])
-            selected_models = translate_array_js(messages["models_ids"])
+            selected_models = get_selected_models_ids(messages["models_ids"])
+
+            if len(selected_models) == 0:
+                raise Exception("No hay ningún modelo disponible. Inténtalo de nuevo más tarde.")
 
             classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
@@ -223,11 +226,18 @@ def dashboard():
             )
         
         else:
-            raise Exception("No hay variables de sesión.")
+            raise Exception("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
         
     except Exception as e: # Pueden saltar por no existir la clave en el diccionario
+
+        if e.__class__.__name__ == "KeyError":
+            e = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
+
+        else:
+            e = str(e)
+
         logger.error(e)
-        flash("No hay información para mostrar o ha caducado. Realiza un análisis para acceder al dashboard.", "danger")
+        flash(e, "danger")
         return redirect(url_for("home_blueprint.index"))
 
 @blueprint.route("/report_false_positive", methods=["GET"])
