@@ -77,9 +77,7 @@ logger = get_logger("krini-frontend")
 
 
 def sanitize_url(url):
-    """
-    Transform a dangerours URL into a not-clickable one.
-    """
+    """Transform a dangerours URL into a not-clickable one."""
     url = url.replace('http', 'hxxp')
     url = url.replace('://', '[://]')
     url = url.replace('.', '[.]')
@@ -94,7 +92,6 @@ def get_callable_url(url):
     Tries to get the URL content. If it fails, it tries
     to complete the URL
     """
-
     try:
         requests.get(
             url,
@@ -147,10 +144,7 @@ def complete_uncallable_url(url):
 
 
 def find_url_protocol(url, protocols=[]):
-    """
-    Tries to find a protocol for the given URL
-    """
-
+    """Tries to find a protocol for the given URL"""
     if len(protocols) == 0:
         protocols = ["https://", "http://"]
 
@@ -178,7 +172,6 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
     Tries to save an analized instance in the database.
     If it fails, it returns False.
     """
-
     try:
 
         if current_user.is_authenticated:
@@ -221,7 +214,7 @@ def translate_array_js(selected):
     if bool(re.search(r"\d", selected)):
         splitted = selected.split(",")
         return [int(elem) for elem in splitted]
-    
+
     return []
 
 
@@ -244,12 +237,12 @@ def get_selected_models_ids(selected):
 
     if default_id:
         return [default_id.model_id]
-    
+
     else:
         random_model = Available_models.query.first()
         if random_model:
             return [random_model.model_id]
-    
+
     return []
 
 
@@ -260,7 +253,6 @@ def get_sum_tags_numeric(predicted_tags):
     1 las votaciones para 1. Devuelve también la
     etiqueta mayoritaria.
     """
-
     count = [0, 0]
 
     for tag in predicted_tags:
@@ -340,7 +332,7 @@ def translate_tag_colour(tag):
         return "legítimo", "green"
     elif tag == 1:
         return "phishing", "red"
-    
+
     else:
         return "no disponible", "grey"
 
@@ -408,9 +400,7 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
 
 
 def save_files_to_temp(form_file_one, form_file_two):
-    """
-    Returns true y la tupla
-    """
+    """Returns true y la tupla"""
     dataset_tuple = ("csv", {})
 
     for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):

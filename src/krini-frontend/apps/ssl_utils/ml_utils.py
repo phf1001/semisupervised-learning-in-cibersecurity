@@ -49,7 +49,6 @@ def get_array_scores(y_test, y_pred, y_pred_proba):
     Returns the accuracy, precision, recall 
     f1 and ROC auc scores of the model
     """
-
     try:
         auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
 
@@ -98,7 +97,6 @@ def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, prox
     Returns the feature vector and the info of a url.
     It is assumed that the URL is callable via requests.
     """
-
     try:
         msg = "Error reconstruyendo el objeto TFIDF"
         tfidf = get_tfidf_object(tfidf_file)
@@ -141,7 +139,6 @@ def get_mock_values_fv():
 
 def translate_tag(tag, caps=False):
     """Translates numerical tags to string."""
-
     translated_tag = ""
 
     if tag == 0:
@@ -167,7 +164,7 @@ def get_models_directory():
 
     if not os.path.exists(models_path):
         os.makedirs(models_path)
-    
+
     return models_path
 
 
@@ -180,10 +177,10 @@ def get_temporary_train_files_directory():
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
     files_path = os.path.abspath(os.path.join(
         parent_dir, "temporal" + os.path.sep + "train_files"))
-    
+
     if not os.path.exists(files_path):
         os.makedirs(files_path)
-    
+
     return files_path
 
 
@@ -196,7 +193,7 @@ def get_temporary_download_directory():
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
     files_path = os.path.abspath(os.path.join(
         parent_dir, "temporal" + os.path.sep + "downloads"))
-    
+
     if not os.path.exists(files_path):
         os.makedirs(files_path)
 

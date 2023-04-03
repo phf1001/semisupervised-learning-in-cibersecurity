@@ -73,7 +73,7 @@ class Available_instances(db.Model):
             + " "
             + str(self.instance_URL)
         )
-    
+
     @staticmethod
     def all_paginated(page=1, per_page=15):
         return Available_instances.query.paginate(page, per_page, False)
@@ -110,7 +110,7 @@ class Candidate_instances(db.Model):
             + " "
             + str(self.suggestions)
         )
-    
+
     @staticmethod
     def all_paginated(page=1, per_page=15):
         return Candidate_instances.query.paginate(page, per_page, False)
@@ -148,17 +148,13 @@ class Available_models(db.Model):
 
     @staticmethod
     def get_models_ids_and_names_list():
-        """
-        Returns a list of tuples with the model id and name
-        """
+        """Returns a list of tuples with the model id and name"""
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models]
-    
+
     @staticmethod
     def get_visible_models_ids_and_names_list():
-        """
-        Returns a list of tuples with the model id and name
-        """
+        """Returns a list of tuples with the model id and name"""
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models if model.is_visible]
 

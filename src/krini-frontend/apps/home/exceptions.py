@@ -16,7 +16,7 @@ class KriniException(Exception):
     def __init__(self, message='An error has occurred in Krini'):
         self.message = message
         super().__init__(self.message)
-    
+
     def __str__(self):
         return self.message
 
