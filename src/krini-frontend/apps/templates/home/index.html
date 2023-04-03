@@ -17,21 +17,21 @@
 
 <body class="bg-default">
   {% include "includes/navigation.html" %}
+
+  {% with messages=get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto' style="font-size: 20px; font-weight: bold;">
+      {{ message }}
+    </div>
+  {% endfor %}
+  {% endwith %}
+  
   <div class="main-content">
-    <!-- Header -->
     <div class="header bg-gradient-primary py-3 py-lg-3">
       <div class="container">
-        <div class="header-body text-center mb-4">
+        <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <div class="text-center mt-2">
-                <img src="/static/assets/img/theme/logo.png" style="width: 45%; height: 45%">     
-              </div>
-              <br>
-              <h1 class="text-white">KRINI</h1>
-              <p class="text-lead text-light">
-                Analizador de phishing
-              </p>
             </div>
           </div>
         </div>
@@ -43,16 +43,31 @@
         </svg>
       </div>
     </div>
-
     {% block content %}
+    <div class="container mt--100 pb-2 bg-transparent">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-5">
+          <div class="card bg-transparent" style="text-shadow: none; box-shadow: none;">
+            <div class="card-header bg-transparent pb-5 border-0">
+              <div class="text-center">
+                <img src="/static/assets/img/theme/logo.png" style="width: 60%; height: 60%">     
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Page content -->
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt--5">
       <div class="row">
         <div class="col">
           <div class="card">
             <!-- Card header -->
-            <div class="card-header border-0">
-              <h3 class="mb-0"> </h3>
+            <div class="card-header">
+              <div class="text-primary text-center" style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
+                KRINI
+              </div>
             </div>
             <!-- Light table -->
             <div class="table-responsive">
@@ -62,21 +77,21 @@
                   <caption></caption>
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col"> </th>
-                      <th scope="col"> </th>
-                      <th scope="col"> </th>
-                      <th scope="col"> </th>
-                      <th scope="col"> </th>
+                      <th colspan="5" class="text-muted text-center" style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
+                        ANALIZADOR DE PHISHING
+                      </th>
                     </tr>
                   </thead>
                   <tbody class="list">
+
                     <tr>
                       <td></td>
                       <td colspan="3">
                         <div class="form-group mb-0" name="search">
-                          <!-- <p class="primary-label-forms">Thetha&nbsp;
-                            <span class="gray-description-forms">(umbral de confianza)</span>
-                          </p> -->
+                          <br><br>
+                          <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
+                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o https://)</span>
+                          </p>
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -87,7 +102,10 @@
                           </div>
                         </div>
                         <div class="form-group mb-0">
-                          <br>
+                          <br><br><br>
+                          <p class="primary-label-forms">&nbsp;&nbsp;Selecciona un modelo&nbsp;
+                            <span class="gray-description-forms">los modelos visibles se muestran en el despegable</span>
+                          </p>
                           {{ form.selected_models }}
 
                           <div class="container-multi-select">
@@ -100,10 +118,9 @@
                             <ul class="list-items-multi-select">
                               <li style="list-style-type: none;">
                                 <div style:="display: inline-block; width: 50%; text-align: center;">
-                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Select
-                                    all</span>
+                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Selecciona todos</span>
                                   <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4"
-                                    style="float: right;">Unselect all</span>
+                                    style="float: right;">Elimina todos</span>
                                 </div>
                               </li>
                               {% for model in available_models %}
@@ -115,100 +132,105 @@
                             </ul>
                           </div>
                         </div>
+                        <div class="form-group mb-0">
+                          <br><br>
+                          <p class="primary-label-forms">
+                            <input id="checkbox-quick-scan" value="0"
+                            type="checkbox" style="width: 20px; height: 20px;" name="checkbox-quick-scan">
+                            &nbsp;&nbsp;¿Análisis rápido?&nbsp;
+                            <span class="gray-description-forms">Si la URL se encuentra en nuestra base de datos, los resultados se mostrarán
+                              inmediatamente. Si no, se realizará un análisis completo (unos 40 segundos).
+                              En caso de encontrar la instancia en la base de datos, no se mostrarán los valores utilizados en 
+                              la extracción del vector de características.
+                            </nav></span>
+                          </p>
+                        </div>
+                        <div class="text-center">
+                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi URL!</button>
+                        </div>
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
             </div>
-            <div class="text-center">
-              <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">Scan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card stats -->
+      <div class="row mt-3">
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <p class="primary-label-forms">Analizador de phishing</p>
+                  <span class="h4 text-muted">¡Bienvenido al analizador de enlaces de phishing! Para utilizarlo, tan sólo
+                    escribe la dirección de la página que quieres analizar y pulsa el botón "Scan". En el dashboard
+                    podrás observar algunas de las gráficas generadas por nuestros estimadores.
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                    <i class="ni ni-active-40"></i>
+                  </div>
+                </div>
+              </div>
             </div>
-            </td>
-            <td></td>
-            </tr>
-            </tbody>
-            </table>
-            </form>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <p class="primary-label-forms">¿Cómo funciona?</p>
+                  <span class="h4 text-muted">El resultado se obtiene de generar un vector de características asociado a
+                    la
+                    página que se introduzca.
+                    Una vez conseguido, se procesa mediante algoritmos de Machine Learning para obtener un resultado que
+                    nos indique si la página es o no phishing.
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="ni ni-chart-pie-35"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <p class="primary-label-forms">¿Puedo denunciar enlaces?</p>
+                  <span class="h4 text-muted">¡Por supuesto! Además de utilizar algoritmos de aprendizaje semisupervisado,
+                    también
+                    puedes denunciar enlaces sospechosos para que sean analizados por nuestro equipo de expertos. Tan sólo
+                    tienes que iniciar sesión.
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                    <i class="ni ni-money-coins"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-
-    <!-- Card stats -->
-    <div class="row">
-      <div class="col-xl-4 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">PHISHING SCANNER</h5>
-                <span class="h4 mb-0">¡Bienvenido al analizador de enlaces de phishing! Para utilizarlo, tan sólo
-                  escribe la dirección
-                  de la página que quieres analizar y pulsa el botón "Scan". En el dashboard podrás observar algunas de
-                  las gráficas generadas
-                  por nuestros estimadores.
-                </span>
-                </span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                  <i class="ni ni-active-40"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-4 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">¿CÓMO FUNCIONA?</h5>
-                <span class="h4 mb-0">El resultado se obtiene de generar un vector de características asociado a la
-                  página que se introduzca.
-                  Una vez conseguido, se procesa mediante algoritmos de Machine Learning para obtener un resultado que
-                  nos indique si la página es o no phishing.
-                </span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                  <i class="ni ni-chart-pie-35"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-4 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">¿PUEDO DENUNCIAR ENLACES?</h5>
-                <span class="h4 mb-0">¡Por supuesto! Además de utilizar algoritmos de aprendizaje semisupervisado,
-                  también
-                  puedes denunciar enlaces sospechosos para que sean analizados por nuestro equipo de expertos. Tan sólo
-                  tienes que iniciar sesión.
-                </span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                  <i class="ni ni-money-coins"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
-
-  {% endblock content %}
-  {% include "includes/footer-fullscreen.html" %}
-
+    {% endblock content %}
+    {% include "includes/footer-fullscreen.html" %}
   </div>
   {% include "includes/scripts.html" %}
   {% block javascripts %}

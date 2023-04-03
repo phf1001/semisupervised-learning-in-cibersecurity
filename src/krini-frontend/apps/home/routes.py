@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   routes.py
 @Time    :   2023/03/30 21:06:45
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 # Web dependencies
 from sqlalchemy import exc
 from apps.home import blueprint
 from apps import db
-from flask import render_template, request, flash, redirect, url_for, session
+from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
@@ -47,12 +47,10 @@ from apps.ssl_utils.ml_utils import (
     get_array_scores,
 )
 
-# Utils
+from apps.ssl_utils.ml_utils import get_temporary_download_directory
 from apps.home.utils import *
-
+from apps.home.exceptions import KriniException, KriniNotLoggedException
 logger = get_logger("krini-frontend")
-
-from apps.ssl_utils.ml_utils import (get_temporary_download_directory)
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
@@ -63,107 +61,244 @@ def index():
             "home/index.html",
             form=form,
             segment=get_segment(request),
-            available_models=Available_models.get_models_ids_and_names_list(),
+            available_models=Available_models.get_visible_models_ids_and_names_list(),
         )
 
     url = request.form["url"]
     models = request.form["selected_models"]
-    session["messages"] = {"url": url, "models": models}
+    quick_analysis = 0
+    if request.form.get("checkbox-quick-scan"):
+        quick_analysis = 1
+
+    session["messages"] = {
+        "url": url.replace(" ", ""),
+        "models": models,
+        "quick_analysis": quick_analysis,
+    }
 
     return render_template("specials/processing-url.html")
 
 
+def trigger_mock_dashboard(models_ids, quick_analysis):
+    """
+    Trigger the dashboard with mock values.
+    Coded to make the development process faster.
+    """
+    time.sleep(3)
+    fv, fv_extra_information = get_mock_values_fv()
+    session["messages"] = {
+        "fv": fv.tolist(),
+        "fv_extra_information": fv_extra_information,
+        "url": "http://phishing.com/query?param=1",
+        "models_ids": models_ids,
+        "quick_analysis": quick_analysis,
+        "colour_list": "black-list",
+        "update_bbdd": False
+    }
+    return redirect(url_for("home_blueprint.dashboard"))
+
+
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    messages = session.get("messages", None)
-    url = messages["url"]
-    models_ids = messages["models"]
-
-    # Get feature vector and extra information
-
+    """
+    Gets the feature vector for an URL.
+    If the URL is not callable, it tries to reconstruct it.
+    If there is an existing instance on the DB returns the FV.
+    """
     try:
-        fv, fv_extra_information = get_fv_and_info(url)
+        messages = session.get("messages", None)
+        url = messages["url"]
+        models_ids = messages["models"]
+        quick_analysis = messages["quick_analysis"]
+        colour_list = ''
+        fv_extra_information = {}
+        update_bbdd = False
+
+        if url == "mock":
+            return trigger_mock_dashboard(models_ids, quick_analysis)
+
+        callable_url = get_callable_url(url)
+
+        if callable_url is None:
+            previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
+            if previous_instance:
+                callable_url = url
+                fv = list(previous_instance.instance_fv)
+                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                
+            else:
+                raise KriniException("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
+
+        else: # The URL is callable and has protocol
+            previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
+
+            if previous_instance and quick_analysis:
+                fv = list(previous_instance.instance_fv)
+                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+
+            else:
+                fv, fv_extra_information = get_fv_and_info(callable_url)
+                fv = fv.tolist()
+
+                if previous_instance:
+                    colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                else:
+                    update_bbdd = True # Will be stored with majority voting tag
+                    colour_list = ''
 
         # Enviamos el vector al dashboard
         session["messages"] = {
-            "fv": fv.tolist(),
+            "fv": fv,
             "fv_extra_information": fv_extra_information,
-            "url": url,
+            "url": callable_url,
             "models_ids": models_ids,
+            "quick_analysis": quick_analysis,
+            "colour_list": colour_list,
+            "update_bbdd": update_bbdd,
         }
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except Exception as e:
-        time.sleep(2)
-        fv, fv_extra_information = get_mock_values_fv()
-
-        # Enviamos el vector al dashboard
-        session["messages"] = {
-            "fv": fv.tolist(),
-            "fv_extra_information": fv_extra_information,
-            "url": url,
-            "models_ids": models_ids,
-        }
-
-        flash("Ha saltado una excepción. Mostrando resultados de mockeo.")
-        return redirect(url_for("home_blueprint.dashboard"))
+    except KriniException as e:
+        logger.error(e.message)
+        message = "La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(
+            url
+        )
+        flash(message, "danger")
+        return redirect(url_for("home_blueprint.index"))
 
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    messages = session.get("messages", None)
 
-    if messages:
-        url = messages["url"]
-        fv = np.array(messages["fv"])
-        selected_models = translate_array_js(messages["models_ids"])
+    try:
+        messages = session.get("messages", None)
 
-        classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
+        if messages:
+            url = messages["url"]
+            fv = np.array(messages["fv"])
+            selected_models = get_selected_models_ids(messages["models_ids"])
 
-        model_names = [tupla[0] for tupla in classifiers_info_tuples]
-        classifiers = [tupla[1] for tupla in classifiers_info_tuples]
-        model_scores = [tupla[2] for tupla in classifiers_info_tuples]
+            if len(selected_models) == 0:
+                raise KriniException("No hay ningún modelo disponible. Inténtalo de nuevo más tarde.")
 
-        predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
-        count, numeric_class = get_sum_tags_numeric(predicted_tags)
+            classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
 
-        models_confidence = [
-            int(100 * cls.predict_proba(fv)[0][prediction])
-            for cls, prediction in zip(classifiers, predicted_tags)
-        ]
+            model_names = [tupla[0] for tupla in classifiers_info_tuples]
+            classifiers = [tupla[1] for tupla in classifiers_info_tuples]
+            model_scores = [tupla[2] for tupla in classifiers_info_tuples]
 
-        # Todo en arrays por orden
-        information_to_display = {
-            "url": url,
-            "fv": list(fv),
-            "fv_extra_information": messages["fv_extra_information"],
-            "class": translate_tag(numeric_class),
-            "colour-list": "white-list",
-            # evitar string slicing
-            "model_names": make_array_safe(model_names),
-            "sum_tags_numeric": make_array_safe(count),
-            "predicted_tags_labeled": make_array_safe(
-                [translate_tag(tag, True) for tag in predicted_tags]
-            ),
-            "model_scores": json.dumps(model_scores),
-            # sobre 100
-            "model_confidence": make_array_safe(models_confidence),
-        }
+            predicted_tags = [int(cls.predict(fv)[0]) for cls in classifiers]
+            count, numeric_class = get_sum_tags_numeric(predicted_tags)
+            messages["numeric_class"] = numeric_class
 
-        return render_template(
-            "home/dashboard.html",
-            segment=get_segment(request),
-            information_to_display=information_to_display,
-        )
+            if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
+                save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
+                messages["update_bbdd"] = False
 
-    return redirect(url_for("home_blueprint.index"))
+            models_confidence = [
+                int(100 * cls.predict_proba(fv)[0][prediction])
+                for cls, prediction in zip(classifiers, predicted_tags)
+            ]
 
+            # Todo en arrays por orden
+            information_to_display = {
+                "url": url if numeric_class == 0 else sanitize_url(url),
+                "quick_analysis": messages["quick_analysis"],
+                "fv": list(fv),
+                "fv_extra_information": messages["fv_extra_information"],
+                "class": translate_tag(numeric_class),
+                "colour-list": messages["colour_list"],
+                "model_names": make_array_safe(model_names),
+                "sum_tags_numeric": make_array_safe(count),
+                "predicted_tags_labeled": make_array_safe(
+                    [translate_tag(tag, True) for tag in predicted_tags]
+                ),
+                "model_scores": json.dumps(model_scores),
+                "model_confidence": make_array_safe(models_confidence),
+            }
+
+            session["messages"] = messages
+
+            return render_template(
+                "home/dashboard.html",
+                segment=get_segment(request),
+                information_to_display=information_to_display,
+            )
+        
+        else:
+            raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
+        
+    except KriniException as e:
+        logger.error(e.message)
+        flash(e.message, "danger")
+        return redirect(url_for("home_blueprint.index"))
+    
+    except KeyError:
+        msg = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
+        logger.error("KeyError dashboard" + msg)
+        flash(msg, "danger")
+        return redirect(url_for("home_blueprint.index"))
+    
+
+@blueprint.route("/report_false_positive", methods=["GET"])
+def report_false_positive():
+
+    try:
+        if not current_user.is_authenticated:
+            raise KriniNotLoggedException("Usuario no autenticado")
+        
+        messages = session.get("messages", None)
+        if messages:
+            # Todas las URL llamables analizadas por usuarios están como instancias ya
+            url =  messages["url"]
+            tag = messages["numeric_class"]
+            existing_instance = Available_instances.query.filter_by(instance_URL=url).first()
+
+            if existing_instance:
+                # Sugiero lo contrario ya que reporto falso resultado
+                if tag == 1:
+                    suggestion = Available_tags.sug_legitimate
+                elif tag == 0:
+                    suggestion = Available_tags.sug_phishing
+                else:
+                    suggestion = Available_tags.revisar
+
+                report = Candidate_instances(
+                    user_id=current_user.id,
+                    instance_id = existing_instance.instance_id,
+                    date_reported=datetime.now(),
+                    suggestions=suggestion
+                )
+
+                db.session.add(report)
+                db.session.commit()
+                flash("Falso resultado reportado correctamente. ¡Gracias por tu colaboración!", "success")
+
+            else:
+                raise KriniException("Instancia no encontrada")
+            
+        else:
+            raise KriniException("Información no recuperada")
+
+    except KriniException as e:
+        logger.error(e.message)
+        message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
+        flash(message, "warning")
+
+    except KriniNotLoggedException as e:
+        logger.error(e.message)
+        message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
+        flash(message, "warning")
+
+    return redirect(url_for('home_blueprint.dashboard'))
 
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
-    n_reports_accepted = Users.query.filter_by(id=current_user.id).first().n_urls_accepted
+    n_reports_accepted = (
+        Users.query.filter_by(id=current_user.id).first().n_urls_accepted
+    )
 
     if n_reports_accepted is None:
         n_reports_accepted = 0
@@ -183,9 +318,14 @@ def profile():
         segment=get_segment(request),
     )
 
+
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for("authentication_blueprint.login"))
+    
     information_to_display = []
 
     algorithms = [
@@ -269,14 +409,13 @@ def creatingmodel():
 
     cls.fit(L_train, Ly_train, U_train)
     y_pred = cls.predict(X_test)
-    scores = get_array_scores(y_test, y_pred)
-    flash(scores)
+    y_pred_proba = cls.predict_proba(X_test)
+    scores = get_array_scores(y_test, y_pred, y_pred_proba)
+    flash("Scores del modelo: {}".format(scores), "info")
 
     # Serializamos el nuevo modelo y lo guardamos en la bbdd
     serialize_store_coforest(form_data, cls, scores)
-
-    # flash("{}".format(form_data))
-    return redirect(url_for("home_blueprint.report_url"))
+    return redirect(url_for("home_blueprint.models"))
 
 
 @login_required
@@ -291,23 +430,29 @@ def instances(n_per_page=10):
         page = int(request.form["my_page"])
         previous_page = int(request.form["previous_page"])
         checks = session.get("checks", None)
-        update_checks(previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page)
+        update_checks(
+            previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
+        )
 
         if request.form["button_pressed"] == "deliminar":
             pass
 
         elif request.form["button_pressed"] == "descargar":
-            filename="selected_instances.csv"
+            filename = "selected_instances.csv"
             create_csv_selected_instances(list(checks.values()), filename)
-            return send_from_directory(get_temporary_download_directory(), filename, as_attachment=True)
+            return send_from_directory(
+                get_temporary_download_directory(), filename, as_attachment=True
+            )
 
     else:
         page = 1
         checks = {}
-    
+
     session["checks"] = checks
     post_pagination = Available_instances.all_paginated(page, n_per_page)
-    post_pagination.items = get_instances_view_dictionary(post_pagination.items, checks.values())
+    post_pagination.items = get_instances_view_dictionary(
+        post_pagination.items, checks.values()
+    )
 
     return render_template(
         "home/instances-administration.html",
@@ -329,15 +474,14 @@ def report_url():
         return redirect(url_for("authentication_blueprint.login"))
 
     if "report" in request.form:
-
         try:
             url = request.form["url"]
-            type = request.form["type"]
+            report_type = request.form["type"]
 
-            if type == "blacklist":
-                type = Available_tags.black_list
-            elif type == "whitelist":
-                type = Available_tags.white_list
+            if report_type == "blacklist":
+                report_type = Available_tags.black_list
+            elif report_type == "whitelist":
+                report_type = Available_tags.white_list
 
             existing_instance = Available_instances.query.filter_by(
                 instance_URL=url
@@ -353,12 +497,14 @@ def report_url():
                     instance_id=existing_instance.instance_id,
                     user_id=current_user.id,
                     date_reported=datetime.now(),
-                    suggestions=type
+                    suggestions=report_type,
                 )
             )
 
             db.session.commit()
-            flash("Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!")
+            flash(
+                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
+            )
 
         except exc.SQLAlchemyError as e:
             flash("Error al reportar la URL. Inténtalo de nuevo más tarde.")
@@ -390,7 +536,7 @@ def route_template(template):
     except TemplateNotFound:
         return render_template("specials/page-404.html"), 404
 
-    except:
+    except Exception:
         return render_template("specials/page-500.html"), 500
 
 

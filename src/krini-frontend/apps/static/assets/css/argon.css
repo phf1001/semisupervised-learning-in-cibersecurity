@@ -5167,8 +5167,12 @@ button.bg-dark:hover,
 button.bg-dark:focus {
   background-color: #0a0c0d !important; }
 
+.bg-aliceblue {
+  opacity: 0.98;
+  background-color: aliceblue !important; }
+
 .bg-default {
-  background-color: #172b4d !important; }
+    background-color: #172b4d !important; }
 
 a.bg-default:hover, a.bg-default:focus,
 button.bg-default:hover,
@@ -17673,7 +17677,7 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
   color: #5e72e4; 
   font-weight: bold; 
   text-align: left; 
-  word-break: break-all;
+  word-break: keep-all;
   white-space: normal;
 }
 
@@ -17683,7 +17687,7 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
   color: gray; 
   font-weight: normal; 
   text-align: left; 
-  word-break: break-all
+  word-break: keep-all
 }
 
 
@@ -17692,6 +17696,6 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
   font-size:15px; 
   color: #ebebeb; 
   font-weight: normal;
-  word-break: break-all;
+  word-break: keep-all;
   text-align: center;
 }

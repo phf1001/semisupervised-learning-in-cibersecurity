@@ -18,9 +18,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-from apps.home.models import Available_models
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from apps.home.exceptions import KriniException
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -45,9 +44,24 @@ def get_democratic_co():
     return DemocraticCo()
 
 
-def get_array_scores(y_test, y_pred):
-    """Returns the accuracy, precision and recall scores of the model"""
-    return [float(accuracy_score(y_test, y_pred)), float(precision_score(y_test, y_pred)), float(recall_score(y_test, y_pred))]
+def get_array_scores(y_test, y_pred, y_pred_proba):
+    """
+    Returns the accuracy, precision, recall 
+    f1 and ROC auc scores of the model
+    """
+
+    try:
+        auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
+
+    except ValueError:
+        auc_score = 0.0
+
+    return [    float(accuracy_score(y_test, y_pred)), 
+                float(precision_score(y_test, y_pred)), 
+                float(recall_score(y_test, y_pred)),
+                float(f1_score(y_test, y_pred)),
+                auc_score
+            ]
 
 
 def get_base_cls(wanted_cls):
@@ -61,8 +75,7 @@ def get_base_cls(wanted_cls):
         return GaussianNB()
 
     else:
-        # raise Exception("Classifier not found")
-        return DecisionTreeClassifier()
+        raise Exception("Clasificador no encontrado")
 
 
 def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
@@ -81,21 +94,22 @@ def get_tfidf_object(file_name):
 
 
 def get_fv_and_info(url, tfidf_file="tfidf.pkl", get_proxy_from_file=False, proxy=None):
-    """Returns the feature vector and the info of a url"""
+    """
+    Returns the feature vector and the info of a url.
+    It is assumed that the URL is callable via requests.
+    """
 
-    # Reintentos, comprobar protocolos, etc
     try:
-        msg = "tfidf"
+        msg = "Error reconstruyendo el objeto TFIDF"
         tfidf = get_tfidf_object(tfidf_file)
 
-        msg = "phishing_fvg"
+        msg = "Error extrayendo el vector de características"
         ph_entity = PHISH_FVG(url, tfidf, get_proxy_from_file, proxy)
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
 
-    # De momento mock values pero esta función hay que trabajarla mucho
-    except:
-        raise Exception(msg)
+    except Exception:
+        raise KriniException(msg)
 
 
 def get_mock_values_fv():
