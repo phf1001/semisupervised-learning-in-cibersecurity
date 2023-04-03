@@ -77,9 +77,7 @@ logger = get_logger("krini-frontend")
 
 
 def sanitize_url(url):
-    """
-    Transform a dangerours URL into a not-clickable one.
-    """
+    """Transform a dangerours URL into a not-clickable one."""
     url = url.replace('http', 'hxxp')
     url = url.replace('://', '[://]')
     url = url.replace('.', '[.]')
@@ -146,9 +144,7 @@ def complete_uncallable_url(url):
 
 
 def find_url_protocol(url, protocols=[]):
-    """
-    Tries to find a protocol for the given URL
-    """
+    """Tries to find a protocol for the given URL"""
     if len(protocols) == 0:
         protocols = ["https://", "http://"]
 
@@ -404,9 +400,7 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
 
 
 def save_files_to_temp(form_file_one, form_file_two):
-    """
-    Returns true y la tupla
-    """
+    """Returns true y la tupla"""
     dataset_tuple = ("csv", {})
 
     for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):
