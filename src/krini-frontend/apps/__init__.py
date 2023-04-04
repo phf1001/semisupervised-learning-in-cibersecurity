@@ -11,7 +11,6 @@ from importlib import import_module
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-#bootstrap = Bootstrap(app)
 
 def create_app(config):
     """
@@ -36,9 +35,6 @@ def register_blueprints(app):
     for module_name in ('authentication', 'home'):
         module = import_module('apps.{}.routes'.format(module_name))
         app.register_blueprint(module.blueprint)
-
-        # app.register_blueprint(scanner.bp)
-        # app.add_url_rule('/', endpoint='index')
 
 
 def configure_database(app):

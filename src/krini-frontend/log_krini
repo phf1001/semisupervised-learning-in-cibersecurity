@@ -17,3 +17,6 @@
 [2023-04-03 13:24:36] [krini-frontend] [ERROR] - KeyError dashboardLa información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard.
 [2023-04-03 13:54:36] [krini-frontend] [ERROR] - Error saving instance in the database. User not authenticated. https://google.com not saved.
 [2023-04-03 13:55:55] [krini-frontend] [ERROR] - Error saving instance in the database. User not authenticated. https://google.com not saved.
+[2023-04-04 09:35:07] [krini-frontend] [ERROR] - No se ha podido llamar la url adsadsas ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.
+[2023-04-04 09:35:23] [krini-frontend] [ERROR] - Usuario no autenticado
+[2023-04-04 09:35:23] [krini-frontend] [ERROR] - KeyError dashboardLa información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard.

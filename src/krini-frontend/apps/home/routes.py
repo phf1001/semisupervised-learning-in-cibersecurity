@@ -235,7 +235,7 @@ def dashboard():
         return redirect(url_for("home_blueprint.index"))
 
     except KeyError:
-        msg = "La información para mostrar ha caducado. Realiza otro análisis para acceder al dashboard."
+        msg = "La información para mostrar ha caducado o no está disponible. Realiza otro análisis para acceder al dashboard."
         logger.error("KeyError dashboard" + msg)
         flash(msg, "danger")
         return redirect(url_for("home_blueprint.index"))
