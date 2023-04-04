@@ -54,6 +54,13 @@ logger = get_logger("krini-frontend")
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
+    """
+    Index page. It contains the form to analyze an URL.
+    Redirects to a loading page and then to the dashboard.
+
+    Returns:
+        function: renders a loading page
+    """
     form = SearchURLForm(request.form)
 
     if not form.validate_on_submit():
@@ -81,8 +88,15 @@ def index():
 
 def trigger_mock_dashboard(models_ids, quick_analysis):
     """
-    Trigger the dashboard with mock values.
+    Triggers the dashboard with mock values.
     Coded to make the development process faster.
+
+    Args:
+        models_ids (list): list of models ids
+        quick_analysis (int): 0 or 1 (False or True)
+
+    Returns:
+        function: redirects to the dashboard
     """
     time.sleep(3)
     fv, fv_extra_information = get_mock_values_fv()
@@ -100,10 +114,15 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
 
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    """
-    Gets the feature vector for an URL.
+    """Gets the feature vector for an URL.
     If the URL is not callable, it tries to reconstruct it.
     If there is an existing instance on the DB returns the FV.
+
+    Raises:
+        KriniException: if the URL is not callable and it cannot be reconstructed.
+        However it is catched and the user is redirected to the index page.
+    Returns:
+        function: redirects to the dashboard
     """
     try:
         messages = session.get("messages", None)
@@ -170,7 +189,15 @@ def task():
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
+    """
+    Analyzes the URL feature vector with the selected models.
+    Renders the dashboard. All exceptions are catched and the 
+    user is redirected to the index page when something unexpected
+    happens.
 
+    Returns:
+        function: renders the dashboard
+    """
     try:
         messages = session.get("messages", None)
 
@@ -243,7 +270,14 @@ def dashboard():
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
+    """
+    Reports a false result to the database. 
+    The user must be logged in. Redirects to the
+    dashboard flashing a message.
 
+    Returns:
+        function: redirects to the dashboard
+    """
     try:
         if not current_user.is_authenticated:
             raise KriniNotLoggedException("Usuario no autenticado")
@@ -296,6 +330,12 @@ def report_false_positive():
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
+    """
+    Renders the profile page. The user must be logged in.
+
+    Returns:
+        function: renders the profile page
+    """
     n_reports_accepted = (
         Users.query.filter_by(id=current_user.id).first().n_urls_accepted
     )
@@ -322,7 +362,12 @@ def profile():
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
+    """Displays the models page. The user must be logged in.
+    TODO: Implement functionality to display all models
 
+    Returns:
+        function: renders the models page
+    """
     if not current_user.is_authenticated:
         return redirect(url_for("authentication_blueprint.login"))
 
