@@ -13,6 +13,9 @@ from wtforms import TextField, SelectField, HiddenField, IntegerField
 from flask_wtf.file import FileField
 from wtforms.validators import DataRequired
 
+NAIVE_BAYES_NAME = "Naive Bayes"
+DECISION_TREE_NAME = "Árbol de decisión"
+KNN_NAME = "k-vecinos más cercanos"
 
 class ReportURLForm(FlaskForm):
     url = TextField(
@@ -92,15 +95,15 @@ class NewModelForm(FlaskForm):
     #tritraining
 
     cls_one = SelectField(
-        "cls_one", id="cls_one", choices=[("kNN", "K vecinos más cercanos"), ("NB", "Naive Bayes"), ("tree", "Árbol de decisión")]
+        "cls_one", id="cls_one", choices=[("kNN", KNN_NAME), ("NB", NAIVE_BAYES_NAME), ("tree", DECISION_TREE_NAME)]
     )
 
     cls_two = SelectField(
-        "cls_two", id="cls_two", choices=[("kNN", "K vecinos más cercanos"), ("NB", "Naive Bayes"), ("tree", "Árbol de decisión")]
+        "cls_two", id="cls_two", choices=[("kNN", KNN_NAME), ("NB", NAIVE_BAYES_NAME), ("tree", DECISION_TREE_NAME)]
     )
 
     cls_three = SelectField(
-        "cls_three", id="cls_three", choices=[("kNN", "K vecinos más cercanos"), ("NB", "Naive Bayes"), ("tree", "Árbol de decisión")]
+        "cls_three", id="cls_three", choices=[("kNN", KNN_NAME), ("NB", NAIVE_BAYES_NAME), ("tree", DECISION_TREE_NAME)]
     )
 
     # democratic-co

@@ -107,17 +107,17 @@ class CoForest:
         """
         mask_L = self.create_trees(L, y)
 
-        e = [0 for i in range(self.n)]
-        W = [0 for i in range(self.n)]
+        e = [0] * self.n
+        W = [0] * self.n
 
-        previous_e = [0.5 for i in range(self.n)]
+        previous_e = [0.5] * self.n
         previous_W = self.initialize_previous_W(L, w_init_criteria)
 
         new_data = True
 
         while new_data:
 
-            tree_changes = np.array([False for i in range(self.n)])
+            tree_changes = np.array([False] * self.n)
             tree_pseudo_updates = [() for i in range(self.n)]
 
             for i, hi in self.ensemble.items():
@@ -148,8 +148,8 @@ class CoForest:
                             pseudo_labeled_tags.append(selected_class)
                             W[i] += concomitant_confidence
 
-                tree_pseudo_updates[i] = ((np.array(pseudo_labeled_data),
-                                           np.array(pseudo_labeled_tags)))
+                tree_pseudo_updates[i] = (np.array(pseudo_labeled_data),
+                                           np.array(pseudo_labeled_tags))
 
             for i in np.fromiter(self.ensemble.keys(),
                                  dtype=int)[tree_changes]:
@@ -188,7 +188,8 @@ class CoForest:
             Weights of the unlabeled data
         """
         if w_init_criteria == 'percentage_L':
-            return [min(0.1 * len(L), 100) for i in range(self.n)]
+            init_value = min(0.1 * len(L), 100)
+            return [init_value] * self.n
 
         elif 'confidence_L' in w_init_criteria:
             if w_init_criteria == 'confidence_L_all':
@@ -196,17 +197,14 @@ class CoForest:
             elif w_init_criteria == 'confidence_L_thetha':
                 exclude_low_confidence = True
 
-            previous_W = [0 for i in range(self.n)]
+            previous_W = [0] * self.n
 
             for i, hi in self.ensemble.items():
 
                 for x in L:
                     concomitant_confidence = self.concomitant_confidence(hi, x)[0]
 
-                    if exclude_low_confidence and concomitant_confidence > self.theta:
-                        previous_W[i] += concomitant_confidence
-
-                    elif not exclude_low_confidence:
+                    if (exclude_low_confidence and concomitant_confidence > self.theta) or not exclude_low_confidence:
                         previous_W[i] += concomitant_confidence
 
             return previous_W

@@ -79,9 +79,10 @@ class DemocraticCo:
                     prediction = cls.predict([x])[0]
                     U_tag_votes[x_id][prediction].add(id_cls)
 
+                sample_votes = U_tag_votes[x_id]
                 U_y.append(
-                    max(U_tag_votes[x_id], key=lambda k: len(U_tag_votes[x_id].get(k))))
-
+                    max(sample_votes, key=lambda k: len(sample_votes.get(k))))
+                
             # Choose which exs to propose for labeling
             w = [self.get_w(cls, L, y) for cls in self.classifiers.values()]
             L_prime = [([], []) for i in range(self.n)]
