@@ -55,15 +55,15 @@ class TriTraining:
         self.initialize_classifiers(L, y)
         self.classes = np.unique(y)
 
-        previous_e = [0.5 for i in range(self.n)]
-        previous_l = [0.0 for i in range(self.n)]
-        e = [0.0 for i in range(self.n)]
+        previous_e = [0.5] * self.n
+        previous_l = [0.0] * self.n
+        e = [0.0] * self.n
 
         new_data = True
 
         while new_data:
 
-            cls_changes = np.array([False for i in range(self.n)])
+            cls_changes = np.array([False] * self.n)
             cls_pseudo_updates = [() for i in range(self.n)]
 
             for i in range(self.n):
