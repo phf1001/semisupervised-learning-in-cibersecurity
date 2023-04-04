@@ -2,39 +2,137 @@
 
 \section{Introducción}
 
-Una muestra de cómo podría ser una tabla de casos de uso:
-
-% Caso de Uso 1 -> Consultar Experimentos.
-\begin{table}[p]
-	\centering
-	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
-		\toprule
-		\textbf{CU-1}    & \textbf{Ejemplo de caso de uso}\\
-		\toprule
-		\textbf{Versión}              & 1.0    \\
-		\textbf{Autor}                & Alumno \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & La descripción del CU \\
-		\textbf{Precondición}         & Precondiciones (podría haber más de una) \\
-		\textbf{Acciones}             &
-		\begin{enumerate}
-			\def\labelenumi{\arabic{enumi}.}
-			\tightlist
-			\item Pasos del CU
-			\item Pasos del CU (añadir tantos como sean necesarios)
-		\end{enumerate}\\
-		\textbf{Postcondición}        & Postcondiciones (podría haber más de una) \\
-		\textbf{Excepciones}          & Excepciones \\
-		\textbf{Importancia}          & Alta o Media o Baja... \\
-		\bottomrule
-	\end{tabularx}
-	\caption{CU-1 Nombre del caso de uso.}
-\end{table}
-
 \section{Objetivos generales}
 
 \section{Catálogo de requisitos}
 
 \section{Especificación de requisitos}
 
+COMENTAR: Si estamos haciendo Scrum deberían ser historias de usuario (?)
 
+Se detalla a continuación la especificación de requisitos de la aplicación \textit{web} propuesta.
+
+\subsection{Diagrama de casos de uso}
+
+Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner}, se ha extraído el siguiente diagrama de casos de uso.
+
+[Explicación general + diagrama]
+
+A continuación se muestra la tabla correspondiente a cada caso de uso.
+
+% Caso de Uso 1 -> Escanear URL
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1}    & \textbf{Escanear URL}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Se permite que un usuario realice un escaneo de la URL que desee. Para ello, seleccionará los modelos que considere adecuados (consultar CU-1.1 en la tabla~\ref{cu:seleccionar-modelos-ml}) y se le mostrarán los resultados en un \textit{dashboard} (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
+		\textbf{Precondición}         & No hay ninguna precondición. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario introduce la URL.
+			\item El usuario selecciona los modelos de ML que considere (consultar CU-1.1 en la tabla~\ref{cu:seleccionar-modelos-ml}).
+			\item El usuario decide si quiere realizar un análisis rápido.
+			\item El usuario pulsa el botón de <<realizar análisis>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & ...TODO \\
+		\textbf{Excepciones}          & ...TODO \\
+		\textbf{Importancia}          & ...TODO \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1 Escanear URL.}
+	\label{cu:escanear-url}
+\end{table}
+
+
+% Caso de Uso 1.1 -> Seleccionar modelos
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1.1}    & \textbf{Seleccionar modelos con los que analizar}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Se mostrará al usuario un desplegable con los distintos modelos disponibles y visibles en la base de datos. \\
+		\textbf{Precondición}         & Estar realizando el CU-1 (disponible en la tabla~\ref{cu:escanear-url}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario despliega la lista de modelos disponibles.
+			\item El usuario selecciona los modelos que quiere utilizar.
+			\item El usuario cierra el despegable.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Los modelos seleccionados quedan guardados. \\
+		\textbf{Excepciones}          & ...TODO Ninguna (en caso de no haber clasificadores, se controla la excepción en el índice). \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1.1 Seleccionar modelos con los que analizar.}
+	\label{cu:seleccionar-modelos-ml}
+\end{table}
+
+% Caso de Uso 2 -> Visualizar resultados
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2}    & \textbf{Visualizar resultados}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Se muestra al usuario los resultados tras haber analizado la URL mediante los algoritmos de ML seleccionados. Para ello se hará uso de un \textit{dashboard}, donde además se podrá notificar un falso resultado (CU-2.1 en la tabla~\ref{cu:notificar-falso-resultado}).\\
+		\textbf{Precondición}         & Haber realizado un análisis previamente (CU-1 en la tabla~\ref{cu:escanear-url}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario es redirigido a un \textit{dashboard}.
+			\item El usuario puede interactuar con los distintos gráficos mostrados en la página.
+			\item El usuario puede notificar si considera que el análisis es erróneo (CU-2.1 en la tabla~\ref{cu:notificar-falso-resultado}).
+		\end{enumerate}\\
+		\textbf{Postcondición}        & ...TODO Postcondiciones (podría haber más de una) \\
+		\textbf{Excepciones}          & ...TODO Excepciones \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2 Visualizar resultados.}
+	\label{cu:visualizar-resultados}
+\end{table}
+
+
+% Caso de Uso 2.1 -> Notificar falso resultado
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2.1}    & \textbf{Notificar falso resultado}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Permite a un usuario notificar automáticamente a la aplicación si considera que el resultado es erróneo.\\
+		\textbf{Precondición}         & Encontrarse en el \textit{dashboard} tras un análisis (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario pulsa el botón <<notificar falso resultado>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & ...TODO Se registra la URL reportada en la base de datos con el campo <<sugerencia>> establecido al valor opuesto del resultado mostrado. \\
+		\textbf{Excepciones}          & ...TODO \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2.1  Notificar falso resultado.}
+	\label{cu:notificar-falso-resultado}
+\end{table}
