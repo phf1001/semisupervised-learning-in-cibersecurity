@@ -513,6 +513,14 @@ def instances(n_per_page=10):
 @blueprint.route("/report_url", methods=["GET", "POST"])
 @login_required
 def report_url():
+    """
+    Saves the reported instance in the database if it is not already
+    there and adds the report to the database.
+
+    Returns:
+        function: renders the report_url.html template with a flash 
+                  message that indicates the status of the report
+    """
     form = ReportURLForm(request.form)
 
     if not current_user.is_authenticated:
@@ -523,9 +531,9 @@ def report_url():
             url = request.form["url"]
             report_type = request.form["type"]
 
-            if report_type == "blacklist":
+            if report_type == "black-list":
                 report_type = Available_tags.black_list
-            elif report_type == "whitelist":
+            elif report_type == "white-list":
                 report_type = Available_tags.white_list
 
             existing_instance = Available_instances.query.filter_by(

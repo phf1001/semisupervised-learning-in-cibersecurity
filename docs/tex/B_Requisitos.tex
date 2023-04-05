@@ -31,7 +31,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
 		\textbf{Descripción}          & Se permite que un usuario realice un escaneo de la URL que desee. Para ello, seleccionará los modelos que considere adecuados (consultar CU-1.1 en la tabla~\ref{cu:seleccionar-modelos-ml}) y se le mostrarán los resultados en un \textit{dashboard} (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
-		\textbf{Precondición}         & No hay ninguna precondición. \\
+		\textbf{Precondición}         & No hay precondiciones. \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
@@ -41,9 +41,9 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 			\item El usuario decide si quiere realizar un análisis rápido.
 			\item El usuario pulsa el botón de <<realizar análisis>>.
 		\end{enumerate}\\
-		\textbf{Postcondición}        & ...TODO \\
-		\textbf{Excepciones}          & ...TODO \\
-		\textbf{Importancia}          & ...TODO \\
+		\textbf{Postcondición}        & No hay postcondiciones. \\
+		\textbf{Excepciones}          & En caso de que la URL introducida sea inalcanzable (tras aplicar reintentos) o que no haya ningún modelo disponible, el usuario será notificado y redirigido a la página principal. \\
+		\textbf{Importancia}          & Alta \\
 		\bottomrule
 	\end{tabularx}
 	\caption{CU-1 Escanear URL.}
@@ -72,7 +72,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 			\item El usuario cierra el despegable.
 		\end{enumerate}\\
 		\textbf{Postcondición}        & Los modelos seleccionados quedan guardados. \\
-		\textbf{Excepciones}          & ...TODO Ninguna (en caso de no haber clasificadores, se controla la excepción en el índice). \\
+		\textbf{Excepciones}          & En caso de no haber modelos disponibles la lista quedará vacía y se controlará la excepción en el CU-1 (tabla~\ref{cu:escanear-url}). \\
 		\textbf{Importancia}          & Baja \\
 		\bottomrule
 	\end{tabularx}
@@ -97,11 +97,11 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
 			\item El usuario es redirigido a un \textit{dashboard}.
-			\item El usuario puede interactuar con los distintos gráficos mostrados en la página.
+			\item El usuario puede interactuar con los distintos gráficos y la información mostrada en la página.
 			\item El usuario puede notificar si considera que el análisis es erróneo (CU-2.1 en la tabla~\ref{cu:notificar-falso-resultado}).
 		\end{enumerate}\\
-		\textbf{Postcondición}        & ...TODO Postcondiciones (podría haber más de una) \\
-		\textbf{Excepciones}          & ...TODO Excepciones \\
+		\textbf{Postcondición}        & No hay postcondiciones \\
+		\textbf{Excepciones}          & En caso de intentar acceder al \textit{dashboard} sin haber realizado un análisis previo, el usuario será redirigido a la página principal con un mensaje informativo.\\
 		\textbf{Importancia}          & Alta \\
 		\bottomrule
 	\end{tabularx}
@@ -120,19 +120,112 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & Permite a un usuario notificar automáticamente a la aplicación si considera que el resultado es erróneo.\\
-		\textbf{Precondición}         & Encontrarse en el \textit{dashboard} tras un análisis (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
+		\textbf{Descripción}          & Permite a un usuario notificar automáticamente a la aplicación si considera que el resultado de un análisis es erróneo.\\
+		\textbf{Precondición}         & Encontrarse en el \textit{dashboard} tras un análisis (CU-2 en la tabla~\ref{cu:visualizar-resultados}) y haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}).\\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
 			\item El usuario pulsa el botón <<notificar falso resultado>>.
 		\end{enumerate}\\
-		\textbf{Postcondición}        & ...TODO Se registra la URL reportada en la base de datos con el campo <<sugerencia>> establecido al valor opuesto del resultado mostrado. \\
-		\textbf{Excepciones}          & ...TODO \\
-		\textbf{Importancia}          & Media \\
+		\textbf{Postcondición}        & Se registra la URL notificada en la base de datos con el campo <<sugerencia>> establecido al valor opuesto del resultado mostrado. \\
+		\textbf{Excepciones}          & Si el usuario no ha iniciado sesión, será informado de que la notificación no ha sido realizada por este motivo. En caso de errores con la base de datos se controlarán y se informará al usuario de la notificación no realizada.\\
+		\textbf{Importancia}          & Baja \\
 		\bottomrule
 	\end{tabularx}
 	\caption{CU-2.1  Notificar falso resultado.}
 	\label{cu:notificar-falso-resultado}
+\end{table}
+
+
+% Caso de Uso 3 -> Registrarse
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3}    & \textbf{Registrarse}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Permite a un usuario crear una cuenta en la aplicación.\\
+		\textbf{Precondición}         & Ningún usuario debe haber iniciado sesión en el sistema (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario pulsa el enlace <<Registrarse>>.
+			\item El usuario introduce el nombre de usuario que considere.
+			\item El usuario introduce un \textit{email} asociado a la cuenta.
+			\item El usuario introduce la contraseña deseada.
+			\item El usuario pulsa el botón de <<Registrar>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La información del nuevo usuario queda almacenada en la base de datos. \\
+		\textbf{Excepciones}          & En caso de que los datos estén repetidos o el \textit{email} sea incorrecto, se pedirá al usuario que corrija los errores y no se creará la nueva cuenta. Si hay un usuario \textit{logueado} será redirigido a la página principal con un mensaje informativo.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Registrarse.}
+	\label{cu:registrarse}
+\end{table}
+
+
+% Caso de Uso 4 -> Iniciar sesión
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-4}    & \textbf{Iniciar sesión}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Permite a un usuario iniciar sesión en la aplicación.\\
+		\textbf{Precondición}         & Ningún usuario debe haber iniciado sesión en el sistema (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario pulsa el botón de <<Iniciar sesión>>.
+			\item El usuario introduce el nombre de usuario asociado a su cuenta.
+			\item El usuario introduce la contraseña asociada a la cuenta.
+			\item El usuario pulsa el botón de <<Iniciar sesión>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La información del usuario queda cargada en las variables de sesión. \\
+		\textbf{Excepciones}          & En caso de que los datos sean incorrectos el usuario será notificado. Si hay un usuario \textit{logueado} será redirigido a la página principal con un mensaje informativo.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Iniciar sesión.}
+	\label{cu:iniciar-sesion}
+\end{table}
+
+% Caso de Uso 5 -> Reportar URL
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5}    & \textbf{Reportar URL}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Descripción}          & Permite a un usuario reportar una
+		URL si considera que pertenece a una lista blanca o a una lista negra.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario introduce la URL a reportar.
+			\item El usuario selecciona en el desplegable el tipo de lista a la que pertenece la URL.
+			\item El usuario pulsa el botón de <<Enviar>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se registra la URL reportada en la base de datos con el campo <<sugerencia>> establecido al valor seleccionado en el desplegable (ejemplo: \textit{white-list}). \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. Se controla en aplicación que el usuario haya rellenado todos los campos necesarios. \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5 Reportar URL.}
+	\label{cu:reportar-url}
 \end{table}

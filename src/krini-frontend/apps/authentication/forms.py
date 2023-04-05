@@ -15,6 +15,13 @@ from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
+    """
+    LoginForm class. It is used to create a form 
+    to login in the application.
+
+    Args:
+        FlaskForm (class): FlaskForm class from Flask-WTF.
+    """
     username = TextField('Username',
                          id='username_login',
                          validators=[DataRequired()])
@@ -24,6 +31,13 @@ class LoginForm(FlaskForm):
 
 
 class CreateAccountForm(FlaskForm):
+    """
+    Form to create a new account. It is used
+    to create a new account in the application.
+
+    Args:
+        FlaskForm (class): FlaskForm class from Flask-WTF.
+    """
     username = TextField('Username',
                          id='username_create',
                          validators=[DataRequired()])

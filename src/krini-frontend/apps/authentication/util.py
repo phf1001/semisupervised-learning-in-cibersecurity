@@ -8,17 +8,23 @@
 @Contact :   phf1001@alu.ubu.es
 
 Copyright (c) 2019 - present AppSeed.us
+Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
 '''
 
 import os
 import hashlib
 import binascii
 
-# Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
-
-
 def hash_pass(password):
-    """Hash a password for storing. Return bytes."""
+    """
+    Hash a password for storing. Return bytes.
+
+    Args:
+        password (str): password to hash
+
+    Returns:
+        bytes: encoded password
+    """
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
     pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
                                   salt, 100000)
@@ -27,7 +33,15 @@ def hash_pass(password):
 
 
 def verify_pass(provided_password, stored_password):
-    """Verify a stored password against one provided by user"""
+    """
+    Verify a stored password against one provided by user
+
+    Args:
+        provided_password (str): password provided by user
+        stored_password (bytes): stored password (in database)
+    Returns:
+        bool: True if password is correct, False otherwise
+    """
     stored_password = stored_password.decode('ascii')
     salt = stored_password[:64]
     stored_password = stored_password[64:]

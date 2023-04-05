@@ -18,17 +18,29 @@ DECISION_TREE_NAME = "Árbol de decisión"
 KNN_NAME = "k-vecinos más cercanos"
 
 class ReportURLForm(FlaskForm):
+    """
+    Form used to report a URL (whitelist or blacklist)
+
+    Args:
+        FlaskForm (class): parent class
+    """
     url = TextField(
         "url", id="url_report", validators=[DataRequired("Introduce una URL")]
     )
     type = SelectField(
         "type",
         id="type",
-        validators=[DataRequired("URL is required")],
-        choices=[("blacklist", "Blacklist"), ("whitelist", "Whitelist")],
+        choices=[("black-list", "Blacklist"), ("white-list", "Whitelist")],
     )
 
 class SearchURLForm(FlaskForm):
+    """
+    Form used to make the analysis of a URL
+    in the index page.
+
+    Args:
+        FlaskForm (class): parent class
+    """
     url = TextField(
         "url", id="url_search", validators=[DataRequired("Introduce una URL")]
     )
@@ -37,6 +49,11 @@ class SearchURLForm(FlaskForm):
     )
 
 class NewModelForm(FlaskForm):
+    """TODO revisar campos obligatorios, docstring
+
+    Args:
+        FlaskForm (class): parent class
+    """
     model_name = TextField(
         "model_name", id="model_name", validators=[DataRequired("Introduce un nombre")]
     )
@@ -78,7 +95,6 @@ class NewModelForm(FlaskForm):
     )
 
     #(no se puede hacer una herencia por las características dinámicas de los formularios)
-
     #coforest
     max_features = SelectField(
         "max_features", id="max_features", choices=[("log2", "Logaritmo base 2"), ("sqrt", "Raíz cuadrada")]
@@ -93,7 +109,6 @@ class NewModelForm(FlaskForm):
     )
 
     #tritraining
-
     cls_one = SelectField(
         "cls_one", id="cls_one", choices=[("kNN", KNN_NAME), ("NB", NAIVE_BAYES_NAME), ("tree", DECISION_TREE_NAME)]
     )
@@ -107,7 +122,6 @@ class NewModelForm(FlaskForm):
     )
 
     # democratic-co
-
     n_cls_one = IntegerField(
         "n_cls_one", id="n_cls_one"
     )
@@ -119,16 +133,3 @@ class NewModelForm(FlaskForm):
     n_cls_three = IntegerField(
         "n_cls_three", id="n_cls_three"
     )
-
-# class NewCoforestForm(NewModelForm):
-#     max_features = SelectField(
-#         "max_features", id="max_features", choices=[("log2", "Logaritmo base 2"), ("sqrt", "Raíz cuadrada")]
-#     )
-
-#     n_trees = TextField(  
-#         "n_trees", id="n_trees", validators=[DataRequired("Introduce un número")]
-#     )
-
-#     thetha = TextField(
-#         "thetha", id="thetha", validators=[DataRequired("Introduce un número")]
-#     )

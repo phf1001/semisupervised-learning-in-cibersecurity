@@ -12,6 +12,9 @@ class KriniException(Exception):
     """
     General web exception used when no action but
     to display a message to the user is required.
+
+    Args:
+        Exception (class): parent class
     """
     def __init__(self, message='An error has occurred in Krini'):
         self.message = message
@@ -25,6 +28,9 @@ class KriniNotLoggedException(Exception):
     """
     Used when a user tries to access a page that
     requires login.
+
+    Args:
+        Exception (class): parent class
     """
     def __init__(self, message='You must be logged in to access this page'):
         self.message = message
