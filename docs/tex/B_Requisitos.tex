@@ -30,7 +30,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & Se permite que un usuario realice un escaneo de la URL que desee. Para ello, seleccionará los modelos que considere adecuados (consultar CU-1.1 en la tabla~\ref{cu:seleccionar-modelos-ml}) y se le mostrarán los resultados en un \textit{dashboard} (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
+		\textbf{Descripción}          & Permitir que un usuario realice un escaneo de la URL que desee. Para ello, seleccionará los modelos que considere adecuados y se mostrarán los resultados en un \textit{dashboard} (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
 		\textbf{Precondición}         & No hay precondiciones. \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
@@ -58,18 +58,17 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{CU-1.1}    & \textbf{Seleccionar modelos con los que analizar}\\
 		\toprule
-		\textbf{Versión}              & 1.0    \\
+		\textbf{Versión}              & 2.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & Se mostrará al usuario un desplegable con los distintos modelos disponibles y visibles en la base de datos. \\
+		\textbf{Descripción}          & Se mostrará al usuario los distintos modelos disponibles (y visibles) para que elija los que desee. \\
 		\textbf{Precondición}         & Estar realizando el CU-1 (disponible en la tabla~\ref{cu:escanear-url}). \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
-			\item El usuario despliega la lista de modelos disponibles.
-			\item El usuario selecciona los modelos que quiere utilizar.
-			\item El usuario cierra el despegable.
+			\item Se cargan los modelos disponibles en la base de datos.
+			\item El usuario selecciona los modelos que quiera utilizar.
 		\end{enumerate}\\
 		\textbf{Postcondición}        & Los modelos seleccionados quedan guardados. \\
 		\textbf{Excepciones}          & En caso de no haber modelos disponibles la lista quedará vacía y se controlará la excepción en el CU-1 (tabla~\ref{cu:escanear-url}). \\
@@ -149,12 +148,12 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
 		\textbf{Descripción}          & Permite a un usuario crear una cuenta en la aplicación.\\
-		\textbf{Precondición}         & Ningún usuario debe haber iniciado sesión en el sistema (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Precondición}         & El usuario no debe estar registrado ni haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
-			\item El usuario pulsa el enlace <<Registrarse>>.
+			\item El usuario selecciona <<Registrarse>>.
 			\item El usuario introduce el nombre de usuario que considere.
 			\item El usuario introduce un \textit{email} asociado a la cuenta.
 			\item El usuario introduce la contraseña deseada.
@@ -181,7 +180,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
 		\textbf{Descripción}          & Permite a un usuario iniciar sesión en la aplicación.\\
-		\textbf{Precondición}         & Ningún usuario debe haber iniciado sesión en el sistema (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Precondición}         & El usuario no debe haber iniciado sesión en el navegador (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
@@ -218,7 +217,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
 			\item El usuario introduce la URL a reportar.
-			\item El usuario selecciona en el desplegable el tipo de lista a la que pertenece la URL.
+			\item El usuario selecciona el tipo de lista a la que pertenece la URL.
 			\item El usuario pulsa el botón de <<Enviar>>.
 		\end{enumerate}\\
 		\textbf{Postcondición}        & Se registra la URL reportada en la base de datos con el campo <<sugerencia>> establecido al valor seleccionado en el desplegable (ejemplo: \textit{white-list}). \\
