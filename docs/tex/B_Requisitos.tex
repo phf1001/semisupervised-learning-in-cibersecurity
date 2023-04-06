@@ -6,17 +6,105 @@
 
 \section{Catálogo de requisitos}
 
+\section{Prototipado}
+\label{s:mockups}
+
+Como es conocido, en el mundo del desarrollo \textit{software} suele haber una diferencia en el entendimiento de una aplicación por parte del cliente y del equipo de desarrollo que puede desembocar en malentendidos que causen retrasos temporales y pérdidas económicas.
+
+Con el fin de reducir dichas desventajas y realizar un diseño que se adapte a los requerimientos del usuario, se ha decidido realizar una fase de prototipado durante las entrevistas del producto. Esto ha permitido identificar posibles diferencias entre el equipo del desarrollo y el cliente (representado por el \textit{product owner}), facilitando la comunicación y colaboración entre ambas partes.
+
+Se adjuntan a continuación los diferentes \textit{mockups} realizados durante esta fase.
+
+
+\begin{figure}[h]
+	\caption{Prototipos: página principal}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/1-mockups-index}
+	\label{mock:index}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: \textit{dashboard}}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/2-mockups-dashboard}
+	\label{mock:dashboard}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: reportar una URL}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/3-mockups-report_url}
+	\label{mock:report_url}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: perfil del usuario}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/4-mockups-profile}
+	\label{mock:profile}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: administración de modelos}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/5-mockups-models}
+	\label{mock:model-admin}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: creación de modelos}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/6-mockups-new_model}
+	\label{mock:model-new}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: evaluación de modelos}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/7-mockups-test_model}
+	\label{mock:model-test}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: selección de instancias}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/8-mockups-select_instances}
+	\label{mock:instance-selection}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: administración de instancias}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/9-mockups-instances}
+	\label{mock:instance-admin}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: edición de instancias}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/10-mockups-edit_instance}
+	\label{mock:instances-edit}
+\end{figure}
+
+
 \section{Especificación de requisitos}
+\label{s:requisitos}
 
 COMENTAR: Si estamos haciendo Scrum deberían ser historias de usuario (?)
 
 Se detalla a continuación la especificación de requisitos de la aplicación \textit{web} propuesta.
 
 \subsection{Diagrama de casos de uso}
+\label{ss:diagrama-casos-uso}
 
-Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner}, se ha extraído el siguiente diagrama de casos de uso.
+Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner} y de los \textit{mockups} mostrados en la sección~\ref{ss:mockups}, se ha extraído el diagrama de casos de uso disponible en la figura~\ref{b:diagrama-cu}.
 
-[Explicación general + diagrama]
+\begin{figure}[h]
+	\caption{Diagramas: casos de uso}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/cu}
+	\label{b:diagrama-cu}
+\end{figure}
 
 A continuación se muestra la tabla correspondiente a cada caso de uso.
 
@@ -228,3 +316,5 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 	\caption{CU-5 Reportar URL.}
 	\label{cu:reportar-url}
 \end{table}
+
+
