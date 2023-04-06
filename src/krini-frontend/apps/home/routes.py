@@ -140,7 +140,7 @@ def task():
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
-            if previous_instance:
+            if previous_instance.instance_fv:
                 callable_url = url
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
@@ -151,7 +151,7 @@ def task():
         else: # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
 
-            if previous_instance and quick_analysis:
+            if previous_instance.instance_fv and quick_analysis:
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
 

@@ -74,6 +74,10 @@ def register():
     """
     create_account_form = CreateAccountForm(request.form)
 
+    if current_user.is_authenticated:
+        flash("Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.", "info")
+        return redirect(url_for("home_blueprint.index"))
+    
     if 'register' in request.form:
         username = request.form["username"]
         email = request.form["email"]
@@ -115,12 +119,7 @@ def register():
             form=create_account_form,
         )
 
-    elif current_user.is_authenticated:
-        flash("Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.", "info")
-        return redirect(url_for("home_blueprint.index"))
-
-    else:
-        return render_template("accounts/register.html", form=create_account_form)
+    return render_template("accounts/register.html", form=create_account_form)
 
 
 def email_is_valid(email):
