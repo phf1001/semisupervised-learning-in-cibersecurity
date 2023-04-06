@@ -666,6 +666,48 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 
 
+\subsubsection{\textit{Sprint 18: Nutmeg}}
+\begin{itemize}
+	\item \textbf{\textit{Planning meeting}}
+	
+	Hasta este \textit{sprint} se ha conseguido implementar una \textit{web} con funcionalidad mínima. Se ha decidido que, durante los 4 siguientes, se dedicará un \textit{sprint} a cada sección de la \textit{web} para implementar la funcionalidad al completo y realizar la documentación disponible en estos anexos. Por lo tanto, \textit{sprint} 18 se ha dedicado al \textit{index}, a la página de reportar URLs y al \textit{dashboard}. Aprovechando las vacaciones se ha decidido, además, integrar toda la documentación atrasada e introducir nuevos experimentos para el \textit{co-forest}.
+	
+	\begin{enumerate}
+		\item \textit{Web}: finalizar el \textit{index} (mostrar solo modelos visibles, controlar las excepciones, corección de URLs por parte del usuario, introducir el análisis rápido, modificar la interfaz), mejorar el \textit{dashboard} (espaciado en las fórmulas, introducir botón de notificar análisis incorrectos, añadir un gráfico interactivo global con las métricas para todos los clasificadores, arreglar ejes de los gráficos y añadir las métricas F1 y ROC AUC) y arreglar la página para reportar URLs (adaptar al modelo de datos tras las nuevas correcciones).
+		\item Calidad y UX: mejorar la documentación del código, arreglar \textit{code smells} e incluir pantallas llamativas de carga y error (con ilustraciones del robot adaptadas a cada situación).
+		\item Anexos: documentar los casos de uso respectivos a este \textit{sprint}, corregir el diccionario de datos (nueva columna y tamaños), incluir en la memoria los diagramas hasta ahora realizados (E-R, relacional, CU) y comentarlos. Redactar anexo B (requisitos funcionales). Realizar los digramas de secuencia del \textit{index} y de la página de reportar URLs y redactar explicación. Realizar diagrama de clases.
+		\item Documentación: incluir algoritmos de \textit{hash} y revisar la memoria en busca de la información <<desaparecida>> (encontrado error en el \textit{commit} \texttt{66d22ac0cf9ffc24385656ae85bf831e03f924be}).
+		\item{Experimentación}: experimentar como la inicialización del vector \texttt{previous\_w} afecta a la \textit{accuracy} del algoritmo \textit{co-forest}.
+		
+	\end{enumerate}
+	\item \textbf{Marcas temporales}		
+	
+	El \textit{sprint} se ha desarrollado entre el 29 de marzo y el 8 de abril del 2023.
+	
+	\item \textbf{\textit{Burndown Report}}
+	
+		\begin{figure}[h]
+		\caption{\textit{Burndown Report Sprint 18}}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s18_bdr}
+	\end{figure}
+
+	Como se puede comprobar, durante este \textit{sprint} se han conseguido cerrar todos los \textit{issues} propuestos. Si bien es cierto que el tiempo de programación estimado fue superior al real, se dedicó el tiempo sobrante a la mejora de calidad de código.
+	
+	Por otro lado, aprovechando las vacaciones, se decidió invertir más tiempo del planeado para avanzar el proyecto (redactando toda la sección B de los anexos aunque en un principio no estuviese planificado). Por lo tanto, de las 40 horas que se estimaron, se realizó un trabajo real de xx horas.
+
+
+	\item \textbf{\textit{Sprint review meeting}}
+	
+	Como se ha ido documentando en los \textit{issues} de GitHub\footnote{\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/115}}, lo más relevante ha sido la experimentación con el \textit{co-forest}, ya que se piensa que la inicialización del vector \texttt{previous\_w} tiene un impacto real mayor que el estimado en el desempeño del algoritmo. Por ello, se ha planificado una experimentación a gran escala para cuando la \textit{web} se finalice.
+	
+	Por otro lado, los diagramas ...
+	
+\end{itemize}
+
+
+
+
 \subsubsection{\textit{Sprint N: }}
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
@@ -679,6 +721,9 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	\item \textbf{\textit{Burndown Report}}
 	\item \textbf{\textit{Sprint review meeting}}
 \end{itemize}
+
+
+
 \section{Estudio de viabilidad}
 
 \subsection{Viabilidad económica}

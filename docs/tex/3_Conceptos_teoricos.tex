@@ -33,7 +33,7 @@ Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se 
 
 
 \begin{figure}[h]
-	\caption[Suposiciones del aprendizaje semisupervisado]{Suposiciones del aprendizaje semisupervisado: \textit{smoothness} y \textit{low-density assumption} a la izquierda, \textit{mainfold assumption} a la derecha. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
+	\caption[Suposiciones del aprendizaje semisupervisado]{Suposiciones del aprendizaje semisupervisado: \textit{smoothness} y \textit{low-density assumption} a la izquierda, \textit{mainfold assumption} a la derecha. Extraída de \textit{<<A survey on semi-supervised learning>>}~\cite{engelen2020surveyOnSemiSupervised}.}
 	\label{img:assumptions}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_assumptions.pdf}
@@ -617,6 +617,14 @@ En los cifrados de bloque, el texto se divide en bloques de una longitud fija y 
 En este tipo de sistemas, se utiliza una clave para cifrar los datos (la clave pública) y otra distinta para descifrarlos (la clave privada)~\cite{cifradoIBM}. Generalmente este tipo de cifrado es mucho más costoso computacionalmente~\cite{apuntesCybersec}, por ello no suelen ser utilizados cuando la cantidad de información a procesar es demasiado grande. 
 
 Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíptica). Dentro de este tipo de algoritmos también se encuentran los sistemas de intercambio de claves, como Diffie-Hellman.
+
+\subsection{Algoritmos de \textit{hash}}
+
+Una función \textit{hash} es símplemente un método de compresión de cadenas donde la entrada se denomina <<mensaje>> y la salida <<\textit{digest}>>. La característica principal de estos algoritmos es que la salida siempre cuenta con una longitud física independiente de los datos de entrada~\cite{apuntesCybersec}.
+
+Cuando se habla de funciones \textit{hash} criptográficas, el algoritmo debe tener diversas características, entre ellas: compresión, eficiencia, unidireccionalidad (dado un valor $y$, no se puede encontrar una $x$ tal que $h(x)=y$), resistencia débil a colisiones (dado $x$ y $h(x)$, es inviable encontrar $y \ne x$ tal que $h(x)=h(y)$) y resistencia fuerte a colisiones (es inviable encontrar $x$ e $y$ tales que $h(x)=h(y)$).
+
+Un ejemplo de este tipo de algoritmos es el denominado SHA-512. Como curiosidad, ha sido el algoritmo elegido para cifrar las contraseñas de la aplicación \textit{web} de este proyecto.
 
 \subsection{Peticiones HTTP}
 
