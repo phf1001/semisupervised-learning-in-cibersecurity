@@ -6,7 +6,7 @@
 
 
 \section{Diseño de datos}
-
+\label{s:diseno-datos}
 A continuación se expone el procedimiento seguido para desarrollar el diseño de datos de la aplicación.
 
 Para implementar la persistencia, se ha decidido utilizar una base de datos PostgreSQL (debido a la compatibilidad con Heroku y a su caracter \textit{open-source}). El diseño de la misma ha pasado por diversas fases: el diseño del modelo entidad-relación (disponible en la subsección~\ref{c:diagrama_entidad_relacion}), el diseño del diagrama relacional (subsección~\ref{c:diagrama_relacional}) y, por último, el diccionario de datos (subsección~\ref{c:diccionario_datos}).
@@ -37,7 +37,7 @@ Para facilitar el desarrollo y reducir errores derivados de equivocaciones, se h
 
 \begin{landscape}
 \begin{figure}[h]
-	\caption{Diagramas: entidad-relación}
+	\caption[Diagramas: entidad-relación]{Diagrama entidad relación de la aplicación}
 	\centering
 	\includegraphics[scale=0.4]{../img/anexos/diagrams/er}
 	\label{c:diagrama-er}
@@ -46,7 +46,7 @@ Para facilitar el desarrollo y reducir errores derivados de equivocaciones, se h
 
 \begin{landscape}
 	\begin{figure}[h]
-		\caption{Diagramas: relacional}
+		\caption[Diagramas: relacional]{Diagrama relacional de la base de datos}
 		\centering
 		\includegraphics[scale=0.46]{../img/anexos/diagrams/relational}
 		\label{c:diagrama-relacional}
@@ -238,8 +238,53 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 	\end{table}
 \end{itemize}
 
+
 \section{Diseño procedimental}
+\label{s:diseño-procedimental}
+
+En el desarrollo de \textit{software}, el diseño procedimental se refiere a la definición de pasos ordenados para realizar una determinada funcionalidad. Se utiliza para crear métodos y se basa en la descomposición del problema en pequeñas tareas ejecutadas secuencialmente para alcanzar el resultado deseado. Para ello, se ha hecho uso de diagramas de secuencia. Estos muestran la interacción entre distintos componentes en un sistema.
+
+Con el fin de facilitar la comprensión de ciertos métodos, se muestran a continuación los diagramas de las principales funcionalidades implementadas.
+
+\begin{itemize}
+	\item \textbf{Página principal}: en el diagrama~\ref{c:diagrama-seq-index} se representan los pasos seguidos en la página principal. Como se puede comprobar, el usuario realiza una petición y permanece esperando en la pantalla de carga correspondiente. Mientras tanto, el analizador procesa su petición.
+	
+	Para extraer el vector de características es necesario que la dirección introducida sea alcanzable. En caso de que no lo sea, se realizan correcciones (completar protocolos, corregir sintáxis, etc.). Posteriormente se intenta recuperar posible información existente en la base de datos acerca de dicha instancia (si pertenece a una lista blanca o negra, si ya se tiene almacenado su vector de características, etc.).
+	
+	Si la dirección no es alcanzable y no hay información previa, se devuelve al usuario un mensaje informativo (es una excepción, no se puede analizar ni mostrar nada).
+	
+	En el caso de que exista información previa acerca de dicha instancia (el vector de características está almacenado), se puede analizar (ya sea llamable o no). Este camino también es seguido en caso de que el usuario seleccione el <<análisis rápido>>, ya que recuperar el vector de características de la base de datos no es temporalmente costoso.
+	
+	Por último, en caso de que la URL sea llamable y si no se ha recorrido ningún camino previo, se analiza utilizando el método de extracción de vector de características expuesto en la sección teórica de la memoria. Este proceso requiere unos 40 segundos.
+	
+	Si no ha ocurrido ninguna excepción, en cualquiera de las opciones se ha extraído el vecto de características. Por lo tanto, sólo queda analizar y mostrar los resultados haciendo uso de técnicas visuales (gráficos interactivos) en el \textit{dashboard}, por lo que se redirige a esta pantalla. En caso de que ocurra alguna excepción, el usuario será devuelto a la página principal con un mensaje informativo.
+	
+	\begin{landscape}
+	\begin{figure}[h]
+		\caption[Diagramas: secuencia (página principal)]{Diagrama de secuencia de la página principal del analizador.}
+		\centering
+		\includegraphics[scale=0.37]{../img/anexos/diagrams/sequence-index}
+		\label{c:diagrama-seq-index}
+	\end{figure}
+	\end{landscape}
+
+
+	\item \textbf{Página para reportar una URL}: la secuencia se ilustra en el diagrama~\ref{c:diagrama-seq-report_url}. Como se puede comprobar, el usuario tan solo ha de introducir su URL, seleccionar el tipo (lista blanca o lista negra) y aceptar.
+	
+	Como internamente la tabla donde se almacenan las URLs reportadas necesita información para incluir un nuevo registro (identificador de la instancia y del usuario), se intenta recuperar la instancia que se está reportando. En caso de no existir, se crea una nueva y se añade a la base de datos. Por último, se incluye el reporte con los datos y se redirige al usuario a la misma página con un mensaje informativo.
+	
+	Es destacable que un usuario registrado no va a poder acceder a esta pantalla (antes será redirigido por el sistema de control a la página de inicio de sesión).
+	
+	\begin{figure}[h]
+		\caption[Diagramas: secuencia (reportar url)]{Diagrama de secuencia de la página para reportar una URL.}
+		\centering
+		\includegraphics[scale=0.4]{../img/anexos/diagrams/sequence-report_url}
+		\label{c:diagrama-seq-report_url}
+	\end{figure}
+
+
+\end{itemize}
 
 \section{Diseño arquitectónico}
-
+\label{s:diseño-arquitectonico}´
 

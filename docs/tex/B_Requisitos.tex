@@ -2,9 +2,60 @@
 
 \section{Introducción}
 
+La fase de análisis es una etapa fundamental en el ciclo de vida del desarrollo ya que permite entender los requerimientos del cliente e identificar los componentes necesarios para entregar un producto adecuado.
+
+Durante esta fase, el equipo de desarrollo se reune con el cliente (o con su representante el \textit{product owner}) y, tras realizar diversas entrevistas, se recoge lo que este espera de la aplicación. Además, el equipo de desarrollo analizará todos los requisitos no relacionados con la funcionalidad (como puede ser seguridad, escalabilidad, rendimiento, etc.) que se puedan deducir de dichas conversaciones.
+
+Debido a la importancia que tiene esta fase, se ha experimentado una evolución con los años y se han propuesto distintas aproximaciones en función de las metodologías utilizadas. Entre ellas:
+
+\begin{itemize}
+	\item \textbf{Metodologías tradicionales}: estas metodologías realizan la captura de los requerimientos en fases tempranas del desarrollo, realizando una <<fotografía>> exacta (e, idealmente, inmutable) de lo que el usuario necesita. Para ello, se hace uso de requisitos funcionales y no funcionales que se documentan en un formato estructurado y definido en estándares. Un ejemplo de especificación es el estándar IEEE 830~\cite{ieee830}, donde se implora que los requisitos han de ser claros, precisos, medibles, coherentes, completos, factibles, específicos y verificables.
+	
+	\item  \textbf{Metodologías ágiles}: en contraposición, las metodologías ágiles tratan de ser flexibles y adaptarse al usuario (ya que, muchas veces, es común que no tenga claro en etapas tempranas de desarrollo lo que realmente necesita). Para ello utilizan las denominadas historias de usuario, que son breves descripciones de las funcionalidades que el usuario necesita para realizar una tarea específica. Estos documentos se recogen en estructuras tabulares y se almacenan en el \textit{product backlog}, que lejos de ser una <<fotografía>>, es una lista <<viva>> que se actualiza y prioriza en función de las necesidades del cliente. 
+\end{itemize}
+
+
+Aunque en un proyecto real puede no resultar óptimo realizar una <<mezcla>> de metodologías, debido a las peculiares características de este (equipo de un desarrollador) y a que se solicita la inclusión de requisitos funcionales y no funcionales de una manera más tradicional en la memoria, se ha hecho uso de ambos métodos de documentación (complementados, además, mediante prototipos expuestos en la sección~\ref{s:mockups}). Por lo tanto, se realizará una especificación de requisitos clásica (expuesta en la sección~\ref{s:cat-requisitos} y desarrollada en la sección~\ref{s:requisitos}) complementada con alguna historia de usuario extraída de las entrevistas con el \textit{product owner} (sección~\ref{s:hu}).
+
+Cabe destacar que durante el desarrollo real se ha utilizado una metodología ágil mediante el uso de \textit{sprints} como se ha expuesto en la sección~\ref{s:planificacion-sprints}.
+
 \section{Objetivos generales}
 
+En este proyecto se han definido distintos objetivos que pueden ser resumidos en los siguientes puntos:
+
+\begin{enumerate}
+	\item Implementación y validación de algoritmos de aprendizaje semisupervisado: en concreto el \textit{co-forest}, el \textit{democratic-co learning} y el \textit{tri-training}.
+	\item Aplicación del \textit{machine learning} a la solución de un problema real relacionado con la ciberseguridad: se ha escogido la detección de \textit{phishing} y detección de ataques en sistemas de recomendación, aunque esta última ha sido descartada por su bajo desempeño.
+	\item Desarrollo de una herramienta que permita poner al servicio de la comunidad el conocimiento desarrollado: se ha decidido desarrollar un analizador de \textit{phishing} en formato página \textit{web}, permitiendo además administración avanzada de modelos de \textit{machine learning} e instancias de aprendizaje (URLs legítimos y fraudulentos).
+\end{enumerate}
+
+Como se puede intuir, los dos primeros están enfocados a la investigación mientras que el último es una tarea de desarrollo. Por este motivo, este anexo se centrará principalmente en el tercer punto.
+
+\section{Usuarios}
+\label{s:usuarios}
+
+En las metodologías ágiles no sólo es necesario definir las funcionalidades, sino también quién las realiza. Por ello, se introducen a continuación los distintos usuarios de la página \textit{web} desarrollada, aunque sus funciones completas se pueden observar en el diagrama de casos de uso~\ref{b:diagrama-cu}.
+
+\section{Catálogo de historias de usuario}
+\label{s:hu}
+
+\begin{table}
+	\scalebox{0.80}{
+	\begin{tabular}{@{}p{3em} p{6em} p{9em} p{9em} p{9em}@{}}		
+	\toprule
+	\textbf{ID} & \textbf{Como} & \textbf{Quiero} & \textbf{Para} & \textbf{Aceptación}\\
+	\midrule
+		& & & & \\
+	\bottomrule
+	\end{tabular}
+	}
+	\caption[Historias de usuario:]{Ejemplo de estructura tabular para recoger una historia de usuario}
+	\label{hu:estructura-tabular}
+\end{table}
+
+
 \section{Catálogo de requisitos}
+\label{s:cat-requisitos}
 
 \section{Prototipado}
 \label{s:mockups}
@@ -13,7 +64,7 @@ Como es conocido, en el mundo del desarrollo \textit{software} suele haber una d
 
 Con el fin de reducir dichas desventajas y realizar un diseño que se adapte a los requerimientos del usuario, se ha decidido realizar una fase de prototipado durante las entrevistas del producto. Esto ha permitido identificar posibles diferencias entre el equipo del desarrollo y el cliente (representado por el \textit{product owner}), facilitando la comunicación y colaboración entre ambas partes.
 
-Se adjuntan a continuación los diferentes \textit{mockups} realizados durante esta fase.
+Se adjuntan a continuación los diferentes \textit{mockups} del analizador de \textit{phishing} realizados durante esta fase.
 
 
 \begin{figure}[h]
@@ -90,14 +141,12 @@ Se adjuntan a continuación los diferentes \textit{mockups} realizados durante e
 \section{Especificación de requisitos}
 \label{s:requisitos}
 
-COMENTAR: Si estamos haciendo Scrum deberían ser historias de usuario (?)
-
-Se detalla a continuación la especificación de requisitos de la aplicación \textit{web} propuesta.
+Se detalla a continuación la especificación de requisitos tradicional de la aplicación \textit{web} propuesta basada en el catálogo de requisitos de la sección~\ref{s:cat-requisitos}.
 
 \subsection{Diagrama de casos de uso}
 \label{ss:diagrama-casos-uso}
 
-Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner} y de los \textit{mockups} mostrados en la sección~\ref{ss:mockups}, se ha extraído el diagrama de casos de uso disponible en la figura~\ref{b:diagrama-cu}.
+Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner} y de los \textit{mockups} mostrados en la sección~\ref{s:mockups}, se ha extraído el diagrama de casos de uso disponible en la figura~\ref{b:diagrama-cu}.
 
 \begin{figure}[h]
 	\caption{Diagramas: casos de uso}
