@@ -273,12 +273,12 @@ class PHISH_FVG:
                         ] = "vacío, asterisco o _javascript:void(0)_"
                         return
 
-                    elif is_simple_php_file(action_content[0]):
+                    if is_simple_php_file(action_content[0]):
                         self.fv[8] = 1
                         self.extra_information["f9"] = "compatible con _fichero.php_"
                         return
 
-                    elif is_foreign(self.url, action_content[0]):
+                    if is_foreign(self.url, action_content[0]):
                         self.fv[8] = 1
                         self.extra_information["f9"] = "dominio extranjero"
                         return

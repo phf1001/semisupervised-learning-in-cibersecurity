@@ -191,7 +191,7 @@ class CoForest:
             init_value = min(0.1 * len(L), 100)
             return [init_value] * self.n
 
-        elif 'confidence_L' in w_init_criteria:
+        if 'confidence_L' in w_init_criteria:
             if w_init_criteria == 'confidence_L_all':
                 exclude_low_confidence = False
             elif w_init_criteria == 'confidence_L_thetha':
@@ -208,9 +208,7 @@ class CoForest:
                         previous_W[i] += concomitant_confidence
 
             return previous_W
-
-        else:
-            raise ValueError('w_init_criteria not in the allowed values')
+        raise ValueError('w_init_criteria not in the allowed values')
 
     def retrain_tree(self, i, L, y, pseudo_labeled_data, pseudo_labeled_tags,
                      mask_L):
