@@ -254,9 +254,7 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-
-        else:
-            raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
+        raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
 
     except KriniException as e:
         logger.error(e.message)
