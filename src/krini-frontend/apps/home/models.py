@@ -7,11 +7,9 @@
 @Version :   2.0
 @Contact :   phf1001@alu.ubu.es
 """
-
-from apps import db
-from decouple import config
-from apps import create_app
+from apps import create_app, db
 from apps.config import config_dict
+from decouple import config
 from sqlalchemy.ext.mutable import MutableList
 
 DEBUG = config("DEBUG", default=True, cast=bool)
