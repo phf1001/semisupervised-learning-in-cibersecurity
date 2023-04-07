@@ -17,32 +17,23 @@ from apps.ssl_utils.ml_utils import (
     serialize_model,
     get_temporary_download_directory
 )
+from apps import db
+from apps.authentication.models import Users
+from apps.home.exceptions import KriniNotLoggedException
+from apps.home.models import Available_tags, Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings, Available_instances, Candidate_instances
 from werkzeug.utils import secure_filename
 from os import path, remove
-from apps.authentication.models import Users
-from apps.home.models import (
-    Available_tags,
-    Available_models,
-    Available_co_forests,
-    Available_democratic_cos,
-    Available_tri_trainings,
-    Available_instances,
-    Candidate_instances,
-)
 import re
 import pandas as pd
 import json
 from flask_login import current_user
 from datetime import datetime
 import time
-from apps import db
 from flask import flash
 import logging
 import requests
 import urllib.parse
 from pickle import PickleError
-
-from apps.home.exceptions import KriniNotLoggedException
 from sqlalchemy import exc
 
 
@@ -118,7 +109,7 @@ def complete_uncallable_url(url):
         if not parsed.netloc and not parsed.path:
             return None
 
-        elif not parsed.netloc and parsed.path:
+        if not parsed.netloc and parsed.path:
             url = parsed.path
 
         if not parsed.scheme:
@@ -237,11 +228,9 @@ def get_selected_models_ids(selected):
 
     if default_id:
         return [default_id.model_id]
-
-    else:
-        random_model = Available_models.query.first()
-        if random_model:
-            return [random_model.model_id]
+    random_model = Available_models.query.first()
+    if random_model:
+        return [random_model.model_id]
 
     return []
 
@@ -275,21 +264,21 @@ def get_parameters(model, algorithm="semi-supervised"):
     if algorithm == "semi-supervised":
         return [], "red"
 
-    elif algorithm == "CO-FOREST":
+    if algorithm == "CO-FOREST":
         return [
             "Max features = {}".format(model.max_features),
             "Thetha = {}".format(model.thetha),
             "Nº árboles = {}".format(model.n_trees),
         ], "pink"
 
-    elif algorithm == "TRI-TRAINING":
+    if algorithm == "TRI-TRAINING":
         return [
             "Clasificador 1: {}".format(model.cls_one),
             "Clasificador 2: {}".format(model.cls_two),
             "Clasificador 3: {}".format(model.cls_three),
         ], "yellow"
 
-    elif algorithm == "DEMOCRATIC-CO":
+    if algorithm == "DEMOCRATIC-CO":
         information = cls_to_string_list(model.base_clss)
         information.append("Nº clasificadores = {}".format(model.n_clss))
         return information, "cyan"
@@ -306,8 +295,7 @@ def get_username(user_id):
 
     if user:
         return user.username.upper()
-    else:
-        return "?"
+    return "?"
 
 
 def get_model_dict(model, algorithm="semi-supervised"):
@@ -330,11 +318,9 @@ def get_model_dict(model, algorithm="semi-supervised"):
 def translate_tag_colour(tag):
     if tag == 0:
         return "legítimo", "green"
-    elif tag == 1:
+    if tag == 1:
         return "phishing", "red"
-
-    else:
-        return "no disponible", "grey"
+    return "no disponible", "grey"
 
 
 def get_instance_dict(instance):
@@ -436,7 +422,7 @@ def check_n_instances(n_instances):
 def translate_form_select_data_method(user_input):
     if user_input == "1":
         return "csv"
-    elif user_input == "2":
+    if user_input == "2":
         return "generate"
 
 
@@ -481,8 +467,7 @@ def serialize_store_coforest(form_data, cls, scores):
 def to_bolean(string):
     if string == "True":
         return True
-    else:
-        return False
+    return False
 
 
 def return_X_y_train_test(dataset_method, dataset_params):
@@ -510,9 +495,9 @@ def extract_X_y_csv(file_name):
 def translate_form_select_ssl_alg(user_input):
     if user_input == "1":
         return "co-forest"
-    elif user_input == "2":
+    if user_input == "2":
         return "democratic-co"
-    elif user_input == "3":
+    if user_input == "3":
         return "tri-training"
 
 

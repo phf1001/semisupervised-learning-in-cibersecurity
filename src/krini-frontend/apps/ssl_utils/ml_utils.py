@@ -67,14 +67,12 @@ def get_base_cls(wanted_cls):
     if wanted_cls == 'tree':
         return DecisionTreeClassifier()
 
-    elif wanted_cls == 'kNN':
+    if wanted_cls == 'kNN':
         return KNeighborsClassifier()
 
-    elif wanted_cls == 'NB':
+    if wanted_cls == 'NB':
         return GaussianNB()
-
-    else:
-        raise Exception("Clasificador no encontrado")
+    raise Exception("Clasificador no encontrado")
 
 
 def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
@@ -235,9 +233,7 @@ def obtain_model(model_file_name):
 
     if model_file_name in available_models:
         return deserialize_model(model_file_name), True
-
-    else:
-        return deserialize_model("default.pkl"), False
+    return deserialize_model("default.pkl"), False
 
 
 def serialize_model(model, filename, models_path=None):

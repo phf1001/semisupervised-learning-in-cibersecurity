@@ -17,6 +17,17 @@ from apps import db, login_manager
 from apps.authentication.util import hash_pass
 
 class Users(db.Model, UserMixin):
+    """
+    Users class. It is used to create a table in the database
+    with the users of the application.
+
+    Args:
+        db (class): db class from Flask-SQLAlchemy.
+        UserMixin (class): UserMixin class from Flask-Login.
+
+    Returns:
+        class: Users class.
+    """
 
     __tablename__ = 'Users'
 
@@ -45,11 +56,29 @@ class Users(db.Model, UserMixin):
 
 @login_manager.user_loader
 def user_loader(id):
+    """
+    Function to load the user.
+
+    Args:
+        id (int): id of the user.
+
+    Returns:
+        object: user object if found.
+    """
     return Users.query.filter_by(id=id).first()
 
 
 @login_manager.request_loader
 def request_loader(request):
+    """
+    Function to load the user.
+
+    Args:
+        request (object): request object.
+
+    Returns:
+        object: user object if found.
+    """
     username = request.form.get('username')
     user = Users.query.filter_by(username=username).first()
     return user if user else None

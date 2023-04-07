@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   models.py
 @Time    :   2023/03/30 21:06:32
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   2.0
 @Contact :   phf1001@alu.ubu.es
-'''
-
-from apps import db
-from decouple import config
-from apps import create_app
+"""
+from apps import create_app, db
 from apps.config import config_dict
+from decouple import config
 from sqlalchemy.ext.mutable import MutableList
 
 DEBUG = config("DEBUG", default=True, cast=bool)
@@ -26,29 +24,18 @@ except KeyError:
 app = create_app(app_config)
 app.app_context().push()
 
-class Available_tags:
-    """
-    Create an Available_tags table containing the
-    tags that are available for the instances.
-    """
-    black_list = "black-list"
-    white_list = "white-list"
-    nueva = "nueva"
-    revisar = "revisar"
-    mal_etiquetada_clasificador = "mal-etiquetada-clasificador"
-    sug_white_list = "sug-white-list"
-    sug_black_list = "sug-black-list"
-    sug_phishing = "sug-phishing"
-    sug_legitimate = "sug-legitimate"
-    sug_analized_review = "sug-analized-review"
-
 
 class Available_instances(db.Model):
     """
     Create an Available_instances table containing the
     URLs that are available for the user to use.
-    """
 
+    Args:
+        db.Model (class): SQLAlchemy model class
+
+    Returns:
+        object: SQLAlchemy model object
+    """
     __tablename__ = "Available_instances"
 
     instance_id = db.Column(db.Integer, primary_key=True)
@@ -59,7 +46,7 @@ class Available_instances(db.Model):
     colour_list = db.Column(db.String(64))
     instance_labels = db.Column(
         MutableList.as_mutable(db.ARRAY(db.String(64)))
-    )  # db.Column(db.ARRAY(Enum(Available_tags)))
+    )
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -85,8 +72,13 @@ class Candidate_instances(db.Model):
     This table will contain the instances reported
     by users that are not yet in the Available_instances table
     and will be once they are reviewed by an admin.
-    """
 
+    Args:
+        db.Model (class): SQLAlchemy model class
+
+    Returns:
+        object: SQLAlchemy model object
+    """
     __tablename__ = "Candidate_instances"
 
     date_reported = db.Column(db.DateTime, primary_key=True)
@@ -116,13 +108,35 @@ class Candidate_instances(db.Model):
         return Candidate_instances.query.paginate(page, per_page, False)
 
 
+class Available_tags:
+    """
+    Create an Available_tags table containing the
+    tags that are available for the instances.
+    """
+    black_list = "black-list"
+    white_list = "white-list"
+    nueva = "nueva"
+    revisar = "revisar"
+    mal_etiquetada_clasificador = "mal-etiquetada-clasificador"
+    sug_white_list = "sug-white-list"
+    sug_black_list = "sug-black-list"
+    sug_phishing = "sug-phishing"
+    sug_legitimate = "sug-legitimate"
+    sug_analized_review = "sug-analized-review"
+
+
 class Available_models(db.Model):
     """
     Create a Available_models table.
     This table will contain the models
     that are available for the user to choose.
-    """
 
+    Args:
+        db.Model (class): SQLAlchemy model class
+
+    Returns:
+        object: SQLAlchemy model object
+    """
     __tablename__ = "Available_models"
 
     model_id = db.Column(db.Integer, primary_key=True)
@@ -132,7 +146,7 @@ class Available_models(db.Model):
     creation_date = db.Column(db.DateTime)
     is_default = db.Column(db.Boolean, default=False)
     is_visible = db.Column(db.Boolean, default=True)
-    model_scores = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)), default=[0.0, 0.0, 0.0])
+    model_scores = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)), default=[0.0, 0.0, 0.0, 0.0, 0.0])
     random_state = db.Column(db.Integer)
     model_notes = db.Column(db.String(128))
 
@@ -160,23 +174,46 @@ class Available_models(db.Model):
 
 
 class Available_co_forests(Available_models):
+    """
+    Create a Available_co_forests table.
+    This table will contain the co-forests
+    that are available for the user to choose.
 
+    Args:
+        Available_models (class): parent class
+    """
     __tablename__ = "Available_co_forests"
     model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
     n_trees = db.Column(db.Integer, default=6, nullable=False)
     thetha = db.Column(db.Float, default=0.75, nullable=False)
     max_features = db.Column(db.String(8), default='log2', nullable=False)
 
-class Available_tri_trainings(Available_models):
 
+class Available_tri_trainings(Available_models):
+    """
+    Create a Available_tri_trainings table.
+    This table will contain the tri-trainings
+    that are available for the user to choose.
+
+    Args:
+        Available_models (class): parent class
+    """
     __tablename__ = "Available_tri_trainings"
     model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
     cls_one = db.Column(db.String(8), nullable=False)
     cls_two = db.Column(db.String(8), nullable=False)
     cls_three = db.Column(db.String(8), nullable=False)
 
-class Available_democratic_cos(Available_models):
 
+class Available_democratic_cos(Available_models):
+    """
+    Create a Available_democratic_cos table.
+    This table will contain the democratic-cos
+    that are available for the user to choose.
+
+    Args:
+        Available_models (class): parent class
+    """
     __tablename__ = "Available_democratic_cos"
     model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
     n_clss = db.Column(db.Integer, default=3, nullable=False)

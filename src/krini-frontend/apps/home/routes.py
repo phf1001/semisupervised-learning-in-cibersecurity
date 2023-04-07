@@ -10,20 +10,19 @@
 
 # Web dependencies
 from sqlalchemy import exc
+from sqlalchemy.orm import load_only
 from apps.home import blueprint
 from apps import db
+from apps.home.exceptions import KriniException, KriniNotLoggedException
+from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.home.utils import *
+from apps.ssl_utils.ml_utils import get_array_scores, get_co_forest, get_fv_and_info, get_mock_values_fv, get_temporary_download_directory, translate_tag
 from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_login import login_required, current_user
+from werkzeug.exceptions import HTTPException, Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
 from datetime import datetime
-from sqlalchemy.orm import load_only
-from apps.home.models import (
-    Available_models,
-    Available_co_forests,
-    Available_democratic_cos,
-    Available_tri_trainings,
-)
 import json
 
 # DB Models
@@ -39,21 +38,17 @@ from apps.home.models import (
 import numpy as np
 import time
 from sklearn.model_selection import train_test_split
-from apps.ssl_utils.ml_utils import (
-    translate_tag,
-    get_fv_and_info,
-    get_mock_values_fv,
-    get_co_forest,
-    get_array_scores,
-)
-
-from apps.ssl_utils.ml_utils import get_temporary_download_directory
-from apps.home.utils import *
-from apps.home.exceptions import KriniException, KriniNotLoggedException
 logger = get_logger("krini-frontend")
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
+    """
+    Index page. It contains the form to analyze an URL.
+    Redirects to a loading page and then to the dashboard.
+
+    Returns:
+        function: renders a loading page
+    """
     form = SearchURLForm(request.form)
 
     if not form.validate_on_submit():
@@ -81,8 +76,15 @@ def index():
 
 def trigger_mock_dashboard(models_ids, quick_analysis):
     """
-    Trigger the dashboard with mock values.
+    Triggers the dashboard with mock values.
     Coded to make the development process faster.
+
+    Args:
+        models_ids (list): list of models ids
+        quick_analysis (int): 0 or 1 (False or True)
+
+    Returns:
+        function: redirects to the dashboard
     """
     time.sleep(3)
     fv, fv_extra_information = get_mock_values_fv()
@@ -100,10 +102,15 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
 
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    """
-    Gets the feature vector for an URL.
+    """Gets the feature vector for an URL.
     If the URL is not callable, it tries to reconstruct it.
     If there is an existing instance on the DB returns the FV.
+
+    Raises:
+        KriniException: if the URL is not callable and it cannot be reconstructed.
+        However it is catched and the user is redirected to the index page.
+    Returns:
+        function: redirects to the dashboard
     """
     try:
         messages = session.get("messages", None)
@@ -121,7 +128,7 @@ def task():
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
-            if previous_instance:
+            if previous_instance and previous_instance.instance_fv:
                 callable_url = url
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
@@ -132,7 +139,7 @@ def task():
         else: # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
 
-            if previous_instance and quick_analysis:
+            if previous_instance and previous_instance.instance_fv and quick_analysis:
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
 
@@ -143,7 +150,8 @@ def task():
                 if previous_instance:
                     colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
                 else:
-                    update_bbdd = True # Will be stored with majority voting tag
+                    if current_user.is_authenticated:
+                        update_bbdd = True # Will be stored with majority voting tag
                     colour_list = ''
 
         # Enviamos el vector al dashboard
@@ -170,7 +178,15 @@ def task():
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
+    """
+    Analyzes the URL feature vector with the selected models.
+    Renders the dashboard. All exceptions are catched and the 
+    user is redirected to the index page when something unexpected
+    happens.
 
+    Returns:
+        function: renders the dashboard
+    """
     try:
         messages = session.get("messages", None)
 
@@ -225,9 +241,7 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-
-        else:
-            raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
+        raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
 
     except KriniException as e:
         logger.error(e.message)
@@ -243,7 +257,14 @@ def dashboard():
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
+    """
+    Reports a false result to the database. 
+    The user must be logged in. Redirects to the
+    dashboard flashing a message.
 
+    Returns:
+        function: redirects to the dashboard
+    """
     try:
         if not current_user.is_authenticated:
             raise KriniNotLoggedException("Usuario no autenticado")
@@ -296,6 +317,18 @@ def report_false_positive():
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
+    """
+    Renders the profile page. The user must be logged in.
+
+    Raises:
+        Forbidden: if the user is not logged in
+
+    Returns:
+        function: renders the profile page
+    """
+    if not current_user.is_authenticated:
+        raise Forbidden()
+
     n_reports_accepted = (
         Users.query.filter_by(id=current_user.id).first().n_urls_accepted
     )
@@ -322,9 +355,17 @@ def profile():
 @login_required
 @blueprint.route("/models", methods=["GET"])
 def models():
+    """Displays the models page. The user must be logged in.
+    TODO: Implement functionality to display all models
 
-    if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        function: renders the models page
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
 
     information_to_display = []
 
@@ -347,6 +388,17 @@ def models():
 
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
+    """TODO completar la función
+
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
     form = NewModelForm()
 
     if not current_user.is_authenticated:
@@ -384,8 +436,18 @@ def new_model():
 
 @blueprint.route("/creatingmodel", methods=["POST", "GET"])
 def creatingmodel():
-    time.sleep(2)
+    """TODO completar la función
 
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    time.sleep(2)
     messages = session.get("messages", None)
     form_data = messages["form_data"]
 
@@ -421,10 +483,18 @@ def creatingmodel():
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances(n_per_page=10):
-    form = FlaskForm(request.form)
+    """TODO completar la función
 
-    if not current_user.is_authenticated:  # meter if admin
-        return redirect(url_for("authentication_blueprint.login"))
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    form = FlaskForm(request.form)
 
     if "my_page" in request.form:
         page = int(request.form["my_page"])
@@ -468,19 +538,29 @@ def instances(n_per_page=10):
 @blueprint.route("/report_url", methods=["GET", "POST"])
 @login_required
 def report_url():
-    form = ReportURLForm(request.form)
+    """
+    Saves the reported instance in the database if it is not already
+    there and adds the report to the database.
 
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        function: renders the report_url.html template with a flash 
+                  message that indicates the status of the report
+    """
     if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
+        raise Forbidden()
 
+    form = ReportURLForm(request.form)
     if "report" in request.form:
         try:
             url = request.form["url"]
             report_type = request.form["type"]
 
-            if report_type == "blacklist":
+            if report_type == "black-list":
                 report_type = Available_tags.black_list
-            elif report_type == "whitelist":
+            elif report_type == "white-list":
                 report_type = Available_tags.white_list
 
             existing_instance = Available_instances.query.filter_by(

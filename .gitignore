@@ -15,4 +15,6 @@ src/models/notebooks/wine
 __pycache__/
 .pytest_cache/
 .coverage
+src/models/classifiers/__pycache__/
+src/models/classifiers/__pycache__
 src/models/classifiers/__pycache__/*
