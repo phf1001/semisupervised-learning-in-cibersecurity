@@ -14,6 +14,7 @@ from apps.home import blueprint
 from apps import db
 from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_login import login_required, current_user
+from werkzeug.exceptions import HTTPException, Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
 from datetime import datetime
@@ -140,7 +141,7 @@ def task():
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
-            if previous_instance.instance_fv:
+            if previous_instance and previous_instance.instance_fv:
                 callable_url = url
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
@@ -151,7 +152,7 @@ def task():
         else: # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
 
-            if previous_instance.instance_fv and quick_analysis:
+            if previous_instance and previous_instance.instance_fv and quick_analysis:
                 fv = list(previous_instance.instance_fv)
                 colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
 
@@ -162,7 +163,8 @@ def task():
                 if previous_instance:
                     colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
                 else:
-                    update_bbdd = True # Will be stored with majority voting tag
+                    if current_user.is_authenticated:
+                        update_bbdd = True # Will be stored with majority voting tag
                     colour_list = ''
 
         # Enviamos el vector al dashboard
@@ -333,9 +335,15 @@ def profile():
     """
     Renders the profile page. The user must be logged in.
 
+    Raises:
+        Forbidden: if the user is not logged in
+
     Returns:
         function: renders the profile page
     """
+    if not current_user.is_authenticated:
+        raise Forbidden()
+
     n_reports_accepted = (
         Users.query.filter_by(id=current_user.id).first().n_urls_accepted
     )
@@ -365,11 +373,14 @@ def models():
     """Displays the models page. The user must be logged in.
     TODO: Implement functionality to display all models
 
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
     Returns:
         function: renders the models page
     """
-    if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
 
     information_to_display = []
 
@@ -392,6 +403,17 @@ def models():
 
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
+    """TODO completar la función
+
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
     form = NewModelForm()
 
     if not current_user.is_authenticated:
@@ -429,8 +451,18 @@ def new_model():
 
 @blueprint.route("/creatingmodel", methods=["POST", "GET"])
 def creatingmodel():
-    time.sleep(2)
+    """TODO completar la función
 
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    time.sleep(2)
     messages = session.get("messages", None)
     form_data = messages["form_data"]
 
@@ -466,10 +498,18 @@ def creatingmodel():
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances(n_per_page=10):
-    form = FlaskForm(request.form)
+    """TODO completar la función
 
-    if not current_user.is_authenticated:  # meter if admin
-        return redirect(url_for("authentication_blueprint.login"))
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    form = FlaskForm(request.form)
 
     if "my_page" in request.form:
         page = int(request.form["my_page"])
@@ -517,15 +557,17 @@ def report_url():
     Saves the reported instance in the database if it is not already
     there and adds the report to the database.
 
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
     Returns:
         function: renders the report_url.html template with a flash 
                   message that indicates the status of the report
     """
-    form = ReportURLForm(request.form)
-
     if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
+        raise Forbidden()
 
+    form = ReportURLForm(request.form)
     if "report" in request.form:
         try:
             url = request.form["url"]
