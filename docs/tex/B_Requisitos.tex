@@ -9,20 +9,19 @@ Durante esta fase, el equipo de desarrollo se reune con el cliente (o con su rep
 Debido a la importancia que tiene esta fase, se ha experimentado una evolución con los años y se han propuesto distintas aproximaciones en función de las metodologías utilizadas. Entre ellas:
 
 \begin{itemize}
-	\item \textbf{Metodologías tradicionales}: estas metodologías realizan la captura de los requerimientos en fases tempranas del desarrollo, realizando una <<fotografía>> exacta (e, idealmente, inmutable) de lo que el usuario necesita. Para ello, se hace uso de requisitos funcionales y no funcionales que se documentan en un formato estructurado y definido en estándares. Un ejemplo de especificación es el estándar IEEE 830~\cite{ieee830}, donde se implora que los requisitos han de ser claros, precisos, medibles, coherentes, completos, factibles, específicos y verificables.
+	\item \textbf{Metodologías tradicionales}: estas metodologías realizan la captura de los requerimientos en fases tempranas del desarrollo, realizando una <<fotografía>> exacta (e, idealmente, inmutable) de lo que el usuario necesita. Para ello, se hace uso de requisitos funcionales y no funcionales que se documentan en un formato estructurado y definido en estándares. Un ejemplo de especificación es el estándar \texttt{IEEE 830}~\cite{ieee830}, donde se implora que los requisitos han de ser claros, precisos, medibles, coherentes, completos, factibles, específicos y verificables.
 	
 	\item  \textbf{Metodologías ágiles}: en contraposición, las metodologías ágiles tratan de ser flexibles y adaptarse al usuario (ya que, muchas veces, es común que no tenga claro en etapas tempranas de desarrollo lo que realmente necesita). Para ello utilizan las denominadas historias de usuario, que son breves descripciones de las funcionalidades que el usuario necesita para realizar una tarea específica. Estos documentos se recogen en estructuras tabulares y se almacenan en el \textit{product backlog}, que lejos de ser una <<fotografía>>, es una lista <<viva>> que se actualiza y prioriza en función de las necesidades del cliente. 
 \end{itemize}
 
 
-Aunque en un proyecto real puede no resultar óptimo realizar una <<mezcla>> de metodologías, debido a las peculiares características de este (equipo de un desarrollador) y a que se solicita la inclusión de requisitos funcionales y no funcionales de una manera más tradicional en la memoria, se ha hecho uso de ambos métodos de documentación (complementados, además, mediante prototipos expuestos en la sección~\ref{s:mockups}). Por lo tanto, se realizará una especificación de requisitos clásica (expuesta en la sección~\ref{s:cat-requisitos} y desarrollada en la sección~\ref{s:requisitos}) complementada con alguna historia de usuario extraída de las entrevistas con el \textit{product owner} (sección~\ref{s:hu}).
+Aunque en un proyecto real puede no resultar óptimo realizar una <<mezcla>> de metodologías, debido a las peculiares características de este (equipo de un desarrollador) y a que se solicita la inclusión de requisitos funcionales y no funcionales de una manera más tradicional en la memoria, se ha hecho uso de ambos métodos de documentación (complementados, además, mediante prototipos expuestos en la sección~\ref{s:mockups}). Por lo tanto, se realizará una especificación de requisitos clásica (expuesta en la sección~\ref{s:cat-requisitos} y desarrollada en la sección~\ref{s:requisitos}) complementada, a modo ilustrativo, con alguna historia de usuario extraída de las entrevistas con el \textit{product owner} (sección~\ref{s:hu}). 
 
 Cabe destacar que durante el desarrollo real se ha utilizado una metodología ágil mediante el uso de \textit{sprints} como se ha expuesto en la sección~\ref{s:planificacion-sprints}.
 
 \section{Objetivos generales}
 
 En este proyecto se han definido distintos objetivos que pueden ser resumidos en los siguientes puntos:
-
 \begin{enumerate}
 	\item Implementación y validación de algoritmos de aprendizaje semisupervisado: en concreto el \textit{co-forest}, el \textit{democratic-co learning} y el \textit{tri-training}.
 	\item Aplicación del \textit{machine learning} a la solución de un problema real relacionado con la ciberseguridad: se ha escogido la detección de \textit{phishing} y detección de ataques en sistemas de recomendación, aunque esta última ha sido descartada por su bajo desempeño.
@@ -51,11 +50,11 @@ En las metodologías ágiles no sólo es necesario definir las funcionalidades, 
 	\toprule
 	\textbf{ID} & \textbf{Como} & \textbf{Quiero} & \textbf{Para} & \textbf{Aceptación}\\
 	\midrule
-		HU-1 & Visitante & Analizar URLs & Saber si un enlace es fraudulento (\textit{phishing}) o legítimo & La página debe mostrar el resultado tras el análisis.
+		HU-1 & Visitante & Analizar URLs & Saber si un enlace es fraudulento (\textit{phishing}) o legítimo & La página debe mostrar el resultado tras el análisis haciendo uso de técnicas visuales como gráficos interactivos.
 		
 		La \textit{web} debe informar si no es posible mediante un mensaje ilustrativo.\\\\
 		HU-2 & Visitante & Poder registrarme & Crear una cuenta en la aplicación & La cuenta es persistente y se puede acceder a ella. \\\\
-		HU-3 & Visitante & Poder iniciar sesión & Acceder a más funcionalidades & Al introducir credenciales correctas se accede a una cuenta y se desbloquean opciones colaborativas. \\\\
+		HU-3 & Usuario registrado & Poder iniciar sesión & Acceder a más funcionalidades & Al introducir credenciales correctas se accede a una cuenta y se desbloquean opciones colaborativas. \\\\
 		HU-4 & Usuario registrado & Reportar URLs & Que sean incluídas en una lista blanca o negra & Existe un lugar donde reportar URLs cuando se está seguro de la clase a la que pertenecen.\\\\
 		HU-5 & Usuario registrado & Notificar análisis incorrectos & Que las instancias sean revisadas y poder mejorar los algoritmos de ML & Existe un botón con el que se reporta automáticamente que se considera que un análisis ha fallado.\\\\
 		HU-6 & Administrador & Administrar instancias (URLs) & Poder mantener un dataset actualizado & Se pueden añadir instancias.
@@ -79,10 +78,6 @@ En las metodologías ágiles no sólo es necesario definir las funcionalidades, 
 \end{table}
 
 A modo ilustrativo y con el fin de realizar una memoria lo más completa posible (coherente con las metodologías ágiles), se facilitan en la tabla~\ref{hu:estructura-tabular} algunas historias de usuario tomadas durante las entrevistas con el \textit{product owner}. Sin embargo, el catálogo completo de requisitos se encuentra en el apartado~\ref{s:cat-requisitos}.
-
-
-\section{Catálogo de requisitos}
-\label{s:cat-requisitos}
 
 \section{Prototipado}
 \label{s:mockups}
@@ -109,17 +104,17 @@ Se adjuntan a continuación los diferentes \textit{mockups} del analizador de \t
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: reportar una URL}
-	\centering
-	\includegraphics[width=\textwidth]{../img/anexos/mockups/3-mockups-report_url}
-	\label{mock:report_url}
-\end{figure}
-
-\begin{figure}[h]
 	\caption{Prototipos: perfil del usuario}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/4-mockups-profile}
 	\label{mock:profile}
+\end{figure}
+
+\begin{figure}[h]
+	\caption{Prototipos: reportar una URL}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/mockups/3-mockups-report_url}
+	\label{mock:report_url}
 \end{figure}
 
 \begin{figure}[h]
@@ -164,6 +159,96 @@ Se adjuntan a continuación los diferentes \textit{mockups} del analizador de \t
 	\label{mock:instances-edit}
 \end{figure}
 
+\section{Catálogo de requisitos}
+\label{s:cat-requisitos}
+
+Utilizando como base las entrevistas realizadas con el \textit{product owner} y las historias de usuario expuestas en la sección~\ref{s:hu} y como soporte auxiliar los prototipos de la sección~\ref{s:mockups}, se han extraído los requisitos de usuario de forma tradicional y siguiendo las características que han de tener según el estándar~\texttt{IEEE 830}~\cite{ieee830}. Por ello, se dividen en dos categorías:
+
+\subsection{Requisitos funcionales}
+\label{s:requisitos-funcionales}
+
+Este tipo de requerimiento (de ahora en adelante RF) detalla las funciones que debe realizar la pieza de \textit{software} desarrollada (en este caso, la página \textit{web}) para cumplir con las expectativas del usuario. Es decir, se centra en qué debe hacer el sistema y cómo. En esta categoría se encuentran:
+
+\begin{itemize}
+	\item \textbf{RF-1 Análisis de enlaces}: la página \textit{web} ha de ser capaz de analizar un enlace y concluir si se trata de un enlace de \textit{phishing} o legítimo mediante el uso de \textit{machine learning}\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:index}.}.
+	\begin{itemize}
+		\item \textbf{RF-1.1 Selección de modelos}: la página \textit{web} debe disponer de modelos entrenados para que el usuario pueda seleccionar los que desee para cada análisis.
+		\item \textbf{RF-1.2 Análisis rápido}: en caso de haber realizado un análisis de un enlace repetido, la página \textit{web} debe mostrar los resultados inmediatamente.
+	\end{itemize}
+	
+	\item \textbf{RF-2 Visualización de resultados}: los resultados del análisis se deben de mostrar utilizando técnicas de representación visual para facilitar el entendimiento por parte de cualquier tipo de usuario\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:dashboard}.}.
+	\begin{itemize}
+	\item \textbf{RF-2.1 Gráficos interactivos}: la página \textit{web} debe mostrar gráficos con las estadísticas de los modelos seleccionados para el análisis y de los resultados del mismo. Estos gráficos deben de permitir que el usuario interactúe con ellos seleccionando la información que desea representar.
+	\item \textbf{RF-2.2 Tablas}: se han de mostrar tablas con información acerca de cada clasificador, qué predicción ha realizado y cuán seguro está de ella.
+	\item \textbf{RF-2.3 Vector de características}: se debe mostrar (y explicar) de dónde proviene el resultado extraído y cómo se ha calculado.
+	\item \textbf{RF-2.4 Notificar falso resultado}: en caso de que un usuario registrado piense que un análisis es incorrecto, debe de poder notificarlo fácilmente.
+	\end{itemize}
+
+	\item \textbf{RF-3 Usuarios}: se ha de incluir una gestión básica de usuarios con el fin de trazar quién ha realizado reportes de enlaces y moderar accesos a zonas restringidas.
+	\begin{itemize}
+	\item \textbf{RF-3.1 Creación de cuentas}: cualquier navegante podrá crear una cuenta proporcionando un nombre de usuario, un \textit{email} y una contraseña.
+	\item \textbf{RF-3.2 Inicio de sesión}: un usuario registrado podrá iniciar sesión en la página \textit{web} con sus credenciales.
+	\item \textbf{RF-3.3 Visualización del perfil}: cualquier usuario registrado podrá consultar sus datos\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:profile}.}.
+	\end{itemize}
+
+	\item \textbf{RF-4 Reportar enlaces}: se permitirá que los usuarios registrados puedan reportar aquellos enlaces que sepan que son \textit{phishing} o legítimos. Estos serán etiquetados como pertenecientes a una lista blanca o a una lista negra y serán revisados por un administrador\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:report_url}.}.
+	
+	\item \textbf{RF-5 Administración de instancias}: una instancia es una URL de la que se desea almacenar información (como su vector de características, etiqueta, pertenencia a una lista blanca o negra, etc.)\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:instance-admin}, \ref{mock:instance-selection} y \ref{mock:instances-edit}.}.
+	\begin{itemize}
+		\item \textbf{RF-5.1 Creación de instancias}: se deberán de poder añadir instancias a la base de datos.
+		\item \textbf{RF-5.2 Modificación de instancias}: se podrán editar ciertos campos relacionados con cada instancia (como sus etiquetas o pertenencia a listas).
+		\item \textbf{RF-5.3 Eliminación de instancias}: se podrán borrar enlaces del \textit{dataset}.
+		\item \textbf{RF-5.4 Descarga de instancias}: se podrán descargar las instancias seleccionadas en un archivo \texttt{csv} para ser utilizadas en el entrenamiento o prueba de nuevos modelos.
+	\end{itemize}
+	
+	\item \textbf{RF-6 Administración de modelos}: una administrador debe poder gestionar desde la aplicación los modelos de aprendizaje disponibles para analizar enlaces\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:model-admin}, \ref{mock:model-new} y \ref{mock:model-test}.}.
+	\begin{itemize}
+	\item \textbf{RF-6.1 Creación de modelos}: se deberán de poder crear nuevos modelos de aprendizaje que estarán disponibles para ser utilizados por los usuarios de la web.
+	\begin{itemize}
+		\item \textbf{RF-6.1.1 Parámetros generales}: el administrador podrá personalizar todos los atributos que desee tales como el nombre del clasificador, su versión, su semilla aleatoria, las notas, etc. Además, también podrá definir dos atributos fundamentales:
+		\begin{enumerate}
+			\item Visibilidad: un modelo visible está disponible para ser usado en la página web.
+			\item Clasificador por defecto: un modelo que sea el clasificador por defecto será el utilizado cuando un navegante realice un análisis y no seleccione ningún modelo para analizar.
+		\end{enumerate}
+		\item \textbf{RF-6.1.2 Selección del algoritmo}: el administrador podrá seleccionar cualquiera de los siguientes algoritmos de aprendizaje semisupervisado: \textit{co-forest}, \textit{tri-training} o \textit{democratic-co learning}. Además, podrá personalizar los parámetros propios de cada uno.
+		\item \textbf{RF-6.1.3 Selección del conjunto de datos de entrenamiento}: se podrá decidir con qué instancias se entrena el \textit{ensemble}.
+		\item \textbf{RF-6.1.4 Selección del conjunto de datos de \textit{test}}: se podrá decidir con qué datos se realiza una primera evaluación del modelo creado.
+	\end{itemize}
+	
+	\item \textbf{RF-6.2 Modificación de modelos}: se podrán editar ciertos campos de los modelos creados, como su visibilidad o su valor por defecto. No se podrá reentrenar modelos (son inmutables).
+	\item \textbf{RF-6.3 Eliminación de modelos}: se podrán borrar modelos y dejarán de estar disponibles en el sistema.
+	\item \textbf{RF-6.4 Evaluación de modelos}: se podrán evaluar modelos previamente creados para actualizar las estadísticas que se muestran en los gráficos y visualizar sus rendimientos.
+	\end{itemize}
+
+\end{itemize}
+
+\subsection{Requisitos no funcionales}
+\label{s:requisitos-no-funcionales}
+
+Por otro lado, estos requisitos (de ahora en adelante RNF) se centran en aspectos no relacionados con la operatividad del sistema. Es decir, están enfocados a describir cómo debe funcionar. Algunos ejemplos son:
+
+
+\begin{itemize}
+	\item \textbf{RNF-1 Seguridad}: el sistema debe proteger la información sensible de los usuarios.
+	\begin{itemize}
+		\item \textbf{RNF-1.1 Protección de credenciales}: todas las contraseñas han de estar correctamente cifradas y almacenadas en la base de datos.
+		\item \textbf{RNF-1.2 Protección anti-rastreo}: las llamadas a sitios no seguros se realicen utilizando \textit{proxies} que oculten la dirección IP de los usuarios.
+		\item \textbf{RNF-1.3 Control de acceso}: los usuarios que intenten acceder a páginas para las que no estén autorizados deben de ser redirigidos fuera de ellas.
+	\end{itemize}
+	\item \textbf{RNF-2 Usabilidad}: el \textit{software} desarrollado debe de ser intuitivo y accesible para todos los usuarios.
+	\begin{itemize}
+		\item \textbf{RNF-2.1 Interfaces}: las interfaces han de estar diseñadas para facilitar las tareas y que se realicen en el menor tiempo posible. Además, han de ser agradables (inclusión de imágenes).
+		\item \textbf{RNF-2.2 Tratamiento de excepciones}: en caso de ocurrir una situación imprevista, el usuario ha de ser redirigido a una página segura y correctamente informado mediante un mensaje entendible, significativo y transparente de lo ocurrido.
+	\end{itemize}
+	\item \textbf{RNF-3 Disponibilidad}: el sistema debe estar disponible para los usuarios y recuperarse rápidamente en caso de fallo.
+	\item \textbf{RNF-4 Interoperabilidad}: el software desarrollado debe de ser compatible con diversos sistemas y plataformas. Por este motivo, preferiblemente ha de ser una \textit{web}.
+	\item \textbf{RNF-5 Mantenibilidad}: el \textit{software} desarrollado ha de estar correctamente documentado, refactorizado y analizado para facilitar la inclusión de nuevos desarrolladores y la corrección del mismo.
+	\item \textbf{RNF-6 Escalabilidad}: la plataforma desarrollada debe de manejar un alto número de usuarios sin afectar su rendimiento.
+	\item \textbf{RNF-7 Rendimiento}: el sistema debe de tener un tiempo de respuesta adecuado incluso bajo situaciones de alta carga. En caso de relizar operaciones que requieran esperas largas por parte del usuario, se ha de informar y amenizar dicha espera mediante el uso de pantallas interactivas.
+	\item \textbf{RNF-8 Internacionalización}: la página ha de estar disponible en más de un idioma y adaptarse a la cultura objetivo mediante la revisión de colores o iconos que puedan tener un determinado significado.
+	\item \textbf{RNF-9 Soporte}: el equipo de desarrollo debe de ser contactable por \textit{email} o GitHub y permitir la notificación de \textit{bugs}, ideas de nueva funcionalidad o consultas acerca de la aplicación.
+	\item \textbf{RNF-10 Exactitud}: el sistema debe de ser capaz de caracterizar fielmente las características de una página legítima o de \textit{phishing} y debe de distinguir ambos casos con facilidad.
+\end{itemize}
 
 \section{Especificación de requisitos}
 \label{s:requisitos}
@@ -176,7 +261,7 @@ Se detalla a continuación la especificación de requisitos tradicional de la ap
 Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner} y de los \textit{mockups} mostrados en la sección~\ref{s:mockups}, se ha extraído el diagrama de casos de uso disponible en la figura~\ref{b:diagrama-cu}.
 
 \begin{figure}[h]
-	\caption{Diagramas: casos de uso}
+	\caption[Diagramas: casos de uso]{Diagrama de casos de uso de la aplicación.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/diagrams/cu}
 	\label{b:diagrama-cu}
@@ -193,7 +278,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-1 (RF-1.1, RF-1.2) \\
 		\textbf{Descripción}          & Permitir que un usuario realice un escaneo de la URL que desee. Para ello, seleccionará los modelos que considere adecuados y se mostrarán los resultados en un \textit{dashboard} (CU-2 en la tabla~\ref{cu:visualizar-resultados}). \\
 		\textbf{Precondición}         & No hay precondiciones. \\
 		\textbf{Acciones}             &
@@ -202,7 +287,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 			\tightlist
 			\item El usuario introduce la URL.
 			\item El usuario selecciona los modelos de ML que considere (consultar CU-1.1 en la tabla~\ref{cu:seleccionar-modelos-ml}).
-			\item El usuario decide si quiere realizar un análisis rápido.
+			\item El usuario decide si quiere realizar un análisis rápido (consultar CU-1.2 en la tabla~\ref{cu:analisis-rapido}).
 			\item El usuario pulsa el botón de <<realizar análisis>>.
 		\end{enumerate}\\
 		\textbf{Postcondición}        & No hay postcondiciones. \\
@@ -224,7 +309,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 2.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-1.1 \\
 		\textbf{Descripción}          & Se mostrará al usuario los distintos modelos disponibles (y visibles) para que elija los que desee. \\
 		\textbf{Precondición}         & Estar realizando el CU-1 (disponible en la tabla~\ref{cu:escanear-url}). \\
 		\textbf{Acciones}             &
@@ -243,6 +328,35 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 	\label{cu:seleccionar-modelos-ml}
 \end{table}
 
+
+% Caso de Uso 1.2 -> Análisis rápido
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1.2}    & \textbf{Análisis rápido}\\
+		\toprule
+		\textbf{Versión}              & 1   \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-1.2 \\
+		\textbf{Descripción}          & Se dará la opción a realizar un análisis rápido (es decir, recuperar información previa en lugar de generar un nuevo vector de características). \\
+		\textbf{Precondición}         & Estar realizando el CU-1 (disponible en la tabla~\ref{cu:escanear-url}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona si realizar (o no) un análisis rápido.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La opción seleccionada queda registrada. \\
+		\textbf{Excepciones}          & No hay excepciones. \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1.2 Análisis rápido.}
+	\label{cu:analisis-rapido}
+\end{table}
+
+
 % Caso de Uso 2 -> Visualizar resultados
 \begin{table}[p]
 	\centering
@@ -252,7 +366,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-2 (RF-2.1, RF-2.2, RF-2.3, RF-2.4) \\
 		\textbf{Descripción}          & Se muestra al usuario los resultados tras haber analizado la URL mediante los algoritmos de ML seleccionados. Para ello se hará uso de un \textit{dashboard}, donde además se podrá notificar un falso resultado (CU-2.1 en la tabla~\ref{cu:notificar-falso-resultado}).\\
 		\textbf{Precondición}         & Haber realizado un análisis previamente (CU-1 en la tabla~\ref{cu:escanear-url}). \\
 		\textbf{Acciones}             &
@@ -282,7 +396,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-2.4 \\
 		\textbf{Descripción}          & Permite a un usuario notificar automáticamente a la aplicación si considera que el resultado de un análisis es erróneo.\\
 		\textbf{Precondición}         & Encontrarse en el \textit{dashboard} tras un análisis (CU-2 en la tabla~\ref{cu:visualizar-resultados}) y haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}).\\
 		\textbf{Acciones}             &
@@ -310,7 +424,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-3.1 \\
 		\textbf{Descripción}          & Permite a un usuario crear una cuenta en la aplicación.\\
 		\textbf{Precondición}         & El usuario no debe estar registrado ni haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
 		\textbf{Acciones}             &
@@ -342,14 +456,14 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-3.2 \\
 		\textbf{Descripción}          & Permite a un usuario iniciar sesión en la aplicación.\\
 		\textbf{Precondición}         & El usuario no debe haber iniciado sesión en el navegador (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
 		\textbf{Acciones}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
-			\item El usuario pulsa el botón de <<Iniciar sesión>>.
+			\item El usuario selecciona <<Iniciar sesión>>.
 			\item El usuario introduce el nombre de usuario asociado a su cuenta.
 			\item El usuario introduce la contraseña asociada a la cuenta.
 			\item El usuario pulsa el botón de <<Iniciar sesión>>.
@@ -359,20 +473,50 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Importancia}          & Media \\
 		\bottomrule
 	\end{tabularx}
-	\caption{CU-3 Iniciar sesión.}
+	\caption{CU-4 Iniciar sesión.}
 	\label{cu:iniciar-sesion}
 \end{table}
 
-% Caso de Uso 5 -> Reportar URL
+
+% Caso de Uso 5 -> Visualizar perfil
 \begin{table}[p]
 	\centering
 	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
 		\toprule
-		\textbf{CU-5}    & \textbf{Reportar URL}\\
+		\textbf{CU-5}    & \textbf{Visualizar perfil}\\
 		\toprule
 		\textbf{Versión}              & 1.0    \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
+		\textbf{Requisitos asociados} & RF-3.3 \\
+		\textbf{Descripción}          & Permite a un usuario visualizar la información de su perfil.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Perfil>>.
+			\item Se muestra al usuario la información almacenada de su perfil.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & No hay postcondiciones. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5 Visualizar perfil.}
+	\label{cu:visualizar-perfil}
+\end{table}
+
+
+% Caso de Uso 6 -> Reportar URL
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-6}    & \textbf{Reportar URL}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-4 \\
 		\textbf{Descripción}          & Permite a un usuario reportar una
 		URL si considera que pertenece a una lista blanca o a una lista negra.\\
 		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}). \\
@@ -389,7 +533,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\textbf{Importancia}          & Baja \\
 		\bottomrule
 	\end{tabularx}
-	\caption{CU-5 Reportar URL.}
+	\caption{CU-6 Reportar URL.}
 	\label{cu:reportar-url}
 \end{table}
 
