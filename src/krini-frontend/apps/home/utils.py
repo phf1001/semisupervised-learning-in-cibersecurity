@@ -34,6 +34,8 @@ import logging
 import requests
 import urllib.parse
 from pickle import PickleError
+
+from apps.home.exceptions import KriniNotLoggedException, KriniDBException
 from sqlalchemy import exc
 
 
@@ -338,7 +340,17 @@ def get_instance_dict(instance):
 
 
 def update_checks(previous_page, new_checks, checks, n_per_page):
-    # Update previous page selected instances
+    """
+    Update previous page selected instances.
+    Modifies the checks dictionary.
+    Checks syntax: {str(instance_id): int(instance_id)}
+
+    Args:
+        previous_page (int): previous page selected
+        new_checks (list): list of new checks ids (strings)
+        checks (dict): dictionary of checks
+        n_per_page (int): number of instances per page
+    """
     post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
     ids_previous = [instance.instance_id for instance in post_pagination.items]
     checks_update = [int(id_elem) for id_elem in new_checks]
@@ -350,8 +362,61 @@ def update_checks(previous_page, new_checks, checks, n_per_page):
         elif id_instance not in checks_update and str(id_instance) in checks:
             del checks[str(id_instance)]
 
+    return checks
+
+
+def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1):
+    """
+    Update checks dictionary.
+    Selects or deselects all instances in the page or above all instances.
+
+    Args:
+        modality (str): modality of the update
+        checks (dict): dictionary of checks
+        previous_page (int, optional): previous page selected. Defaults to -1.
+        n_per_page (int, optional): number of instances per page. Defaults to -1.
+
+    Returns:
+        dict: dictionary of checks updated
+    """
+    if modality == "deseleccionar_todos":
+        checks = {}
+
+    elif modality == "seleccionar_todos":
+        instances = Available_instances.query.all()
+        checks = {str(instance.instance_id): instance.instance_id for instance in instances}
+
+    elif "page" in modality:
+        post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
+        ids_previous = [instance.instance_id for instance in post_pagination.items]
+        
+        if "deseleccionar_todos" in modality:
+            for id_instance in ids_previous:
+                if str(id_instance) in checks:
+                    logger.info("borrando")
+                    del checks[str(id_instance)]
+
+        elif "seleccionar_todos" in modality:
+            for id_instance in ids_previous:
+                checks[str(id_instance)] = id_instance 
+
+    return checks
+
 
 def get_instances_view_dictionary(post_pagination_items, checks_values):
+    """
+    Transforms the instances in the requested page to a dictionary
+    with the information to be displayed in the view (includying if
+    the instance is checked).
+
+    Args:
+        post_pagination_items (iter): instances in the requested page
+        checks_values (dict.values()): ids of the instances that are checked
+
+    Returns:
+        list: list of dictionaries with the information of the instances
+    """
+
     new_items_list = [get_instance_dict(instance) for instance in post_pagination_items]
     ids_checked = list(checks_values)
 
@@ -366,6 +431,15 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
 
 
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
+    """
+    Creates a csv containing the selected instances features
+    vectors and tags
+
+    Args:
+        ids_instances (list): list containing ids
+        filename (str, optional): Downloaded file name.
+                                  Defaults to "selected_instances.csv".
+    """
     instances = Available_instances.query.filter(
         Available_instances.instance_id.in_(ids_instances)
     ).all()
@@ -373,8 +447,11 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
     data = []
     for instance in instances:
         fv = instance.instance_fv
-        fv.append(instance.instance_class)
-        data.append(fv)
+        tag = instance.instance_class
+
+        if fv and (tag==0 or tag==1):
+            fv.append(tag)
+            data.append(fv)
 
     df = pd.DataFrame(data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"])
 
@@ -419,7 +496,42 @@ def check_n_instances(n_instances):
         return ("generate", 80)
 
 
+def remove_selected_instances(ids_instances):
+    """
+    Removes the selected instances from the database.
+
+    Args:
+        ids_instances (list): list containing ids
+
+    Raises:
+        KriniDBException: raised if there is an error in the database
+    """
+    try:
+        Available_instances.query.filter(
+            Available_instances.instance_id.in_(ids_instances)
+        ).delete(synchronize_session=False)
+
+        Candidate_instances.query.filter(
+            Candidate_instances.instance_id.in_(ids_instances)
+        ).delete(synchronize_session=False)
+
+        db.session.commit()
+
+    except exc.SQLAlchemyError:
+        db.session.rollback()
+        raise KriniDBException("Error al eliminar las instancias {}.".format(ids_instances))
+
+
 def translate_form_select_data_method(user_input):
+    """
+    Translates the user input to the corresponding method.
+
+    Args:
+        user_input (str): selected option
+
+    Returns:
+        str: "csv" or "generate", depending on the user input
+    """
     if user_input == "1":
         return "csv"
     if user_input == "2":

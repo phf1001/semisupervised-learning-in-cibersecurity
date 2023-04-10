@@ -24,7 +24,7 @@ class KriniException(Exception):
         return self.message
 
 
-class KriniNotLoggedException(Exception):
+class KriniNotLoggedException(KriniException):
     """
     Used when a user tries to access a page that
     requires login.
@@ -33,6 +33,21 @@ class KriniNotLoggedException(Exception):
         Exception (class): parent class
     """
     def __init__(self, message='You must be logged in to access this page'):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return self.message
+
+
+class KriniDBException(KriniException):
+    """
+    Used when there is a problem with the database.
+
+    Args:
+        Exception (class): parent class
+    """
+    def __init__(self, message='DB Error'):
         self.message = message
         super().__init__(self.message)
 
