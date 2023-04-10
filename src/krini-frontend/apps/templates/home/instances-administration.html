@@ -36,19 +36,47 @@
             <div class="col-lg" style="justify-content: space-evenly;">
               <!-- Como algún gracioso me postee un diccionario ya verás qué risas-->
               <input type="hidden" name="button_pressed" value="ninguno" />
-              <button class="btn btn-sm btn-primary" type="submit" id="btn-select-all"
-                onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='seleccionar_todos'; return true;">
-                Seleccionar todos
-              </button>
-              <button class="btn btn-sm btn-primary" type="submit" id="btn-unselect-all"
-                onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='deseleccionar_todos'; return true;">
-                Deseleccionar todos
-              </button>
-              <button class="btn btn-sm btn-primary" type="submit" id="btn-descarga-csv"
+              <div class="dropdown">
+                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false"> Seleccionar
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                  <button class="dropdown-item" type="submit" id="btn-select-all"
+                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='seleccionar_todos'; return true;">
+                    Seleccionar todos
+                  </button>
+                  <button class="dropdown-item" type="submit" id="btn-select-all-page"
+                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='seleccionar_todos_page'; return true;">
+                    Seleccionar todos en esta página
+                  </button>
+                </div>
+              </div>
+              <div class="dropdown">
+                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false"> Deseleccionar
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                  <button class="dropdown-item" type="submit" id="btn-deselect-all"
+                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='deseleccionar_todos'; return true;">
+                    Deseleccionar todos
+                  </button>
+                  <button class="dropdown-item" type="submit" id="btn-deselect-all-page"
+                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='deseleccionar_todos_page'; return true;">
+                    Deseleccionar todos en esta página
+                  </button>
+                </div>
+              </div>
+              <button class="btn btn-neutral" type="submit" id="btn-descarga-csv"
                 onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='descargar'; return true;">
                 Descargar seleccionados
               </button>
-              <button class="btn btn-sm btn-primary" type="submit" id="btn-elimina-select"
+              <button class="btn btn-info" type="submit" id="btn-revisar">
+                Revisar instancias
+              </button>
+              <button class="btn btn-success" type="submit" id="btn-nueva">
+                Crear instancia
+              </button>
+              <button class="btn btn-danger" type="submit" id="btn-elimina-select"
                 onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='eliminar'; return true;">
                 Eliminar seleccionados
               </button>

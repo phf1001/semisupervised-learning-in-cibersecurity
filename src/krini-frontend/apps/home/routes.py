@@ -496,13 +496,17 @@ def creatingmodel():
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances(n_per_page=10):
-    """TODO completar la función
+    """
+    Main page of the instances. The user must be logged in and be an admin.
+
+    Args:
+        n_per_page (int, optional): Number of instances displayed. Defaults to 10.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
 
     Returns:
-        _type_: _description_
+        function: renders the instances page in the selected page
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
@@ -515,7 +519,7 @@ def instances(n_per_page=10):
             page = int(request.form["my_page"])
             previous_page = int(request.form["previous_page"])
             checks = session.get("checks", None)
-            update_checks(
+            checks = update_checks(
                 previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
             )
 
@@ -528,7 +532,10 @@ def instances(n_per_page=10):
                     remove_selected_instances(list(checks.values()))
                     flash("Instancias eliminadas correctamente.", "success")
 
-            if request.form["button_pressed"] == "descargar":
+            elif "seleccionar" in request.form["button_pressed"]:
+                checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page)
+
+            elif request.form["button_pressed"] == "descargar":
                 filename = "selected_instances.csv"
                 create_csv_selected_instances(list(checks.values()), filename)
                 return send_from_directory(

@@ -347,7 +347,17 @@ def get_instance_dict(instance):
 
 
 def update_checks(previous_page, new_checks, checks, n_per_page):
-    # Update previous page selected instances
+    """
+    Update previous page selected instances.
+    Modifies the checks dictionary.
+    Checks syntax: {str(instance_id): int(instance_id)}
+
+    Args:
+        previous_page (int): previous page selected
+        new_checks (list): list of new checks ids (strings)
+        checks (dict): dictionary of checks
+        n_per_page (int): number of instances per page
+    """
     post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
     ids_previous = [instance.instance_id for instance in post_pagination.items]
     checks_update = [int(id_elem) for id_elem in new_checks]
@@ -358,6 +368,46 @@ def update_checks(previous_page, new_checks, checks, n_per_page):
 
         elif id_instance not in checks_update and str(id_instance) in checks:
             del checks[str(id_instance)]
+
+    return checks
+
+
+def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1):
+    """
+    Update checks dictionary.
+    Selects or deselects all instances in the page or above all instances.
+
+    Args:
+        modality (str): modality of the update
+        checks (dict): dictionary of checks
+        previous_page (int, optional): previous page selected. Defaults to -1.
+        n_per_page (int, optional): number of instances per page. Defaults to -1.
+
+    Returns:
+        dict: dictionary of checks updated
+    """
+    if modality == "deseleccionar_todos":
+        checks = {}
+
+    elif modality == "seleccionar_todos":
+        instances = Available_instances.query.all()
+        checks = {str(instance.instance_id): instance.instance_id for instance in instances}
+
+    elif "page" in modality:
+        post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
+        ids_previous = [instance.instance_id for instance in post_pagination.items]
+        
+        if "deseleccionar_todos" in modality:
+            for id_instance in ids_previous:
+                if str(id_instance) in checks:
+                    logger.info("borrando")
+                    del checks[str(id_instance)]
+
+        elif "seleccionar_todos" in modality:
+            for id_instance in ids_previous:
+                checks[str(id_instance)] = id_instance 
+
+    return checks
 
 
 def get_instances_view_dictionary(post_pagination_items, checks_values):
