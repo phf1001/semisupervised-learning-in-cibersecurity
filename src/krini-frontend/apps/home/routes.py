@@ -10,21 +10,19 @@
 
 # Web dependencies
 from sqlalchemy import exc
+from sqlalchemy.orm import load_only
 from apps.home import blueprint
 from apps import db
+from apps.home.exceptions import KriniException, KriniNotLoggedException
+from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.home.utils import *
+from apps.ssl_utils.ml_utils import get_array_scores, get_co_forest, get_fv_and_info, get_mock_values_fv, get_temporary_download_directory, translate_tag
 from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException, Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
 from datetime import datetime
-from sqlalchemy.orm import load_only
-from apps.home.models import (
-    Available_models,
-    Available_co_forests,
-    Available_democratic_cos,
-    Available_tri_trainings,
-)
 import json
 
 # DB Models
@@ -40,17 +38,6 @@ from apps.home.models import (
 import numpy as np
 import time
 from sklearn.model_selection import train_test_split
-from apps.ssl_utils.ml_utils import (
-    translate_tag,
-    get_fv_and_info,
-    get_mock_values_fv,
-    get_co_forest,
-    get_array_scores,
-)
-
-from apps.ssl_utils.ml_utils import get_temporary_download_directory
-from apps.home.utils import *
-from apps.home.exceptions import KriniException, KriniNotLoggedException
 logger = get_logger("krini-frontend")
 
 @blueprint.route("/index", methods=["GET", "POST"])

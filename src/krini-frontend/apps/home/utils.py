@@ -17,25 +17,18 @@ from apps.ssl_utils.ml_utils import (
     serialize_model,
     get_temporary_download_directory
 )
+from apps import db
+from apps.authentication.models import Users
+from apps.home.exceptions import KriniNotLoggedException
+from apps.home.models import Available_tags, Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings, Available_instances, Candidate_instances
 from werkzeug.utils import secure_filename
 from os import path, remove
-from apps.authentication.models import Users
-from apps.home.models import (
-    Available_tags,
-    Available_models,
-    Available_co_forests,
-    Available_democratic_cos,
-    Available_tri_trainings,
-    Available_instances,
-    Candidate_instances,
-)
 import re
 import pandas as pd
 import json
 from flask_login import current_user
 from datetime import datetime
 import time
-from apps import db
 from flask import flash
 import logging
 import requests
