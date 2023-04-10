@@ -42,7 +42,7 @@ import requests
 import urllib.parse
 from pickle import PickleError
 
-from apps.home.exceptions import KriniNotLoggedException
+from apps.home.exceptions import KriniNotLoggedException, KriniDBException
 from sqlalchemy import exc
 
 
@@ -361,6 +361,19 @@ def update_checks(previous_page, new_checks, checks, n_per_page):
 
 
 def get_instances_view_dictionary(post_pagination_items, checks_values):
+    """
+    Transforms the instances in the requested page to a dictionary
+    with the information to be displayed in the view (includying if
+    the instance is checked).
+
+    Args:
+        post_pagination_items (iter): instances in the requested page
+        checks_values (dict.values()): ids of the instances that are checked
+
+    Returns:
+        list: list of dictionaries with the information of the instances
+    """
+
     new_items_list = [get_instance_dict(instance) for instance in post_pagination_items]
     ids_checked = list(checks_values)
 
@@ -375,6 +388,15 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
 
 
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
+    """
+    Creates a csv containing the selected instances features
+    vectors and tags
+
+    Args:
+        ids_instances (list): list containing ids
+        filename (str, optional): Downloaded file name.
+                                  Defaults to "selected_instances.csv".
+    """
     instances = Available_instances.query.filter(
         Available_instances.instance_id.in_(ids_instances)
     ).all()
@@ -382,8 +404,11 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
     data = []
     for instance in instances:
         fv = instance.instance_fv
-        fv.append(instance.instance_class)
-        data.append(fv)
+        tag = instance.instance_class
+
+        if fv and (tag==0 or tag==1):
+            fv.append(tag)
+            data.append(fv)
 
     df = pd.DataFrame(data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"])
 
@@ -428,7 +453,42 @@ def check_n_instances(n_instances):
         return ("generate", 80)
 
 
+def remove_selected_instances(ids_instances):
+    """
+    Removes the selected instances from the database.
+
+    Args:
+        ids_instances (list): list containing ids
+
+    Raises:
+        KriniDBException: raised if there is an error in the database
+    """
+    try:
+        Available_instances.query.filter(
+            Available_instances.instance_id.in_(ids_instances)
+        ).delete(synchronize_session=False)
+
+        Candidate_instances.query.filter(
+            Candidate_instances.instance_id.in_(ids_instances)
+        ).delete(synchronize_session=False)
+
+        db.session.commit()
+
+    except exc.SQLAlchemyError:
+        db.session.rollback()
+        raise KriniDBException("Error al eliminar las instancias {}.".format(ids_instances))
+
+
 def translate_form_select_data_method(user_input):
+    """
+    Translates the user input to the corresponding method.
+
+    Args:
+        user_input (str): selected option
+
+    Returns:
+        str: "csv" or "generate", depending on the user input
+    """
     if user_input == "1":
         return "csv"
     if user_input == "2":

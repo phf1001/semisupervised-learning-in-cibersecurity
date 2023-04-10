@@ -507,45 +507,56 @@ def instances(n_per_page=10):
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
     
-    form = FlaskForm(request.form)
+    try:
 
-    if "my_page" in request.form:
-        page = int(request.form["my_page"])
-        previous_page = int(request.form["previous_page"])
-        checks = session.get("checks", None)
-        update_checks(
-            previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
-        )
+        form = FlaskForm(request.form)
 
-        if request.form["button_pressed"] == "deliminar":
-            pass
-
-        elif request.form["button_pressed"] == "descargar":
-            filename = "selected_instances.csv"
-            create_csv_selected_instances(list(checks.values()), filename)
-            return send_from_directory(
-                get_temporary_download_directory(), filename, as_attachment=True
+        if "my_page" in request.form:
+            page = int(request.form["my_page"])
+            previous_page = int(request.form["previous_page"])
+            checks = session.get("checks", None)
+            update_checks(
+                previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
             )
 
-    else:
-        page = 1
-        checks = {}
+            if "eliminar" in request.form["button_pressed"]:
 
-    session["checks"] = checks
-    post_pagination = Available_instances.all_paginated(page, n_per_page)
-    post_pagination.items = get_instances_view_dictionary(
-        post_pagination.items, checks.values()
-    )
+                if "individual" in request.form["button_pressed"]:
+                    remove_selected_instances([request.form["individual_instance"]])
+                    flash("Instancia eliminada correctamente.", "success")
+                else:
+                    remove_selected_instances(list(checks.values()))
+                    flash("Instancias eliminadas correctamente.", "success")
 
-    return render_template(
-        "home/instances-administration.html",
-        segment=get_segment(request),
-        post_pagination=post_pagination,
-        selected=post_pagination.iter_pages(
-            left_edge=1, left_current=1, right_current=1, right_edge=1
-        ),
-        form=form,
-    )
+            if request.form["button_pressed"] == "descargar":
+                filename = "selected_instances.csv"
+                create_csv_selected_instances(list(checks.values()), filename)
+                return send_from_directory(
+                    get_temporary_download_directory(), filename, as_attachment=True
+                )
+
+        else:
+            page = 1
+            checks = {}
+
+        session["checks"] = checks
+        post_pagination = Available_instances.all_paginated(page, n_per_page)
+        post_pagination.items = get_instances_view_dictionary(
+            post_pagination.items, checks.values()
+        )
+
+        return render_template(
+            "home/instances-administration.html",
+            segment=get_segment(request),
+            post_pagination=post_pagination,
+            selected=post_pagination.iter_pages(
+                left_edge=1, left_current=1, right_current=1, right_edge=1
+            ),
+            form=form,
+        )
+
+    except KriniException:
+        flash("Error al realizar la operación solicitada.", "error")
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
