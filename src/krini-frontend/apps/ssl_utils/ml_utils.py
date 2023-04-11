@@ -136,7 +136,18 @@ def get_mock_values_fv():
 
 
 def translate_tag(tag, caps=False):
-    """Translates numerical tags to string."""
+    """
+    Translates the tag to a human readable string.
+
+    Args:
+        tag (int): tag to translate.
+        caps (bool, optional): whether to return the string 
+                               in uppercase or not. Defaults to 
+                               False.
+
+    Returns:
+        str: human readable string.
+    """
     translated_tag = ""
 
     if tag == 0:
@@ -153,8 +164,10 @@ def translate_tag(tag, caps=False):
 
 def get_models_directory():
     """
-    Returns the path to the directory
-    where the models are stored.
+    Returns the path to the directory where the models are stored.
+
+    Returns:
+        str: path to the directory where the models are stored.
     """
     current_dir = os.path.abspath(os.path.realpath(__file__))
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
@@ -168,8 +181,10 @@ def get_models_directory():
 
 def get_temporary_train_files_directory():
     """
-    Returns the path to the directory
-    where the temporary train files are stored.
+    Returns the path to the directory where the temporary train files are stored.
+
+    Returns:
+        str: path to the directory where the temporary train files are stored.
     """
     current_dir = os.path.abspath(os.path.realpath(__file__))
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
@@ -186,6 +201,9 @@ def get_temporary_download_directory():
     """
     Returns the path to the directory
     where the temporary downloads files are stored.
+
+    Returns:
+        str: path to the directory where the temporary downloads files are stored.
     """
     current_dir = os.path.abspath(os.path.realpath(__file__))
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
@@ -200,8 +218,10 @@ def get_temporary_download_directory():
 
 def get_tfidf_directory():
     """
-    Returns the path to the directory
-    where the tfidf objects are stored.
+    Obtains the path to the directory where the tfidf objects are stored.
+
+    Returns:
+        str: path to the directory where the tfidf objects are stored.
     """
     current_dir = os.path.abspath(os.path.realpath(__file__))
     parent_dir = os.path.abspath(os.path.dirname(current_dir))
@@ -210,9 +230,11 @@ def get_tfidf_directory():
 
 def get_models_files_list():
     """
-    Returns a list of the models
-    available and serialized.
+    Returns a list of the models available and serialized.
     Checks the directory.
+
+    Returns:
+        list: list of the models available and serialized.
     """
     models_path = get_models_directory()
     return os.listdir(models_path)

@@ -106,7 +106,18 @@ class Candidate_instances(db.Model):
     @staticmethod
     def all_paginated(page=1, per_page=15):
         return Candidate_instances.query.paginate(page, per_page, False)
-
+    
+    @staticmethod
+    def get_instance(instance_id):
+        return Candidate_instances.query.filter_by(instance_id=instance_id).first()
+    
+    @staticmethod
+    def get_instance_by_user(instance_id, user_id):
+        return Candidate_instances.query.filter_by(instance_id=instance_id, user_id=user_id).first()
+    
+    @staticmethod
+    def get_instance_url(instance_id):
+        return Available_instances.query.filter_by(instance_id=instance_id).first().instance_URL
 
 class Available_tags:
     """

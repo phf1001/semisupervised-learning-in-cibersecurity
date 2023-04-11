@@ -7,8 +7,7 @@
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
 """
-
-# Web dependencies
+from os import remove
 from sqlalchemy import exc
 from sqlalchemy.orm import load_only
 from apps.home import blueprint
@@ -17,9 +16,9 @@ from apps.home.exceptions import KriniException, KriniNotLoggedException
 from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
 from apps.home.utils import *
 from apps.ssl_utils.ml_utils import get_array_scores, get_co_forest, get_fv_and_info, get_mock_values_fv, get_temporary_download_directory, translate_tag
-from flask import render_template, request, flash, redirect, url_for, session, send_from_directory
+from flask import render_template, request, flash, redirect, url_for, session, send_from_directory, after_this_request
 from flask_login import login_required, current_user
-from werkzeug.exceptions import HTTPException, Forbidden
+from werkzeug.exceptions import Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
 from datetime import datetime
@@ -27,12 +26,7 @@ import json
 
 # DB Models
 from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
-from apps.home.models import (
-    Available_instances,
-    Candidate_instances,
-    Available_models,
-    Available_tags,
-)
+from apps.home.models import Available_instances, Candidate_instances, Available_models, Available_tags
 
 # ML dependencies
 import numpy as np
@@ -524,10 +518,12 @@ def instances(n_per_page=10):
 
             elif request.form["button_pressed"] == "descargar":
                 filename = "selected_instances.csv"
-                create_csv_selected_instances(list(checks.values()), filename)
-                return send_from_directory(
-                    get_temporary_download_directory(), filename, as_attachment=True
-                )
+                download_path = create_csv_selected_instances(list(checks.values()), filename)
+                @after_this_request
+                def remove_file(response):
+                    remove(download_path)
+                    return response
+                return send_from_directory(get_temporary_download_directory(), filename, as_attachment=True)
 
         else:
             page = 1
@@ -541,6 +537,70 @@ def instances(n_per_page=10):
 
         return render_template(
             "home/instances-administration.html",
+            segment=get_segment(request),
+            post_pagination=post_pagination,
+            selected=post_pagination.iter_pages(
+                left_edge=1, left_current=1, right_current=1, right_edge=1
+            ),
+            form=form,
+        )
+
+    except KriniException:
+        flash("Error al realizar la operación solicitada.", "error")
+
+
+@login_required
+@blueprint.route("/review_instances", methods=["GET", "POST"])
+def review_instances(n_per_page=10):
+    """
+    Reviews for the reports.
+    The user must be logged in and be an admin.
+
+    Args:
+        n_per_page (int, optional): Number of reports displayed. Defaults to 10.
+
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        function: renders the review page in the selected page
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    try:
+
+        form = FlaskForm(request.form)
+
+        if "my_page" in request.form:
+            page = int(request.form["my_page"])
+            previous_page = int(request.form["previous_page"])
+            checks = session.get("checks", None)
+            checks = update_checks(
+                previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page, sequence=True
+            )
+            logger.info("Checks teoria: {}".format(request.form.getlist("checkbox-instance")))
+            logger.info("Checks: {}".format(checks))
+
+            if "eliminar" in request.form["button_pressed"]:
+                #remove_selected_instances(list(checks.values()))
+                flash("Instancias eliminadas correctamente.", "success")
+
+            elif "seleccionar" in request.form["button_pressed"]:
+                checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page, sequence=True)
+
+        else:
+            page = 1
+            checks = {}
+
+        session["checks"] = checks
+        post_pagination = Candidate_instances.all_paginated(page, n_per_page)
+        post_pagination.items = get_candidate_instances_view_dictionary(
+            post_pagination.items, checks.values(), page, n_per_page
+        )
+
+        return render_template(
+            "home/instances-review.html",
             segment=get_segment(request),
             post_pagination=post_pagination,
             selected=post_pagination.iter_pages(

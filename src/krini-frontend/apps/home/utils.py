@@ -22,7 +22,7 @@ from apps.authentication.models import Users
 from apps.home.exceptions import KriniNotLoggedException
 from apps.home.models import Available_tags, Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings, Available_instances, Candidate_instances
 from werkzeug.utils import secure_filename
-from os import path, remove
+from os import path, remove, listdir
 import re
 import pandas as pd
 import json
@@ -326,6 +326,16 @@ def translate_tag_colour(tag):
 
 
 def get_instance_dict(instance):
+    """
+    Transforms the object instance into a dictionary
+    containing the instance information.
+
+    Args:
+        instance (object): instance to translate
+
+    Returns:
+        dict: dictionary with the instance information
+    """
     return {
         "instance_id": instance.instance_id,
         "reviewed_by": get_username(instance.reviewed_by),
@@ -338,8 +348,30 @@ def get_instance_dict(instance):
         "is_selected": 0,
     }
 
+def get_candidate_instance_dict(candidate_instance, report_number):
+    """
+    Transforms the candidate instance object into a dictionary
+    containing the notification information.
 
-def update_checks(previous_page, new_checks, checks, n_per_page):
+    Args:
+        report_number (int): report number (to control checks)
+        candidate_instance (object): instance to translate
+
+    Returns:
+        dict: dictionary with the candidate instance information
+    """
+    return {
+        "report_number": report_number,
+        "instance_id": candidate_instance.instance_id,
+        "reported_by": get_username(candidate_instance.user_id),
+        "instance_URL": Candidate_instances.get_instance_url(candidate_instance.instance_id),
+        "date_reported": str(candidate_instance.date_reported)[:16],
+        "suggestion": candidate_instance.suggestions,
+        "is_selected": 0,
+    }
+
+
+def update_checks(previous_page, new_checks, checks, n_per_page, sequence=False):
     """
     Update previous page selected instances.
     Modifies the checks dictionary.
@@ -350,9 +382,16 @@ def update_checks(previous_page, new_checks, checks, n_per_page):
         new_checks (list): list of new checks ids (strings)
         checks (dict): dictionary of checks
         n_per_page (int): number of instances per page
+        sequence (bool): if True, the checks are generated (sequence of numbers)
     """
-    post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
-    ids_previous = [instance.instance_id for instance in post_pagination.items]
+    if sequence:
+        offset = (previous_page-1) * n_per_page
+        ids_previous = [offset + i for i in range(n_per_page)]
+
+    else:
+        post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
+        ids_previous = [instance.instance_id for instance in post_pagination.items]
+
     checks_update = [int(id_elem) for id_elem in new_checks]
 
     for id_instance in ids_previous:
@@ -365,7 +404,7 @@ def update_checks(previous_page, new_checks, checks, n_per_page):
     return checks
 
 
-def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1):
+def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1, sequence=False):
     """
     Update checks dictionary.
     Selects or deselects all instances in the page or above all instances.
@@ -375,6 +414,7 @@ def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1):
         checks (dict): dictionary of checks
         previous_page (int, optional): previous page selected. Defaults to -1.
         n_per_page (int, optional): number of instances per page. Defaults to -1.
+        sequence (bool): if True, the checks are generated (sequence of numbers)
 
     Returns:
         dict: dictionary of checks updated
@@ -383,17 +423,25 @@ def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1):
         checks = {}
 
     elif modality == "seleccionar_todos":
-        instances = Available_instances.query.all()
-        checks = {str(instance.instance_id): instance.instance_id for instance in instances}
+        if sequence:
+            n_instances = Candidate_instances.query.count()
+            checks = {str(i): i for i in range(n_instances)}
+            logger.info("n_instances: {}".format(n_instances))
+        else:
+            instances = Available_instances.query.all()
+            checks = {str(instance.instance_id): instance.instance_id for instance in instances}
 
     elif "page" in modality:
-        post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
-        ids_previous = [instance.instance_id for instance in post_pagination.items]
-        
+        if sequence:
+            offset = (previous_page-1) * n_per_page
+            ids_previous = [offset + i for i in range(n_per_page)]
+        else:
+            post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
+            ids_previous = [instance.instance_id for instance in post_pagination.items]
+
         if "deseleccionar_todos" in modality:
             for id_instance in ids_previous:
                 if str(id_instance) in checks:
-                    logger.info("borrando")
                     del checks[str(id_instance)]
 
         elif "seleccionar_todos" in modality:
@@ -430,6 +478,33 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
     return new_items_list
 
 
+def get_candidate_instances_view_dictionary(post_pagination_items, checks_values, page, n_per_page):
+    """
+    Transforms the candidate instances in the requested page to a dictionary
+    with the information to be displayed in the view (includying if
+    the instance is checked).
+
+    Args:
+        post_pagination_items (iter): instances in the requested page
+        checks_values (dict.values()): ids of the instances that are checked
+
+    Returns:
+        list: list of dictionaries with the information of the instances
+    """
+
+    new_items_list = [get_candidate_instance_dict(ci, (page-1)*n_per_page + i) for i, ci in enumerate(post_pagination_items)]
+    ids_checked = list(checks_values)
+
+    # Update view of the items in the requested page
+    for item in new_items_list:
+        if item["report_number"] in ids_checked:
+            item["is_selected"] = 1
+        else:
+            item["is_selected"] = 0
+
+    return new_items_list
+
+
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
     """
     Creates a csv containing the selected instances features
@@ -439,6 +514,9 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
         ids_instances (list): list containing ids
         filename (str, optional): Downloaded file name.
                                   Defaults to "selected_instances.csv".
+
+    Returns:
+        str: path of the downloaded file
     """
     instances = Available_instances.query.filter(
         Available_instances.instance_id.in_(ids_instances)
@@ -460,6 +538,23 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
 
     # Ojo porque los enteros pasan a ser flotantes. No crea problemas pero podría.
     df.to_csv(download_path, index=False)
+    return download_path
+
+def clean_temporary_files(temporary_files_directory=None):
+    """
+    Deletes all files in the temporary directory.
+
+    Args:
+        temporary_files_directory (str, optional): Path to the temporary directory.
+                                                   If none, downloaded instances are
+                                                   cleaned.
+    """
+    if temporary_files_directory is None:
+        temporary_files_directory = get_temporary_download_directory()
+
+    for file in listdir(temporary_files_directory):
+        file_path = path.join(temporary_files_directory, file)
+        remove(file_path)
 
 
 def save_files_to_temp(form_file_one, form_file_two):
