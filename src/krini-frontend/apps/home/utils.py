@@ -492,7 +492,8 @@ def get_candidate_instances_view_dictionary(post_pagination_items, checks_values
         list: list of dictionaries with the information of the instances
     """
 
-    new_items_list = [get_candidate_instance_dict(ci, (page-1)*n_per_page + i) for i, ci in enumerate(post_pagination_items)]
+    offset = (page-1) * n_per_page
+    new_items_list = [get_candidate_instance_dict(ci, offset + i) for i, ci in enumerate(post_pagination_items)]
     ids_checked = list(checks_values)
 
     # Update view of the items in the requested page
@@ -503,6 +504,205 @@ def get_candidate_instances_view_dictionary(post_pagination_items, checks_values
             item["is_selected"] = 0
 
     return new_items_list
+
+
+def find_candidate_instance_sequence(previous_page, n_per_page, report_number):
+    """
+    Given a report number, returns the instance in the page.
+
+    Args:
+        previous_page (int): previous page, the one displayed before the request
+        n_per_page (int): number of instances per page
+        report_number (int): number of the instance above all displayed (order, starting in 0)
+
+    Returns:
+        CandidateInstance: instance selected
+    """
+    offset = (previous_page-1) * n_per_page
+    in_page = report_number - offset
+    post_pagination = Candidate_instances.all_paginated(previous_page, n_per_page)
+    return post_pagination.items[in_page]
+
+
+def find_candidate_instances_sequence(report_numbers, n_per_page):
+    """
+    Given list of report numbers, returns the instances selected.
+
+    Args:
+        report_numbers (list): number of the instances above all displayed (order, starting in 0)
+
+    Returns:
+        list: list of instances selected (Candidate_instances objects)
+    """
+
+    affected_pages_reports = {}
+
+    for report_number in report_numbers:
+        page = int(report_number / n_per_page) + 1
+
+        if page not in affected_pages_reports:
+            affected_pages_reports[page] = [report_number]
+        else:
+            affected_pages_reports[page].append(report_number)
+
+    candidate_instances = []
+
+    for page, reports in affected_pages_reports.items():
+        post_pagination = Candidate_instances.all_paginated(page, n_per_page)
+        for report_number in reports:
+            in_page = report_number - (page-1) * n_per_page
+            candidate_instances.append(post_pagination.items[in_page])
+
+    return candidate_instances
+
+
+def remove_selected_reports(report_numbers, n_per_page):
+    """
+    Removes the selected reports from the database.
+
+    Args:
+        report_numbers (list): list of report numbers
+
+    Returns:
+        bool: True if the reports were removed successfully, False otherwise
+    """
+    try:
+        selected_reports = find_candidate_instances_sequence(report_numbers, n_per_page)
+
+        for report in selected_reports:
+            db.session.delete(report)
+
+        db.session.commit()
+        return True
+
+    except exc.SQLAlchemyError as e:
+        logger.error("Error removing selected reports: {}".format(e))
+        db.session.rollback()
+        return False
+
+
+def update_report(candidate_instance, action):
+    """
+    Updates the report, depending on the action.
+
+    Args:
+        candidate_instance (Candidate_instances): candidate instance to be updated
+        action (str): action to be performed.
+                      (aceptar, descartar, aceptar_todos, descartar_todos)
+
+    Returns:
+        bool: True if the report was updated successfully, False otherwise
+    """
+        
+    all = False
+
+    if "todos" in action:
+        all = True
+
+    if "aceptar" in action:
+        done = accept_report(candidate_instance, all)
+
+    elif "descartar" in action:
+        done = reject_report(candidate_instance, all)
+    
+    return done
+
+def reject_report(candidate_instance, all):
+    """
+    Rejects the report and removes it from the database.
+
+    Args:
+        candidate_instance (Candidate_instances): candidate instance to be rejected
+        all (bool): True if all the instances with the same URL are rejected
+
+    Returns:
+        bool: True if the report was rejected successfully, False otherwise
+    """
+    try:
+        if all:
+            candidate_instances = Candidate_instances.query.filter_by(
+                instance_id=candidate_instance.instance_id
+            ).all()
+
+            for ci in candidate_instances:
+                db.session.delete(ci)
+
+        else:
+            db.session.delete(candidate_instance)
+
+        db.session.commit()
+        return True
+
+    except exc.SQLAlchemyError as e:
+        logger.error("Error rejecting report: {}".format(e))
+        db.session.rollback()
+        return False
+
+
+def accept_report(candidate_instance, all):
+    """
+    Accepts the report, updates the main instance and removes it from the database.
+
+    Args:
+        candidate_instance (Candidate_instances): candidate instance to be accepted
+        all (bool): True if all the instances with the same URL are accepted
+
+    Returns:
+        bool: True if the report was accepted successfully, False otherwise
+    """
+    try:
+        modified = accept_incoming_suggestion(candidate_instance)
+
+        if modified:
+            deleted = reject_report(candidate_instance, all)
+
+        if not modified or not deleted:
+            raise exc.SQLAlchemyError("Error accepting suggestions")
+        
+        else:
+            db.session.commit()
+            return True
+
+    except exc.SQLAlchemyError as e:
+        logger.error("Error accepting report: {}".format(e))
+        db.session.rollback()
+        return False
+    
+
+def accept_incoming_suggestion(candidate_instance):
+    """_summary_
+
+    TODO: Update labels
+    Args:
+        candidate_instance (_type_): _description_
+    """
+
+    try:
+        affected_instance = Available_instances.query.filter_by(
+            instance_id=candidate_instance.instance_id
+        ).first()
+        
+        if candidate_instance.suggestions == Available_tags.black_list:
+            affected_instance.colour_list = Available_tags.black_list
+
+        elif candidate_instance.suggestions == Available_tags.white_list:
+            affected_instance.colour_list = Available_tags.white_list
+
+        elif candidate_instance.suggestions == Available_tags.sug_phishing:
+            affected_instance.instance_class = 1
+
+        elif candidate_instance.suggestions == Available_tags.sug_legitimate:
+            affected_instance.instance_class = 0
+
+        affected_instance.reviewed_by = current_user.id
+
+        db.session.commit()
+        return True
+    
+    except exc.SQLAlchemyError as e:
+        logger.error("Error accepting incoming suggestion: {}".format(e))
+        db.session.rollback()
+        return False
 
 
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):

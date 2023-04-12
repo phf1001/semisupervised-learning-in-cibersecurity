@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
 {% endblock stylesheets %}
 {% extends 'layouts/base.html' %}
-{% block title %} Revisión notificaciones {% endblock title %}
+{% block title %} Revisión de reportes {% endblock title %}
 {% block content %}
 
 <form name="instances_form" method="POST" action="">
@@ -25,8 +25,8 @@
   </div>
   <!-- Page content -->
   <div class="container-fluid mt--6">
-    <input type="hidden" name="my_page" value="1" />
-    <input type="hidden" name="individual_instance" value="-1" />
+    <input type="hidden" name="selected_page" value="1" />
+    <input type="hidden" name="report_number" value="-1" />
     <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
     {{ form.hidden_tag() }}
     {{ form.csrf_token() }}
@@ -66,7 +66,7 @@
                   </button>
                 </div>
               </div>
-              <button class="btn btn-danger" type="submit" id="btn-elimina-select"
+              <button class="btn btn-danger" type="submit" id="btn-elimina-select" style="float: right;"
                 onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
                 Eliminar seleccionados
               </button>
@@ -126,7 +126,7 @@
                       }}</span>
                   </td>
                   <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
-                    <span class="light-gray-description-forms">{{ instance["reported_by"] }}</span>
+                    {{ instance["reported_by"] }}
                   </td>
                   <td style="text-align: center; font-size:15px; font-weight: bold;">
                     {{ instance["date_reported"] }}
@@ -198,6 +198,7 @@
                 {% if page != post_pagination.page %}
                 <li class="page-item">
                   <button class="page-link" type="submit" onclick="updateForm(null, null, {{page}}, null)">
+                    {{ page }}</button>
                 </li>
                 {% else %}
                 <li class="page-item active">
@@ -237,16 +238,15 @@
 </form>
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
+
 {% block javascripts %}
 <script src="/static/assets/js/argon.js?v=1.2.0"></script>
 <script src="/static/assets/js/download.js"></script>
-
 <script>
   function updateForm(report_number, button_pressed, page, previous_page) {
 
     if (report_number != null) {
-      document.instances_form.individual_instance.value = report_number;
+      document.instances_form.report_number.value = report_number;
     }
 
     if (button_pressed != null) {
@@ -254,7 +254,7 @@
     }
 
     if (page != null) {
-      document.instances_form.my_page.value = page;
+      document.instances_form.selected_page.value = page;
     }
 
     if (previous_page != null) {

@@ -296,15 +296,16 @@ def report_false_positive():
         else:
             raise KriniException("Información no recuperada")
 
+    except KriniNotLoggedException as e:
+        logger.error(e.message)
+        message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
+        flash(message, "warning")
+
     except KriniException as e:
         logger.error(e.message)
         message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
         flash(message, "warning")
 
-    except KriniNotLoggedException as e:
-        logger.error(e.message)
-        message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
-        flash(message, "warning")
 
     return redirect(url_for('home_blueprint.dashboard'))
 
@@ -572,22 +573,30 @@ def review_instances(n_per_page=10):
 
         form = FlaskForm(request.form)
 
-        if "my_page" in request.form:
-            page = int(request.form["my_page"])
+        if "selected_page" in request.form:
+            page = int(request.form["selected_page"])
             previous_page = int(request.form["previous_page"])
             checks = session.get("checks", None)
             checks = update_checks(
                 previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page, sequence=True
             )
-            logger.info("Checks teoria: {}".format(request.form.getlist("checkbox-instance")))
-            logger.info("Checks: {}".format(checks))
 
-            if "eliminar" in request.form["button_pressed"]:
-                #remove_selected_instances(list(checks.values()))
-                flash("Instancias eliminadas correctamente.", "success")
-
-            elif "seleccionar" in request.form["button_pressed"]:
+            if "seleccionar" in request.form["button_pressed"]:
                 checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page, sequence=True)
+            
+            elif "eliminar" in request.form["button_pressed"]:
+                if (remove_selected_reports(checks.values(), n_per_page)):
+                    flash("Instancias eliminadas correctamente.", "success")
+                else:
+                    flash("Error al eliminar las instancias.", "error")
+
+            elif "aceptar" in request.form["button_pressed"] or "descartar" in request.form["button_pressed"]:
+                selected_report = find_candidate_instance_sequence(previous_page, n_per_page, int(request.form["report_number"]))
+                
+                if (update_report(selected_report, request.form["button_pressed"])):
+                    flash("Acción ejecutada correctamente.", "success")
+                else:
+                    flash("Error al ejecutar la acción seleccionada.", "error")
 
         else:
             page = 1
