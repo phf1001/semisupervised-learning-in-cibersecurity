@@ -277,7 +277,7 @@ def report_false_positive():
                 elif tag == 0:
                     suggestion = Available_tags.sug_phishing
                 else:
-                    suggestion = Available_tags.revisar
+                    suggestion = Available_tags.sug_review
 
                 report = Candidate_instances(
                     user_id=current_user.id,
@@ -646,9 +646,9 @@ def report_url():
             report_type = request.form["type"]
 
             if report_type == "black-list":
-                report_type = Available_tags.black_list
+                report_type = Available_tags.sug_black_list
             elif report_type == "white-list":
-                report_type = Available_tags.white_list
+                report_type = Available_tags.sug_white_list
 
             existing_instance = Available_instances.query.filter_by(
                 instance_URL=url
@@ -670,11 +670,11 @@ def report_url():
 
             db.session.commit()
             flash(
-                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
+                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!", "success"
             )
 
         except exc.SQLAlchemyError as e:
-            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.")
+            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.", "error")
             db.session.rollback()
             logger.info("Error al reportar la URL: {}".format(e))
 

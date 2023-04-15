@@ -126,14 +126,18 @@ class Available_tags:
     """
     black_list = "black-list"
     white_list = "white-list"
-    nueva = "nueva"
-    revisar = "revisar"
-    mal_etiquetada_clasificador = "mal-etiquetada-clasificador"
-    sug_white_list = "sug-white-list"
-    sug_black_list = "sug-black-list"
-    sug_phishing = "sug-phishing"
-    sug_legitimate = "sug-legitimate"
-    sug_analized_review = "sug-analized-review"
+    auto_classified = "auto-classified"
+
+    sug_white_list = "suggestion-white-list"
+    sug_black_list = "suggestion-black-list"
+    sug_phishing = "suggestion-phishing"
+    sug_legitimate = "suggestion-legitimate"
+
+    sug_new_instance = "new-scanned-instance"
+    sug_review = "recommendation-review"
+    sug_new_report = "suggestion-review-new-scanned"
+    
+    suggestion_tags = [sug_white_list, sug_black_list, sug_phishing, sug_legitimate, sug_new_instance, sug_review, sug_new_report]
 
 
 class Available_models(db.Model):

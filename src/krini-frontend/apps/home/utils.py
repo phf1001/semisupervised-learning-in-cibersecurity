@@ -45,6 +45,15 @@ def get_logger(
     """
     Returns a logger with the given name and the given
     parameters.
+
+    Args:
+        name (str): logger name.
+        fichero (str, optional): file name. Defaults to "log_krini".
+        nivel_logger (str, optional): Defaults to logging.DEBUG.
+        nivel_fichero (str, optional): Defaults to logging.DEBUG.
+
+    Returns:
+        object: logger object.
     """
     logger = logging.getLogger(name)
 
@@ -70,7 +79,15 @@ logger = get_logger("krini-frontend")
 
 
 def sanitize_url(url):
-    """Transform a dangerours URL into a not-clickable one."""
+    """
+    Transform a dangerours URL into a not-clickable one.
+
+    Args:
+        url (str): The URL to sanitize.
+
+    Returns:
+        str: The sanitized URL.
+    """
     url = url.replace('http', 'hxxp')
     url = url.replace('://', '[://]')
     url = url.replace('.', '[.]')
@@ -82,8 +99,14 @@ def sanitize_url(url):
 
 def get_callable_url(url):
     """
-    Tries to get the URL content. If it fails, it tries
-    to complete the URL
+    Checks if the URL is callable (is up). 
+    If not, it tries to complete it.
+
+    Args:
+        url (str): URL to check.
+
+    Returns:
+        str: The URL with the protocol, or None if it fails.
     """
     try:
         requests.get(
@@ -104,6 +127,12 @@ def complete_uncallable_url(url):
     """
     Tries to complete the URL with the protocol.
     Several checks are made.
+
+    Args:
+        url (str): The URL to check.
+
+    Returns:
+        str: The URL with the protocol, or None if it fails.
     """
     try:
         parsed = urllib.parse.urlparse(url)
@@ -137,7 +166,17 @@ def complete_uncallable_url(url):
 
 
 def find_url_protocol(url, protocols=[]):
-    """Tries to find a protocol for the given URL"""
+    """
+    Try to find the protocol of the URL.
+
+    Args:
+        url (str): The URL to check.
+        protocols (list, optional): List of protocols to check.
+                                    Defaults to [].
+
+    Returns:
+        str: The protocol of the URL, or None if it fails.
+    """
     if len(protocols) == 0:
         protocols = ["https://", "http://"]
 
@@ -163,7 +202,17 @@ def find_url_protocol(url, protocols=[]):
 def save_bbdd_analized_instance(callable_url, fv, tag=-1):
     """
     Tries to save an analized instance in the database.
-    If it fails, it returns False.
+
+    Args:
+        callable_url (str): The URL of the instance.
+        fv (list): The feature vector of the instance.
+        tag (int, optional): If analized, the class tag. Defaults to -1.
+
+    Raises:
+        KriniNotLoggedException: if the user is not logged in.
+
+    Returns:
+        boolean: True if the instance was saved, False otherwise.
     """
     try:
 
@@ -173,11 +222,9 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
                 instance_fv=(fv,),
                 instance_class=tag,
                 instance_labels=([
-                    Available_tags.sug_analized_review,
-                    Available_tags.nueva,
-                    Available_tags.sug_phishing
-                    if tag == 1
-                    else Available_tags.sug_legitimate,
+                    Available_tags.sug_new_instance,
+                    Available_tags.auto_classified,
+                    Available_tags.sug_review,
                 ],),
             )
 
@@ -188,11 +235,12 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
                 instance_id=instance.instance_id,
                 user_id=current_user.id if current_user.is_authenticated else -1,
                 date_reported=datetime.now(),
-                suggestions=Available_tags.sug_analized_review,
+                suggestions=Available_tags.sug_new_report,
             )
 
             db.session.add(candidate_instance)
             db.session.commit()
+            return True
 
         else:
             raise KriniNotLoggedException("User not authenticated. {} not saved.".format(callable_url))
@@ -204,6 +252,16 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
 
 
 def translate_array_js(selected):
+    """
+    Translates the array of selected models from
+    javascript to python.
+
+    Args:
+        selected (str): String with the selected models.
+
+    Returns:
+        list: list of integers (ids)
+    """
     if bool(re.search(r"\d", selected)):
         splitted = selected.split(",")
         return [int(elem) for elem in splitted]
@@ -670,32 +728,47 @@ def accept_report(candidate_instance, all):
     
 
 def accept_incoming_suggestion(candidate_instance):
-    """_summary_
-
-    TODO: Update labels
-    Args:
-        candidate_instance (_type_): _description_
     """
+    Accepts the incoming suggestion, updates the main instance.
 
+    Args:
+        candidate_instance (Candidate_instances): candidate instance report
+
+    Returns:
+        bool: True if the suggestion was accepted successfully, False otherwise
+    """
     try:
         affected_instance = Available_instances.query.filter_by(
             instance_id=candidate_instance.instance_id
         ).first()
-        
-        if candidate_instance.suggestions == Available_tags.black_list:
-            affected_instance.colour_list = Available_tags.black_list
 
-        elif candidate_instance.suggestions == Available_tags.white_list:
+        old_labels = affected_instance.instance_labels
+        new_labels = clean_suggested_tags(old_labels)
+
+        if candidate_instance.suggestions == Available_tags.sug_black_list:
+            affected_instance.colour_list = Available_tags.black_list
+            new_labels.append(Available_tags.black_list)
+            if Available_tags.white_list in new_labels:
+                new_labels.remove(Available_tags.white_list)
+
+        elif candidate_instance.suggestions == Available_tags.sug_white_list:
             affected_instance.colour_list = Available_tags.white_list
+            new_labels.append(Available_tags.white_list)
+            if Available_tags.black_list in new_labels:
+                new_labels.remove(Available_tags.black_list)
 
         elif candidate_instance.suggestions == Available_tags.sug_phishing:
             affected_instance.instance_class = 1
+            if Available_tags.auto_classified in new_labels:
+                new_labels.remove(Available_tags.auto_classified)
 
         elif candidate_instance.suggestions == Available_tags.sug_legitimate:
             affected_instance.instance_class = 0
+            if Available_tags.auto_classified in new_labels:
+                new_labels.remove(Available_tags.auto_classified)
 
+        affected_instance.instance_labels = new_labels
         affected_instance.reviewed_by = current_user.id
-
         db.session.commit()
         return True
     
@@ -703,6 +776,30 @@ def accept_incoming_suggestion(candidate_instance):
         logger.error("Error accepting incoming suggestion: {}".format(e))
         db.session.rollback()
         return False
+
+
+def clean_suggested_tags(tags):
+    """
+    Cleans the suggested tags of the instance.
+
+    Args:
+        tags (list): List tags.
+
+    Returns:
+        list: Cleaned list of tags.
+    """
+    cleaned_list = []
+
+    if not tags:
+        return cleaned_list
+    
+    available_suggested_tags = Available_tags.suggestion_tags
+
+    for tag in tags:
+        if tag not in available_suggested_tags:
+            cleaned_list.append(tag)
+    
+    return cleaned_list
 
 
 def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
