@@ -1090,19 +1090,19 @@ var Scrollbar = (function () {
 
 
 // Krini 
-$("[data-toggle=myCollapse]").click(function( ev ) {
+$("[data-toggle=myCollapse]").click(function (ev) {
 	ev.preventDefault();
 	var target;
 	if (this.hasAttribute('data-target')) {
-  target = $(this.getAttribute('data-target'));
+		target = $(this.getAttribute('data-target'));
 	} else {
-  target = $(this.getAttribute('href'));
+		target = $(this.getAttribute('href'));
 	};
 	target.toggleClass("in");
-  });
+});
 
 
-  function showDiv(hd1, hd2, hd3, element) {
+function showDiv(hd1, hd2, hd3, element) {
 
 	if (element.value == 1) {
 		document.getElementById(hd1).style.display = 'block'
@@ -1121,28 +1121,11 @@ $("[data-toggle=myCollapse]").click(function( ev ) {
 		document.getElementById(hd2).style.display = 'none'
 		document.getElementById(hd3).style.display = 'block'
 	}
-  }
+}
 
 
 
 // Krini graphs
-const colours = [
-	'rgba(54, 162, 235, 1)',
-	'rgba(255, 206, 86, 1)',
-	'rgba(75, 192, 192, 1)',
-	'rgba(153, 102, 255, 1)',
-	'rgb(255, 102, 153)',
-	'rgba(255, 159, 64, 1)',
-	'rgba(255, 99, 132, 1)',
-	'rgba(0, 128, 128, 1)',
-	'rgba(170, 255, 195, 1)',
-	'rgba(210, 245, 60, 1)',
-	'rgba(145, 30, 180, 1)',
-	'rgba(0, 0, 128, 1)',
-	'rgba(230, 190, 255, 1)',
-	'rgba(255, 215, 180, 1)',
-	'rgba(170, 110, 40, 1)',
-]
 
 var clsNames = $('#cls-names').data('cls-names');
 // Cls values is a list of lists containing decimals
@@ -1150,6 +1133,25 @@ var clsValues = $('#cls-scores').data('cls-scores');
 
 // Only the dashboard contains those elements
 if (clsNames && clsValues) {
+
+	const graphColours = [
+		'rgba(54, 162, 235, 1)',
+		'rgba(255, 206, 86, 1)',
+		'rgba(75, 192, 192, 1)',
+		'rgba(153, 102, 255, 1)',
+		'rgb(255, 102, 153)',
+		'rgba(255, 159, 64, 1)',
+		'rgba(255, 99, 132, 1)',
+		'rgba(0, 128, 128, 1)',
+		'rgba(170, 255, 195, 1)',
+		'rgba(210, 245, 60, 1)',
+		'rgba(145, 30, 180, 1)',
+		'rgba(0, 0, 128, 1)',
+		'rgba(230, 190, 255, 1)',
+		'rgba(255, 215, 180, 1)',
+		'rgba(170, 110, 40, 1)',
+	]
+
 	var clsNames = $('#cls-names').data('cls-names');
 	clsNames = clsNames.replace(/'/g, '"');
 	clsNames = JSON.parse(clsNames);
@@ -1168,7 +1170,7 @@ if (clsNames && clsValues) {
 		for (var j = 0; j < nMetrics; j++) {
 			clsValues[i][j] = Math.round(clsValues[i][j] * 10000) / 100;
 		}
-		clsColours.push(colours[i%colours.length]);
+		clsColours.push(graphColours[i % graphColours.length]);
 		accuracys.push(clsValues[i][0]);
 		precisions.push(clsValues[i][1]);
 		recalls.push(clsValues[i][2]);
@@ -1305,7 +1307,7 @@ if (clsNames && clsValues) {
 						},
 					}
 				}
-		});
+			});
 			$chart.data('chart', piePhishingChart);
 		}
 
@@ -1333,10 +1335,10 @@ if (clsNames && clsValues) {
 			labels: clsNames,
 
 			datasets: [{
-			label: metrics[0],
-			data: accuracys,
-			//backgroundColor: clsColours
-			backgroundColor: 'rgb(153, 255, 102)'
+				label: metrics[0],
+				data: accuracys,
+				//backgroundColor: clsColours
+				backgroundColor: 'rgb(153, 255, 102)'
 			},
 
 			{
@@ -1398,7 +1400,7 @@ if (clsNames && clsValues) {
 						// },
 					}
 				},
-		});
+			});
 			// Save to jQuery object
 			$chart.data('chart', generalChartScores);
 		}

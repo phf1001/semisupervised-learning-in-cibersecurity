@@ -24,7 +24,7 @@
   </div>
   <!-- Page content -->
   <div class="container-fluid mt--6">
-    <input type="hidden" name="my_page" value="1" />
+    <input type="hidden" name="selected_page" value="1" />
     <input type="hidden" name="individual_instance" value="-1" />
     <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
     {{ form.hidden_tag() }}
@@ -34,7 +34,6 @@
         <div class="card bg-default shadow">
           <div class="card-header bg-transparent border-0">
             <div class="col-lg" style="justify-content: space-evenly;">
-              <!-- Como algún gracioso me postee un diccionario ya verás qué risas-->
               <input type="hidden" name="button_pressed" value="ninguno" />
               <div class="dropdown">
                 <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -42,11 +41,11 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-select-all"
-                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='seleccionar_todos'; return true;">
+                    onclick="updateForm(null, 'seleccionar_todos', {{post_pagination.page}}, null)">
                     Seleccionar todos
                   </button>
                   <button class="dropdown-item" type="submit" id="btn-select-all-page"
-                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='seleccionar_todos_page'; return true;">
+                    onclick="updateForm(null, 'seleccionar_todos_page', {{post_pagination.page}}, null)">
                     Seleccionar todos en esta página
                   </button>
                 </div>
@@ -57,28 +56,26 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-deselect-all"
-                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='deseleccionar_todos'; return true;">
+                    onclick="updateForm(null, 'deseleccionar_todos', {{post_pagination.page}}, null)">
                     Deseleccionar todos
                   </button>
                   <button class="dropdown-item" type="submit" id="btn-deselect-all-page"
-                    onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='deseleccionar_todos_page'; return true;">
+                    onclick="updateForm(null, 'deseleccionar_todos_page', {{post_pagination.page}}, null)">
                     Deseleccionar todos en esta página
                   </button>
                 </div>
               </div>
               <button class="btn btn-neutral" type="submit" id="btn-descarga-csv"
-                onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='descargar'; return true;">
+                onclick="updateForm(null, 'decargar', {{post_pagination.page}}, null)">
                 Descargar seleccionados
               </button>
-              <button class="btn btn-info" type="submit" id="btn-revisar">
-                Revisar instancias
-              </button>
-              <button class="btn btn-success" type="submit" id="btn-nueva">
-                Crear instancia
-              </button>
+
               <button class="btn btn-danger" type="submit" id="btn-elimina-select"
-                onclick="document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='eliminar'; return true;">
+                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)" style="float: right;">
                 Eliminar seleccionados
+              </button>
+              <button class="btn btn-success" type="submit" id="btn-nueva" style="float: right; margin-right: 10px;">
+                Crear instancia
               </button>
               <!-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
             </div>
@@ -166,8 +163,7 @@
                         <a class="dropdown-item" href="#">Editar</a>
                         <button class="dropdown-item" type="submit"
                           id="btn-elimina-individual-{{ instance['instance_id'] }}"
-                          onclick="document.instances_form.individual_instance.value={{ instance['instance_id'] }};
-                          document.instances_form.my_page.value={{post_pagination.page}}; document.instances_form.button_pressed.value='eliminar_individual' ; return true;"
+                          onclick="updateForm({{ instance['instance_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
                           style="color: red">
                           Eliminar
                         </button>
@@ -186,8 +182,7 @@
                 {% if post_pagination.has_prev %}
                 <li class="page-item">
                   {% set page = post_pagination.page - 1 %}
-                  <button class="page-link" type="submit"
-                    onclick="document.instances_form.my_page.value={{page}}; document.instances_form.button_pressed.value='ninguno'; return true;">
+                  <button class="page-link" type="submit" onclick="updateForm(null, null, {{page}}, null)">
                     <i class="fas fa-angle-left"></i>
                     <span class="sr-only">Previous</span>
                   </button>
@@ -204,9 +199,9 @@
                 {% if page %}
                 {% if page != post_pagination.page %}
                 <li class="page-item">
-                  <button class="page-link" type="submit"
-                    onclick="document.instances_form.my_page.value={{page}}; document.instances_form.button_pressed.value='ninguno'; return true;">{{
-                    page }}</button>
+                  <button class="page-link" type="submit" onclick="updateForm(null, null, {{page}}, null)">
+                    {{ page }}
+                  </button>
                 </li>
                 {% else %}
                 <li class="page-item active">
@@ -222,8 +217,7 @@
                 {% if post_pagination.has_next %}
                 <li class="page-item">
                   {% set page = post_pagination.page + 1 %}
-                  <button class="page-link" type="submit"
-                    onclick="document.instances_form.my_page.value={{page}}; document.instances_form.button_pressed.value='ninguno'; return true;">
+                  <button class="page-link" type="submit" onclick="updateForm(null, null, {{page}}, null)">
                     <i class="fas fa-angle-right"></i>
                     <span class="sr-only">Next</span>
                   </button>
@@ -251,4 +245,25 @@
 {% block javascripts %}
 <script src="/static/assets/js/argon.js?v=1.2.0"></script>
 <script src="/static/assets/js/download.js"></script>
+<script>
+  function updateForm(individual_instance, button_pressed, page, previous_page) {
+
+    if (individual_instance != null) {
+      document.instances_form.individual_instance.value = individual_instance;
+    }
+
+    if (button_pressed != null) {
+      document.instances_form.button_pressed.value = button_pressed;
+    }
+
+    if (page != null) {
+      document.instances_form.selected_page.value = page;
+    }
+
+    if (previous_page != null) {
+      document.instances_form.previous_page.value = previous_page;
+    }
+    return true;
+  }
+</script>
 {% endblock javascripts %}

@@ -497,8 +497,8 @@ def instances(n_per_page=10):
 
         form = FlaskForm(request.form)
 
-        if "my_page" in request.form:
-            page = int(request.form["my_page"])
+        if "selected_page" in request.form:
+            page = int(request.form["selected_page"])
             previous_page = int(request.form["previous_page"])
             checks = session.get("checks", None)
             checks = update_checks(
