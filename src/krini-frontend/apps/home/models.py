@@ -138,6 +138,7 @@ class Available_tags:
     sug_new_report = "suggestion-review-new-scanned"
     
     suggestion_tags = [sug_white_list, sug_black_list, sug_phishing, sug_legitimate, sug_new_instance, sug_review, sug_new_report]
+    all_tags = [black_list, white_list, auto_classified, sug_white_list, sug_black_list, sug_phishing, sug_legitimate, sug_new_instance, sug_review, sug_new_report]
 
 
 class Available_models(db.Model):

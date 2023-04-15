@@ -1,0 +1,188 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Editar instancia {% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary-gradient pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/instances">Administración de instancias</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Editar instancia</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<form role="form" method="post" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">EDITAR INSTANCIA</h3>
+                    </div>
+
+                    <!-- Tabla atributos modelo -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name"
+                                        style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                                        Parámetros generales
+                                    </th>
+                                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <tr>
+                                    <td>
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">INSTANCIA</p>
+                                            url blablabla
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Clase&nbsp;<span class="gray-description-forms">(selecciona si deseas
+                                                    editar)</span></p>
+                                            {{ form.instance_class }}
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Lista&nbsp;<span class="gray-description-forms">(selecciona si deseas
+                                                    editar)</span></p>
+                                            {{ form.instance_list }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Actualizar fv&nbsp;<span class="gray-description-forms">(selecciona si
+                                                    deseas
+                                                    editar)</span></p>
+                                            {{ form.regenerate_fv }}
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">Notas</p>
+                                            blabliblu
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group">
+                                            <label>Enter your labels</label>
+                                            <input type="text" name="labels" id="labels" class="form-control"
+                                                value={{initial_value}} />
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr>
+                                    <td colspan="2">
+                                        <div style="align-items: center;">
+                                            <button type="submit" name="siguiente"
+                                                class="btn btn-primary my-4">Siguiente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+{% include "includes/footer.html" %}
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#labels').tokenfield({
+            autocomplete: {
+                source: [{% for tag in instance_tags %} '{{tag}}', {% endfor %}],
+        delay: 100
+        },
+        showAutocompleteOnFocus: true
+      });
+
+    $('#reg_form').on('submit', function (event) {
+        event.preventDefault();
+        if ($.trim($('#name').val()).length == 0) {
+            alert("Please Enter Your Name");
+            return false;
+        } else if ($.trim($('#labels').val()).length == 0) {
+            alert("Please Enter Atleast one labels");
+            return false;
+        } else {
+            var form_data = $(this).serialize();
+            $('#submit').attr("disabled", "disabled");
+            $.ajax({
+                url: "/ajax_add",
+                method: "POST",
+                data: form_data,
+                beforeSend: function () {
+                    $('#submit').val('Submitting...');
+                },
+                success: function (data) {
+                    if (data != '') {
+                        $('#name').val('');
+                        $('#labels').tokenfield('setTokens', []);
+                        $('#success_message').html(data);
+                        $('#submit').attr("disabled", false);
+                        $('#submit').val('Submit');
+                    }
+                }
+            });
+            setInterval(function () {
+                $('#success_message').html('');
+            }, 5000);
+        }
+    });
+      
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+{% endblock javascripts %}

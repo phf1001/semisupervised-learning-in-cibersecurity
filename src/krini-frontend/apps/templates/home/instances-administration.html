@@ -66,7 +66,7 @@
                 </div>
               </div>
               <button class="btn btn-neutral" type="submit" id="btn-descarga-csv"
-                onclick="updateForm(null, 'decargar', {{post_pagination.page}}, null)">
+                onclick="updateForm(null, 'descargar', {{post_pagination.page}}, null)">
                 Descargar seleccionados
               </button>
 
@@ -160,7 +160,11 @@
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#">Editar</a>
+                        <button class="dropdown-item" type="submit"
+                          id="btn-edita-individual-{{ instance['instance_id'] }}"
+                          onclick="updateForm({{ instance['instance_id'] }}, 'editar_individual', {{post_pagination.page}}, null)">
+                          Editar
+                        </button>
                         <button class="dropdown-item" type="submit"
                           id="btn-elimina-individual-{{ instance['instance_id'] }}"
                           onclick="updateForm({{ instance['instance_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"

@@ -48,6 +48,36 @@ class SearchURLForm(FlaskForm):
         "selected_models", render_kw={"id": "selected_models"}
     )
 
+class InstanceForm(FlaskForm):
+    """
+    Form used to create or edit an instance.
+
+    Args:
+        FlaskForm (class): parent class
+    """
+    url = TextField(
+        "url", id="url_instance", validators=[DataRequired("Introduce una URL")]
+    )
+
+    instance_class = SelectField(
+        "instance_class",
+        id="instance-class",
+        choices=[(-1, "Selecciona para cambiar"), (1, "Phishing"), (0, "Legítima")]
+    )
+
+    instance_list = SelectField(
+        "instance_list",
+        id="instance-list",
+        choices=[(-1, "Selecciona para cambiar"), ("black-list", "Blacklist"), ("white-list", "Whitelist")]
+    )
+
+    regenerate_fv = SelectField(
+        "regenerate_fv",
+        id="regenerate-fv",
+        choices=[(0, "No"), (1, "Sí")]
+    )
+    
+
 class NewModelForm(FlaskForm):
     """TODO revisar campos obligatorios, docstring
 

@@ -25,7 +25,7 @@ from datetime import datetime
 import json
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm
+from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, InstanceForm
 from apps.home.models import Available_instances, Candidate_instances, Available_models, Available_tags
 
 # ML dependencies
@@ -514,7 +514,12 @@ def instances(n_per_page=10):
                     remove_selected_instances(list(checks.values()))
                     flash("Instancias eliminadas correctamente.", "success")
 
-            elif "seleccionar" in request.form["button_pressed"]:
+            elif "editar" in request.form["button_pressed"]:
+                session["messages"] = {"previous_page": page, "instance_id": request.form["individual_instance"]}
+                session["checks"] = {}
+                return redirect(url_for("home_blueprint.edit_instance"))
+            
+            if "seleccionar" in request.form["button_pressed"]:
                 checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page)
 
             elif request.form["button_pressed"] == "descargar":
@@ -545,6 +550,44 @@ def instances(n_per_page=10):
             ),
             form=form,
         )
+
+    except KriniException:
+        flash("Error al realizar la operación solicitada.", "error")
+
+@login_required
+@blueprint.route("/edit_instance", methods=["GET", "POST"])
+def edit_instance():
+    """
+    TODO completar la función
+    Raises:
+        Forbidden: _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    try:
+        form = InstanceForm()
+
+        # Tienes también la página previa
+        messages = session.get("messages", None)
+        selected_instance = Available_instances.query.filter_by(instance_id=messages["instance_id"]).first()
+        instance_tags = selected_instance.instance_labels
+
+        if "siguiente" in request.form:
+            selected_labels = request.form['labels']
+            selected_labels = selected_labels.split(',')
+
+
+            flash("Instancia editada correctamente.", "success")
+            return redirect(url_for("home_blueprint.instances"))
+
+        return render_template(
+            "home/edit-instance.html", form=form, segment=get_segment(request), instance_tags=Available_tags.all_tags, initial_value=','.join(instance_tags)
+        )
+
 
     except KriniException:
         flash("Error al realizar la operación solicitada.", "error")
