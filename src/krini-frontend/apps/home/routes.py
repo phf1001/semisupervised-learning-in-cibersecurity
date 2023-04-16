@@ -519,6 +519,11 @@ def instances(n_per_page=10):
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.edit_instance"))
             
+            if "crear" in request.form["button_pressed"]:
+                session["messages"] = {"previous_page": page}
+                session["checks"] = {}
+                return redirect(url_for("home_blueprint.new_instance"))
+            
             if "seleccionar" in request.form["button_pressed"]:
                 checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page)
 
@@ -552,18 +557,19 @@ def instances(n_per_page=10):
         )
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "error")
+        flash("Error al realizar la operación solicitada.", "danger")
 
 @login_required
 @blueprint.route("/edit_instance", methods=["GET", "POST"])
 def edit_instance():
     """
-    TODO completar la función
+    Edits the selected instance. The user must be logged in and be an admin.
+
     Raises:
-        Forbidden: _description_
+        Forbidden: error 403 if the user is not authenticated
 
     Returns:
-        _type_: _description_
+        function: renders the updating page
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
@@ -579,46 +585,146 @@ def edit_instance():
         instance_dict = get_instance_dict(selected_instance)
 
         if "siguiente" in request.form:
-            selected_labels = request.form['labels']
-            logger.info(selected_labels)
-            selected_labels = selected_labels.replace(' ', '')
-            selected_labels = selected_labels.split(',')
 
-            # Instance is updated
-            if request.form["instance_class"] != '-1':
-                selected_instance.instance_class = int(request.form["instance_class"])
-            
-            if request.form["instance_list"] == "black-list":
-                selected_instance.colour_list = Available_tags.black_list
-                if Available_tags.white_list in selected_labels:
-                    selected_labels.remove(Available_tags.white_list)
-                if Available_tags.black_list not in selected_labels:
-                    selected_labels.append(Available_tags.black_list)
+            session["messages"] = {
+                    "form_data": request.form,
+                    "instance_id": selected_instance.instance_id,
+                    "instance_URL": selected_instance.instance_URL,
+                    "operation": "edit",
+                }
 
-            elif request.form["instance_list"] == "white-list":
-                selected_instance.instance_list = Available_tags.white_list
-                selected_labels.append(Available_tags.white_list)
-                if Available_tags.black_list in selected_labels:
-                    selected_labels.remove(Available_tags.black_list)
-                if Available_tags.white_list not in selected_labels:
-                    selected_labels.append(Available_tags.white_list)
-
-            selected_instance.instance_labels = selected_labels
-            
-            db.session.commit()
-            flash("Instancia editada correctamente.", "success")
-            return redirect(url_for("home_blueprint.instances"))
+            return render_template("specials/updating-instance.html")
 
         return render_template(
-            "home/edit-instance.html", form=form, segment=get_segment(request), 
+            "home/edit-instance.html", form=form, segment="instances", 
             instance_tags=Available_tags.all_tags, initial_value=initial_value, 
+            operation="edit",
             instance_dict=instance_dict
         )
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "error")
+        flash("Error al realizar la operación solicitada.", "danger")
 
 
+@login_required
+@blueprint.route("/new_instance", methods=["GET", "POST"])
+def new_instance():
+    """
+    Creates an instance. The user must be logged in and be an admin.
+
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        function: renders the updating page
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    try:
+        form = InstanceForm()
+        initial_value =  ''
+        instance_dict = get_instance_dict(-1, empty=True)
+
+        if "siguiente" in request.form:
+
+            session["messages"] = {
+                    "form_data": request.form,
+                    "instance_id": -1,
+                    "instance_URL": request.form["url"],
+                    "operation": "new"
+                }
+
+            return render_template("specials/updating-instance.html")
+
+        return render_template(
+            "home/edit-instance.html", form=form, segment="instances", 
+            instance_tags=Available_tags.all_tags, initial_value=initial_value, 
+            operation="new",
+            instance_dict=instance_dict
+        )
+
+    except KriniException:
+        flash("Error al realizar la operación solicitada.", "danger")
+
+
+@blueprint.route("/updating_instance", methods=["POST", "GET"])
+def updating_instance():
+    """
+    Loading page while the instance is updated. The user must be logged in and be an admin.
+    ATOMICITY IS GUARANTEED.
+
+    Raises:
+        Forbidden: error 403 if the user is not authenticated
+
+    Returns:
+        function: renders the instances page
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+    
+    try:
+        messages = session.get("messages", None)
+        form_data = messages["form_data"]
+
+        if messages["operation"] == "edit":
+            selected_instance = Available_instances.query.filter_by(instance_id=messages["instance_id"]).first()
+
+        elif messages["operation"] == "new":
+            selected_instance = Available_instances(instance_URL=messages["instance_URL"])
+            db.session.add(selected_instance)
+            db.session.flush()
+
+        selected_labels = form_data['labels']
+        selected_labels = selected_labels.replace(' ', '')
+        selected_labels = selected_labels.split(',')
+
+        # Instance is updated
+        if form_data["instance_class"] != '-1':
+            selected_instance.instance_class = int(form_data["instance_class"])
+        
+        if form_data["instance_list"] == "black-list":
+            selected_instance.colour_list = Available_tags.black_list
+            selected_labels.append(Available_tags.black_list)
+            if Available_tags.white_list in selected_labels:
+                selected_labels.remove(Available_tags.white_list)
+
+        elif form_data["instance_list"] == "white-list":
+            selected_instance.instance_list = Available_tags.white_list
+            selected_labels.append(Available_tags.white_list)
+            if Available_tags.black_list in selected_labels:
+                selected_labels.remove(Available_tags.black_list)
+
+        selected_instance.instance_labels = list(set(selected_labels))
+        selected_instance.reviewed_by = current_user.id
+        
+        if form_data["regenerate_fv"] != '-1':
+            callable_url = get_callable_url(messages["instance_URL"])
+
+            if callable_url is None:
+                    raise KriniException("No se puede llamar la URL.")
+            else: 
+                fv = get_fv_and_info(callable_url)[0]
+                selected_instance.instance_fv = fv.tolist()
+        
+        else:
+            time.sleep(1) # To show the loading page
+
+        db.session.commit()
+        flash("Operación realizada correctamente.", "success")
+        return redirect(url_for("home_blueprint.instances"))
+
+    except (KriniException):
+        flash("Operación no realizada: no se puede generar el vector de características. La URL no está disponible.", "danger")
+        db.session.rollback()
+        return redirect(url_for("home_blueprint.instances"))
+    
+    except (exc.SQLAlchemyError):
+        flash("Error al realizar la operación solicitada. Reinténtalo más adelante.", "danger")
+        flash("Sugerencia: comprueba que no estás creando una instancia que ya existe.", "info")
+        db.session.rollback()
+        return redirect(url_for("home_blueprint.instances"))
+    
 @login_required
 @blueprint.route("/review_instances", methods=["GET", "POST"])
 def review_instances(n_per_page=10):
@@ -657,7 +763,7 @@ def review_instances(n_per_page=10):
                 if (remove_selected_reports(checks.values(), n_per_page)):
                     flash("Instancias eliminadas correctamente.", "success")
                 else:
-                    flash("Error al eliminar las instancias.", "error")
+                    flash("Error al eliminar las instancias.", "danger")
 
             elif "aceptar" in request.form["button_pressed"] or "descartar" in request.form["button_pressed"]:
                 selected_report = find_candidate_instance_sequence(previous_page, n_per_page, int(request.form["report_number"]))
@@ -665,7 +771,7 @@ def review_instances(n_per_page=10):
                 if (update_report(selected_report, request.form["button_pressed"])):
                     flash("Acción ejecutada correctamente.", "success")
                 else:
-                    flash("Error al ejecutar la acción seleccionada.", "error")
+                    flash("Error al ejecutar la acción seleccionada.", "danger")
 
         else:
             page = 1
@@ -688,7 +794,7 @@ def review_instances(n_per_page=10):
         )
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "error")
+        flash("Error al realizar la operación solicitada.", "danger")
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
@@ -743,9 +849,8 @@ def report_url():
             )
 
         except exc.SQLAlchemyError as e:
-            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.", "error")
+            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.", "danger")
             db.session.rollback()
-            logger.info("Error al reportar la URL: {}".format(e))
 
     return render_template(
         "home/report_url.html", form=form, segment=get_segment(request)

@@ -74,7 +74,7 @@ class InstanceForm(FlaskForm):
     regenerate_fv = SelectField(
         "regenerate_fv",
         id="regenerate-fv",
-        choices=[(-1, "Mantener vector actual"), (1, "Regenerar vector de características")]
+        choices=[(-1, "Mantener vector actual"), (1, "Generar nuevo vector de características")]
     )
     
 

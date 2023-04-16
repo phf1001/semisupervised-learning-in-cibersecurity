@@ -383,17 +383,31 @@ def translate_tag_colour(tag):
     return "no disponible", "grey"
 
 
-def get_instance_dict(instance):
+def get_instance_dict(instance, empty=False):
     """
     Transforms the object instance into a dictionary
     containing the instance information.
 
     Args:
         instance (object): instance to translate
+        empty (bool): if True, returns an empty template
 
     Returns:
         dict: dictionary with the instance information
     """
+    if empty:
+        return {
+            "instance_id": -1,
+            "reviewed_by": "",
+            "instance_URL": "",
+            "instance_fv": 'no hay ningún vector generado para esta instancia',
+            "instance_class": -1,
+            "badge_colour": "",
+            "colour_list": "",
+            "instance_labels": [],
+            "is_selected": 0,
+        }
+    
     return {
         "instance_id": instance.instance_id,
         "reviewed_by": get_username(instance.reviewed_by),
@@ -484,7 +498,6 @@ def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1, seque
         if sequence:
             n_instances = Candidate_instances.query.count()
             checks = {str(i): i for i in range(n_instances)}
-            logger.info("n_instances: {}".format(n_instances))
         else:
             instances = Available_instances.query.all()
             checks = {str(instance.instance_id): instance.instance_id for instance in instances}

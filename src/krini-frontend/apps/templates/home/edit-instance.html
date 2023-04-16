@@ -1,6 +1,12 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Editar instancia {% endblock title %}
+{% block title %}
+{% if operation == "edit" %}
+Editar instancia
+{% else %}
+Nueva instancia
+{% endif %}
+{% endblock title %}
 
 {% block content %}
 
@@ -13,7 +19,11 @@
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="/instances">Administración de instancias</a></li>
+                            {% if operation == "edit" %}
                             <li class="breadcrumb-item active" aria-current="page">Editar instancia</li>
+                            {% else %}
+                            <li class="breadcrumb-item active" aria-current="page">Nueva instancia</li>
+                            {% endif %}
                         </ol>
                     </nav>
                 </div>
@@ -31,21 +41,49 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <h3 class="mb-0">EDITAR INSTANCIA</h3>
+                        <h3 class="mb-0">
+                            {% if operation == "edit" %}
+                            EDITAR INSTANCIA
+                            {% else %}
+                            NUEVA INSTANCIA
+                            {% endif %}
+                        </h3>
                     </div>
-
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort" data-sort="name"
                                         style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                                        {% if operation == "edit" %}
                                         {{ instance_dict["instance_URL"] }}
+                                        {% else %}
+                                        RELLENA EL FORMULARIO
+                                        {% endif %}
                                     </th>
                                     <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody class="list">
+                                {% if operation != "edit" %}
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-0" name="search">
+                                            <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
+                                                <span class="gray-description-forms">preferiblemente con protocolo
+                                                    (http:// o https://)</span>
+                                            </p>
+                                            <div>
+                                                {{ form.url(placeholder="https://google.com", class="form-control",
+                                                required="required",
+                                                oninvalid="this.setCustomValidity('Por favor, introduce una URL')",
+                                                oninput="setCustomValidity('')") }}
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
                                 <tr>
                                     <td colspan="2">
                                         <div class="form-group mb-3">
@@ -74,10 +112,14 @@
                                         <div class="form-group mb-3">
                                             <p class="primary-label-forms">
                                                 Vector de características
+                                                <span class="gray-description-forms">(si no quieres generar un vector
+                                                    ahora, deja seleccionada la opción 'mantener vector actual')</span>
+                                                {% if operation == "edit" %}
                                                 <span class="gray-description-forms"
                                                     style="color:orange; font-weight: bold;"><br>Valor
                                                     previo: {{
                                                     instance_dict["instance_fv"] }}</span>
+                                                {% endif %}
                                                 <br><br>
                                                 {{ form.regenerate_fv(class="form-control") }}
                                             </p>
@@ -90,13 +132,17 @@
                                             <p class="primary-label-forms">
                                                 Clase
                                                 <span class="gray-description-forms"> (phishing si es una página
-                                                    maliciosa, legítima en caso contrario)</span>
+                                                    maliciosa, legítima en caso contrario. Si no conoces la clase, deja
+                                                    seleccionada la opción 'mantener valor actual')</span>
+                                                {% if operation == "edit" %}
                                                 <span class="gray-description-forms"
                                                     style="color:orange; font-weight: bold;"><br>Valor
                                                     previo: {% if instance_dict["instance_class"] == "no disponible" %}
                                                     esta instancia todavía no ha sido clasificada {% else %} {{
                                                     instance_dict["instance_class"] }}
-                                                    {% endif %}</span>
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
                                                 <br><br>
                                                 {{ form.instance_class(class="form-control")}}
                                             </p>
@@ -110,15 +156,18 @@
                                                 Pertenencia a lista
                                                 <span class="gray-description-forms"> (lista blanca si es una página
                                                     legítima verificada, lista negra si es una página maliciosa
-                                                    verificada)</span>
+                                                    verificada. Si no conoces la lista, deja seleccionada la opción
+                                                    'mantener valor actual'))</span>
+                                                {% if operation == "edit" %}
                                                 <span class="gray-description-forms"
                                                     style="color:orange; font-weight: bold;"><br>Valor
                                                     previo:
                                                     {% if instance_dict["colour_list"] == None %}
                                                     esta instancia no pertenece a ninguna lista {% else %}
                                                     {{ instance_dict["colour_list"] }}
-                                                    {% endif %}</span>
+                                                    {% endif %}
                                                 </span>
+                                                {% endif %}
                                                 <br><br>
                                                 {{ form.instance_list(class="form-control")}}
                                             </p>
@@ -146,9 +195,6 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
-
-
 <script>
     $(document).ready(function () {
         $('#labels').tokenfield({
