@@ -34,97 +34,114 @@
                         <h3 class="mb-0">EDITAR INSTANCIA</h3>
                     </div>
 
-                    <!-- Tabla atributos modelo -->
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort" data-sort="name"
                                         style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
-                                        Parámetros generales
+                                        {{ instance_dict["instance_URL"] }}
                                     </th>
                                     <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody class="list">
                                 <tr>
-                                    <td>
-                                        <div class="form-group mb-3">
-                                            <p class="primary-label-forms">INSTANCIA</p>
-                                            url blablabla
-                                        </div>
-                                    </td>
-                                    <td>
+                                    <td colspan="2">
                                         <div class="form-group mb-3">
                                             <p class="primary-label-forms">
-                                                Clase&nbsp;<span class="gray-description-forms">(selecciona si deseas
-                                                    editar)</span></p>
-                                            {{ form.instance_class }}
+                                                Etiquetas
+                                                <span class="gray-description-forms"> (pulse enter para introducir una
+                                                    nueva etiqueta o seleccione entre las disponibles)</span>
+                                                {% if initial_value != "" %}
+                                                <br>
+                                                <span class="gray-description-forms"
+                                                    style="color:orange; font-weight: bold;">
+                                                    Valor previo: {{initial_value | replace(",", ", ")}} </span>
+                                                <br><br>
+                                                <input type="text" name="labels" id="labels" class="form-control"
+                                                    value={{initial_value}} />
+                                                {% else %}
+                                                <br><br>
+                                                <input type="text" name="labels" id="labels" class="form-control" />
+                                                {% endif %}
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="form-group mb-3">
-                                            <p class="primary-label-forms">
-                                                Lista&nbsp;<span class="gray-description-forms">(selecciona si deseas
-                                                    editar)</span></p>
-                                            {{ form.instance_list }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group mb-3">
-                                            <p class="primary-label-forms">
-                                                Actualizar fv&nbsp;<span class="gray-description-forms">(selecciona si
-                                                    deseas
-                                                    editar)</span></p>
-                                            {{ form.regenerate_fv }}
-                                        </div>
-                                    </td>
-                                </tr>
-
                                 <tr>
                                     <td colspan="2">
                                         <div class="form-group mb-3">
-                                            <p class="primary-label-forms">Notas</p>
-                                            blabliblu
+                                            <p class="primary-label-forms">
+                                                Vector de características
+                                                <span class="gray-description-forms"
+                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                    previo: {{
+                                                    instance_dict["instance_fv"] }}</span>
+                                                <br><br>
+                                                {{ form.regenerate_fv(class="form-control") }}
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td colspan="2">
-                                        <div class="form-group">
-                                            <label>Enter your labels</label>
-                                            <input type="text" name="labels" id="labels" class="form-control"
-                                                value={{initial_value}} />
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Clase
+                                                <span class="gray-description-forms"> (phishing si es una página
+                                                    maliciosa, legítima en caso contrario)</span>
+                                                <span class="gray-description-forms"
+                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                    previo: {% if instance_dict["instance_class"] == "no disponible" %}
+                                                    esta instancia todavía no ha sido clasificada {% else %} {{
+                                                    instance_dict["instance_class"] }}
+                                                    {% endif %}</span>
+                                                <br><br>
+                                                {{ form.instance_class(class="form-control")}}
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
-
-
-
                                 <tr>
                                     <td colspan="2">
-                                        <div style="align-items: center;">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Pertenencia a lista
+                                                <span class="gray-description-forms"> (lista blanca si es una página
+                                                    legítima verificada, lista negra si es una página maliciosa
+                                                    verificada)</span>
+                                                <span class="gray-description-forms"
+                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                    previo:
+                                                    {% if instance_dict["colour_list"] == None %}
+                                                    esta instancia no pertenece a ninguna lista {% else %}
+                                                    {{ instance_dict["colour_list"] }}
+                                                    {% endif %}</span>
+                                                </span>
+                                                <br><br>
+                                                {{ form.instance_list(class="form-control")}}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <div>
                                             <button type="submit" name="siguiente"
                                                 class="btn btn-primary my-4">Siguiente</button>
                                         </div>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
-
+        {% include "includes/footer.html" %}
     </div>
 </form>
-{% include "includes/footer.html" %}
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->

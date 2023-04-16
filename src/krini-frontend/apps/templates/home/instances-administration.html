@@ -144,12 +144,14 @@
                   <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
                     {{ instance["reviewed_by"] }}
                   </td>
-                  <td style="text-align: left;">
-                    {% if instance["instance_labels"] == None %}
+                  <td style='word-break: break-all; width: 200px; white-space: initial'>
+                    {% if instance["instance_labels"] == None or instance["instance_labels"][0] is not defined %}
                     {% else %}
                     {% for tag in instance["instance_labels"] %}
-                    <span class="badge badge-primary rounded-pill" style="font-size: 12px">{{ tag }}</span>
-                    &nbsp;
+                    {% if tag != "" %}
+                    <span class="badge badge-primary rounded-pill" style="font-size: 12px; margin-bottom: 0.75rem;">{{
+                      tag }}&nbsp;</span>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                   </td>

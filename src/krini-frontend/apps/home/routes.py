@@ -575,19 +575,45 @@ def edit_instance():
         messages = session.get("messages", None)
         selected_instance = Available_instances.query.filter_by(instance_id=messages["instance_id"]).first()
         instance_tags = selected_instance.instance_labels
+        initial_value = ','.join(instance_tags) if instance_tags is not None else ''
+        instance_dict = get_instance_dict(selected_instance)
 
         if "siguiente" in request.form:
             selected_labels = request.form['labels']
+            logger.info(selected_labels)
+            selected_labels = selected_labels.replace(' ', '')
             selected_labels = selected_labels.split(',')
 
+            # Instance is updated
+            if request.form["instance_class"] != '-1':
+                selected_instance.instance_class = int(request.form["instance_class"])
+            
+            if request.form["instance_list"] == "black-list":
+                selected_instance.colour_list = Available_tags.black_list
+                if Available_tags.white_list in selected_labels:
+                    selected_labels.remove(Available_tags.white_list)
+                if Available_tags.black_list not in selected_labels:
+                    selected_labels.append(Available_tags.black_list)
 
+            elif request.form["instance_list"] == "white-list":
+                selected_instance.instance_list = Available_tags.white_list
+                selected_labels.append(Available_tags.white_list)
+                if Available_tags.black_list in selected_labels:
+                    selected_labels.remove(Available_tags.black_list)
+                if Available_tags.white_list not in selected_labels:
+                    selected_labels.append(Available_tags.white_list)
+
+            selected_instance.instance_labels = selected_labels
+            
+            db.session.commit()
             flash("Instancia editada correctamente.", "success")
             return redirect(url_for("home_blueprint.instances"))
 
         return render_template(
-            "home/edit-instance.html", form=form, segment=get_segment(request), instance_tags=Available_tags.all_tags, initial_value=','.join(instance_tags)
+            "home/edit-instance.html", form=form, segment=get_segment(request), 
+            instance_tags=Available_tags.all_tags, initial_value=initial_value, 
+            instance_dict=instance_dict
         )
-
 
     except KriniException:
         flash("Error al realizar la operación solicitada.", "error")

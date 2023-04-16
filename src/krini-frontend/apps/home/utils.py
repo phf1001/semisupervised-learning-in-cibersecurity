@@ -398,7 +398,7 @@ def get_instance_dict(instance):
         "instance_id": instance.instance_id,
         "reviewed_by": get_username(instance.reviewed_by),
         "instance_URL": instance.instance_URL,
-        "instance_fv": instance.instance_fv,
+        "instance_fv": instance.instance_fv if instance.instance_fv else 'no hay ningún vector generado para esta instancia',
         "instance_class": translate_tag_colour(instance.instance_class)[0],
         "badge_colour": translate_tag_colour(instance.instance_class)[1],
         "colour_list": instance.colour_list,

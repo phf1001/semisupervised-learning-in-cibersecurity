@@ -62,19 +62,19 @@ class InstanceForm(FlaskForm):
     instance_class = SelectField(
         "instance_class",
         id="instance-class",
-        choices=[(-1, "Selecciona para cambiar"), (1, "Phishing"), (0, "Legítima")]
+        choices=[(-1, "Mantener valor actual"), (1, "Phishing"), (0, "Legítima")]
     )
 
     instance_list = SelectField(
         "instance_list",
         id="instance-list",
-        choices=[(-1, "Selecciona para cambiar"), ("black-list", "Blacklist"), ("white-list", "Whitelist")]
+        choices=[(-1, "Mantener valor actual"), ("black-list", "Black-list"), ("white-list", "White-list")]
     )
 
     regenerate_fv = SelectField(
         "regenerate_fv",
         id="regenerate-fv",
-        choices=[(0, "No"), (1, "Sí")]
+        choices=[(-1, "Mantener vector actual"), (1, "Regenerar vector de características")]
     )
     
 
