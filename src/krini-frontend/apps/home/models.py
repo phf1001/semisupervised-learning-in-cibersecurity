@@ -36,17 +36,18 @@ class Available_instances(db.Model):
     Returns:
         object: SQLAlchemy model object
     """
+
     __tablename__ = "Available_instances"
 
     instance_id = db.Column(db.Integer, primary_key=True)
-    reviewed_by = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=True)
+    reviewed_by = db.Column(
+        db.Integer, db.ForeignKey("Users.id"), nullable=True
+    )
     instance_URL = db.Column(db.String(64), unique=True, nullable=False)
     instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)))
     instance_class = db.Column(db.Integer)
     colour_list = db.Column(db.String(64))
-    instance_labels = db.Column(
-        MutableList.as_mutable(db.ARRAY(db.String(64)))
-    )
+    instance_labels = db.Column(MutableList.as_mutable(db.ARRAY(db.String(64))))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -55,11 +56,7 @@ class Available_instances(db.Model):
             setattr(self, property, value)
 
     def __repr__(self):
-        return (
-            str(self.instance_id)
-            + " "
-            + str(self.instance_URL)
-        )
+        return str(self.instance_id) + " " + str(self.instance_URL)
 
     @staticmethod
     def all_paginated(page=1, per_page=15):
@@ -79,10 +76,15 @@ class Candidate_instances(db.Model):
     Returns:
         object: SQLAlchemy model object
     """
+
     __tablename__ = "Candidate_instances"
 
     date_reported = db.Column(db.DateTime, primary_key=True)
-    instance_id = db.Column(db.Integer, db.ForeignKey("Available_instances.instance_id"), primary_key=True)
+    instance_id = db.Column(
+        db.Integer,
+        db.ForeignKey("Available_instances.instance_id"),
+        primary_key=True,
+    )
     user_id = db.Column(db.Integer, db.ForeignKey("Users.id"), primary_key=True)
     suggestions = db.Column(db.Text, nullable=False)
 
@@ -106,24 +108,34 @@ class Candidate_instances(db.Model):
     @staticmethod
     def all_paginated(page=1, per_page=15):
         return Candidate_instances.query.paginate(page, per_page, False)
-    
+
     @staticmethod
     def get_instance(instance_id):
-        return Candidate_instances.query.filter_by(instance_id=instance_id).first()
-    
+        return Candidate_instances.query.filter_by(
+            instance_id=instance_id
+        ).first()
+
     @staticmethod
     def get_instance_by_user(instance_id, user_id):
-        return Candidate_instances.query.filter_by(instance_id=instance_id, user_id=user_id).first()
-    
+        return Candidate_instances.query.filter_by(
+            instance_id=instance_id, user_id=user_id
+        ).first()
+
     @staticmethod
     def get_instance_url(instance_id):
-        return Available_instances.query.filter_by(instance_id=instance_id).first().instance_URL
+        return (
+            Available_instances.query.filter_by(instance_id=instance_id)
+            .first()
+            .instance_URL
+        )
+
 
 class Available_tags:
     """
     Create an Available_tags table containing the
     tags that are available for the instances.
     """
+
     black_list = "black-list"
     white_list = "white-list"
     auto_classified = "auto-classified"
@@ -136,9 +148,28 @@ class Available_tags:
     sug_new_instance = "new-scanned-instance"
     sug_review = "recommendation-review"
     sug_new_report = "suggestion-review-new-scanned"
-    
-    suggestion_tags = [sug_white_list, sug_black_list, sug_phishing, sug_legitimate, sug_new_instance, sug_review, sug_new_report]
-    all_tags = [black_list, white_list, auto_classified, sug_white_list, sug_black_list, sug_phishing, sug_legitimate, sug_new_instance, sug_review, sug_new_report]
+
+    suggestion_tags = [
+        sug_white_list,
+        sug_black_list,
+        sug_phishing,
+        sug_legitimate,
+        sug_new_instance,
+        sug_review,
+        sug_new_report,
+    ]
+    all_tags = [
+        black_list,
+        white_list,
+        auto_classified,
+        sug_white_list,
+        sug_black_list,
+        sug_phishing,
+        sug_legitimate,
+        sug_new_instance,
+        sug_review,
+        sug_new_report,
+    ]
 
 
 class Available_models(db.Model):
@@ -153,16 +184,22 @@ class Available_models(db.Model):
     Returns:
         object: SQLAlchemy model object
     """
+
     __tablename__ = "Available_models"
 
     model_id = db.Column(db.Integer, primary_key=True)
-    created_by = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
+    created_by = db.Column(
+        db.Integer, db.ForeignKey("Users.id"), nullable=False
+    )
     model_name = db.Column(db.String(64), unique=True, nullable=False)
     file_name = db.Column(db.String(16), unique=True, nullable=False)
     creation_date = db.Column(db.DateTime)
     is_default = db.Column(db.Boolean, default=False)
     is_visible = db.Column(db.Boolean, default=True)
-    model_scores = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)), default=[0.0, 0.0, 0.0, 0.0, 0.0])
+    model_scores = db.Column(
+        MutableList.as_mutable(db.ARRAY(db.Float)),
+        default=[0.0, 0.0, 0.0, 0.0, 0.0],
+    )
     random_state = db.Column(db.Integer)
     model_notes = db.Column(db.String(128))
 
@@ -186,7 +223,11 @@ class Available_models(db.Model):
     def get_visible_models_ids_and_names_list():
         """Returns a list of tuples with the model id and name"""
         models = Available_models.query.all()
-        return [(model.model_id, model.model_name) for model in models if model.is_visible]
+        return [
+            (model.model_id, model.model_name)
+            for model in models
+            if model.is_visible
+        ]
 
 
 class Available_co_forests(Available_models):
@@ -198,11 +239,14 @@ class Available_co_forests(Available_models):
     Args:
         Available_models (class): parent class
     """
+
     __tablename__ = "Available_co_forests"
-    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    model_id = db.Column(
+        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+    )
     n_trees = db.Column(db.Integer, default=6, nullable=False)
     thetha = db.Column(db.Float, default=0.75, nullable=False)
-    max_features = db.Column(db.String(8), default='log2', nullable=False)
+    max_features = db.Column(db.String(8), default="log2", nullable=False)
 
 
 class Available_tri_trainings(Available_models):
@@ -214,8 +258,11 @@ class Available_tri_trainings(Available_models):
     Args:
         Available_models (class): parent class
     """
+
     __tablename__ = "Available_tri_trainings"
-    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    model_id = db.Column(
+        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+    )
     cls_one = db.Column(db.String(8), nullable=False)
     cls_two = db.Column(db.String(8), nullable=False)
     cls_three = db.Column(db.String(8), nullable=False)
@@ -230,7 +277,12 @@ class Available_democratic_cos(Available_models):
     Args:
         Available_models (class): parent class
     """
+
     __tablename__ = "Available_democratic_cos"
-    model_id = db.Column(None, db.ForeignKey("Available_models.model_id"), primary_key=True)
+    model_id = db.Column(
+        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+    )
     n_clss = db.Column(db.Integer, default=3, nullable=False)
-    base_clss = db.Column(MutableList.as_mutable(db.ARRAY(db.String(8))), nullable=False)
+    base_clss = db.Column(
+        MutableList.as_mutable(db.ARRAY(db.String(8))), nullable=False
+    )
