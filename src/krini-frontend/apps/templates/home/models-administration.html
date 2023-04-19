@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Tables {% endblock title %}
+{% block title %} Administración de modelos {% endblock title %}
 
 {% block content %}
 
@@ -18,10 +18,10 @@
         </div>
         <div class="col-lg-6 col-5 text-right">
 
-          <a class="btn btn-sm btn-primary" href="/nuevomodelo" role="button">
+          <a class="btn btn-primary" href="/nuevomodelo" role="button">
             Nuevo modelo
           </a>
-          
+
           <!-- <div class="dropdown">
             <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -64,20 +64,23 @@
                 <th scope="col" class="sort" data-sort="parameters" style="text-align: left;">
                   <h5 class="text-gray mb-0">Parámetros</h5>
                 </th>
+                <th scope="col" class="sort" data-sort="default" style="text-align: center;">
+                  <h5 class="text-gray mb-0">Métricas [ACC, P, R, F-1, AUC]</h5>
+                </th>
                 <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
                   <h5 class="text-gray mb-0">Autor</h5>
                 </th>
                 <th scope="col" class="sort" data-sort="date" style="text-align: center;">
                   <h5 class="text-gray mb-0">Fecha</h5>
                 </th>
+                <th scope="col" class="sort" data-sort="default" style="text-align: left;">
+                  <h5 class="text-gray mb-0">Notas</h5>
+                </th>
                 <th scope="col" class="sort" data-sort="visible" style="text-align: center;">
                   <h5 class="text-gray mb-0">Visible</h5>
                 </th>
                 <th scope="col" class="sort" data-sort="default" style="text-align: center;">
                   <h5 class="text-gray mb-0">Defecto</h5>
-                </th>
-                <th scope="col" class="sort" data-sort="default" style="text-align: left;">
-                  <h5 class="text-gray mb-0">Notas</h5>
                 </th>
                 <th scope="col">
                   <h5 class="text-gray mb-0" style="text-align: center;">Más</h5>
@@ -92,8 +95,8 @@
                   <h6 class="name mb-0 text-sm">{{ model["model_name"] }}</h6>
                 </td>
                 <td style="text-align: center;">
-                  <h3><span class="badge rounded-pill" style="background-color: {{ model["badge_colour"] }}; color: gray;">{{
-                      model["algorithm"] }}</span></h3>
+                  <h3><span class="badge rounded-pill" style="background-color: {{model['badge_colour']}}; color:
+                      gray;">{{model["algorithm"] }}</span></h3>
                 </td>
                 <td style="text-align: left;">
                   <ul style="list-style-type: none; padding: 0; margin: 0;">
@@ -101,13 +104,18 @@
                     <li style="font-size:15px">{{ item }}</li>
                     {% endfor %}
                   </ul>
-
+                </td>
+                <td style="text-align: center; font-size:13px">
+                  {{ model["model_scores"] }}
                 </td>
                 <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
                   {{ model["created_by"] }}
                 </td>
                 <td style="text-align: center; font-size:15px">
                   {{ model["creation_date"] }}
+                </td>
+                <td style="text-align: left; font-size:13px">
+                  {{ model["model_notes"] }}
                 </td>
                 <td style="text-align: center; font-size:25px">
                   {% if model["is_visible"] %}
@@ -122,9 +130,6 @@
                   {% else %}
                   <i class="fas fa-times-circle" style="color: red"></i>
                   {% endif %}
-                </td>
-                <td style="text-align: left; font-size:13px">
-                  {{ model["model_notes"] }}
                 </td>
                 <td style="text-align: center;">
                   <div class="dropdown">

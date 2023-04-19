@@ -13,10 +13,33 @@ from sqlalchemy.orm import load_only
 from apps.home import blueprint
 from apps import db
 from apps.home.exceptions import KriniException, KriniNotLoggedException
-from apps.home.models import Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings
+from apps.home.models import (
+    Available_models,
+    Available_co_forests,
+    Available_democratic_cos,
+    Available_tri_trainings,
+)
 from apps.home.utils import *
-from apps.ssl_utils.ml_utils import get_array_scores, get_co_forest, get_fv_and_info, get_mock_values_fv, get_temporary_download_directory, translate_tag
-from flask import render_template, request, flash, redirect, url_for, session, send_from_directory, after_this_request
+from apps.ssl_utils.ml_utils import (
+    get_array_scores,
+    get_co_forest,
+    get_democratic_co,
+    get_tri_training,
+    get_fv_and_info,
+    get_mock_values_fv,
+    get_temporary_download_directory,
+    translate_tag,
+)
+from flask import (
+    render_template,
+    request,
+    flash,
+    redirect,
+    url_for,
+    session,
+    send_from_directory,
+    after_this_request,
+)
 from flask_login import login_required, current_user
 from werkzeug.exceptions import Forbidden
 from flask_wtf import FlaskForm
@@ -25,20 +48,31 @@ from datetime import datetime
 import json
 
 # DB Models
-from apps.home.forms import ReportURLForm, SearchURLForm, NewModelForm, InstanceForm
-from apps.home.models import Available_instances, Candidate_instances, Available_models, Available_tags
+from apps.home.forms import (
+    ReportURLForm,
+    SearchURLForm,
+    ModelForm,
+    InstanceForm,
+)
+from apps.home.models import (
+    Available_instances,
+    Candidate_instances,
+    Available_models,
+    Available_tags,
+)
 
 # ML dependencies
 import numpy as np
 import time
 from sklearn.model_selection import train_test_split
+
 logger = get_logger("krini-frontend")
+
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
-    """
-    Index page. It contains the form to analyze an URL.
-    Redirects to a loading page and then to the dashboard.
+    """Index page. It contains the form to analyze an URL. Redirects to a
+    loading page and then to the dashboard.
 
     Returns:
         function: renders a loading page
@@ -69,9 +103,8 @@ def index():
 
 
 def trigger_mock_dashboard(models_ids, quick_analysis):
-    """
-    Triggers the dashboard with mock values.
-    Coded to make the development process faster.
+    """Triggers the dashboard with mock values. Coded to make the development
+    process faster.
 
     Args:
         models_ids (list): list of models ids
@@ -89,16 +122,16 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
         "models_ids": models_ids,
         "quick_analysis": quick_analysis,
         "colour_list": "black-list",
-        "update_bbdd": False
+        "update_bbdd": False,
     }
     return redirect(url_for("home_blueprint.dashboard"))
 
 
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    """Gets the feature vector for an URL.
-    If the URL is not callable, it tries to reconstruct it.
-    If there is an existing instance on the DB returns the FV.
+    """Gets the feature vector for an URL. If the URL is not callable, it tries
+    to reconstruct it. If there is an existing instance on the DB returns the
+    FV.
 
     Raises:
         KriniException: if the URL is not callable and it cannot be reconstructed.
@@ -111,7 +144,7 @@ def task():
         url = messages["url"]
         models_ids = messages["models"]
         quick_analysis = messages["quick_analysis"]
-        colour_list = ''
+        colour_list = ""
         fv_extra_information = {}
         update_bbdd = False
 
@@ -121,32 +154,58 @@ def task():
         callable_url = get_callable_url(url)
 
         if callable_url is None:
-            previous_instance = Available_instances.query.filter_by(instance_URL=url).first()
+            previous_instance = Available_instances.query.filter_by(
+                instance_URL=url
+            ).first()
             if previous_instance and previous_instance.instance_fv:
                 callable_url = url
                 fv = list(previous_instance.instance_fv)
-                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                colour_list = (
+                    previous_instance.colour_list
+                    if previous_instance.colour_list
+                    else ""
+                )
 
             else:
-                raise KriniException("No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(url))
+                raise KriniException(
+                    "No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(
+                        url
+                    )
+                )
 
-        else: # The URL is callable and has protocol
-            previous_instance = Available_instances.query.filter_by(instance_URL=callable_url).first()
+        else:  # The URL is callable and has protocol
+            previous_instance = Available_instances.query.filter_by(
+                instance_URL=callable_url
+            ).first()
 
-            if previous_instance and previous_instance.instance_fv and quick_analysis:
+            if (
+                previous_instance
+                and previous_instance.instance_fv
+                and quick_analysis
+            ):
                 fv = list(previous_instance.instance_fv)
-                colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                colour_list = (
+                    previous_instance.colour_list
+                    if previous_instance.colour_list
+                    else ""
+                )
 
             else:
                 fv, fv_extra_information = get_fv_and_info(callable_url)
                 fv = fv.tolist()
 
                 if previous_instance:
-                    colour_list = previous_instance.colour_list if previous_instance.colour_list else ''
+                    colour_list = (
+                        previous_instance.colour_list
+                        if previous_instance.colour_list
+                        else ""
+                    )
                 else:
                     if current_user.is_authenticated:
-                        update_bbdd = True # Will be stored with majority voting tag
-                    colour_list = ''
+                        update_bbdd = (
+                            True  # Will be stored with majority voting tag
+                        )
+                    colour_list = ""
 
         # Enviamos el vector al dashboard
         session["messages"] = {
@@ -172,11 +231,9 @@ def task():
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    """
-    Analyzes the URL feature vector with the selected models.
-    Renders the dashboard. All exceptions are catched and the 
-    user is redirected to the index page when something unexpected
-    happens.
+    """Analyzes the URL feature vector with the selected models. Renders the
+    dashboard. All exceptions are catched and the user is redirected to the
+    index page when something unexpected happens.
 
     Returns:
         function: renders the dashboard
@@ -190,9 +247,13 @@ def dashboard():
             selected_models = get_selected_models_ids(messages["models_ids"])
 
             if len(selected_models) == 0:
-                raise KriniException("No hay ningún modelo disponible. Inténtalo de nuevo más tarde.")
+                raise KriniException(
+                    "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
+                )
 
-            classifiers_info_tuples = [get_model(model_id) for model_id in selected_models]
+            classifiers_info_tuples = [
+                get_model(model_id) for model_id in selected_models
+            ]
 
             model_names = [tupla[0] for tupla in classifiers_info_tuples]
             classifiers = [tupla[1] for tupla in classifiers_info_tuples]
@@ -202,8 +263,10 @@ def dashboard():
             count, numeric_class = get_sum_tags_numeric(predicted_tags)
             messages["numeric_class"] = numeric_class
 
-            if messages["update_bbdd"]: #Se guarda con la etiqueta mayoritaria
-                save_bbdd_analized_instance(url, [float(feat) for feat in messages["fv"]], numeric_class)
+            if messages["update_bbdd"]:  # Se guarda con la etiqueta mayoritaria
+                save_bbdd_analized_instance(
+                    url, [float(feat) for feat in messages["fv"]], numeric_class
+                )
                 messages["update_bbdd"] = False
 
             models_confidence = [
@@ -235,7 +298,9 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-        raise KriniException("No existe información para mostrar. Realiza un análisis para acceder al dashboard.")
+        raise KriniException(
+            "No existe información para mostrar. Realiza un análisis para acceder al dashboard."
+        )
 
     except KriniException as e:
         logger.error(e.message)
@@ -251,10 +316,8 @@ def dashboard():
 
 @blueprint.route("/report_false_positive", methods=["GET"])
 def report_false_positive():
-    """
-    Reports a false result to the database. 
-    The user must be logged in. Redirects to the
-    dashboard flashing a message.
+    """Reports a false result to the database. The user must be logged in.
+    Redirects to the dashboard flashing a message.
 
     Returns:
         function: redirects to the dashboard
@@ -266,9 +329,11 @@ def report_false_positive():
         messages = session.get("messages", None)
         if messages:
             # Todas las URL llamables analizadas por usuarios están como instancias ya
-            url =  messages["url"]
+            url = messages["url"]
             tag = messages["numeric_class"]
-            existing_instance = Available_instances.query.filter_by(instance_URL=url).first()
+            existing_instance = Available_instances.query.filter_by(
+                instance_URL=url
+            ).first()
 
             if existing_instance:
                 # Sugiero lo contrario ya que reporto falso resultado
@@ -281,14 +346,17 @@ def report_false_positive():
 
                 report = Candidate_instances(
                     user_id=current_user.id,
-                    instance_id = existing_instance.instance_id,
+                    instance_id=existing_instance.instance_id,
                     date_reported=datetime.now(),
-                    suggestions=suggestion
+                    suggestions=suggestion,
                 )
 
                 db.session.add(report)
                 db.session.commit()
-                flash("Falso resultado reportado correctamente. ¡Gracias por tu colaboración!", "success")
+                flash(
+                    "Falso resultado reportado correctamente. ¡Gracias por tu colaboración!",
+                    "success",
+                )
 
             else:
                 raise KriniException("Instancia no encontrada")
@@ -306,14 +374,13 @@ def report_false_positive():
         message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
         flash(message, "warning")
 
+    return redirect(url_for("home_blueprint.dashboard"))
 
-    return redirect(url_for('home_blueprint.dashboard'))
 
 @login_required
 @blueprint.route("/profile", methods=["GET"])
 def profile():
-    """
-    Renders the profile page. The user must be logged in.
+    """Renders the profile page. The user must be logged in.
 
     Raises:
         Forbidden: if the user is not logged in
@@ -332,7 +399,9 @@ def profile():
         n_reports_accepted = 0
 
     n_reports_reviewing = 0
-    users_reports = Candidate_instances.query.options(load_only("user_id")).all()
+    users_reports = Candidate_instances.query.options(
+        load_only("user_id")
+    ).all()
     users_reports = [report.user_id for report in users_reports]
 
     for user_report in users_reports:
@@ -365,9 +434,9 @@ def models():
     information_to_display = []
 
     algorithms = [
-        (Available_co_forests, "CO-FOREST"),
-        (Available_tri_trainings, "TRI-TRAINING"),
-        (Available_democratic_cos, "DEMOCRATIC-CO"),
+        (Available_co_forests, CO_FOREST_CONTROL),
+        (Available_tri_trainings, TRI_TRAINING_CONTROL),
+        (Available_democratic_cos, DEMOCRATIC_CO_CONTROL),
     ]
 
     for algorithm in algorithms:
@@ -383,7 +452,7 @@ def models():
 
 @blueprint.route("/nuevomodelo", methods=["GET", "POST"])
 def new_model():
-    """TODO completar la función
+    """TODO completar la función.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -393,15 +462,16 @@ def new_model():
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
-    form = NewModelForm()
 
-    if not current_user.is_authenticated:
-        return redirect(url_for("authentication_blueprint.login"))
+    form = ModelForm()
 
     if "siguiente" in request.form:
         selected_method = translate_form_select_data_method(
             request.form["form_select_data_method"]
+        )
+
+        selected_algorithm = translate_form_select_algorithm(
+            request.form["form_select_ssl_alg"]
         )
 
         # Se cargan los archivos del usuario. Si uno de los dos no carga,
@@ -419,6 +489,7 @@ def new_model():
 
         session["messages"] = {
             "form_data": request.form,
+            "algorithm": selected_algorithm,
             "dataset_method": dataset_tuple,
         }
 
@@ -431,7 +502,7 @@ def new_model():
 
 @blueprint.route("/creatingmodel", methods=["POST", "GET"])
 def creatingmodel():
-    """TODO completar la función
+    """TODO completar la función.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -441,45 +512,59 @@ def creatingmodel():
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
-    time.sleep(2)
-    messages = session.get("messages", None)
-    form_data = messages["form_data"]
 
-    # COMPROBAR DICCIONARIO DE ENTRADA Y EL RESTO, PASO A TRATAR LOS DATOS
-    # if messages is not None:
-    #     form_data = correct_user_input(messages["form_data"])
+    try:
+        time.sleep(2)
+        messages = session.get("messages", None)
+        form_data = messages["form_data"]
 
-    # Hasta aquí se tiene un formulario correcto y se supone que
-    # se tiene un objeto clasificador para entrenar
-    cls = get_co_forest()
+        logger.info("Form data: {}".format(form_data))
+        logger.info("messages: {}".format(messages))
 
-    # Obtenemos datos de entrenamiento y test
-    dataset_method, dataset_params = messages["dataset_method"]
-    X_train, X_test, y_train, y_test = return_X_y_train_test(
-        dataset_method, dataset_params
-    )
-    L_train, U_train, Ly_train, Uy_train = train_test_split(
-        X_train, y_train, test_size=0.8, random_state=5, stratify=y_train
-    )
-    # flash("{} {} {} {}".format(X_train, X_test, y_train, y_test))
+        # COMPROBAR DICCIONARIO DE ENTRADA Y EL RESTO, PASO A TRATAR LOS DATOS
+        # if messages is not None:
+        #     form_data = correct_user_input(messages["form_data"])
 
-    cls.fit(L_train, Ly_train, U_train)
-    y_pred = cls.predict(X_test)
-    y_pred_proba = cls.predict_proba(X_test)
-    scores = get_array_scores(y_test, y_pred, y_pred_proba)
-    flash("Scores del modelo: {}".format(scores), "info")
+        # Obtenemos el clasificador -> messages de algorithm ya controlado aqui
+        if messages["algorithm"] == CO_FOREST_CONTROL:
+            cls = get_co_forest()
+        elif messages["algorithm"] == TRI_TRAINING_CONTROL:
+            cls = get_tri_training()
+        elif messages["algorithm"] == DEMOCRATIC_CO_CONTROL:
+            cls = get_democratic_co()
 
-    # Serializamos el nuevo modelo y lo guardamos en la bbdd
-    serialize_store_coforest(form_data, cls, scores)
-    return redirect(url_for("home_blueprint.models"))
+        # Obtenemos datos de entrenamiento y test
+        dataset_method, dataset_params = messages["dataset_method"]
+        X_train, X_test, y_train, y_test = return_X_y_train_test(
+            dataset_method, dataset_params
+        )
+        L_train, U_train, Ly_train, Uy_train = train_test_split(
+            X_train, y_train, test_size=0.8, random_state=5, stratify=y_train
+        )
+        # flash("{} {} {} {}".format(X_train, X_test, y_train, y_test))
+
+        cls.fit(L_train, Ly_train, U_train)
+        y_pred = cls.predict(X_test)
+        y_pred_proba = cls.predict_proba(X_test)
+        scores = get_array_scores(y_test, y_pred, y_pred_proba)
+        flash("BORRAR: Scores del modelo: {}".format(scores), "info")
+
+        # Serializamos el nuevo modelo y lo guardamos en la bbdd
+        if serialize_store_model(form_data, cls, scores, messages["algorithm"]):
+            flash("Modelo guardado correctamente.", "success")
+
+        return redirect(url_for("home_blueprint.models"))
+
+    except KriniException as e:
+        # The error message has been already personalized
+        flash(str(e), "danger")
+        return redirect(url_for("home_blueprint.new_model"))
 
 
 @login_required
 @blueprint.route("/instances", methods=["GET", "POST"])
 def instances(n_per_page=10):
-    """
-    Main page of the instances. The user must be logged in and be an admin.
+    """Main page of the instances. The user must be logged in and be an admin.
 
     Args:
         n_per_page (int, optional): Number of instances displayed. Defaults to 10.
@@ -492,9 +577,8 @@ def instances(n_per_page=10):
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
-    try:
 
+    try:
         form = FlaskForm(request.form)
 
         if "selected_page" in request.form:
@@ -502,39 +586,59 @@ def instances(n_per_page=10):
             previous_page = int(request.form["previous_page"])
             checks = session.get("checks", None)
             checks = update_checks(
-                previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page
+                previous_page,
+                request.form.getlist("checkbox-instance"),
+                checks,
+                n_per_page,
             )
 
             if "eliminar" in request.form["button_pressed"]:
-
                 if "individual" in request.form["button_pressed"]:
-                    remove_selected_instances([request.form["individual_instance"]])
+                    remove_selected_instances(
+                        [request.form["individual_instance"]]
+                    )
                     flash("Instancia eliminada correctamente.", "success")
                 else:
                     remove_selected_instances(list(checks.values()))
                     flash("Instancias eliminadas correctamente.", "success")
 
             elif "editar" in request.form["button_pressed"]:
-                session["messages"] = {"previous_page": page, "instance_id": request.form["individual_instance"]}
+                session["messages"] = {
+                    "previous_page": page,
+                    "instance_id": request.form["individual_instance"],
+                }
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.edit_instance"))
-            
+
             if "crear" in request.form["button_pressed"]:
                 session["messages"] = {"previous_page": page}
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.new_instance"))
-            
+
             if "seleccionar" in request.form["button_pressed"]:
-                checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page)
+                checks = update_batch_checks(
+                    request.form["button_pressed"],
+                    checks,
+                    previous_page,
+                    n_per_page,
+                )
 
             elif request.form["button_pressed"] == "descargar":
                 filename = "selected_instances.csv"
-                download_path = create_csv_selected_instances(list(checks.values()), filename)
+                download_path = create_csv_selected_instances(
+                    list(checks.values()), filename
+                )
+
                 @after_this_request
                 def remove_file(response):
                     remove(download_path)
                     return response
-                return send_from_directory(get_temporary_download_directory(), filename, as_attachment=True)
+
+                return send_from_directory(
+                    get_temporary_download_directory(),
+                    filename,
+                    as_attachment=True,
+                )
 
         else:
             page = 1
@@ -559,11 +663,11 @@ def instances(n_per_page=10):
     except KriniException:
         flash("Error al realizar la operación solicitada.", "danger")
 
+
 @login_required
 @blueprint.route("/edit_instance", methods=["GET", "POST"])
 def edit_instance():
-    """
-    Edits the selected instance. The user must be logged in and be an admin.
+    """Edits the selected instance. The user must be logged in and be an admin.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -573,33 +677,39 @@ def edit_instance():
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
+
     try:
         form = InstanceForm()
 
         # Tienes también la página previa
         messages = session.get("messages", None)
-        selected_instance = Available_instances.query.filter_by(instance_id=messages["instance_id"]).first()
+        selected_instance = Available_instances.query.filter_by(
+            instance_id=messages["instance_id"]
+        ).first()
         instance_tags = selected_instance.instance_labels
-        initial_value = ','.join(instance_tags) if instance_tags is not None else ''
+        initial_value = (
+            ",".join(instance_tags) if instance_tags is not None else ""
+        )
         instance_dict = get_instance_dict(selected_instance)
 
         if "siguiente" in request.form:
-
             session["messages"] = {
-                    "form_data": request.form,
-                    "instance_id": selected_instance.instance_id,
-                    "instance_URL": selected_instance.instance_URL,
-                    "operation": "edit",
-                }
+                "form_data": request.form,
+                "instance_id": selected_instance.instance_id,
+                "instance_URL": selected_instance.instance_URL,
+                "operation": "edit",
+            }
 
             return render_template("specials/updating-instance.html")
 
         return render_template(
-            "home/edit-instance.html", form=form, segment="instances", 
-            instance_tags=Available_tags.all_tags, initial_value=initial_value, 
+            "home/edit-instance.html",
+            form=form,
+            segment="instances",
+            instance_tags=Available_tags.all_tags,
+            initial_value=initial_value,
             operation="edit",
-            instance_dict=instance_dict
+            instance_dict=instance_dict,
         )
 
     except KriniException:
@@ -609,8 +719,7 @@ def edit_instance():
 @login_required
 @blueprint.route("/new_instance", methods=["GET", "POST"])
 def new_instance():
-    """
-    Creates an instance. The user must be logged in and be an admin.
+    """Creates an instance. The user must be logged in and be an admin.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -620,28 +729,30 @@ def new_instance():
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
+
     try:
         form = InstanceForm()
-        initial_value =  ''
+        initial_value = ""
         instance_dict = get_instance_dict(-1, empty=True)
 
         if "siguiente" in request.form:
-
             session["messages"] = {
-                    "form_data": request.form,
-                    "instance_id": -1,
-                    "instance_URL": request.form["url"],
-                    "operation": "new"
-                }
+                "form_data": request.form,
+                "instance_id": -1,
+                "instance_URL": request.form["url"],
+                "operation": "new",
+            }
 
             return render_template("specials/updating-instance.html")
 
         return render_template(
-            "home/edit-instance.html", form=form, segment="instances", 
-            instance_tags=Available_tags.all_tags, initial_value=initial_value, 
+            "home/edit-instance.html",
+            form=form,
+            segment="instances",
+            instance_tags=Available_tags.all_tags,
+            initial_value=initial_value,
             operation="new",
-            instance_dict=instance_dict
+            instance_dict=instance_dict,
         )
 
     except KriniException:
@@ -650,9 +761,8 @@ def new_instance():
 
 @blueprint.route("/updating_instance", methods=["POST", "GET"])
 def updating_instance():
-    """
-    Loading page while the instance is updated. The user must be logged in and be an admin.
-    ATOMICITY IS GUARANTEED.
+    """Loading page while the instance is updated. The user must be logged in
+    and be an admin. ATOMICITY IS GUARANTEED.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -662,27 +772,31 @@ def updating_instance():
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
+
     try:
         messages = session.get("messages", None)
         form_data = messages["form_data"]
 
         if messages["operation"] == "edit":
-            selected_instance = Available_instances.query.filter_by(instance_id=messages["instance_id"]).first()
+            selected_instance = Available_instances.query.filter_by(
+                instance_id=messages["instance_id"]
+            ).first()
 
         elif messages["operation"] == "new":
-            selected_instance = Available_instances(instance_URL=messages["instance_URL"])
+            selected_instance = Available_instances(
+                instance_URL=messages["instance_URL"]
+            )
             db.session.add(selected_instance)
             db.session.flush()
 
-        selected_labels = form_data['labels']
-        selected_labels = selected_labels.replace(' ', '')
-        selected_labels = selected_labels.split(',')
+        selected_labels = form_data["labels"]
+        selected_labels = selected_labels.replace(" ", "")
+        selected_labels = selected_labels.split(",")
 
         # Instance is updated
-        if form_data["instance_class"] != '-1':
+        if form_data["instance_class"] != "-1":
             selected_instance.instance_class = int(form_data["instance_class"])
-        
+
         if form_data["instance_list"] == "black-list":
             selected_instance.colour_list = Available_tags.black_list
             selected_labels.append(Available_tags.black_list)
@@ -697,40 +811,48 @@ def updating_instance():
 
         selected_instance.instance_labels = list(set(selected_labels))
         selected_instance.reviewed_by = current_user.id
-        
-        if form_data["regenerate_fv"] != '-1':
+
+        if form_data["regenerate_fv"] != "-1":
             callable_url = get_callable_url(messages["instance_URL"])
 
             if callable_url is None:
-                    raise KriniException("No se puede llamar la URL.")
-            else: 
+                raise KriniException("No se puede llamar la URL.")
+            else:
                 fv = get_fv_and_info(callable_url)[0]
                 selected_instance.instance_fv = fv.tolist()
-        
+
         else:
-            time.sleep(1) # To show the loading page
+            time.sleep(1)  # To show the loading page
 
         db.session.commit()
         flash("Operación realizada correctamente.", "success")
         return redirect(url_for("home_blueprint.instances"))
 
-    except (KriniException):
-        flash("Operación no realizada: no se puede generar el vector de características. La URL no está disponible.", "danger")
+    except KriniException:
+        flash(
+            "Operación no realizada: no se puede generar el vector de características. La URL no está disponible.",
+            "danger",
+        )
         db.session.rollback()
         return redirect(url_for("home_blueprint.instances"))
-    
-    except (exc.SQLAlchemyError):
-        flash("Error al realizar la operación solicitada. Reinténtalo más adelante.", "danger")
-        flash("Sugerencia: comprueba que no estás creando una instancia que ya existe.", "info")
+
+    except exc.SQLAlchemyError:
+        flash(
+            "Error al realizar la operación solicitada. Reinténtalo más adelante.",
+            "danger",
+        )
+        flash(
+            "Sugerencia: comprueba que no estás creando una instancia que ya existe.",
+            "info",
+        )
         db.session.rollback()
         return redirect(url_for("home_blueprint.instances"))
-    
+
+
 @login_required
 @blueprint.route("/review_instances", methods=["GET", "POST"])
 def review_instances(n_per_page=10):
-    """
-    Reviews for the reports.
-    The user must be logged in and be an admin.
+    """Reviews for the reports. The user must be logged in and be an admin.
 
     Args:
         n_per_page (int, optional): Number of reports displayed. Defaults to 10.
@@ -743,9 +865,8 @@ def review_instances(n_per_page=10):
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
-    
-    try:
 
+    try:
         form = FlaskForm(request.form)
 
         if "selected_page" in request.form:
@@ -753,22 +874,41 @@ def review_instances(n_per_page=10):
             previous_page = int(request.form["previous_page"])
             checks = session.get("checks", None)
             checks = update_checks(
-                previous_page, request.form.getlist("checkbox-instance"), checks, n_per_page, sequence=True
+                previous_page,
+                request.form.getlist("checkbox-instance"),
+                checks,
+                n_per_page,
+                sequence=True,
             )
 
             if "seleccionar" in request.form["button_pressed"]:
-                checks = update_batch_checks(request.form["button_pressed"], checks, previous_page, n_per_page, sequence=True)
-            
+                checks = update_batch_checks(
+                    request.form["button_pressed"],
+                    checks,
+                    previous_page,
+                    n_per_page,
+                    sequence=True,
+                )
+
             elif "eliminar" in request.form["button_pressed"]:
-                if (remove_selected_reports(checks.values(), n_per_page)):
+                if remove_selected_reports(checks.values(), n_per_page):
                     flash("Instancias eliminadas correctamente.", "success")
                 else:
                     flash("Error al eliminar las instancias.", "danger")
 
-            elif "aceptar" in request.form["button_pressed"] or "descartar" in request.form["button_pressed"]:
-                selected_report = find_candidate_instance_sequence(previous_page, n_per_page, int(request.form["report_number"]))
-                
-                if (update_report(selected_report, request.form["button_pressed"])):
+            elif (
+                "aceptar" in request.form["button_pressed"]
+                or "descartar" in request.form["button_pressed"]
+            ):
+                selected_report = find_candidate_instance_sequence(
+                    previous_page,
+                    n_per_page,
+                    int(request.form["report_number"]),
+                )
+
+                if update_report(
+                    selected_report, request.form["button_pressed"]
+                ):
                     flash("Acción ejecutada correctamente.", "success")
                 else:
                     flash("Error al ejecutar la acción seleccionada.", "danger")
@@ -800,15 +940,14 @@ def review_instances(n_per_page=10):
 @blueprint.route("/report_url", methods=["GET", "POST"])
 @login_required
 def report_url():
-    """
-    Saves the reported instance in the database if it is not already
-    there and adds the report to the database.
+    """Saves the reported instance in the database if it is not already there
+    and adds the report to the database.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
 
     Returns:
-        function: renders the report_url.html template with a flash 
+        function: renders the report_url.html template with a flash
                   message that indicates the status of the report
     """
     if not current_user.is_authenticated:
@@ -845,11 +984,15 @@ def report_url():
 
             db.session.commit()
             flash(
-                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!", "success"
+                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!",
+                "success",
             )
 
-        except exc.SQLAlchemyError as e:
-            flash("Error al reportar la URL. Inténtalo de nuevo más tarde.", "danger")
+        except exc.SQLAlchemyError:
+            flash(
+                "Error al reportar la URL. Inténtalo de nuevo más tarde.",
+                "danger",
+            )
             db.session.rollback()
 
     return render_template(

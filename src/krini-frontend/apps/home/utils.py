@@ -9,18 +9,28 @@
 """
 
 DEFAULT_MODEL_NAME = "Default"
-DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+)
 
 from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
     serialize_model,
-    get_temporary_download_directory
+    get_temporary_download_directory,
 )
 from apps import db
 from apps.authentication.models import Users
 from apps.home.exceptions import KriniNotLoggedException
-from apps.home.models import Available_tags, Available_models, Available_co_forests, Available_democratic_cos, Available_tri_trainings, Available_instances, Candidate_instances
+from apps.home.models import (
+    Available_tags,
+    Available_models,
+    Available_co_forests,
+    Available_democratic_cos,
+    Available_tri_trainings,
+    Available_instances,
+    Candidate_instances,
+)
 from werkzeug.utils import secure_filename
 from os import path, remove, listdir
 import re
@@ -35,12 +45,23 @@ import requests
 import urllib.parse
 from pickle import PickleError
 
-from apps.home.exceptions import KriniNotLoggedException, KriniDBException
+from apps.home.exceptions import (
+    KriniNotLoggedException,
+    KriniDBException,
+    KriniException,
+)
 from sqlalchemy import exc
+
+CO_FOREST_CONTROL = "CO-FOREST"
+TRI_TRAINING_CONTROL = "TRI-TRAINING"
+DEMOCRATIC_CO_CONTROL = "DEMOCRATIC-CO"
 
 
 def get_logger(
-    name, fichero="log_krini", nivel_logger=logging.DEBUG, nivel_fichero=logging.DEBUG
+    name,
+    file_name="log_krini",
+    logger_level=logging.DEBUG,
+    file_level=logging.DEBUG,
 ):
     """
     Returns a logger with the given name and the given
@@ -48,31 +69,31 @@ def get_logger(
 
     Args:
         name (str): logger name.
-        fichero (str, optional): file name. Defaults to "log_krini".
-        nivel_logger (str, optional): Defaults to logging.DEBUG.
-        nivel_fichero (str, optional): Defaults to logging.DEBUG.
+        file_name(str, optional): file name. Defaults to "log_krini".
+        logger_level (str, optional): Defaults to logging.DEBUG.
+        file_level (str, optional): Defaults to logging.DEBUG.
 
     Returns:
         object: logger object.
     """
-    logger = logging.getLogger(name)
+    new_logger = logging.getLogger(name)
 
-    if logger.hasHandlers():
-        logger.handlers.clear()
+    if new_logger.hasHandlers():
+        new_logger.handlers.clear()
 
-    logger.setLevel(nivel_logger)
+    new_logger.setLevel(logger_level)
 
-    fh = logging.FileHandler(fichero)
-    fh.setLevel(nivel_fichero)
+    fh = logging.FileHandler(file_name)
+    fh.setLevel(file_level)
     fh.setFormatter(
         logging.Formatter(
             "[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
         )
     )
-    logger.addHandler(fh)
+    new_logger.addHandler(fh)
 
-    return logger
+    return new_logger
 
 
 logger = get_logger("krini-frontend")
@@ -88,18 +109,18 @@ def sanitize_url(url):
     Returns:
         str: The sanitized URL.
     """
-    url = url.replace('http', 'hxxp')
-    url = url.replace('://', '[://]')
-    url = url.replace('.', '[.]')
-    url = url.replace('?', '[?]')
-    url = url.replace('&', '[&]')
-    url = url.replace('=', '[=]')
+    url = url.replace("http", "hxxp")
+    url = url.replace("://", "[://]")
+    url = url.replace(".", "[.]")
+    url = url.replace("?", "[?]")
+    url = url.replace("&", "[&]")
+    url = url.replace("=", "[=]")
     return url
 
 
 def get_callable_url(url):
     """
-    Checks if the URL is callable (is up). 
+    Checks if the URL is callable (is up).
     If not, it tries to complete it.
 
     Args:
@@ -111,9 +132,7 @@ def get_callable_url(url):
     try:
         requests.get(
             url,
-            headers={
-                "User-Agent": DEFAULT_USER_AGENT
-            },
+            headers={"User-Agent": DEFAULT_USER_AGENT},
             timeout=5,
         ).content
 
@@ -153,9 +172,7 @@ def complete_uncallable_url(url):
 
         requests.get(
             url,
-            headers={
-                "User-Agent": DEFAULT_USER_AGENT
-            },
+            headers={"User-Agent": DEFAULT_USER_AGENT},
             timeout=5,
         ).content
 
@@ -185,9 +202,7 @@ def find_url_protocol(url, protocols=[]):
             url = protocol + url
             requests.get(
                 url,
-                headers={
-                    "User-Agent": DEFAULT_USER_AGENT
-                },
+                headers={"User-Agent": DEFAULT_USER_AGENT},
                 timeout=5,
             ).content
 
@@ -215,17 +230,18 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
         boolean: True if the instance was saved, False otherwise.
     """
     try:
-
         if current_user.is_authenticated:
             instance = Available_instances(
                 instance_URL=callable_url,
                 instance_fv=(fv,),
                 instance_class=tag,
-                instance_labels=([
-                    Available_tags.sug_new_instance,
-                    Available_tags.auto_classified,
-                    Available_tags.sug_review,
-                ],),
+                instance_labels=(
+                    [
+                        Available_tags.sug_new_instance,
+                        Available_tags.auto_classified,
+                        Available_tags.sug_review,
+                    ],
+                ),
             )
 
             db.session.add(instance)
@@ -233,7 +249,9 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
 
             candidate_instance = Candidate_instances(
                 instance_id=instance.instance_id,
-                user_id=current_user.id if current_user.is_authenticated else -1,
+                user_id=current_user.id
+                if current_user.is_authenticated
+                else -1,
                 date_reported=datetime.now(),
                 suggestions=Available_tags.sug_new_report,
             )
@@ -242,8 +260,9 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
             db.session.commit()
             return True
 
-        else:
-            raise KriniNotLoggedException("User not authenticated. {} not saved.".format(callable_url))
+        raise KriniNotLoggedException(
+            "User not authenticated. {} not saved.".format(callable_url)
+        )
 
     except (KriniNotLoggedException, exc.SQLAlchemyError) as e:
         db.session.rollback()
@@ -279,7 +298,7 @@ def get_selected_models_ids(selected):
     selected_models = translate_array_js(selected)
 
     if len(selected_models) != 0:
-        return selected_models  
+        return selected_models
 
     # We try to return the default model or any other if its empty
     default_id = Available_models.query.filter_by(
@@ -301,6 +320,12 @@ def get_sum_tags_numeric(predicted_tags):
     En el index 0 están las votaciones para 0, en el
     1 las votaciones para 1. Devuelve también la
     etiqueta mayoritaria.
+
+    Args:
+        predicted_tags (list): list of tags.
+
+    Returns:
+        (list, int): sum of tags and majority tag.
     """
     count = [0, 0]
 
@@ -317,40 +342,81 @@ def get_sum_tags_numeric(predicted_tags):
 
 
 def make_array_safe(vector):
+    """
+    Makes an array safe to be used with js.
+
+    Args:
+        vector (list): array
+
+    Returns:
+        list: safe array
+    """
     return json.loads(json.dumps(vector))
 
 
-def get_parameters(model, algorithm="semi-supervised"):
+def get_parameters(model, algorithm="SEMI-SUPERVISED"):
+    """
+    Returns information to display.
+
+    Args:
+        model (Available_models): model to get the parameters.
+        algorithm (str, optional): Type. Defaults to "SEMI-SUPERVISED".
+                                   Can be "CO-FOREST", "TRI-TRAINING"
+                                   or "DEMOCRATIC-CO".
+
+    Returns:
+        (str, str): str with info and its bagde color.
+    """
     if algorithm == "semi-supervised":
         return [], "red"
 
-    if algorithm == "CO-FOREST":
+    if algorithm == CO_FOREST_CONTROL:
         return [
             "Max features = {}".format(model.max_features),
             "Thetha = {}".format(model.thetha),
             "Nº árboles = {}".format(model.n_trees),
         ], "pink"
 
-    if algorithm == "TRI-TRAINING":
+    if algorithm == TRI_TRAINING_CONTROL:
         return [
             "Clasificador 1: {}".format(model.cls_one),
             "Clasificador 2: {}".format(model.cls_two),
             "Clasificador 3: {}".format(model.cls_three),
         ], "yellow"
 
-    if algorithm == "DEMOCRATIC-CO":
+    if algorithm == DEMOCRATIC_CO_CONTROL:
         information = cls_to_string_list(model.base_clss)
         information.append("Nº clasificadores = {}".format(model.n_clss))
         return information, "cyan"
 
 
 def cls_to_string_list(mutable_clss):
+    """
+    Returns a list of strings with the classifiers
+    information.
+
+    Args:
+        mutable_clss (list): _description_
+
+    Returns:
+        list: strings of each classifier.
+    """
     return [
-        "Clasificador {}: {}".format(i + 1, cls) for i, cls in enumerate(mutable_clss)
+        "Clasificador {}: {}".format(i + 1, cls)
+        for i, cls in enumerate(mutable_clss)
     ]
 
 
 def get_username(user_id):
+    """
+    Returns the username of the user.
+
+    Args:
+        user_id (int): id of the user.
+
+    Returns:
+        str: username of the user.
+    """
     user = Users.query.filter_by(id=user_id).first()
 
     if user:
@@ -358,15 +424,28 @@ def get_username(user_id):
     return "?"
 
 
-def get_model_dict(model, algorithm="semi-supervised"):
+def get_model_dict(model, algorithm="SEMI-SUPERVISED"):
+    """
+    Returns a dictionary with the information of the model.
+
+    Args:
+        model (Available_model): object to get the information.
+        algorithm (str, optional): algorithm (str, optional): Type.
+                                   Defaults to "SEMI-SUPERVISED".
+                                   Can be "CO-FOREST", "TRI-TRAINING" or "DEMOCRATIC-CO"
+
+    Returns:
+        dict: dictionary with the information of the model.
+    """
     params = get_parameters(model, algorithm)
+
     return {
         "model_name": model.model_name.upper(),
         "model_parameters": params[0],
         "algorithm": algorithm,
         "badge_colour": params[1],
         "created_by": get_username(model.created_by),
-        "creation_date": model.creation_date,
+        "creation_date": str(model.creation_date)[:10],
         "is_default": model.is_default,
         "is_visible": model.is_visible,
         "model_scores": model.model_scores,
@@ -376,6 +455,15 @@ def get_model_dict(model, algorithm="semi-supervised"):
 
 
 def translate_tag_colour(tag):
+    """
+    Translates the tag into a string and its colour.
+
+    Args:
+        tag (int): 0 legítima, 1 phishing
+
+    Returns:
+        (str, str): tuple with the tag and its colour.
+    """
     if tag == 0:
         return "legítimo", "green"
     if tag == 1:
@@ -400,25 +488,30 @@ def get_instance_dict(instance, empty=False):
             "instance_id": -1,
             "reviewed_by": "",
             "instance_URL": "",
-            "instance_fv": 'no hay ningún vector generado para esta instancia',
+            "instance_fv": "no hay ningún vector generado para esta instancia",
             "instance_class": -1,
             "badge_colour": "",
             "colour_list": "",
             "instance_labels": [],
             "is_selected": 0,
         }
-    
+
     return {
         "instance_id": instance.instance_id,
         "reviewed_by": get_username(instance.reviewed_by),
         "instance_URL": instance.instance_URL,
-        "instance_fv": instance.instance_fv if instance.instance_fv else 'no hay ningún vector generado para esta instancia',
+        "instance_fv": instance.instance_fv
+        if instance.instance_fv
+        else "no hay ningún vector generado para esta instancia",
         "instance_class": translate_tag_colour(instance.instance_class)[0],
         "badge_colour": translate_tag_colour(instance.instance_class)[1],
         "colour_list": instance.colour_list,
-        "instance_labels": instance.instance_labels if instance.instance_labels else [],
+        "instance_labels": instance.instance_labels
+        if instance.instance_labels
+        else [],
         "is_selected": 0,
     }
+
 
 def get_candidate_instance_dict(candidate_instance, report_number):
     """
@@ -436,14 +529,18 @@ def get_candidate_instance_dict(candidate_instance, report_number):
         "report_number": report_number,
         "instance_id": candidate_instance.instance_id,
         "reported_by": get_username(candidate_instance.user_id),
-        "instance_URL": Candidate_instances.get_instance_url(candidate_instance.instance_id),
+        "instance_URL": Candidate_instances.get_instance_url(
+            candidate_instance.instance_id
+        ),
         "date_reported": str(candidate_instance.date_reported)[:16],
         "suggestion": candidate_instance.suggestions,
         "is_selected": 0,
     }
 
 
-def update_checks(previous_page, new_checks, checks, n_per_page, sequence=False):
+def update_checks(
+    previous_page, new_checks, checks, n_per_page, sequence=False
+):
     """
     Update previous page selected instances.
     Modifies the checks dictionary.
@@ -457,12 +554,16 @@ def update_checks(previous_page, new_checks, checks, n_per_page, sequence=False)
         sequence (bool): if True, the checks are generated (sequence of numbers)
     """
     if sequence:
-        offset = (previous_page-1) * n_per_page
+        offset = (previous_page - 1) * n_per_page
         ids_previous = [offset + i for i in range(n_per_page)]
 
     else:
-        post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
-        ids_previous = [instance.instance_id for instance in post_pagination.items]
+        post_pagination = Available_instances.all_paginated(
+            previous_page, n_per_page
+        )
+        ids_previous = [
+            instance.instance_id for instance in post_pagination.items
+        ]
 
     checks_update = [int(id_elem) for id_elem in new_checks]
 
@@ -476,7 +577,9 @@ def update_checks(previous_page, new_checks, checks, n_per_page, sequence=False)
     return checks
 
 
-def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1, sequence=False):
+def update_batch_checks(
+    modality, checks, previous_page=-1, n_per_page=-1, sequence=False
+):
     """
     Update checks dictionary.
     Selects or deselects all instances in the page or above all instances.
@@ -500,15 +603,22 @@ def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1, seque
             checks = {str(i): i for i in range(n_instances)}
         else:
             instances = Available_instances.query.all()
-            checks = {str(instance.instance_id): instance.instance_id for instance in instances}
+            checks = {
+                str(instance.instance_id): instance.instance_id
+                for instance in instances
+            }
 
     elif "page" in modality:
         if sequence:
-            offset = (previous_page-1) * n_per_page
+            offset = (previous_page - 1) * n_per_page
             ids_previous = [offset + i for i in range(n_per_page)]
         else:
-            post_pagination = Available_instances.all_paginated(previous_page, n_per_page)
-            ids_previous = [instance.instance_id for instance in post_pagination.items]
+            post_pagination = Available_instances.all_paginated(
+                previous_page, n_per_page
+            )
+            ids_previous = [
+                instance.instance_id for instance in post_pagination.items
+            ]
 
         if "deseleccionar_todos" in modality:
             for id_instance in ids_previous:
@@ -517,7 +627,7 @@ def update_batch_checks(modality, checks, previous_page=-1, n_per_page=-1, seque
 
         elif "seleccionar_todos" in modality:
             for id_instance in ids_previous:
-                checks[str(id_instance)] = id_instance 
+                checks[str(id_instance)] = id_instance
 
     return checks
 
@@ -536,7 +646,9 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
         list: list of dictionaries with the information of the instances
     """
 
-    new_items_list = [get_instance_dict(instance) for instance in post_pagination_items]
+    new_items_list = [
+        get_instance_dict(instance) for instance in post_pagination_items
+    ]
     ids_checked = list(checks_values)
 
     # Update view of the items in the requested page
@@ -549,7 +661,9 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
     return new_items_list
 
 
-def get_candidate_instances_view_dictionary(post_pagination_items, checks_values, page, n_per_page):
+def get_candidate_instances_view_dictionary(
+    post_pagination_items, checks_values, page, n_per_page
+):
     """
     Transforms the candidate instances in the requested page to a dictionary
     with the information to be displayed in the view (includying if
@@ -563,8 +677,11 @@ def get_candidate_instances_view_dictionary(post_pagination_items, checks_values
         list: list of dictionaries with the information of the instances
     """
 
-    offset = (page-1) * n_per_page
-    new_items_list = [get_candidate_instance_dict(ci, offset + i) for i, ci in enumerate(post_pagination_items)]
+    offset = (page - 1) * n_per_page
+    new_items_list = [
+        get_candidate_instance_dict(ci, offset + i)
+        for i, ci in enumerate(post_pagination_items)
+    ]
     ids_checked = list(checks_values)
 
     # Update view of the items in the requested page
@@ -589,9 +706,11 @@ def find_candidate_instance_sequence(previous_page, n_per_page, report_number):
     Returns:
         CandidateInstance: instance selected
     """
-    offset = (previous_page-1) * n_per_page
+    offset = (previous_page - 1) * n_per_page
     in_page = report_number - offset
-    post_pagination = Candidate_instances.all_paginated(previous_page, n_per_page)
+    post_pagination = Candidate_instances.all_paginated(
+        previous_page, n_per_page
+    )
     return post_pagination.items[in_page]
 
 
@@ -621,7 +740,7 @@ def find_candidate_instances_sequence(report_numbers, n_per_page):
     for page, reports in affected_pages_reports.items():
         post_pagination = Candidate_instances.all_paginated(page, n_per_page)
         for report_number in reports:
-            in_page = report_number - (page-1) * n_per_page
+            in_page = report_number - (page - 1) * n_per_page
             candidate_instances.append(post_pagination.items[in_page])
 
     return candidate_instances
@@ -638,7 +757,9 @@ def remove_selected_reports(report_numbers, n_per_page):
         bool: True if the reports were removed successfully, False otherwise
     """
     try:
-        selected_reports = find_candidate_instances_sequence(report_numbers, n_per_page)
+        selected_reports = find_candidate_instances_sequence(
+            report_numbers, n_per_page
+        )
 
         for report in selected_reports:
             db.session.delete(report)
@@ -664,7 +785,7 @@ def update_report(candidate_instance, action):
     Returns:
         bool: True if the report was updated successfully, False otherwise
     """
-        
+
     all = False
 
     if "todos" in action:
@@ -675,8 +796,9 @@ def update_report(candidate_instance, action):
 
     elif "descartar" in action:
         done = reject_report(candidate_instance, all)
-    
+
     return done
+
 
 def reject_report(candidate_instance, all):
     """
@@ -729,7 +851,7 @@ def accept_report(candidate_instance, all):
 
         if not modified or not deleted:
             raise exc.SQLAlchemyError("Error accepting suggestions")
-        
+
         else:
             db.session.commit()
             return True
@@ -738,7 +860,7 @@ def accept_report(candidate_instance, all):
         logger.error("Error accepting report: {}".format(e))
         db.session.rollback()
         return False
-    
+
 
 def accept_incoming_suggestion(candidate_instance):
     """
@@ -784,7 +906,7 @@ def accept_incoming_suggestion(candidate_instance):
         affected_instance.reviewed_by = current_user.id
         db.session.commit()
         return True
-    
+
     except exc.SQLAlchemyError as e:
         logger.error("Error accepting incoming suggestion: {}".format(e))
         db.session.rollback()
@@ -805,17 +927,19 @@ def clean_suggested_tags(tags):
 
     if not tags:
         return cleaned_list
-    
+
     available_suggested_tags = Available_tags.suggestion_tags
 
     for tag in tags:
         if tag not in available_suggested_tags:
             cleaned_list.append(tag)
-    
+
     return cleaned_list
 
 
-def create_csv_selected_instances(ids_instances, filename="selected_instances.csv"):
+def create_csv_selected_instances(
+    ids_instances, filename="selected_instances.csv"
+):
     """
     Creates a csv containing the selected instances features
     vectors and tags
@@ -837,11 +961,13 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
         fv = instance.instance_fv
         tag = instance.instance_class
 
-        if fv and (tag==0 or tag==1):
+        if fv and (tag == 0 or tag == 1):
             fv.append(tag)
             data.append(fv)
 
-    df = pd.DataFrame(data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"])
+    df = pd.DataFrame(
+        data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"]
+    )
 
     download_directory = get_temporary_download_directory()
     download_path = path.join(download_directory, filename)
@@ -849,6 +975,7 @@ def create_csv_selected_instances(ids_instances, filename="selected_instances.cs
     # Ojo porque los enteros pasan a ser flotantes. No crea problemas pero podría.
     df.to_csv(download_path, index=False)
     return download_path
+
 
 def clean_temporary_files(temporary_files_directory=None):
     """
@@ -924,7 +1051,9 @@ def remove_selected_instances(ids_instances):
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        raise KriniDBException("Error al eliminar las instancias {}.".format(ids_instances))
+        raise KriniDBException(
+            "Error al eliminar las instancias {}.".format(ids_instances)
+        )
 
 
 def translate_form_select_data_method(user_input):
@@ -943,42 +1072,121 @@ def translate_form_select_data_method(user_input):
         return "generate"
 
 
-def serialize_store_coforest(form_data, cls, scores):
+def translate_form_select_algorithm(user_input):
+    """
+    Translates the user input to the corresponding model.
+
+    Args:
+        user_input (str): selected option.
+
+    Returns:
+        str: "CO-FOREST", "DEMOCRATIC-CO" or "TRI-TRAINING",
+             depending on the user input
+    """
+    if user_input == "1":
+        return CO_FOREST_CONTROL
+    if user_input == "2":
+        return TRI_TRAINING_CONTROL
+    if user_input == "3":
+        return DEMOCRATIC_CO_CONTROL
+
+
+def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
+    """
+    Stores the model in the database and pickles it. The operation is
+    ATOMIC: if there is an error, the model is not stored and
+    the pickle file is removed from the server.
+
+    Storing name is the model name + version -> "COF 1.1.0"
+    File name is the model name + version with - + .pkl -> "COF_1-0-0.pkl"
+
+    Args:
+        form_data (dict): dictionary containing the form data corrected.
+        scores (list): list containing the scores of the model
+        algorithm (int, optional): algorithm used. Can be "CO-FOREST",
+                                   "DEMOCRATIC-CO", or "TRI-TRAINING".
+
+    Raises:
+        KriniException: exception raised if there is an error in the database,
+                        while picking or with duplicate model names.
+
+    Returns:
+        bool: True if the model was stored correctly.
+    """
+    # TODO: TODOS LOS ALGORITMOS
     try:
-        existing_instance = Available_co_forests.query.filter_by(
-            model_name=form_data["model_name"]
+        model_name = form_data["model_name"]
+        model_version = form_data["model_version"]
+        model_store_name = model_name + " " + model_version
+        file_name = model_name + "_" + model_version.replace(".", "-") + ".pkl"
+
+        existing_instance = Available_models.query.filter_by(
+            model_name=model_store_name
         ).first()
 
         if existing_instance:
-            form_data["model_name"] = form_data["model_name"] + time.time()
+            raise KriniException(
+                "Ya existe un modelo con ese nombre y esa versión <<{}>>.".format(
+                    model_store_name
+                )
+            )
 
-        file_name = form_data["model_name"] + ".pkl"
+        file_location = serialize_model(cls, file_name)
 
-        serialize_model(cls, file_name)
+        if algorithm == CO_FOREST_CONTROL:
+            new_model = Available_co_forests(
+                model_name=model_store_name,
+                created_by=current_user.id,
+                file_name=file_name,
+                model_scores=(scores,),
+                model_notes=form_data["model_description"],
+                creation_date=datetime.now(),
+                is_visible=to_bolean(form_data["is_visible"]),
+                is_default=to_bolean(form_data["is_default"]),
+                random_state=form_data["random_state"],
+                n_trees=form_data["n_trees"],
+                thetha=form_data["thetha"],
+                max_features=form_data["max_features"],
+            )
 
-        new_model = Available_co_forests(
-            model_name=form_data["model_name"],
-            created_by=current_user.id,
-            file_name=file_name,
-            model_scores=(scores,),
-            model_notes=form_data["model_description"],
-            creation_date=datetime.now(),
-            is_visible=to_bolean(form_data["is_visible"]),
-            is_default=to_bolean(form_data["is_default"]),
-            random_state=form_data["random_state"],
-            n_trees=form_data["n_trees"],
-            thetha=form_data["thetha"],
-            max_features=form_data["max_features"],
-        )
+        elif algorithm == DEMOCRATIC_CO_CONTROL:
+            new_model = Available_democratic_cos(
+                model_name=model_store_name,
+                created_by=current_user.id,
+                file_name=file_name,
+                model_scores=(scores,),
+                model_notes=form_data["model_description"],
+                creation_date=datetime.now(),
+                is_visible=to_bolean(form_data["is_visible"]),
+                is_default=to_bolean(form_data["is_default"]),
+                random_state=form_data["random_state"],
+            )
+
+        elif algorithm == TRI_TRAINING_CONTROL:
+            new_model = Available_tri_trainings(
+                model_name=model_store_name,
+                created_by=current_user.id,
+                file_name=file_name,
+                model_scores=(scores,),
+                model_notes=form_data["model_description"],
+                creation_date=datetime.now(),
+                is_visible=to_bolean(form_data["is_visible"]),
+                is_default=to_bolean(form_data["is_default"]),
+                random_state=form_data["random_state"],
+            )
 
         db.session.add(new_model)
         db.session.commit()
-        flash("Modelo guardado correctamente.", "success")
         return True
 
-    except (exc.SQLAlchemyError, PickleError) as e:
-        flash("Error al guardar el modelo." + str(e))
-        return False
+    except PickleError:
+        raise KriniException("Error al serializar el modelo.")
+
+    except exc.SQLAlchemyError as e:
+        logger.error("Error al guardar el modelo en la BD." + str(e))
+        db.session.rollback()
+        remove(file_location)
+        raise KriniException("Error al guardar el modelo en la BD.")
 
 
 def to_bolean(string):
@@ -1052,7 +1260,9 @@ def check_correct_values_coforest(form_data):
         return form_data
 
     except Exception:
-        raise Exception("Corregir excepciones valores coforest (fichero utils.py)")
+        raise Exception(
+            "Corregir excepciones valores coforest (fichero utils.py)"
+        )
 
 
 def check_correct_values_tri_training(form_data):
@@ -1097,7 +1307,9 @@ def get_segment(request):
 
 
 def get_model(model_id):
-    requested_model = Available_models.query.filter_by(model_id=model_id).first()
+    requested_model = Available_models.query.filter_by(
+        model_id=model_id
+    ).first()
 
     if requested_model:
         model_name = requested_model.model_name
@@ -1108,7 +1320,9 @@ def get_model(model_id):
         model_name = "Default model"
         model_file = "default.pkl"
         model_scores = (
-            Available_models.query.filter_by(model_name="Default").first().model_scores
+            Available_models.query.filter_by(model_name="Default")
+            .first()
+            .model_scores
         )
 
     cls, file_found = obtain_model(model_file)
@@ -1116,7 +1330,9 @@ def get_model(model_id):
     if not file_found:
         model_name = "Default model"
         model_scores = (
-            Available_models.query.filter_by(model_name="Default").first().model_scores
+            Available_models.query.filter_by(model_name="Default")
+            .first()
+            .model_scores
         )
 
     return model_name, cls, model_scores
