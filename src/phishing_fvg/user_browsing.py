@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   user_browsing.py
 @Time    :   2023/03/30 21:02:55
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 import os
 import sys
+
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from phishing_fvg.phishing_utils import get_proxy
+
 
 class user_browsing:
     """

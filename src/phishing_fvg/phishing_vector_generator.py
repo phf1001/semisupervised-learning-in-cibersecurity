@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   phishing_vector_generator.py
 @Time    :   2023/03/30 21:02:32
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 import numpy as np
 import re
@@ -23,12 +23,14 @@ sys.path.append(src_path)
 from phishing_fvg.phishing_utils import *
 from phishing_fvg.user_browsing import user_browsing
 
+
 class PHISH_FVG:
     """
     Class that extracts the feature vector from a given URL.
 
     Author: @patricia-hernando
     """
+
     def __init__(self, url, tfidf, get_proxy_from_file=True, proxy=None):
         self.url = url
         parsed = urlparse(url)
@@ -37,10 +39,14 @@ class PHISH_FVG:
 
         self.fv = np.array([-1 for i in range(19)])
 
-        self.user = user_browsing(get_proxy_from_file=get_proxy_from_file, proxy=proxy)
+        self.user = user_browsing(
+            get_proxy_from_file=get_proxy_from_file, proxy=proxy
+        )
 
         response_content = get_bin_source_code(
-            self.url, self.user.get_simple_user_header_agent(), self.user.proxies
+            self.url,
+            self.user.get_simple_user_header_agent(),
+            self.user.proxies,
         )
 
         content = response_content.decode("utf-8", errors="ignore")
@@ -139,7 +145,9 @@ class PHISH_FVG:
         suspicious_words = get_suspicious_keywords()
 
         for word in splitted_url:
-            leet_translation = translate_leet_to_letters(word)  # Decisión propia
+            leet_translation = translate_leet_to_letters(
+                word
+            )  # Decisión propia
 
             if bool(suspicious_words & leet_translation):
                 self.fv[3] = 1
@@ -218,7 +226,9 @@ class PHISH_FVG:
             sub_domains = without_tld
 
         for word in get_splitted_url(path + sub_domains):
-            leet_translation = translate_leet_to_letters(word)  # Decisión propia
+            leet_translation = translate_leet_to_letters(
+                word
+            )  # Decisión propia
 
             # If the original one does not have numbers it is removed
             if not re.search(r"\d", word):
@@ -263,7 +273,9 @@ class PHISH_FVG:
         if len(forms_found) > 0:
             for i in range(len(forms_found)):
                 form_found = forms_found[i]
-                action_content = re.findall('(?:action=")([^"]*)(?:")', form_found)
+                action_content = re.findall(
+                    '(?:action=")([^"]*)(?:")', form_found
+                )
 
                 if len(action_content) > 0:
                     if is_empty(action_content[0]):
@@ -275,7 +287,9 @@ class PHISH_FVG:
 
                     if is_simple_php_file(action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information["f9"] = "compatible con _fichero.php_"
+                        self.extra_information[
+                            "f9"
+                        ] = "compatible con _fichero.php_"
                         return
 
                     if is_foreign(self.url, action_content[0]):
@@ -363,7 +377,9 @@ class PHISH_FVG:
         F14 = 0 otherwise
         """
         n_errors = get_number_errors(
-            self.hyperlinks, self.user.get_simple_user_header_agent(), self.user.proxies
+            self.hyperlinks,
+            self.user.get_simple_user_header_agent(),
+            self.user.proxies,
         )
         self.extra_information["f14"] = n_errors
 
@@ -388,7 +404,9 @@ class PHISH_FVG:
         F15 = 0 otherwise
         """
         n_redirects = get_number_redirects(
-            self.hyperlinks, self.user.get_simple_user_header_agent(), self.user.proxies
+            self.hyperlinks,
+            self.user.get_simple_user_header_agent(),
+            self.user.proxies,
         )
         self.extra_information["f15"] = n_redirects
 

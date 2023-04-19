@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   proxies_launcher.py
 @Time    :   2023/03/30 20:58:48
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 import json
 import os
@@ -14,14 +14,14 @@ import time
 from proxy_tor import proxy_tor
 from multiprocessing import Process
 
-if __name__ == '__main__':
-    '''
-    Entry point for the script. 
+if __name__ == "__main__":
+    """
+    Entry point for the script.
     Check pysocks dependencies.
-    '''
+    """
 
     try:
-        n_desired_proxies = int(input('\nNumber of desired proxies: '))
+        n_desired_proxies = int(input("\nNumber of desired proxies: "))
         counter = 0
         available_proxies = []
 
@@ -37,23 +37,23 @@ if __name__ == '__main__':
                 w.start()
 
             new_available_ips = [proxy.get_ip() for proxy in proxies]
-            new_available_proxies = [{
-                'http':
-                f'socks5h://127.0.0.1:{proxy.socks_port}'
-            } for proxy in proxies]
+            new_available_proxies = [
+                {"http": f"socks5h://127.0.0.1:{proxy.socks_port}"}
+                for proxy in proxies
+            ]
             new_available_proxies = [
                 proxy
                 for ip, proxy in zip(new_available_ips, new_available_proxies)
-                if ip != ''
+                if ip != ""
             ]
 
             counter += left
             available_proxies += new_available_proxies
             time.sleep(3)
 
-        print(f'\n\n-> Available proxies: {available_proxies}')
+        print(f"\n\n-> Available proxies: {available_proxies}")
 
-        with open('../phishing_fvg/data/proxies.json', 'w') as f:
+        with open("../phishing_fvg/data/proxies.json", "w") as f:
             json.dump(available_proxies, f)
             f.close()
 
@@ -61,13 +61,11 @@ if __name__ == '__main__':
             pass
 
     except KeyboardInterrupt:
-
         if len(workers) > 0:
             for w in workers:
                 w.terminate()
 
         for id_file in range(counter):
-
-            tor_file = f'/etc/tor/torrc.{id_file}'
+            tor_file = f"/etc/tor/torrc.{id_file}"
             if os.path.exists(tor_file):
                 os.remove(tor_file)
