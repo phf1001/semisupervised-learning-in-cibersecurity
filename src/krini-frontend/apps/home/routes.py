@@ -465,7 +465,7 @@ def new_model():
 
     form = ModelForm()
 
-    if "siguiente" in request.form:
+    if "siguiente" in request.form and form.validate_on_submit():
         selected_method = translate_form_select_data_method(
             request.form["form_select_data_method"]
         )
@@ -474,18 +474,18 @@ def new_model():
             request.form["form_select_ssl_alg"]
         )
 
-        # Se cargan los archivos del usuario. Si uno de los dos no carga,
+        # TODO Se cargan los archivos del usuario. Si uno de los dos no carga,
         # se pasa a generar los conjuntos aleatoriamente
         if selected_method == "csv":
             selected_method, dataset_tuple = save_files_to_temp(
                 form.uploaded_train_csv.data, form.uploaded_test_csv.data
             )
 
-        # Esto no sé si funciona, probar el entero
-        # N INSTANCES REFACTORIZAR PARA QUE SEA PORCENTAJE DE TRAIN
         # Si falla la carga también se genera
         if selected_method == "generate":
-            dataset_tuple = check_n_instances(request.form["train_n_instances"])
+            dataset_tuple = check_n_instances(
+                request.form["train_percentage_instances"]
+            )
 
         session["messages"] = {
             "form_data": request.form,
@@ -494,6 +494,9 @@ def new_model():
         }
 
         return render_template("specials/creating-model.html")
+
+    for key in form.errors.keys():
+        flash("{}".format(form.errors[key][0]), "warning")
 
     return render_template(
         "home/new-model.html", form=form, segment=get_segment(request)
@@ -521,17 +524,39 @@ def creatingmodel():
         logger.info("Form data: {}".format(form_data))
         logger.info("messages: {}".format(messages))
 
-        # COMPROBAR DICCIONARIO DE ENTRADA Y EL RESTO, PASO A TRATAR LOS DATOS
-        # if messages is not None:
-        #     form_data = correct_user_input(messages["form_data"])
-
         # Obtenemos el clasificador -> messages de algorithm ya controlado aqui
+        if int(form_data["random_state"]) == -1:
+            random_state = None
+        else:
+            random_state = int(form_data["random_state"])
+
         if messages["algorithm"] == CO_FOREST_CONTROL:
-            cls = get_co_forest()
+            cls = get_co_forest(
+                n_trees=int(form_data(["n_trees"])),
+                theta=float(form_data(["thetha"])),
+                max_features=form_data(["max_features"]),
+                random_state=random_state,
+            )
+
         elif messages["algorithm"] == TRI_TRAINING_CONTROL:
-            cls = get_tri_training()
+            cls = get_tri_training(
+                h_0=form_data["cls_one"],
+                h_1=form_data["cls_two"],
+                h_2=form_data["cls_three"],
+                random_state=random_state,
+            )
+
         elif messages["algorithm"] == DEMOCRATIC_CO_CONTROL:
-            cls = get_democratic_co()
+            base_cls = (
+                form_data["cls_one"] * form_data["n_cls_one"]
+                + form_data["cls_two"] * form_data["n_cls_two"]
+                + form_data["cls_three"] * form_data["n_cls_three"]
+            )
+
+            logger.info("Base cls: {}".format(base_cls))
+            cls = get_democratic_co(
+                base_cls=base_cls, random_state=random_state
+            )
 
         # Obtenemos datos de entrenamiento y test
         dataset_method, dataset_params = messages["dataset_method"]

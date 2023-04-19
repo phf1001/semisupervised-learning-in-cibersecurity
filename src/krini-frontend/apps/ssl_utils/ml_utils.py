@@ -42,6 +42,14 @@ from phishing_fvg.phishing_utils import (
     get_data_path,
 )
 
+NAIVE_BAYES_NAME = "Naive Bayes"
+DECISION_TREE_NAME = "Árbol de decisión"
+KNN_NAME = "k-vecinos más cercanos"
+
+NAIVE_BAYES_KEY = "NB"
+DECISION_TREE_KEY = "tree"
+KNN_KEY = "kNN"
+
 
 def get_co_forest(
     n_trees=3, theta=0.75, max_features="log2", random_state=None
@@ -142,13 +150,13 @@ def get_base_cls(wanted_cls):
     Returns:
         object: classifier
     """
-    if wanted_cls == "tree":
+    if wanted_cls == DECISION_TREE_KEY:
         return DecisionTreeClassifier()
 
-    if wanted_cls == "kNN":
+    if wanted_cls == KNN_KEY:
         return KNeighborsClassifier()
 
-    if wanted_cls == "NB":
+    if wanted_cls == NAIVE_BAYES_KEY:
         return GaussianNB()
 
     raise ValueError("Clasificador no encontrado")

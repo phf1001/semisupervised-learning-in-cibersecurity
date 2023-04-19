@@ -17,16 +17,20 @@ from wtforms import (
     IntegerField,
     FloatField,
 )
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Regexp, NumberRange
 
 NAIVE_BAYES_NAME = "Naive Bayes"
 DECISION_TREE_NAME = "Árbol de decisión"
 KNN_NAME = "k-vecinos más cercanos"
 
+NAIVE_BAYES_KEY = "NB"
+DECISION_TREE_KEY = "tree"
+KNN_KEY = "kNN"
+
 available_base_cls = [
-    ("kNN", KNN_NAME),
-    ("NB", NAIVE_BAYES_NAME),
-    ("tree", DECISION_TREE_NAME),
+    (NAIVE_BAYES_KEY, NAIVE_BAYES_NAME),
+    (KNN_KEY, KNN_NAME),
+    (DECISION_TREE_KEY, DECISION_TREE_NAME),
 ]
 
 
@@ -118,13 +122,19 @@ class ModelForm(FlaskForm):
     model_name = TextField(
         "model_name",
         id="model_name",
-        validators=[DataRequired("Introduce un nombre")],
+        validators=[DataRequired("Por favor, introduce un nombre.")],
     )
 
     model_version = TextField(
         "model_version",
         id="model_version",
-        validators=[DataRequired("Introduce una versión")],
+        default="0",
+        validators=[
+            Regexp(
+                "^\d+(.\d){0,2}$",
+                message="Introduce una versión válida. Si no sabes qué poner, puedes probar a introducir un número entero.",
+            )
+        ],
     )
 
     model_description = TextField("model_description", id="model_description")
@@ -135,20 +145,45 @@ class ModelForm(FlaskForm):
         "is_visible",
         id="is_visible",
         choices=[("True", "Visible"), ("False", "No visible")],
+        default="True",
     )
 
     is_default = SelectField(
-        "is_default", id="is_default", choices=[("False", "No"), ("True", "Sí")]
+        "is_default",
+        id="is_default",
+        choices=[("False", "No"), ("True", "Sí")],
+        default="False",
     )
 
-    random_state = IntegerField("random_state", id="random_state")
+    random_state = IntegerField(
+        "random_state",
+        id="random_state",
+        default=-1,
+        validators=[
+            DataRequired(
+                "Por favor, introduce una semilla aleatoria o -1 en su defecto."
+            )
+        ],
+    )
 
     uploaded_train_csv = FileField("train_file", id="train_file")
 
     uploaded_test_csv = FileField("test_file", id="test_file")
 
-    train_n_instances = IntegerField(
-        "train_n_instances", id="train_n_instances"
+    train_percentage_instances = IntegerField(
+        "train_percentage_instances",
+        id="train_percentage_instances",
+        default=80,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número de instancias de entrenamiento o -1 en su defecto."
+            ),
+            NumberRange(
+                min=1,
+                max=99,
+                message="El porcentaje de instancias de entrenamiento no es correcto. Introduce un número entre 1 y 99.",
+            ),
+        ],
     )
 
     # co-forest
@@ -156,11 +191,30 @@ class ModelForm(FlaskForm):
         "max_features",
         id="max_features",
         choices=[("log2", "Logaritmo base 2"), ("sqrt", "Raíz cuadrada")],
+        default="log2",
     )
 
-    n_trees = IntegerField("n_trees", id="n_trees")
+    n_trees = IntegerField(
+        "n_trees",
+        id="n_trees",
+        default=6,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número de árboles. Si no deseas ninguno puedes introducir 0."
+            )
+        ],
+    )
 
-    thetha = FloatField("thetha", id="thetha")
+    thetha = FloatField(
+        "thetha",
+        id="thetha",
+        default=0.75,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número decimal en thetha (la coma se separa mediante un punto) o 0.75 en su defecto."
+            )
+        ],
+    )
 
     # tri-training + democratic-co
     cls_one = SelectField("cls_one", id="cls_one", choices=available_base_cls)
@@ -171,8 +225,35 @@ class ModelForm(FlaskForm):
         "cls_three", id="cls_three", choices=available_base_cls
     )
 
-    n_cls_one = IntegerField("n_cls_one", id="n_cls_one")
+    n_cls_one = IntegerField(
+        "n_cls_one",
+        id="n_cls_one",
+        default=1,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (1)."
+            )
+        ],
+    )
 
-    n_cls_two = IntegerField("n_cls_two", id="n_cls_two")
+    n_cls_two = IntegerField(
+        "n_cls_two",
+        id="n_cls_two",
+        default=1,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (2)."
+            )
+        ],
+    )
 
-    n_cls_three = IntegerField("n_cls_three", id="n_cls_three")
+    n_cls_three = IntegerField(
+        "n_cls_three",
+        id="n_cls_three",
+        default=1,
+        validators=[
+            DataRequired(
+                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (3)."
+            )
+        ],
+    )
