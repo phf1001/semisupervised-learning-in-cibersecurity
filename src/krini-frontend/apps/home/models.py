@@ -202,6 +202,12 @@ class Available_models(db.Model):
     )
     random_state = db.Column(db.Integer)
     model_notes = db.Column(db.String(128))
+    model_algorithm = db.Column(db.String(2), nullable=False)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "gm",
+        "polymorphic_on": model_algorithm,
+    }
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -229,6 +235,10 @@ class Available_models(db.Model):
             if model.is_visible
         ]
 
+    @staticmethod
+    def all_paginated(page=1, per_page=15):
+        return Available_models.query.paginate(page, per_page, False)
+
 
 class Available_co_forests(Available_models):
     """
@@ -242,11 +252,17 @@ class Available_co_forests(Available_models):
 
     __tablename__ = "Available_co_forests"
     model_id = db.Column(
-        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+        None,
+        db.ForeignKey("Available_models.model_id", ondelete="CASCADE"),
+        primary_key=True,
     )
     n_trees = db.Column(db.Integer, default=6, nullable=False)
     thetha = db.Column(db.Float, default=0.75, nullable=False)
     max_features = db.Column(db.String(8), default="log2", nullable=False)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "cf",
+    }
 
 
 class Available_tri_trainings(Available_models):
@@ -261,11 +277,17 @@ class Available_tri_trainings(Available_models):
 
     __tablename__ = "Available_tri_trainings"
     model_id = db.Column(
-        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+        None,
+        db.ForeignKey("Available_models.model_id", ondelete="CASCADE"),
+        primary_key=True,
     )
     cls_one = db.Column(db.String(8), nullable=False)
     cls_two = db.Column(db.String(8), nullable=False)
     cls_three = db.Column(db.String(8), nullable=False)
+
+    __mapper_args__ = {
+        "polymorphic_identity": "tt",
+    }
 
 
 class Available_democratic_cos(Available_models):
@@ -280,9 +302,15 @@ class Available_democratic_cos(Available_models):
 
     __tablename__ = "Available_democratic_cos"
     model_id = db.Column(
-        None, db.ForeignKey("Available_models.model_id"), primary_key=True
+        None,
+        db.ForeignKey("Available_models.model_id", ondelete="CASCADE"),
+        primary_key=True,
     )
     n_clss = db.Column(db.Integer, default=3, nullable=False)
     base_clss = db.Column(
         MutableList.as_mutable(db.ARRAY(db.String(8))), nullable=False
     )
+
+    __mapper_args__ = {
+        "polymorphic_identity": "dc",
+    }

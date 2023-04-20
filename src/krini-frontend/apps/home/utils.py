@@ -18,7 +18,9 @@ from apps.ssl_utils.ml_utils import (
     get_temporary_train_files_directory,
     serialize_model,
     get_temporary_download_directory,
+    get_models_directory,
 )
+
 from apps import db
 from apps.authentication.models import Users
 from apps.home.exceptions import KriniNotLoggedException
@@ -32,14 +34,12 @@ from apps.home.models import (
     Candidate_instances,
 )
 from werkzeug.utils import secure_filename
-from os import path, remove, listdir
+from os import path, remove, listdir, sep
 import re
 import pandas as pd
 import json
 from flask_login import current_user
 from datetime import datetime
-import time
-from flask import flash
 import logging
 import requests
 import urllib.parse
@@ -424,7 +424,7 @@ def get_username(user_id):
     return "?"
 
 
-def get_model_dict(model, algorithm="SEMI-SUPERVISED"):
+def get_model_dict(model):
     """
     Returns a dictionary with the information of the model.
 
@@ -437,9 +437,28 @@ def get_model_dict(model, algorithm="SEMI-SUPERVISED"):
     Returns:
         dict: dictionary with the information of the model.
     """
+    if model.model_algorithm == "cf":
+        algorithm = CO_FOREST_CONTROL
+        model = Available_co_forests.query.filter_by(
+            model_id=model.model_id
+        ).first()
+    elif model.model_algorithm == "tt":
+        algorithm = TRI_TRAINING_CONTROL
+        model = Available_tri_trainings.query.filter_by(
+            model_id=model.model_id
+        ).first()
+    elif model.model_algorithm == "dc":
+        algorithm = DEMOCRATIC_CO_CONTROL
+        model = Available_democratic_cos.query.filter_by(
+            model_id=model.model_id
+        ).first()
+    else:
+        algorithm = "SEMI-SUPERVISED"
+
     params = get_parameters(model, algorithm)
 
     return {
+        "model_id": model.model_id,
         "model_name": model.model_name.upper(),
         "model_parameters": params[0],
         "algorithm": algorithm,
@@ -451,6 +470,7 @@ def get_model_dict(model, algorithm="SEMI-SUPERVISED"):
         "model_scores": [round(score, 3) for score in model.model_scores],
         "random_state": model.random_state,
         "model_notes": model.model_notes,
+        "is_selected": 0,
     }
 
 
@@ -539,7 +559,12 @@ def get_candidate_instance_dict(candidate_instance, report_number):
 
 
 def update_checks(
-    previous_page, new_checks, checks, n_per_page, sequence=False
+    previous_page,
+    new_checks,
+    checks,
+    n_per_page,
+    sequence=False,
+    items_class=Available_instances,
 ):
     """
     Update previous page selected instances.
@@ -552,33 +577,42 @@ def update_checks(
         checks (dict): dictionary of checks
         n_per_page (int): number of instances per page
         sequence (bool): if True, the checks are generated (sequence of numbers)
+        items_class (class): class of the items
     """
     if sequence:
         offset = (previous_page - 1) * n_per_page
         ids_previous = [offset + i for i in range(n_per_page)]
 
     else:
-        post_pagination = Available_instances.all_paginated(
-            previous_page, n_per_page
-        )
-        ids_previous = [
-            instance.instance_id for instance in post_pagination.items
-        ]
+        post_pagination = items_class.all_paginated(previous_page, n_per_page)
+
+        if items_class == Available_instances:
+            ids_previous = [
+                instance.instance_id for instance in post_pagination.items
+            ]
+
+        elif items_class == Available_models:
+            ids_previous = [model.model_id for model in post_pagination.items]
 
     checks_update = [int(id_elem) for id_elem in new_checks]
 
-    for id_instance in ids_previous:
-        if id_instance in checks_update and str(id_instance) not in checks:
-            checks[str(id_instance)] = id_instance
+    for id_previous in ids_previous:
+        if id_previous in checks_update and str(id_previous) not in checks:
+            checks[str(id_previous)] = id_previous
 
-        elif id_instance not in checks_update and str(id_instance) in checks:
-            del checks[str(id_instance)]
+        elif id_previous not in checks_update and str(id_previous) in checks:
+            del checks[str(id_previous)]
 
     return checks
 
 
 def update_batch_checks(
-    modality, checks, previous_page=-1, n_per_page=-1, sequence=False
+    modality,
+    checks,
+    previous_page=-1,
+    n_per_page=-1,
+    sequence=False,
+    items_class=Available_instances,
 ):
     """
     Update checks dictionary.
@@ -590,6 +624,7 @@ def update_batch_checks(
         previous_page (int, optional): previous page selected. Defaults to -1.
         n_per_page (int, optional): number of instances per page. Defaults to -1.
         sequence (bool): if True, the checks are generated (sequence of numbers)
+        items_class (class): class of the items
 
     Returns:
         dict: dictionary of checks updated
@@ -602,32 +637,46 @@ def update_batch_checks(
             n_instances = Candidate_instances.query.count()
             checks = {str(i): i for i in range(n_instances)}
         else:
-            instances = Available_instances.query.all()
-            checks = {
-                str(instance.instance_id): instance.instance_id
-                for instance in instances
-            }
+            instances = items_class.query.all()
+
+            if items_class == Available_models:
+                checks = {
+                    str(model.model_id): model.model_id for model in instances
+                }
+
+            elif items_class == Available_instances:
+                checks = {
+                    str(instance.instance_id): instance.instance_id
+                    for instance in instances
+                }
 
     elif "page" in modality:
         if sequence:
             offset = (previous_page - 1) * n_per_page
             ids_previous = [offset + i for i in range(n_per_page)]
         else:
-            post_pagination = Available_instances.all_paginated(
+            post_pagination = items_class.all_paginated(
                 previous_page, n_per_page
             )
-            ids_previous = [
-                instance.instance_id for instance in post_pagination.items
-            ]
+
+            if items_class == Available_instances:
+                ids_previous = [
+                    instance.instance_id for instance in post_pagination.items
+                ]
+
+            elif items_class == Available_models:
+                ids_previous = [
+                    model.model_id for model in post_pagination.items
+                ]
 
         if "deseleccionar_todos" in modality:
-            for id_instance in ids_previous:
-                if str(id_instance) in checks:
-                    del checks[str(id_instance)]
+            for id_previous in ids_previous:
+                if str(id_previous) in checks:
+                    del checks[str(id_previous)]
 
         elif "seleccionar_todos" in modality:
-            for id_instance in ids_previous:
-                checks[str(id_instance)] = id_instance
+            for id_previous in ids_previous:
+                checks[str(id_previous)] = id_previous
 
     return checks
 
@@ -1072,6 +1121,39 @@ def translate_form_select_data_method(user_input):
         return "generate"
 
 
+def remove_selected_models(ids_models):
+    """
+    Removes the selected models from the database.
+    It also deletes the file with the pickled model.
+
+    Args:
+        ids_models (list): list containing ids
+
+    Raises:
+        KriniDBException: raised if there is an error in the database
+    """
+    try:
+        models_path = get_models_directory()
+
+        for model_id in ids_models:
+            model = Available_models.query.filter_by(model_id=model_id).first()
+
+            model_path = models_path + sep + model.file_name
+            if path.exists(model_path):
+                remove(model_path)
+
+            Available_models.query.filter_by(model_id=model_id).delete()
+
+        db.session.commit()
+
+    except exc.SQLAlchemyError as e:
+        logger.error(e)
+        db.session.rollback()
+        raise KriniDBException(
+            "Error al eliminar los modelos {}.".format(ids_models)
+        )
+
+
 def translate_form_select_algorithm(user_input):
     """
     Translates the user input to the corresponding model.
@@ -1200,9 +1282,44 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
 
 
 def to_bolean(string):
+    """Transforms a string to a boolean.
+
+    Args:
+        string (str): string to be transformed.
+
+    Returns:
+        bool: True if the string is "True", False otherwise.
+    """
     if string == "True":
         return True
     return False
+
+
+def get_models_view_dictionary(post_pagination_items, checks_values):
+    """
+    Transforms the models in the requested page to a dictionary
+    with the information to be displayed in the view (includying if
+    the instance is checked).
+
+    Args:
+        post_pagination_items (iter): models in the requested page
+        checks_values (dict.values()): ids of the instances that are checked
+
+    Returns:
+        list: list of dictionaries with the information of the instances
+    """
+
+    new_items_list = [get_model_dict(model) for model in post_pagination_items]
+    ids_checked = list(checks_values)
+
+    # Update view of the items in the requested page
+    for item in new_items_list:
+        if item["model_id"] in ids_checked:
+            item["is_selected"] = 1
+        else:
+            item["is_selected"] = 0
+
+    return new_items_list
 
 
 def return_X_y_train_test(dataset_method, dataset_params):

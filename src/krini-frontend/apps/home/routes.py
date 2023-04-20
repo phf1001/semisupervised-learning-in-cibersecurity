@@ -369,8 +369,7 @@ def report_false_positive():
         message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
         flash(message, "warning")
 
-    except KriniException as e:
-        logger.error(e.message)
+    except (KriniException, KeyError):
         message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
         flash(message, "warning")
 
@@ -417,10 +416,9 @@ def profile():
 
 
 @login_required
-@blueprint.route("/models", methods=["GET"])
-def models():
+@blueprint.route("/models", methods=["GET", "POST"])
+def models(n_per_page=2):
     """Displays the models page. The user must be logged in.
-    TODO: Implement functionality to display all models
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
@@ -431,22 +429,66 @@ def models():
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
-    information_to_display = []
+    try:
+        form = FlaskForm(request.form)
 
-    algorithms = [
-        (Available_co_forests, CO_FOREST_CONTROL),
-        (Available_tri_trainings, TRI_TRAINING_CONTROL),
-        (Available_democratic_cos, DEMOCRATIC_CO_CONTROL),
-    ]
+        if "selected_page" in request.form:
+            page = int(request.form["selected_page"])
+            previous_page = int(request.form["previous_page"])
+            checks = session.get("checks", None)
 
-    for algorithm in algorithms:
-        for model in algorithm[0].query.all():
-            information_to_display.append(get_model_dict(model, algorithm[1]))
+            if "crear" in request.form["button_pressed"]:
+                session["messages"] = {"previous_page": page}
+                session["checks"] = {}
+                return redirect(url_for("home_blueprint.new_model"))
+
+            if "seleccionar" in request.form["button_pressed"]:
+                checks = update_batch_checks(
+                    request.form["button_pressed"],
+                    checks,
+                    previous_page,
+                    n_per_page,
+                    items_class=Available_models,
+                )
+
+            else:
+                checks = update_checks(
+                    previous_page,
+                    request.form.getlist("checkbox-model"),
+                    checks,
+                    n_per_page,
+                    items_class=Available_models,
+                )
+
+            if "eliminar" in request.form["button_pressed"]:
+                if "individual" in request.form["button_pressed"]:
+                    remove_selected_models([request.form["individual_model"]])
+                    flash("Modelo eliminado correctamente.", "success")
+                else:
+                    remove_selected_models(list(checks.values()))
+                    flash("Modelos eliminados correctamente.", "success")
+
+        else:
+            page = 1
+            checks = {}
+
+    except KriniException:
+        flash("Error al realizar la operación solicitada.", "danger")
+
+    session["checks"] = checks if checks else {}
+    post_pagination = Available_models.all_paginated(page, n_per_page)
+    post_pagination.items = get_models_view_dictionary(
+        post_pagination.items, checks.values()
+    )
 
     return render_template(
         "home/models-administration.html",
         segment=get_segment(request),
-        information_to_display=information_to_display,
+        post_pagination=post_pagination,
+        selected=post_pagination.iter_pages(
+            left_edge=1, left_current=1, right_current=1, right_edge=1
+        ),
+        form=form,
     )
 
 
@@ -666,24 +708,24 @@ def instances(n_per_page=10):
             page = 1
             checks = {}
 
-        session["checks"] = checks
-        post_pagination = Available_instances.all_paginated(page, n_per_page)
-        post_pagination.items = get_instances_view_dictionary(
-            post_pagination.items, checks.values()
-        )
-
-        return render_template(
-            "home/instances-administration.html",
-            segment=get_segment(request),
-            post_pagination=post_pagination,
-            selected=post_pagination.iter_pages(
-                left_edge=1, left_current=1, right_current=1, right_edge=1
-            ),
-            form=form,
-        )
-
     except KriniException:
         flash("Error al realizar la operación solicitada.", "danger")
+
+    session["checks"] = checks if checks else {}
+    post_pagination = Available_instances.all_paginated(page, n_per_page)
+    post_pagination.items = get_instances_view_dictionary(
+        post_pagination.items, checks.values()
+    )
+
+    return render_template(
+        "home/instances-administration.html",
+        segment=get_segment(request),
+        post_pagination=post_pagination,
+        selected=post_pagination.iter_pages(
+            left_edge=1, left_current=1, right_current=1, right_edge=1
+        ),
+        form=form,
+    )
 
 
 @login_required
@@ -736,6 +778,7 @@ def edit_instance():
 
     except KriniException:
         flash("Error al realizar la operación solicitada.", "danger")
+        return redirect(url_for("home_blueprint.instances"))
 
 
 @login_required
@@ -779,6 +822,7 @@ def new_instance():
 
     except KriniException:
         flash("Error al realizar la operación solicitada.", "danger")
+        return redirect(url_for("home_blueprint.instances"))
 
 
 @blueprint.route("/updating_instance", methods=["POST", "GET"])
@@ -939,24 +983,24 @@ def review_instances(n_per_page=10):
             page = 1
             checks = {}
 
-        session["checks"] = checks
-        post_pagination = Candidate_instances.all_paginated(page, n_per_page)
-        post_pagination.items = get_candidate_instances_view_dictionary(
-            post_pagination.items, checks.values(), page, n_per_page
-        )
-
-        return render_template(
-            "home/instances-review.html",
-            segment=get_segment(request),
-            post_pagination=post_pagination,
-            selected=post_pagination.iter_pages(
-                left_edge=1, left_current=1, right_current=1, right_edge=1
-            ),
-            form=form,
-        )
-
     except KriniException:
         flash("Error al realizar la operación solicitada.", "danger")
+
+    session["checks"] = checks if checks else {}
+    post_pagination = Candidate_instances.all_paginated(page, n_per_page)
+    post_pagination.items = get_candidate_instances_view_dictionary(
+        post_pagination.items, checks.values(), page, n_per_page
+    )
+
+    return render_template(
+        "home/instances-review.html",
+        segment=get_segment(request),
+        post_pagination=post_pagination,
+        selected=post_pagination.iter_pages(
+            left_edge=1, left_current=1, right_current=1, right_edge=1
+        ),
+        form=form,
+    )
 
 
 @blueprint.route("/report_url", methods=["GET", "POST"])
