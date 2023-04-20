@@ -450,7 +450,7 @@ def models():
     )
 
 
-@blueprint.route("/nuevomodelo", methods=["GET", "POST"])
+@blueprint.route("/new_model", methods=["GET", "POST"])
 def new_model():
     """TODO completar la función.
 
@@ -503,28 +503,28 @@ def new_model():
     )
 
 
-@blueprint.route("/creatingmodel", methods=["POST", "GET"])
-def creatingmodel():
-    """TODO completar la función.
+@blueprint.route("/creating_model", methods=["POST", "GET"])
+def creating_model():
+    """
+    Creates and serializes the model and saves it in the database.
+    It also trains the model with the dataset.
 
     Raises:
-        Forbidden: error 403 if the user is not authenticated
+        Forbidden: error 403 if the user is not authenticated/authorized
 
     Returns:
-        _type_: _description_
+        function: renders the models page if the model is created,
+                  otherwise it returns the new model page displaying
+                  the errors
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
     try:
-        time.sleep(2)
         messages = session.get("messages", None)
         form_data = messages["form_data"]
 
-        logger.info("Form data: {}".format(form_data))
-        logger.info("messages: {}".format(messages))
-
-        # Obtenemos el clasificador -> messages de algorithm ya controlado aqui
+        # The classifier object is created
         if int(form_data["random_state"]) == -1:
             random_state = None
         else:
@@ -532,51 +532,48 @@ def creatingmodel():
 
         if messages["algorithm"] == CO_FOREST_CONTROL:
             cls = get_co_forest(
-                n_trees=int(form_data(["n_trees"])),
-                theta=float(form_data(["thetha"])),
-                max_features=form_data(["max_features"]),
+                n_trees=int(form_data["n_trees"]),
+                theta=float(form_data["thetha"]),
+                max_features=form_data["max_features"],
                 random_state=random_state,
             )
 
         elif messages["algorithm"] == TRI_TRAINING_CONTROL:
             cls = get_tri_training(
-                h_0=form_data["cls_one"],
-                h_1=form_data["cls_two"],
-                h_2=form_data["cls_three"],
+                h_0=form_data["cls_one_tt"],
+                h_1=form_data["cls_two_tt"],
+                h_2=form_data["cls_three_tt"],
                 random_state=random_state,
             )
 
         elif messages["algorithm"] == DEMOCRATIC_CO_CONTROL:
-            base_cls = (
-                form_data["cls_one"] * form_data["n_cls_one"]
-                + form_data["cls_two"] * form_data["n_cls_two"]
-                + form_data["cls_three"] * form_data["n_cls_three"]
-            )
+            base_cls = [form_data["cls_one"]] * int(form_data["n_cls_one"])
+            base_cls += [form_data["cls_two"]] * int(form_data["n_cls_two"])
+            base_cls += [form_data["cls_three"]] * int(form_data["n_cls_three"])
 
-            logger.info("Base cls: {}".format(base_cls))
             cls = get_democratic_co(
                 base_cls=base_cls, random_state=random_state
             )
 
-        # Obtenemos datos de entrenamiento y test
+        # Dataset is extracted
         dataset_method, dataset_params = messages["dataset_method"]
         X_train, X_test, y_train, y_test = return_X_y_train_test(
             dataset_method, dataset_params
         )
+
+        # 20% Labelled, 80% Unlabelled
         L_train, U_train, Ly_train, Uy_train = train_test_split(
             X_train, y_train, test_size=0.8, random_state=5, stratify=y_train
         )
-        # flash("{} {} {} {}".format(X_train, X_test, y_train, y_test))
 
         cls.fit(L_train, Ly_train, U_train)
         y_pred = cls.predict(X_test)
         y_pred_proba = cls.predict_proba(X_test)
         scores = get_array_scores(y_test, y_pred, y_pred_proba)
-        flash("BORRAR: Scores del modelo: {}".format(scores), "info")
 
-        # Serializamos el nuevo modelo y lo guardamos en la bbdd
+        # Model is serialized and scored
         if serialize_store_model(form_data, cls, scores, messages["algorithm"]):
-            flash("Modelo guardado correctamente.", "success")
+            flash("Modelo creado y guardado correctamente.", "success")
 
         return redirect(url_for("home_blueprint.models"))
 

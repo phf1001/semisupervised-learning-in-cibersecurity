@@ -131,7 +131,7 @@ class ModelForm(FlaskForm):
         default="0",
         validators=[
             Regexp(
-                "^\d+(.\d){0,2}$",
+                r"^\d+(.\d){0,2}$",
                 message="Introduce una versión válida. Si no sabes qué poner, puedes probar a introducir un número entero.",
             )
         ],
@@ -162,7 +162,7 @@ class ModelForm(FlaskForm):
         validators=[
             DataRequired(
                 "Por favor, introduce una semilla aleatoria o -1 en su defecto."
-            )
+            ),
         ],
     )
 
@@ -201,7 +201,12 @@ class ModelForm(FlaskForm):
         validators=[
             DataRequired(
                 "Por favor, introduce un número de árboles. Si no deseas ninguno puedes introducir 0."
-            )
+            ),
+            NumberRange(
+                min=0,
+                max=100,
+                message="El número de árboles no es correcto. Introduce un número entre 0 y 100.",
+            ),
         ],
     )
 
@@ -212,11 +217,30 @@ class ModelForm(FlaskForm):
         validators=[
             DataRequired(
                 "Por favor, introduce un número decimal en thetha (la coma se separa mediante un punto) o 0.75 en su defecto."
-            )
+            ),
+            NumberRange(
+                min=0.0,
+                max=1.0,
+                message="El valor de thetha no es correcto (tiene que estar entre 0 y 1).",
+            ),
         ],
     )
 
-    # tri-training + democratic-co
+    # tri-training
+
+    cls_one_tt = SelectField(
+        "cls_one", id="cls_one", choices=available_base_cls
+    )
+
+    cls_two_tt = SelectField(
+        "cls_two", id="cls_two", choices=available_base_cls
+    )
+
+    cls_three_tt = SelectField(
+        "cls_three", id="cls_three", choices=available_base_cls
+    )
+
+    # democratic-co
     cls_one = SelectField("cls_one", id="cls_one", choices=available_base_cls)
 
     cls_two = SelectField("cls_two", id="cls_two", choices=available_base_cls)
@@ -228,32 +252,38 @@ class ModelForm(FlaskForm):
     n_cls_one = IntegerField(
         "n_cls_one",
         id="n_cls_one",
-        default=1,
+        default=0,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (1)."
-            )
+            NumberRange(
+                min=0,
+                max=10,
+                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+            ),
         ],
     )
 
     n_cls_two = IntegerField(
         "n_cls_two",
         id="n_cls_two",
-        default=1,
+        default=0,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (2)."
-            )
+            NumberRange(
+                min=0,
+                max=10,
+                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+            ),
         ],
     )
 
     n_cls_three = IntegerField(
         "n_cls_three",
         id="n_cls_three",
-        default=1,
+        default=0,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número válido de clasificadores o 0 si no deseas ninguno. Campo: democratic-co número de clasificadores (3)."
-            )
+            NumberRange(
+                min=0,
+                max=10,
+                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+            ),
         ],
     )

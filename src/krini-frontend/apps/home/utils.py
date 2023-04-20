@@ -448,7 +448,7 @@ def get_model_dict(model, algorithm="SEMI-SUPERVISED"):
         "creation_date": str(model.creation_date)[:10],
         "is_default": model.is_default,
         "is_visible": model.is_visible,
-        "model_scores": model.model_scores,
+        "model_scores": [round(score, 3) for score in model.model_scores],
         "random_state": model.random_state,
         "model_notes": model.model_notes,
     }
@@ -1086,9 +1086,9 @@ def translate_form_select_algorithm(user_input):
     if user_input == "1":
         return CO_FOREST_CONTROL
     if user_input == "2":
-        return TRI_TRAINING_CONTROL
-    if user_input == "3":
         return DEMOCRATIC_CO_CONTROL
+    if user_input == "3":
+        return TRI_TRAINING_CONTROL
 
 
 def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
@@ -1113,7 +1113,6 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
     Returns:
         bool: True if the model was stored correctly.
     """
-    # TODO: TODOS LOS ALGORITMOS
     try:
         model_name = form_data["model_name"]
         model_version = form_data["model_version"]
@@ -1143,13 +1142,19 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
                 creation_date=datetime.now(),
                 is_visible=to_bolean(form_data["is_visible"]),
                 is_default=to_bolean(form_data["is_default"]),
-                random_state=form_data["random_state"],
-                n_trees=form_data["n_trees"],
-                thetha=form_data["thetha"],
+                random_state=int(form_data["random_state"]),
+                n_trees=int(form_data["n_trees"]),
+                thetha=round(float(form_data["thetha"]), 3),
                 max_features=form_data["max_features"],
             )
 
         elif algorithm == DEMOCRATIC_CO_CONTROL:
+            base_clss = [form_data["cls_one"]] * int(form_data["n_cls_one"])
+            base_clss += [form_data["cls_two"]] * int(form_data["n_cls_two"])
+            base_clss += [form_data["cls_three"]] * int(
+                form_data["n_cls_three"]
+            )
+
             new_model = Available_democratic_cos(
                 model_name=model_store_name,
                 created_by=current_user.id,
@@ -1159,7 +1164,9 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
                 creation_date=datetime.now(),
                 is_visible=to_bolean(form_data["is_visible"]),
                 is_default=to_bolean(form_data["is_default"]),
-                random_state=form_data["random_state"],
+                random_state=int(form_data["random_state"]),
+                n_clss=len(base_clss),
+                base_clss=(base_clss,),
             )
 
         elif algorithm == TRI_TRAINING_CONTROL:
@@ -1172,7 +1179,10 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
                 creation_date=datetime.now(),
                 is_visible=to_bolean(form_data["is_visible"]),
                 is_default=to_bolean(form_data["is_default"]),
-                random_state=form_data["random_state"],
+                random_state=int(form_data["random_state"]),
+                cls_one=form_data["cls_one_tt"],
+                cls_two=form_data["cls_two_tt"],
+                cls_three=form_data["cls_three_tt"],
             )
 
         db.session.add(new_model)

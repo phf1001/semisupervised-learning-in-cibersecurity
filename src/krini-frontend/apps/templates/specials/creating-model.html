@@ -1,4 +1,3 @@
-
 {% extends 'layouts/base-specials.html' %}
 {% block title %} Loading {% endblock title %}
 {% block content %}
@@ -9,24 +8,27 @@
                 <div class="card-header pb-5" style="position: relative;">
                     <div class="text-center mt-2 mb-3">
                         <div class="text-center mt-2">
-                            <img src="/static/assets/img/theme/robot-crafting.png" style="width: 45%; height: 45%">     
-                          </div>
+                            <img src="/static/assets/img/theme/robot-crafting.png" style="width: 45%; height: 45%">
+                        </div>
                         <div class="primary-label-forms text-center mt-2 mb-3" style="font-size: 22px;">
-                          <br>
-                            ¡Estamos creando tu modelo!     
-                          </div>
-                          <div class="text-center mb-2">
+                            <br>
+                            ¡Estamos creando tu modelo!
+                        </div>
+                        <div class="text-center mb-2">
                             Esto puede requerir unos minutos.
-                          </div>
+                        </div>
                         <br></br>
-                        <div class="loader" style="position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%);"></div>
+                        <div class="loader"
+                            style="position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%);"></div>
                         <br></br>
                     </div>
                 </div>
             </div>
             <div class="row mt-3 text-center">
                 <div class="col-12">
-                    <a href="/" class="text-light"><medium>Página principal</medium></a>
+                    <a href="/" class="text-light">
+                        <medium>Página principal</medium>
+                    </a>
                 </div>
             </div>
         </div>
@@ -34,7 +36,7 @@
 </div>
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
     window.addEventListener("load", () => {
@@ -47,5 +49,5 @@
 </script>
 
 <script src="{{url_for('static', filename='main.js')}}"></script>
-<script> window.location.replace('/creatingmodel'); </script>
+<script> window.location.replace('/creating_model'); </script>
 {% endblock javascripts %}
