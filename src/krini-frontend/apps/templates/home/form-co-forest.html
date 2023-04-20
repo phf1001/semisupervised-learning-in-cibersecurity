@@ -12,7 +12,6 @@
                         </p>
                         {{ form.thetha(placeholder="0.75", class="form-control") }}
                     </div>
-
                 </td>
                 <td>
                     <div class="form-group mb-3">
@@ -31,6 +30,24 @@
                                 utilizados al dividir en la construcción del árbol)</span>
                         </p>
                         {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-coforest" class="accordion-toggle">
+                <td style="text-align: left;">
+                    <div>
+                        <a class="btn btn-icon-only bg-primary">
+                            <i class="ni ni-bulb-61 text-white"></i>
+                        </a>
+                        <p class="primary-label-forms" style="display:inline">&nbsp;Pseudocódigo&nbsp;</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="hiddenRow">
+                    <div id="info-coforest" class="accordian-body collapse">
+                        <object data="/static/assets/img/theme/coforest_pseudocode.pdf" type="application/pdf"
+                            style="min-height:100vh;width:100%"></object>
                     </div>
                 </td>
             </tr>
