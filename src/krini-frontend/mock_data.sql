@@ -97,13 +97,13 @@ INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date
 VALUES (1, 'Democratic-co v1.0.0', 'dc_v-1-0-0.pkl', '2020-01-01', false, true, ARRAY [1.0, 1.0, 1.0, 0.55, 0.5], 5, 'kNN neightbors = 5', 'dc');
 
 INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
-VALUES (1, 3, ARRAY ['kNN', 'NB', 'Tree']);
+VALUES (19, 3, ARRAY ['kNN', 'NB', 'Tree']);
 
 INSERT INTO "Available_co_forests" (model_id, n_trees, thetha, max_features)
-VALUES (2, 6, 0.75, 'log2');
+VALUES (20, 6, 0.75, 'log2');
 
 INSERT INTO "Available_tri_trainings" (model_id, cls_one, cls_two, cls_three)
-VALUES (3, 'kNN', 'NB', 'Tree');
+VALUES (21, 'kNN', 'NB', 'Tree');
 
 INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss)
-VALUES (4, 3, ARRAY ['kNN', 'NB', 'Tree']);
+VALUES (22, 3, ARRAY ['kNN', 'NB', 'Tree']);

@@ -37,6 +37,7 @@ from werkzeug.utils import secure_filename
 from os import path, remove, listdir, sep
 import re
 import pandas as pd
+from numpy import int64, float64
 import json
 from flask_login import current_user
 from datetime import datetime
@@ -991,7 +992,7 @@ def create_csv_selected_instances(
 ):
     """
     Creates a csv containing the selected instances features
-    vectors and tags
+    ids, vectors and tags
 
     Args:
         ids_instances (list): list containing ids
@@ -1011,11 +1012,13 @@ def create_csv_selected_instances(
         tag = instance.instance_class
 
         if fv and (tag == 0 or tag == 1):
-            fv.append(tag)
-            data.append(fv)
+            data.append([instance.instance_id] + fv + [tag])
 
     df = pd.DataFrame(
-        data, columns=["f{}".format(i) for i in range(1, 20)] + ["tag"]
+        data,
+        columns=["instance_id"]
+        + ["f{}".format(i) for i in range(1, 20)]
+        + ["tag"],
     )
 
     download_directory = get_temporary_download_directory()
@@ -1043,17 +1046,32 @@ def clean_temporary_files(temporary_files_directory=None):
         remove(file_path)
 
 
-def save_files_to_temp(form_file_one, form_file_two):
-    """Returns true y la tupla"""
+def save_files_to_temp(form_file_one, form_file_two=None):
+    """Guarda archivos en el directorio temporal
+
+    Args:
+        form_file_one (str): fichero uno
+        form_file_two (str): fichero dos. Defaults to None.
+
+    Returns:
+        tuple: método y la tupla
+    """
     dataset_tuple = ("csv", {})
+
+    previous_filename = ""
 
     for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):
         if f is not None:
             filename = secure_filename(f.filename)
+
+            if filename == previous_filename:
+                filename = "copy_" + filename
+
             path_one = get_temporary_train_files_directory()
             file_path = path.join(path_one, filename)
             f.save(file_path)
             dataset_tuple[1][tipo] = file_path
+            previous_filename = filename
 
         # Si cualquiera de los dos es None ya genera
         else:
@@ -1335,16 +1353,88 @@ def return_X_y_train_test(dataset_method, dataset_params):
 
 
 def extract_X_y_csv(file_name):
-    # Comprobar dimensiones, que está bien todo etc
+    """Extracts the X and y from a csv file.
 
-    df = pd.read_csv(file_name)
-    X = df.iloc[:, :-1].values
+    Args:
+        file_name (str): name of the file to extract the data from
+
+    Raises:
+        KriniException: if the file does not have the correct format
+
+    Returns:
+        (X,y) (array, array): tuple with arrays of the features and tags
+    """
+
+    try:
+        df = pd.read_csv(file_name)
+
+    except (FileNotFoundError, ValueError):
+        raise KriniException(
+            "El fichero que has subido no existe o no es un csv."
+        )
+
+    if not check_correct_pandas(df):
+        raise KriniException(
+            "El fichero no tiene el formato correcto. Prueba a descargarlo desde la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
+        )
+
+    # Instance_id is not used for training
+    X = df.iloc[:, 1:-1].values
     y = df.iloc[:, -1].values
     remove(file_name)
     return X, y
 
 
+def check_correct_pandas(df):
+    """Checks if the dataframe is correct and can
+    be used to train/test a model.
+
+    Args:
+        df (dataframe): dataframe to check
+
+    Returns:
+        true if the dataframe is correct, false otherwise
+    """
+
+    columns_expected = (
+        ["instance_id"] + ["f{}".format(i) for i in range(1, 20)] + ["tag"]
+    )
+
+    # All except instance_id and f10
+    booleans_expected = (
+        ["f{}".format(i) for i in range(1, 10)]
+        + ["f{}".format(i) for i in range(11, 20)]
+        + ["tag"]
+    )
+
+    if len(df.columns) != 21:
+        return False
+
+    if not all(df.columns == columns_expected):
+        return False
+
+    for column_type in df.dtypes:
+        if column_type not in [int64, float64, int, float]:
+            return False
+
+    for column in booleans_expected:
+        for unique in df[column].unique():
+            if unique not in [0, 1]:
+                return False
+
+    return True
+
+
 def translate_form_select_ssl_alg(user_input):
+    """Translates the user input to the correct value.
+
+    Args:
+        user_input (str): user input. It can be "1", "2" or "3".
+
+    Returns:
+        str: the correct value for the algorithm.
+                It can be "co-forest", "democratic-co" or "tri-training".
+    """
     if user_input == "1":
         return "co-forest"
     if user_input == "2":

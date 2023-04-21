@@ -25,7 +25,9 @@ from sklearn.metrics import (
     f1_score,
     roc_auc_score,
 )
+from sklearn.exceptions import UndefinedMetricWarning
 from apps.home.exceptions import KriniException
+from warnings import filterwarnings, catch_warnings
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -108,7 +110,7 @@ def get_democratic_co(base_cls, random_state=None):
     return DemocraticCo(base_cls_obj, random_state)
 
 
-def get_array_scores(y_test, y_pred, y_pred_proba):
+def get_array_scores(y_test, y_pred, y_pred_proba, want_message=False):
     """
     Returns the accuracy, precision, recall
     f1 and ROC auc scores of the model
@@ -117,23 +119,59 @@ def get_array_scores(y_test, y_pred, y_pred_proba):
         y_test (list): list with the real labels
         y_pred (list): list with the predicted labels
         y_pred_proba (list): list with the predicted probabilities
+        want_message (bool, optional): if True, returns a message
 
     Returns:
-       list: list with the scores
+       (list, str) : tuple containing list with the scores
+                     and info about possible errors (or None)
     """
+
+    # filterwarnings("error", category=UndefinedMetricWarning)
+    message = None
+
     try:
+        if y_pred_proba.ndim == 1:
+            if 1 in y_pred:
+                y_pred_proba = np.array(
+                    [1 - y_pred_proba, y_pred_proba]
+                ).transpose()
+
+            else:
+                y_pred_proba = np.array(
+                    [y_pred_proba, 1 - y_pred_proba]
+                ).transpose()
+
         auc_score = float(roc_auc_score(y_test, y_pred_proba[:, 1]))
 
-    except ValueError:
+    except (ValueError, IndexError):
         auc_score = 0.0
 
-    return [
-        float(accuracy_score(y_test, y_pred)),
-        float(precision_score(y_test, y_pred)),
-        float(recall_score(y_test, y_pred)),
-        float(f1_score(y_test, y_pred)),
-        auc_score,
-    ]
+    metrics = []
+
+    for metric in [
+        ("accuracy", accuracy_score(y_test, y_pred)),
+        ("precision", precision_score(y_test, y_pred)),
+        ("recall", recall_score(y_test, y_pred)),
+        ("F1", f1_score(y_test, y_pred)),
+        ("AUC ROC", auc_score),
+    ]:
+        calculated = metric[1]
+        metrics.append(calculated)
+
+        if calculated == 0.0:
+            if not message:
+                message = "Error al calcular las siguientes métricas (se les ha asignado un valor de 0.0): "
+
+            message += "{}, ".format(metric[0])
+
+    if message:
+        message = message[:-2]
+        message += ". ¿Hay instancias positivas en el conjunto de test?"
+
+    if want_message:
+        return metrics, message
+
+    return metrics
 
 
 def get_base_cls(wanted_cls):

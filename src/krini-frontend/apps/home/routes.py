@@ -611,7 +611,11 @@ def creating_model():
         cls.fit(L_train, Ly_train, U_train)
         y_pred = cls.predict(X_test)
         y_pred_proba = cls.predict_proba(X_test)
-        scores = get_array_scores(y_test, y_pred, y_pred_proba)
+
+        scores, message = get_array_scores(y_test, y_pred, y_pred_proba, True)
+
+        if message:
+            flash(message, "warning")
 
         # Model is serialized and scored
         if serialize_store_model(form_data, cls, scores, messages["algorithm"]):
@@ -622,7 +626,14 @@ def creating_model():
     except KriniException as e:
         # The error message has been already personalized
         flash(str(e), "danger")
-        return redirect(url_for("home_blueprint.new_model"))
+
+    except ValueError:
+        flash(
+            "Error al crear el modelo. ¿Has comprobado que los ficheros de entrenamiento y test tengan un número mínimo de instancias? Parecen ser demasiado pocas.",
+            "danger",
+        )
+
+    return redirect(url_for("home_blueprint.new_model"))
 
 
 @login_required

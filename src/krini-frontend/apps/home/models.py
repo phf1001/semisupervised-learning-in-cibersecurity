@@ -192,7 +192,7 @@ class Available_models(db.Model):
         db.Integer, db.ForeignKey("Users.id"), nullable=False
     )
     model_name = db.Column(db.String(64), unique=True, nullable=False)
-    file_name = db.Column(db.String(16), unique=True, nullable=False)
+    file_name = db.Column(db.String(64), unique=True, nullable=False)
     creation_date = db.Column(db.DateTime)
     is_default = db.Column(db.Boolean, default=False)
     is_visible = db.Column(db.Boolean, default=True)
