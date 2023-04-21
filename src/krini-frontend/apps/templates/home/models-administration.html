@@ -185,7 +185,10 @@
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#">Testear</a>
+                        <button class="dropdown-item" type="submit" id="btn-testea-individual-{{ model['model_id'] }}"
+                          onclick="updateForm({{ model['model_id'] }}, 'testear_individual', {{post_pagination.page}}, null)">
+                          Testear
+                        </button>
                         <button class="dropdown-item" type="submit" id="btn-elimina-individual-{{ model['model_id'] }}"
                           onclick="updateForm({{ model['model_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
                           style="color: red">

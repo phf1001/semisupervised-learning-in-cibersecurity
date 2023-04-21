@@ -15,9 +15,6 @@ from apps import db
 from apps.home.exceptions import KriniException, KriniNotLoggedException
 from apps.home.models import (
     Available_models,
-    Available_co_forests,
-    Available_democratic_cos,
-    Available_tri_trainings,
 )
 from apps.home.utils import *
 from apps.ssl_utils.ml_utils import (
@@ -53,6 +50,7 @@ from apps.home.forms import (
     SearchURLForm,
     ModelForm,
     InstanceForm,
+    TestModelForm,
 )
 from apps.home.models import (
     Available_instances,
@@ -417,7 +415,7 @@ def profile():
 
 @login_required
 @blueprint.route("/models", methods=["GET", "POST"])
-def models(n_per_page=2):
+def models(n_per_page=10):
     """Displays the models page. The user must be logged in.
 
     Raises:
@@ -441,6 +439,14 @@ def models(n_per_page=2):
                 session["messages"] = {"previous_page": page}
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.new_model"))
+
+            if "testear" in request.form["button_pressed"]:
+                session["messages"] = {
+                    "previous_page": page,
+                    "model_id": request.form["individual_model"],
+                }
+                session["checks"] = {}
+                return redirect(url_for("home_blueprint.test_model"))
 
             if "seleccionar" in request.form["button_pressed"]:
                 checks = update_batch_checks(
@@ -551,7 +557,7 @@ def new_model():
     )
 
 
-@blueprint.route("/creating_model", methods=["POST", "GET"])
+@blueprint.route("/creating_model", methods=["GET"])
 def creating_model():
     """
     Creates and serializes the model and saves it in the database.
@@ -654,6 +660,39 @@ def creating_model():
         )
 
     return redirect(url_for("home_blueprint.new_model"))
+
+
+@login_required
+@blueprint.route("/test_model", methods=["POST", "GET"])
+def test_model():
+    """ """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+
+    try:
+        form = TestModelForm(request.form)
+
+        messages = session.get("messages", None)
+        model_id = int(messages["model_id"])
+        model = Available_models.query.get(model_id)
+
+        if form.validate_on_submit():
+            update_bd = 0
+            if request.form.get("checkbox-update-db"):
+                update_bd = 1
+
+        return render_template(
+            "home/test-model.html",
+            model=get_model_dict(model),
+            segment=get_segment(request),
+            form=form,
+        )
+
+    except KriniException as e:
+        # The error message has been already personalized
+        flash(str(e), "danger")
+
+    return redirect(url_for("home_blueprint.models"))
 
 
 @login_required

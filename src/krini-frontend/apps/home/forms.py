@@ -287,3 +287,14 @@ class ModelForm(FlaskForm):
             ),
         ],
     )
+
+
+class TestModelForm(FlaskForm):
+    """
+    Form used to test models.
+
+    Args:
+        FlaskForm (class): parent class
+    """
+
+    uploaded_test_csv = FileField("test_file", id="test_file")

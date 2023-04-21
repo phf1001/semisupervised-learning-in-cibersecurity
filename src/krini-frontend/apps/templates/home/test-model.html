@@ -1,0 +1,125 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Probar modelo {% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary-gradient pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/models">Administración de modelos</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Probar modelo</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<form role="form" method="post" action="" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+    <div class="container-fluid mt--6">
+
+        PROBANDO A {{ model["model_name"] }}
+
+        <!-- Tabla del dataset -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">CONJUNTO DE DATOS</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+                            <!-- subida de datos-->
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name"
+                                        style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                                        DATOS DE TEST
+                                    </th>
+                                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group mb-3">
+                                        <p class="primary-label-forms">SELECCIONA UN MÉTODO&nbsp;<span
+                                                class="gray-description-forms">
+                                                (de subida de datos de test)
+                                            </span></p>
+                                        <select class="form-control" id="select-upload-method"
+                                            name="form_select_data_method"
+                                            onchange="showDiv('hd1', 'hd2', 'hd3', this)">
+                                            <option value="1">Importar CSV</option>
+                                            <option value="2">Usar dataset</option>
+                                        </select>
+                                        <br></br>
+                                        <div id="hd1" style="display: block">
+                                            <p class="primary-label-forms">DATOS DE
+                                                TEST&nbsp;<span class="gray-description-forms">Conjunto para probar. Si
+                                                    se quieren resultados
+                                                    certeros, no debe contener ningún enlace utilizado para
+                                                    entrenar.</span></p>
+                                            <div class="form-control">
+                                                {{ form.uploaded_test_csv }}
+                                            </div>
+                                        </div>
+                                        <div id="hd2" style="display: none">
+                                            <span class="gray-description-forms">En este caso, se utilizarán los datos
+                                                del dataset.
+                                                Para garantizar que los resultados sean certeros, no se utilizarán
+                                                instancias vistas durante el entrenamiento.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan="2">
+                                    <div style="align-items: center;">
+                                        <p class="primary-label-forms">
+                                            <input id="checkbox-update-db" value="0" type="checkbox"
+                                                style="width: 20px; height: 20px;" name="checkbox-update-db">
+                                            &nbsp;&nbsp;¿Actualizar la base de datos?&nbsp;
+                                            <span class="gray-description-forms">Si se selecciona, las scores serán
+                                                actualizadas con los resultados obtenidos.</span>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="align-items: center;">
+                                        <button type="submit" name="siguiente"
+                                            class="btn btn-primary my-4">Siguiente</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "includes/footer.html" %}
+    </div>
+</form>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{% endblock javascripts %}
