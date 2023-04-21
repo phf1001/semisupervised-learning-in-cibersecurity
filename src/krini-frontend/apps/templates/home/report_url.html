@@ -33,6 +33,7 @@
         <div class="table-responsive">
           <form role="form" method="post" action="">
             {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
                 <tr>
@@ -63,7 +64,8 @@
                   <td>
                     <div class="form-group mb-3">
                       <p class="primary-label-forms">¿Qué vas a reportar?&nbsp;<span class="gray-description-forms"> Si
-                          sabes que es phishing escoge "black-list". Si sabes que es legítima escoge "white-list".</span>
+                          sabes que es phishing escoge "black-list". Si sabes que es legítima escoge
+                          "white-list".</span>
                       </p>
                       {{ form.type(placeholder="type",class="form-control") }}
                     </div>

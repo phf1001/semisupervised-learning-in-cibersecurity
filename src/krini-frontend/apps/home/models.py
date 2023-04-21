@@ -314,3 +314,36 @@ class Available_democratic_cos(Available_models):
     __mapper_args__ = {
         "polymorphic_identity": "dc",
     }
+
+
+class Model_is_trained_with(db.Model):
+    """
+    Create a relation table storing which
+    instances have been used to train a model.
+
+    Args:
+        db.Model (class): SQLAlchemy model class
+
+    Returns:
+        object: SQLAlchemy model object
+    """
+
+    __tablename__ = "Model_is_trained_with"
+
+    instance_id = db.Column(
+        db.Integer,
+        db.ForeignKey("Available_instances.instance_id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    model_id = db.Column(
+        db.Integer,
+        db.ForeignKey("Available_models.model_id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+
+    def __repr__(self):
+        return str(self.instance_id) + " " + str(self.model_id)
+
+    def __init__(self, id_model, id_instance):
+        self.model_id = id_model
+        self.instance_id = id_instance

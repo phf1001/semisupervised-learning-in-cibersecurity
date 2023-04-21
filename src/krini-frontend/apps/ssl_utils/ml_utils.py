@@ -25,9 +25,7 @@ from sklearn.metrics import (
     f1_score,
     roc_auc_score,
 )
-from sklearn.exceptions import UndefinedMetricWarning
 from apps.home.exceptions import KriniException
-from warnings import filterwarnings, catch_warnings
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -160,7 +158,7 @@ def get_array_scores(y_test, y_pred, y_pred_proba, want_message=False):
 
         if calculated == 0.0:
             if not message:
-                message = "Error al calcular las siguientes métricas (se les ha asignado un valor de 0.0): "
+                message = "¡Cuidado! no se han podido calcular las siguientes métricas (se les ha asignado un valor de 0.0): "
 
             message += "{}, ".format(metric[0])
 

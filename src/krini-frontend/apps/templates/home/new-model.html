@@ -199,30 +199,35 @@
                       onchange="showDiv('hd1', 'hd2', 'hd3', this)">
                       <option value="1">Importar CSV</option>
                       <option value="2">Generar datos aleatoriamente</option>
-                      <option value="3">Seleccionar instancias</option>
                     </select>
                     <br></br>
                     <div id="hd1" style="display: block">
                       <p class="primary-label-forms">DATOS ENTRENAMIENTO&nbsp;
-                        <span class="gray-description-forms">Tamaño
-                          máximo 200MB</span>
+                        <span class="gray-description-forms">Conjunto utilizado para entrenar</span>
                       </p>
                       <div class="form-control">
                         {{ form.uploaded_train_csv }}
                       </div>
                       <br></br>
                       <p class="primary-label-forms">DATOS DE
-                        TEST&nbsp;<span class="gray-description-forms">Tamaño máximo
-                          200MB</span></p>
+                        TEST&nbsp;<span class="gray-description-forms">Conjunto para probar. Si se quieren resultados
+                          certeros, no debe contener ningún enlace utilizado para entrenar.</span></p>
                       <div class="form-control">
                         {{ form.uploaded_test_csv }}
                       </div>
                     </div>
                     <div id="hd2" style="display: none">
-                      <p class="primary-label-forms">PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO&nbsp;<span
-                          class="gray-description-forms">
-                          Introduce sólo el número (ejemplo 80).
-                        </span></p>
+                      <span class="gray-description-forms">En este caso, se van a generar
+                        aleatoriamente los conjuntos de
+                        entrenamiento y test utilizando
+                        todos los datos de la base de datos. <br> Podrás personalizar el porcentaje de instancias que se
+                        utilizarán para entrenamiento (las que sobren se utilizarán para test).
+                        <p class="primary-label-forms">PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO&nbsp;
+                          <span class="gray-description-forms">
+                            Introduce sólo el número (ejemplo 80).
+                          </span>
+                        </p>
+                      </span>
                       {{ form.train_percentage_instances(placeholder="Introduce un entero", class="form-control")}}
                     </div>
                     <div id="hd3" style="display: none">

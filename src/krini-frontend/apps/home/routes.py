@@ -494,13 +494,15 @@ def models(n_per_page=2):
 
 @blueprint.route("/new_model", methods=["GET", "POST"])
 def new_model():
-    """TODO completar la función.
+    """
+    Creates a new model. The user must be logged in.
+    Controls the form to create a new model.
 
     Raises:
         Forbidden: error 403 if the user is not authenticated
 
     Returns:
-        _type_: _description_
+        function: renders the new model page or redirects to the loading page
     """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
@@ -516,14 +518,18 @@ def new_model():
             request.form["form_select_ssl_alg"]
         )
 
-        # TODO Se cargan los archivos del usuario. Si uno de los dos no carga,
-        # se pasa a generar los conjuntos aleatoriamente
         if selected_method == "csv":
             selected_method, dataset_tuple = save_files_to_temp(
                 form.uploaded_train_csv.data, form.uploaded_test_csv.data
             )
 
-        # Si falla la carga también se genera
+            if selected_method != "csv":
+                flash(
+                    "Se ha producido un error al subir los archivos. Se ha generado el conjunto de train y test aleatoriamente.",
+                    "danger",
+                )
+
+        # If the uploaded files are not valid, it also generates the dataset
         if selected_method == "generate":
             dataset_tuple = check_n_instances(
                 request.form["train_percentage_instances"]
@@ -599,9 +605,15 @@ def creating_model():
 
         # Dataset is extracted
         dataset_method, dataset_params = messages["dataset_method"]
-        X_train, X_test, y_train, y_test = return_X_y_train_test(
-            dataset_method, dataset_params
-        )
+
+        (
+            X_train,
+            X_test,
+            y_train,
+            y_test,
+            train_ids,
+            test_ids,
+        ) = return_X_y_train_test(dataset_method, dataset_params, get_ids=True)
 
         # 20% Labelled, 80% Unlabelled
         L_train, U_train, Ly_train, Uy_train = train_test_split(
@@ -611,14 +623,22 @@ def creating_model():
         cls.fit(L_train, Ly_train, U_train)
         y_pred = cls.predict(X_test)
         y_pred_proba = cls.predict_proba(X_test)
-
         scores, message = get_array_scores(y_test, y_pred, y_pred_proba, True)
 
         if message:
             flash(message, "warning")
 
-        # Model is serialized and scored
-        if serialize_store_model(form_data, cls, scores, messages["algorithm"]):
+        # Model is serialized and stored. Also the train data.
+        train_ids = set(train_ids)
+        if train_ids.intersection(set(test_ids)):
+            flash(
+                "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos en común. Los resultados de las scores podrían no ser fiables (optimistas).",
+                "info",
+            )
+
+        if serialize_store_model(
+            form_data, cls, scores, train_ids, messages["algorithm"]
+        )[0]:
             flash("Modelo creado y guardado correctamente.", "success")
 
         return redirect(url_for("home_blueprint.models"))

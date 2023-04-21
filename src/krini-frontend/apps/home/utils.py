@@ -32,12 +32,13 @@ from apps.home.models import (
     Available_tri_trainings,
     Available_instances,
     Candidate_instances,
+    Model_is_trained_with,
 )
 from werkzeug.utils import secure_filename
 from os import path, remove, listdir, sep
 import re
 import pandas as pd
-from numpy import int64, float64
+from numpy import int64, float64, array
 import json
 from flask_login import current_user
 from datetime import datetime
@@ -1054,7 +1055,7 @@ def save_files_to_temp(form_file_one, form_file_two=None):
         form_file_two (str): fichero dos. Defaults to None.
 
     Returns:
-        tuple: método y la tupla
+        tuple: método y diccionario con los ficheros {tipo: path}
     """
     dataset_tuple = ("csv", {})
 
@@ -1073,7 +1074,7 @@ def save_files_to_temp(form_file_one, form_file_two=None):
             dataset_tuple[1][tipo] = file_path
             previous_filename = filename
 
-        # Si cualquiera de los dos es None ya genera
+        # If one file fails, also generated
         else:
             return "generate", ()
 
@@ -1191,7 +1192,9 @@ def translate_form_select_algorithm(user_input):
         return TRI_TRAINING_CONTROL
 
 
-def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
+def serialize_store_model(
+    form_data, cls, scores, train_ids, algorithm=CO_FOREST_CONTROL
+):
     """
     Stores the model in the database and pickles it. The operation is
     ATOMIC: if there is an error, the model is not stored and
@@ -1200,18 +1203,21 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
     Storing name is the model name + version -> "COF 1.1.0"
     File name is the model name + version with - + .pkl -> "COF_1-0-0.pkl"
 
+    Trainings ids are stored in the relation table.
+
     Args:
         form_data (dict): dictionary containing the form data corrected.
         scores (list): list containing the scores of the model
         algorithm (int, optional): algorithm used. Can be "CO-FOREST",
                                    "DEMOCRATIC-CO", or "TRI-TRAINING".
+        train_ids (set): set containing the ids of the trainings used.
 
     Raises:
         KriniException: exception raised if there is an error in the database,
                         while picking or with duplicate model names.
 
     Returns:
-        bool: True if the model was stored correctly.
+        (bool, int): True if the model was stored correctly and its id.
     """
     try:
         model_name = form_data["model_name"]
@@ -1286,8 +1292,15 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
             )
 
         db.session.add(new_model)
+        db.session.flush()
+        model_id = new_model.model_id
+
+        for instance_id in train_ids:
+            new_row = Model_is_trained_with(model_id, int(instance_id))
+            db.session.add(new_row)
+
         db.session.commit()
-        return True
+        return True, model_id
 
     except PickleError:
         raise KriniException("Error al serializar el modelo.")
@@ -1296,7 +1309,9 @@ def serialize_store_model(form_data, cls, scores, algorithm=CO_FOREST_CONTROL):
         logger.error("Error al guardar el modelo en la BD." + str(e))
         db.session.rollback()
         remove(file_location)
-        raise KriniException("Error al guardar el modelo en la BD.")
+        raise KriniException(
+            "Error al guardar el modelo en la BD o los datos de entrenamiento."
+        )
 
 
 def to_bolean(string):
@@ -1340,29 +1355,96 @@ def get_models_view_dictionary(post_pagination_items, checks_values):
     return new_items_list
 
 
-def return_X_y_train_test(dataset_method, dataset_params):
-    # params diccionario train:file, test:file o un entero
+def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
+    """
+    Returns X and y for training and testing.
+    Based on the dataset_method and dataset_params.
 
-    if dataset_method == "csv":
-        X_train, y_train = extract_X_y_csv(dataset_params["train"])
-        X_test, y_test = extract_X_y_csv(dataset_params["test"])
+    Warning: only reviewd instances will be used to train if generate is selected.
 
-    # if generate etc
+    Args:
+        dataset_method (str): "csv" or "generate"
+        dataset_params (int or dict): percentage*100 of instances to be used for
+                                      training or dictionary {train:file, test:file}
+        get_ids (bool, optional): If true, returns the ids. Defaults to False.
 
-    return X_train, X_test, y_train, y_test
+    Raises:
+        KriniException: if there is an error
+
+    Returns:
+        tuple: X_train, y_train, X_test, y_test, train_ids, test_ids (if get_ids=True)
+        tuple: X_train, y_train, X_test, y_test (if get_ids=False)
+    """
+    try:
+        if dataset_method == "csv":
+            X_train, y_train, train_ids = extract_X_y_csv(
+                dataset_params["train"], get_ids
+            )
+            X_test, y_test, test_ids = extract_X_y_csv(
+                dataset_params["test"], get_ids
+            )
+
+        elif dataset_method == "generate":
+            instances = Available_instances.query.filter(
+                Available_instances.reviewed_by.isnot(None)
+            ).all()
+
+            instances = [
+                [instance.instance_id]
+                + instance.instance_fv
+                + [instance.instance_class]
+                for instance in instances
+                if instance.instance_fv
+                and (
+                    instance.instance_class == 1 or instance.instance_class == 0
+                )
+            ]
+
+            df = pd.DataFrame(
+                data=instances,
+                columns=["instance_id"]
+                + ["f{}".format(i) for i in range(1, 20)]
+                + ["instance_class"],
+            )
+
+            # df = df.loc[(df.instance_class == 1) | (df.instance_class == 0)]
+            train_percentage = int(dataset_params) / 100
+
+            train = df.sample(frac=train_percentage)
+            test = df.drop(train.index)
+
+            X_train = train.iloc[:, 1:-1].values
+            y_train = train.iloc[:, -1].values
+            train_ids = train.iloc[:, 0].values
+
+            X_test = test.iloc[:, 1:-1].values
+            y_test = test.iloc[:, -1].values
+            test_ids = test.iloc[:, 0].values
+
+        if get_ids:
+            return X_train, X_test, y_train, y_test, train_ids, test_ids
+
+        return X_train, X_test, y_train, y_test
+
+    except ValueError as e:
+        logger.info(e)
+        raise KriniException("Error al generar el dataset.")
 
 
-def extract_X_y_csv(file_name):
+def extract_X_y_csv(file_name, get_ids=False):
     """Extracts the X and y from a csv file.
 
     Args:
         file_name (str): name of the file to extract the data from
+        get_ids (bool, optional): if True, the ids of the instances
+                                  are also returned. Defaults to False.
 
     Raises:
         KriniException: if the file does not have the correct format
 
     Returns:
-        (X,y) (array, array): tuple with arrays of the features and tags
+        (array, array, array): tuple with arrays of the features,
+                               tags and ids if desired
     """
 
     try:
@@ -1381,7 +1463,11 @@ def extract_X_y_csv(file_name):
     # Instance_id is not used for training
     X = df.iloc[:, 1:-1].values
     y = df.iloc[:, -1].values
+    instances_ids = df.iloc[:, 0].values
     remove(file_name)
+
+    if get_ids:
+        return X, y, instances_ids
     return X, y
 
 
