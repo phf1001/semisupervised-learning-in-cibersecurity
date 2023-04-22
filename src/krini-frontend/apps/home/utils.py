@@ -1058,10 +1058,16 @@ def save_files_to_temp(form_file_one, form_file_two=None):
         tuple: método y diccionario con los ficheros {tipo: path}
     """
     dataset_tuple = ("csv", {})
-
     previous_filename = ""
 
-    for tipo, f in zip(["train", "test"], [form_file_one, form_file_two]):
+    if form_file_two is None:
+        file_types = ["test"]
+        files = [form_file_one]
+    else:
+        file_types = ["train", "test"]
+        files = [form_file_one, form_file_two]
+
+    for tipo, f in zip(file_types, files):
         if f is not None:
             filename = secure_filename(f.filename)
 
@@ -1431,6 +1437,90 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
         raise KriniException("Error al generar el dataset.")
 
 
+def return_X_y_single(dataset_method, dataset_params, omit_train_ids=False):
+    """
+    Returns X and y not sampled.
+    Based on the dataset_method and dataset_params.
+    If csv, params must be a dictionary {test:file}.
+    If generate, params must be a model_id.
+
+    Warning: only not training instances will be returned if
+             generate is selected.
+
+    Args:
+        dataset_method (str): "csv" or "generate"
+        dataset_params (int or dict): dictionary {test:file} or model_id
+
+    Raises:
+        KriniException: if there is an error
+
+    Returns:
+        tuple: X, y
+    """
+    try:
+        if dataset_method == "csv" and not omit_train_ids:
+            X_test, y_test = extract_X_y_csv(dataset_params["test"])
+
+        else:  # Ids are ommited (even if not selected for generate)
+            model_training_rows = Model_is_trained_with.query.filter_by(
+                model_id=dataset_params
+            ).all()
+
+            model_training_ids = set(
+                [row.instance_id for row in model_training_rows]
+            )
+
+            if dataset_method == "csv":
+                X_test_full, y_test_full, test_ids = extract_X_y_csv(
+                    dataset_params["test"], get_ids=True
+                )
+
+                X_test = []
+                y_test = []
+
+                for i, instance_id in enumerate(test_ids):
+                    if instance_id not in model_training_ids:
+                        X_test.append(X_test_full[i])
+                        y_test.append(y_test_full[i])
+
+            elif dataset_method == "generate":
+                instances = Available_instances.query.filter(
+                    Available_instances.reviewed_by.isnot(None)
+                ).all()
+
+                instances = [
+                    instance.instance_fv + [instance.instance_class]
+                    for instance in instances
+                    if instance.instance_id not in model_training_ids
+                    and instance.instance_fv
+                    and (
+                        instance.instance_class == 1
+                        or instance.instance_class == 0
+                    )
+                ]
+
+                logger.info(
+                    "Instances used: {}. Training {}".format(
+                        len(instances), len(model_training_ids)
+                    )
+                )
+
+                df = pd.DataFrame(
+                    data=instances,
+                    columns=["f{}".format(i) for i in range(1, 20)]
+                    + ["instance_class"],
+                )
+
+                X_test = df.iloc[:, :-1].values
+                y_test = df.iloc[:, -1].values
+
+        return X_test, y_test
+
+    except ValueError as e:
+        logger.info(e)
+        raise KriniException("Error al generar el dataset de entrenamiento.")
+
+
 def extract_X_y_csv(file_name, get_ids=False):
     """Extracts the X and y from a csv file.
 
@@ -1509,6 +1599,29 @@ def check_correct_pandas(df):
                 return False
 
     return True
+
+
+def update_model_scores_db(model, scores):
+    """
+    Updates the scores of a model in the database.
+
+    Args:
+        model (Available_models): model to update
+        scores (list): list with the scores to update
+
+    Raises:
+        KriniDBException: if there is an error
+    """
+
+    try:
+        model.model_scores = scores
+        db.session.commit()
+
+    except exc.SQLAlchemyError:
+        db.session.rollback()
+        raise KriniDBException(
+            "No se han podido actualizar los scores en la base de datos."
+        )
 
 
 def translate_form_select_ssl_alg(user_input):

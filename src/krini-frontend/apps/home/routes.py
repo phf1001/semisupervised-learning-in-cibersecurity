@@ -26,6 +26,7 @@ from apps.ssl_utils.ml_utils import (
     get_mock_values_fv,
     get_temporary_download_directory,
     translate_tag,
+    deserialize_model,
 )
 from flask import (
     render_template,
@@ -87,9 +88,7 @@ def index():
 
     url = request.form["url"]
     models = request.form["selected_models"]
-    quick_analysis = 0
-    if request.form.get("checkbox-quick-scan"):
-        quick_analysis = 1
+    quick_analysis = 1 if request.form.get("checkbox-quick-scan") else 0
 
     session["messages"] = {
         "url": url.replace(" ", ""),
@@ -665,7 +664,17 @@ def creating_model():
 @login_required
 @blueprint.route("/test_model", methods=["POST", "GET"])
 def test_model():
-    """ """
+    """
+    Allows the user to test a model with a dataset
+    (either uploaded or generated randomly).
+
+    Raises:
+        Forbidden: if the user is not authenticated/authorized
+
+    Returns:
+        function: renders the test model page if the model is tested,
+                  or the models page if there is a major exception
+    """
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
@@ -675,24 +684,88 @@ def test_model():
         messages = session.get("messages", None)
         model_id = int(messages["model_id"])
         model = Available_models.query.get(model_id)
+        analysis_scores = model.model_scores
 
-        if form.validate_on_submit():
-            update_bd = 0
-            if request.form.get("checkbox-update-db"):
-                update_bd = 1
+        if "siguiente" in request.form:
+            update_bd = 1 if request.form.get("checkbox-update-db") else 0
+            omit_ids = 1 if request.form.get("checkbox-exclude-train") else 0
+
+            # Model is unpickled
+            cls = deserialize_model(model.file_name)
+
+            # Test dataset is obtained
+            selected_method = translate_form_select_data_method(
+                request.form["form_select_data_method"]
+            )
+
+            if selected_method == "csv":
+                logger.info(request.form)
+                selected_method, params = save_files_to_temp(
+                    form.uploaded_test_csv.data
+                )
+
+                if selected_method != "csv":
+                    raise KriniException(
+                        "Se ha producido un error al subir los archivos .csv"
+                    )
+
+            if selected_method == "generate":
+                params = model_id
+
+            X_test, y_test = return_X_y_single(
+                selected_method, params, bool(omit_ids)
+            )
+
+            if len(X_test) == 0:
+                analysis_scores = model.model_scores
+                raise KriniException(
+                    "No hay enlaces para testear el modelo (han sido utilizados todos durante el entrenamiento). Prueba a subir un csv. Mostrando scores almacenados en la BD."
+                )
+
+            # Model is tested and updated
+            y_pred = cls.predict(X_test)
+            y_pred_proba = cls.predict_proba(X_test)
+            analysis_scores, message = get_array_scores(
+                y_test, y_pred, y_pred_proba, True
+            )
+
+            if message:
+                flash(message, "warning")
+
+            if update_bd:
+                update_model_scores_db(model, analysis_scores)
+
+            flash(
+                "Test realizado correctamente. Puedes ver los resultados en la gráfica superior.",
+                "success",
+            )
 
         return render_template(
             "home/test-model.html",
             model=get_model_dict(model),
             segment=get_segment(request),
             form=form,
+            scores=json.dumps([analysis_scores]),
         )
 
     except KriniException as e:
-        # The error message has been already personalized
         flash(str(e), "danger")
+        return render_template(
+            "home/test-model.html",
+            model=get_model_dict(model),
+            segment=get_segment(request),
+            form=form,
+            scores=json.dumps([analysis_scores]),
+        )
 
-    return redirect(url_for("home_blueprint.models"))
+    except (
+        exc.SQLAlchemyError,
+        AttributeError,
+        PickleError,
+        FileNotFoundError,
+    ):
+        flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
+        return redirect(url_for("home_blueprint.models"))
 
 
 @login_required

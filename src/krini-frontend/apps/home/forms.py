@@ -297,4 +297,10 @@ class TestModelForm(FlaskForm):
         FlaskForm (class): parent class
     """
 
-    uploaded_test_csv = FileField("test_file", id="test_file")
+    model_name = TextField(
+        "model_name",
+        id="model_name",
+        validators=[DataRequired("Por favor, introduce un nombre.")],
+    )
+
+    uploaded_test_csv = FileField("uploaded_test_csv", id="uploaded_test_csv")

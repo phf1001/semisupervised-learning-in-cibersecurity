@@ -1131,12 +1131,11 @@ var clsNames = $('#cls-names').data('cls-names');
 // Cls values is a list of lists containing decimals
 var clsValues = $('#cls-scores').data('cls-scores');
 
-// Only the dashboard contains those elements
-if (clsNames && clsValues) {
-
+// Only the dashboard or the test page contains that element
+if (clsValues && clsNames) {
 	const graphColours = [
-		'rgba(54, 162, 235, 1)',
 		'rgba(255, 206, 86, 1)',
+		'rgba(54, 162, 235, 1)',
 		'rgba(75, 192, 192, 1)',
 		'rgba(153, 102, 255, 1)',
 		'rgb(255, 102, 153)',
@@ -1152,9 +1151,10 @@ if (clsNames && clsValues) {
 		'rgba(170, 110, 40, 1)',
 	]
 
-	var clsNames = $('#cls-names').data('cls-names');
 	clsNames = clsNames.replace(/'/g, '"');
 	clsNames = JSON.parse(clsNames);
+	var nCls = clsNames.length;
+
 	var nMetrics = clsValues[0].length;
 	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC'];
 	var accuracys = [];
@@ -1163,7 +1163,6 @@ if (clsNames && clsValues) {
 	var f1s = [];
 	var rocs = [];
 	var lastClsIndex = 0;
-	var nCls = clsNames.length;
 	var clsColours = [];
 
 	for (var i = 0; i < nCls; i++) {
@@ -1178,238 +1177,277 @@ if (clsNames && clsValues) {
 		rocs.push(clsValues[i][4]);
 	}
 
-	var scoresChartGlobal;
 
-	// Bars chart - indivicual for each cls
-	var BarsChartModels = (function () {
+	if ($('#chart-bars-models') != undefined) {
 
-		var $chart = $('#chart-bars-models');
-		var model_data = clsValues[lastClsIndex];
-		document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
-		var bckColor = [];
-		for (var i = 0; i < nMetrics; i++) {
-			bckColor.push(clsColours[0]);
-		}
+		var scoresChartGlobal;
 
-		function initChart($chart) {
+		var BarsChartModels = (function () {
 
-			var scoresChart = new Chart($chart, {
-				type: 'bar',
-				data: {
-					labels: metrics,
-					datasets: [{
-						label: 'Score (%)',
-						data: model_data,
-						backgroundColor: bckColor,
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								min: 0,
-								max: 100
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Score (%)'
-							}
-						}]
-					},
-					legend: {
-						display: false
-					}
-				}
-			});
-
-			scoresChartGlobal = scoresChart;
-			// Save to jQuery object
-			$chart.data('chart', scoresChart);
-		}
-
-		if ($chart.length) {
-			initChart($chart);
-		}
-	})();
-
-	'use strict';
-
-	var nextClsButton = document.getElementById('btn-next-cls-graph');
-	nextClsButton.addEventListener('click', function () {
-
-		var nextClsIndex = (lastClsIndex + 1) % nCls;
-		var nameCls = clsNames[nextClsIndex];
-		document.getElementById("h6-cls-score-graph").innerText = nameCls;
-		var $chart = $('#chart-bars-models');
-		var model_data = clsValues[nextClsIndex];
-
-
-		// Update chart
-		function updateChart($chart) {
-
-			var scoresChart = scoresChartGlobal;
-			scoresChart.data.datasets[0].data = model_data;
-
+			var $chart = $('#chart-bars-models');
+			var model_data = clsValues[lastClsIndex];
+			document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
 			var bckColor = [];
 			for (var i = 0; i < nMetrics; i++) {
-				bckColor.push(clsColours[nextClsIndex]);
+				bckColor.push(clsColours[0]);
 			}
 
-			scoresChart.data.datasets[0].backgroundColor = bckColor;
-			scoresChart.update();
-			$chart.data('chart', scoresChart);
-		}
-		if ($chart.length) {
-			updateChart($chart);
-		}
+			function initChart($chart) {
 
-		lastClsIndex = nextClsIndex;
-	});
-
-	// Pie chart phishing or not
-	var PieChartPhishing = (function () {
-
-		var $chart = $('#chart-pie-phishing');
-		var sum_data = $('#cls-numeric-predictions-sum').data('cls-numeric-predictions-sum');
-
-		function initChart($chart) {
-
-			var piePhishingChart = new Chart($chart, {
-
-				type: 'doughnut',
-				data: {
-					datasets: [
-						{
-							data: sum_data,
-							backgroundColor: [
-								'rgb(75, 192, 192)',
-								'rgb(255, 99, 132)'
-							],
-							borderColor: 'transparent',
-						},
-					],
-					labels: ['Legítima', 'Phishing'],
-				},
-				options: {
-					cutoutPercentage: 45,
-					legend: {
-						display: true
-					}
-				},
-				plugins: {
-					legend: {
-						display: true,
-						position: 'bottom',
-						title: {
-							display: true,
-							padding: 10,
-						},
-					}
-				}
-			});
-			$chart.data('chart', piePhishingChart);
-		}
-
-		if ($chart.length) {
-			initChart($chart);
-		}
-
-	})();
-
-	'use strict';
-
-	// Big chart comparations
-
-	// Chart.plugins.register({
-	// 	beforeDraw: function(c) {
-	// 		c.legend.options.labels.labelColor = 'rgb(75, 192, 192)';
-	// 	}
-	// });
-
-	var GeneralChartScores = (function () {
-
-		var $chart = $('#chart-bars-general');
-
-		const data = {
-			labels: clsNames,
-
-			datasets: [{
-				label: metrics[0],
-				data: accuracys,
-				//backgroundColor: clsColours
-				backgroundColor: 'rgb(153, 255, 102)'
-			},
-
-			{
-				label: metrics[1],
-				data: precisions,
-				//backgroundColor: clsColours
-				backgroundColor: 'rgb(255, 153, 255)'
-			},
-
-			{
-				label: metrics[2],
-				data: recalls,
-				//backgroundColor: clsColours
-				backgroundColor: 'rgb(255, 255, 102)'
-			},
-			{
-				label: metrics[3],
-				data: f1s,
-				//backgroundColor: clsColours
-				backgroundColor: 'rgb(153, 204, 255)'
-			},
-			{
-				label: metrics[4],
-				data: rocs,
-				//backgroundColor: clsColours
-				backgroundColor: 'rgb(255, 204, 102)'
-			}]
-		};
-
-		// Init chart
-		function initChart($chart) {
-
-			// Create chart
-			var generalChartScores = new Chart($chart, {
-
-				type: 'bar',
-				data: data,
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								min: 0,
-								max: 100
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Score (%)'
-							}
+				var scoresChart = new Chart($chart, {
+					type: 'bar',
+					data: {
+						labels: metrics,
+						datasets: [{
+							label: 'Score (%)',
+							data: model_data,
+							backgroundColor: bckColor,
 						}]
 					},
-
-					legend: {
-						display: true,
-						// labels: {
-						// 	generateLabels: {
-						// 		fillStyle: rgb(0, 0, 0),
-						// 	 }
-						// },
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									min: 0,
+									max: 100
+								},
+								display: true,
+								scaleLabel: {
+									display: true,
+									labelString: 'Score (%)'
+								}
+							}]
+						},
+						legend: {
+							display: false
+						}
 					}
+				});
+
+				scoresChartGlobal = scoresChart;
+				$chart.data('chart', scoresChart);
+			}
+
+			if ($chart.length) {
+				initChart($chart);
+			}
+		})();
+
+		'use strict';
+
+	}
+
+	var nextClsButton = document.getElementById('btn-next-cls-graph');
+
+	if (nextClsButton != undefined) {
+		nextClsButton.addEventListener('click', function () {
+
+			var nextClsIndex = (lastClsIndex + 1) % nCls;
+			var nameCls = clsNames[nextClsIndex];
+			document.getElementById("h6-cls-score-graph").innerText = nameCls;
+			var $chart = $('#chart-bars-models');
+			var model_data = clsValues[nextClsIndex];
+
+			function updateChart($chart) {
+
+				var scoresChart = scoresChartGlobal;
+				scoresChart.data.datasets[0].data = model_data;
+
+				var bckColor = [];
+				for (var i = 0; i < nMetrics; i++) {
+					bckColor.push(clsColours[nextClsIndex]);
+				}
+
+				scoresChart.data.datasets[0].backgroundColor = bckColor;
+				scoresChart.update();
+				$chart.data('chart', scoresChart);
+			}
+			if ($chart.length) {
+				updateChart($chart);
+			}
+
+			lastClsIndex = nextClsIndex;
+		});
+	}
+
+	if ($('#chart-pie-phishing') != undefined) {
+
+		var PieChartPhishing = (function () {
+
+			var $chart = $('#chart-pie-phishing');
+			var sum_data = $('#cls-numeric-predictions-sum').data('cls-numeric-predictions-sum');
+
+			function initChart($chart) {
+
+				var piePhishingChart = new Chart($chart, {
+
+					type: 'doughnut',
+					data: {
+						datasets: [
+							{
+								data: sum_data,
+								backgroundColor: [
+									'rgb(75, 192, 192)',
+									'rgb(255, 99, 132)'
+								],
+								borderColor: 'transparent',
+							},
+						],
+						labels: ['Legítima', 'Phishing'],
+					},
+					options: {
+						cutoutPercentage: 45,
+						legend: {
+							display: true
+						}
+					},
+					plugins: {
+						legend: {
+							display: true,
+							position: 'bottom',
+							title: {
+								display: true,
+								padding: 10,
+							},
+						}
+					}
+				});
+				$chart.data('chart', piePhishingChart);
+			}
+
+			if ($chart.length) {
+				initChart($chart);
+			}
+
+		})();
+
+		'use strict';
+	}
+
+	if ($('#chart-bars-general') != undefined) {
+
+		var GeneralChartScores = (function () {
+			var $chart = $('#chart-bars-general');
+
+			const data = {
+				labels: clsNames,
+
+				datasets: [{
+					label: metrics[0],
+					data: accuracys,
+					backgroundColor: 'rgb(153, 255, 102)'
 				},
-			});
-			// Save to jQuery object
-			$chart.data('chart', generalChartScores);
-		}
 
-		// Init chart
-		if ($chart.length) {
-			initChart($chart);
-		}
-	})();
+				{
+					label: metrics[1],
+					data: precisions,
+					backgroundColor: 'rgb(255, 153, 255)'
+				},
 
-	'use strict';
+				{
+					label: metrics[2],
+					data: recalls,
+					backgroundColor: 'rgb(255, 255, 102)'
+				},
+				{
+					label: metrics[3],
+					data: f1s,
+					backgroundColor: 'rgb(153, 204, 255)'
+				},
+				{
+					label: metrics[4],
+					data: rocs,
+					backgroundColor: 'rgb(255, 204, 102)'
+				}]
+			};
+
+			function initChart($chart) {
+
+				var generalChartScores = new Chart($chart, {
+
+					type: 'bar',
+					data: data,
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									min: 0,
+									max: 100
+								},
+								display: true,
+								scaleLabel: {
+									display: true,
+									labelString: 'Score (%)'
+								}
+							}]
+						},
+
+						legend: {
+							display: true,
+						}
+					},
+				});
+				$chart.data('chart', generalChartScores);
+			}
+
+			if ($chart.length) {
+				initChart($chart);
+			}
+		})();
+
+		'use strict';
+	}
+
+	if ($('#chart-bars-test') != undefined) {
+
+		var BarsChartTest = (function () {
+
+			var $chart = $('#chart-bars-test');
+			var model_data = clsValues[lastClsIndex];
+			document.getElementById("h6-cls-score-graph").innerText = clsNames[0];
+			var bckColor = [];
+			for (var i = 0; i < nMetrics; i++) {
+				bckColor.push(graphColours[i]);
+			}
+
+			function initChart($chart) {
+
+				var scoresChart = new Chart($chart, {
+					type: 'bar',
+					data: {
+						labels: metrics,
+						datasets: [{
+							label: 'Score (%)',
+							data: model_data,
+							backgroundColor: bckColor,
+						}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									min: 0,
+									max: 100
+								},
+								display: true,
+								scaleLabel: {
+									display: true,
+									labelString: 'Score (%)'
+								}
+							}]
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+				$chart.data('chart', scoresChart);
+			}
+
+			if ($chart.length) {
+				initChart($chart);
+			}
+		})();
+		'use strict';
+	}
 }

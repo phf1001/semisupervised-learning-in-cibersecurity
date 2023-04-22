@@ -23,20 +23,45 @@
 </div>
 
 <!-- Page content -->
-<form role="form" method="post" action="" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
-    <div class="container-fluid mt--6">
+<div class="container-fluid mt--6">
 
-        PROBANDO A {{ model["model_name"] }}
+    {% if scores != None %}
+    <!-- Gráficos -->
+    <div class="row">
+        <div id="cls-scores" data-cls-scores="{{ scores }}"></div>
+        <div id="cls-names" data-cls-names="['{{ model['model_name'] }}']"></div>
+        <div class="col-xl-12">
+            <div class="card bg-default">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h5 id="h6-cls-score-graph" class="h3 text-white mb-0" style="float:left;"> </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart char-bars-models-->
+                    <div class="chart">
+                        <canvas id="chart-bars-test" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
-        <!-- Tabla del dataset -->
+    <!-- Tabla del dataset -->
+    <form role="form" method="post" action="" enctype="multipart/form-data">
+        {{ form.csrf_token }}
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <!-- Card header -->
                     <div class="card-header border-0">
-                        <h3 class="mb-0">CONJUNTO DE DATOS</h3>
+                        <h3 class="mb-0">PROBANDO MODELO {{ model["model_name"] }}</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
@@ -73,8 +98,22 @@
                                             <div class="form-control">
                                                 {{ form.uploaded_test_csv }}
                                             </div>
+                                            <div style="align-items: center;">
+                                                <br></br>
+                                                <p class="primary-label-forms">
+                                                    <input id="checkbox-exclude-train" value="0" type="checkbox"
+                                                        style="width: 20px; height: 20px;"
+                                                        name="checkbox-exclude-train">
+                                                    &nbsp;&nbsp;¿Excluir ejemplos vistos durante el entrenamiento?&nbsp;
+                                                    <span class="gray-description-forms">Si se selecciona, en caso de
+                                                        haber
+                                                        enlaces ya vistos durante el entrenamiento en el conjunto de
+                                                        test, serán
+                                                        omitidos.</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div id="hd2" style="display: none">
+                                        <div id="hd2" style="display: block">
                                             <span class="gray-description-forms">En este caso, se utilizarán los datos
                                                 del dataset.
                                                 Para garantizar que los resultados sean certeros, no se utilizarán
@@ -82,13 +121,8 @@
                                             </span>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td colspan="2">
                                     <div style="align-items: center;">
+                                        <br></br>
                                         <p class="primary-label-forms">
                                             <input id="checkbox-update-db" value="0" type="checkbox"
                                                 style="width: 20px; height: 20px;" name="checkbox-update-db">
@@ -100,7 +134,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td colspan="2" style="text-align: center;">
                                     <div style="align-items: center;">
                                         <button type="submit" name="siguiente"
                                             class="btn btn-primary my-4">Siguiente</button>
@@ -113,13 +147,15 @@
                 </div>
             </div>
         </div>
-        {% include "includes/footer.html" %}
-    </div>
-</form>
+    </form>
+    {% include "includes/footer.html" %}
+</div>
+
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 {% endblock javascripts %}
