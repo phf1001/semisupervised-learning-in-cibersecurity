@@ -1450,19 +1450,24 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
         raise KriniException("Error al generar el dataset.")
 
 
-def return_X_y_single(dataset_method, dataset_params, omit_train_ids=False):
+def return_X_y_single(
+    dataset_method, model_id=-1, files_dict={}, omit_train_ids=False
+):
     """
     Returns X and y not sampled.
     Based on the dataset_method and dataset_params.
     If csv, params must be a dictionary {test:file}.
-    If generate, params must be a model_id.
 
-    Warning: only not training instances will be returned if
-             generate is selected.
+    Warning: only not training instances will be returned
+    if omit_train_ids is True and a valid model_id is provided.
 
     Args:
         dataset_method (str): "csv" or "generate"
-        dataset_params (int or dict): dictionary {test:file} or model_id
+        model_id (int, optional): model_id. Defaults to -1.
+        files_dict (dict): dictionary {test:file}
+        omit_train_ids (bool, optional): If true, instances seen during
+                                         training will be ommited.
+                                         Defaults to False.
 
     Raises:
         KriniException: if there is an error
@@ -1472,66 +1477,91 @@ def return_X_y_single(dataset_method, dataset_params, omit_train_ids=False):
     """
     try:
         if dataset_method == "csv" and not omit_train_ids:
-            X_test, y_test = extract_X_y_csv(dataset_params["test"])
+            X_test, y_test = extract_X_y_csv(files_dict["test"])
 
-        else:  # Ids are ommited (even if not selected for generate)
-            model_training_rows = Model_is_trained_with.query.filter_by(
-                model_id=dataset_params
-            ).all()
-
-            model_training_ids = set(
-                [row.instance_id for row in model_training_rows]
+        elif dataset_method == "csv" and omit_train_ids:
+            model_training_ids = get_model_training_ids(model_id)
+            X_test_full, y_test_full, test_ids = extract_X_y_csv(
+                files_dict["test"], get_ids=True
             )
 
-            if dataset_method == "csv":
-                X_test_full, y_test_full, test_ids = extract_X_y_csv(
-                    dataset_params["test"], get_ids=True
-                )
+            X_test = []
+            y_test = []
 
-                X_test = []
-                y_test = []
+            for i, instance_id in enumerate(test_ids):
+                if instance_id not in model_training_ids:
+                    X_test.append(X_test_full[i])
+                    y_test.append(y_test_full[i])
 
-                for i, instance_id in enumerate(test_ids):
-                    if instance_id not in model_training_ids:
-                        X_test.append(X_test_full[i])
-                        y_test.append(y_test_full[i])
+            X_test = array(X_test)
+            y_test = array(y_test)
 
-            elif dataset_method == "generate":
-                instances = Available_instances.query.filter(
-                    Available_instances.reviewed_by.isnot(None)
-                ).all()
+        elif dataset_method == "generate" and omit_train_ids:
+            model_training_ids = get_model_training_ids(model_id)
+            X_test, y_test = get_all_instances_database_rows(
+                exclude_ids=model_training_ids
+            )
 
-                instances = [
-                    instance.instance_fv + [instance.instance_class]
-                    for instance in instances
-                    if instance.instance_id not in model_training_ids
-                    and instance.instance_fv
-                    and (
-                        instance.instance_class == 1
-                        or instance.instance_class == 0
-                    )
-                ]
-
-                logger.info(
-                    "Instances used: {}. Training {}".format(
-                        len(instances), len(model_training_ids)
-                    )
-                )
-
-                df = pd.DataFrame(
-                    data=instances,
-                    columns=["f{}".format(i) for i in range(1, 20)]
-                    + ["instance_class"],
-                )
-
-                X_test = df.iloc[:, :-1].values
-                y_test = df.iloc[:, -1].values
+        elif dataset_method == "generate" and not omit_train_ids:
+            X_test, y_test = get_all_instances_database_rows()
 
         return X_test, y_test
 
     except ValueError as e:
         logger.info(e)
         raise KriniException("Error al generar el dataset de entrenamiento.")
+
+
+def get_all_instances_database_rows(exclude_ids=set()):
+    """
+    Returns all instances from the database as X and y.
+
+    Args:
+        exclude_ids (set, optional): ids to be excluded. Defaults to set().
+
+    Throws:
+        exc.SQLAlchemyError: if there is an error
+    """
+    instances = Available_instances.query.filter(
+        Available_instances.reviewed_by.isnot(None)
+    ).all()
+
+    instances = [
+        instance.instance_fv + [instance.instance_class]
+        for instance in instances
+        if instance.instance_fv
+        and instance.instance_id not in exclude_ids
+        and (instance.instance_class == 1 or instance.instance_class == 0)
+    ]
+
+    df = pd.DataFrame(
+        data=instances,
+        columns=["f{}".format(i) for i in range(1, 20)] + ["instance_class"],
+    )
+
+    X_test = df.iloc[:, :-1].values
+    y_test = df.iloc[:, -1].values
+    return X_test, y_test
+
+
+def get_model_training_ids(model_id):
+    """Returns the instances ids used to train a model.
+
+    Args:
+        model_id (int): model_id
+
+    Throws:
+        exc.SQLAlchemyError: if there is an error
+
+    Returns:
+        set: set of instance_ids used to train.
+    """
+
+    model_training_rows = Model_is_trained_with.query.filter_by(
+        model_id=model_id
+    ).all()
+
+    return set([row.instance_id for row in model_training_rows])
 
 
 def extract_X_y_csv(file_name, get_ids=False):

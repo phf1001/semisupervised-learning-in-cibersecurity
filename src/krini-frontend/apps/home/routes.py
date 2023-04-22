@@ -679,7 +679,7 @@ def test_model():
         raise Forbidden()
 
     try:
-        form = TestModelForm(request.form)
+        form = TestModelForm()  # DO NOT INCLUDE REQUEST.FORM, FILES FAIL
 
         messages = session.get("messages", None)
         model_id = int(messages["model_id"])
@@ -699,27 +699,33 @@ def test_model():
             )
 
             if selected_method == "csv":
-                logger.info(request.form)
                 selected_method, params = save_files_to_temp(
                     form.uploaded_test_csv.data
-                )
+                )[1]
 
                 if selected_method != "csv":
                     raise KriniException(
                         "Se ha producido un error al subir los archivos .csv"
                     )
 
-            if selected_method == "generate":
-                params = model_id
+                X_test, y_test = return_X_y_single(
+                    selected_method,
+                    model_id=model_id,
+                    files_dict=params,
+                    omit_train_ids=omit_ids,
+                )
 
-            X_test, y_test = return_X_y_single(
-                selected_method, params, bool(omit_ids)
-            )
+                logger.info("routes y test {}".format(y_test))
+
+            if selected_method == "generate":
+                X_test, y_test = return_X_y_single(
+                    selected_method, model_id=model_id, omit_train_ids=omit_ids
+                )
 
             if len(X_test) == 0:
                 analysis_scores = model.model_scores
                 raise KriniException(
-                    "No hay enlaces para testear el modelo (han sido utilizados todos durante el entrenamiento). Prueba a subir un csv. Mostrando scores almacenados en la BD."
+                    "No hay instancias para testear el modelo (han sido todas vistas durante el entrenamiento). Prueba a subir un csv. Mostrando scores almacenados en la BD."
                 )
 
             # Model is tested and updated
@@ -739,6 +745,9 @@ def test_model():
                 "Test realizado correctamente. Puedes ver los resultados en la gráfica superior.",
                 "success",
             )
+
+            for error in form.errors:
+                flash(form.errors[error][0], "danger")
 
         return render_template(
             "home/test-model.html",
@@ -763,7 +772,8 @@ def test_model():
         AttributeError,
         PickleError,
         FileNotFoundError,
-    ):
+    ) as e:
+        logger.info(e)
         flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
         return redirect(url_for("home_blueprint.models"))
 

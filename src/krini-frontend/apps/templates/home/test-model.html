@@ -55,8 +55,9 @@
     {% endif %}
 
     <!-- Tabla del dataset -->
-    <form role="form" method="post" action="" enctype="multipart/form-data">
+    <form role="form" method="POST" action="" enctype="multipart/form-data">
         {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -98,22 +99,8 @@
                                             <div class="form-control">
                                                 {{ form.uploaded_test_csv }}
                                             </div>
-                                            <div style="align-items: center;">
-                                                <br></br>
-                                                <p class="primary-label-forms">
-                                                    <input id="checkbox-exclude-train" value="0" type="checkbox"
-                                                        style="width: 20px; height: 20px;"
-                                                        name="checkbox-exclude-train">
-                                                    &nbsp;&nbsp;¿Excluir ejemplos vistos durante el entrenamiento?&nbsp;
-                                                    <span class="gray-description-forms">Si se selecciona, en caso de
-                                                        haber
-                                                        enlaces ya vistos durante el entrenamiento en el conjunto de
-                                                        test, serán
-                                                        omitidos.</span>
-                                                </p>
-                                            </div>
                                         </div>
-                                        <div id="hd2" style="display: block">
+                                        <div id="hd2" style="display: none">
                                             <span class="gray-description-forms">En este caso, se utilizarán los datos
                                                 del dataset.
                                                 Para garantizar que los resultados sean certeros, no se utilizarán
@@ -123,6 +110,18 @@
                                     </div>
                                     <div style="align-items: center;">
                                         <br></br>
+                                        <p class="primary-label-forms">
+                                            <input id="checkbox-exclude-train" value="0" type="checkbox"
+                                                style="width: 20px; height: 20px;" name="checkbox-exclude-train">
+                                            &nbsp;&nbsp;¿Excluir ejemplos vistos durante el entrenamiento?&nbsp;
+                                            <span class="gray-description-forms">Si se selecciona, en caso de
+                                                haber
+                                                instancias ya vistos durante el entrenamiento en el conjunto de
+                                                test, serán
+                                                omitidos.</span>
+                                        </p>
+                                    </div>
+                                    <div style="align-items: center;">
                                         <p class="primary-label-forms">
                                             <input id="checkbox-update-db" value="0" type="checkbox"
                                                 style="width: 20px; height: 20px;" name="checkbox-update-db">
