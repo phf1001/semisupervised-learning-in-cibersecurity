@@ -634,7 +634,10 @@ def update_batch_checks(
     if modality == "deseleccionar_todos":
         checks = {}
 
-    elif modality == "seleccionar_todos":
+    elif (
+        modality == "seleccionar_todos"
+        or modality == "seleccionar_todos_contrarios"
+    ):
         if sequence:
             n_instances = Candidate_instances.query.count()
             checks = {str(i): i for i in range(n_instances)}
@@ -647,10 +650,20 @@ def update_batch_checks(
                 }
 
             elif items_class == Available_instances:
-                checks = {
-                    str(instance.instance_id): instance.instance_id
-                    for instance in instances
-                }
+                if modality == "seleccionar_todos":
+                    checks = {
+                        str(instance.instance_id): instance.instance_id
+                        for instance in instances
+                    }
+
+                elif modality == "seleccionar_todos_contrarios":
+                    selected = set(checks.values())
+
+                    checks = {
+                        str(instance.instance_id): instance.instance_id
+                        for instance in instances
+                        if instance.instance_id not in selected
+                    }
 
     elif "page" in modality:
         if sequence:
