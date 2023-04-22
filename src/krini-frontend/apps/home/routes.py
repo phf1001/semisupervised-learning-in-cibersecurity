@@ -741,13 +741,23 @@ def test_model():
             if update_bd:
                 update_model_scores_db(model, analysis_scores)
 
-            flash(
-                "Test realizado correctamente. Puedes ver los resultados en la gráfica superior.",
-                "success",
-            )
+            if not omit_ids:
+                flash(
+                    "Recuerda que los resultados de las scores pueden ser optimistas si el conjunto de test contiene instancias que han sido vistas durante el entrenamiento.",
+                    "info",
+                )
 
-            for error in form.errors:
-                flash(form.errors[error][0], "danger")
+            if update_bd:
+                flash(
+                    "Test realizado correctamente. Puedes ver los resultados en la gráfica superior. Además, se han actualizado las scores en la base de datos.",
+                    "success",
+                )
+
+            else:
+                flash(
+                    "Test realizado correctamente. Puedes ver los resultados en la gráfica superior.",
+                    "success",
+                )
 
         return render_template(
             "home/test-model.html",
@@ -1188,7 +1198,15 @@ def report_url():
             ).first()
 
             if not existing_instance:
-                existing_instance = Available_instances(instance_URL=url)
+                existing_instance = Available_instances(
+                    instance_URL=url,
+                    instance_labels=(
+                        [
+                            Available_tags.sug_new_instance,
+                            Available_tags.sug_review,
+                        ],
+                    ),
+                )
                 db.session.add(existing_instance)
                 db.session.flush()
 

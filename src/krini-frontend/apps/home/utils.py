@@ -515,8 +515,20 @@ def get_instance_dict(instance, empty=False):
             "badge_colour": "",
             "colour_list": "",
             "instance_labels": [],
+            "instance_labels_colours": [],
             "is_selected": 0,
         }
+
+    instance_labels = instance.instance_labels
+
+    if instance_labels:
+        instance_labels_colours = [
+            Available_tags.get_colour(label) for label in instance_labels
+        ]
+
+    else:
+        instance_labels_colours = None
+        instance_labels = None
 
     return {
         "instance_id": instance.instance_id,
@@ -528,9 +540,8 @@ def get_instance_dict(instance, empty=False):
         "instance_class": translate_tag_colour(instance.instance_class)[0],
         "badge_colour": translate_tag_colour(instance.instance_class)[1],
         "colour_list": instance.colour_list,
-        "instance_labels": instance.instance_labels
-        if instance.instance_labels
-        else [],
+        "instance_labels": instance_labels,
+        "instance_labels_colours": instance_labels_colours,
         "is_selected": 0,
     }
 
@@ -556,6 +567,9 @@ def get_candidate_instance_dict(candidate_instance, report_number):
         ),
         "date_reported": str(candidate_instance.date_reported)[:16],
         "suggestion": candidate_instance.suggestions,
+        "suggestion_colour": Available_tags.get_colour(
+            candidate_instance.suggestions
+        ),
         "is_selected": 0,
     }
 
@@ -966,6 +980,7 @@ def accept_incoming_suggestion(candidate_instance):
             if Available_tags.auto_classified in new_labels:
                 new_labels.remove(Available_tags.auto_classified)
 
+        new_labels.append(Available_tags.reviewed)
         affected_instance.instance_labels = new_labels
         affected_instance.reviewed_by = current_user.id
         db.session.commit()

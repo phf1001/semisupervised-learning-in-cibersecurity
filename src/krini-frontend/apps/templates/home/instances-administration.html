@@ -144,18 +144,20 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge rounded-pill"
-                      style="font-size: 12px; background-color: {{ instance['badge_colour'] }}; color: white; font-weight: bold;">{{
+                      style="font-size: 12px; background-color:{{ instance['badge_colour'] }}; color: white; font-weight: bold;">{{
                       instance["instance_class"] }}</span>
                   </td>
                   <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
                     {{ instance["reviewed_by"] }}
                   </td>
                   <td style='word-break: break-all; width: 200px; white-space: initial'>
-                    {% if instance["instance_labels"] == None or instance["instance_labels"][0] is not defined %}
+                    {% if instance["instance_labels"] == None %}
                     {% else %}
+                    {% set colours = instance["instance_labels_colours"] %}
                     {% for tag in instance["instance_labels"] %}
                     {% if tag != "" %}
-                    <span class="badge badge-primary rounded-pill" style="font-size: 12px; margin-bottom: 0.75rem;">{{
+                    <span class="badge badge-primary rounded-pill"
+                      style="font-size: 12px; margin-bottom: 0.75rem; font-weight: bold; color:white; background-color:{{colours[loop.index0]}};">{{
                       tag }}&nbsp;</span>
                     {% endif %}
                     {% endfor %}

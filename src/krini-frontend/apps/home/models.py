@@ -139,13 +139,14 @@ class Available_tags:
     black_list = "black-list"
     white_list = "white-list"
     auto_classified = "auto-classified"
+    reviewed = "reviewed"
 
     sug_white_list = "suggestion-white-list"
     sug_black_list = "suggestion-black-list"
     sug_phishing = "suggestion-phishing"
     sug_legitimate = "suggestion-legitimate"
 
-    sug_new_instance = "new-scanned-instance"
+    sug_new_instance = "new-instance"
     sug_review = "recommendation-review"
     sug_new_report = "suggestion-review-new-scanned"
 
@@ -169,7 +170,46 @@ class Available_tags:
         sug_new_instance,
         sug_review,
         sug_new_report,
+        reviewed,
     ]
+
+    @staticmethod
+    def get_colour(tag):
+        if (
+            tag == Available_tags.white_list
+            or tag == Available_tags.sug_white_list
+        ):
+            return "#58B1CD"
+
+        if (
+            tag == Available_tags.black_list
+            or tag == Available_tags.sug_black_list
+        ):
+            return "#878C8A"
+
+        if tag == Available_tags.auto_classified:
+            return "#CE7E00"
+
+        if tag == Available_tags.sug_phishing:
+            return "#E96A61"
+
+        if tag == Available_tags.sug_legitimate:
+            return "#7bbE5E"
+
+        if tag == Available_tags.sug_new_instance:
+            return "#800080"
+
+        if tag == Available_tags.sug_review:
+            return "#BAB55E"
+
+        if tag == Available_tags.sug_new_report:
+            return "#FF00A9"
+
+        if tag == Available_tags.reviewed:
+            return "#3FB59E"
+
+        else:
+            return "#FF7518"
 
 
 class Available_models(db.Model):
