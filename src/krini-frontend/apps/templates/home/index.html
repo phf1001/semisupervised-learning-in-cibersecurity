@@ -20,12 +20,13 @@
 
   {% with messages=get_flashed_messages(with_categories=true) %}
   {% for category, message in messages %}
-    <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto' style="font-size: 20px; font-weight: bold;">
-      {{ message }}
-    </div>
+  <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto'
+    style="font-size: 20px; font-weight: bold;">
+    {{ message }}
+  </div>
   {% endfor %}
   {% endwith %}
-  
+
   <div class="main-content">
     <div class="header bg-gradient-primary py-3 py-lg-3">
       <div class="container">
@@ -50,7 +51,7 @@
           <div class="card bg-transparent" style="text-shadow: none; box-shadow: none;">
             <div class="card-header bg-transparent pb-5 border-0">
               <div class="text-center">
-                <img src="/static/assets/img/theme/logo.png" style="width: 60%; height: 60%">     
+                <img src="/static/assets/img/theme/logo.png" style="width: 60%; height: 60%">
               </div>
             </div>
           </div>
@@ -65,8 +66,9 @@
           <div class="card">
             <!-- Card header -->
             <div class="card-header">
-              <div class="text-primary text-center" style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
-                KRINI
+              <div class="text-primary text-center"
+                style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
+                {{ gettext('KRINI') }}
               </div>
             </div>
             <!-- Light table -->
@@ -77,8 +79,9 @@
                   <caption></caption>
                   <thead class="thead-light">
                     <tr>
-                      <th colspan="5" class="text-muted text-center" style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
-                        ANALIZADOR DE PHISHING
+                      <th colspan="5" class="text-muted text-center"
+                        style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
+                        {{ gettext('ANALIZADOR DE PHISHING') }}
                       </th>
                     </tr>
                   </thead>
@@ -89,8 +92,9 @@
                       <td colspan="3">
                         <div class="form-group mb-0" name="search">
                           <br><br>
-                          <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
-                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o https://)</span>
+                          <p class="primary-label-forms">&nbsp;&nbsp;{{ gettext('Introduce una URL') }}&nbsp;
+                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o
+                              https://)</span>
                           </p>
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
@@ -104,7 +108,8 @@
                         <div class="form-group mb-0">
                           <br><br><br>
                           <p class="primary-label-forms">&nbsp;&nbsp;Selecciona un modelo&nbsp;
-                            <span class="gray-description-forms">los modelos visibles se muestran en el despegable</span>
+                            <span class="gray-description-forms">los modelos visibles se muestran en el
+                              despegable</span>
                           </p>
                           {{ form.selected_models }}
 
@@ -118,7 +123,8 @@
                             <ul class="list-items-multi-select">
                               <li style="list-style-type: none;">
                                 <div style:="display: inline-block; width: 50%; text-align: center;">
-                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Selecciona todos</span>
+                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Selecciona
+                                    todos</span>
                                   <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4"
                                     style="float: right;">Elimina todos</span>
                                 </div>
@@ -135,18 +141,21 @@
                         <div class="form-group mb-0">
                           <br><br>
                           <p class="primary-label-forms">
-                            <input id="checkbox-quick-scan" value="0"
-                            type="checkbox" style="width: 20px; height: 20px;" name="checkbox-quick-scan">
+                            <input id="checkbox-quick-scan" value="0" type="checkbox" style="width: 20px; height: 20px;"
+                              name="checkbox-quick-scan">
                             &nbsp;&nbsp;¿Análisis rápido?&nbsp;
-                            <span class="gray-description-forms">Si la URL se encuentra en nuestra base de datos, los resultados se mostrarán
+                            <span class="gray-description-forms">Si la URL se encuentra en nuestra base de datos, los
+                              resultados se mostrarán
                               inmediatamente. Si no, se realizará un análisis completo (unos 40 segundos).
-                              En caso de encontrar la instancia en la base de datos, no se mostrarán los valores utilizados en 
+                              En caso de encontrar la instancia en la base de datos, no se mostrarán los valores
+                              utilizados en
                               la extracción del vector de características.
-                            </nav></span>
+                            </span>
                           </p>
                         </div>
                         <div class="text-center">
-                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi URL!</button>
+                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi
+                            URL!</button>
                         </div>
                       </td>
                       <td></td>
@@ -168,7 +177,8 @@
               <div class="row">
                 <div class="col">
                   <p class="primary-label-forms">Analizador de phishing</p>
-                  <span class="h4 text-muted">¡Bienvenido al analizador de enlaces de phishing! Para utilizarlo, tan sólo
+                  <span class="h4 text-muted">¡Bienvenido al analizador de enlaces de phishing! Para utilizarlo, tan
+                    sólo
                     escribe la dirección de la página que quieres analizar y pulsa el botón "Scan". En el dashboard
                     podrás observar algunas de las gráficas generadas por nuestros estimadores.
                   </span>
@@ -212,9 +222,11 @@
               <div class="row">
                 <div class="col">
                   <p class="primary-label-forms">¿Puedo denunciar enlaces?</p>
-                  <span class="h4 text-muted">¡Por supuesto! Además de utilizar algoritmos de aprendizaje semisupervisado,
+                  <span class="h4 text-muted">¡Por supuesto! Además de utilizar algoritmos de aprendizaje
+                    semisupervisado,
                     también
-                    puedes denunciar enlaces sospechosos para que sean analizados por nuestro equipo de expertos. Tan sólo
+                    puedes denunciar enlaces sospechosos para que sean analizados por nuestro equipo de expertos. Tan
+                    sólo
                     tienes que iniciar sesión.
                   </span>
                 </div>

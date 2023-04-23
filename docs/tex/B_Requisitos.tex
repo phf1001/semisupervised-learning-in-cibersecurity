@@ -1,4 +1,5 @@
 \apendice{Especificación de Requisitos}
+\label{s:anexo-B}
 
 \section{Introducción}
 
@@ -38,7 +39,7 @@ En las metodologías ágiles no sólo es necesario definir las funcionalidades, 
 \begin{itemize}
 	\item \textbf{Visitante}: se trata de un navegante que accede a la \textit{web}. En este caso, las funcionalidades que tiene disponibles son más limitadas, ya que únicamente se le permite analizar URLs y visualizar los resultados.
 	\item \textbf{Usuario registrado}: un usuario registrado (rol <<estándar>>) tiene acceso a funcionalidades colaborativas. Es decir, además de poder escanear URLS, tiene permiso para reportar enlaces que sepa que son legítimos o \textit{phishing}. Estos serán revisados por administradores y etiquetados (de forma que pertenezcan a una lista blanca o a una lista negra). Además, también podrán notificar análisis incorrectos. De esta forma, si un usuario piensa que una URL es, por ejemplo, \textit{phishing}, y los modelos predicen que se trata de un enlace legítimo, puede notificarlo. Este aviso llegará a los administradores, quienes podrán examinar la instancia e incluirla en el \textit{dataset} para ser estudiada por modelos futuros y mejorar el rendimiento de la aplicación.
-	\item \textbf{Administrador}: los usuarios que tengan este rol tendrán acceso a la funcionalidad completa de la \textit{web}. Podrán crear nuevos modelos de aprendizaje y entrenarlos con las instancias que consideren, además de editar los existentes. También podrán revisar todas las notificaciones y reportes de usuarios de la aplicación e inluir nuevas instancias en el \textit{dataset}, además de modificar las existentes.
+	\item \textbf{Administrador}: los usuarios que tengan este rol tendrán acceso a la funcionalidad completa de la \textit{web}. Podrán crear nuevos modelos de aprendizaje y entrenarlos con las instancias que consideren, además de editar los existentes. También podrán revisar todas las notificaciones y reportes de usuarios de la aplicación e incluir nuevas instancias en el \textit{dataset}, además de modificar las existentes.
 \end{itemize}
 
 \section{Catálogo de historias de usuario}
@@ -46,7 +47,7 @@ En las metodologías ágiles no sólo es necesario definir las funcionalidades, 
 
 \begin{table}
 	\scalebox{0.80}{
-	\begin{tabular}{@{}p{3em} p{6em} p{8em} p{8em} p{10em}@{}}		
+	\begin{tabular}{@{}p{3em} p{4em} p{5em} p{9em} p{14em}@{}}		
 	\toprule
 	\textbf{ID} & \textbf{Como} & \textbf{Quiero} & \textbf{Para} & \textbf{Aceptación}\\
 	\midrule
@@ -57,23 +58,23 @@ En las metodologías ágiles no sólo es necesario definir las funcionalidades, 
 		HU-3 & Usuario registrado & Poder iniciar sesión & Acceder a más funcionalidades & Al introducir credenciales correctas se accede a una cuenta y se desbloquean opciones colaborativas. \\\\
 		HU-4 & Usuario registrado & Reportar URLs & Que sean incluídas en una lista blanca o negra & Existe un lugar donde reportar URLs cuando se está seguro de la clase a la que pertenecen.\\\\
 		HU-5 & Usuario registrado & Notificar análisis incorrectos & Que las instancias sean revisadas y poder mejorar los algoritmos de ML & Existe un botón con el que se reporta automáticamente que se considera que un análisis ha fallado.\\\\
-		HU-6 & Administrador & Administrar instancias (URLs) & Poder mantener un dataset actualizado & Se pueden añadir instancias.
+		HU-6 & Adminis- trador & Administrar instancias (URLs) & Poder mantener un dataset actualizado & Se pueden añadir instancias.
 		
 		Se pueden generar ficheros \texttt{csv} con las instancias disponibles.
 		
 		Se pueden modificar instancias.
 		
 		Se pueden consultar las instancias reportadas por los usuarios.\\\\
-		HU-7 & Administrador & Administrar modelos de \textit{machine learning} & Que estén disponibles en la página y puedan ser utilizados por los usuarios para realizar análisis & Se pueden crear nuevos modelos desde la web.
+		HU-7 & Adminis- trador & Administrar modelos de \textit{machine learning} & Que estén disponibles en la página y puedan ser utilizados por los usuarios para realizar análisis & Se pueden crear nuevos modelos desde la web.
 		
 			Se pueden probar modelos existentes.
 			
-			Se pueden editar modelos existentes.
+			Se pueden eliminar modelos existentes.
 		\\
 	\bottomrule
 	\end{tabular}
 	}
-	\caption[Historias de usuario: entrevista con el \textit{product ownew}]{Historias de usuario recogidas durante las entrevistas con el \textit{product owner}}
+	\caption[Historias de usuario: entrevista con el \textit{product owner}]{Historias de usuario recogidas durante las entrevistas con el \textit{product owner}}
 	\label{hu:estructura-tabular}
 \end{table}
 
@@ -86,74 +87,74 @@ Como es conocido, en el mundo del desarrollo \textit{software} suele haber una d
 
 Con el fin de reducir dichas desventajas y realizar un diseño que se adapte a los requerimientos del usuario, se ha decidido realizar una fase de prototipado durante las entrevistas del producto. Esto ha permitido identificar posibles diferencias entre el equipo del desarrollo y el cliente (representado por el \textit{product owner}), facilitando la comunicación y colaboración entre ambas partes.
 
-Se adjuntan a continuación los diferentes \textit{mockups} del analizador de \textit{phishing} realizados durante esta fase.
+Se adjuntan a continuación los diferentes prototipos de la \textit{web} para el analizador de \textit{phishing} realizados durante esta fase.
 
 
 \begin{figure}[h]
-	\caption{Prototipos: página principal}
+	\caption{Prototipo: página principal}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/1-mockups-index}
 	\label{mock:index}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: \textit{dashboard}}
+	\caption{Prototipo: \textit{dashboard}}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/2-mockups-dashboard}
 	\label{mock:dashboard}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: perfil del usuario}
+	\caption{Prototipo: perfil del usuario}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/4-mockups-profile}
 	\label{mock:profile}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: reportar una URL}
+	\caption{Prototipo: reportar una URL}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/3-mockups-report_url}
 	\label{mock:report_url}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: administración de modelos}
+	\caption{Prototipo: administración de modelos}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/5-mockups-models}
 	\label{mock:model-admin}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: creación de modelos}
+	\caption{Prototipo: creación de modelos}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/6-mockups-new_model}
 	\label{mock:model-new}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: evaluación de modelos}
+	\caption{Prototipo: evaluación de modelos}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/7-mockups-test_model}
 	\label{mock:model-test}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: selección de instancias}
+	\caption{Prototipo: selección de instancias}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/8-mockups-select_instances}
 	\label{mock:instance-selection}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: administración de instancias}
+	\caption{Prototipo: administración de instancias}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/9-mockups-instances}
 	\label{mock:instance-admin}
 \end{figure}
 
 \begin{figure}[h]
-	\caption{Prototipos: edición de instancias}
+	\caption{Prototipo: edición de instancias}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/mockups/10-mockups-edit_instance}
 	\label{mock:instances-edit}
@@ -162,7 +163,7 @@ Se adjuntan a continuación los diferentes \textit{mockups} del analizador de \t
 \section{Catálogo de requisitos}
 \label{s:cat-requisitos}
 
-Utilizando como base las entrevistas realizadas con el \textit{product owner} y las historias de usuario expuestas en la sección~\ref{s:hu} y como soporte auxiliar los prototipos de la sección~\ref{s:mockups}, se han extraído los requisitos de usuario de forma tradicional y siguiendo las características que han de tener según el estándar~\texttt{IEEE 830}~\cite{ieee830}. Por ello, se dividen en dos categorías:
+Utilizando como base las entrevistas realizadas con el \textit{product owner}, las historias de usuario expuestas en la sección~\ref{s:hu} y como soporte auxiliar los prototipos de la sección~\ref{s:mockups}, se han extraído los requisitos de usuario de forma tradicional y siguiendo las características que han de tener según el estándar~\texttt{IEEE 830}~\cite{ieee830}. Por ello, se dividen en dos categorías:
 
 \subsection{Requisitos funcionales}
 \label{s:requisitos-funcionales}
@@ -173,81 +174,89 @@ Este tipo de requerimiento (de ahora en adelante RF) detalla las funciones que d
 	\item \textbf{RF-1 Análisis de enlaces}: la página \textit{web} ha de ser capaz de analizar un enlace y concluir si se trata de un enlace de \textit{phishing} o legítimo mediante el uso de \textit{machine learning}\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:index}.}.
 	\begin{itemize}
 		\item \textbf{RF-1.1 Selección de modelos}: la página \textit{web} debe disponer de modelos entrenados para que el usuario pueda seleccionar los que desee para cada análisis.
-		\item \textbf{RF-1.2 Análisis rápido}: en caso de haber realizado un análisis de un enlace repetido, la página \textit{web} debe mostrar los resultados inmediatamente.
+		\item \textbf{RF-1.2 Análisis rápido}: en caso de haber realizado un análisis de un enlace repetido, la página \textit{web} debe mostrar los resultados inmediatamente (sin necesidad de recalcularlo).
 	\end{itemize}
 	
-	\item \textbf{RF-2 Visualización de resultados}: los resultados del análisis se deben de mostrar utilizando técnicas de representación visual para facilitar el entendimiento por parte de cualquier tipo de usuario\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:dashboard}.}.
+	\item \textbf{RF-2 Visualización de resultados}: los resultados del análisis se deben mostrar utilizando técnicas de representación visual para facilitar el entendimiento por parte de cualquier tipo de usuario\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:dashboard}.}.
 	\begin{itemize}
-	\item \textbf{RF-2.1 Gráficos interactivos}: la página \textit{web} debe mostrar gráficos con las estadísticas de los modelos seleccionados para el análisis y de los resultados del mismo. Estos gráficos deben de permitir que el usuario interactúe con ellos seleccionando la información que desea representar.
-	\item \textbf{RF-2.2 Tablas}: se han de mostrar tablas con información acerca de cada clasificador, qué predicción ha realizado y cuán seguro está de ella.
+	\item \textbf{RF-2.1 Gráficos interactivos}: la página \textit{web} debe mostrar gráficos con las estadísticas de los modelos seleccionados para el análisis y de los resultados del mismo. Estos gráficos deben permitir que el usuario interactúe con ellos seleccionando la información que desea representar.
+	\item \textbf{RF-2.2 Tablas}: se han de mostrar tablas con información acerca de cada clasificador, qué predicción ha realizado y cómo de seguro está de ella.
 	\item \textbf{RF-2.3 Vector de características}: se debe mostrar (y explicar) de dónde proviene el resultado extraído y cómo se ha calculado.
-	\item \textbf{RF-2.4 Notificar falso resultado}: en caso de que un usuario registrado piense que un análisis es incorrecto, debe de poder notificarlo fácilmente.
+	\item \textbf{RF-2.4 Notificar falso resultado}: en caso de que un usuario registrado piense que un análisis es incorrecto, debe poder notificarlo fácilmente.
 	\end{itemize}
 
 	\item \textbf{RF-3 Usuarios}: se ha de incluir una gestión básica de usuarios con el fin de trazar quién ha realizado reportes de enlaces y moderar accesos a zonas restringidas.
 	\begin{itemize}
-	\item \textbf{RF-3.1 Creación de cuentas}: cualquier navegante podrá crear una cuenta proporcionando un nombre de usuario, un \textit{email} y una contraseña.
+	\item \textbf{RF-3.1 Creación de cuentas}: cualquier usuario visitante podrá crear una cuenta proporcionando un nombre de usuario, un \textit{email} y una contraseña.
 	\item \textbf{RF-3.2 Inicio de sesión}: un usuario registrado podrá iniciar sesión en la página \textit{web} con sus credenciales.
 	\item \textbf{RF-3.3 Visualización del perfil}: cualquier usuario registrado podrá consultar sus datos\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:profile}.}.
 	\end{itemize}
 
 	\item \textbf{RF-4 Reportar enlaces}: se permitirá que los usuarios registrados puedan reportar aquellos enlaces que sepan que son \textit{phishing} o legítimos. Estos serán etiquetados como pertenecientes a una lista blanca o a una lista negra y serán revisados por un administrador\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en el \textit{mockup}~\ref{mock:report_url}.}.
 	
-	\item \textbf{RF-5 Administración de instancias}: una instancia es una URL de la que se desea almacenar información (como su vector de características, etiqueta, pertenencia a una lista blanca o negra, etc.)\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:instance-admin}, \ref{mock:instance-selection} y \ref{mock:instances-edit}.}.
+	\item \textbf{RF-5 Administración de instancias:} una instancia es una URL de la que se desea almacenar información (como su vector de características, etiqueta, pertenencia a una lista blanca o negra, etc.)\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:instance-admin}, \ref{mock:instance-selection} y \ref{mock:instances-edit}.}.
 	\begin{itemize}
-		\item \textbf{RF-5.1 Creación de instancias}: se deberán de poder añadir instancias a la base de datos.
-		\item \textbf{RF-5.2 Modificación de instancias}: se podrán editar ciertos campos relacionados con cada instancia (como sus etiquetas o pertenencia a listas).
+		\item \textbf{RF-5.1 Creación de instancias}: se deberán de poder añadir instancias\footnote{En el contexto de este proyecto, una instancia es cada uno de los datos que puede ser utilizado para entrenar o probar un modelo (URLs que serán clasificadas como \textit{phishing} o legítimas).}  a la base de datos.
+		\item \textbf{RF-5.2 Modificación de instancias}: se podrán editar ciertos campos relacionados con cada instancia (como sus etiquetas o pertenencia a listas). Además, se debe permitir que los usuarios puedan regenerar vectores de características desde la aplicación.
 		\item \textbf{RF-5.3 Eliminación de instancias}: se podrán borrar enlaces del \textit{dataset}.
 		\item \textbf{RF-5.4 Descarga de instancias}: se podrán descargar las instancias seleccionadas en un archivo \texttt{csv} para ser utilizadas en el entrenamiento o prueba de nuevos modelos.
 	\end{itemize}
 	
-	\item \textbf{RF-6 Administración de modelos}: una administrador debe poder gestionar desde la aplicación los modelos de aprendizaje disponibles para analizar enlaces\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:model-admin}, \ref{mock:model-new} y \ref{mock:model-test}.}.
+	\item \textbf{RF-6 Administración de modelos}: un administrador debe poder gestionar desde la aplicación los modelos de aprendizaje disponibles para analizar enlaces\footnote{Una idea intuitiva de lo que desea el usuario se puede observar en los \textit{mockups}~\ref{mock:model-admin}, \ref{mock:model-new} y \ref{mock:model-test}.}.
 	\begin{itemize}
-	\item \textbf{RF-6.1 Creación de modelos}: se deberán de poder crear nuevos modelos de aprendizaje que estarán disponibles para ser utilizados por los usuarios de la web.
+	\item \textbf{RF-6.1 Creación de modelos}: se deberá poder crear nuevos modelos de aprendizaje que estarán disponibles para ser utilizados por los usuarios de la web.
 	\begin{itemize}
 		\item \textbf{RF-6.1.1 Parámetros generales}: el administrador podrá personalizar todos los atributos que desee tales como el nombre del clasificador, su versión, su semilla aleatoria, las notas, etc. Además, también podrá definir dos atributos fundamentales:
 		\begin{enumerate}
 			\item Visibilidad: un modelo visible está disponible para ser usado en la página web.
-			\item Clasificador por defecto: un modelo que sea el clasificador por defecto será el utilizado cuando un navegante realice un análisis y no seleccione ningún modelo para analizar.
+			\item Clasificador por defecto: un modelo que sea el clasificador por defecto será el utilizado cuando un usuario realice un análisis y no seleccione ningún modelo para analizar.
 		\end{enumerate}
 		\item \textbf{RF-6.1.2 Selección del algoritmo}: el administrador podrá seleccionar cualquiera de los siguientes algoritmos de aprendizaje semisupervisado: \textit{co-forest}, \textit{tri-training} o \textit{democratic-co learning}. Además, podrá personalizar los parámetros propios de cada uno.
-		\item \textbf{RF-6.1.3 Selección del conjunto de datos de entrenamiento}: se podrá decidir con qué instancias se entrena el \textit{ensemble}.
-		\item \textbf{RF-6.1.4 Selección del conjunto de datos de \textit{test}}: se podrá decidir con qué datos se realiza una primera evaluación del modelo creado.
+		\item \textbf{RF-6.1.3 Selección del conjunto de datos de entrenamiento}: se podrá decidir con qué instancias se entrena el \textit{ensemble}. Para ello se podrán subir ficheros \texttt{.csv}.
+		\item \textbf{RF-6.1.4 Selección del conjunto de datos de \textit{test}}: se podrá decidir con qué datos se realiza una primera evaluación del modelo creado. Para ello se podrán subir ficheros \texttt{.csv}.
 	\end{itemize}
 	
-	\item \textbf{RF-6.2 Modificación de modelos}: se podrán editar ciertos campos de los modelos creados, como su visibilidad o su valor por defecto. No se podrá reentrenar modelos (son inmutables).
+	\item \textbf{RF-6.2 Modificación de modelos}: se podrán editar ciertos campos de los modelos creados, como su visibilidad o su valor por defecto. No se podrán reentrenar modelos (son inmutables).
 	\item \textbf{RF-6.3 Eliminación de modelos}: se podrán borrar modelos y dejarán de estar disponibles en el sistema.
-	\item \textbf{RF-6.4 Evaluación de modelos}: se podrán evaluar modelos previamente creados para actualizar las estadísticas que se muestran en los gráficos y visualizar sus rendimientos.
+	\item \textbf{RF-6.4 Evaluación de modelos}: se podrán evaluar fiablemente modelos previamente creados para actualizar las estadísticas que se muestran en los gráficos y visualizar sus rendimientos.
 	\end{itemize}
+
+
+	\item \textbf{RF-7 Administración de sugerencias}: un administrador debe poder gestionar desde la aplicación los reportes o las notificaciones del resto de usuarios.
+\begin{itemize}
+	\item \textbf{RF-7.1 Aceptar sugerencia}: se deberán poder aceptar las sugerencias que hayan hecho los usuarios y los resultados se reflejarán en las instancias afectadas.
+	
+	\item \textbf{RF-7.2 Descartar sugerencias}: se podrán descartar las sugerencias que se consideren inapropiadas.
+\end{itemize}
 
 \end{itemize}
 
 \subsection{Requisitos no funcionales}
 \label{s:requisitos-no-funcionales}
 
-Por otro lado, estos requisitos (de ahora en adelante RNF) se centran en aspectos no relacionados con la operatividad del sistema. Es decir, están enfocados a describir cómo debe funcionar. Algunos ejemplos son:
+Por otro lado, estos requisitos (de ahora en adelante RNF) se centran en aspectos no relacionados con la operatividad del sistema. Es decir, están enfocados a describir cómo debe funcionar y no en la funcionalidad. Algunos ejemplos son:
 
 
 \begin{itemize}
 	\item \textbf{RNF-1 Seguridad}: el sistema debe proteger la información sensible de los usuarios.
 	\begin{itemize}
 		\item \textbf{RNF-1.1 Protección de credenciales}: todas las contraseñas han de estar correctamente cifradas y almacenadas en la base de datos.
-		\item \textbf{RNF-1.2 Protección anti-rastreo}: las llamadas a sitios no seguros se realicen utilizando \textit{proxies} que oculten la dirección IP de los usuarios.
+		\item \textbf{RNF-1.2 Protección anti-rastreo}: las llamadas a sitios no seguros se deben realizar utilizando \textit{proxies} que oculten la dirección IP de los usuarios.
 		\item \textbf{RNF-1.3 Control de acceso}: los usuarios que intenten acceder a páginas para las que no estén autorizados deben de ser redirigidos fuera de ellas.
 	\end{itemize}
-	\item \textbf{RNF-2 Usabilidad}: el \textit{software} desarrollado debe de ser intuitivo y accesible para todos los usuarios.
+	\item \textbf{RNF-2 Usabilidad}: el \textit{software} desarrollado debe ser intuitivo y accesible para todos los usuarios.
 	\begin{itemize}
 		\item \textbf{RNF-2.1 Interfaces}: las interfaces han de estar diseñadas para facilitar las tareas y que se realicen en el menor tiempo posible. Además, han de ser agradables (inclusión de imágenes).
 		\item \textbf{RNF-2.2 Tratamiento de excepciones}: en caso de ocurrir una situación imprevista, el usuario ha de ser redirigido a una página segura y correctamente informado mediante un mensaje entendible, significativo y transparente de lo ocurrido.
 	\end{itemize}
 	\item \textbf{RNF-3 Disponibilidad}: el sistema debe estar disponible para los usuarios y recuperarse rápidamente en caso de fallo.
-	\item \textbf{RNF-4 Interoperabilidad}: el software desarrollado debe de ser compatible con diversos sistemas y plataformas. Por este motivo, preferiblemente ha de ser una \textit{web}.
+	\item \textbf{RNF-4 Interoperabilidad}: el software desarrollado debe ser compatible con diversos sistemas y plataformas. Por este motivo, se ha optado por una \textit{web}.
 	\item \textbf{RNF-5 Mantenibilidad}: el \textit{software} desarrollado ha de estar correctamente documentado, refactorizado y analizado para facilitar la inclusión de nuevos desarrolladores y la corrección del mismo.
-	\item \textbf{RNF-6 Escalabilidad}: la plataforma desarrollada debe de manejar un alto número de usuarios sin afectar su rendimiento.
-	\item \textbf{RNF-7 Rendimiento}: el sistema debe de tener un tiempo de respuesta adecuado incluso bajo situaciones de alta carga. En caso de relizar operaciones que requieran esperas largas por parte del usuario, se ha de informar y amenizar dicha espera mediante el uso de pantallas interactivas.
-	\item \textbf{RNF-8 Internacionalización}: la página ha de estar disponible en más de un idioma y adaptarse a la cultura objetivo mediante la revisión de colores o iconos que puedan tener un determinado significado.
-	\item \textbf{RNF-9 Soporte}: el equipo de desarrollo debe de ser contactable por \textit{email} o GitHub y permitir la notificación de \textit{bugs}, ideas de nueva funcionalidad o consultas acerca de la aplicación.
-	\item \textbf{RNF-10 Exactitud}: el sistema debe de ser capaz de caracterizar fielmente las características de una página legítima o de \textit{phishing} y debe de distinguir ambos casos con facilidad.
+	\item \textbf{RNF-6 Escalabilidad}: la plataforma desarrollada debe manejar un alto número de usuarios sin afectar su rendimiento.
+	\item \textbf{RNF-7 Rendimiento}: el sistema debe tener un tiempo de respuesta adecuado incluso bajo situaciones de alta carga. En caso de relizar operaciones que requieran esperas largas por parte del usuario, se ha de informar y amenizar dicha espera mediante el uso de pantallas interactivas.
+	\item \textbf{RNF-8 Internacionalización}: la página ha de estar disponible en más de un idioma.
+	\item \textbf{RNF-9 Soporte}: el equipo de desarrollo debe poder ser contactado por \textit{email} o GitHub y permitir la notificación de \textit{bugs}, ideas de nueva funcionalidad o consultas acerca de la aplicación.
+	\item \textbf{RNF-10 Exactitud}: el sistema debe de ser capaz de caracterizar fielmente las características de una página legítima o de \textit{phishing} y debe distinguir ambos casos con facilidad.
 \end{itemize}
 
 \section{Especificación de requisitos}
@@ -261,13 +270,13 @@ Se detalla a continuación la especificación de requisitos tradicional de la ap
 Partiendo de las historias de usuario extraídas en las entrevistas realizadas con el \textit{product owner} y de los \textit{mockups} mostrados en la sección~\ref{s:mockups}, se ha extraído el diagrama de casos de uso disponible en la figura~\ref{b:diagrama-cu}.
 
 \begin{figure}[h]
-	\caption[Diagramas: casos de uso]{Diagrama de casos de uso de la aplicación.}
+	\caption[Diagrama: casos de uso]{Diagrama general de casos de uso de la aplicación.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/diagrams/cu}
 	\label{b:diagrama-cu}
 \end{figure}
 
-A continuación se muestra la tabla correspondiente a cada caso de uso.
+A continuación se muestran las tablas correspondientes a cada caso de uso.
 
 % Caso de Uso 1 -> Escanear URL
 \begin{table}[p]
@@ -336,7 +345,7 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 		\toprule
 		\textbf{CU-1.2}    & \textbf{Análisis rápido}\\
 		\toprule
-		\textbf{Versión}              & 1   \\
+		\textbf{Versión}              & 1.0   \\
 		\textbf{Autor}                & Patricia Hernando Fernández \\
 		\textbf{Requisitos asociados} & RF-1.2 \\
 		\textbf{Descripción}          & Se dará la opción a realizar un análisis rápido (es decir, recuperar información previa en lugar de generar un nuevo vector de características). \\
@@ -537,4 +546,488 @@ A continuación se muestra la tabla correspondiente a cada caso de uso.
 	\label{cu:reportar-url}
 \end{table}
 
+% Caso de Uso 7 -> Administrar instancias
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7}    & \textbf{Administrar instancias}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5 (RF-5.1, RF-5.2, RF-5.3, RF-5.4) \\
+		\textbf{Descripción}          & Permite a un administrador gestionar el \textit{dataset} de enlaces.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Administrar instancias>>.
+			\item Se muestran al administrador todas las instancias existentes.
+			\item El usuario realiza cualquier opción contemplada.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se volverá a la página de gestión de instancias tras completar la acción seleccionada. La postcondición concreta dependerá de cada subcaso de uso. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. Se controla en aplicación todas las excepciones posibles y se informará al usuario mediante un mensaje apropiado. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7 Administrar instancias.}
+	\label{cu:admin-instancias}
+\end{table}
 
+% Caso de Uso 7.1 -> Añadir instancia
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.1}    & \textbf{Añadir instancia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5.1 \\
+		\textbf{Descripción}          & Permite a un administrador añadir una instancia al \textit{dataset} de enlaces.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-7 (disponible en la tabla~\ref{cu:admin-instancias}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Crear instancia>>.
+			\item El usuario introduce la URL correspondiente.
+			\item El usuario añade las etiquetas que considere.
+			\item El usuario selecciona si desea generar el vector de características.
+			\item El usuario selecciona la clase a la que pertenece la URL (\textit{phishing} o legítima).
+			\item El usuario selecciona la pertenencia a una lista blanca o negra si lo desea.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Existe una instancia nueva en la base de datos con los parámetros introducidos. El número total de instancias ha incrementado en una unidad. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de no poder llamar la URL o de haber un problema con la base de datos, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7.1 Añadir instancia.}
+	\label{cu:anadir-instancia}
+\end{table}
+
+
+% Caso de Uso 7.2 -> Modificar instancia
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.2}    & \textbf{Modificar instancia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5.2 \\
+		\textbf{Descripción}          & Permite a un administrador modificar una instancia existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-7 (disponible en la tabla~\ref{cu:admin-instancias}). La instancia seleccionada debe existir. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Editar>>.
+			\item El usuario modifica las etiquetas que considere.
+			\item El usuario selecciona si desea regenerar el vector de características.
+			\item El usuario modifica la clase a la que pertenece la URL (\textit{phishing} o legítima) si lo considera.
+			\item El usuario modifica la pertenencia a una lista blanca o negra si lo desea.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El numero de instancias en la base de datos no varía. Los cambios son reflejados en la instancia seleccionada. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7.2 Editar instancia.}
+	\label{cu:editar-instancia}
+\end{table}
+
+% Caso de Uso 7.2.1 -> Regenerar FV
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.2.1}    & \textbf{Regenerar vector de características}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5.2 \\
+		\textbf{Descripción}          & Permite a un administrador regenerar el vector de características de una URL.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-7.2 (disponible en la tabla~\ref{cu:editar-instancia}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Regenerar vector>>.
+			\item El vector de características de la URL es regenerado.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El vector se actualiza en la base de datos si la operación ha tenido éxito. En caso contrario, se mantiene el valor anterior. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o de no poder llamar la URL, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7.2.1 Regenerar vector de características.}
+	\label{cu:regenerar-vector}
+\end{table}
+
+
+% Caso de Uso 7.3 -> Eliminar instancia
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.3}    & \textbf{Eliminar instancia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5.3 \\
+		\textbf{Descripción}          & Permite a un administrador eliminar una instancia existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-7 (disponible en la tabla~\ref{cu:admin-instancias}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona las instancias que desea eliminar.
+			\item El usuario pulsa <<Eliminar>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Las instancias son eliminadas de la base de datos. En número total de instancias decrece en tantas unidades como URLs hayan sido seleccionadas. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7.3 Eliminar instancia.}
+	\label{cu:eliminar-instancia}
+\end{table}
+
+% Caso de Uso 7.4 -> Descargar instancia
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.4}    & \textbf{Descargar instancia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-5.4 \\
+		\textbf{Descripción}          & Permite a un administrador descargar un fichero \texttt{.csv} con las instancias seleccionadas.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-7 (disponible en la tabla~\ref{cu:admin-instancias}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona las instancias que desea descargar.
+			\item El usuario pulsa <<Descargar>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario dispone de un fichero \texttt{.csv} descargado con las instancias seleccionadas.\\
+		\textbf{Excepciones}          & Las instancias sin vector de características o clase serán omitidas. En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o con el sistema de ficheros, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7.4 Descargar instancia.}
+	\label{cu:descargar-instancia}
+\end{table}
+
+
+% Caso de Uso 8 -> Administrar modelos
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8}    & \textbf{Administrar modelos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6 (RF-6.1, RF-6.2, RF-6.3, RF-6.4) \\
+		\textbf{Descripción}          & Permite a un administrador gestionar los modelos existentes.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Administrar modelos>>.
+			\item Se muestra al administrador los modelos disponibles.
+			\item El usuario realiza cualquier opción contemplada.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se volverá a la página de modelos tras completar la acción seleccionada. La postcondición concreta dependerá de cada subcaso de uso. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. Se controla en aplicación todas las excepciones posibles y se informará al usuario mediante un mensaje apropiado. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8 Administrar modelos.}
+	\label{cu:admin-modelos}
+\end{table}
+
+% Caso de Uso 8.1 -> Añadir modelo
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.1}    & \textbf{Añadir modelo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6.1 (RF-6.1.1, RF-6.1.2, RF-6.1.3, RF-6.1.4) \\
+		\textbf{Descripción}          & Permite a un administrador añadir y entrenar un modelo nuevo.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8 (disponible en la tabla~\ref{cu:admin-modelos}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Nuevo modelo>>.
+			\item El usuario introduce el nombre del modelo.
+			\item El administrador introduce la versión.
+			\item El usuario selecciona si el modelo es visible.
+			\item El usuario selecciona si el modelo es el modelo por defecto.
+			\item El usuario introduce las notas que considere.
+			\item El usuario selecciona el algoritmo que desee y rellena los parámetros asociados al mismo.
+			\item El usuario selecciona si desea subir un \texttt{.csv} con los datos de entrenamiento y \textit{test} o si se generan automáticamente estos conjuntos.
+			\item El usuario pulsa <<siguiente>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Existe un modelo nuevo entrenado, tanto en la base de datos como en un fichero serializado. El número total de modelos ha incrementado en una unidad. En caso de ser el nuevo modelo por defecto, el anterior abandonará esta condición. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de no poder recuperar los ficheros, que sean incorrectos, o cualquier otra excepción, el usuario será informado mediante el mensaje adecuado.\\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.1 Añadir modelo.}
+	\label{cu:anadir-modelo}
+\end{table}
+
+
+% Caso de Uso 8.2 -> Editar modelo
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.2}    & \textbf{Editar modelo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-8.2 \\
+		\textbf{Descripción}          & Permite a un administrador modificar un modelo existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8 (disponible en la tabla~\ref{cu:admin-modelos}). El modelo seleccionado debe existir. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Editar>>.
+			\item El administrador introduce la nueva versión.
+			\item El usuario selecciona si el modelo es visible.
+			\item El usuario selecciona si el modelo es el modelo por defecto.
+			\item El usuario introduce las notas que considere.
+			\item El usuario confirma la acción pulsando <<siguiente>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El numero de modelos en la base de datos no varía. Los cambios son reflejados en el modelo seleccionado. En caso de ser el nuevo modelo por defecto, el anterior abandonará esta condición. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.2 Editar modelo.}
+	\label{cu:editar-modelo}
+\end{table}
+
+
+% Caso de Uso 8.3 -> Eliminar modelo
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.3}    & \textbf{Eliminar modelo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6.3 \\
+		\textbf{Descripción}          & Permite a un administrador eliminar un modelo existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8 (disponible en la tabla~\ref{cu:admin-modelos}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona los modelos que desea eliminar.
+			\item El usuario pulsa <<Eliminar>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Las modelos son eliminados de la base de datos y los archivos serializados del sistema de ficheros. El número total de modelos decrece en tantas unidades como modelos hayan sido seleccionados. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o con los ficheros serializados, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.3 Eliminar modelos.}
+	\label{cu:eliminar-modelos}
+\end{table}
+
+% Caso de Uso 8.4 -> Evaluar modelo
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.4}    & \textbf{Evaluar modelo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6.4 \\
+		\textbf{Descripción}          & Permite a un administrador evaluar un modelo existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8 (disponible en la tabla~\ref{cu:admin-modelos}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona el modelo a evaluar.
+			\item Se muestra una gráfica con las \textit{scores}.
+			\item El usuario carga los datos de entrenamiento mediante un fichero \texttt{.csv} o selecciona si desea utilizar el \textit{dataset} de la aplicación al completo.
+			\item El usuario selecciona si desea actualizar la base de datos (subcaso de uso~\ref{cu:actualizar-scores}).
+			\item El usuario selecciona si desea excluir las URLs vistas durante el entrenamiento (subcaso de uso~\ref{cu:omitir-vistas}).
+			\item El usuario pulsa <<Siguiente>>.
+			\item Se actualiza la gráfica con las nuevas \textit{scores}.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La base de datos es actualizada si el usuario lo desea. Se actualiza la gráfica mostrada. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o a la hora de calcular alguna métrica, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.4 Evaluar modelo.}
+	\label{cu:evaluar-modelo}
+\end{table}
+
+
+% Caso de Uso 8.4.1 -> Actualizar scores
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.4.1}    & \textbf{Actualizar \textit{scores}}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6.4 \\
+		\textbf{Descripción}          & Permite a un administrador actualizar las \textit{scores} de un modelo entrenado tras haberlo evaluado.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8.4 (disponible en la tabla~\ref{cu:evaluar-modelo}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona si desea actualizar la base de datos.
+			\item El modelo es actualizado persistentemente con las nuevas \textit{scores}.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La base de datos es actualizada si el usuario lo desea. \\
+		\textbf{Excepciones}          & En caso de haber un problema con la base de datos o a la hora de calcular alguna métrica, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.4.1 Actualizar \textit{scores}.}
+	\label{cu:actualizar-scores}
+\end{table}
+
+% Caso de Uso 8.4.2 -> Omitir instancias vistas
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8.4.2}    & \textbf{Omitir instancias vistas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-6.4 \\
+		\textbf{Descripción}          & Permite a un administrador omitir las instancias vistas por el modelo durante la fase de entrenamiento para lograr resultados fiables.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-8.4 (disponible en la tabla~\ref{cu:evaluar-modelo}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona si desea omitir las instancias vistas durante el entrenamiento.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Las instancias vistas son excluídas del conjunto de \textit{test}.\\
+		\textbf{Excepciones}          & En caso de no haber instancias disponibles tras la exclusión de las vistas, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8.4.2 Omitir instancias vistas.}
+	\label{cu:omitir-vistas}
+\end{table}
+
+
+
+
+
+
+
+% Caso de Uso 9 -> Administrar sugerencias
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-9}    & \textbf{Administrar sugerencias}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-7 (RF-7.1, RF-7.2) \\
+		\textbf{Descripción}          & Permite a un administrador gestionar las sugerencias (reportes) realizadas por los usuarios.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Administrar sugerencias>>.
+			\item Se muestra al administrador las notificaciones disponibles.
+			\item El usuario realiza cualquier opción contemplada.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se volverá a la página de revisión tras completar la acción seleccionada. La postcondición concreta dependerá de cada subcaso de uso. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. Se controla en aplicación todas las excepciones posibles y se informará al usuario mediante un mensaje apropiado. \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-9 Administrar sugerencias.}
+	\label{cu:admin-sugerencias}
+\end{table}
+
+% Caso de Uso 9.1 -> Añadir modelo
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7.1}    & \textbf{Aceptar sugerencia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-7.1 \\
+		\textbf{Descripción}          & Permite a un administrador aceptar una sugerencia realizada por un usuario.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-9 (disponible en la tabla~\ref{cu:admin-sugerencias}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona <<Aceptar sugerencia>>
+			\item La instancia principal se actualiza en función a lo sugerido por el usuario.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La instancia principal se modifica en función al reporte aceptado. Hay una sugerencia menos. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de ocurrir un error en la base de datos el usuario será informado.\\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-9.1 Aceptar sugerencia.}
+	\label{cu:aceptar-sugerencia}
+\end{table}
+
+
+% Caso de Uso 9.2 -> Descartar sugerencia
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-9.2}    & \textbf{Descartar sugerencia}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Patricia Hernando Fernández \\
+		\textbf{Requisitos asociados} & RF-7.2 \\
+		\textbf{Descripción}          & Permite a un administrador descartar una sugerencia existente.\\
+		\textbf{Precondición}         & El usuario debe de haber iniciado sesión (CU-4 en la tabla~\ref{cu:iniciar-sesion}) y ser administrador. Además, debe estar realizando el CU-9 (disponible en la tabla~\ref{cu:admin-sugerencias}). \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario selecciona las sugerencias a descartar.
+			\item El usuario pulsa <<Eliminar seleccionadas>>.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Las sugerencias son eliminadas de la base de datos. \\
+		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos, el usuario será informado apropiadamente.\\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-9.3 Descartar sugerencias.}
+	\label{cu:descartar sugerencias}
+\end{table}

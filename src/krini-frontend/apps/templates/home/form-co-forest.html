@@ -7,18 +7,18 @@
                 <td>
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Thetha&nbsp;
-                        <span class="gray-description-forms">(umbral de confianza)</span>
+                            <span class="gray-description-forms">(umbral de confianza con el decimal separado mediante
+                                un punto)</span>
                         </p>
                         {{ form.thetha(placeholder="0.75", class="form-control") }}
                     </div>
-
                 </td>
                 <td>
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Número de árboles&nbsp;
-                        <span class="gray-description-forms">(número de clasificadores base)</span>
+                            <span class="gray-description-forms">(número de clasificadores base)</span>
                         </p>
-                        {{ form.n_trees(placeholder="5", class="form-control") }}
+                        {{ form.n_trees(placeholder="6", class="form-control") }}
                     </div>
                 </td>
             </tr>
@@ -26,10 +26,28 @@
                 <td colspan="2">
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Max
-                        <span class="gray-description-forms">(máximo de atributos
-                            utilizados al dividir en la construcción del árbol)</span>
+                            <span class="gray-description-forms">(máximo de atributos
+                                utilizados al dividir en la construcción del árbol)</span>
                         </p>
                         {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-coforest" class="accordion-toggle">
+                <td style="text-align: left;">
+                    <div>
+                        <a class="btn btn-icon-only bg-primary">
+                            <i class="ni ni-bulb-61 text-white"></i>
+                        </a>
+                        <p class="primary-label-forms" style="display:inline">&nbsp;Pseudocódigo&nbsp;</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="hiddenRow">
+                    <div id="info-coforest" class="accordian-body collapse">
+                        <object data="/static/assets/img/theme/coforest_pseudocode.pdf" type="application/pdf"
+                            style="min-height:100vh;width:100%"></object>
                     </div>
                 </td>
             </tr>

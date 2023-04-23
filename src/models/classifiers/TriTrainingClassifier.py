@@ -1,13 +1,12 @@
-
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   TriTrainingClassifier.py
 @Time    :   2023/03/30 20:51:39
 @Author  :   Patricia Hernando Fernández 
 @Version :   1.0
 @Contact :   phf1001@alu.ubu.es
-'''
+"""
 
 import numpy as np
 import numbers
@@ -62,12 +61,10 @@ class TriTraining:
         new_data = True
 
         while new_data:
-
             cls_changes = np.array([False] * self.n)
             cls_pseudo_updates = [() for i in range(self.n)]
 
             for i in range(self.n):
-
                 e[i] = self.measure_error(i, L, y)
 
                 if e[i] < previous_e[i]:
@@ -75,34 +72,40 @@ class TriTraining:
 
                     if previous_l[i] == 0:
                         previous_l[i] = floor(
-                            (e[i] / (previous_e[i]-e[i])) + 1)
+                            (e[i] / (previous_e[i] - e[i])) + 1
+                        )
 
                     L_i_size = cls_pseudo_updates[i][0].shape[0]
 
                     if previous_l[i] < L_i_size:
-
                         if e[i] * L_i_size < previous_e[i] * previous_l[i]:
                             cls_changes[i] = True
 
                         elif previous_l[i] > (e[i] / (previous_e[i] - e[i])):
-
-                            L_index = self.rd.choice(L_i_size, ceil(
-                                (previous_e[i] * previous_l[i] / e[i]) - 1))
+                            L_index = self.rd.choice(
+                                L_i_size,
+                                ceil(
+                                    (previous_e[i] * previous_l[i] / e[i]) - 1
+                                ),
+                            )
                             cls_pseudo_updates[i] = (
-                                cls_pseudo_updates[i][0][L_index, :], cls_pseudo_updates[i][1][L_index])
+                                cls_pseudo_updates[i][0][L_index, :],
+                                cls_pseudo_updates[i][1][L_index],
+                            )
                             cls_changes[i] = True
 
             if cls_changes.sum() == 0:
                 new_data = False
 
             else:
-
-                for i in np.fromiter(self.classifiers.keys(), dtype=int)[cls_changes]:
-
+                for i in np.fromiter(self.classifiers.keys(), dtype=int)[
+                    cls_changes
+                ]:
                     X_train = np.concatenate((L, cls_pseudo_updates[i][0]))
                     y_train = np.concatenate((y, cls_pseudo_updates[i][1]))
                     self.classifiers[i] = self.classifiers[i].fit(
-                        X_train, y_train)
+                        X_train, y_train
+                    )
 
                     previous_e[i] = e[i]
                     previous_l[i] = cls_pseudo_updates[i][0].shape[0]
@@ -119,17 +122,19 @@ class TriTraining:
         """
         for i in range(self.n):
             rand_rows = self.rd.choice(
-                L.shape[0], replace=True, size=(int(percentage * L.shape[0])))
+                L.shape[0], replace=True, size=(int(percentage * L.shape[0]))
+            )
             self.classifiers[i] = self.classifiers[i].fit(
-                L[rand_rows, :], y[rand_rows])
+                L[rand_rows, :], y[rand_rows]
+            )
 
     def measure_error(self, i, L, y):
         """
-        The classification error is approximated through 
-        dividing the number of labeled examples on which 
-        both hj and hk make incorrect classification by 
-        the number of labeled examples on which the 
-        classification made by hj is the same as that made 
+        The classification error is approximated through
+        dividing the number of labeled examples on which
+        both hj and hk make incorrect classification by
+        the number of labeled examples on which the
+        classification made by hj is the same as that made
         by hk.
 
         Parameters
@@ -141,12 +146,13 @@ class TriTraining:
         y: np.array
             Labeled data tags used for training
         """
-        prediction_j = self.classifiers[(i+1) % self.n].predict(L)
-        prediction_k = self.classifiers[(i+2) % self.n].predict(L)
+        prediction_j = self.classifiers[(i + 1) % self.n].predict(L)
+        prediction_k = self.classifiers[(i + 2) % self.n].predict(L)
 
         incorrect_classification = np.logical_and(
-            prediction_j != y, prediction_k == prediction_j)
-        concordance = (prediction_j == prediction_k)
+            prediction_j != y, prediction_k == prediction_j
+        )
+        concordance = prediction_j == prediction_k
 
         return sum(incorrect_classification) / sum(concordance)
 
@@ -162,10 +168,10 @@ class TriTraining:
         U: np.array
             Unlabeled data used for training
         """
-        U_y_j = self.classifiers[(i+1) % self.n].predict(U)
-        U_y_k = self.classifiers[(i+2) % self.n].predict(U)
+        U_y_j = self.classifiers[(i + 1) % self.n].predict(U)
+        U_y_k = self.classifiers[(i + 2) % self.n].predict(U)
 
-        concordances = (U_y_j == U_y_k)
+        concordances = U_y_j == U_y_k
 
         return (U[concordances], U_y_k[concordances])
 
@@ -214,7 +220,9 @@ class TriTraining:
         """
         count = {i: 0 for i in self.classes}
 
-        for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
+        for i in (
+            cls.predict([sample])[0] for cls in self.classifiers.values()
+        ):
             count[i] += 1
 
         return max(count, key=count.get)
@@ -234,13 +242,14 @@ class TriTraining:
         np.array:
             labels predicted by tri-training.
         """
-        samples = (lambda x: np.expand_dims(x, axis=0)
-                   if x.ndim == 1 else x)(samples)
+        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
+            samples
+        )
         return np.array([self.single_predict(sample) for sample in samples])
 
     def single_predict_proba(self, sample):
         """
-        Returns the probability for each class 
+        Returns the probability for each class
         predicted by tri-training for a given sample.
 
         Parameters
@@ -255,7 +264,9 @@ class TriTraining:
         """
         count = {i: 0 for i in self.classes}
 
-        for i in (cls.predict([sample])[0] for cls in self.classifiers.values()):
+        for i in (
+            cls.predict([sample])[0] for cls in self.classifiers.values()
+        ):
             count[i] += 1
 
         votes = np.array(list(count.values()))
@@ -263,7 +274,7 @@ class TriTraining:
 
     def predict_proba(self, samples: np.array):
         """
-        Returns the probabilities predicted by 
+        Returns the probabilities predicted by
         tri-training for a given data.
 
         Parameters
@@ -275,12 +286,15 @@ class TriTraining:
         -------
         np.array:
             array containing one array for each
-            sample with probabilities for each 
+            sample with probabilities for each
             class.
         """
-        samples = (lambda x: np.expand_dims(x, axis=0)
-                   if x.ndim == 1 else x)(samples)
-        return np.array([self.single_predict_proba(sample) for sample in samples])
+        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
+            samples
+        )
+        return np.array(
+            [self.single_predict_proba(sample) for sample in samples]
+        )
 
     def score(self, X, y_true):
         """
@@ -299,4 +313,4 @@ class TriTraining:
             percentage of hits.
         """
         y_predictions = self.predict(X)
-        return np.count_nonzero(y_predictions == y_true)/len(y_true)
+        return np.count_nonzero(y_predictions == y_true) / len(y_true)

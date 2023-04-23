@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   models.py
 @Time    :   2023/03/30
 @Author  :   Patricia Hernando Fernández 
@@ -9,11 +9,12 @@
 
 Copyright (c) 2019 - present AppSeed.us
 Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
-'''
+"""
 
 import os
 import hashlib
 import binascii
+
 
 def hash_pass(password):
     """
@@ -25,11 +26,12 @@ def hash_pass(password):
     Returns:
         bytes: encoded password
     """
-    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
-                                  salt, 100000)
+    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("ascii")
+    pwdhash = hashlib.pbkdf2_hmac(
+        "sha512", password.encode("utf-8"), salt, 100000
+    )
     pwdhash = binascii.hexlify(pwdhash)
-    return (salt + pwdhash)
+    return salt + pwdhash
 
 
 def verify_pass(provided_password, stored_password):
@@ -42,12 +44,14 @@ def verify_pass(provided_password, stored_password):
     Returns:
         bool: True if password is correct, False otherwise
     """
-    stored_password = stored_password.decode('ascii')
+    stored_password = stored_password.decode("ascii")
     salt = stored_password[:64]
     stored_password = stored_password[64:]
-    pwdhash = hashlib.pbkdf2_hmac('sha512',
-                                  provided_password.encode('utf-8'),
-                                  salt.encode('ascii'),
-                                  100000)
-    pwdhash = binascii.hexlify(pwdhash).decode('ascii')
+    pwdhash = hashlib.pbkdf2_hmac(
+        "sha512",
+        provided_password.encode("utf-8"),
+        salt.encode("ascii"),
+        100000,
+    )
+    pwdhash = binascii.hexlify(pwdhash).decode("ascii")
     return pwdhash == stored_password

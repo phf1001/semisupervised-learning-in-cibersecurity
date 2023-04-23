@@ -1,0 +1,247 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+{% if operation == "edit" %}
+Editar instancia
+{% else %}
+Nueva instancia
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary-gradient pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/instances">Administración de instancias</a></li>
+                            {% if operation == "edit" %}
+                            <li class="breadcrumb-item active" aria-current="page">Editar instancia</li>
+                            {% else %}
+                            <li class="breadcrumb-item active" aria-current="page">Nueva instancia</li>
+                            {% endif %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<form role="form" method="post" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">
+                            {% if operation == "edit" %}
+                            EDITAR INSTANCIA
+                            {% else %}
+                            NUEVA INSTANCIA
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name"
+                                        style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                                        {% if operation == "edit" %}
+                                        {{ instance_dict["instance_URL"] }}
+                                        {% else %}
+                                        RELLENA EL FORMULARIO
+                                        {% endif %}
+                                    </th>
+                                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                {% if operation != "edit" %}
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-0" name="search">
+                                            <p class="primary-label-forms">&nbsp;&nbsp;Introduce una URL&nbsp;
+                                                <span class="gray-description-forms">preferiblemente con protocolo
+                                                    (http:// o https://)</span>
+                                            </p>
+                                            <div>
+                                                {{ form.url(placeholder="https://google.com", class="form-control",
+                                                required="required",
+                                                oninvalid="this.setCustomValidity('Por favor, introduce una URL')",
+                                                oninput="setCustomValidity('')") }}
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Etiquetas
+                                                <span class="gray-description-forms"> (pulse enter para introducir una
+                                                    nueva etiqueta o seleccione entre las disponibles)</span>
+                                                {% if initial_value != "" %}
+                                                <br>
+                                                <span class="previous-value-forms">
+                                                    Valor previo: {{initial_value | replace(",", ", ")}} </span>
+                                                <br><br>
+                                                <input type="text" name="labels" id="labels" class="form-control"
+                                                    value={{initial_value}} />
+                                                {% else %}
+                                                <br><br>
+                                                <input type="text" name="labels" id="labels" class="form-control" />
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Vector de características
+                                                <span class="gray-description-forms">(si no quieres generar un vector
+                                                    ahora, deja seleccionada la opción 'mantener vector actual')</span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br>Valor
+                                                    previo: {{
+                                                    instance_dict["instance_fv"] }}</span>
+                                                {% endif %}
+                                                <br><br>
+                                                {{ form.regenerate_fv(class="form-control") }}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Clase
+                                                <span class="gray-description-forms"> (phishing si es una página
+                                                    maliciosa, legítima en caso contrario. Si no conoces la clase, deja
+                                                    seleccionada la opción 'mantener valor actual')</span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br>Valor
+                                                    previo: {% if instance_dict["instance_class"] == "no disponible" %}
+                                                    esta instancia todavía no ha sido clasificada {% else %} {{
+                                                    instance_dict["instance_class"] }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
+                                                <br><br>
+                                                {{ form.instance_class(class="form-control")}}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                Pertenencia a lista
+                                                <span class="gray-description-forms"> (lista blanca si es una página
+                                                    legítima verificada, lista negra si es una página maliciosa
+                                                    verificada. Si no conoces la lista, deja seleccionada la opción
+                                                    'mantener valor actual'))</span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br>Valor
+                                                    previo:
+                                                    {% if instance_dict["colour_list"] == None %}
+                                                    esta instancia no pertenece a ninguna lista {% else %}
+                                                    {{ instance_dict["colour_list"] }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
+                                                <br><br>
+                                                {{ form.instance_list(class="form-control")}}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <div>
+                                            <button type="submit" name="siguiente"
+                                                class="btn btn-primary my-4">Siguiente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "includes/footer.html" %}
+    </div>
+</form>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+    $(document).ready(function () {
+        $('#labels').tokenfield({
+            autocomplete: {
+                source: [{% for tag in instance_tags %} '{{tag}}', {% endfor %}],
+        delay: 100
+        },
+        showAutocompleteOnFocus: true
+      });
+
+    $('#reg_form').on('submit', function (event) {
+        event.preventDefault();
+        if ($.trim($('#name').val()).length == 0) {
+            alert("Please Enter Your Name");
+            return false;
+        } else if ($.trim($('#labels').val()).length == 0) {
+            alert("Please Enter Atleast one labels");
+            return false;
+        } else {
+            var form_data = $(this).serialize();
+            $('#submit').attr("disabled", "disabled");
+            $.ajax({
+                url: "/ajax_add",
+                method: "POST",
+                data: form_data,
+                beforeSend: function () {
+                    $('#submit').val('Submitting...');
+                },
+                success: function (data) {
+                    if (data != '') {
+                        $('#name').val('');
+                        $('#labels').tokenfield('setTokens', []);
+                        $('#success_message').html(data);
+                        $('#submit').attr("disabled", false);
+                        $('#submit').val('Submit');
+                    }
+                }
+            });
+            setInterval(function () {
+                $('#success_message').html('');
+            }, 5000);
+        }
+    });
+      
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+{% endblock javascripts %}

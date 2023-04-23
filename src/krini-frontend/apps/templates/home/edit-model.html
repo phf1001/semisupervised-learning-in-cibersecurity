@@ -1,0 +1,137 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Editar modelo {% endblock title %}
+
+{% block content %}
+
+<div class="header bg-primary-gradient pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/models">Administración de modelos</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Editar modelo</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<form role="form" method="post" action="" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+  {{ form.hidden_tag() }}
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">EDITAR MODELO {{ model['model_name'] }}</h3>
+          </div>
+          <!-- Tabla atributos modelo -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="name"
+                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
+                    Parámetros generales
+                  </th>
+                  <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">
+                        Versión&nbsp;
+                        <span class="gray-description-forms">(máximo tres enteros separados por puntos)
+                        </span>
+                      </p>
+                      <span class="previous-value-forms">
+                        Valor previo: {{ model['model_version'] }}
+                      </span>
+                      <br></br>
+                      {{ form.model_version(placeholder="1.0.0", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">¿Es visible?&nbsp;
+                        <span class="gray-description-forms">(implica que el resto de usuarios pueden utilizar el
+                          modelo)
+                        </span>
+                      </p>
+                      <span class="previous-value-forms">
+                        {% if model['is_visible'] == True %}
+                        Valor previo: Sí
+                        {% else %}
+                        Valor previo: No
+                        {% endif %}
+                      </span>
+                      <br></br>
+                      {{ form.is_visible(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">¿Convertir en 'default'?&nbsp;
+                        <span class="gray-description-forms">(será el nuevo clasificador usado por defecto)
+                        </span>
+                      </p>
+                      <span class="previous-value-forms">
+                        {% if model['is_default'] == True %}
+                        Valor previo: Sí
+                        {% else %}
+                        Valor previo: No
+                        {% endif %}
+                      </span>
+                      <br></br>
+                      {{ form.is_default(placeholder="defecto", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">Notas</p>
+                      <span class="previous-value-forms">
+                        Valor previo: {{ model['model_notes'] }}
+                      </span>
+                      <br></br>
+                      {{ form.model_description(placeholder="Descripción", class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div style="text-align: center;">
+                      <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "includes/footer.html" %}
+  </div>
+</form>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

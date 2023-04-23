@@ -8,8 +8,9 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Primer
                             clasificador&nbsp;
-                        <span class="gray-description-forms">(algoritmo base
-                            utilizado)</span></p>
+                            <span class="gray-description-forms">(algoritmo base
+                                utilizado)</span>
+                        </p>
                         {{ form.cls_one(placeholder="Primer clasificador", class="form-control") }}
                     </div>
                 </td>
@@ -17,8 +18,9 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Número
                             de clasificadores &nbsp;
-                        <span class="gray-description-forms">(número de
-                            clasificadores base de este tipo)</span></p>
+                            <span class="gray-description-forms">(número de
+                                clasificadores base de este tipo)</span>
+                        </p>
                         {{ form.n_cls_one(placeholder="1", class="form-control") }}
                     </div>
                 </td>
@@ -28,8 +30,9 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Segundo
                             clasificador&nbsp;
-                        <span class="gray-description-forms">(algoritmo base
-                            utilizado)</span></p>
+                            <span class="gray-description-forms">(algoritmo base
+                                utilizado)</span>
+                        </p>
                         {{ form.cls_two(placeholder="Segundo clasificador", class="form-control") }}
                     </div>
                 </td>
@@ -37,8 +40,9 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Número
                             de clasificadores &nbsp;
-                        <span class="gray-description-forms">(número de
-                            clasificadores base de este tipo)</span></p>
+                            <span class="gray-description-forms">(número de
+                                clasificadores base de este tipo)</span>
+                        </p>
                         {{ form.n_cls_two(placeholder="1", class="form-control") }}
                     </div>
                 </td>
@@ -48,8 +52,9 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Tercer
                             clasificador&nbsp;
-                        <span class="gray-description-forms">(algoritmo base
-                            utilizado)</span></p>
+                            <span class="gray-description-forms">(algoritmo base
+                                utilizado)</span>
+                        </p>
                         {{ form.cls_three(placeholder="Tercer clasificador", class="form-control") }}
                     </div>
                 </td>
@@ -57,9 +62,28 @@
                     <div class="form-group mb-3">
                         <p class="primary-label-forms">Número
                             de clasificadores &nbsp;
-                        <span class="gray-description-forms">(número de
-                            clasificadores base de este tipo)</span></p>
+                            <span class="gray-description-forms">(número de
+                                clasificadores base de este tipo)</span>
+                        </p>
                         {{ form.n_cls_three(placeholder="1", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-democratic-co" class="accordion-toggle">
+                <td style="text-align: left;">
+                    <div>
+                        <a class="btn btn-icon-only bg-primary">
+                            <i class="ni ni-bulb-61 text-white"></i>
+                        </a>
+                        <p class="primary-label-forms" style="display:inline">&nbsp;Pseudocódigo&nbsp;</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="hiddenRow">
+                    <div id="info-democratic-co" class="accordian-body collapse">
+                        <object data="/static/assets/img/theme/democraticco_pseudocode.pdf" type="application/pdf"
+                            style="min-height:100vh;width:100%"></object>
                     </div>
                 </td>
             </tr>

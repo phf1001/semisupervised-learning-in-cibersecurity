@@ -1,22 +1,20 @@
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
+{% endblock stylesheets %}
 {% extends 'layouts/base.html' %}
-{% block title %} Administración de modelos {% endblock title %}
+{% block title %} Revisión de reportes {% endblock title %}
 {% block content %}
 
-<form name="models_form" method="POST" action="">
-  <input type="hidden" name="selected_page" value="1" />
-  <input type="hidden" name="individual_model" value="-1" />
-  <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
-  {{ form.csrf_token() }}
+<form name="instances_form" method="POST" action="">
   <div class="header bg-primary-gradient pb-6">
     <div class="container-fluid">
       <div class="header-body">
         <div class="row align-items-center py-4">
           <div class="col-lg-6 col-7">
-            <input type="hidden" name="button_pressed" value="ninguno" />
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                 <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">Administración de modelos</li>
+                <li class="breadcrumb-item active" aria-current="page">Revisión de reportes</li>
               </ol>
             </nav>
           </div>
@@ -26,11 +24,17 @@
   </div>
   <!-- Page content -->
   <div class="container-fluid mt--6">
+    <input type="hidden" name="selected_page" value="1" />
+    <input type="hidden" name="report_number" value="-1" />
+    <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token() }}
     <div class="row">
       <div class="col">
-        <div class="card bg-light">
-          <div class="card-header bg-white border-0">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
             <div class="col-lg" style="justify-content: space-evenly;">
+              <input type="hidden" name="button_pressed" value="ninguno" />
               <div class="dropdown">
                 <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false"> Seleccionar
@@ -61,14 +65,9 @@
                   </button>
                 </div>
               </div>
-              <button class="btn btn-danger" type="submit" id="btn-elimina-select"
-                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)" style="float: right;">
+              <button class="btn btn-danger" type="submit" id="btn-elimina-select" style="float: right;"
+                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
                 Eliminar seleccionados
-              </button>
-              <button class="btn btn-success" type="submit" id="btn-nueva"
-                onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)"
-                style="float: right; margin-right: 10px;">
-                Nuevo modelo
               </button>
               <!-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
             </div>
@@ -76,49 +75,30 @@
         </div>
       </div>
     </div>
-
-
     <div class="row">
       <div class="col">
-        <div class="card">
-          <!-- Card header -->
-          <div class="card-header border-0">
-            <h3 class="mb-0">MODELOS DISPONIBLES</h3>
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">REVISIÓN DE REPORTS</h3>
           </div>
-          <!-- Light table -->
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
+            <table class="table align-items-center table-dark table-flush">
+              <thead class="thead-dark">
                 <tr>
                   <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
                     <h5 class="text-gray mb-0">&nbsp;</h5>
                   </th>
-                  <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Nombre</h5>
+                  <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
+                    <h5 class="text-gray mb-0">URL</h5>
                   </th>
                   <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Algoritmo</h5>
+                    <h5 class="text-gray mb-0">Reportado por</h5>
                   </th>
-                  <th scope="col" class="sort" data-sort="parameters" style="text-align: left;">
-                    <h5 class="text-gray mb-0">Parámetros</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Métricas [ACC, P, R, F-1, AUC]</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Autor</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="date" style="text-align: center;">
+                  <th scope="col" class="sort" data-sort="parameters" style="text-align: center;">
                     <h5 class="text-gray mb-0">Fecha</h5>
                   </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: left;">
-                    <h5 class="text-gray mb-0">Notas</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="visible" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Visible</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Defecto</h5>
+                  <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
+                    <h5 class="text-gray mb-0">Sugerencia</h5>
                   </th>
                   <th scope="col">
                     <h5 class="text-gray mb-0" style="text-align: center;">Más</h5>
@@ -126,57 +106,35 @@
                 </tr>
               </thead>
               <tbody class="list">
-                {% for model in post_pagination.items %}
+                {% for instance in post_pagination.items %}
                 <!-- Table row -->
                 <tr>
                   <td style="text-align: center;">
-                    {% if model["is_selected"] == 1 %}
-                    <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
-                      style="width: 20px; height: 20px;" name="checkbox-model" checked>
+                    {% if instance["is_selected"] == 1 %}
+                    <input id="checkbox-instance-{{ instance['report_number'] }}"
+                      value="{{ instance['report_number'] }}" type="checkbox" style="width: 20px; height: 20px;"
+                      name="checkbox-instance" checked>
                     {% else %}
-                    <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
-                      style="width: 20px; height: 20px;" name="checkbox-model">
+                    <input id="checkbox-instance-{{ instance['report_number'] }}"
+                      value="{{ instance['report_number'] }}" type="checkbox" style="width: 20px; height: 20px;"
+                      name="checkbox-instance">
                     {% endif %}
                   </td>
                   <td style="text-align: center;">
-                    <h6 class="name mb-0 text-sm">{{ model["model_name"] }}</h6>
-                  </td>
-                  <td style="text-align: center;">
-                    <h3><span class="badge rounded-pill" style="background-color: {{model['badge_colour']}}; color:
-                      gray;">{{model["algorithm"] }}</span></h3>
-                  </td>
-                  <td style="text-align: left;">
-                    <ul style="list-style-type: none; padding: 0; margin: 0;">
-                      {% for item in model["model_parameters"] %}
-                      <li style="font-size:15px">{{ item }}</li>
-                      {% endfor %}
-                    </ul>
-                  </td>
-                  <td style="text-align: center; font-size:13px">
-                    {{ model["model_scores"] }}
+                    <span class="light-gray-description-forms" style="font-weight: bold;">{{ instance["instance_URL"]
+                      }}</span>
                   </td>
                   <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
-                    {{ model["created_by"] }}
+                    {{ instance["reported_by"] }}
                   </td>
-                  <td style="text-align: center; font-size:15px">
-                    {{ model["creation_date"] }}
+                  <td style="text-align: center; font-size:15px; font-weight: bold;">
+                    {{ instance["date_reported"] }}
                   </td>
-                  <td style="text-align: left; font-size:13px">
-                    {{ model["model_notes"] }}
-                  </td>
-                  <td style="text-align: center; font-size:25px">
-                    {% if model["is_visible"] %}
-                    <i class="fas fa-check-circle" style="color: green"></i>
-                    {% else %}
-                    <i class="fas fa-times-circle" style="color: red"></i>
-                    {% endif %}
-                  </td>
-                  <td style="text-align: center; font-size:25px">
-                    {% if model["is_default"] %}
-                    <i class="fas fa-check-circle" style="color: green"></i>
-                    {% else %}
-                    <i class="fas fa-times-circle" style="color: red"></i>
-                    {% endif %}
+                  <td style="text-align: center;">
+                    <span class="badge badge-primary rounded-pill"
+                      style="font-size: 13px; font-weight: bold; color:white; background-color:{{instance['suggestion_colour']}};">{{
+                      instance['suggestion']
+                      }}</span>
                   </td>
                   <td style="text-align: center;">
                     <div class="dropdown">
@@ -185,30 +143,39 @@
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <button class="dropdown-item" type="submit" id="btn-edita-individual-{{ model['model_id'] }}"
-                          onclick="updateForm({{ model['model_id'] }}, 'editar_individual', {{post_pagination.page}}, null)">
-                          Editar
+                        <button class="dropdown-item" type="submit"
+                          id="btn-acepta-individual-{{ instance['report_number'] }}"
+                          onclick="updateForm({{ instance['report_number'] }}, 'aceptar', {{post_pagination.page}}, null)"
+                          style="color: green">
+                          Aceptar sugerencia
                         </button>
-                        <button class="dropdown-item" type="submit" id="btn-testea-individual-{{ model['model_id'] }}"
-                          onclick="updateForm({{ model['model_id'] }}, 'testear_individual', {{post_pagination.page}}, null)">
-                          Testear
-                        </button>
-                        <button class="dropdown-item" type="submit" id="btn-elimina-individual-{{ model['model_id'] }}"
-                          onclick="updateForm({{ model['model_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
+                        <button class="dropdown-item" type="submit" id="btn-acepta-all-{{ instance['report_number'] }}"
+                          onclick="updateForm({{ instance['report_number'] }}, 'aceptar_todos', {{post_pagination.page}}, null)"
                           style="color: red">
-                          Eliminar
+                          Aceptar sugerencia y eliminar todas las sugerencias asociadas a esta URL
+                        </button>
+                        <button class="dropdown-item" type="submit"
+                          id="btn-descarta-individual-{{ instance['report_number'] }}"
+                          onclick="updateForm({{ instance['report_number'] }}, 'descartar', {{post_pagination.page}}, null)"
+                          style="color: purple">
+                          Descartar sugerencia
+                        </button>
+                        <button class="dropdown-item" type="submit"
+                          id="btn-descarta-all-{{ instance['report_number'] }}"
+                          onclick="updateForm({{ instance['report_number'] }}, 'descartar_todos', {{post_pagination.page}}, null)"
+                          style="color: red">
+                          Descartar y eliminar todas las sugerencias asociadas a esta URL
                         </button>
                       </div>
                     </div>
                   </td>
                 </tr>
-                <!--end-->
                 {% endfor %}
               </tbody>
             </table>
           </div>
-          <!-- Card footer -->
-          <div class="card-footer py-4">
+          <!-- Pagination footer -->
+          <div class="card-footer py-4 bg-default shadow">
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
                 {% if post_pagination.has_prev %}
@@ -232,8 +199,7 @@
                 {% if page != post_pagination.page %}
                 <li class="page-item">
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
-                    {{ page }}
-                  </button>
+                    {{ page }}</button>
                 </li>
                 {% else %}
                 <li class="page-item active">
@@ -273,29 +239,29 @@
 </form>
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
+
 {% block javascripts %}
 <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-<script src="/static/assets/js/download.js"></script>
 <script>
-  function updateForm(individual_model, button_pressed, page, previous_page) {
+  function updateForm(report_number, button_pressed, page, previous_page) {
 
-    if (individual_model != null) {
-      document.models_form.individual_model.value = individual_model;
+    if (report_number != null) {
+      document.instances_form.report_number.value = report_number;
     }
 
     if (button_pressed != null) {
-      document.models_form.button_pressed.value = button_pressed;
+      document.instances_form.button_pressed.value = button_pressed;
     }
 
     if (page != null) {
-      document.models_form.selected_page.value = page;
+      document.instances_form.selected_page.value = page;
     }
 
     if (previous_page != null) {
-      document.models_form.previous_page.value = previous_page;
+      document.instances_form.previous_page.value = previous_page;
     }
     return true;
   }
 </script>
+
 {% endblock javascripts %}

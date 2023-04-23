@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
-'''
+"""
 @File    :   models.py
 @Time    :   2023/03/30
 @Author  :   Patricia Hernando Fernández 
@@ -8,7 +8,7 @@
 @Contact :   phf1001@alu.ubu.es
 
 Copyright (c) 2019 - present AppSeed.us
-'''
+"""
 
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_user, logout_user
@@ -75,10 +75,13 @@ def register():
     create_account_form = CreateAccountForm(request.form)
 
     if current_user.is_authenticated:
-        flash("Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.", "info")
+        flash(
+            "Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.",
+            "info",
+        )
         return redirect(url_for("home_blueprint.index"))
-    
-    if 'register' in request.form:
+
+    if "register" in request.form:
         username = request.form["username"]
         email = request.form["email"]
 

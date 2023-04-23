@@ -56,7 +56,9 @@ def confidence_interval_method_2(cls, L, y):
 
     left = f + (zSq / (2 * n_total))
     div = 1 + (zSq / n_total)
-    sq = cte * sqrt((f / n_total) - ((f * f) / n_total) + (zSq / (4 * n_total**2)))
+    sq = cte * sqrt(
+        (f / n_total) - ((f * f) / n_total) + (zSq / (4 * n_total**2))
+    )
 
     return ((left - sq) / div, (left + sq) / div)
 
