@@ -716,7 +716,7 @@ A continuación se muestran las tablas correspondientes a cada caso de uso.
 			\item El usuario pulsa <<Descargar>>.
 		\end{enumerate}\\
 		\textbf{Postcondición}        & El usuario dispone de un fichero \texttt{.csv} descargado con las instancias seleccionadas.\\
-		\textbf{Excepciones}          & En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o con el sistema de ficheros, el usuario será informado apropiadamente.\\
+		\textbf{Excepciones}          & Las instancias sin vector de características o clase serán omitidas. En caso de no haber iniciado sesión, el usuario será redirigido a una pantalla especial (error 403, acceso restringido) con un enlace para iniciar sesión. En caso de haber un problema con la base de datos o con el sistema de ficheros, el usuario será informado apropiadamente.\\
 		\textbf{Importancia}          & Alta \\
 		\bottomrule
 	\end{tabularx}
