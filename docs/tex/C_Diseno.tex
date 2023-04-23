@@ -24,20 +24,20 @@ En el primero (relaciones <<reporta>> y <<revisa>>), un administrador debe revis
 \subsection{Diagrama relacional}
 \label{c:diagrama_relacional}
 
-Partiendo del modelo E-R disponible en la figura~\ref{c:diagrama-er}, se ha realizado el diagrama relacional disponible en la imagen~\ref{c:diagrama-relacional}.
+Partiendo del modelo E-R disponible en la figura~\ref{c:diagrama-er}, se ha diseñado el diagrama relacional disponible en la imagen~\ref{c:diagrama-relacional}.
 
-A continuación se va a mencionar algunas de las decisiones de implementación tomadas. Sin embargo, el desarrollo completo de por qué se ha tomado cada una y todos los detalles se encuentran disponibles en el diccionario de datos de la sección~\ref{c:diccionario_datos}.
+A continuación se van a mencionar algunas de las decisiones de implementación tomadas. Sin embargo, el desarrollo completo de por qué se ha tomado cada una y todos los detalles se encuentran disponibles en el diccionario de datos de la sección~\ref{c:diccionario_datos}.
 
-Respecto a la ISA existente en la entidad \texttt{Users}, se ha decidido implementar en una única tabla debido a que resulta favorecedor para los desarrolladores contar con el discriminante como campo de tabla y, además, únicamente hay un atributo extra para los usuarios <<estándar>> (que son la mayoría, por lo que la pérdida de espacio es completamente despreciable). En cuanto a la ISA en la entidad \texttt{Models}, se ha implementado considerando que es una interrelación 1:1 debido a que cada subclase tiene atributos muy distintos.
+Respecto a la ISA existente en la entidad \texttt{Users}, se ha decidido implementar en una única tabla debido a que resulta útil para los desarrolladores contar con el discriminante como campo de tabla y, además, únicamente hay un atributo extra para los usuarios <<estándar>> (que son la mayoría, por lo que la pérdida de espacio es completamente despreciable). En cuanto a la ISA en la entidad \texttt{Models}, se ha implementado considerando que es una interrelación 1:1 debido a que cada subclase tiene atributos muy distintos.
 
-Por otro lado, se ha omitido la entidad \texttt{Date} ya que este es uno de los casos en los que no merece la pena que pase a ser tabla por no aportar información extra (resulta indiferente contar con una clase o con un \textit{timestamp}). Aún así formará parte de la \texttt{PK} en la relación.
+Por otro lado, se ha omitido la entidad \texttt{Date} ya que este es uno de los casos en los que no merece la pena que pase a ser tabla por no aportar información extra (resulta indiferente contar con una clase o con un \textit{timestamp}). Aún así, formará parte de la clave primaria (\texttt{PK}) en la relación.
 
-Para facilitar el desarrollo y reducir errores derivados de equivocaciones, se han decorado los atributos con un prefijo. De este modo, por ejemplo, el identificador de la tabla \texttt{Available\_instances} pasará a llamarse \texttt{instance\_id}. Además, también se ha añadido el prefijo \textit{available} a ciertas clases para que sea más evidente la diferencia entre los propios objetos del sistema y la información almacenada en la base de datos.
+Para facilitar el desarrollo y reducir errores derivados de posibles equivocaciones, se han decorado los atributos con un prefijo. De este modo, por ejemplo, el identificador de la tabla \texttt{Available\_instances} pasará a llamarse \texttt{instance\_id}. Además, también se ha añadido el prefijo \textit{available} a ciertas clases para que sea más evidente la diferencia entre los propios objetos del sistema y la información almacenada en la base de datos.
 
 
 \begin{landscape}
 \begin{figure}[h]
-	\caption[Diagramas: entidad-relación]{Diagrama entidad relación de la aplicación}
+	\caption[Diagrama: entidad-relación]{Diagrama entidad relación de la aplicación}
 	\centering
 	\includegraphics[scale=0.4]{../img/anexos/diagrams/er}
 	\label{c:diagrama-er}
@@ -46,7 +46,7 @@ Para facilitar el desarrollo y reducir errores derivados de equivocaciones, se h
 
 \begin{landscape}
 	\begin{figure}[h]
-		\caption[Diagramas: relacional]{Diagrama relacional de la base de datos}
+		\caption[Diagrama: relacional]{Diagrama relacional de la base de datos}
 		\centering
 		\includegraphics[scale=0.46]{../img/anexos/diagrams/relational}
 		\label{c:diagrama-relacional}
@@ -76,11 +76,11 @@ Se adjunta a continuación, para cada tabla, el diccionario de datos correspondi
 			\bottomrule
 		\end{tabular}
 	}
-	\caption[Diccionario de datos: Users]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Users}.}
+	\caption[Diccionario de datos: \texttt{Users}]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Users}.}
 	\label{datadic:users}
 \end{table}
 
-La tabla~\ref{datadic:users} almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla. Cabe destacar que la contraseña está correctamente cifrada mediante  cifrada mediante \texttt{sha-512} y la sal\footnote{\textit{Salt} es un término que se refiere a bits aleatorios usados como entrada (junto a la contraseña) en una función derivadora de claves (cuya salida es la contraseña cifrada).} se ha cifrado en \texttt{sha-256}.
+La tabla~\ref{datadic:users} almacena la información relevante de cada usuario registrado en la base de datos. Si se comprueba el diagrama E-R, se puede comprobar que una peculiaridad de esta tabla es que es una ISA. Debido a que, además del discriminante (usuario administrador o estándar), únicamente hay un atributo que diferencia ambas clases, se ha decidido implementar utilizando una sola tabla. Cabe destacar que la contraseña está correctamente cifrada mediante \texttt{sha-512} y la sal\footnote{\textit{Salt} es un término que se refiere a bits aleatorios usados como entrada (junto a la contraseña) en una función derivadora de claves (cuya salida es la contraseña cifrada).} se ha cifrado en \texttt{sha-256}.
 
 
 \subsubsection{Tabla de instancias (\texttt{Available\_instances})}
@@ -101,7 +101,7 @@ La tabla~\ref{datadic:users} almacena la información relevante de cada usuario 
 			\bottomrule
 		\end{tabular}
 	}
-	\caption[Diccionario de datos: Available\_instances]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Available\_instances}.}
+	\caption[Diccionario de datos: \texttt{Available\_instances}]{Diccionario de datos. Tabla correspondiente a la clase \texttt{Available\_instances}.}
 	\label{datadic:instances}
 \end{table}
 
@@ -124,13 +124,13 @@ La tabla~\ref{datadic:models} almacena los modelos de aprendizaje que han sido c
 			\texttt{creation \_date} & \texttt{TIMESTAMP} & &  Fecha de creación.   \\
 			\texttt{is\_default} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<false>>. Determina si un clasificador es el utilizado por defecto (cuando un usuario realiza una consulta y no selecciona ningún modelo).   \\
 			\texttt{is\_visible} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<true>>. Determina si un clasificador está visible en la \textit{web} y disponible para ser utilizado.\\
-			\texttt{model\_scores} & \texttt{FLOAT(3) ARRAY} & \texttt{NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (en este orden) corresponden a las métricas \textit{accuracy}, \textit{precision}, \textit{recall}, F1 y ROC AUC. \\			
+			\texttt{model\_scores} & \texttt{FLOAT(5) ARRAY} & \texttt{NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (en este orden) corresponden a las métricas \textit{accuracy}, \textit{precision}, \textit{recall}, F1 y AUC. \\			
 			\texttt{model\_notes} & \texttt{VARCHAR(128)} & & Notas acerca de los clasificadores base utilizados para crear el \textit{ensemble}. No debería cambiar de valor.\\
 			\texttt{random\_state} & \texttt{INTEGER} & & Semilla aleatoria.  \\
 			\bottomrule
 		\end{tabular}
 	}
-	\caption[Diccionario de datos: Available\_models]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_models}.}
+	\caption[Diccionario de datos: \texttt{Available\_models}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_models}.}
 	\label{datadic:models}
 \end{table}
 
@@ -152,7 +152,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 				\bottomrule
 			\end{tabular}
 		}
-		\caption[Diccionario de datos: Available\_co\_forests]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_co\_forests}.}
+		\caption[Diccionario de datos: \texttt{Available\_co\_forests}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_co\_forests}.}
 		\label{datadic:coforest}
 	\end{table}
 
@@ -171,7 +171,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 				\bottomrule
 			\end{tabular}
 		}
-		\caption[Diccionario de datos: Available\_tri\_trainings]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_tri\_trainings}.}
+		\caption[Diccionario de datos: \texttt{Available\_tri\_trainings}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_tri\_trainings}.}
 		\label{datadic:tritraining}
 	\end{table}
 
@@ -189,7 +189,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 				\bottomrule
 			\end{tabular}
 		}
-		\caption[Diccionario de datos: Available\_democratic\_cos]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_democratic\_cos}.}
+		\caption[Diccionario de datos: \texttt{Available\_democratic\_cos}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Available\_democratic\_cos}.}
 		\label{datadic:democraticco}
 	\end{table}
 \end{itemize}
@@ -199,7 +199,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 Se enumeran a continuación las tablas que son resultado de una relación entre entidades.
 
 \begin{itemize}
-	\item \textbf{\texttt{Candidate\_instances}}: en la tabla~\ref{datadic:candidate_instances} se almacenan aquellas instancias que han sido reportadas por un usuario y necesitan ser revisadas por un administrador antes de ser incluidas en el \textit{dataset} utilizable de la aplicación. Como se puede comprobar, se trata de una relación ternaria entre el usuario, la instancia reportada y la fecha (puede ser que un usuario reporte la misma URL más de una vez en dos fechas distintas). Es destacable que este es uno de los casos (excepción) en los que no merece la pena que la entidad <<Fecha>> pase a ser tabla debido a que no posee ninguna característica relevante.
+	\item \textbf{\texttt{Candidate\_instances}}: en la tabla~\ref{datadic:candidate_instances} se almacenan aquellas instancias que han sido reportadas por un usuario y necesitan ser revisadas por un administrador antes de poder ser utilizadas para entrenar o probar modelos. Como se puede comprobar, se trata de una relación ternaria entre el usuario, la instancia reportada y la fecha (puede ser que un usuario reporte la misma URL más de una vez en dos fechas distintas). Es destacable que este es uno de los casos (excepción) en los que no merece la pena que la entidad <<Fecha>> pase a ser tabla debido a que no posee ninguna característica relevante.
 	
 		\begin{table}
 		\scalebox{0.80}{
@@ -215,7 +215,7 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 				\bottomrule
 			\end{tabular}
 		}
-		\caption[Diccionario de datos: Candidate\_instances]{Diccionario de datos: tabla correspondiente a la clase \texttt{Candidate\_instances}.}
+		\caption[Diccionario de datos: \texttt{Candidate\_instances}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Candidate\_instances}.}
 		\label{datadic:candidate_instances}
 		\end{table}
 
@@ -233,7 +233,7 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 				\bottomrule
 			\end{tabular}
 		}
-		\caption[Diccionario de datos: Model\_is\_trained\_with]{Diccionario de datos: tabla correspondiente a la clase \texttt{Model\_is\_trained\_with}.}
+		\caption[Diccionario de datos: \texttt{Model\_is\_trained\_with}]{Diccionario de datos: tabla correspondiente a la clase \texttt{Model\_is\_trained\_with}.}
 		\label{datadic:modeltrainedwith}
 	\end{table}
 \end{itemize}
@@ -242,26 +242,26 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 \section{Diseño procedimental}
 \label{s:diseño-procedimental}
 
-En el desarrollo de \textit{software}, el diseño procedimental se refiere a la definición de pasos ordenados para realizar una determinada funcionalidad. Se utiliza para crear métodos y se basa en la descomposición del problema en pequeñas tareas ejecutadas secuencialmente para alcanzar el resultado deseado. Para ello, se ha hecho uso de diagramas de secuencia. Estos muestran la interacción entre distintos componentes en un sistema.
+En el desarrollo de \textit{software}, el diseño procedimental se refiere a la definición de pasos ordenados para realizar una determinada funcionalidad. Se utiliza para crear métodos y se basa en la descomposición del problema en pequeñas tareas ejecutadas secuencialmente para alcanzar el resultado deseado. Para ello, se ha hecho uso de diagramas de secuencia UML\footnote{El Lenguaje Unificado de Modelado (UML) es un lenguaje estándar de modelado visual utilizado durante el diseño y la implementación de sistemas de \textit{software}.}. Estos muestran la interacción entre distintos componentes en un sistema.
 
 Con el fin de facilitar la comprensión de ciertos métodos, se muestran a continuación los diagramas de las principales funcionalidades implementadas.
 
 \begin{itemize}
-	\item \textbf{Página principal}: en el diagrama~\ref{c:diagrama-seq-index} se representan los pasos seguidos en la página principal. Como se puede comprobar, el usuario realiza una petición y permanece esperando en la pantalla de carga correspondiente. Mientras tanto, el analizador procesa su petición.
+	\item \textbf{Página principal}: en el diagrama~\ref{c:diagrama-seq-index} se representan los pasos seguidos para la acción más común: analizar una URL. Como se puede comprobar, el usuario realiza una petición y permanece esperando en la pantalla de carga correspondiente. Mientras tanto, el analizador procesa su petición.
 	
-	Para extraer el vector de características es necesario que la dirección introducida sea alcanzable. En caso de que no lo sea, se realizan correcciones (completar protocolos, corregir sintáxis, etc.). Posteriormente se intenta recuperar posible información existente en la base de datos acerca de dicha instancia (si pertenece a una lista blanca o negra, si ya se tiene almacenado su vector de características, etc.).
+	Para extraer el vector de características es necesario que la dirección introducida sea alcanzable. En caso de que no lo sea, se realizan correcciones (completar protocolos, corregir sintaxis, etc.). Posteriormente se intenta recuperar posible información existente en la base de datos acerca de dicha instancia (si pertenece a una lista blanca o negra, si ya se tiene almacenado su vector de características, etc.).
 	
 	Si la dirección no es alcanzable y no hay información previa, se devuelve al usuario un mensaje informativo (es una excepción, no se puede analizar ni mostrar nada).
 	
 	En el caso de que exista información previa acerca de dicha instancia (el vector de características está almacenado), se puede analizar (ya sea llamable o no). Este camino también es seguido en caso de que el usuario seleccione el <<análisis rápido>>, ya que recuperar el vector de características de la base de datos no es temporalmente costoso.
 	
-	Por último, en caso de que la URL sea llamable y si no se ha recorrido ningún camino previo, se analiza utilizando el método de extracción de vector de características expuesto en la sección teórica de la memoria. Este proceso requiere unos 40 segundos.
+	Por último, en caso de que la URL sea llamable y si no se ha recorrido ningún camino previo, se analiza utilizando el método de extracción de vector de características expuesto en la sección teórica de la memoria. Este proceso requiere unos 40 segundos aproximadamente, aunque varía en función de las características de cada página (número de enlaces que contenga, etc.).
 	
-	Si no ha ocurrido ninguna excepción, en cualquiera de las opciones se ha extraído el vecto de características. Por lo tanto, sólo queda analizar y mostrar los resultados haciendo uso de técnicas visuales (gráficos interactivos) en el \textit{dashboard}, por lo que se redirige a esta pantalla. En caso de que ocurra alguna excepción, el usuario será devuelto a la página principal con un mensaje informativo.
+	Si no ha ocurrido ninguna excepción, en cualquiera de las opciones se ha extraído el vecto de características. Por lo tanto, sólo queda analizar y mostrar los resultados haciendo uso de técnicas visuales (gráficos interactivos) en el \textit{dashboard}, por lo que se redirige a esta pantalla. En caso de que ocurra alguna excepción, el usuario será redirigido a la página principal con un mensaje informativo.
 	
 	\begin{landscape}
 	\begin{figure}[h]
-		\caption[Diagramas: secuencia (página principal)]{Diagrama de secuencia de la página principal del analizador.}
+		\caption[Diagrama: secuencia (página principal)]{Diagrama de secuencia de la página principal del analizador.}
 		\centering
 		\includegraphics[scale=0.37]{../img/anexos/diagrams/sequence-index}
 		\label{c:diagrama-seq-index}
@@ -269,14 +269,14 @@ Con el fin de facilitar la comprensión de ciertos métodos, se muestran a conti
 	\end{landscape}
 
 
-	\item \textbf{Página para reportar una URL}: la secuencia se ilustra en el diagrama~\ref{c:diagrama-seq-report_url}. Como se puede comprobar, el usuario tan solo ha de introducir su URL, seleccionar el tipo (lista blanca o lista negra) y aceptar.
+	\item \textbf{Página para reportar una URL}: la secuencia se ilustra en el diagrama~\ref{c:diagrama-seq-report_url}. Como se puede comprobar, el usuario tan solo ha de introducir la URL, seleccionar el tipo (lista blanca o lista negra) y aceptar.
 	
 	Como internamente la tabla donde se almacenan las URLs reportadas necesita información para incluir un nuevo registro (identificador de la instancia y del usuario), se intenta recuperar la instancia que se está reportando. En caso de no existir, se crea una nueva y se añade a la base de datos. Por último, se incluye el reporte con los datos y se redirige al usuario a la misma página con un mensaje informativo.
 	
 	Es destacable que un usuario registrado no va a poder acceder a esta pantalla (antes será redirigido por el sistema de control a la página de inicio de sesión).
 	
 	\begin{figure}[h]
-		\caption[Diagramas: secuencia (reportar url)]{Diagrama de secuencia de la página para reportar una URL.}
+		\caption[Diagrama: secuencia (reportar url)]{Diagrama de secuencia de la página para reportar una URL.}
 		\centering
 		\includegraphics[scale=0.4]{../img/anexos/diagrams/sequence-report_url}
 		\label{c:diagrama-seq-report_url}
@@ -286,5 +286,5 @@ Con el fin de facilitar la comprensión de ciertos métodos, se muestran a conti
 \end{itemize}
 
 \section{Diseño arquitectónico}
-\label{s:diseño-arquitectonico}´
+\label{s:diseño-arquitectonico}
 
