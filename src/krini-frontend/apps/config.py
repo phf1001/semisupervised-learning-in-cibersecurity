@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 """
-@File    :   exceptions.py
+@File    :   config.py
 @Time    :   2023/04/03 12:55:58
 @Author  :   Patricia Hernando Fernández (modified)
 @Version :   2.0

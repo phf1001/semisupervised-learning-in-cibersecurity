@@ -118,13 +118,14 @@ La tabla~\ref{datadic:models} almacena los modelos de aprendizaje que han sido c
 		\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 		\midrule
 			\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
-			\texttt{created\_by} & \texttt{INTEGER} & \texttt{FK(Users) NOT NULL} &  Enlace al administrador que ha creado un determinado modelo. Dependencia por existencia.\\
-			\texttt{model\_name} & \texttt{VARCHAR(32)} & \texttt{UNIQUE NOT NULL} & Inmutable. Nombre común y visible para los usuarios. \\
-			\texttt{file\_name} & \texttt{VARCHAR(32)} & \texttt{UNIQUE NOT NULL} & Inmutable. Preferiblemente seguirá la sintáxis \texttt{nombre\_v-a-b-c.pkl}, donde $a$, $b$, $c$ son los números de versión (ejemplo: \texttt{cof\_v-1-0-0.pkl})    \\
+			\texttt{created\_by} & \texttt{INTEGER} & \texttt{FK(Users) NOT NULL ON DELETE CASCADE} &  Enlace al administrador que ha creado un determinado modelo. Dependencia por existencia.\\
+			\texttt{model\_name} & \texttt{VARCHAR(64)} & \texttt{UNIQUE NOT NULL} & Inmutable. Nombre común y visible para los usuarios. \\
+			\texttt{file\_name} & \texttt{VARCHAR(64)} & \texttt{UNIQUE NOT NULL} & Inmutable. Preferiblemente seguirá la sintáxis \texttt{nombre\_v-a-b-c.pkl}, donde $a$, $b$, $c$ son los números de versión (ejemplo: \texttt{cof\_v-1-0-0.pkl})    \\
 			\texttt{creation \_date} & \texttt{TIMESTAMP} & &  Fecha de creación.   \\
 			\texttt{is\_default} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<false>>. Determina si un clasificador es el utilizado por defecto (cuando un usuario realiza una consulta y no selecciona ningún modelo).   \\
 			\texttt{is\_visible} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<true>>. Determina si un clasificador está visible en la \textit{web} y disponible para ser utilizado.\\
 			\texttt{model\_scores} & \texttt{FLOAT(5) ARRAY} & \texttt{NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (en este orden) corresponden a las métricas \textit{accuracy}, \textit{precision}, \textit{recall}, F1 y AUC. \\			
+			\texttt{model\_ algorithm} & \texttt{VARCHAR(2)} & \texttt{NOT NULL} & Discriminante. Tomará valores entre \texttt{dc}, \texttt{tt} o \texttt{cf} controlados por aplicación.\\
 			\texttt{model\_notes} & \texttt{VARCHAR(128)} & & Notas acerca de los clasificadores base utilizados para crear el \textit{ensemble}. No debería cambiar de valor.\\
 			\texttt{random\_state} & \texttt{INTEGER} & & Semilla aleatoria.  \\
 			\bottomrule
@@ -145,7 +146,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 		\toprule
 		\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 		\midrule
-				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir). \\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models) ON DELETE CASCADE} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir). \\
 				\texttt{max\_features} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Parámetro del árbol de decisión. Puede ser <<sqrt>> o <<log2>>. Por defecto <<log2>>.   \\
 				\texttt{thetha} & \texttt{FLOAT(3)} & \texttt{NOT NULL} & Parámetro thetha del \textit{ensemble} (umbral de confianza). Por defecto 0.75.   \\
 				\texttt{n\_trees} & \texttt{INTEGER} & \texttt{NOT NULL} & Número de árboles. Por defecto 3.   \\
@@ -164,10 +165,10 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 		\toprule
 		\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 		\midrule
-				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
-				\texttt{cls\_one} & \texttt{VARCHAR(4)} & \texttt{NOT NULL}  &  Algoritmo del primer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
-				\texttt{cls\_two} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Algoritmo del segundo estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
-				\texttt{cls\_three} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Algoritmo del tercer estimador base. Puede ser <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models) ON DELETE CASCADE} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{cls\_one} & \texttt{VARCHAR(4)} & \texttt{NOT NULL}  &  Algoritmo del primer estimador base. Puede ser <<kNN>>, <<NB>> o <<DT>>.\\
+				\texttt{cls\_two} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Algoritmo del segundo estimador base. Puede ser <<kNN>>, <<NB>> o <<DT>>.\\
+				\texttt{cls\_three} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Algoritmo del tercer estimador base. Puede ser <<kNN>>, <<NB>> o <<DT>>.\\
 				\bottomrule
 			\end{tabular}
 		}
@@ -183,9 +184,9 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 		\toprule
 		\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 		\midrule
-				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models)} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
+				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models) ON DELETE CASCADE} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir).\\
 				\texttt{n\_clss} & \texttt{INTEGER} & \texttt{NOT NULL} & Número de clasificadores base.\\
-				\texttt{base\_clss} & \texttt{VARCHAR(4) ARRAY} & \texttt{NOT NULL}  & Array con los algoritmos pertenecientes a los estimadores base. Los valores que puede contener son <<kNN>>, <<NB>> o <<tree>>.\\
+				\texttt{base\_clss} & \texttt{VARCHAR(4) ARRAY} & \texttt{NOT NULL}  & Array con los algoritmos pertenecientes a los estimadores base. Los valores que puede contener son <<kNN>>, <<NB>> o <<DT>>.\\
 				\bottomrule
 			\end{tabular}
 		}
@@ -207,8 +208,8 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 			\toprule
 			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 			\midrule
-				\texttt{user\_id} & \texttt{INTEGER} & \texttt{FK(Users)} & Identificador del usuario que ha reportado la URL. \\
-				\texttt{instance\_id} & \texttt{INTEGER} & \texttt{FK(Available \_instances)} & Identificador de la URL reportada. \\
+				\texttt{user\_id} & \texttt{INTEGER} & \texttt{FK(Users) ON DELETE CASCADE} & Identificador del usuario que ha reportado la URL. \\
+				\texttt{instance\_id} & \texttt{INTEGER} & \texttt{FK(Available \_instances) ON DELETE CASCADE} & Identificador de la URL reportada. \\
 				\texttt{date\_reported} & \texttt{TIMESTAMP} & & Fecha de envío del formulario.     \\
 				\texttt{suggestion} & \texttt{VARCHAR(16)} & \texttt{NOT NULL} & Lo que el usuario denuncia que la URL es (ejemplo: <<white-list>>).   \\\\
 				\multicolumn{3}{l}{\hfill \texttt{\textbf{\underline{PK(user\_id, instance\_id, date\_reported)}}}} & Clave primaria compuesta de la relación. \\
@@ -227,8 +228,8 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 			\toprule
 			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 			\midrule
-				\texttt{model\_id} & \texttt{INTEGER} & \texttt{FK(Available \_models)} & Identificador del modelo que ha sido entrenado. \\
-				\texttt{instance\_id} & \texttt{INTEGER} & \texttt{FK(Available \_instances)} & Identificador de la instancia utilizada en la fase de entrenamiento. \\\\
+				\texttt{model\_id} & \texttt{INTEGER} & \texttt{FK(Available \_models) ON DELETE CASCADE} & Identificador del modelo que ha sido entrenado. \\
+				\texttt{instance\_id} & \texttt{INTEGER} & \texttt{FK(Available \_instances) ON DELETE CASCADE} & Identificador de la instancia utilizada en la fase de entrenamiento. \\\\
 				\multicolumn{3}{l}{\hfill \texttt{\textbf{\underline{PK(model\_id, instance\_id)}}}} & Clave primaria compuesta de la relación. \\
 				\bottomrule
 			\end{tabular}

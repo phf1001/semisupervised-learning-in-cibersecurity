@@ -78,10 +78,14 @@ class Candidate_instances(db.Model):
     date_reported = db.Column(db.DateTime, primary_key=True)
     instance_id = db.Column(
         db.Integer,
-        db.ForeignKey("Available_instances.instance_id"),
+        db.ForeignKey("Available_instances.instance_id", ondelete="CASCADE"),
         primary_key=True,
     )
-    user_id = db.Column(db.Integer, db.ForeignKey("Users.id"), primary_key=True)
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("Users.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
     suggestions = db.Column(db.Text, nullable=False)
 
     def __init__(self, **kwargs):
@@ -234,7 +238,9 @@ class Available_models(db.Model):
 
     model_id = db.Column(db.Integer, primary_key=True)
     created_by = db.Column(
-        db.Integer, db.ForeignKey("Users.id"), nullable=False
+        db.Integer,
+        db.ForeignKey("Users.id", ondelete="CASCADE"),
+        nullable=False,
     )
     model_name = db.Column(db.String(64), unique=True, nullable=False)
     file_name = db.Column(db.String(64), unique=True, nullable=False)
