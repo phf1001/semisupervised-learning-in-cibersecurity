@@ -28,6 +28,10 @@ if DEBUG:
     app.logger.info("DEBUG       = " + str(DEBUG))
     app.logger.info("Environment = " + get_config_mode)
     app.logger.info("DBMS        = " + app_config.SQLALCHEMY_DATABASE_URI)
+    app.logger.info("LOCALE      = " + app.config["BABEL_DEFAULT_LOCALE"])
+    app.logger.info(
+        "TRANSLATION = " + app.config["BABEL_TRANSLATION_DIRECTORIES"]
+    )
 
 if __name__ == "__main__":
     app.run()

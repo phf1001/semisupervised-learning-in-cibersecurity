@@ -1,0 +1,68 @@
+# Translations template for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-04-23 09:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: apps/declares_messages.py:57
+msgid "Hola"
+msgstr ""
+
+#: apps/declares_messages.py:58
+msgid "Ha ocurrido una excepción en la aplicación."
+msgstr ""
+
+#: apps/declares_messages.py:65
+msgid ""
+"La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la "
+"sintáxis {} y si la página está disponible e inténtalo de nuevo."
+msgstr ""
+
+#: apps/declares_messages.py:74
+msgid "Oye meto aqui algo en medio a ver que se cuece"
+msgstr ""
+
+#: apps/declares_messages.py:81 apps/declares_messages.py:85
+msgid "No se ha podido llamar la url"
+msgstr ""
+
+#: apps/declares_messages.py:87
+msgid ""
+"ni reconstruir. Tampoco se ha encontrado información en la base de datos "
+"acerca de esta URL."
+msgstr ""
+
+#: apps/home/routes.py:85
+#, python-format
+msgid "probando probando %s cadena 123"
+msgstr ""
+
+#: apps/home/routes.py:160
+msgid "Hola hola"
+msgstr ""
+
+#: apps/templates/home/index.html:71
+msgid "KRINI"
+msgstr ""
+
+#: apps/templates/home/index.html:84
+msgid "ANALIZADOR DE PHISHING"
+msgstr ""
+
+#: apps/templates/home/index.html:95
+msgid "Introduce una URL"
+msgstr ""
+

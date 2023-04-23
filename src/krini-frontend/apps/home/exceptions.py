@@ -8,6 +8,12 @@
 @Contact :   phf1001@alu.ubu.es
 """
 
+from apps.declares_messages import (
+    KRINI_EXCEPTION_DEFAULT,
+    KRINI_EXCEPTION_DB_DEFAULT,
+    KRINI_EXCEPTION_NOT_LOGGED_DEFAULT,
+)
+
 
 class KriniException(Exception):
     """
@@ -18,7 +24,7 @@ class KriniException(Exception):
         Exception (class): parent class
     """
 
-    def __init__(self, message="An error has occurred in Krini"):
+    def __init__(self, message=KRINI_EXCEPTION_DEFAULT):
         self.message = message
         super().__init__(self.message)
 
@@ -35,7 +41,7 @@ class KriniNotLoggedException(KriniException):
         Exception (class): parent class
     """
 
-    def __init__(self, message="You must be logged in to access this page"):
+    def __init__(self, message=KRINI_EXCEPTION_NOT_LOGGED_DEFAULT):
         self.message = message
         super().__init__(self.message)
 
@@ -51,7 +57,7 @@ class KriniDBException(KriniException):
         Exception (class): parent class
     """
 
-    def __init__(self, message="DB Error"):
+    def __init__(self, message=KRINI_EXCEPTION_DB_DEFAULT):
         self.message = message
         super().__init__(self.message)
 

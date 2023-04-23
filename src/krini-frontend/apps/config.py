@@ -7,6 +7,7 @@ from decouple import config
 
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
+    superiordir = os.getcwd()
 
     # Set up the App SECRET_KEY
     SECRET_KEY = config("SECRET_KEY", default="S#perS3crEt_007")
@@ -14,6 +15,10 @@ class Config(object):
         "WTF_CSRF_SECRET_KEY", default="S#perS3crEt_007"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_TRANSLATION_DIRECTORIES = os.path.join(superiordir, "translations")
+    LANGUAGES = {"en": "English", "es": "Spanish"}
 
 
 class ProductionConfig(Config):
@@ -24,7 +29,6 @@ class ProductionConfig(Config):
         database_url = database_url.replace("postgres://", "postgresql://", 1)
 
     SQLALCHEMY_DATABASE_URI = database_url
-
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600

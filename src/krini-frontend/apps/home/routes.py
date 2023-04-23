@@ -39,6 +39,7 @@ from flask import (
     after_this_request,
 )
 from flask_login import login_required, current_user
+from flask_babel import gettext
 from werkzeug.exceptions import Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
@@ -67,16 +68,21 @@ from sklearn.model_selection import train_test_split
 
 logger = get_logger("krini-frontend")
 
+from apps.declares_messages import *
+
 
 @blueprint.route("/index", methods=["GET", "POST"])
 def index():
-    """Index page. It contains the form to analyze an URL. Redirects to a
-    loading page and then to the dashboard.
+    """Index page. It contains the form to analyze an URL.
+    Redirects to a loading page and then to the dashboard.
 
     Returns:
         function: renders a loading page
     """
     form = SearchURLForm(request.form)
+
+    flash(Messages.get_not_callable_url("https://www.google.es"))
+    flash(gettext("probando probando %s cadena 123") % "hola", "danger")
 
     if not form.validate_on_submit():
         return render_template(
@@ -100,8 +106,8 @@ def index():
 
 
 def trigger_mock_dashboard(models_ids, quick_analysis):
-    """Triggers the dashboard with mock values. Coded to make the development
-    process faster.
+    """Triggers the dashboard with mock values.
+    Coded to make the development process faster.
 
     Args:
         models_ids (list): list of models ids
@@ -126,13 +132,15 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
 
 @blueprint.route("/task", methods=["POST", "GET"])
 def task():
-    """Gets the feature vector for an URL. If the URL is not callable, it tries
-    to reconstruct it. If there is an existing instance on the DB returns the
-    FV.
+    """Gets the feature vector for an URL. If the URL is not
+    callable, it tries to reconstruct it. If there is an
+    existing instance on the DB returns the FV.
 
     Raises:
-        KriniException: if the URL is not callable and it cannot be reconstructed.
-        However it is catched and the user is redirected to the index page.
+        KriniException: if the URL is not callable and it
+                        cannot be reconstructed. However, it
+                        is catched and the user is redirected
+                        to the index page.
     Returns:
         function: redirects to the dashboard
     """
@@ -149,6 +157,11 @@ def task():
             return trigger_mock_dashboard(models_ids, quick_analysis)
 
         callable_url = get_callable_url(url)
+        flash(gettext("Hola hola"))
+
+        msg = str(MSG_URL_NOT_CALLABLE.format(url))
+        msg = gettext(msg)
+        flash(msg)
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(
@@ -164,11 +177,7 @@ def task():
                 )
 
             else:
-                raise KriniException(
-                    "No se ha podido llamar la url {} ni reconstruir. Tampoco se ha encontrado información en la base de datos acerca de esta URL.".format(
-                        url
-                    )
-                )
+                raise KriniException(gettext(MSG_URL_NOT_CALLABLE.format(url)))
 
         else:  # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(
@@ -204,7 +213,6 @@ def task():
                         )
                     colour_list = ""
 
-        # Enviamos el vector al dashboard
         session["messages"] = {
             "fv": fv,
             "fv_extra_information": fv_extra_information,
@@ -219,18 +227,16 @@ def task():
 
     except KriniException as e:
         logger.error(e.message)
-        message = "La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la sintáxis y si la página está disponible e inténtalo de nuevo.".format(
-            url
-        )
-        flash(message, "danger")
+        flash(gettext(MSG_URL_NOT_REACHEABLE.format(url)), "danger")
         return redirect(url_for("home_blueprint.index"))
 
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    """Analyzes the URL feature vector with the selected models. Renders the
-    dashboard. All exceptions are catched and the user is redirected to the
-    index page when something unexpected happens.
+    """Analyzes the URL feature vector with the selected
+    models. Renders the dashboard. All exceptions are
+    catched and the user is redirected to the index page
+    when something unexpected happens.
 
     Returns:
         function: renders the dashboard
@@ -244,9 +250,7 @@ def dashboard():
             selected_models = get_selected_models_ids(messages["models_ids"])
 
             if len(selected_models) == 0:
-                raise KriniException(
-                    "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
-                )
+                raise KriniException(gettext(NO_MODEL_AVAILABLE))
 
             classifiers_info_tuples = [
                 get_model(model_id) for model_id in selected_models
@@ -260,7 +264,8 @@ def dashboard():
             count, numeric_class = get_sum_tags_numeric(predicted_tags)
             messages["numeric_class"] = numeric_class
 
-            if messages["update_bbdd"]:  # Se guarda con la etiqueta mayoritaria
+            # Stores using majority voting
+            if messages["update_bbdd"]:
                 save_bbdd_analized_instance(
                     url, [float(feat) for feat in messages["fv"]], numeric_class
                 )
@@ -271,7 +276,6 @@ def dashboard():
                 for cls, prediction in zip(classifiers, predicted_tags)
             ]
 
-            # Todo en arrays por orden
             information_to_display = {
                 "url": url if numeric_class == 0 else sanitize_url(url),
                 "quick_analysis": messages["quick_analysis"],
@@ -295,9 +299,7 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-        raise KriniException(
-            "No existe información para mostrar. Realiza un análisis para acceder al dashboard."
-        )
+        raise KriniException(gettext(NO_INFO_DISPLAY_DASHBOARD))
 
     except KriniException as e:
         logger.error(e.message)
@@ -305,9 +307,7 @@ def dashboard():
         return redirect(url_for("home_blueprint.index"))
 
     except KeyError:
-        msg = "La información para mostrar ha caducado o no está disponible. Realiza otro análisis para acceder al dashboard."
-        logger.error("KeyError dashboard" + msg)
-        flash(msg, "danger")
+        flash(gettext(NO_INFO_DASHBOARD), "danger")
         return redirect(url_for("home_blueprint.index"))
 
 

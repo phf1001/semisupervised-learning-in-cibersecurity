@@ -2,15 +2,19 @@
 """Copyright (c) 2019 - present AppSeed.us"""
 
 from flask import Flask
-from flask_bootstrap import Bootstrap
+from flask_babel import Babel
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-import os
 from importlib import import_module
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+babel = Babel()
+
+
+def get_locale():
+    return "en"
 
 
 def create_app(config):
@@ -24,6 +28,7 @@ def create_app(config):
     register_blueprints(app)
     configure_database(app)
     CSRFProtect(app).init_app(app)
+    babel.init_app(app, locale_selector=get_locale)
     return app
 
 

@@ -19,13 +19,14 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Regexp, NumberRange
 
-NAIVE_BAYES_NAME = "Naive Bayes"
-DECISION_TREE_NAME = "Árbol de decisión"
-KNN_NAME = "k-vecinos más cercanos"
-
-NAIVE_BAYES_KEY = "NB"
-DECISION_TREE_KEY = "tree"
-KNN_KEY = "kNN"
+from apps.declares_messages import (
+    NAIVE_BAYES_KEY,
+    NAIVE_BAYES_NAME,
+    DECISION_TREE_KEY,
+    DECISION_TREE_NAME,
+    KNN_KEY,
+    KNN_NAME,
+)
 
 available_base_cls = [
     (NAIVE_BAYES_KEY, NAIVE_BAYES_NAME),
