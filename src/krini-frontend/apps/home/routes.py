@@ -68,7 +68,7 @@ from sklearn.model_selection import train_test_split
 
 logger = get_logger("krini-frontend")
 
-from apps.declares_messages import *
+from apps.messages import get_message
 
 
 @blueprint.route("/index", methods=["GET", "POST"])
@@ -80,9 +80,6 @@ def index():
         function: renders a loading page
     """
     form = SearchURLForm(request.form)
-
-    flash(Messages.get_not_callable_url("https://www.google.es"))
-    flash(gettext("probando probando %s cadena 123") % "hola", "danger")
 
     if not form.validate_on_submit():
         return render_template(
@@ -157,11 +154,6 @@ def task():
             return trigger_mock_dashboard(models_ids, quick_analysis)
 
         callable_url = get_callable_url(url)
-        flash(gettext("Hola hola"))
-
-        msg = str(MSG_URL_NOT_CALLABLE.format(url))
-        msg = gettext(msg)
-        flash(msg)
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(
@@ -177,7 +169,7 @@ def task():
                 )
 
             else:
-                raise KriniException(gettext(MSG_URL_NOT_CALLABLE.format(url)))
+                raise KriniException(get_message("not_callable_url", [url]))
 
         else:  # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(
@@ -227,7 +219,7 @@ def task():
 
     except KriniException as e:
         logger.error(e.message)
-        flash(gettext(MSG_URL_NOT_REACHEABLE.format(url)), "danger")
+        flash(get_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
 
@@ -250,7 +242,7 @@ def dashboard():
             selected_models = get_selected_models_ids(messages["models_ids"])
 
             if len(selected_models) == 0:
-                raise KriniException(gettext(NO_MODEL_AVAILABLE))
+                raise KriniException(get_message("no_models_available"))
 
             classifiers_info_tuples = [
                 get_model(model_id) for model_id in selected_models
@@ -299,7 +291,7 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
-        raise KriniException(gettext(NO_INFO_DISPLAY_DASHBOARD))
+        raise KriniException(get_message("no_info_display_dashboard"))
 
     except KriniException as e:
         logger.error(e.message)
@@ -307,7 +299,12 @@ def dashboard():
         return redirect(url_for("home_blueprint.index"))
 
     except KeyError:
-        flash(gettext(NO_INFO_DASHBOARD), "danger")
+        flash(
+            get_message("no_info_available")
+            + " "
+            + get_message("no_info_display_dashboard"),
+            "danger",
+        )
         return redirect(url_for("home_blueprint.index"))
 
 

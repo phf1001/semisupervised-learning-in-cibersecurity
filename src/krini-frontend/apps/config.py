@@ -1,8 +1,23 @@
-# -*- encoding: utf-8 -*-
-"""Copyright (c) 2019 - present AppSeed.us"""
-
+#!/usr/bin/env python
+# -*-coding:utf-8 -*-
+"""
+@File    :   exceptions.py
+@Time    :   2023/04/03 12:55:58
+@Author  :   Patricia Hernando Fernández (modified)
+@Version :   2.0
+@Contact :   phf1001@alu.ubu.es
+@Copy    :  (c) 2019 - present AppSeed.us
+"""
 import os
 from decouple import config
+
+# Constants
+NAIVE_BAYES_NAME = "Naive Bayes"
+DECISION_TREE_NAME = "Árbol de decisión"
+KNN_NAME = "k-vecinos más cercanos"
+NAIVE_BAYES_KEY = "NB"
+DECISION_TREE_KEY = "tree"
+KNN_KEY = "kNN"
 
 
 class Config(object):

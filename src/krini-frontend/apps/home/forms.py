@@ -19,7 +19,7 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Regexp, NumberRange
 
-from apps.declares_messages import (
+from apps.config import (
     NAIVE_BAYES_KEY,
     NAIVE_BAYES_NAME,
     DECISION_TREE_KEY,

@@ -2,17 +2,13 @@
 # -*-coding:utf-8 -*-
 """
 @File    :   exceptions.py
-@Time    :   2023/04/03 12:55:58
+@Time    :   2023/04/03 10:00:58
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   2.0
 @Contact :   phf1001@alu.ubu.es
 """
 
-from apps.declares_messages import (
-    KRINI_EXCEPTION_DEFAULT,
-    KRINI_EXCEPTION_DB_DEFAULT,
-    KRINI_EXCEPTION_NOT_LOGGED_DEFAULT,
-)
+from apps.messages import get_message
 
 
 class KriniException(Exception):
@@ -24,7 +20,7 @@ class KriniException(Exception):
         Exception (class): parent class
     """
 
-    def __init__(self, message=KRINI_EXCEPTION_DEFAULT):
+    def __init__(self, message=get_message("krini_exception_default")):
         self.message = message
         super().__init__(self.message)
 
@@ -41,7 +37,9 @@ class KriniNotLoggedException(KriniException):
         Exception (class): parent class
     """
 
-    def __init__(self, message=KRINI_EXCEPTION_NOT_LOGGED_DEFAULT):
+    def __init__(
+        self, message=get_message("krini_not_logged_exception_default")
+    ):
         self.message = message
         super().__init__(self.message)
 
@@ -57,7 +55,7 @@ class KriniDBException(KriniException):
         Exception (class): parent class
     """
 
-    def __init__(self, message=KRINI_EXCEPTION_DB_DEFAULT):
+    def __init__(self, message=get_message("krini_db_exception_default")):
         self.message = message
         super().__init__(self.message)
 
