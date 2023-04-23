@@ -8,11 +8,12 @@
 @Contact :   phf1001@alu.ubu.es
 """
 
-DEFAULT_MODEL_NAME = "Default"
-DEFAULT_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
+from apps.config import (
+    CO_FOREST_CONTROL,
+    TRI_TRAINING_CONTROL,
+    DEMOCRATIC_CO_CONTROL,
+    DEFAULT_USER_AGENT,
 )
-
 from apps.ssl_utils.ml_utils import (
     obtain_model,
     get_temporary_train_files_directory,
@@ -20,7 +21,11 @@ from apps.ssl_utils.ml_utils import (
     get_temporary_download_directory,
     get_models_directory,
 )
-
+from apps.home.exceptions import (
+    KriniNotLoggedException,
+    KriniDBException,
+    KriniException,
+)
 from apps import db
 from apps.authentication.models import Users
 from apps.home.exceptions import KriniNotLoggedException
@@ -35,7 +40,7 @@ from apps.home.models import (
     Model_is_trained_with,
 )
 from werkzeug.utils import secure_filename
-from os import path, remove, listdir, sep
+from os import path, remove, listdir, sep, rename
 import re
 import pandas as pd
 from numpy import int64, float64, array
@@ -46,17 +51,7 @@ import logging
 import requests
 import urllib.parse
 from pickle import PickleError
-
-from apps.home.exceptions import (
-    KriniNotLoggedException,
-    KriniDBException,
-    KriniException,
-)
 from sqlalchemy import exc
-
-CO_FOREST_CONTROL = "CO-FOREST"
-TRI_TRAINING_CONTROL = "TRI-TRAINING"
-DEMOCRATIC_CO_CONTROL = "DEMOCRATIC-CO"
 
 
 def get_logger(
@@ -461,6 +456,7 @@ def get_model_dict(model):
 
     return {
         "model_id": model.model_id,
+        "model_version": extract_version(model.model_name),
         "model_name": model.model_name.upper(),
         "model_parameters": params[0],
         "algorithm": algorithm,
@@ -1238,6 +1234,7 @@ def serialize_store_model(
     File name is the model name + version with - + .pkl -> "COF_1-0-0.pkl"
 
     Trainings ids are stored in the relation table.
+    All default models are updated if needed.
 
     Args:
         form_data (dict): dictionary containing the form data corrected.
@@ -1329,6 +1326,13 @@ def serialize_store_model(
         db.session.flush()
         model_id = new_model.model_id
 
+        if to_bolean(form_data["is_default"]):
+            done = Available_models.update_default_model(model_id)
+            if not done:
+                raise KriniException(
+                    "Error al actualizar el modelo por defecto."
+                )
+
         for instance_id in train_ids:
             new_row = Model_is_trained_with(model_id, int(instance_id))
             db.session.add(new_row)
@@ -1346,6 +1350,83 @@ def serialize_store_model(
         raise KriniException(
             "Error al guardar el modelo en la BD o los datos de entrenamiento."
         )
+
+
+def extract_version(model_name):
+    """Extracts the version of a model.
+
+    Args:
+        model_name (str): name of the model.
+
+    Returns:
+        str: version of the model.
+    """
+    return model_name.split(" ")[-1]
+
+
+def update_model(model, form_data, models_path=None):
+    """Updates the model in the database and the file system.
+    If the model is not in the file system, it is not updated.
+    Also updates the default model if it is the one being updated.
+
+    Args:
+        model (Available_models): model to be updated.
+        form_data (dict): dictionary containing the form data corrected.
+        models_path (str, optional): path to the models directory.
+
+    Raises:
+        KriniException: if there is an error in the database or the file system.
+
+    Returns:
+        bool: True if the model was updated correctly.
+    """
+    try:
+        new_model_version = form_data["model_version"]
+
+        if models_path is None:
+            models_path = get_models_directory()
+
+        new_file_name = (
+            model.file_name.split("_")[0]
+            + "_"
+            + new_model_version.replace(".", "-")
+            + ".pkl"
+        )
+
+        old_file_location = models_path + sep + model.file_name
+        new_file_location = models_path + sep + new_file_name
+
+        if path.isfile(old_file_location):
+            rename(old_file_location, new_file_location)
+
+        else:
+            raise KriniDBException("No se ha encontrado el modelo serializado.")
+
+        model.model_name = (
+            model.model_name.split(" ")[0] + " " + new_model_version
+        )
+        model.file_name = new_file_name
+        model.model_notes = form_data["model_description"]
+        model.is_visible = to_bolean(form_data["is_visible"])
+        update_defaults = to_bolean(form_data["is_default"])
+
+        if update_defaults:
+            done = Available_models.update_default_model(model.model_id)
+            if not done:
+                raise KriniDBException(
+                    "No se ha podido actualizar el modelo por defecto."
+                )
+
+        db.session.flush()
+        db.session.commit()
+        return True
+
+    except exc.SQLAlchemyError:
+        db.session.rollback()
+        raise KriniException("Error al actualizar el modelo en la BD.")
+
+    except KriniDBException as e:
+        raise KriniException(str(e))
 
 
 def to_bolean(string):
@@ -1700,74 +1781,15 @@ def translate_form_select_ssl_alg(user_input):
         return "tri-training"
 
 
-def correct_user_input(form_data):
-    form_data = correct_model_values(form_data)
-
-    selected_algorithm = form_data.get("model_algorithm", None)
-
-    if selected_algorithm == "tri-training":
-        form_data = check_correct_values_tri_training(form_data)
-    elif selected_algorithm == "democratic-co":
-        form_data = check_correct_values_democratic_co(form_data)
-    else:
-        form_data = check_correct_values_coforest(form_data)
-
-
-def correct_model_values(form_data):
-    # Comprobar nombres no duplicados, versiones bien introducidas, etc
-    return form_data
-
-
-def check_correct_values_coforest(form_data):
-    try:
-        if not isinstance(form_data.get("max_features", None), str):
-            form_data["max_features"] = "log2"
-
-        if not isinstance(form_data.get("thetha", None), float):
-            form_data["thetha"] = 0.75
-
-        if not isinstance(form_data.get("n_trees", None), int):
-            form_data["n_trees"] = 6
-
-        form_data["model_algorithm"] = "co-forest"
-
-        return form_data
-
-    except Exception:
-        raise Exception(
-            "Corregir excepciones valores coforest (fichero utils.py)"
-        )
-
-
-def check_correct_values_tri_training(form_data):
-    base_clss = ["kNN", "NB", "tree"]
-    for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
-        if form_data[keys_to_ckeck] not in base_clss:
-            form_data[keys_to_ckeck] = base_clss[i]
-
-    form_data["model_algorithm"] = "tri-training"
-
-    return form_data
-
-
-def check_correct_values_democratic_co(form_data):
-    base_clss = ["kNN", "NB", "tree"]
-    for i, keys_to_ckeck in enumerate(["cls_one", "cls_two", "cls_three"]):
-        n_clss = "n_{}".format(keys_to_ckeck)
-
-        if form_data[keys_to_ckeck] not in base_clss:
-            form_data[keys_to_ckeck] = base_clss[i]
-            form_data[n_clss] = 1
-
-        elif not isinstance(form_data[n_clss], int):
-            form_data[n_clss] = 0
-
-    form_data["model_algorithm"] = "democratic-co"
-
-    return form_data
-
-
 def get_segment(request):
+    """Extracts the segment of the url.
+
+    Args:
+        request (request): request object
+
+    Returns:
+        str: segment of the url
+    """
     try:
         segment = request.path.split("/")[-1]
 

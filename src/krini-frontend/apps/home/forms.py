@@ -112,6 +112,45 @@ class InstanceForm(FlaskForm):
     )
 
 
+class SmallModelForm(FlaskForm):
+    """
+    Form used to edit models.
+
+    Args:
+        FlaskForm (class): parent class
+    """
+
+    model_version = TextField(
+        "model_version",
+        id="model_version",
+        default="1",
+        validators=[
+            Regexp(
+                r"^\d+(.\d){0,2}$",
+                message="Introduce una versión válida. Si no sabes qué poner, puedes probar a introducir un número entero.",
+            )
+        ],
+    )
+
+    model_description = TextField("model_description", id="model_description")
+
+    model_algorithm = TextField("model_algorithm", id="model_algorithm")
+
+    is_visible = SelectField(
+        "is_visible",
+        id="is_visible",
+        choices=[("True", "Visible"), ("False", "No visible")],
+        default="True",
+    )
+
+    is_default = SelectField(
+        "is_default",
+        id="is_default",
+        choices=[("False", "No"), ("True", "Sí")],
+        default="False",
+    )
+
+
 class ModelForm(FlaskForm):
     """
     Form used to manage models.

@@ -7,22 +7,9 @@
 @Version :   2.0
 @Contact :   phf1001@alu.ubu.es
 """
-from apps import create_app, db
-from apps.config import config_dict
-from decouple import config
+from apps import db
 from sqlalchemy.ext.mutable import MutableList
-
-DEBUG = config("DEBUG", default=True, cast=bool)
-get_config_mode = "Debug" if DEBUG else "Production"
-
-try:
-    app_config = config_dict[get_config_mode.capitalize()]
-
-except KeyError:
-    exit("Error: Invalid <config_mode>. Expected values [Debug, Production] ")
-
-app = create_app(app_config)
-app.app_context().push()
+from sqlalchemy.exc import SQLAlchemyError
 
 
 class Available_instances(db.Model):
@@ -60,6 +47,15 @@ class Available_instances(db.Model):
 
     @staticmethod
     def all_paginated(page=1, per_page=15):
+        """Returns a SQLAlchemy pagination object with the items in that page.
+
+        Args:
+            page (int, optional): Page to display. Defaults to 1.
+            per_page (int, optional): Number of items per page. Defaults to 15.
+
+        Returns:
+            object: SQLAlchemy pagination object
+        """
         return Available_instances.query.paginate(page, per_page, False)
 
 
@@ -107,6 +103,15 @@ class Candidate_instances(db.Model):
 
     @staticmethod
     def all_paginated(page=1, per_page=15):
+        """Returns a SQLAlchemy pagination object with the items in that page.
+
+        Args:
+            page (int, optional): Page to display. Defaults to 1.
+            per_page (int, optional): Number of items per page. Defaults to 15.
+
+        Returns:
+            object: SQLAlchemy pagination object
+        """
         return Candidate_instances.query.paginate(page, per_page, False)
 
     @staticmethod
@@ -261,13 +266,22 @@ class Available_models(db.Model):
 
     @staticmethod
     def get_models_ids_and_names_list():
-        """Returns a list of tuples with the model id and name"""
+        """Returns a list of tuples with the model id and name
+
+        Returns:
+            list: list of tuples with the model id and name
+        """
         models = Available_models.query.all()
         return [(model.model_id, model.model_name) for model in models]
 
     @staticmethod
     def get_visible_models_ids_and_names_list():
-        """Returns a list of tuples with the model id and name"""
+        """Returns a list of tuples with the model id and name
+        if the model is visible.
+
+        Returns:
+            list: list of tuples with the model id and name
+        """
         models = Available_models.query.all()
         return [
             (model.model_id, model.model_name)
@@ -276,7 +290,45 @@ class Available_models(db.Model):
         ]
 
     @staticmethod
+    def update_default_model(model_id):
+        """Updates the default model to the model with the given id.
+
+        Args:
+            model_id (int): id of the model to be set as default.
+
+        Returns:
+            bool: True if the model was updated, False otherwise.
+        """
+        try:
+            default_models = Available_models.query.filter_by(
+                is_default=True
+            ).all()
+            for model in default_models:
+                model.is_default = False
+
+            model = Available_models.query.filter_by(model_id=model_id).first()
+            if model:
+                model.is_default = True
+                db.session.commit()
+                return True
+            else:
+                raise SQLAlchemyError
+
+        except SQLAlchemyError:
+            db.session.rollback()
+            return False
+
+    @staticmethod
     def all_paginated(page=1, per_page=15):
+        """Returns a SQLAlchemy pagination object with the items in that page.
+
+        Args:
+            page (int, optional): Page to display. Defaults to 1.
+            per_page (int, optional): Number of items per page. Defaults to 15.
+
+        Returns:
+            object: SQLAlchemy pagination object
+        """
         return Available_models.query.paginate(page, per_page, False)
 
 

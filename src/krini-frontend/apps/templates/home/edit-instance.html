@@ -93,8 +93,7 @@ Nueva instancia
                                                     nueva etiqueta o seleccione entre las disponibles)</span>
                                                 {% if initial_value != "" %}
                                                 <br>
-                                                <span class="gray-description-forms"
-                                                    style="color:orange; font-weight: bold;">
+                                                <span class="previous-value-forms">
                                                     Valor previo: {{initial_value | replace(",", ", ")}} </span>
                                                 <br><br>
                                                 <input type="text" name="labels" id="labels" class="form-control"
@@ -115,8 +114,7 @@ Nueva instancia
                                                 <span class="gray-description-forms">(si no quieres generar un vector
                                                     ahora, deja seleccionada la opción 'mantener vector actual')</span>
                                                 {% if operation == "edit" %}
-                                                <span class="gray-description-forms"
-                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                <span class="previous-value-forms"><br>Valor
                                                     previo: {{
                                                     instance_dict["instance_fv"] }}</span>
                                                 {% endif %}
@@ -135,8 +133,7 @@ Nueva instancia
                                                     maliciosa, legítima en caso contrario. Si no conoces la clase, deja
                                                     seleccionada la opción 'mantener valor actual')</span>
                                                 {% if operation == "edit" %}
-                                                <span class="gray-description-forms"
-                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                <span class="previous-value-forms"><br>Valor
                                                     previo: {% if instance_dict["instance_class"] == "no disponible" %}
                                                     esta instancia todavía no ha sido clasificada {% else %} {{
                                                     instance_dict["instance_class"] }}
@@ -159,8 +156,7 @@ Nueva instancia
                                                     verificada. Si no conoces la lista, deja seleccionada la opción
                                                     'mantener valor actual'))</span>
                                                 {% if operation == "edit" %}
-                                                <span class="gray-description-forms"
-                                                    style="color:orange; font-weight: bold;"><br>Valor
+                                                <span class="previous-value-forms"><br>Valor
                                                     previo:
                                                     {% if instance_dict["colour_list"] == None %}
                                                     esta instancia no pertenece a ninguna lista {% else %}

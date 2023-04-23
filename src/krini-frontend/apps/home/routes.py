@@ -53,6 +53,7 @@ from apps.home.forms import (
     ModelForm,
     InstanceForm,
     TestModelForm,
+    SmallModelForm,
 )
 from apps.home.models import (
     Available_instances,
@@ -436,13 +437,17 @@ def models(n_per_page=10):
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.new_model"))
 
-            if "testear" in request.form["button_pressed"]:
+            if "testear" or "editar" in request.form["button_pressed"]:
                 session["messages"] = {
                     "previous_page": page,
                     "model_id": request.form["individual_model"],
                 }
                 session["checks"] = {}
-                return redirect(url_for("home_blueprint.test_model"))
+                return (
+                    redirect(url_for("home_blueprint.test_model"))
+                    if "testear" in request.form["button_pressed"]
+                    else redirect(url_for("home_blueprint.edit_model"))
+                )
 
             if "seleccionar" in request.form["button_pressed"]:
                 checks = update_batch_checks(
@@ -783,6 +788,52 @@ def test_model():
         logger.info(e)
         flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
         return redirect(url_for("home_blueprint.models"))
+
+
+@login_required
+@blueprint.route("/edit_model", methods=["POST", "GET"])
+def edit_model():
+    """
+    Allows the user to edit few parameters of a model.
+    The serialized model name is also updated.
+
+    Raises:
+        Forbidden: if the user is not authenticated/authorized
+
+    Returns:
+        function: renders the test model page if the model is tested,
+                  or the models page if there is a major exception
+    """
+    if not current_user.is_authenticated or current_user.user_rol != "admin":
+        raise Forbidden()
+
+    try:
+        form = SmallModelForm()
+
+        messages = session.get("messages", None)
+        model_id = int(messages["model_id"])
+        model = Available_models.query.get(model_id)
+
+        if "siguiente" in request.form and form.validate_on_submit():
+            update_model(model, request.form)
+            flash("Modelo actualizado correctamente.", "success")
+            return redirect(url_for("home_blueprint.models"))
+
+        return render_template(
+            "home/edit-model.html",
+            model=get_model_dict(model),
+            segment=get_segment(request),
+            form=form,
+        )
+
+    except KriniException as e:
+        flash(str(e), "danger")
+
+    except (exc.SQLAlchemyError, AttributeError) as e:
+        logger.info(e)
+        flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
+
+    return redirect(url_for("home_blueprint.models"))
 
 
 @login_required
@@ -1173,7 +1224,7 @@ def report_url():
         Forbidden: error 403 if the user is not authenticated
 
     Returns:
-        function: renders the report_url.html template with a flash
+        function: renders the report-url.html template with a flash
                   message that indicates the status of the report
     """
     if not current_user.is_authenticated:
@@ -1230,7 +1281,7 @@ def report_url():
             db.session.rollback()
 
     return render_template(
-        "home/report_url.html", form=form, segment=get_segment(request)
+        "home/report-url.html", form=form, segment=get_segment(request)
     )
 
 
