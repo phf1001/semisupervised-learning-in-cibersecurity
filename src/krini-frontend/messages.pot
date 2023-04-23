@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 09:22+0200\n"
+"POT-Creation-Date: 2023-04-23 10:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,41 +17,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: apps/declares_messages.py:57
-msgid "Hola"
+#: apps/messages.py:20
+msgid "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
 msgstr ""
 
-#: apps/declares_messages.py:58
-msgid "Ha ocurrido una excepción en la aplicación."
+#: apps/messages.py:25
+msgid "Debe iniciar sesión para acceder a esta página."
 msgstr ""
 
-#: apps/declares_messages.py:65
-msgid ""
-"La URL {} no puede ser llamada ni tampoco reconstruída. Comprueba la "
-"sintáxis {} y si la página está disponible e inténtalo de nuevo."
+#: apps/messages.py:28
+msgid "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
 msgstr ""
 
-#: apps/declares_messages.py:74
-msgid "Oye meto aqui algo en medio a ver que se cuece"
-msgstr ""
-
-#: apps/declares_messages.py:81 apps/declares_messages.py:85
-msgid "No se ha podido llamar la url"
-msgstr ""
-
-#: apps/declares_messages.py:87
-msgid ""
-"ni reconstruir. Tampoco se ha encontrado información en la base de datos "
-"acerca de esta URL."
-msgstr ""
-
-#: apps/home/routes.py:85
+#: apps/messages.py:33
 #, python-format
-msgid "probando probando %s cadena 123"
+msgid "No se ha podido llamar ni reconstruir la URL %s."
 msgstr ""
 
-#: apps/home/routes.py:160
-msgid "Hola hola"
+#: apps/messages.py:35
+msgid "Tampoco existe información en la base de datos acerca de ella."
+msgstr ""
+
+#: apps/messages.py:40
+msgid "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
+msgstr ""
+
+#: apps/messages.py:45
+msgid "Realiza un análisis para acceder al dashboard y visualizar resultados."
+msgstr ""
+
+#: apps/messages.py:50
+msgid "La información para mostrar ha caducado o no está disponible."
 msgstr ""
 
 #: apps/templates/home/index.html:71

@@ -8,49 +8,48 @@
 from flask_babel import gettext
 
 
-messages = {
-    "krini_exception_default": gettext(
-        "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
-    ),
-    "krini_not_logged_exception_default": gettext(
-        "Debe iniciar sesión para acceder a esta página."
-    ),
-    "krini_db_exception_default": gettext(
-        "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
-    ),
-    "not_callable_url": gettext(
-        "No se ha podido llamar ni reconstruir la URL %s."
-    )
-    + gettext("Tampoco existe información en la base de datos acerca de ella."),
-    "no_models_available": gettext(
-        "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
-    ),
-    "no_info_display_dashboard": gettext(
-        "Realiza un análisis para acceder al dashboard y visualizar resultados."
-    ),
-    "no_info_available": gettext(
-        "La información para mostrar ha caducado o no está disponible."
-    ),
-}
-
-
 def get_message(identifier, params=[]):
-    """Returns a message translated and formatted if needed.
-
+    """_summary_
     Args:
         identifier (str): identifier of the message
         params (list, optional): parameters to format the message. Defaults to [].
-
     Returns:
         str: message formatted and translated
     """
+    if identifier == "krini_exception_default":
+        return gettext(
+            "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
+        )
 
-    try:
-        if len(params) == 0:
-            return messages[identifier]
+    if identifier == "krini_not_logged_exception_default":
+        return gettext("Debe iniciar sesión para acceder a esta página.")
 
-        else:
-            return messages[identifier] % params[0]
+    if identifier == "krini_db_exception_default":
+        return gettext(
+            "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
+        )
 
-    except (KeyError, IndexError):
-        return gettext("No hay un mensaje disponible")
+    if identifier == "not_callable_url":
+        return (
+            gettext("No se ha podido llamar ni reconstruir la URL %s.")
+            % params[0]
+            + " "
+            + gettext(
+                "Tampoco existe información en la base de datos acerca de ella."
+            )
+        )
+
+    if identifier == "no_models_available":
+        return gettext(
+            "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
+        )
+
+    if identifier == "no_info_display_dashboard":
+        return gettext(
+            "Realiza un análisis para acceder al dashboard y visualizar resultados."
+        )
+
+    if identifier == "no_info_available":
+        return gettext(
+            "La información para mostrar ha caducado o no está disponible."
+        )
