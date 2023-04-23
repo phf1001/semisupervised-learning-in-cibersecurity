@@ -286,29 +286,61 @@ def translate_array_js(selected):
 
 
 def get_selected_models_ids(selected):
-    """
-    Returns the ids of the selected models.
-    If there are no selected models, it returns
-    the default model or any other if the default
-    model is not available.
+    """Returns the selected models ids. If there are no selected models,
+    it returns the default model or any other if there is none.
+
+    Args:
+        selected (str): String with the selected models.
+
+    Returns:
+        list: list of integers (ids)
     """
     selected_models = translate_array_js(selected)
 
     if len(selected_models) != 0:
         return selected_models
 
-    # We try to return the default model or any other if its empty
-    default_id = Available_models.query.filter_by(
-        model_name=DEFAULT_MODEL_NAME
-    ).first()
+    default_id = Available_models.query.filter_by(is_default=True).first()
 
     if default_id:
         return [default_id.model_id]
+
     random_model = Available_models.query.first()
     if random_model:
         return [random_model.model_id]
 
     return []
+
+
+def get_model(model_id):
+    """Returns the model with the given id. If the file is not found,
+    it raises an exception.
+
+    THE MODEL EXISTS.
+
+    Args:
+        model_id (int): The id of the model.
+
+    Returns:
+        tuple: (model_name, model_object, model_scores)
+    """
+    requested_model = Available_models.query.filter_by(
+        model_id=model_id
+    ).first()
+
+    if requested_model:
+        model_name = requested_model.model_name
+        model_file = requested_model.file_name
+        model_scores = requested_model.model_scores
+
+    cls, file_found = obtain_model(model_file)
+
+    if not file_found:
+        raise KriniException(
+            "No se ha podido cargar el fichero de la IA. Lo sentimos."
+        )
+
+    return model_name, cls, model_scores
 
 
 def get_sum_tags_numeric(predicted_tags):
@@ -793,7 +825,8 @@ def find_candidate_instances_sequence(report_numbers, n_per_page):
     Given list of report numbers, returns the instances selected.
 
     Args:
-        report_numbers (list): number of the instances above all displayed (order, starting in 0)
+        report_numbers (list): number of the instances above all displayed
+                               (order, starting in 0)
 
     Returns:
         list: list of instances selected (Candidate_instances objects)
@@ -1072,14 +1105,14 @@ def clean_temporary_files(temporary_files_directory=None):
 
 
 def save_files_to_temp(form_file_one, form_file_two=None):
-    """Guarda archivos en el directorio temporal
+    """Save files to temp directory
 
     Args:
-        form_file_one (str): fichero uno
-        form_file_two (str): fichero dos. Defaults to None.
+        form_file_one (str): file one.
+        form_file_two (str): file two. Defaults to None.
 
     Returns:
-        tuple: método y diccionario con los ficheros {tipo: path}
+        tuple: tuple and dictionary with the files {tipo: path}
     """
     dataset_tuple = ("csv", {})
     previous_filename = ""
@@ -1112,6 +1145,16 @@ def save_files_to_temp(form_file_one, form_file_two=None):
 
 
 def check_n_instances(n_instances):
+    """
+    Checks if the percentage of instances is valid.
+
+    Args:
+        n_instances (str): percentage of instances to check
+
+    Returns:
+        tuple: method and percentage of instances. If the number of instances
+               is not valid, the number of instances is set to 80.
+    """
     try:
         n_instances = int(n_instances)
 
@@ -1333,7 +1376,7 @@ def serialize_store_model(
                     "Error al actualizar el modelo por defecto."
                 )
 
-        for instance_id in train_ids:
+        for instance_id in set(train_ids):
             new_row = Model_is_trained_with(model_id, int(instance_id))
             db.session.add(new_row)
 
@@ -1348,7 +1391,7 @@ def serialize_store_model(
         db.session.rollback()
         remove(file_location)
         raise KriniException(
-            "Error al guardar el modelo en la BD o los datos de entrenamiento."
+            "Error al guardar el modelo en la BD o los datos de entrenamiento. Comprueba que las instancias utilizadas están en la BD."
         )
 
 
@@ -1680,11 +1723,15 @@ def extract_X_y_csv(file_name, get_ids=False):
         df = pd.read_csv(file_name)
 
     except (FileNotFoundError, ValueError):
+        if path.exists(file_name):
+            remove(file_name)
         raise KriniException(
             "El fichero que has subido no existe o no es un csv."
         )
 
     if not check_correct_pandas(df):
+        if path.exists(file_name):
+            remove(file_name)
         raise KriniException(
             "El fichero no tiene el formato correcto. Prueba a descargarlo desde la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
         )
@@ -1800,35 +1847,3 @@ def get_segment(request):
 
     except Exception:
         return None
-
-
-def get_model(model_id):
-    requested_model = Available_models.query.filter_by(
-        model_id=model_id
-    ).first()
-
-    if requested_model:
-        model_name = requested_model.model_name
-        model_file = requested_model.file_name
-        model_scores = requested_model.model_scores
-
-    else:
-        model_name = "Default model"
-        model_file = "default.pkl"
-        model_scores = (
-            Available_models.query.filter_by(model_name="Default")
-            .first()
-            .model_scores
-        )
-
-    cls, file_found = obtain_model(model_file)
-
-    if not file_found:
-        model_name = "Default model"
-        model_scores = (
-            Available_models.query.filter_by(model_name="Default")
-            .first()
-            .model_scores
-        )
-
-    return model_name, cls, model_scores

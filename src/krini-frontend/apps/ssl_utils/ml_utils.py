@@ -26,6 +26,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from apps.home.exceptions import KriniException
+from apps.config import DECISION_TREE_KEY, KNN_KEY, NAIVE_BAYES_KEY
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -41,14 +42,6 @@ from phishing_fvg.phishing_utils import (
     get_csv_data,
     get_data_path,
 )
-
-NAIVE_BAYES_NAME = "Naive Bayes"
-DECISION_TREE_NAME = "Árbol de decisión"
-KNN_NAME = "k-vecinos más cercanos"
-
-NAIVE_BAYES_KEY = "NB"
-DECISION_TREE_KEY = "tree"
-KNN_KEY = "kNN"
 
 
 def get_co_forest(
@@ -75,7 +68,7 @@ def get_tri_training(h_0, h_1, h_2, random_state=None):
     """
     Returns a TriTraining classifier.
     Strs of the base classifiers are passed as parameters.
-    Possible values: "tree", "kNN", "NB".
+    Possible values: "DT", "kNN", "NB".
 
     Args:
         h_0 (str): name of the first classifier.
@@ -95,7 +88,7 @@ def get_democratic_co(base_cls, random_state=None):
     """
     Returns a DemocraticCo classifier.
     Strs of the base classifiers are passed as parameters in a list.
-    Possible values: "tree", "kNN", "NB".
+    Possible values: "DT", "kNN", "NB".
 
     Args:
         base_cls (list): list of base classifiers.
@@ -178,7 +171,7 @@ def get_base_cls(wanted_cls):
 
     Args:
         wanted_cls (str): string with the name of the classifier.
-                          Possible values: "tree", "kNN", "NB".
+                          Possible values: "DT", "kNN", "NB".
 
     Raises:
         ValueError: if the classifier is not found.
@@ -371,11 +364,14 @@ def get_models_files_list():
 
 def obtain_model(model_file_name):
     """
-    Obtains a model from a pickle file if
-    it is available, otherwise it returns the
-    default model.
-
+    Obtains a model from a pickle file if it is available.
     Also includes a flag to check if exists
+
+    Args:
+        model_file_name (str): name of the file where the model is serialized.
+
+    Returns:
+        tuple: model object, flag to check if exists.
     """
     if ".pkl" not in model_file_name:
         model_file_name += ".pkl"
@@ -384,7 +380,8 @@ def obtain_model(model_file_name):
 
     if model_file_name in available_models:
         return deserialize_model(model_file_name), True
-    return deserialize_model("default.pkl"), False
+
+    return None, False
 
 
 def serialize_model(model, filename, models_path=None):

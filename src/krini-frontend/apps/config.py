@@ -19,7 +19,7 @@ NAIVE_BAYES_NAME = "Naive Bayes"
 DECISION_TREE_NAME = "Árbol de decisión"
 KNN_NAME = "k-vecinos más cercanos"
 NAIVE_BAYES_KEY = "NB"
-DECISION_TREE_KEY = "tree"
+DECISION_TREE_KEY = "DT"
 KNN_KEY = "kNN"
 DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"

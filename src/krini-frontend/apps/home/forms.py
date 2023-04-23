@@ -151,7 +151,7 @@ class SmallModelForm(FlaskForm):
     )
 
 
-class ModelForm(FlaskForm):
+class ModelForm(SmallModelForm):
     """
     Form used to manage models.
 
@@ -163,36 +163,6 @@ class ModelForm(FlaskForm):
         "model_name",
         id="model_name",
         validators=[DataRequired("Por favor, introduce un nombre.")],
-    )
-
-    model_version = TextField(
-        "model_version",
-        id="model_version",
-        default="0",
-        validators=[
-            Regexp(
-                r"^\d+(.\d){0,2}$",
-                message="Introduce una versión válida. Si no sabes qué poner, puedes probar a introducir un número entero.",
-            )
-        ],
-    )
-
-    model_description = TextField("model_description", id="model_description")
-
-    model_algorithm = TextField("model_algorithm", id="model_algorithm")
-
-    is_visible = SelectField(
-        "is_visible",
-        id="is_visible",
-        choices=[("True", "Visible"), ("False", "No visible")],
-        default="True",
-    )
-
-    is_default = SelectField(
-        "is_default",
-        id="is_default",
-        choices=[("False", "No"), ("True", "Sí")],
-        default="False",
     )
 
     random_state = IntegerField(

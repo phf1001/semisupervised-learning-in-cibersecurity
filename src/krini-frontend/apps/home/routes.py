@@ -218,8 +218,7 @@ def task():
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except KriniException as e:
-        logger.error(e.message)
+    except KriniException:
         flash(get_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
@@ -264,10 +263,13 @@ def dashboard():
                 )
                 messages["update_bbdd"] = False
 
-            models_confidence = [
-                int(100 * cls.predict_proba(fv)[0][prediction])
-                for cls, prediction in zip(classifiers, predicted_tags)
-            ]
+            models_confidence = []
+            for cls, prediction in zip(classifiers, predicted_tags):
+                confidences = cls.predict_proba(fv)[0]
+                if len(confidences) == 2:
+                    models_confidence.append(int(100 * confidences[prediction]))
+                else:
+                    models_confidence.append(100)
 
             information_to_display = {
                 "url": url if numeric_class == 0 else sanitize_url(url),
@@ -295,7 +297,6 @@ def dashboard():
         raise KriniException(get_message("no_info_display_dashboard"))
 
     except KriniException as e:
-        logger.error(e.message)
         flash(e.message, "danger")
         return redirect(url_for("home_blueprint.index"))
 
@@ -359,8 +360,7 @@ def report_false_positive():
         else:
             raise KriniException("Información no recuperada")
 
-    except KriniNotLoggedException as e:
-        logger.error(e.message)
+    except KriniNotLoggedException:
         message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
         flash(message, "warning")
 
@@ -437,7 +437,10 @@ def models(n_per_page=10):
                 session["checks"] = {}
                 return redirect(url_for("home_blueprint.new_model"))
 
-            if "testear" or "editar" in request.form["button_pressed"]:
+            if (
+                "testear" in request.form["button_pressed"]
+                or "editar" in request.form["button_pressed"]
+            ):
                 session["messages"] = {
                     "previous_page": page,
                     "model_id": request.form["individual_model"],
@@ -717,8 +720,6 @@ def test_model():
                     omit_train_ids=omit_ids,
                 )
 
-                logger.info("routes y test {}".format(y_test))
-
             if selected_method == "generate":
                 X_test, y_test = return_X_y_single(
                     selected_method, model_id=model_id, omit_train_ids=omit_ids
@@ -784,8 +785,7 @@ def test_model():
         AttributeError,
         PickleError,
         FileNotFoundError,
-    ) as e:
-        logger.info(e)
+    ):
         flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
         return redirect(url_for("home_blueprint.models"))
 
@@ -829,8 +829,7 @@ def edit_model():
     except KriniException as e:
         flash(str(e), "danger")
 
-    except (exc.SQLAlchemyError, AttributeError) as e:
-        logger.info(e)
+    except (exc.SQLAlchemyError, AttributeError):
         flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
 
     return redirect(url_for("home_blueprint.models"))
