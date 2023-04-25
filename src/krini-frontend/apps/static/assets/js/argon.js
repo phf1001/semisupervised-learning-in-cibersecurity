@@ -1104,6 +1104,12 @@ $("[data-toggle=myCollapse]").click(function (ev) {
 
 function showDiv(hd1, hd2, hd3, element) {
 
+	if (element.value == 0) {
+		document.getElementById(hd1).style.display = 'none'
+		document.getElementById(hd2).style.display = 'none'
+		document.getElementById(hd3).style.display = 'none'
+	}
+
 	if (element.value == 1) {
 		document.getElementById(hd1).style.display = 'block'
 		document.getElementById(hd2).style.display = 'none'
@@ -1156,7 +1162,7 @@ if (clsValues && clsNames) {
 	var nCls = clsNames.length;
 
 	var nMetrics = clsValues[0].length;
-	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC'];
+	var metrics = ['Accuracy', 'Precision', 'Recall', 'F1 x 100', 'AUC ROC x 100'];
 	var accuracys = [];
 	var precisions = [];
 	var recalls = [];
@@ -1417,7 +1423,7 @@ if (clsValues && clsNames) {
 					data: {
 						labels: metrics,
 						datasets: [{
-							label: 'Score (%)',
+							label: ['Score'],
 							data: model_data,
 							backgroundColor: bckColor,
 						}]

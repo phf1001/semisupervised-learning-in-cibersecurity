@@ -1,9 +1,6 @@
 {% extends 'layouts/base.html' %}
-
-{% block title %} Editar modelo {% endblock title %}
-
+{% block title %} {{ gettext('Editar modelo') }} {% endblock title %}
 {% block content %}
-
 <div class="header bg-primary-gradient pb-6">
   <div class="container-fluid">
     <div class="header-body">
@@ -12,8 +9,8 @@
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-              <li class="breadcrumb-item"><a href="/models">Administración de modelos</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Editar modelo</li>
+              <li class="breadcrumb-item"><a href="/models">{{ gettext('Administración de modelos') }}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ gettext('Editar modelo') }}</li>
             </ol>
           </nav>
         </div>
@@ -21,8 +18,6 @@
     </div>
   </div>
 </div>
-
-<!-- Page content -->
 <form role="form" method="post" action="" enctype="multipart/form-data">
   {{ form.csrf_token }}
   {{ form.hidden_tag() }}
@@ -30,18 +25,18 @@
     <div class="row">
       <div class="col">
         <div class="card">
-          <!-- Card header -->
           <div class="card-header border-0">
-            <h3 class="mb-0">EDITAR MODELO {{ model['model_name'] }}</h3>
+            <h3 class="mb-0">{{ gettext('EDITAR MODELO') }} {{ model['model_name'] }}</h3>
           </div>
           <!-- Tabla atributos modelo -->
           <div class="table-responsive">
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort" data-sort="name"
-                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;">
-                    Parámetros generales
+                  <th scope="col" class="sort" data-sort="name">
+                    <p class="light-gray-thread-forms">
+                      {{ gettext('Parámetros generales') }}
+                    </p>
                   </th>
                   <th scope="col" class="sort" data-sort="type">&nbsp;</th>
                 </tr>
@@ -51,12 +46,13 @@
                   <td colspan="2">
                     <div class="form-group mb-3">
                       <p class="primary-label-forms">
-                        Versión&nbsp;
-                        <span class="gray-description-forms">(máximo tres enteros separados por puntos)
+                        {{ gettext('Versión') }} &nbsp;
+                        <span class="gray-description-forms">
+                          ({{ gettext('máximo tres enteros separados por puntos') }})
                         </span>
                       </p>
                       <span class="previous-value-forms">
-                        Valor previo: {{ model['model_version'] }}
+                        {{ gettext('Valor previo:') }} {{ model['model_version'] }}
                       </span>
                       <br></br>
                       {{ form.model_version(placeholder="1.0.0", class="form-control") }}
@@ -66,16 +62,17 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <p class="primary-label-forms">¿Es visible?&nbsp;
-                        <span class="gray-description-forms">(implica que el resto de usuarios pueden utilizar el
-                          modelo)
+                      <p class="primary-label-forms">
+                        {{ gettext('¿Es visible?') }}&nbsp;
+                        <span class="gray-description-forms">
+                          ({{ gettext('implica que el resto de usuarios pueden utilizar el modelo') }})
                         </span>
                       </p>
                       <span class="previous-value-forms">
                         {% if model['is_visible'] == True %}
-                        Valor previo: Sí
+                        {{ gettext('Valor previo: Sí') }}
                         {% else %}
-                        Valor previo: No
+                        {{ gettext('Valor previo: No') }}
                         {% endif %}
                       </span>
                       <br></br>
@@ -86,15 +83,17 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <p class="primary-label-forms">¿Convertir en 'default'?&nbsp;
-                        <span class="gray-description-forms">(será el nuevo clasificador usado por defecto)
+                      <p class="primary-label-forms">
+                        {{ gettext('¿Convertir en el clasificador por defecto?') }}&nbsp;
+                        <span class="gray-description-forms">
+                          ({{ gettext('será utilizado cuando no haya selecciones') }})
                         </span>
                       </p>
                       <span class="previous-value-forms">
                         {% if model['is_default'] == True %}
-                        Valor previo: Sí
+                        {{ gettext('Valor previo: Sí') }}
                         {% else %}
-                        Valor previo: No
+                        {{ gettext('Valor previo: No') }}
                         {% endif %}
                       </span>
                       <br></br>
@@ -105,19 +104,23 @@
                 <tr>
                   <td colspan="2">
                     <div class="form-group mb-3">
-                      <p class="primary-label-forms">Notas</p>
+                      <p class="primary-label-forms">
+                        {{ gettext('Notas') }}
+                      </p>
                       <span class="previous-value-forms">
-                        Valor previo: {{ model['model_notes'] }}
+                        {{ gettext('Valor previo:') }} {{ model['model_notes'] }}
                       </span>
                       <br></br>
-                      {{ form.model_description(placeholder="Descripción", class="form-control") }}
+                      {{ form.model_description(class="form-control") }}
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2">
                     <div style="text-align: center;">
-                      <button type="submit" name="siguiente" class="btn btn-primary my-4">Siguiente</button>
+                      <button type="submit" name="siguiente" class="btn btn-primary my-4">
+                        {{ gettext('Siguiente')}}
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -131,7 +134,3 @@
   </div>
 </form>
 {% endblock content %}
-
-<!-- Specific JS goes HERE -->
-{% block javascripts %}
-{% endblock javascripts %}

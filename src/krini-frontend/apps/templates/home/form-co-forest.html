@@ -6,17 +6,20 @@
             <tr>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Thetha&nbsp;
-                            <span class="gray-description-forms">(umbral de confianza con el decimal separado mediante
-                                un punto)</span>
+                        <p class="primary-label-forms">{{ gettext('Thetha') }} &nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('umbral de confianza con el decimal separado mediante un punto') }})
+                            </span>
                         </p>
                         {{ form.thetha(placeholder="0.75", class="form-control") }}
                     </div>
                 </td>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Número de árboles&nbsp;
-                            <span class="gray-description-forms">(número de clasificadores base)</span>
+                        <p class="primary-label-forms">{{ gettext('Número de árboles') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('número de clasificadores base') }})
+                            </span>
                         </p>
                         {{ form.n_trees(placeholder="6", class="form-control") }}
                     </div>
@@ -25,9 +28,10 @@
             <tr>
                 <td colspan="2">
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Max
-                            <span class="gray-description-forms">(máximo de atributos
-                                utilizados al dividir en la construcción del árbol)</span>
+                        <p class="primary-label-forms">{{ gettext('Max Features') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('atributos utilizados al dividir en la construcción del árbol')}})
+                            </span>
                         </p>
                         {{ form.max_features(placeholder="visibilidad", class="form-control") }}
                     </div>
@@ -39,15 +43,17 @@
                         <a class="btn btn-icon-only bg-primary">
                             <i class="ni ni-bulb-61 text-white"></i>
                         </a>
-                        <p class="primary-label-forms" style="display:inline">&nbsp;Pseudocódigo&nbsp;</p>
+                        <p class="primary-label-forms" style="display:inline">&nbsp;{{ gettext('Pseudocódigo') }}&nbsp;
+                        </p>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="hiddenRow">
                     <div id="info-coforest" class="accordian-body collapse">
-                        <object data="/static/assets/img/theme/coforest_pseudocode.pdf" type="application/pdf"
-                            style="min-height:100vh;width:100%"></object>
+                        <p style="text-align: center;">
+                            <img src="/static/assets/img/theme/coforest_pseudocode.png" alt="Pseudocódigo de Coforest">
+                        </p>
                     </div>
                 </td>
             </tr>

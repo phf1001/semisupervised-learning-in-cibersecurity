@@ -960,10 +960,17 @@ def accept_report(candidate_instance, all):
             raise exc.SQLAlchemyError("Error accepting suggestions")
 
         else:
+            user_reporting_id = candidate_instance.user_id
+            user_reporting = Users.query.filter_by(id=user_reporting_id).first()
+            if user_reporting.n_urls_accepted is None:
+                user_reporting.n_urls_accepted = 0
+            else:
+                user_reporting.n_urls_accepted += 1
+            db.session.flush()
             db.session.commit()
             return True
 
-    except exc.SQLAlchemyError as e:
+    except (exc.SQLAlchemyError, AttributeError) as e:
         logger.error("Error accepting report: {}".format(e))
         db.session.rollback()
         return False

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 10:41+0200\n"
+"POT-Creation-Date: 2023-04-25 13:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,25 +29,208 @@ msgstr ""
 msgid "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
 msgstr ""
 
-#: apps/messages.py:33
+#: apps/messages.py:34
 #, python-format
 msgid "No se ha podido llamar ni reconstruir la URL %s."
 msgstr ""
 
-#: apps/messages.py:35
+#: apps/messages.py:37
 msgid "Tampoco existe información en la base de datos acerca de ella."
 msgstr ""
 
-#: apps/messages.py:40
+#: apps/messages.py:43
 msgid "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
 msgstr ""
 
-#: apps/messages.py:45
+#: apps/messages.py:48
 msgid "Realiza un análisis para acceder al dashboard y visualizar resultados."
 msgstr ""
 
-#: apps/messages.py:50
+#: apps/messages.py:53
 msgid "La información para mostrar ha caducado o no está disponible."
+msgstr ""
+
+#: apps/templates/accounts/login.html:2 apps/templates/accounts/login.html:47
+#: apps/templates/includes/navigation.html:155
+msgid "Iniciar sesión"
+msgstr ""
+
+#: apps/templates/accounts/login.html:13
+msgid "INICIA SESIÓN"
+msgstr ""
+
+#: apps/templates/accounts/login.html:18
+#: apps/templates/accounts/register.html:16
+msgid "Introduce tus credenciales"
+msgstr ""
+
+#: apps/templates/accounts/login.html:28
+#: apps/templates/accounts/register.html:26 apps/templates/home/profile.html:72
+msgid "Nombre de usuario"
+msgstr ""
+
+#: apps/templates/accounts/login.html:38
+#: apps/templates/accounts/register.html:62
+msgid "Contraseña"
+msgstr ""
+
+#: apps/templates/accounts/login.html:55
+#: apps/templates/accounts/register.html:2
+#: apps/templates/accounts/register.html:71
+msgid "Registrarse"
+msgstr ""
+
+#: apps/templates/accounts/register.html:12
+msgid "CREA TU CUENTA"
+msgstr ""
+
+#: apps/templates/accounts/register.html:35
+msgid "Nombre propio"
+msgstr ""
+
+#: apps/templates/accounts/register.html:44 apps/templates/home/profile.html:94
+msgid "Apellidos"
+msgstr ""
+
+#: apps/templates/accounts/register.html:53 apps/templates/home/profile.html:79
+msgid "Correo electrónico"
+msgstr ""
+
+#: apps/templates/accounts/register.html:80
+msgid "Usa una cuenta existente"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:2 apps/templates/home/edit-model.html:13
+msgid "Editar modelo"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:12 apps/templates/home/new-model.html:13
+#: apps/templates/home/test-model.html:13
+msgid "Administración de modelos"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:29
+msgid "EDITAR MODELO"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:38 apps/templates/home/new-model.html:40
+msgid "Parámetros generales"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:49 apps/templates/home/new-model.html:59
+msgid "Versión"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:51 apps/templates/home/new-model.html:61
+msgid "máximo tres enteros separados por puntos"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:55
+#: apps/templates/home/edit-model.html:111
+msgid "Valor previo:"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:66 apps/templates/home/new-model.html:72
+msgid "¿Es visible?"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:68 apps/templates/home/new-model.html:74
+msgid "implica que el resto de usuarios pueden utilizar el modelo"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:73
+#: apps/templates/home/edit-model.html:94
+msgid "Valor previo: Sí"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:75
+#: apps/templates/home/edit-model.html:96
+msgid "Valor previo: No"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:87
+msgid "¿Convertir en el clasificador por defecto?"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:89
+msgid "será utilizado cuando no haya selecciones"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:108
+#: apps/templates/home/new-model.html:109
+msgid "Notas"
+msgstr ""
+
+#: apps/templates/home/edit-model.html:122
+#: apps/templates/home/new-model.html:258
+#: apps/templates/home/test-model.html:139
+msgid "Siguiente"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:9
+msgid "Thetha"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:11
+msgid "umbral de confianza con el decimal separado mediante un punto"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:19
+msgid "Número de árboles"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:21
+msgid "número de clasificadores base"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:31
+msgid "Max Features"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:33
+msgid "máximo de atributos utilizados al dividir en la construcción del árbol"
+msgstr ""
+
+#: apps/templates/home/form-co-forest.html:47
+#: apps/templates/home/form-democratic-co.html:83
+#: apps/templates/home/form-tri-training.html:52
+msgid "Pseudocódigo"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:10
+#: apps/templates/home/form-tri-training.html:10
+msgid "Primer clasificador"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:12
+#: apps/templates/home/form-democratic-co.html:35
+#: apps/templates/home/form-democratic-co.html:58
+#: apps/templates/home/form-tri-training.html:12
+#: apps/templates/home/form-tri-training.html:25
+#: apps/templates/home/form-tri-training.html:38
+msgid "algoritmo base utilizado"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:21
+#: apps/templates/home/form-democratic-co.html:44
+#: apps/templates/home/form-democratic-co.html:67
+msgid "Número de clasificadores"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:23
+#: apps/templates/home/form-democratic-co.html:46
+#: apps/templates/home/form-democratic-co.html:69
+msgid "número de clasificadores base de este tipo"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:33
+#: apps/templates/home/form-tri-training.html:23
+msgid "Segundo clasificador"
+msgstr ""
+
+#: apps/templates/home/form-democratic-co.html:56
+#: apps/templates/home/form-tri-training.html:36
+msgid "Tercer clasificador"
 msgstr ""
 
 #: apps/templates/home/index.html:71
@@ -60,5 +243,251 @@ msgstr ""
 
 #: apps/templates/home/index.html:95
 msgid "Introduce una URL"
+msgstr ""
+
+#: apps/templates/home/new-model.html:2 apps/templates/home/new-model.html:14
+msgid "Nuevo modelo"
+msgstr ""
+
+#: apps/templates/home/new-model.html:31
+msgid "NUEVO MODELO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:51
+msgid "Nombre del modelo"
+msgstr ""
+
+#: apps/templates/home/new-model.html:83
+msgid "¿Convertir en \"default\"?"
+msgstr ""
+
+#: apps/templates/home/new-model.html:85
+msgid "será el nuevo clasificador usado por defecto"
+msgstr ""
+
+#: apps/templates/home/new-model.html:96
+msgid "Semilla aleatoria"
+msgstr ""
+
+#: apps/templates/home/new-model.html:98
+msgid "un número entero o -1 si no deseas ninguna"
+msgstr ""
+
+#: apps/templates/home/new-model.html:127
+msgid "ALGORITMO DE APRENDIZAJE"
+msgstr ""
+
+#: apps/templates/home/new-model.html:135
+msgid "Parámetros propios del algoritmo"
+msgstr ""
+
+#: apps/templates/home/new-model.html:146
+msgid "SELECCIONA UN ALGORITMO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:148
+msgid "de aprendizaje semisupervisado"
+msgstr ""
+
+#: apps/templates/home/new-model.html:186
+msgid "CONJUNTO DE DATOS"
+msgstr ""
+
+#: apps/templates/home/new-model.html:194
+msgid "DATOS DE ENTRENAMIENTO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:203
+#: apps/templates/home/test-model.html:78
+msgid "SELECCIONA UN MÉTODO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:205
+msgid "de subida de datos de entrenamiento"
+msgstr ""
+
+#: apps/templates/home/new-model.html:211
+#: apps/templates/home/test-model.html:86
+msgid "Importar CSV"
+msgstr ""
+
+#: apps/templates/home/new-model.html:212
+msgid "Generar datos aleatoriamente"
+msgstr ""
+
+#: apps/templates/home/new-model.html:217
+msgid "DATOS ENTRENAMIENTO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:219
+msgid "Conjunto utilizado para entrenar"
+msgstr ""
+
+#: apps/templates/home/new-model.html:227
+#: apps/templates/home/test-model.html:68
+#: apps/templates/home/test-model.html:92
+msgid "DATOS DE TEST"
+msgstr ""
+
+#: apps/templates/home/new-model.html:229
+msgid ""
+"Conjunto para probar. Si se quieren resultados certeros, no debe contener"
+" ningún\n"
+"                          enlace utilizado para entrenar."
+msgstr ""
+
+#: apps/templates/home/new-model.html:239
+msgid ""
+"En este caso, se van a generar aleatoriamente los conjuntos de "
+"entrenamiento y test\n"
+"                        utilizando todos los datos de la base de datos. "
+"<br /> Podrás personalizar el porcentaje de\n"
+"                        instancias que se utilizarán para entrenamiento "
+"(las que sobren se utilizarán para test)."
+msgstr ""
+
+#: apps/templates/home/new-model.html:244
+msgid "PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO"
+msgstr ""
+
+#: apps/templates/home/new-model.html:246
+msgid "Introduce sólo el número (por ejemplo, 80)"
+msgstr ""
+
+#: apps/templates/home/profile.html:2
+#: apps/templates/includes/navigation.html:99
+#: apps/templates/includes/navigation.html:102
+msgid "Perfil"
+msgstr ""
+
+#: apps/templates/home/profile.html:9
+#: apps/templates/includes/navigation.html:136
+msgid "Bienvenido"
+msgstr ""
+
+#: apps/templates/home/profile.html:11
+msgid ""
+"Este es tu perfil principal. Puedes consultar todas tus estadísticas\n"
+"        aquí."
+msgstr ""
+
+#: apps/templates/home/profile.html:47
+msgid "URLs aceptadas"
+msgstr ""
+
+#: apps/templates/home/profile.html:50
+msgid "URLs en revisión"
+msgstr ""
+
+#: apps/templates/home/profile.html:61
+msgid "Información del perfil"
+msgstr ""
+
+#: apps/templates/home/profile.html:67
+msgid "Información del usuario"
+msgstr ""
+
+#: apps/templates/home/profile.html:87
+msgid "Nombre"
+msgstr ""
+
+#: apps/templates/home/test-model.html:2 apps/templates/home/test-model.html:15
+msgid "Probar modelo"
+msgstr ""
+
+#: apps/templates/home/test-model.html:60
+msgid "PROBANDO MODELO"
+msgstr ""
+
+#: apps/templates/home/test-model.html:80
+msgid "de subida de datos de test"
+msgstr ""
+
+#: apps/templates/home/test-model.html:87
+msgid "Usar dataset"
+msgstr ""
+
+#: apps/templates/home/test-model.html:94
+msgid ""
+"Conjunto para probar. Si se quieren resultados certeros,\n"
+"                                                    no debe contener "
+"ningún enlace utilizado para entrenar"
+msgstr ""
+
+#: apps/templates/home/test-model.html:104
+msgid ""
+"En este caso, se utilizarán los datos del dataset. Para\n"
+"                                                garantizar que los "
+"resultados sean certeros, no se utilizarán instancias\n"
+"                                                vistas durante el "
+"entrenamiento"
+msgstr ""
+
+#: apps/templates/home/test-model.html:115
+msgid "¿Excluir ejemplos vistos durante el entrenamiento?"
+msgstr ""
+
+#: apps/templates/home/test-model.html:118
+msgid ""
+"Si se selecciona, en caso de haber instancias ya vistos\n"
+"                                                durante el entrenamiento "
+"en el conjunto de test, serán omitidos."
+msgstr ""
+
+#: apps/templates/home/test-model.html:127
+msgid "¿Actualizar la base de datos?"
+msgstr ""
+
+#: apps/templates/home/test-model.html:129
+msgid ""
+"Si se selecciona, las scores serán actualizadas con los\n"
+"                                                resultados obtenidos."
+msgstr ""
+
+#: apps/templates/includes/navigation-fullscreen.html:20
+msgid "Inicio"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:24
+#: apps/templates/includes/navigation.html:27
+msgid "Analizar URL"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:35
+#: apps/templates/includes/navigation.html:38
+msgid "Dashboard"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:47
+#: apps/templates/includes/navigation.html:50
+msgid "Reportar URL"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:61
+#: apps/templates/includes/navigation.html:64
+msgid "Modelos"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:73
+#: apps/templates/includes/navigation.html:76
+msgid "Instancias"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:85
+#: apps/templates/includes/navigation.html:88
+msgid "Revisar sugerencias"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:109
+#: apps/templates/includes/navigation.html:149
+msgid "Cerrar sesión"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:140
+msgid "Mi perfil"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:144
+msgid "Ayuda"
 msgstr ""
 

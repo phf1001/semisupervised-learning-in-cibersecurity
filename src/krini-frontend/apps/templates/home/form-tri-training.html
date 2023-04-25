@@ -6,10 +6,11 @@
             <tr>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Primer
-                            clasificador&nbsp;
-                            <span class="gray-description-forms">(algoritmo base
-                                utilizado)</span>
+                        <p class="primary-label-forms">
+                            {{ gettext('Primer clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
                         </p>
                         {{ form.cls_one_tt(placeholder="Primer clasificador", class="form-control") }}
                     </div>
@@ -18,10 +19,11 @@
             <tr>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Segundo
-                            clasificador&nbsp;
-                            <span class="gray-description-forms">(algoritmo base
-                                utilizado)</span>
+                        <p class="primary-label-forms">
+                            {{ gettext('Segundo clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
                         </p>
                         {{ form.cls_two_tt(placeholder="Segundo clasificador", class="form-control") }}
                     </div>
@@ -30,10 +32,11 @@
             <tr>
                 <td>
                     <div class="form-group mb-3">
-                        <p class="primary-label-forms">Tercer
-                            clasificador&nbsp;
-                            <span class="gray-description-forms">(algoritmo base
-                                utilizado)</span>
+                        <p class="primary-label-forms">
+                            {{ gettext('Tercer clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
                         </p>
                         {{ form.cls_three_tt(placeholder="Tercer clasificador", class="form-control") }}
                     </div>
@@ -45,15 +48,19 @@
                         <a class="btn btn-icon-only bg-primary">
                             <i class="ni ni-bulb-61 text-white"></i>
                         </a>
-                        <p class="primary-label-forms" style="display:inline">&nbsp;Pseudocódigo&nbsp;</p>
+                        <p class="primary-label-forms" style="display:inline">
+                            &nbsp;{{ gettext('Pseudocódigo') }}&nbsp;
+                        </p>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="hiddenRow">
                     <div id="info-tri-training" class="accordian-body collapse">
-                        <object data="/static/assets/img/theme/tritraining_pseudocode.pdf" type="application/pdf"
-                            style="min-height:100vh;width:100%"></object>
+                        <p style="text-align: center;">
+                            <img src="/static/assets/img/theme/tritraining_pseudocode.png"
+                                alt="Pseudocódigo de Tri Training">
+                        </p>
                     </div>
                 </td>
             </tr>
