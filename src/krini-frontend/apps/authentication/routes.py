@@ -17,7 +17,8 @@ from apps import db, login_manager
 from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
-
+from apps.home.exceptions import KriniException
+from sqlalchemy.exc import SQLAlchemyError
 from apps.authentication.util import verify_pass
 import re
 
@@ -54,7 +55,9 @@ def login():
             return redirect(url_for("authentication_blueprint.route_default"))
 
         return render_template(
-            "accounts/login.html", msg="Wrong user or password", form=login_form
+            "accounts/login.html",
+            msg="Credenciales incorrectas.",
+            form=login_form,
         )
 
     if not current_user.is_authenticated:
@@ -72,57 +75,73 @@ def register():
         function: redirect to the register page or to the
                     index page if the user is logged in.
     """
-    create_account_form = CreateAccountForm(request.form)
 
-    if current_user.is_authenticated:
-        flash(
-            "Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.",
-            "info",
-        )
-        return redirect(url_for("home_blueprint.index"))
+    try:
+        create_account_form = CreateAccountForm(request.form)
+        message = None
 
-    if "register" in request.form:
-        username = request.form["username"]
-        email = request.form["email"]
+        if (
+            "register" in request.form
+            and create_account_form.validate_on_submit()
+        ):
+            username = request.form["username"]
+            email = request.form["email"]
 
-        if not email_is_valid(email):
+            if not email_is_valid(email):
+                raise KriniException("El email no es válido.")
+
+            user = Users.query.filter_by(username=username).first()
+            if user:
+                raise KriniException("El nombre de usuario ya existe.")
+
+            user = Users.query.filter_by(email=email).first()
+            if user:
+                raise KriniException("El email ya existe.")
+
+            user = Users(**request.form)
+            db.session.add(user)
+            db.session.commit()
             return render_template(
                 "accounts/register.html",
-                msg="El email introducido no es válido",
-                success=False,
+                msg='Usuario creado con éxito. <a href="/login">Inicia sesión</a>',
+                success=True,
                 form=create_account_form,
             )
 
-        user = Users.query.filter_by(username=username).first()
-        if user:
+        errors = create_account_form.errors
+
+        if errors:
+            message = ""
+            for key in errors.keys():
+                message += "<br />" + create_account_form.errors[key][0]
+
+        if not current_user.is_authenticated:
             return render_template(
-                "accounts/register.html",
-                msg="Ya existe un usuario con ese nombre",
-                success=False,
-                form=create_account_form,
+                "accounts/register.html", form=create_account_form, msg=message
             )
 
-        user = Users.query.filter_by(email=email).first()
-        if user:
-            return render_template(
-                "accounts/register.html",
-                msg="Ya existe un usuario con ese email",
-                success=False,
-                form=create_account_form,
+        else:
+            flash(
+                "Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.",
+                "info",
             )
+            return redirect(url_for("home_blueprint.index"))
 
-        user = Users(**request.form)
-        db.session.add(user)
-        db.session.commit()
+    except (KriniException, SQLAlchemyError) as e:
+        if e.__class__ == KriniException:
+            message = str(e)
+
+        else:
+            message = (
+                "Error al crear el usuario. Inténtalo de nuevo más adelante."
+            )
 
         return render_template(
             "accounts/register.html",
-            msg='Usuario creado con éxito. <a href="/login">Inicia sesión</a>',
-            success=True,
+            msg=message,
+            success=False,
             form=create_account_form,
         )
-
-    return render_template("accounts/register.html", form=create_account_form)
 
 
 def email_is_valid(email):

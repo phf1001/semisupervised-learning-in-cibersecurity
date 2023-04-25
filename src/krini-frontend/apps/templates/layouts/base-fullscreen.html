@@ -16,7 +16,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="canonical" href="https://appseed.us/admin-dashboards/flask-boilerplate-dashboard-argon">
-  
+
   <title>
     {% block title %}{% endblock %}
   </title>
@@ -52,24 +52,18 @@
         </div>
       </div>
       <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
           <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
         </svg>
       </div>
     </div>
-    
     {% block content %}{% endblock content %}
-
     {% include "includes/footer-fullscreen.html" %}
   </div>
-    
   {% include "includes/scripts.html" %}
-
-  <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
-  
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-
 </body>
 
 </html>

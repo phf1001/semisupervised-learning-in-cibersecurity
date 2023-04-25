@@ -17,34 +17,58 @@ from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
     """
-    LoginForm class. It is used to create a form
-    to login in the application.
+    LoginForm class. It is used to create a form to login in the application.
 
     Args:
         FlaskForm (class): FlaskForm class from Flask-WTF.
     """
 
     username = TextField(
-        "Username", id="username_login", validators=[DataRequired()]
+        "Username",
+        id="username_login",
+        validators=[DataRequired("Introduce un nombre de usuario")],
     )
     password = PasswordField(
-        "Password", id="pwd_login", validators=[DataRequired()]
+        "Password",
+        id="pwd_login",
+        validators=[DataRequired("Introduce una contraseña")],
     )
 
 
 class CreateAccountForm(FlaskForm):
     """
-    Form to create a new account. It is used
-    to create a new account in the application.
+    Form to create a new account. It is used to create a new account in the application.
 
     Args:
         FlaskForm (class): FlaskForm class from Flask-WTF.
     """
 
     username = TextField(
-        "Username", id="username_create", validators=[DataRequired()]
+        "Username",
+        id="username_create",
+        validators=[DataRequired("Introduce un nombre de usuario")],
     )
-    email = TextField("Email", id="email_create", validators=[DataRequired()])
+
+    email = TextField(
+        "Email",
+        id="email_create",
+        validators=[DataRequired("Introduce un email")],
+    )
+
     password = PasswordField(
-        "Password", id="pwd_create", validators=[DataRequired()]
+        "Password",
+        id="pwd_create",
+        validators=[DataRequired("Introduce una contraseña")],
+    )
+
+    user_first_name = TextField(
+        "Name",
+        id="name_create",
+        validators=[DataRequired("Introduce tu nombre propio")],
+    )
+
+    user_last_name = TextField(
+        "Surname",
+        id="surname_create",
+        validators=[DataRequired("Introduce tu apellido")],
     )
