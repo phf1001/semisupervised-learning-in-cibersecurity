@@ -31,8 +31,8 @@
     {{ form.csrf_token() }}
     <div class="row">
       <div class="col">
-        <div class="card bg-default shadow">
-          <div class="card-header bg-transparent border-0">
+        <div class="card bg-default">
+          <div class="card-header border-0">
             <div class="col-lg" style="justify-content: space-evenly;">
               <input type="hidden" name="button_pressed" value="ninguno" />
               <div class="dropdown">
@@ -69,7 +69,7 @@
                   </button>
                 </div>
               </div>
-              <button class="btn btn-neutral" type="submit" id="btn-descarga-csv"
+              <button class="btn btn-warning" type="submit" id="btn-descarga-csv"
                 onclick="updateForm(null, 'descargar', {{post_pagination.page}}, null)">
                 Descargar seleccionados
               </button>
@@ -91,13 +91,13 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="card bg-default shadow">
-          <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">ADMINISTRACIÓN DE INSTANCIAS</h3>
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="mb-0">ADMINISTRACIÓN DE INSTANCIAS</h3>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-dark table-flush">
-              <thead class="thead-dark">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
                     <h5 class="text-gray mb-0">&nbsp;</h5>
@@ -124,30 +124,30 @@
               </thead>
               <tbody class="list">
                 {% for instance in post_pagination.items %}
-                <!-- Table row -->
                 <tr>
                   <td style="text-align: center;">
                     {% if instance["is_selected"] == 1 %}
                     <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
-                      type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance" checked>
+                      type="checkbox" class="krini-checkbox" name="checkbox-instance" checked>
                     {% else %}
                     <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
-                      type="checkbox" style="width: 20px; height: 20px;" name="checkbox-instance">
+                      type="checkbox" name="checkbox-instance" class="krini-checkbox">
                     {% endif %}
                   </td>
                   <td style="text-align: center;">
-                    <span class="light-gray-description-forms" style="font-weight: bold;">{{ instance["instance_URL"]
+                    <span class="light-gray-description-forms font-weight-bolder text-primary">{{
+                      instance["instance_URL"]
                       }}</span>
                   </td>
                   <td style="text-align: center;">
-                    <span class="light-gray-description-forms">{{ instance["instance_fv"] }}</span>
+                    <span class="light-gray-description-forms text-gray">{{ instance["instance_fv"] }}</span>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge rounded-pill"
                       style="font-size: 12px; background-color:{{ instance['badge_colour'] }}; color: white; font-weight: bold;">{{
                       instance["instance_class"] }}</span>
                   </td>
-                  <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
+                  <td class="font-weight-bolder text-primary" style="text-align: center; font-size:15px;">
                     {{ instance["reviewed_by"] }}
                   </td>
                   <td style='word-break: break-all; width: 200px; white-space: initial'>
@@ -190,7 +190,7 @@
             </table>
           </div>
           <!-- Pagination footer -->
-          <div class="card-footer py-4 bg-default shadow">
+          <div class="card-footer py-4">
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
                 {% if post_pagination.has_prev %}

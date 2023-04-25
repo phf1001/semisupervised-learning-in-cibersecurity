@@ -16093,6 +16093,14 @@ a.text-warning:focus {
   color: #f5365c !important;
 }
 
+.text-midnight {
+  color: #191970 !important;
+}
+
+.text-gray {
+  color: #6c757d !important;
+}
+
 a.text-danger:hover,
 a.text-danger:focus {
   color: #d40b33 !important;
@@ -26252,4 +26260,9 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   text-align: left;
   margin: 0;
   padding: 0;
+}
+
+.krini-checkbox {
+  width: 20px;
+  height: 20px;
 }

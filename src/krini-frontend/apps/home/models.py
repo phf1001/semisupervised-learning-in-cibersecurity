@@ -194,7 +194,7 @@ class Available_tags:
             tag == Available_tags.black_list
             or tag == Available_tags.sug_black_list
         ):
-            return "#878C8A"
+            return "#191970"
 
         if tag == Available_tags.auto_classified:
             return "#CE7E00"

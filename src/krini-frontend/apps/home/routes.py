@@ -1230,7 +1230,8 @@ def report_url():
         raise Forbidden()
 
     form = ReportURLForm(request.form)
-    if "report" in request.form:
+
+    if "report" in request.form and form.validate_on_submit():
         try:
             url = request.form["url"]
             report_type = request.form["type"]
@@ -1278,6 +1279,9 @@ def report_url():
                 "danger",
             )
             db.session.rollback()
+
+    for key in form.errors.keys():
+        flash("{}".format(form.errors[key][0]), "warning")
 
     return render_template(
         "home/report-url.html", form=form, segment=get_segment(request)

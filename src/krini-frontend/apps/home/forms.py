@@ -44,12 +44,15 @@ class ReportURLForm(FlaskForm):
     """
 
     url = TextField(
-        "url", id="url_report", validators=[DataRequired("Introduce una URL")]
+        "url",
+        id="url_report",
+        validators=[DataRequired("Por favor, introduce una URL")],
     )
     type = SelectField(
         "type",
         id="type",
         choices=[("black-list", "Blacklist"), ("white-list", "Whitelist")],
+        validators=[DataRequired("Por favor, selecciona una opción")],
     )
 
 

@@ -1,9 +1,8 @@
 {% extends 'layouts/base.html' %}
-
-{% block title %} Tables {% endblock title %}
-
+{% block title %}
+{{ gettext('Reportar URL') }}
+{% endblock title %}
 {% block content %}
-
 <div class="header bg-gradient-primary pb-6">
   <div class="container-fluid">
     <div class="header-body">
@@ -12,7 +11,7 @@
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-              <li class="breadcrumb-item active" aria-current="page">Reporta una URL</li>
+              <li class="breadcrumb-item active" aria-current="page">{{ gettext('Reporta una URL') }}</li>
             </ol>
           </nav>
         </div>
@@ -27,7 +26,7 @@
       <div class="card">
         <!-- Card header -->
         <div class="card-header border-0">
-          <h3 class="mb-0">Reporta una URL</h3>
+          <h3 class="mb-0">{{ gettext('Reporta una URL') }}</h3>
         </div>
         <!-- Light table -->
         <div class="table-responsive">
@@ -37,44 +36,53 @@
             <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort"
-                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;"
-                    data-sort="name">URL</th>
-                  <th scope="col" class="sort"
-                    style="font-size: medium; color: gray; font-weight: normal; font-weight: bold; text-align: left;"
-                    data-sort="type">Tipo</th>
+                  <th scope="col">
+                    <p class="light-gray-thread-forms">
+                      {{ gettext('URL') }}
+                    </p>
+                  </th>
+                  <th scope="col">
+                    <p class="light-gray-thread-forms">
+                      {{ gettext('Tipo') }}
+                    </p>
+                  </th>
                 </tr>
               </thead>
               <tbody class="list">
                 <tr>
                   <td>
                     <div class="form-group mb-3">
-                      <p class="primary-label-forms">Objetivo&nbsp;<span class="gray-description-forms">(preferiblemente
-                          con la sintáxis ...)</span></p>
+                      <p class="primary-label-forms">
+                        {{ gettext('Objetivo') }}&nbsp;
+                        <span class="gray-description-forms">
+                          ({{ gettext('preferiblemente con protocolo') }})
+                        </span>
+                      </p>
                       <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-world-2"></i></span>
                         </div>
-                        {{ form.url(placeholder="Introduce tu URL", class="form-control", required="required",
-                        oninvalid="this.setCustomValidity('Por favor, introduce una URL')",
-                        oninput="setCustomValidity('')") }}
+                        {{ form.url(placeholder="https://www.google.com/", class="form-control") }}
                       </div>
                     </div>
                   </td>
                   <td>
                     <div class="form-group mb-3">
-                      <p class="primary-label-forms">¿Qué vas a reportar?&nbsp;<span class="gray-description-forms"> Si
-                          sabes que es phishing escoge "black-list". Si sabes que es legítima escoge
-                          "white-list".</span>
+                      <p class="primary-label-forms">
+                        {{ gettext('¿Qué vas a reportar?') }}&nbsp;
+                        <span class="gray-description-forms">
+                          {{ gettext('Si sabes que es phishing escoge "black-list". ') }}
+                          {{ gettext('Si sabes que es legítima escoge "white-list".') }}
+                        </span>
                       </p>
                       {{ form.type(placeholder="type",class="form-control") }}
                     </div>
                   </td>
                 </tr>
                 <tr>
-                  <td align="center" colspan="2">
+                  <td colspan="2">
                     <div class="text-center">
-                      <button type="submit" name="report" class="btn btn-primary my-4">Enviar</button>
+                      <button type="submit" name="report" class="btn btn-primary my-4">{{ gettext('Enviar') }}</button>
                     </div>
                   </td>
                 </tr>
@@ -85,9 +93,6 @@
       </div>
     </div>
   </div>
-
   {% include "includes/footer.html" %}
-
 </div>
-
 {% endblock content %}
