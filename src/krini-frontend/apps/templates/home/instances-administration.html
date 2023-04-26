@@ -1,8 +1,5 @@
-{% block stylesheets %}
-<link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
-{% endblock stylesheets %}
 {% extends 'layouts/base.html' %}
-{% block title %} Instancias {% endblock title %}
+{% block title %} {{ gettext('Instancias') }} {% endblock title %}
 {% block content %}
 
 <form name="instances_form" method="POST" action="">
@@ -14,7 +11,8 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                 <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">Administración de instancias</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ gettext('Administración de instancias') }}
+                </li>
               </ol>
             </nav>
           </div>
@@ -22,7 +20,6 @@
       </div>
     </div>
   </div>
-  <!-- Page content -->
   <div class="container-fluid mt--6">
     <input type="hidden" name="selected_page" value="1" />
     <input type="hidden" name="individual_instance" value="-1" />
@@ -33,57 +30,58 @@
       <div class="col">
         <div class="card bg-default">
           <div class="card-header border-0">
-            <div class="col-lg" style="justify-content: space-evenly;">
+            <div class="row-flex no-gutters float justify-content-evenly">
               <input type="hidden" name="button_pressed" value="ninguno" />
+              <button class="btn btn-outline-info float-left" type="submit" id="btn-select-all-others"
+                onclick="updateForm(null, 'seleccionar_todos_contrarios', {{post_pagination.page}}, null)">
+                <i class="bi bi-recycle"></i>
+                &nbsp;&nbsp;&nbsp;{{ gettext('Invertir selección') }}
+              </button>
               <div class="dropdown">
-                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"> Seleccionar
+                <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="bi bi-check-square"></i>
+                  &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-select-all"
                     onclick="updateForm(null, 'seleccionar_todos', {{post_pagination.page}}, null)">
-                    Seleccionar todos
+                    {{ gettext('Seleccionar todos') }}
                   </button>
                   <button class="dropdown-item" type="submit" id="btn-select-all-page"
                     onclick="updateForm(null, 'seleccionar_todos_page', {{post_pagination.page}}, null)">
-                    Seleccionar todos en esta página
+                    {{ gettext('Seleccionar todos en esta página') }}
                   </button>
                 </div>
               </div>
-              <button class="btn btn-info" type="submit" id="btn-select-all-others"
-                onclick="updateForm(null, 'seleccionar_todos_contrarios', {{post_pagination.page}}, null)">
-                Invertir selección
-              </button>
               <div class="dropdown">
-                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"> Deseleccionar
+                <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"><i class="bi bi-x-square"></i>
+                  &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-deselect-all"
                     onclick="updateForm(null, 'deseleccionar_todos', {{post_pagination.page}}, null)">
-                    Deseleccionar todos
+                    {{ gettext('Deseleccionar todos') }}
                   </button>
-                  <button class="dropdown-item" type="submit" id="btn-deselect-all-page"
+                  <button class="dropdown-item float-left" type="submit" id="btn-deselect-all-page"
                     onclick="updateForm(null, 'deseleccionar_todos_page', {{post_pagination.page}}, null)">
-                    Deseleccionar todos en esta página
+                    {{ gettext('Deseleccionar todos en esta página') }}
                   </button>
                 </div>
               </div>
-              <button class="btn btn-warning" type="submit" id="btn-descarga-csv"
+              <button class="btn btn-outline-danger float-right mr-3" type="submit" id="btn-elimina-select"
+                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
+                <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}
+              </button>
+              <button class="btn btn-outline-warning float-right mr-3" type="submit" id="btn-descarga-csv"
                 onclick="updateForm(null, 'descargar', {{post_pagination.page}}, null)">
-                Descargar seleccionados
+                <i class="bi bi-cloud-arrow-down"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Descargar seleccionados') }}
               </button>
-
-              <button class="btn btn-danger" type="submit" id="btn-elimina-select"
-                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)" style="float: right;">
-                Eliminar seleccionados
+              <button class="btn btn-outline-success float-right mr-3" type="submit" id="btn-nueva"
+                onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)">
+                <i class="bi bi-plus-lg"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Nueva') }}
               </button>
-              <button class="btn btn-success" type="submit" id="btn-nueva"
-                onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)"
-                style="float: right; margin-right: 10px;">
-                Crear instancia
-              </button>
-              <!-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
             </div>
           </div>
         </div>
@@ -93,39 +91,39 @@
       <div class="col">
         <div class="card">
           <div class="card-header border-0">
-            <h3 class="mb-0">ADMINISTRACIÓN DE INSTANCIAS</h3>
+            <h3 class="mb-0">{{ gettext('ADMINISTRACIÓN DE INSTANCIAS') }}</h3>
           </div>
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
-                    <h5 class="text-gray mb-0">&nbsp;</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
-                    <h5 class="text-gray mb-0">URL</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Vector de características</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="parameters" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Clase</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Revisor</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="date" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Etiquetas</h5>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">&nbsp;</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0" style="text-align: center;">Más</h5>
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('URL') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Vector de características') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Clase') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Revisor') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Etiquetas') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Más') }}</h5>
                   </th>
                 </tr>
               </thead>
               <tbody class="list">
                 {% for instance in post_pagination.items %}
                 <tr>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     {% if instance["is_selected"] == 1 %}
                     <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
                       type="checkbox" class="krini-checkbox" name="checkbox-instance" checked>
@@ -134,20 +132,21 @@
                       type="checkbox" name="checkbox-instance" class="krini-checkbox">
                     {% endif %}
                   </td>
-                  <td style="text-align: center;">
-                    <span class="light-gray-description-forms font-weight-bolder text-primary">{{
-                      instance["instance_URL"]
-                      }}</span>
+                  <td class="text-center">
+                    <span class="light-gray-description-forms font-weight-bolder text-primary">
+                      {{ instance["instance_URL"] }}
+                    </span>
                   </td>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     <span class="light-gray-description-forms text-gray">{{ instance["instance_fv"] }}</span>
                   </td>
-                  <td style="text-align: center;">
-                    <span class="badge rounded-pill"
-                      style="font-size: 12px; background-color:{{ instance['badge_colour'] }}; color: white; font-weight: bold;">{{
-                      instance["instance_class"] }}</span>
+                  <td class="text-center">
+                    <span class="badge rounded-pill text-white text-xs text-bolder"
+                      style="background-color:{{ instance['badge_colour'] }}; font-weight: bold;">
+                      {{ instance["instance_class"] }}
+                    </span>
                   </td>
-                  <td class="font-weight-bolder text-primary" style="text-align: center; font-size:15px;">
+                  <td class="font-weight-bolder text-primary text-center" style="font-size:15px;">
                     {{ instance["reviewed_by"] }}
                   </td>
                   <td style='word-break: break-all; width: 200px; white-space: initial'>
@@ -156,14 +155,15 @@
                     {% set colours = instance["instance_labels_colours"] %}
                     {% for tag in instance["instance_labels"] %}
                     {% if tag != "" %}
-                    <span class="badge badge-primary rounded-pill"
-                      style="font-size: 12px; margin-bottom: 0.75rem; font-weight: bold; color:white; background-color:{{colours[loop.index0]}};">{{
-                      tag }}&nbsp;</span>
+                    <span class="badge badge-primary rounded-pill text-white text-xs text-bolder mb-2"
+                      style="background-color:{{colours[loop.index0]}}; font-weight: bold;">
+                      {{ tag }}&nbsp;
+                    </span>
                     {% endif %}
                     {% endfor %}
                     {% endif %}
                   </td>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     <div class="dropdown">
                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -173,13 +173,12 @@
                         <button class="dropdown-item" type="submit"
                           id="btn-edita-individual-{{ instance['instance_id'] }}"
                           onclick="updateForm({{ instance['instance_id'] }}, 'editar_individual', {{post_pagination.page}}, null)">
-                          Editar
+                          {{ gettext('Editar') }}
                         </button>
-                        <button class="dropdown-item" type="submit"
+                        <button class="dropdown-item text-red" type="submit"
                           id="btn-elimina-individual-{{ instance['instance_id'] }}"
-                          onclick="updateForm({{ instance['instance_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
-                          style="color: red">
-                          Eliminar
+                          onclick="updateForm({{ instance['instance_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)">
+                          {{ gettext('Eliminar') }}
                         </button>
                       </div>
                     </div>
@@ -189,7 +188,6 @@
               </tbody>
             </table>
           </div>
-          <!-- Pagination footer -->
           <div class="card-footer py-4">
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
@@ -198,14 +196,14 @@
                   {% set page = post_pagination.page - 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
                   </a>
                 </li>
                 {% endif %}
@@ -233,14 +231,14 @@
                   {% set page = post_pagination.page + 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
                   </a>
                 </li>
                 {% endif %}

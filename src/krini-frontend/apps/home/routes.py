@@ -1012,8 +1012,16 @@ def new_instance():
         form = InstanceForm()
         initial_value = ""
         instance_dict = get_instance_dict(-1, empty=True)
+        validated = True
+        form.validate_on_submit()
 
-        if "siguiente" in request.form:
+        for key in form.errors.keys():
+            if form.errors[key][0] == "Introduce una URL":
+                validated = False
+                flash("{}".format(form.errors[key][0]), "warning")
+                break
+
+        if "siguiente" in request.form and validated:
             session["messages"] = {
                 "form_data": request.form,
                 "instance_id": -1,

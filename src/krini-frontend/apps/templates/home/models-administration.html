@@ -134,7 +134,7 @@
                       class="krini-checkbox" name="checkbox-model" checked>
                     {% else %}
                     <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
-                      class="krini-checkbox" name="checkbox-model" class="custom-checkbox">
+                      class="krini-checkbox" name="checkbox-model">
                     {% endif %}
                   </td>
                   <td class="text-center">
@@ -194,9 +194,9 @@
                           onclick="updateForm({{ model['model_id'] }}, 'testear_individual', {{post_pagination.page}}, null)">
                           {{ gettext('Testear') }}
                         </button>
-                        <button class="dropdown-item" type="submit" id="btn-elimina-individual-{{ model['model_id'] }}"
-                          onclick="updateForm({{ model['model_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
-                          style="color: red">
+                        <button class="dropdown-item text-red" type="submit"
+                          id="btn-elimina-individual-{{ model['model_id'] }}"
+                          onclick="updateForm({{ model['model_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)">
                           {{ gettext('Eliminar') }}
                         </button>
                       </div>
@@ -215,14 +215,14 @@
                   {% set page = post_pagination.page - 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">{{ gettext('Previous') }}</span>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">{{ gettext('Previous') }}</span>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
                   </a>
                 </li>
                 {% endif %}
@@ -250,14 +250,14 @@
                   {% set page = post_pagination.page + 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">{{ gettext('Next') }}</span>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">{{ gettext('Next') }}</span>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
                   </a>
                 </li>
                 {% endif %}
