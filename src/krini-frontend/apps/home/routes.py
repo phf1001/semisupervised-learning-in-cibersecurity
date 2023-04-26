@@ -478,8 +478,14 @@ def models(n_per_page=10):
                     remove_selected_models([request.form["individual_model"]])
                     flash("Modelo eliminado correctamente.", "success")
                 else:
-                    remove_selected_models(list(checks.values()))
-                    flash("Modelos eliminados correctamente.", "success")
+                    selected = list(checks.values())
+                    if len(selected) == 0:
+                        flash("No se ha seleccionado ningún modelo.", "warning")
+                    else:
+                        remove_selected_models(selected)
+                        flash("Modelos eliminados correctamente.", "success")
+
+                return redirect(url_for("home_blueprint.models"))
 
         else:
             page = 1
@@ -875,11 +881,18 @@ def instances(n_per_page=10):
                         [request.form["individual_instance"]]
                     )
                     flash("Instancia eliminada correctamente.", "success")
-                else:
-                    remove_selected_instances(list(checks.values()))
-                    flash("Instancias eliminadas correctamente.", "success")
 
-            elif "editar" in request.form["button_pressed"]:
+                else:
+                    selected = list(checks.values())
+                    if len(selected) > 0:
+                        remove_selected_instances(list(checks.values()))
+                        flash("Instancias eliminadas correctamente.", "success")
+                    else:
+                        flash("No hay instancias seleccionadas.", "warning")
+
+                return redirect(url_for("home_blueprint.instances"))
+
+            if "editar" in request.form["button_pressed"]:
                 session["messages"] = {
                     "previous_page": page,
                     "instance_id": request.form["individual_instance"],
@@ -1178,12 +1191,15 @@ def review_instances(n_per_page=10):
                 )
 
             elif "eliminar" in request.form["button_pressed"]:
-                if remove_selected_reports(checks.values(), n_per_page):
+                if len(checks.values()) == 0:
+                    flash("No hay sugerencias seleccionadas.", "warning")
+                elif remove_selected_reports(checks.values(), n_per_page):
                     flash("Instancias eliminadas correctamente.", "success")
                 else:
                     flash("Error al eliminar las instancias.", "danger")
+                return redirect(url_for("home_blueprint.review_instances"))
 
-            elif (
+            if (
                 "aceptar" in request.form["button_pressed"]
                 or "descartar" in request.form["button_pressed"]
             ):
@@ -1197,6 +1213,7 @@ def review_instances(n_per_page=10):
                     selected_report, request.form["button_pressed"]
                 ):
                     flash("Acción ejecutada correctamente.", "success")
+                    return redirect(url_for("home_blueprint.review_instances"))
                 else:
                     flash("Error al ejecutar la acción seleccionada.", "danger")
 

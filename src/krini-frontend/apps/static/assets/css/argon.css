@@ -26160,7 +26160,6 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
 }
 
 .loader {
-  position: absolute;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -26169,6 +26168,10 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   justify-content: center;
   align-items: center;
   transition: opacity 0.75s, visibility 0.75s;
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .loader.hidden {
@@ -26210,10 +26213,6 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   width: 70px;
   height: 70px;
   animation: spin 1s linear infinite;
-  position: absolute;
-  top: 85%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
