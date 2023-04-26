@@ -67,9 +67,24 @@ import numpy as np
 import time
 from sklearn.model_selection import train_test_split
 
+from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT
+
 logger = get_logger("krini-frontend")
 
 from apps.messages import get_message
+
+
+@blueprint.route("/language=<language>")
+def set_language(language=None):
+    if language in AVAILABLE_LANGUAGES:
+        session["language"] = language
+        flash(get_message("language_changed"), "success")
+
+    else:
+        session["language"] = BABEL_DEFAULT
+        flash(get_message("language_not_changed"), "warning")
+
+    return redirect(url_for("home_blueprint.index"))
 
 
 @blueprint.route("/index", methods=["GET", "POST"])

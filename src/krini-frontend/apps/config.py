@@ -24,6 +24,8 @@ KNN_KEY = "kNN"
 DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
 )
+BABEL_DEFAULT = "en"
+AVAILABLE_LANGUAGES = ["en", "es"]
 
 
 class Config(object):
@@ -37,9 +39,9 @@ class Config(object):
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_LOCALE = BABEL_DEFAULT
     BABEL_TRANSLATION_DIRECTORIES = os.path.join(superiordir, "translations")
-    LANGUAGES = {"en": "English", "es": "Spanish"}
+    LANGUAGES = AVAILABLE_LANGUAGES
 
 
 class ProductionConfig(Config):

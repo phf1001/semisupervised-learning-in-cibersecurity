@@ -53,3 +53,9 @@ def get_message(identifier, params=[]):
         return gettext(
             "La información para mostrar ha caducado o no está disponible."
         )
+
+    if identifier == "language_changed":
+        return gettext("Idioma cambiado correctamente.")
+
+    if identifier == "language_not_changed":
+        return gettext("No se ha podido cambiar el idioma.")

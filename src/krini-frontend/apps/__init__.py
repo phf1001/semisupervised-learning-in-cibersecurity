@@ -1,12 +1,13 @@
 # -*- encoding: utf-8 -*-
 """Copyright (c) 2019 - present AppSeed.us"""
 
-from flask import Flask
+from flask import Flask, session, request
 from flask_babel import Babel
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
+from apps.config import BABEL_DEFAULT
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -14,7 +15,9 @@ babel = Babel()
 
 
 def get_locale():
-    return "en"
+    if request.args.get("language"):
+        session["language"] = request.args.get("language")
+    return session.get("language", BABEL_DEFAULT)
 
 
 def create_app(config):

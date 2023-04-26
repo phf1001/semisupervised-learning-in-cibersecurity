@@ -1,158 +1,122 @@
-<!DOCTYPE html>
-<!-- Author: phf -->
-<div class="pos-f-t">
-  <div class="collapse" id="navbarToggleExternalContent">
-    <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-dark bg-gradient-primary"
-      id="sidenav-main">
-      <div class="scrollbar-inner">
-        <nav class="navbar navbar-dark bg-gradient-primary">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </nav>
-
-        <div class="navbar-inner">
-          <!-- Collapse -->
-          <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-            <!-- Nav items -->
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="/">
-                  {% if 'index' in segment %}
-                  <i class="ni ni-world-2 text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Analizar URL') }}</span>
-                  {% else %}
-                  <i class="ni ni-world-2 text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Analizar URL') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'dashboard' in segment %} active {% endif %}" href="/dashboard">
-                  {% if 'dashboard' in segment %}
-                  <i class="ni ni-chart-pie-35 text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Dashboard') }}</span>
-                  {% else %}
-                  <i class="ni ni-chart-pie-35 text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Dashboard') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              {% if current_user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link {% if 'report_url' in segment %} active {% endif %}" href="/report_url">
-                  {% if 'report_url' in segment %}
-                  <i class="ni ni-notification-70 text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Reportar URL') }}</span>
-                  {% else %}
-                  <i class="ni ni-notification-70 text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Reportar URL') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              {% endif %}
-              {% if current_user.user_rol == "admin" %}
-              <li class="nav-item">
-                <a class="nav-link {% if 'models' in segment %} active {% endif %}"
-                  href="{{ url_for('home_blueprint.models') }}">
-                  {% if 'models' in segment %}
-                  <i class="ni ni-atom text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Modelos') }}</span>
-                  {% else %}
-                  <i class="ni ni-atom text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Modelos') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if segment == 'instances' %} active {% endif %}"
-                  href="{{ url_for('home_blueprint.instances') }}">
-                  {% if segment == 'instances' %}
-                  <i class="ni ni-books text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Instancias') }}</span>
-                  {% else %}
-                  <i class="ni ni-books text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Instancias') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if 'review_instances' in segment %} active {% endif %}"
-                  href="{{ url_for('home_blueprint.review_instances') }}">
-                  {% if 'review_instances' in segment %}
-                  <i class="ni ni-check-bold text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Sugerencias') }}</span>
-                  {% else %}
-                  <i class="ni ni-check-bold text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Sugerencias') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              {% endif %}
-              {% if current_user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link {% if 'profile' in segment %} active {% endif %}"
-                  href="{{ url_for('home_blueprint.profile') }}">
-                  {% if 'profile' in segment %}
-                  <i class="ni ni-single-02 text-indigo"></i>
-                  <span class="text-indigo">{{ gettext('Perfil') }}</span>
-                  {% else %}
-                  <i class="ni ni-single-02 text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Perfil') }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('authentication_blueprint.logout') }}">
-                  <i class="ni ni-user-run text-white"></i>
-                  <span class="nav-link-text">{{ gettext('Cerrar sesión') }}</span>
-                </a>
-              </li>
-              {% endif %}
-            </ul>
+<nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-gradient-primary">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default"
+      aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-default">
+      <div class="navbar-collapse-header">
+        <div class="row">
+          <div class="col-6 collapse-brand">
+            <a class="primary-label-forms" href="javascript:void(0)">
+              KRINI
+            </a>
+          </div>
+          <div class="col-6 collapse-close">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default"
+              aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+              <span></span>
+              <span></span>
+            </button>
           </div>
         </div>
       </div>
-    </nav>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          {% if 'index' in segment %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/">
+              {% endif %}
+              <i class="ni ni-world-2"></i>{{ gettext('Análisis') }}
+            </a>
+        </li>
+        <li class="nav-item">
+          {% if 'dashboard' in segment %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/dashboard">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/dashboard">
+              {% endif %}
+              <i class="ni ni-chart-pie-35"></i>{{ gettext('Dashboard') }}
+            </a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          {% if 'report_url' in segment %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/report_url">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/report_url">
+              {% endif %}
+              <i class="ni ni-notification-70"></i>{{ gettext('Denunciar URL') }}
+            </a>
+        </li>
+        {% endif %}
+        {% if current_user.user_rol == "admin" %}
+        <li class="nav-item">
+          {% if 'models' in segment %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/models">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/models">
+              {% endif %}
+              <i class="ni ni-atom"></i>{{ gettext('Modelos') }}
+            </a>
+        </li>
+        <li class="nav-item">
+          {% if segment == 'instances' %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/instances">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/instances">
+              {% endif %}
+              <i class="ni ni-books"></i>{{ gettext('Instancias') }}
+            </a>
+        </li>
+        <li class="nav-item">
+          {% if 'review' in segment %}
+          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/review_instances">
+            {% else %}
+            <a class="nav-link text-white font-weight-bold" href="/review_instances">
+              {% endif %}
+              <i class="ni ni-check-bold"></i>{{ gettext('Sugerencias') }}
+            </a>
+        </li>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-person-circle text-lg"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
+            <a class="dropdown-item" href="/profile">
+              {{ gettext('Perfil') }}
+            </a>
+            <a class="dropdown-item" target="_blank" href="mailto:phf1001@alu.ubu.es?Subject=Contacto%20Krini">
+              {{ gettext('Contacto') }}
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('authentication_blueprint.logout') }}">
+              {{ gettext('Cerrar sesión') }}
+            </a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-white font-weight-bold" href="/login">
+            <i class="bi bi-person-circle"></i></i>{{ gettext('Iniciar sesión') }}
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_2" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-translate text-lg"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_2">
+            <a class="dropdown-item" href="/language=es">{{ gettext('Español') }}</a>
+            <a class="dropdown-item" href="/language=en">{{ gettext('English') }}</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-
-<nav class="navbar navbar-dark bg-gradient-primary">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-    aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  {% if current_user.is_authenticated %}
-  <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <div class="media align-items-center">
-      <span class="avatar avatar-md rounded-circle">
-        <img alt="Image placeholder" src="/static/assets/img/theme/robot-shield.jpg">
-      </span>
-    </div>
-    <div class="dropdown-menu  dropdown-menu-right ml-3 mr-3">
-      <div class="dropdown-header noti-title">
-        <h6 class="text-overflow m-0">{{ gettext('Bienvenido') }} {{ current_user.username }}</h6>
-      </div>
-      <a href="/profile.html" class="dropdown-item">
-        <i class="ni ni-single-02"></i>
-        <span>{{ gettext('Mi perfil') }}</span>
-      </a>
-      <a target="_blank" href="mailto:phf1001@alu.ubu.es?Subject=Contacto%20Krini" class="dropdown-item">
-        <i class="ni ni-support-16"></i>
-        <span>{{ gettext('Ayuda') }}</span>
-      </a>
-      <div class="dropdown-divider"></div>
-      <a href="{{ url_for('authentication_blueprint.logout') }}" class="dropdown-item">
-        <i class="ni ni-user-run text-red"></i>
-        <span>{{ gettext('Cerrar sesión') }}</span>
-      </a>
-    </div>
-  </a>
-  {% else %}
-  <a href="{{ url_for('authentication_blueprint.login') }}" class="btn btn-neutral btn-icon">
-    <span class="nav-link-inner--text">{{ gettext('Iniciar sesión') }}</span>
-  </a>
-  {% endif %}
 </nav>

@@ -9164,6 +9164,11 @@ button.bg-darker:focus {
   margin-left: 1rem !important;
 }
 
+.mr-30,
+.mx-3 {
+  margin-right: 5rem !important;
+}
+
 .m-4 {
   margin: 1.5rem !important;
 }
