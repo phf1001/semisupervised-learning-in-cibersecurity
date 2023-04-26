@@ -26196,6 +26196,10 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   width: 70px;
   height: 70px;
   animation: spin 1s linear infinite;
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
