@@ -112,14 +112,16 @@
                             <ul class="list-items-multi-select">
                               <li style="list-style-type: none;">
                                 <div class="container-fluid">
-                                  <div class="row justify-content-between">
-                                    <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">
-                                      {{ gettext('Selecciona todos') }}
+                                  <div class="row">
+                                    <span id="select-all" name="btn:select-all" class="btn btn-outline-primary">
+                                      <i class="bi bi-check-square"></i>
                                     </span>
-                                    <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4">
-                                      {{ gettext('Elimina todos') }}
+                                    &nbsp;&nbsp;&nbsp;
+                                    <span id="deselect-all" name="btn:deselect-all" class="btn btn-outline-primary">
+                                      <i class="bi bi-x-square"></i>
                                     </span>
                                   </div>
+                                  <br />
                                 </div>
                               </li>
                               {% for model in available_models %}

@@ -16050,6 +16050,14 @@ button.bg-darker:focus {
   color: #5e72e4 !important;
 }
 
+.text-green {
+  color: var(--green) !important;
+}
+
+.text-red {
+  color: var(--red) !important;
+}
+
 a.text-primary:hover,
 a.text-primary:focus {
   color: #233dd2 !important;
@@ -22594,6 +22602,10 @@ button.section-darker:focus {
   font-size: 0.875rem !important;
 }
 
+.text-md {
+  font-size: 1rem !important;
+}
+
 .text-lg {
   font-size: 1.25rem !important;
 }
@@ -26283,4 +26295,14 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   font-size: 27px;
   font-weight: bold;
   -webkit-text-stroke: 0.8px black;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
 }

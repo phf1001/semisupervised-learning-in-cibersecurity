@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-{% block title %} Administración de modelos {% endblock title %}
+{% block title %} {{ gettext('Administración de modelos') }} {% endblock title %}
 {% block content %}
 
 <form name="models_form" method="POST" action="">
@@ -16,7 +16,7 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                 <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">Administración de modelos</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ gettext('Administración de modelos') }}</li>
               </ol>
             </nav>
           </div>
@@ -24,128 +24,129 @@
       </div>
     </div>
   </div>
-  <!-- Page content -->
   <div class="container-fluid mt--6">
     <div class="row">
       <div class="col">
         <div class="card bg-light">
           <div class="card-header bg-white border-0">
-            <div class="col-lg" style="justify-content: space-evenly;">
-              <div class="dropdown">
-                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"> Seleccionar
-                </a>
-                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
-                  <button class="dropdown-item" type="submit" id="btn-select-all"
-                    onclick="updateForm(null, 'seleccionar_todos', {{post_pagination.page}}, null)">
-                    Seleccionar todos
-                  </button>
-                  <button class="dropdown-item" type="submit" id="btn-select-all-page"
-                    onclick="updateForm(null, 'seleccionar_todos_page', {{post_pagination.page}}, null)">
-                    Seleccionar todos en esta página
-                  </button>
+            <div class="row no-gutters justify-content-center">
+              <div class="col">
+                <div class="dropdown">
+                  <a class="btn btn-outline-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bi bi-check-square"></i>
+                    &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                    <button class="dropdown-item" type="submit" id="btn-select-all"
+                      onclick="updateForm(null, 'seleccionar_todos', {{post_pagination.page}}, null)">
+                      {{ gettext('Seleccionar todos') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" id="btn-select-all-page"
+                      onclick="updateForm(null, 'seleccionar_todos_page', {{post_pagination.page}}, null)">
+                      {{ gettext('Seleccionar todos en esta página') }}
+                    </button>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <a class="btn btn-outline-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"><i class="bi bi-x-square"></i>
+                    &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                    <button class="dropdown-item" type="submit" id="btn-deselect-all"
+                      onclick="updateForm(null, 'deseleccionar_todos', {{post_pagination.page}}, null)">
+                      {{ gettext('Deseleccionar todos') }}
+                    </button>
+                    <button class="dropdown-item" type="submit" id="btn-deselect-all-page"
+                      onclick="updateForm(null, 'deseleccionar_todos_page', {{post_pagination.page}}, null)">
+                      {{ gettext('Deseleccionar todos en esta página') }}
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="dropdown">
-                <a class="btn btn-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"> Deseleccionar
-                </a>
-                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
-                  <button class="dropdown-item" type="submit" id="btn-deselect-all"
-                    onclick="updateForm(null, 'deseleccionar_todos', {{post_pagination.page}}, null)">
-                    Deseleccionar todos
-                  </button>
-                  <button class="dropdown-item" type="submit" id="btn-deselect-all-page"
-                    onclick="updateForm(null, 'deseleccionar_todos_page', {{post_pagination.page}}, null)">
-                    Deseleccionar todos en esta página
-                  </button>
-                </div>
+              <div class="col">
+                <button class="btn btn-outline-danger float-right" type="submit" id="btn-elimina-select"
+                  onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
+                  <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar') }}
+                </button>
+                <button class="btn btn-outline-success float-right mr-3" type="submit" id="btn-nueva"
+                  onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)">
+                  <i class="bi bi-plus-lg"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Nuevo') }}
+                </button>
               </div>
-              <button class="btn btn-danger" type="submit" id="btn-elimina-select"
-                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)" style="float: right;">
-                Eliminar seleccionados
-              </button>
-              <button class="btn btn-success" type="submit" id="btn-nueva"
-                onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)"
-                style="float: right; margin-right: 10px;">
-                Nuevo modelo
-              </button>
-              <!-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
     <div class="row">
       <div class="col">
         <div class="card">
-          <!-- Card header -->
           <div class="card-header border-0">
-            <h3 class="mb-0">MODELOS DISPONIBLES</h3>
+            <h3 class="mb-0">{{ gettext('MODELOS DISPONIBLES') }}</h3>
           </div>
-          <!-- Light table -->
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
-                    <h5 class="text-gray mb-0">&nbsp;</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="model_name" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Nombre</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="algorithm" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Algoritmo</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="parameters" style="text-align: left;">
-                    <h5 class="text-gray mb-0">Parámetros</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Métricas [ACC, P, R, F-1, AUC]</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="created_by" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Autor</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="date" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Fecha</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: left;">
-                    <h5 class="text-gray mb-0">Notas</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="visible" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Visible</h5>
-                  </th>
-                  <th scope="col" class="sort" data-sort="default" style="text-align: center;">
-                    <h5 class="text-gray mb-0">Defecto</h5>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">&nbsp;</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0" style="text-align: center;">Más</h5>
+                    <h5 class="text-gray mb-0  text-center">{{ gettext('Nombre') }}</h5>
+                  </th>
+                  <th scope="col" class="sort" data-sort="algorithm">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Algoritmo') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-left">{{ gettext('Parámetros') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Métricas') }} [ACC, P, R, F-1, AUC]</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Autor') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Fecha') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-left">{{ gettext('Notas') }}</h5>
+                  </th>
+                  <th scope="col" class="sort" data-sort="visible">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Visible') }}</h5>
+                  </th>
+                  <th scope="col" class="sort" data-sort="default">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Defecto') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Más') }}</h5>
                   </th>
                 </tr>
               </thead>
               <tbody class="list">
                 {% for model in post_pagination.items %}
-                <!-- Table row -->
                 <tr>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     {% if model["is_selected"] == 1 %}
                     <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
-                      style="width: 20px; height: 20px;" name="checkbox-model" checked>
+                      class="krini-checkbox" name="checkbox-model" checked>
                     {% else %}
                     <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
-                      style="width: 20px; height: 20px;" name="checkbox-model">
+                      class="krini-checkbox" name="checkbox-model" class="custom-checkbox">
                     {% endif %}
                   </td>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     <h6 class="name mb-0 text-sm">{{ model["model_name"] }}</h6>
                   </td>
-                  <td style="text-align: center;">
-                    <h3><span class="badge rounded-pill" style="background-color: {{model['badge_colour']}}; color:
-                      gray;">{{model["algorithm"] }}</span></h3>
+                  <td class="text-center">
+                    <span class="badge rounded-pill text-gray text-bolder text-xs"
+                      style="background-color: {{model['badge_colour']}};">
+                      {{model["algorithm"] }}
+                    </span>
                   </td>
-                  <td style="text-align: left;">
+                  <td class="text-left">
                     <ul style="list-style-type: none; padding: 0; margin: 0;">
                       {% for item in model["model_parameters"] %}
                       <li style="font-size:15px">{{ item }}</li>
@@ -161,24 +162,24 @@
                   <td style="text-align: center; font-size:15px">
                     {{ model["creation_date"] }}
                   </td>
-                  <td style="text-align: left; font-size:13px">
+                  <td class="text-left text-xs">
                     {{ model["model_notes"] }}
                   </td>
                   <td style="text-align: center; font-size:25px">
                     {% if model["is_visible"] %}
-                    <i class="fas fa-check-circle" style="color: green"></i>
+                    <i class="fas fa-check-circle text-green"></i>
                     {% else %}
-                    <i class="fas fa-times-circle" style="color: red"></i>
+                    <i class="fas fa-times-circle text-red"></i>
                     {% endif %}
                   </td>
                   <td style="text-align: center; font-size:25px">
                     {% if model["is_default"] %}
-                    <i class="fas fa-check-circle" style="color: green"></i>
+                    <i class="fas fa-check-circle text-green"></i>
                     {% else %}
-                    <i class="fas fa-times-circle" style="color: red"></i>
+                    <i class="fas fa-times-circle text-red"></i>
                     {% endif %}
                   </td>
-                  <td style="text-align: center;">
+                  <td class="text-center">
                     <div class="dropdown">
                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -187,27 +188,25 @@
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                         <button class="dropdown-item" type="submit" id="btn-edita-individual-{{ model['model_id'] }}"
                           onclick="updateForm({{ model['model_id'] }}, 'editar_individual', {{post_pagination.page}}, null)">
-                          Editar
+                          {{ gettext('Editar') }}
                         </button>
                         <button class="dropdown-item" type="submit" id="btn-testea-individual-{{ model['model_id'] }}"
                           onclick="updateForm({{ model['model_id'] }}, 'testear_individual', {{post_pagination.page}}, null)">
-                          Testear
+                          {{ gettext('Testear') }}
                         </button>
                         <button class="dropdown-item" type="submit" id="btn-elimina-individual-{{ model['model_id'] }}"
                           onclick="updateForm({{ model['model_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)"
                           style="color: red">
-                          Eliminar
+                          {{ gettext('Eliminar') }}
                         </button>
                       </div>
                     </div>
                   </td>
                 </tr>
-                <!--end-->
                 {% endfor %}
               </tbody>
             </table>
           </div>
-          <!-- Card footer -->
           <div class="card-footer py-4">
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
@@ -216,14 +215,14 @@
                   {% set page = post_pagination.page - 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{ gettext('Previous') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-left"></i>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{ gettext('Previous') }}</span>
                   </a>
                 </li>
                 {% endif %}
@@ -251,14 +250,14 @@
                   {% set page = post_pagination.page + 1 %}
                   <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{ gettext('Next') }}</span>
                   </button>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
                   <a class="page-link">
                     <i class="fas fa-angle-right"></i>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{ gettext('Next') }}</span>
                   </a>
                 </li>
                 {% endif %}
@@ -272,30 +271,7 @@
   </div>
 </form>
 {% endblock content %}
-
-<!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-<script src="/static/assets/js/download.js"></script>
-<script>
-  function updateForm(individual_model, button_pressed, page, previous_page) {
-
-    if (individual_model != null) {
-      document.models_form.individual_model.value = individual_model;
-    }
-
-    if (button_pressed != null) {
-      document.models_form.button_pressed.value = button_pressed;
-    }
-
-    if (page != null) {
-      document.models_form.selected_page.value = page;
-    }
-
-    if (previous_page != null) {
-      document.models_form.previous_page.value = previous_page;
-    }
-    return true;
-  }
-</script>
+<script src="/static/assets/js/models.js"></script>
 {% endblock javascripts %}
