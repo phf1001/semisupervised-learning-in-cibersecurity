@@ -83,6 +83,9 @@ def index():
     form = SearchURLForm(request.form)
 
     if not form.validate_on_submit():
+        for key in form.errors.keys():
+            flash("{}".format(form.errors[key][0]), "warning")
+
         return render_template(
             "home/index.html",
             form=form,

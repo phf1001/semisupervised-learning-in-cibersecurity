@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
   <title>
-    Página principal
+    {{ gettext('Página principal') }}
   </title>
   {% block stylesheets %}
-  <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
-  <link rel="stylesheet" href="/static/assets/css/multiselect.css" type="text/css">
+  {% include "includes/scripts-fullscreen.html" %}
   {% endblock stylesheets %}
 </head>
 
 <body class="bg-default">
   {% include "includes/navigation.html" %}
-
   {% with messages=get_flashed_messages(with_categories=true) %}
   {% for category, message in messages %}
-  <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto'
-    style="font-size: 20px; font-weight: bold;">
+  <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto' style='font-size: 20px'>
     {{ message }}
   </div>
   {% endfor %}
@@ -58,75 +50,76 @@
         </div>
       </div>
     </div>
-
-    <!-- Page content -->
     <div class="container-fluid mt--5">
       <div class="row">
         <div class="col">
           <div class="card">
-            <!-- Card header -->
             <div class="card-header">
-              <div class="text-primary text-center"
-                style="font-size: 70px; font-weight: bold; -webkit-text-stroke: 4px black;">
+              <div class="text-primary text-center main-krini-title">
                 {{ gettext('KRINI') }}
               </div>
             </div>
-            <!-- Light table -->
             <div class="table-responsive">
               <form role="form" method="post" action="">
                 {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
                 <table class="table align-items-center table-flush">
                   <caption></caption>
                   <thead class="thead-light">
                     <tr>
-                      <th colspan="5" class="text-muted text-center"
-                        style="font-size: 27px; font-weight: bold; -webkit-text-stroke: 0.8px black;">
-                        {{ gettext('ANALIZADOR DE PHISHING') }}
+                      <th colspan="5">
+                        <div class="text-muted text-center main-krini-subtitle ">
+                          {{ gettext('ANALIZADOR DE PHISHING') }}
+                        </div>
                       </th>
                     </tr>
                   </thead>
                   <tbody class="list">
-
                     <tr>
                       <td></td>
                       <td colspan="3">
                         <div class="form-group mb-0" name="search">
-                          <br><br>
-                          <p class="primary-label-forms">&nbsp;&nbsp;{{ gettext('Introduce una URL') }}&nbsp;
-                            <span class="gray-description-forms">preferiblemente con protocolo (http:// o
-                              https://)</span>
+                          <br /><br />
+                          <p class="primary-label-forms">&nbsp;&nbsp;
+                            {{ gettext('Introduce una URL') }}&nbsp;
+                            <span class="gray-description-forms">
+                              {{ gettext('preferiblemente con protocolo (http:// o https://)') }}
+                            </span>
                           </p>
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            {{ form.url(placeholder="https://google.com", class="form-control", required="required",
-                            oninvalid="this.setCustomValidity('Por favor, introduce una URL')",
-                            oninput="setCustomValidity('')") }}
+                            {{ form.url(placeholder="https://google.com", class="form-control") }}
                           </div>
                         </div>
                         <div class="form-group mb-0">
-                          <br><br><br>
-                          <p class="primary-label-forms">&nbsp;&nbsp;Selecciona un modelo&nbsp;
-                            <span class="gray-description-forms">los modelos visibles se muestran en el
-                              despegable</span>
+                          <br /><br /><br />
+                          <p class="primary-label-forms">&nbsp;&nbsp;
+                            {{ gettext('Selecciona un modelo') }}&nbsp;
+                            <span class="gray-description-forms">
+                              {{ gettext('los modelos visibles se muestran en el despegable') }}
+                            </span>
                           </p>
                           {{ form.selected_models }}
-
                           <div class="container-multi-select">
                             <div class="select-btn">
-                              <span class="btn-text">Modelos disponibles</span>
+                              <span class="btn-text"> {{ gettext('Modelos disponibles') }}</span>
                               <span class="arrow-dwn">
                                 <i class="ni ni-bold-down"></i>
                               </span>
                             </div>
                             <ul class="list-items-multi-select">
                               <li style="list-style-type: none;">
-                                <div style:="display: inline-block; width: 50%; text-align: center;">
-                                  <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">Selecciona
-                                    todos</span>
-                                  <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4"
-                                    style="float: right;">Elimina todos</span>
+                                <div class="container-fluid">
+                                  <div class="row justify-content-between">
+                                    <span id="select-all" name="btn:select-all" class="btn btn-primary my-4">
+                                      {{ gettext('Selecciona todos') }}
+                                    </span>
+                                    <span id="deselect-all" name="btn:deselect-all" class="btn btn-primary my-4">
+                                      {{ gettext('Elimina todos') }}
+                                    </span>
+                                  </div>
                                 </div>
                               </li>
                               {% for model in available_models %}
@@ -139,22 +132,25 @@
                           </div>
                         </div>
                         <div class="form-group mb-0">
-                          <br><br>
+                          <br /><br />
                           <p class="primary-label-forms">
                             <input id="checkbox-quick-scan" value="0" type="checkbox" style="width: 20px; height: 20px;"
                               name="checkbox-quick-scan">
-                            &nbsp;&nbsp;¿Análisis rápido?&nbsp;
-                            <span class="gray-description-forms">Si la URL se encuentra en nuestra base de datos, los
-                              resultados se mostrarán inmediatamente. Si no, se realizará un análisis completo (1 minuto
-                              aproximadamente).
-                              En caso de encontrar la instancia en la base de datos, no se mostrarán los valores
-                              utilizados en la extracción del vector de características.
+                            &nbsp;&nbsp;{{ gettext('¿Análisis rápido?') }}&nbsp;
+                            <span class="gray-description-forms">
+                              {{ gettext('Si la URL se encuentra en nuestra base de datos,') }}
+                              {{ gettext('los resultados se mostrarán inmediatamente.') }}
+                              {{ gettext('Si no, se realizará un análisis completo ') }}
+                              {{ gettext('(1 minuto aproximadamente). En caso de encontrar la instancia ') }}
+                              {{ gettext('en la base de datos, no se mostrarán los valores') }}
+                              {{ gettext('utilizados en la extracción del vector de características.') }}
                             </span>
                           </p>
                         </div>
                         <div class="text-center">
-                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">¡Analiza mi
-                            URL!</button>
+                          <button id="btn-submit" type="submit" name="search" class="btn btn-primary my-4">
+                            {{ gettext('¡Analiza mi URL!') }}
+                          </button>
                         </div>
                       </td>
                       <td></td>
@@ -166,20 +162,21 @@
           </div>
         </div>
       </div>
-
-      <!-- Card stats -->
       <div class="row mt-3">
         <div class="col-xl-4 col-md-6">
           <div class="card card-stats">
-            <!-- Card body -->
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <p class="primary-label-forms">Analizador de phishing</p>
-                  <span class="h4 text-muted">¡Bienvenido al analizador de enlaces de phishing! Para utilizarlo, tan
-                    sólo
-                    escribe la dirección de la página que quieres analizar y pulsa el botón "Scan". En el dashboard
-                    podrás observar algunas de las gráficas generadas por nuestros estimadores.
+                  <p class="primary-label-forms">
+                    {{ gettext('Analizador de phishing') }}
+                  </p>
+                  <span class="h4 text-muted">
+                    {{ gettext('¡Bienvenido al analizador de enlaces de phishing! ') }}
+                    {{ gettext('Para utilizarlo, tan ') }}
+                    {{ gettext('sólo escribe la dirección de la página que quieres analizar y ') }}
+                    {{ gettext('pulsa el botón "Scan". En el dashboard podrás observar algunas ') }}
+                    {{ gettext('de las gráficas generadas por nuestros estimadores.') }}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -193,16 +190,17 @@
         </div>
         <div class="col-xl-4 col-md-6">
           <div class="card card-stats">
-            <!-- Card body -->
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <p class="primary-label-forms">¿Cómo funciona?</p>
-                  <span class="h4 text-muted">El resultado se obtiene de generar un vector de características asociado a
-                    la
-                    página que se introduzca.
-                    Una vez conseguido, se procesa mediante algoritmos de Machine Learning para obtener un resultado que
-                    nos indique si la página es o no phishing.
+                  <p class="primary-label-forms">
+                    {{ gettext('¿Cómo funciona?') }}
+                  </p>
+                  <span class="h4 text-muted">
+                    {{ gettext('El resultado se obtiene de generar un vector de características ') }}
+                    {{ gettext('asociado a la página que se introduzca. Una vez conseguido, ') }}
+                    {{ gettext('se procesa mediante algoritmos de Machine Learning para obtener un ') }}
+                    {{ gettext('resultado que nos indique si la página es o no phishing.') }}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -216,17 +214,17 @@
         </div>
         <div class="col-xl-4 col-md-6">
           <div class="card card-stats">
-            <!-- Card body -->
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <p class="primary-label-forms">¿Puedo denunciar enlaces?</p>
-                  <span class="h4 text-muted">¡Por supuesto! Además de utilizar algoritmos de aprendizaje
-                    semisupervisado,
-                    también
-                    puedes denunciar enlaces sospechosos para que sean analizados por nuestro equipo de expertos. Tan
-                    sólo
-                    tienes que iniciar sesión.
+                  <p class="primary-label-forms">
+                    {{ gettext('¿Puedo denunciar enlaces?') }}
+                  </p>
+                  <span class="h4 text-muted">
+                    {{ gettext('¡Por supuesto! Además de utilizar algoritmos de aprendizaje ') }}
+                    {{ gettext('semisupervisado, también puedes denunciar enlaces sospechosos ') }}
+                    {{ gettext('para que sean analizados por nuestro equipo de expertos. ') }}
+                    {{ gettext('Tan sólo tienes que iniciar sesión.') }}
                   </span>
                 </div>
                 <div class="col-auto">

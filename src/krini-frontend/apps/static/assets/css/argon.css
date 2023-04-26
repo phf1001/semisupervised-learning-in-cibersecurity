@@ -6002,6 +6002,8 @@ a.badge:focus {
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0.375rem;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .alert-heading {
@@ -26269,4 +26271,16 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
 .krini-checkbox {
   width: 20px;
   height: 20px;
+}
+
+.main-krini-title {
+  font-size: 70px;
+  font-weight: bold;
+  -webkit-text-stroke: 4px black;
+}
+
+.main-krini-subtitle {
+  font-size: 27px;
+  font-weight: bold;
+  -webkit-text-stroke: 0.8px black;
 }

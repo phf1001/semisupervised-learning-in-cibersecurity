@@ -66,7 +66,9 @@ class SearchURLForm(FlaskForm):
     """
 
     url = TextField(
-        "url", id="url_search", validators=[DataRequired("Introduce una URL")]
+        "url",
+        id="url_search",
+        validators=[DataRequired("Por favor, introduce una URL")],
     )
     selected_models = HiddenField(
         "selected_models", render_kw={"id": "selected_models"}
