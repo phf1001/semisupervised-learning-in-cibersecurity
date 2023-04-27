@@ -26244,6 +26244,24 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
   white-space: normal;
 }
 
+.dashboard-text {
+  font-size: 14px;
+  font-weight: 510;
+  color: var(--gray-dark);
+  text-align: center;
+  word-break: keep-all;
+  white-space: normal;
+}
+
+.dashboard-description {
+  font-size: 15px;
+  font-weight: 550;
+  color: gray;
+  text-align: center;
+  word-break: keep-all;
+  white-space: normal;
+}
+
 .gray-description-forms {
 
   font-size: medium;
