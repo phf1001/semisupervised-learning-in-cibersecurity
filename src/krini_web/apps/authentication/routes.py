@@ -21,6 +21,7 @@ from apps.home.exceptions import KriniException
 from sqlalchemy.exc import SQLAlchemyError
 from apps.authentication.util import verify_pass
 import re
+from apps.messages import get_form_message, get_exception_message
 
 
 @blueprint.route("/")
@@ -56,7 +57,7 @@ def login():
 
         return render_template(
             "accounts/login.html",
-            msg="Credenciales incorrectas.",
+            msg=get_form_message("incorrect_credentials"),
             form=login_form,
         )
 
@@ -88,22 +89,22 @@ def register():
             email = request.form["email"]
 
             if not email_is_valid(email):
-                raise KriniException("El email no es válido.")
+                raise KriniException(get_form_message("incorrect_email"))
 
             user = Users.query.filter_by(username=username).first()
             if user:
-                raise KriniException("El nombre de usuario ya existe.")
+                raise KriniException(get_form_message("used_username"))
 
             user = Users.query.filter_by(email=email).first()
             if user:
-                raise KriniException("El email ya existe.")
+                raise KriniException(get_form_message("used_email"))
 
             user = Users(**request.form)
             db.session.add(user)
             db.session.commit()
             return render_template(
                 "accounts/register.html",
-                msg='Usuario creado con éxito. <a href="/login">Inicia sesión</a>',
+                msg=get_form_message("account_created"),
                 success=True,
                 form=create_account_form,
             )
@@ -113,7 +114,8 @@ def register():
         if errors:
             message = ""
             for key in errors.keys():
-                message += "<br />" + create_account_form.errors[key][0]
+                message_id = create_account_form.errors[key][0]
+                message += "<br />" + get_form_message(message_id)
 
         if not current_user.is_authenticated:
             return render_template(
@@ -121,10 +123,7 @@ def register():
             )
 
         else:
-            flash(
-                "Ya has iniciado sesión. Cierre sesión para crear una cuenta nueva.",
-                "info",
-            )
+            flash(get_exception_message("already_logged"), "info")
             return redirect(url_for("home_blueprint.index"))
 
     except (KriniException, SQLAlchemyError) as e:
@@ -132,9 +131,7 @@ def register():
             message = str(e)
 
         else:
-            message = (
-                "Error al crear el usuario. Inténtalo de nuevo más adelante."
-            )
+            message = get_form_message("account_not_created")
 
         return render_template(
             "accounts/register.html",

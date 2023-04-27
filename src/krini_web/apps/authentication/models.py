@@ -47,7 +47,7 @@ class Users(db.Model, UserMixin):
                 value = value[0]
 
             if property == "password":
-                value = hash_pass(value)  # we need bytes here (not plain str)
+                value = hash_pass(value)  # bytes
 
             setattr(self, property, value)
 
