@@ -92,10 +92,44 @@ def get_exception_message(identifier) -> str:
             "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
         )
 
+    if identifier == "IA_file_not_found":
+        return gettext(
+            "No se ha podido cargar el fichero de la IA. Lo sentimos."
+        )
+
+    if identifier == "error_storing_model_or_training_data":
+        return gettext(
+            "Error al guardar el modelo en la BD o los datos de entrenamiento."
+        ) + gettext(" Comprueba que las instancias utilizadas están en la BD.")
+
+    if identifier == "serialized_not_found":
+        return gettext("No se ha encontrado el modelo serializado.")
+
+    if identifier == "error_extracting_X_y":
+        return gettext("Error al generar el dataset.")
+
+    if identifier == "error_generating_dataset":
+        return gettext("Error al generar el dataset de entrenamiento.")
+
+    if identifier == "incorrect_file":
+        return gettext("El fichero subido no existe o no es un csv.")
+
+    if identifier == "incorrect_file_format":
+        return gettext(
+            "El fichero no tiene el formato correcto. Prueba a descargarlo desde "
+        ) + gettext(
+            "la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
+        )
+
+    if identifier == "error_updating_scores":
+        return gettext(
+            "No se han podido actualizar los scores en la base de datos."
+        )
+
     return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
 
 
-def get_form_message(identifier):
+def get_form_message(identifier) -> str:
     """Returns the message for the form with the given identifier.
     Also translates the message to the current language.
 
@@ -209,29 +243,18 @@ def get_form_message(identifier):
     return get_message("Revisa que los campos estén correctamente rellenados.")
 
 
-def get_message(identifier, params=[]):
+def get_message(identifier) -> str:
     """
     Returns the message for the given identifier.
     Also translates the message to the current language.
 
     Args:
         identifier (str): identifier of the message
-        params (list, optional): parameters to format the message. Defaults to [].
     Returns:
         str: message formatted and translated
     """
     if identifier == "successful_operation":
         return gettext("Operación realizada con éxito.")
-
-    if identifier == "not_callable_url":
-        return (
-            gettext("No se ha podido llamar ni reconstruir la URL %s.")
-            % params[0]
-            + " "
-            + gettext(
-                "Tampoco existe información en la base de datos acerca de ella."
-            )
-        )
 
     if identifier == "no_models_available":
         return gettext(
@@ -276,6 +299,21 @@ def get_message(identifier, params=[]):
 
     if identifier == "model_not_removed":
         return gettext("No se ha podido eliminar el modelo.")
+
+    if identifier == "model_not_updated":
+        return gettext("No se ha podido actualizar el modelo.")
+
+    if identifier == "models_not_removed":
+        return gettext("No se han podido eliminar los modelos.")
+
+    if identifier == "model_not_created":
+        return gettext("No se ha podido crear el modelo.")
+
+    if identifier == "model_not_serialized":
+        return gettext("Error al serializar el modelo.")
+
+    if identifier == "default_not_updated":
+        return gettext("Error al actualizar el modelo por defecto.")
 
     if identifier == "model_not_selected":
         return gettext("No se ha seleccionado ningún modelo.")
@@ -354,3 +392,62 @@ def get_message(identifier, params=[]):
         )
 
     return gettext("Mensaje no disponible. ¡Lo sentimos!")
+
+
+def get_formatted_message(identifier, params=[]) -> str:
+    """
+    Returns the message for the given identifier and formats the params.
+    Also translates the message to the current language.
+
+    Args:
+        identifier (str): identifier of the message
+        params (list, optional): parameters to format the message. Defaults to [].
+    Returns:
+        str: message formatted and translated
+    """
+
+    if identifier == "not_callable_url":
+        return (
+            gettext("No se ha podido llamar ni reconstruir la URL ")
+            + params[0]
+            + gettext(
+                ". Tampoco existe información en la base de datos acerca de ella."
+            )
+        )
+
+    if identifier == "max_features":
+        return gettext("Max features = ") + params[0]
+
+    if identifier == "thetha":
+        return gettext("Thetha = ") + str(params[0])[:3]
+
+    if identifier == "n_trees":
+        return gettext("Nº árboles = ") + str(params[0])
+
+    if identifier == "n_clss":
+        return gettext("Nº clasificadores = ") + str(params[0])
+
+    if identifier == "cls_number":
+        return gettext("Clasificador ") + str(params[0]) + ": " + params[1]
+
+
+def get_constants_message(indentifier) -> str:
+    """Translates the given constant to the current language.
+
+    Args:
+        indentifier (str): constant identifier
+
+    Returns:
+        str: constant translated
+    """
+    if indentifier == "legitimate":
+        return gettext("legítimo")
+
+    if indentifier == "phishing":
+        return gettext("phishing")
+
+    if indentifier == "unavailable":
+        return gettext("no disponible")
+
+    if indentifier == "no_vector":
+        return gettext("no hay ningún vector generado para esta instancia")

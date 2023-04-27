@@ -53,6 +53,13 @@ import urllib.parse
 from pickle import PickleError
 from sqlalchemy import exc
 
+from apps.messages import (
+    get_exception_message,
+    get_message,
+    get_formatted_message,
+    get_constants_message,
+)
+
 
 def get_logger(
     name,
@@ -255,13 +262,10 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
             db.session.commit()
             return True
 
-        raise KriniNotLoggedException(
-            "User not authenticated. {} not saved.".format(callable_url)
-        )
+        raise KriniNotLoggedException("User is not logged in.")
 
     except (KriniNotLoggedException, exc.SQLAlchemyError) as e:
         db.session.rollback()
-        logger.error("Error saving instance in the database. {}".format(e))
         return False
 
 
@@ -334,9 +338,7 @@ def get_model(model_id):
     cls, file_found = obtain_model(model_file)
 
     if not file_found:
-        raise KriniException(
-            "No se ha podido cargar el fichero de la IA. Lo sentimos."
-        )
+        raise KriniException(get_exception_message("IA_file_not_found"))
 
     return model_name, cls, model_scores
 
@@ -399,16 +401,16 @@ def get_parameters(model, algorithm="SEMI-SUPERVISED"):
 
     if algorithm == CO_FOREST_CONTROL:
         return [
-            "Max features = {}".format(model.max_features),
-            "Thetha = {}".format(model.thetha),
-            "Nº árboles = {}".format(model.n_trees),
+            get_formatted_message("max_features", [model.max_features]),
+            get_formatted_message("theta", [model.thetha]),
+            get_formatted_message("n_trees", [model.n_trees]),
         ], "pink"
 
     if algorithm == TRI_TRAINING_CONTROL:
         return [
-            "Clasificador 1: {}".format(model.cls_one),
-            "Clasificador 2: {}".format(model.cls_two),
-            "Clasificador 3: {}".format(model.cls_three),
+            get_formatted_message("cls_number", [1, model.cls_one]),
+            get_formatted_message("cls_number", [2, model.cls_two]),
+            get_formatted_message("cls_number", [3, model.cls_three]),
         ], "yellow"
 
     if algorithm == DEMOCRATIC_CO_CONTROL:
@@ -429,7 +431,7 @@ def cls_to_string_list(mutable_clss):
         list: strings of each classifier.
     """
     return [
-        "Clasificador {}: {}".format(i + 1, cls)
+        get_formatted_message("cls_number", [i + 1, cls])
         for i, cls in enumerate(mutable_clss)
     ]
 
@@ -513,10 +515,10 @@ def translate_tag_colour(tag):
         (str, str): tuple with the tag and its colour.
     """
     if tag == 0:
-        return "legítimo", "green"
+        return get_constants_message("legitimate"), "green"
     if tag == 1:
-        return "phishing", "red"
-    return "no disponible", "grey"
+        return get_constants_message("phishing"), "red"
+    return get_constants_message("unavailable"), "grey"
 
 
 def get_instance_dict(instance, empty=False):
@@ -536,7 +538,7 @@ def get_instance_dict(instance, empty=False):
             "instance_id": -1,
             "reviewed_by": "",
             "instance_URL": "",
-            "instance_fv": "no hay ningún vector generado para esta instancia",
+            "instance_fv": get_constants_message("no_vector"),
             "instance_class": -1,
             "badge_colour": "",
             "colour_list": "",
@@ -562,7 +564,7 @@ def get_instance_dict(instance, empty=False):
         "instance_URL": instance.instance_URL,
         "instance_fv": instance.instance_fv
         if instance.instance_fv
-        else "no hay ningún vector generado para esta instancia",
+        else get_constants_message("no_vector"),
         "instance_class": translate_tag_colour(instance.instance_class)[0],
         "badge_colour": translate_tag_colour(instance.instance_class)[1],
         "colour_list": instance.colour_list,
@@ -872,8 +874,7 @@ def remove_selected_reports(report_numbers, n_per_page):
         db.session.commit()
         return True
 
-    except exc.SQLAlchemyError as e:
-        logger.error("Error removing selected reports: {}".format(e))
+    except exc.SQLAlchemyError:
         db.session.rollback()
         return False
 
@@ -931,8 +932,7 @@ def reject_report(candidate_instance, all):
         db.session.commit()
         return True
 
-    except exc.SQLAlchemyError as e:
-        logger.error("Error rejecting report: {}".format(e))
+    except exc.SQLAlchemyError:
         db.session.rollback()
         return False
 
@@ -968,8 +968,7 @@ def accept_report(candidate_instance, all):
             db.session.commit()
             return True
 
-    except (exc.SQLAlchemyError, AttributeError) as e:
-        logger.error("Error accepting report: {}".format(e))
+    except (exc.SQLAlchemyError, AttributeError):
         db.session.rollback()
         return False
 
@@ -1020,8 +1019,7 @@ def accept_incoming_suggestion(candidate_instance):
         db.session.commit()
         return True
 
-    except exc.SQLAlchemyError as e:
-        logger.error("Error accepting incoming suggestion: {}".format(e))
+    except exc.SQLAlchemyError:
         db.session.rollback()
         return False
 
@@ -1197,9 +1195,7 @@ def remove_selected_instances(ids_instances):
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        raise KriniDBException(
-            "Error al eliminar las instancias {}.".format(ids_instances)
-        )
+        raise KriniDBException(get_message("instances_not_deleted"))
 
 
 def translate_form_select_data_method(user_input):
@@ -1243,12 +1239,9 @@ def remove_selected_models(ids_models):
 
         db.session.commit()
 
-    except exc.SQLAlchemyError as e:
-        logger.error(e)
+    except exc.SQLAlchemyError:
         db.session.rollback()
-        raise KriniDBException(
-            "Error al eliminar los modelos {}.".format(ids_models)
-        )
+        raise KriniDBException(get_message("models_not_removed"))
 
 
 def translate_form_select_algorithm(user_input):
@@ -1377,9 +1370,7 @@ def serialize_store_model(
         if to_bolean(form_data["is_default"]):
             done = Available_models.update_default_model(model_id)
             if not done:
-                raise KriniException(
-                    "Error al actualizar el modelo por defecto."
-                )
+                raise KriniException(get_message("default_not_updated"))
 
         for instance_id in set(train_ids):
             new_row = Model_is_trained_with(model_id, int(instance_id))
@@ -1389,14 +1380,13 @@ def serialize_store_model(
         return True, model_id
 
     except PickleError:
-        raise KriniException("Error al serializar el modelo.")
+        raise KriniException(get_message("model_not_serialized"))
 
-    except exc.SQLAlchemyError as e:
-        logger.error("Error al guardar el modelo en la BD." + str(e))
+    except exc.SQLAlchemyError:
         db.session.rollback()
         remove(file_location)
         raise KriniException(
-            "Error al guardar el modelo en la BD o los datos de entrenamiento. Comprueba que las instancias utilizadas están en la BD."
+            get_exception_message("error_storing_model_or_training_data")
         )
 
 
@@ -1448,7 +1438,9 @@ def update_model(model, form_data, models_path=None):
             rename(old_file_location, new_file_location)
 
         else:
-            raise KriniDBException("No se ha encontrado el modelo serializado.")
+            raise KriniDBException(
+                get_exception_message("serialized_not_found")
+            )
 
         model.model_name = (
             model.model_name.split(" ")[0] + " " + new_model_version
@@ -1461,9 +1453,7 @@ def update_model(model, form_data, models_path=None):
         if update_defaults:
             done = Available_models.update_default_model(model.model_id)
             if not done:
-                raise KriniDBException(
-                    "No se ha podido actualizar el modelo por defecto."
-                )
+                raise KriniDBException(get_message("default_not_updated"))
 
         db.session.flush()
         db.session.commit()
@@ -1471,7 +1461,7 @@ def update_model(model, form_data, models_path=None):
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        raise KriniException("Error al actualizar el modelo en la BD.")
+        raise KriniException(get_message("model_not_updated"))
 
     except KriniDBException as e:
         raise KriniException(str(e))
@@ -1591,7 +1581,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
 
     except ValueError as e:
         logger.info(e)
-        raise KriniException("Error al generar el dataset.")
+        raise KriniException(get_exception_message("error_extracting_X_y"))
 
 
 def return_X_y_single(
@@ -1651,9 +1641,8 @@ def return_X_y_single(
 
         return X_test, y_test
 
-    except ValueError as e:
-        logger.info(e)
-        raise KriniException("Error al generar el dataset de entrenamiento.")
+    except ValueError:
+        raise KriniException(get_exception_message("error_generating_dataset"))
 
 
 def get_all_instances_database_rows(exclude_ids=set()):
@@ -1730,16 +1719,12 @@ def extract_X_y_csv(file_name, get_ids=False):
     except (FileNotFoundError, ValueError):
         if path.exists(file_name):
             remove(file_name)
-        raise KriniException(
-            "El fichero que has subido no existe o no es un csv."
-        )
+        raise KriniException(get_exception_message("incorrect_file"))
 
     if not check_correct_pandas(df):
         if path.exists(file_name):
             remove(file_name)
-        raise KriniException(
-            "El fichero no tiene el formato correcto. Prueba a descargarlo desde la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
-        )
+        raise KriniException(get_exception_message("incorrect_file_format"))
 
     # Instance_id is not used for training
     X = df.iloc[:, 1:-1].values
@@ -1810,9 +1795,7 @@ def update_model_scores_db(model, scores):
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        raise KriniDBException(
-            "No se han podido actualizar los scores en la base de datos."
-        )
+        raise KriniDBException(get_exception_message("error_updating_scores"))
 
 
 def translate_form_select_ssl_alg(user_input):

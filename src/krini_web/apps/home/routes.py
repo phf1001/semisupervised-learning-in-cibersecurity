@@ -70,7 +70,12 @@ from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT
 
 logger = get_logger("krini-frontend")
 
-from apps.messages import get_message, get_form_message, get_exception_message
+from apps.messages import (
+    get_message,
+    get_form_message,
+    get_exception_message,
+    get_formatted_message,
+)
 
 
 @blueprint.route("/language=<language>")
@@ -196,7 +201,7 @@ def extract_fv():
                 )
 
             else:
-                raise KriniException(get_message("not_callable_url", [url]))
+                raise KriniException("Url not callable")
 
         else:  # The URL is callable and has protocol
             previous_instance = Available_instances.query.filter_by(
@@ -245,7 +250,7 @@ def extract_fv():
         return redirect(url_for("home_blueprint.dashboard"))
 
     except KriniException:
-        flash(get_message("not_callable_url", [url]), "danger")
+        flash(get_formatted_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
 
