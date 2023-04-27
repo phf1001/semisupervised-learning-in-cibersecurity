@@ -13,11 +13,9 @@ import os
 import sys
 import pickle
 import numpy as np
-
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -27,6 +25,11 @@ from sklearn.metrics import (
 )
 from apps.home.exceptions import KriniException
 from apps.config import DECISION_TREE_KEY, KNN_KEY, NAIVE_BAYES_KEY
+from apps.messages import (
+    get_exception_message,
+    get_constants_message,
+    get_message,
+)
 
 # Changing paths to src
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -151,13 +154,13 @@ def get_array_scores(y_test, y_pred, y_pred_proba, want_message=False):
 
         if calculated == 0.0:
             if not message:
-                message = "¡Cuidado! no se han podido calcular las siguientes métricas (se les ha asignado un valor de 0.0): "
+                message = get_message("zero_scores")
 
             message += "{}, ".format(metric[0])
 
     if message:
         message = message[:-2]
-        message += ". ¿Hay instancias positivas en el conjunto de test?"
+        message += get_message("zero_scores_end")
 
     if want_message:
         return metrics, message
@@ -188,10 +191,16 @@ def get_base_cls(wanted_cls):
     if wanted_cls == NAIVE_BAYES_KEY:
         return GaussianNB()
 
-    raise ValueError("Clasificador no encontrado")
+    raise ValueError(get_exception_message("base_cls_not_found"))
 
 
 def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
+    """Generates a tfidf object and saves it in a file. Documents are webs from Alexa.
+
+    Args:
+        n_documents (int, optional): Number of docs. Defaults to 100.
+        file_name (str, optional): File name. Defaults to "tfidf.pkl".
+    """
     user = user_browsing()
     urls = get_csv_data(get_data_path() + os.sep + "alexa_filtered.csv")[
         :n_documents
@@ -204,6 +213,14 @@ def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
 
 
 def get_tfidf_object(file_name):
+    """Deserializes a tfidf object from a file.
+
+    Args:
+        file_name (str): File name.
+
+    Returns:
+        object: tfidf object
+    """
     return deserialize_model(file_name, get_tfidf_directory())
 
 
@@ -213,12 +230,17 @@ def get_fv_and_info(
     """
     Returns the feature vector and the info of a url.
     It is assumed that the URL is callable via requests.
+
+    Args:
+        url (str): url to get the feature vector from.
+        tfidf_file (str, optional): tfidf file. Defaults to "tfidf.pkl".
+        get_proxy_from_file (bool, optional): If TOR is getted. Defaults to False.
+        proxy (dict, optional): Proxy if desired. Defaults to None.
     """
     try:
-        msg = "Error reconstruyendo el objeto TFIDF"
+        msg = get_exception_message("error_TFIDF")
         tfidf = get_tfidf_object(tfidf_file)
-
-        msg = "Error extrayendo el vector de características"
+        msg = get_exception_message("error_load_vector")
         ph_entity = PHISH_FVG(url, tfidf, get_proxy_from_file, proxy)
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
@@ -228,20 +250,24 @@ def get_fv_and_info(
 
 
 def get_mock_values_fv():
-    """Returns a mock feature vector and extra information"""
+    """Returns mock values for the feature vector.
+
+    Returns:
+        (array, dict): mock values and mock extra information
+    """
     fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
     fv_extra_information = {
         "f1": 322,
         "f2": "@",
         "f3": 56,
         "f4": "login",
-        "f5": ".cat",  # TDL extra encontrado
+        "f5": ".cat",
         "f6": "No",
         "f7": "Google",
         "f8": "No",
         "f9": "asterisco",
         "f10": "5",
-        "f11": "No",  # vacia
+        "f11": "No",
         "f12": 2,
         "f13": 3,
         "f14": 4,
@@ -271,7 +297,7 @@ def translate_tag(tag, caps=False):
     translated_tag = ""
 
     if tag == 0:
-        translated_tag = "LEGÍTIMA"
+        translated_tag = get_constants_message("legitimate_upper")
 
     elif tag == 1:
         translated_tag = "PHISHING"
@@ -412,27 +438,17 @@ def serialize_model(model, filename, models_path=None):
 
 
 def deserialize_model(filename, models_path=None):
-    """Deserializes a model from a pickle file"""
+    """Deserializes a model from a pickle file.
+
+    Args:
+        filename (str): name of the file where the model is serialized.
+        models_path (str, optional): path if not default. Defaults to None.
+
+    Returns:
+        _type_: _description_
+    """
     if models_path is None:
         models_path = get_models_directory()
 
     with open(models_path + os.sep + filename, "rb") as f:
         return pickle.load(f)
-
-
-def create_democratic_co(model_name, X, y):
-    """
-    Creates a democratic co classifier, trains it
-    and saves it to a pickle file to be used.
-    """
-    democratic_co = DemocraticCo(
-        cls=[DecisionTreeClassifier(), GaussianNB(), KNeighborsClassifier(5)],
-        random_state=10,
-    )
-
-    L_train, U_train, Ly_train, Uy_train = train_test_split(
-        X, y, test_size=0.8, random_state=5, stratify=y
-    )
-
-    democratic_co.fit(L_train, Ly_train, U_train)
-    serialize_model(democratic_co, model_name + ".pkl")

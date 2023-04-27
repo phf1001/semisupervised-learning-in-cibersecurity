@@ -79,6 +79,12 @@ def get_exception_message(identifier) -> str:
             " generar el vector de características. La URL no está disponible."
         )
 
+    if identifier == "error_load_vector":
+        return gettext("Error extrayendo el vector de características.")
+
+    if identifier == "error_TFIDF":
+        return gettext("Error reconstruyendo el objeto TFIDF")
+
     if identifier == "krini_exception_default":
         return gettext(
             "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
@@ -125,6 +131,9 @@ def get_exception_message(identifier) -> str:
         return gettext(
             "No se han podido actualizar los scores en la base de datos."
         )
+
+    if identifier == "base_cls_not_found":
+        return gettext("Clasificador base no encontrado")
 
     return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
 
@@ -351,6 +360,14 @@ def get_message(identifier) -> str:
             "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
         )
 
+    if identifier == "zero_scores":
+        return gettext(
+            "No se han podido calcular las métricas (asignado valor de 0.0): "
+        )
+
+    if identifier == "zero_scores_end":
+        return gettext(". ¿Hay instancias positivas en el conjunto de test?")
+
     if identifier == "instance_deleted":
         return gettext("Instancia eliminada correctamente.")
 
@@ -442,6 +459,9 @@ def get_constants_message(indentifier) -> str:
     """
     if indentifier == "legitimate":
         return gettext("legítimo")
+
+    if indentifier == "legitimate_upper":
+        return gettext("LEGÍTIMA")
 
     if indentifier == "phishing":
         return gettext("phishing")
