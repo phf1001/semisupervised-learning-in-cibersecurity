@@ -402,7 +402,7 @@ def get_parameters(model, algorithm="SEMI-SUPERVISED"):
     if algorithm == CO_FOREST_CONTROL:
         return [
             get_formatted_message("max_features", [model.max_features]),
-            get_formatted_message("theta", [model.thetha]),
+            get_formatted_message("thetha", [model.thetha]),
             get_formatted_message("n_trees", [model.n_trees]),
         ], "pink"
 
