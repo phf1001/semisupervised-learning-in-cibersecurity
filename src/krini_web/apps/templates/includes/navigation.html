@@ -1,9 +1,9 @@
 <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-gradient-primary">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default"
-      aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbar-default"
+    aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="container-fluid d-flex flex-column">
     <div class="collapse navbar-collapse" id="navbar-default">
       <div class="navbar-collapse-header">
         <div class="row">
@@ -24,59 +24,59 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           {% if 'index' in segment %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/">
               {% endif %}
-              <i class="ni ni-world-2"></i>{{ gettext('Análisis') }}
+              <i class="ni ni-world-2"></i>&nbsp;{{ gettext('Análisis') }}
             </a>
         </li>
         <li class="nav-item">
           {% if 'dashboard' in segment %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/dashboard">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/dashboard">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/dashboard">
               {% endif %}
-              <i class="ni ni-chart-pie-35"></i>{{ gettext('Dashboard') }}
+              <i class="ni ni-chart-pie-35"></i>&nbsp;{{ gettext('Dashboard') }}
             </a>
         </li>
         {% if current_user.is_authenticated %}
         <li class="nav-item">
           {% if 'report_url' in segment %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/report_url">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/report_url">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/report_url">
               {% endif %}
-              <i class="ni ni-notification-70"></i>{{ gettext('Denunciar URL') }}
+              <i class="ni ni-notification-70"></i>&nbsp;{{ gettext('Denunciar URL') }}
             </a>
         </li>
         {% endif %}
         {% if current_user.user_rol == "admin" %}
         <li class="nav-item">
           {% if 'models' in segment %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/models">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/models">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/models">
               {% endif %}
-              <i class="ni ni-atom"></i>{{ gettext('Modelos') }}
+              <i class="ni ni-atom"></i>&nbsp;{{ gettext('Modelos') }}
             </a>
         </li>
         <li class="nav-item">
           {% if segment == 'instances' %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/instances">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/instances">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/instances">
               {% endif %}
-              <i class="ni ni-books"></i>{{ gettext('Instancias') }}
+              <i class="ni ni-books"></i>&nbsp;{{ gettext('Instancias') }}
             </a>
         </li>
         <li class="nav-item">
           {% if 'review' in segment %}
-          <a class="nav-link text-indigo bg-white font-weight-bolder" href="/review_instances">
+          <a class="nav-link text-indigo bg-white font-weight-bold" href="/review_instances">
             {% else %}
             <a class="nav-link text-white font-weight-bold" href="/review_instances">
               {% endif %}
-              <i class="ni ni-check-bold"></i>{{ gettext('Sugerencias') }}
+              <i class="ni ni-check-bold"></i>&nbsp;{{ gettext('Sugerencias') }}
             </a>
         </li>
         {% endif %}
@@ -85,16 +85,21 @@
           <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <i class="bi bi-person-circle text-lg"></i>
+            <span class="nav-link-inner--text d-lg-none font-weight-bold">{{ gettext('Cuenta') }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
-            <a class="dropdown-item" href="/profile">
+            <a class="dropdown-item font-weight-bold" href="/profile">
+              <i class="ni ni-single-02"></i>&nbsp;
               {{ gettext('Perfil') }}
             </a>
-            <a class="dropdown-item" target="_blank" href="mailto:phf1001@alu.ubu.es?Subject=Contacto%20Krini">
-              {{ gettext('Contacto') }}
+            <a class="dropdown-item font-weight-bold" target="_blank"
+              href="mailto:phf1001@alu.ubu.es?Subject=Contacto%20Krini">
+              <i class="ni ni-support-16"></i>&nbsp;
+              {{ gettext('Ayuda') }}
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url_for('authentication_blueprint.logout') }}">
+            <a class="dropdown-item text-red font-weight-bold" href="{{ url_for('authentication_blueprint.logout') }}">
+              <i class="ni ni-user-run"></i>&nbsp;
               {{ gettext('Cerrar sesión') }}
             </a>
           </div>
@@ -102,7 +107,7 @@
         {% else %}
         <li class="nav-item">
           <a class="nav-link text-white font-weight-bold" href="/login">
-            <i class="bi bi-person-circle"></i></i>{{ gettext('Iniciar sesión') }}
+            <i class="bi bi-person-circle"></i></i>&nbsp;{{ gettext('Iniciar sesión') }}
           </a>
         </li>
         {% endif %}
@@ -110,10 +115,17 @@
           <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_2" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <i class="bi bi-translate text-lg"></i>
+            <span class="nav-link-inner--text d-lg-none font-weight-bold">{{ gettext('Idioma') }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_2">
-            <a class="dropdown-item" href="/language=es">{{ gettext('Español') }}</a>
-            <a class="dropdown-item" href="/language=en">{{ gettext('English') }}</a>
+            <a class="dropdown-item font-weight-bold" href="/language=es">
+              <img src="static/assets/img/icons/common/spain-flag-icon-16.png"></img>
+              &nbsp;{{ gettext('Español')}}
+            </a>
+            <a class="dropdown-item font-weight-bold" href="/language=en">
+              <img src="static/assets/img/icons/common/united-kingdom-flag-icon-16.png"></img>
+              &nbsp;{{ gettext('Inglés') }}
+            </a>
           </div>
         </li>
       </ul>
