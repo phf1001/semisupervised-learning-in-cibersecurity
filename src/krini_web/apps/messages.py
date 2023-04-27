@@ -7,6 +7,27 @@
 """
 from flask_babel import gettext
 
+def get_exception_message(identifier) -> str:
+    pass
+
+
+
+def get_form_message(identifier):
+    if identifier == 'no_username':
+        return gettext('Por favor, introduce un nombre de usuario.')
+    if identifier == 'no_password':
+        return gettext('Por favor, introduce una contraseña.')
+    if identifier == 'no_email':
+        return gettext('Por favor, introduce un email.')
+    if identifier == 'used_username':
+        return gettext('El nombre de usuario ya está en uso.')
+    if identifier == 'used_email':
+        return gettext('El email ya está en uso.')
+    if identifier == 'no_name':
+        return gettext('Por favor, introduce tu nombre propio.')
+    if identifier == 'no_surname':
+        return gettext('Por favor, introduce tus apellidos.')
+
 
 def get_message(identifier, params=[]):
     """_summary_

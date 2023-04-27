@@ -14,6 +14,7 @@ from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
 
+from apps.messages import get_form_message
 
 class LoginForm(FlaskForm):
     """
@@ -26,12 +27,12 @@ class LoginForm(FlaskForm):
     username = TextField(
         "Username",
         id="username_login",
-        validators=[DataRequired("Introduce un nombre de usuario")],
+        validators=[DataRequired(get_form_message("no_username"))],
     )
     password = PasswordField(
         "Password",
         id="pwd_login",
-        validators=[DataRequired("Introduce una contraseña")],
+        validators=[DataRequired(get_form_message("no_password"))],
     )
 
 
@@ -46,29 +47,29 @@ class CreateAccountForm(FlaskForm):
     username = TextField(
         "Username",
         id="username_create",
-        validators=[DataRequired("Introduce un nombre de usuario")],
+        validators=[DataRequired("Heyy")],
     )
 
     email = TextField(
         "Email",
         id="email_create",
-        validators=[DataRequired("Introduce un email")],
+        validators=[DataRequired(get_form_message("no_email"))],
     )
 
     password = PasswordField(
         "Password",
         id="pwd_create",
-        validators=[DataRequired("Introduce una contraseña")],
+        validators=[DataRequired(get_form_message("no_password"))],
     )
 
     user_first_name = TextField(
         "Name",
         id="name_create",
-        validators=[DataRequired("Introduce tu nombre propio")],
+        validators=[DataRequired(get_form_message("no_name"))],
     )
 
     user_last_name = TextField(
         "Surname",
         id="surname_create",
-        validators=[DataRequired("Introduce tu apellido")],
+        validators=[DataRequired(get_form_message("no_surname"))],
     )
