@@ -117,8 +117,7 @@ def sanitize_url(url):
 
 def get_callable_url(url):
     """
-    Checks if the URL is callable (is up).
-    If not, it tries to complete it.
+    Checks if the URL is callable (is up). If not, it tries to complete it.
 
     Args:
         url (str): URL to check.
@@ -141,8 +140,7 @@ def get_callable_url(url):
 
 def complete_uncallable_url(url):
     """
-    Tries to complete the URL with the protocol.
-    Several checks are made.
+    Tries to complete the URL with the protocol.  Several checks are made.
 
     Args:
         url (str): The URL to check.

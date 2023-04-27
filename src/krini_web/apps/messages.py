@@ -9,12 +9,90 @@ from flask_babel import gettext
 
 
 def get_exception_message(identifier) -> str:
+    """Returns the message for the exception with the given identifier.
+
+    Args:
+        identifier (str): identifier of the exception
+
+    Returns:
+        str: message formatted and translated
+    """
+    if identifier == "error_operation":
+        return gettext("Error al realizar la operación solicitada.")
+
     if identifier == "already_logged":
         return gettext(
             "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
         )
 
-    return "Mensaje no encontrado"
+    if identifier == "not_instance_found":
+        return gettext("No se ha encontrado la instancia.")
+
+    if identifier == "not_info_found":
+        return gettext("No se ha encontrado la información.")
+
+    if identifier == "log_to_report":
+        return gettext(
+            "Inicia sesión para reportar falsos positivos."
+        ) + gettext("Gracias por tu colaboración.")
+
+    if identifier == "report_url_error":
+        return gettext(
+            "¡Lo sentimos! No se ha podido registrar el falso resultado."
+        ) + gettext(
+            "Inténtalo de nuevo más adelante. Gracias por tu colaboración."
+        )
+
+    if identifier == "error_csv":
+        return gettext("Se ha producido un error al subir los archivos .csv.")
+
+    if identifier == "sets_generated_random":
+        return gettext(
+            "Se ha generado el conjunto de train y test aleatoriamente."
+        )
+
+    if identifier == "few_instances":
+        return (
+            gettext(
+                "Error al crear el modelo. ¿Has comprobado que los ficheros de "
+            )
+            + gettext(
+                "entrenamiento y test tengan un número mínimo de instancias?"
+            )
+            + gettext(" Parecen ser demasiado pocas.")
+        )
+
+    if identifier == "no_test_available":
+        return (
+            gettext("No hay instancias para testear el modelo")
+            + gettext(" (han sido todas vistas durante el entrenamiento).")
+            + gettext(
+                " Prueba a subir un csv. Mostrando scores almacenados en la BD."
+            )
+        )
+
+    if identifier == "error_load_model":
+        return gettext("Error al cargar el modelo o alguno de sus parámetros.")
+
+    if identifier == "vector_not_generated":
+        return gettext("Operación no realizada: no se puede") + gettext(
+            " generar el vector de características. La URL no está disponible."
+        )
+
+    if identifier == "krini_exception_default":
+        return gettext(
+            "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
+        )
+
+    if identifier == "krini_not_logged_exception_default":
+        return gettext("Debe iniciar sesión para acceder a esta página.")
+
+    if identifier == "krini_db_exception_default":
+        return gettext(
+            "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
+        )
+
+    return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
 
 
 def get_form_message(identifier):
@@ -70,7 +148,65 @@ def get_form_message(identifier):
             "No se ha podido crear la cuenta. Inténtelo de nuevo más tarde."
         )
 
-    return "Mensaje no encontrado"
+    if identifier == "empty_url":
+        return gettext("Por favor, introduce una URL.")
+
+    if identifier == "no_option_selected":
+        return gettext("Por favor, selecciona una opción en el desplegable.")
+
+    if identifier == "invalid_version":
+        return gettext("Introduce una versión válida.") + gettext(
+            "Si no sabes qué poner, puedes probar a introducir un número entero."
+        )
+
+    if identifier == "empty_name":
+        return gettext("Por favor, introduce un nombre.")
+
+    if identifier == "empty_random_state":
+        return gettext(
+            "Por favor, introduce una semilla aleatoria o -1 en su defecto."
+        )
+
+    if identifier == "empty_train_percentage_instances":
+        return gettext(
+            "Por favor, introduce un porcentaje de instancias de entrenamiento."
+        )
+
+    if identifier == "invalid_train_percentage_instances":
+        return gettext(
+            "Por favor, introduce un porcentaje de instancias de entrenamiento válido."
+        )
+
+    if identifier == "empty_n_trees":
+        return (
+            gettext("Por favor, introduce un número de árboles.")
+            + " "
+            + gettext("Si no deseas ninguno puedes introducir 0.")
+        )
+
+    if identifier == "invalid_n_trees":
+        return gettext("El número de árboles no es correcto.") + gettext(
+            "Introduce un número entre 0 y 100."
+        )
+
+    if identifier == "empty_thetha":
+        return gettext(
+            "Por favor, introduce un número decimal en thetha"
+        ) + gettext(
+            "(la coma se separa mediante un punto) o 0.75 en su defecto."
+        )
+
+    if identifier == "invalid_thetha":
+        return gettext("El valor de thetha no es correcto.") + gettext(
+            "Introduce un número entre 0 y 1."
+        )
+
+    if identifier == "invalid_n_clss":
+        return gettext(
+            "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
+        )
+
+    return get_message("Revisa que los campos estén correctamente rellenados.")
 
 
 def get_message(identifier, params=[]):
@@ -84,18 +220,8 @@ def get_message(identifier, params=[]):
     Returns:
         str: message formatted and translated
     """
-    if identifier == "krini_exception_default":
-        return gettext(
-            "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
-        )
-
-    if identifier == "krini_not_logged_exception_default":
-        return gettext("Debe iniciar sesión para acceder a esta página.")
-
-    if identifier == "krini_db_exception_default":
-        return gettext(
-            "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
-        )
+    if identifier == "successful_operation":
+        return gettext("Operación realizada con éxito.")
 
     if identifier == "not_callable_url":
         return (
@@ -127,3 +253,104 @@ def get_message(identifier, params=[]):
 
     if identifier == "language_not_changed":
         return gettext("No se ha podido cambiar el idioma.")
+
+    if identifier == "not_logged":
+        return gettext("Debes iniciar sesión para acceder a esta página.")
+
+    if identifier == "not_admin":
+        return gettext("No tienes permisos para acceder a esta página.")
+
+    if identifier == "false_positive_reported":
+        return gettext("Falso resultado reportado correctamente.") + gettext(
+            "¡Gracias por tu colaboración!"
+        )
+
+    if identifier == "model_removed":
+        return gettext("Modelo eliminado correctamente.")
+
+    if identifier == "model_updated":
+        return gettext("Modelo actualizado correctamente.")
+
+    if identifier == "models_removed":
+        return gettext("Modelos eliminados correctamente.")
+
+    if identifier == "model_not_removed":
+        return gettext("No se ha podido eliminar el modelo.")
+
+    if identifier == "model_not_selected":
+        return gettext("No se ha seleccionado ningún modelo.")
+
+    if identifier == "optimistic_scores":
+        return (
+            gettext(
+                "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos comunes."
+            )
+            + " "
+            + gettext(
+                "Los resultados de las scores podrían no ser fiables (optimistas)."
+            )
+        )
+
+    if identifier == "model_stored":
+        return gettext("Modelo creado y guardado correctamente.")
+
+    if identifier == "warning_duplicates":
+        return gettext(
+            "Recuerda que los resultados de las scores pueden ser optimistas si el "
+        ) + gettext(
+            "conjunto de test contiene instancias vistas durante el entrenamiento."
+        )
+
+    if identifier == "test_success_update_db":
+        return gettext(
+            "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
+        ) + gettext(
+            "Además, se han actualizado las scores en la base de datos."
+        )
+
+    if identifier == "test_success":
+        return gettext(
+            "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
+        )
+
+    if identifier == "instance_deleted":
+        return gettext("Instancia eliminada correctamente.")
+
+    if identifier == "instance_not_deleted":
+        return gettext("No se ha podido eliminar la instancia.")
+
+    if identifier == "instances_deleted":
+        return gettext("Instancias eliminadas correctamente.")
+
+    if identifier == "instances_not_deleted":
+        return gettext("No se han podido eliminar las instancias.")
+
+    if identifier == "instance_not_selected":
+        return gettext("No se ha seleccionado ninguna instancia.")
+
+    if identifier == "instance_stored":
+        return gettext("Instancia creada y guardada correctamente.")
+
+    if identifier == "warning_check_duplicate_instance":
+        return gettext(
+            "Sugerencia: comprueba que no estás creando una instancia que ya existe."
+        )
+
+    if identifier == "reviews_not_selected":
+        return gettext("No se han seleccionado ninguna sugerencia.")
+
+    if identifier == "reviews_not_deleted":
+        return gettext("No se han podido eliminar las sugerencias.")
+
+    if identifier == "reviews_deleted":
+        return gettext("Sugerencias eliminadas correctamente.")
+
+    if identifier == "review_not_deleted":
+        return gettext("No se ha podido eliminar la sugerencia.")
+
+    if identifier == "url_reported":
+        return gettext(
+            "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
+        )
+
+    return gettext("Mensaje no disponible. ¡Lo sentimos!")

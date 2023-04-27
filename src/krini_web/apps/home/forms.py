@@ -46,13 +46,13 @@ class ReportURLForm(FlaskForm):
     url = TextField(
         "url",
         id="url_report",
-        validators=[DataRequired("Por favor, introduce una URL")],
+        validators=[DataRequired("empty_url")],
     )
     type = SelectField(
         "type",
         id="type",
         choices=[("black-list", "Blacklist"), ("white-list", "Whitelist")],
-        validators=[DataRequired("Por favor, selecciona una opción")],
+        validators=[DataRequired("no_option_selected")],
     )
 
 
@@ -68,7 +68,7 @@ class SearchURLForm(FlaskForm):
     url = TextField(
         "url",
         id="url_search",
-        validators=[DataRequired("Por favor, introduce una URL")],
+        validators=[DataRequired("empty_url")],
     )
     selected_models = HiddenField(
         "selected_models", render_kw={"id": "selected_models"}
@@ -84,7 +84,7 @@ class InstanceForm(FlaskForm):
     """
 
     url = TextField(
-        "url", id="url_instance", validators=[DataRequired("Introduce una URL")]
+        "url", id="url_instance", validators=[DataRequired("empty_url")]
     )
 
     instance_class = SelectField(
@@ -132,7 +132,7 @@ class SmallModelForm(FlaskForm):
         validators=[
             Regexp(
                 r"^\d+(.\d){0,2}$",
-                message="Introduce una versión válida. Si no sabes qué poner, puedes probar a introducir un número entero.",
+                message="invalid_version",
             )
         ],
     )
@@ -167,7 +167,7 @@ class ModelForm(SmallModelForm):
     model_name = TextField(
         "model_name",
         id="model_name",
-        validators=[DataRequired("Por favor, introduce un nombre.")],
+        validators=[DataRequired("empty_name")],
     )
 
     random_state = IntegerField(
@@ -175,9 +175,7 @@ class ModelForm(SmallModelForm):
         id="random_state",
         default=-1,
         validators=[
-            DataRequired(
-                "Por favor, introduce una semilla aleatoria o -1 en su defecto."
-            ),
+            DataRequired("empty_random_state"),
         ],
     )
 
@@ -190,13 +188,11 @@ class ModelForm(SmallModelForm):
         id="train_percentage_instances",
         default=80,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número de instancias de entrenamiento o -1 en su defecto."
-            ),
+            DataRequired("empty_train_percentage_instances"),
             NumberRange(
                 min=1,
                 max=99,
-                message="El porcentaje de instancias de entrenamiento no es correcto. Introduce un número entre 1 y 99.",
+                message="invalid_train_percentage_instances",
             ),
         ],
     )
@@ -205,7 +201,7 @@ class ModelForm(SmallModelForm):
     max_features = SelectField(
         "max_features",
         id="max_features",
-        choices=[("log2", "Logaritmo base 2"), ("sqrt", "Raíz cuadrada")],
+        choices=[("log2", "Log2"), ("sqrt", "SQRT")],
         default="log2",
     )
 
@@ -214,13 +210,11 @@ class ModelForm(SmallModelForm):
         id="n_trees",
         default=6,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número de árboles. Si no deseas ninguno puedes introducir 0."
-            ),
+            DataRequired("empty_n_trees"),
             NumberRange(
                 min=0,
                 max=100,
-                message="El número de árboles no es correcto. Introduce un número entre 0 y 100.",
+                message="invalid_n_trees",
             ),
         ],
     )
@@ -230,13 +224,11 @@ class ModelForm(SmallModelForm):
         id="thetha",
         default=0.75,
         validators=[
-            DataRequired(
-                "Por favor, introduce un número decimal en thetha (la coma se separa mediante un punto) o 0.75 en su defecto."
-            ),
+            DataRequired("empty_thetha"),
             NumberRange(
                 min=0.0,
                 max=1.0,
-                message="El valor de thetha no es correcto (tiene que estar entre 0 y 1).",
+                message="invalid_thetha",
             ),
         ],
     )
@@ -272,7 +264,7 @@ class ModelForm(SmallModelForm):
             NumberRange(
                 min=0,
                 max=10,
-                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+                message="invalid_n_clss",
             ),
         ],
     )
@@ -285,7 +277,7 @@ class ModelForm(SmallModelForm):
             NumberRange(
                 min=0,
                 max=10,
-                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+                message="invalid_n_clss",
             ),
         ],
     )
@@ -298,7 +290,7 @@ class ModelForm(SmallModelForm):
             NumberRange(
                 min=0,
                 max=10,
-                message="Por favor, introduce un número válido de clasificadores (entre 0 y 10).",
+                message="invalid_n_clss",
             ),
         ],
     )
@@ -315,7 +307,7 @@ class TestModelForm(FlaskForm):
     model_name = TextField(
         "model_name",
         id="model_name",
-        validators=[DataRequired("Por favor, introduce un nombre.")],
+        validators=[DataRequired("empty_name")],
     )
 
     uploaded_test_csv = FileField("uploaded_test_csv", id="uploaded_test_csv")

@@ -39,7 +39,6 @@ from flask import (
     after_this_request,
 )
 from flask_login import login_required, current_user
-from flask_babel import gettext
 from werkzeug.exceptions import Forbidden
 from flask_wtf import FlaskForm
 from jinja2 import TemplateNotFound
@@ -71,11 +70,19 @@ from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT
 
 logger = get_logger("krini-frontend")
 
-from apps.messages import get_message
+from apps.messages import get_message, get_form_message, get_exception_message
 
 
 @blueprint.route("/language=<language>")
 def set_language(language=None):
+    """Sets the language of the app.
+
+    Args:
+        language (str, optional): language to set. Defaults to None.
+
+    Returns:
+        redirect: redirects to the index page
+    """
     if language in AVAILABLE_LANGUAGES:
         session["language"] = language
         flash(get_message("language_changed"), "success")
@@ -99,7 +106,8 @@ def index():
 
     if not form.validate_on_submit():
         for key in form.errors.keys():
-            flash("{}".format(form.errors[key][0]), "warning")
+            message = get_form_message(form.errors[key][0])
+            flash(message, "warning")
 
         return render_template(
             "home/index.html",
@@ -146,8 +154,8 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
     return redirect(url_for("home_blueprint.dashboard"))
 
 
-@blueprint.route("/task", methods=["POST", "GET"])
-def task():
+@blueprint.route("/extract_fv", methods=["POST", "GET"])
+def extract_fv():
     """Gets the feature vector for an URL. If the URL is not
     callable, it tries to reconstruct it. If there is an
     existing instance on the DB returns the FV.
@@ -338,11 +346,10 @@ def report_false_positive():
     """
     try:
         if not current_user.is_authenticated:
-            raise KriniNotLoggedException("Usuario no autenticado")
+            raise KriniNotLoggedException(get_message("not_logged"))
 
         messages = session.get("messages", None)
         if messages:
-            # Todas las URL llamables analizadas por usuarios están como instancias ya
             url = messages["url"]
             tag = messages["numeric_class"]
             existing_instance = Available_instances.query.filter_by(
@@ -350,7 +357,6 @@ def report_false_positive():
             ).first()
 
             if existing_instance:
-                # Sugiero lo contrario ya que reporto falso resultado
                 if tag == 1:
                     suggestion = Available_tags.sug_legitimate
                 elif tag == 0:
@@ -367,24 +373,21 @@ def report_false_positive():
 
                 db.session.add(report)
                 db.session.commit()
-                flash(
-                    "Falso resultado reportado correctamente. ¡Gracias por tu colaboración!",
-                    "success",
-                )
+                flash(get_message("false_positive_reported"), "success")
 
             else:
-                raise KriniException("Instancia no encontrada")
+                raise KriniException(
+                    get_exception_message("not_instance_found")
+                )
 
         else:
-            raise KriniException("Información no recuperada")
+            raise KriniException(get_exception_message("not_info_found"))
 
     except KriniNotLoggedException:
-        message = "Inicia sesión para reportar falsos positivos. Gracias por tu colaboración."
-        flash(message, "warning")
+        flash(get_exception_message("log_to_report"), "warning")
 
     except (KriniException, KeyError):
-        message = "¡Lo sentimos! No se ha podido registrar el falso resultado. Inténtalo de nuevo más adelante. Gracias por tu colaboración."
-        flash(message, "warning")
+        flash(get_exception_message("report_url_error"), "warning")
 
     return redirect(url_for("home_blueprint.dashboard"))
 
@@ -491,14 +494,14 @@ def models(n_per_page=10):
             if "eliminar" in request.form["button_pressed"]:
                 if "individual" in request.form["button_pressed"]:
                     remove_selected_models([request.form["individual_model"]])
-                    flash("Modelo eliminado correctamente.", "success")
+                    flash(get_message("model_removed"), "success")
                 else:
                     selected = list(checks.values())
                     if len(selected) == 0:
-                        flash("No se ha seleccionado ningún modelo.", "warning")
+                        flash(get_message("model_not_selected"), "warning")
                     else:
                         remove_selected_models(selected)
-                        flash("Modelos eliminados correctamente.", "success")
+                        flash(get_message("models_removed"), "success")
 
                 return redirect(url_for("home_blueprint.models"))
 
@@ -507,7 +510,7 @@ def models(n_per_page=10):
             checks = {}
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "danger")
+        flash(get_exception_message("error_operation"), "danger")
 
     session["checks"] = checks if checks else {}
     post_pagination = Available_models.all_paginated(page, n_per_page)
@@ -559,7 +562,9 @@ def new_model():
 
             if selected_method != "csv":
                 flash(
-                    "Se ha producido un error al subir los archivos. Se ha generado el conjunto de train y test aleatoriamente.",
+                    get_exception_message("error_csv")
+                    + " "
+                    + get_exception_message("sets_generated_random"),
                     "danger",
                 )
 
@@ -578,7 +583,8 @@ def new_model():
         return render_template("specials/creating-model.html")
 
     for key in form.errors.keys():
-        flash("{}".format(form.errors[key][0]), "warning")
+        message = get_form_message(form.errors[key][0])
+        flash(message, "warning")
 
     return render_template(
         "home/new-model.html", form=form, segment=get_segment(request)
@@ -665,27 +671,20 @@ def creating_model():
         # Model is serialized and stored. Also the train data.
         train_ids = set(train_ids)
         if train_ids.intersection(set(test_ids)):
-            flash(
-                "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos en común. Los resultados de las scores podrían no ser fiables (optimistas).",
-                "info",
-            )
+            flash(get_message("optimistic_scores"), "info")
 
         if serialize_store_model(
             form_data, cls, scores, train_ids, messages["algorithm"]
         )[0]:
-            flash("Modelo creado y guardado correctamente.", "success")
+            flash(get_message("model_stored"), "success")
 
         return redirect(url_for("home_blueprint.models"))
 
     except KriniException as e:
-        # The error message has been already personalized
         flash(str(e), "danger")
 
     except ValueError:
-        flash(
-            "Error al crear el modelo. ¿Has comprobado que los ficheros de entrenamiento y test tengan un número mínimo de instancias? Parecen ser demasiado pocas.",
-            "danger",
-        )
+        flash(get_exception_message("few_instances"), "danger")
 
     return redirect(url_for("home_blueprint.new_model"))
 
@@ -733,9 +732,7 @@ def test_model():
                 )[1]
 
                 if selected_method != "csv":
-                    raise KriniException(
-                        "Se ha producido un error al subir los archivos .csv"
-                    )
+                    raise KriniException(get_exception_message("error_csv"))
 
                 X_test, y_test = return_X_y_single(
                     selected_method,
@@ -751,9 +748,7 @@ def test_model():
 
             if len(X_test) == 0:
                 analysis_scores = model.model_scores
-                raise KriniException(
-                    "No hay instancias para testear el modelo (han sido todas vistas durante el entrenamiento). Prueba a subir un csv. Mostrando scores almacenados en la BD."
-                )
+                raise KriniException(get_exception_message("no_test_available"))
 
             # Model is tested and updated
             y_pred = cls.predict(X_test)
@@ -769,22 +764,13 @@ def test_model():
                 update_model_scores_db(model, analysis_scores)
 
             if not omit_ids:
-                flash(
-                    "Recuerda que los resultados de las scores pueden ser optimistas si el conjunto de test contiene instancias que han sido vistas durante el entrenamiento.",
-                    "info",
-                )
+                flash(get_message("warning_duplicates"), "info")
 
             if update_bd:
-                flash(
-                    "Test realizado correctamente. Puedes ver los resultados en la gráfica superior. Además, se han actualizado las scores en la base de datos.",
-                    "success",
-                )
+                flash(get_message("test_success_update_db"), "success")
 
             else:
-                flash(
-                    "Test realizado correctamente. Puedes ver los resultados en la gráfica superior.",
-                    "success",
-                )
+                flash(get_message("test_success"), "success")
 
         return render_template(
             "home/test-model.html",
@@ -810,7 +796,7 @@ def test_model():
         PickleError,
         FileNotFoundError,
     ):
-        flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
+        flash(get_exception_message("error_load_model"), "danger")
         return redirect(url_for("home_blueprint.models"))
 
 
@@ -840,7 +826,7 @@ def edit_model():
 
         if "siguiente" in request.form and form.validate_on_submit():
             update_model(model, request.form)
-            flash("Modelo actualizado correctamente.", "success")
+            flash(get_message("model_updated"), "success")
             return redirect(url_for("home_blueprint.models"))
 
         return render_template(
@@ -854,7 +840,7 @@ def edit_model():
         flash(str(e), "danger")
 
     except (exc.SQLAlchemyError, AttributeError):
-        flash("Error al cargar el modelo o alguno de sus parámetros.", "danger")
+        flash(get_exception_message("error_load_model"), "danger")
 
     return redirect(url_for("home_blueprint.models"))
 
@@ -895,15 +881,15 @@ def instances(n_per_page=10):
                     remove_selected_instances(
                         [request.form["individual_instance"]]
                     )
-                    flash("Instancia eliminada correctamente.", "success")
+                    flash(get_message("instance_deleted"), "success")
 
                 else:
                     selected = list(checks.values())
                     if len(selected) > 0:
                         remove_selected_instances(list(checks.values()))
-                        flash("Instancias eliminadas correctamente.", "success")
+                        flash(get_message("instances_deleted"), "success")
                     else:
-                        flash("No hay instancias seleccionadas.", "warning")
+                        flash(get_message("instance_not_selected"), "warning")
 
                 return redirect(url_for("home_blueprint.instances"))
 
@@ -950,7 +936,7 @@ def instances(n_per_page=10):
             checks = {}
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "danger")
+        flash(get_exception_message("error_operation"), "danger")
 
     session["checks"] = checks if checks else {}
     post_pagination = Available_instances.all_paginated(page, n_per_page)
@@ -1018,7 +1004,7 @@ def edit_instance():
         )
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "danger")
+        flash(get_exception_message("error_operation"), "danger")
         return redirect(url_for("home_blueprint.instances"))
 
 
@@ -1044,9 +1030,9 @@ def new_instance():
         form.validate_on_submit()
 
         for key in form.errors.keys():
-            if form.errors[key][0] == "Introduce una URL":
+            if form.errors[key][0] == "empty_url":
                 validated = False
-                flash("{}".format(form.errors[key][0]), "warning")
+                flash(get_form_message("empty_url"), "warning")
                 break
 
         if "siguiente" in request.form and validated:
@@ -1070,7 +1056,7 @@ def new_instance():
         )
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "danger")
+        flash(get_exception_message("error_operation"), "danger")
         return redirect(url_for("home_blueprint.instances"))
 
 
@@ -1140,26 +1126,17 @@ def updating_instance():
             time.sleep(1)  # To show the loading page
 
         db.session.commit()
-        flash("Operación realizada correctamente.", "success")
+        flash(get_message("successful_operation"), "success")
         return redirect(url_for("home_blueprint.instances"))
 
     except KriniException:
-        flash(
-            "Operación no realizada: no se puede generar el vector de características. La URL no está disponible.",
-            "danger",
-        )
+        flash(get_exception_message("vector_not_generated"), "danger")
         db.session.rollback()
         return redirect(url_for("home_blueprint.instances"))
 
     except exc.SQLAlchemyError:
-        flash(
-            "Error al realizar la operación solicitada. Reinténtalo más adelante.",
-            "danger",
-        )
-        flash(
-            "Sugerencia: comprueba que no estás creando una instancia que ya existe.",
-            "info",
-        )
+        flash(get_message("error_operation"), "danger")
+        flash(get_message("warning_check_duplicate_instance"), "info")
         db.session.rollback()
         return redirect(url_for("home_blueprint.instances"))
 
@@ -1207,11 +1184,11 @@ def review_instances(n_per_page=10):
 
             elif "eliminar" in request.form["button_pressed"]:
                 if len(checks.values()) == 0:
-                    flash("No hay sugerencias seleccionadas.", "warning")
+                    flash(get_message("reviews_not_selected"), "warning")
                 elif remove_selected_reports(checks.values(), n_per_page):
-                    flash("Instancias eliminadas correctamente.", "success")
+                    flash(get_message("reviews_deleted"), "success")
                 else:
-                    flash("Error al eliminar las instancias.", "danger")
+                    flash(get_message("reviews_not_deleted"), "danger")
                 return redirect(url_for("home_blueprint.review_instances"))
 
             if (
@@ -1227,17 +1204,17 @@ def review_instances(n_per_page=10):
                 if update_report(
                     selected_report, request.form["button_pressed"]
                 ):
-                    flash("Acción ejecutada correctamente.", "success")
+                    flash(get_message("successful_operation"), "success")
                     return redirect(url_for("home_blueprint.review_instances"))
                 else:
-                    flash("Error al ejecutar la acción seleccionada.", "danger")
+                    flash(get_exception_message("error_operation"), "danger")
 
         else:
             page = 1
             checks = {}
 
     except KriniException:
-        flash("Error al realizar la operación solicitada.", "danger")
+        flash(get_exception_message("error_operation"), "danger")
 
     session["checks"] = checks if checks else {}
     post_pagination = Candidate_instances.all_paginated(page, n_per_page)
@@ -1311,20 +1288,15 @@ def report_url():
             )
 
             db.session.commit()
-            flash(
-                "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!",
-                "success",
-            )
+            flash(get_message("url_reported"), "success")
 
         except exc.SQLAlchemyError:
-            flash(
-                "Error al reportar la URL. Inténtalo de nuevo más tarde.",
-                "danger",
-            )
+            flash(get_exception_message("error_operation"), "danger")
             db.session.rollback()
 
     for key in form.errors.keys():
-        flash("{}".format(form.errors[key][0]), "warning")
+        message = get_form_message(form.errors[key][0])
+        flash(message, "warning")
 
     return render_template(
         "home/report-url.html", form=form, segment=get_segment(request)

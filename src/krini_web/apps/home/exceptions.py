@@ -8,7 +8,7 @@
 @Contact :   phf1001@alu.ubu.es
 """
 
-from apps.messages import get_message
+from apps.messages import get_exception_message
 
 
 class KriniException(Exception):
@@ -20,7 +20,9 @@ class KriniException(Exception):
         Exception (class): parent class
     """
 
-    def __init__(self, message=get_message("krini_exception_default")):
+    def __init__(
+        self, message=get_exception_message("krini_exception_default")
+    ):
         self.message = message
         super().__init__(self.message)
 
@@ -38,7 +40,8 @@ class KriniNotLoggedException(KriniException):
     """
 
     def __init__(
-        self, message=get_message("krini_not_logged_exception_default")
+        self,
+        message=get_exception_message("krini_not_logged_exception_default"),
     ):
         self.message = message
         super().__init__(self.message)
@@ -55,7 +58,9 @@ class KriniDBException(KriniException):
         Exception (class): parent class
     """
 
-    def __init__(self, message=get_message("krini_db_exception_default")):
+    def __init__(
+        self, message=get_exception_message("krini_db_exception_default")
+    ):
         self.message = message
         super().__init__(self.message)
 
