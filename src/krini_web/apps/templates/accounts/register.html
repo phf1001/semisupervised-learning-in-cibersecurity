@@ -19,7 +19,7 @@
         </div>
         <div class="card-body px-lg-5 py-lg-5">
           {% if not success %}
-          <form role="form" method="post" action="">
+          <form role="form" method="post" action="" novalidate>
             {{ form.hidden_tag() }}
             {{ form.csrf_token }}
             <div class="form-group mb-3">

@@ -2,7 +2,7 @@
 {% block title %} {{ gettext('Administración de modelos') }} {% endblock title %}
 {% block content %}
 
-<form name="models_form" method="POST" action="">
+<form name="models_form" method="POST" action="" novalidate>
   <input type="hidden" name="selected_page" value="1" />
   <input type="hidden" name="individual_model" value="-1" />
   <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />

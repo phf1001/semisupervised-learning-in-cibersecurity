@@ -50,7 +50,7 @@
     </div>
     {% endif %}
     <!-- Data -->
-    <form role="form" method="POST" action="" enctype="multipart/form-data">
+    <form role="form" method="POST" action="" enctype="multipart/form-data" novalidate>
         {{ form.csrf_token }}
         {{ form.hidden_tag() }}
         <div class="row">
