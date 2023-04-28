@@ -1,0 +1,1095 @@
+{% extends 'layouts/base.html' %}
+{% block title %} {{ gettext('Dashboard') }} {% endblock title %}
+{% block content %}
+<div class="header bg-gradient-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-12 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ gettext('Resultados del análisis') }}</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--6">
+  <div class="row text-center h-100">
+    <div class="col-md-12 text-center my-auto">
+      <div class="card card-block d-flex">
+        <div class="card-body align-items-center d-flex justify-content-center">
+          <span class="text-gray font-weight-bolder mb-0 text-center text-lg" style="word-spacing: 3px">
+            <span class="primary-label-forms text-xl">
+              {{ information_to_display["url"] }}
+            </span>
+            {{ gettext('HA SIDO MAYORITARIAMENTE CLASIFICADA COMO') }}
+            {% if information_to_display["class"] == 'phishing' %}
+            <span class="text-red text-xl">{{ gettext('PHISHING') }}</span>
+            {% else %}
+            <span class="text-green text-xl">{{ gettext('LEGÍTIMA') }}</span>
+            {% endif %}
+            {% if information_to_display["colour-list"] != '' %}
+            {{ gettext('Y ESTÁ CONTENIDA EN LA') }}
+            {% if information_to_display["colour-list"] == 'white-list' %}
+            <span class="text-info text-xl">
+              {{ gettext('LISTA BLANCA') }}
+            </span>
+            {% elif information_to_display["colour-list"] == 'black-list' %}
+            <span class="text-midnight text-xl">
+              {{ gettext('LISTA NEGRA') }}
+            </span>
+            {% endif %}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Big general graph-->
+    <div class="col-xl-10">
+      <div class="card bg-default">
+        <div class="card-header bg-transparent">
+          <div class="row">
+            <div class="col">
+              <h6 id="title-big-graph" class="text-uppercase text-white ls-1 mb-1"> </h6>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h5 class="h3 text-white mb-0 float-left">
+                    {{ gettext('COMPARATIVA ENTRE CLASIFICADORES') }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="chart-bars-general"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2">
+      <div class="card bg-white">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-dark text-uppercase ls-1 mb-1">{{ gettext('RESUMEN') }}</h6>
+              <h5 class="h3 text-dark mb-0">{{ gettext('CLASIFICACIÓN') }}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="chart-pie-phishing" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card" style="height: 30rem;">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">{{ gettext('EN DETALLE') }}
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">{{ gettext('CLASIFICADOR') }}</th>
+                <th scope="col">{{ gettext('PREDICCIÓN') }}</th>
+                <th scope="col">{{ gettext('SEGURIDAD') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for model_name in information_to_display['model_names'] %}
+              <tr>
+                <th scope="row">
+                  {{ model_name }}
+                </th>
+                <td>
+                  {{ information_to_display['predicted_tags_labeled'][loop.index0] }}
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mr-2">{{ information_to_display['model_confidence'][loop.index0] }}%</span>
+                    <div>
+                      <div class="progress">
+                        {% if information_to_display['model_confidence'][loop.index0] < 40 %} <div
+                          class="progress-bar bg-gradient-warning" role="progressbar"
+                          aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}"
+                          aria-valuemin="0" aria-valuemax="100"
+                          style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
+                      </div>
+                      {% elif information_to_display['model_confidence'][loop.index0] < 70 %} <div
+                        class="progress-bar bg-gradient-info" role="progressbar"
+                        aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}" aria-valuemin="0"
+                        aria-valuemax="100"
+                        style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
+                    </div>
+                    {% else %}
+                    <div class="progress-bar bg-gradient-success" role="progressbar"
+                      aria-valuenow="{{ information_to_display['model_confidence'][loop.index0] }}" aria-valuemin="0"
+                      aria-valuemax="100"
+                      style="width: {{ information_to_display['model_confidence'][loop.index0] }}%;">
+                    </div>
+                    {% endif %}
+                  </div>
+        </div>
+      </div>
+      </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="cls-names" data-cls-names="{{ information_to_display['model_names'] }}"></div>
+<div id="cls-scores" data-cls-scores="{{ information_to_display['model_scores'] }}"></div>
+<div id="cls-numeric-predictions-sum"
+  data-cls-numeric-predictions-sum="{{ information_to_display['sum_tags_numeric'] }}"></div>
+<div class="col-xl-6">
+  <div class="card bg-default">
+    <div class="card-header bg-transparent">
+      <div class="row">
+        <div class="col">
+          <h6 id="h6-cls-score-graph" class="text-uppercase text-white ls-1 mb-1"> </h6>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="row align-items-center">
+            <div class="col">
+              <h5 class="h3 text-white mb-0" style="float:left;">{{ gettext('CADA CLASIFICADOR EN PARTICULAR') }}</h5>
+            </div>
+            {% if information_to_display['model_names']|length > 1 %}
+            <div class="col text-right">
+              <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;">{{
+                gettext('Siguiente') }}</button>
+            </div>
+            {% else %}
+            <div class="col text-right">
+              <button id="btn-next-cls-graph" class="btn btn-sm btn-white" style="color: #5e72e4; float: right;"
+                hidden>{{ gettext('Siguiente') }}</button>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chart">
+        <canvas id="chart-bars-models" class="chart-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% if information_to_display['quick_analysis'] == 0%}
+<!-- Tabla -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3 class="mb-0">
+              {{ gettext('VECTOR DE CARACTERÍSTICAS DE LA PÁGINA WEB') }}&nbsp;&nbsp;
+              <span class="primary-label-forms">
+                {{ information_to_display["fv"] }}
+              </span>
+
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush" style="width: 100%;">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Característica') }}</h5>
+              </th>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Basada en') }}</h5>
+              </th>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Valor vector') }}</h5>
+              </th>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Parámetros') }}</h5>
+              </th>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Fórmula') }}</h5>
+              </th>
+              <th scope="col">
+                <h5 class="text-gray mb-0 text-center">{{ gettext('Descripción') }}</h5>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- F1-->
+            <tr data-toggle="collapse" data-target="#info-f1" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 1</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][0] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Puntos en la URL') }} = {{information_to_display["fv_extra_information"]["f1"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f1" class="accordian-body collapse dashboard-description">
+                  {{ gettext('En general, los dominios legítimos no contienen más de tres puntos en') }}
+                  {{ gettext(' la URL. Por lo tanto, esta característica se establece a 1 si el') }}
+                  {{ gettext(' número de puntos en la URL es mayor o igual que 4.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F2-->
+            <tr data-toggle="collapse" data-target="#info-f2" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 2</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][1] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Carácter relevante encontrado:') }}
+                  {{information_to_display["fv_extra_information"]["f2"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f2" class="accordian-body collapse dashboard-description">
+                  {{gettext('En una URL, el uso de "@" hace que se ignore todo lo escrito anteriormente al símbolo')}}
+                  {{gettext(' , y "-" es utilizado para engañar a los usuarios en enlaces como por ejemplo') }}
+                  www[.]paypal-india[.]com
+                </div>
+              </td>
+            </tr>
+            <!-- F3-->
+            <tr data-toggle="collapse" data-target="#info-f3" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 3</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][2] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Longitud de la URL') }} = {{["fv_extra_information"]["f3"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_3 = \left\{ \begin{array}{lr} 1, & \text{si la longitud de la URL} \ge 74\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f3" class="accordian-body collapse dashboard-description">
+                  {{ gettext('Normalmente, los dominios oficiales son cortos y significativos.') }}
+                  {{ gettext('Sin embargo, aquellos sitios de phishing suelen ser más largos') }}
+                  ({{ gettext('con el fin de confundir al usuario u ocultar información') }}).
+                </div>
+              </td>
+            </tr>
+            <!-- F4-->
+            <tr data-toggle="collapse" data-target="#info-f4" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 4</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][3] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Palabra sospechosa encontrada') }} :
+                  {{information_to_display["fv_extra_information"]["f4"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_4 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene palabras sospechosas}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f4" class="accordian-body collapse dashboard-description">
+                  {{gettext('Según') }}
+                  <a href="https://link.springer.com/article/10.1007/s11235-017-0414-0" target="_blank"
+                    rel="noopener noreferrer" style="color:chocolate">
+                    Ankit Kumar Jain y B. B. Gupta</a>,
+                  {{gettext('es común que las páginas de phishing añadan palabras clave en los enlaces para ganar') }}
+                  {{gettext('la confianza de sus víctimas.') }} <br>
+                  {{gettext('En concreto, se buscan y tienen encuenta enlaces que contengan las palabras:') }}
+                  security, login, signin, bank, account, update, include, webs y online. <br>
+                  {{gettext('Como aportación propia, se ha tenido en cuenta que estas palabras puedan estar') }}
+                  {{gettext('escritas utilizando el') }} <a
+                    href="https://www.ionos.es/digitalguide/online-marketing/redes-sociales/que-es-la-escritura-leet/"
+                    target="_blank" rel="noopener noreferrer" style="color:chocolate">
+                    {{gettext('lenguaje leet') }}
+                  </a>.
+                </div>
+              </td>
+            </tr>
+            <!-- F5-->
+            <td>
+              <p class="dashboard-text">{{ gettext('Característica') }} 5'</p>
+            </td>
+            <td>
+              <p class="text-white text-center">
+                <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+              </p>
+            </td>
+            <td>
+              <p class="dashboard-text">
+                {{ information_to_display["fv"][4] }}
+              </p>
+            </td>
+            <td>
+              <p class="dashboard-text">
+                {{ gettext('Dominio extra encontrado:') }} {{information_to_display["fv_extra_information"]["f5"]}}
+              </p>
+            </td>
+            <td style="text-align: center;">
+              $$F_5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\
+              1, & \text{si hay más de un TDL en la URL} \\
+              0, & \text{cualquier otro caso} \end{array} \right.$$
+            </td>
+            <td style="text-align: center;">
+              <button class="btn btn-icon-only bg-primary text-center">
+                <i class="ni ni-bulb-61 text-white"></i>
+              </button>
+            </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f5" class="accordian-body collapse dashboard-description">
+                  {{ gettext('En los dominios legítimos, el TDL no está presente en la parte perteneciente al') }}
+                  {{ gettext(' dominio base, ni ocurre más de una vez en la dirección.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F6-->
+            <tr data-toggle="collapse" data-target="#info-f6" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 6</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][5] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('¿http encontrado?') }} {{information_to_display["fv_extra_information"]["f6"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_6 = \left\{ \begin{array}{lr} 1, & \text{si http en URL -gt 1}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f6" class="accordian-body collapse dashboard-description">
+                  {{gettext('En sitios genuinos, la cadena "http" sólo se encuentra una vez en el protocolo.') }}
+                  {{gettext(' Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio phishing.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F7-->
+            <tr data-toggle="collapse" data-target="#info-f7" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 7</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][6] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('¿Marca famosa?') }} {{information_to_display["fv_extra_information"]["f7"]}}
+                </p>
+              </td>
+              <td>
+                $$F_7 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene el nombre de una marca}\\ &
+                \text{famosa en la URL y la posición no es la correcta}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f7" class="accordian-body collapse dashboard-description">
+                  {{gettext('la gran mayoría de los sitios de phishing contienen el nombre de la marca objetivo en la
+                  URL.') }}
+                  <br>
+                  {{gettext('Por ello, se han seleccionado algunos de los objetivos más comunes para los atacantes') }}
+                  {{gettext(' (por ejemplo, Google) y, si se encuentra el nombre en una posición incorrecta,') }}
+                  {{gettext(' se asume que se trata de un intento de estafa.') }} <br>
+                  {{gettext(' Nuevamente, se ha tenido en consideración que dichas palabras puedan estar en') }}
+                  <a href="https://www.ionos.es/digitalguide/online-marketing/redes-sociales/que-es-la-escritura-leet/"
+                    target="_blank" rel="noopener noreferrer" style="color:chocolate">
+                    {{gettext(' lenguaje leet') }}
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <!-- F8-->
+            <tr data-toggle="collapse" data-target="#info-f8" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 8</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][7] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de data URIs encontrados') }} = {{information_to_display["fv_extra_information"]["f8"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún Data URI}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f8" class="accordian-body collapse dashboard-description">
+                  {{gettext('Según') }}
+                  <a href="https://link.springer.com/article/10.1007/s11235-017-0414-0" target="_blank"
+                    rel="noopener noreferrer" style="color:chocolate">Ankit Kumar Jain y B. B. Gupta</a>,
+                  {{gettext('los ataques basados en la existencia de un Data URI son muy comunes. Este esquema') }}
+                  {{gettext('permite insertar datos en línea dentro de un documento.') }} <br>
+                  {{gettext('El peligro reside en') }}
+                  {{gettext('que esos datos pueden codificar cualquier tipo de archivo') }}
+                  {{gettext('(por ejemplo, un script de Javascript),') }}
+                  {{gettext('pudiendo extraer datos o incluso realizar ataques XSS.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F9 FORMULARIO LOGIN -->
+            <tr data-toggle="collapse" data-target="#info-f9" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 9</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-info" style="font-weight: bold;">
+                    {{ gettext('Formulario de Login') }}
+                  </span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][8] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Valor del campo') }} = {{information_to_display["fv_extra_information"]["f9"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío,}\\ &
+                \text{equivale a #, o es} \texttt{"javascript:void(0)"}\\
+                1, & \text{si el valor del campo de acción posee una} \\ & \text{sintáxis compatible con "fichero.php"}
+                \\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f9" class="accordian-body collapse dashboard-description">
+                  {{gettext('Es común que los sitios de phishing incluyan formularios de inicio de sesión debido') }}
+                  {{gettext(' a que es una forma común de introducir datos personales.') }} <br>
+                  {{gettext(' En concreto, la diferencia reside en que en los sitios legítimos el campo de') }}
+                  {{gettext(' acción suele contener un enlace con el mismo dominio base que el sitio inicial.') }} <br>
+                  {{gettext(' Sin embargo, en los sitios de phishing esto no es así. Hay otras variaciones como') }}
+                  {{gettext(' campos vacíos, con enlaces nulos o archivos PHP que almacenen las credenciales.') }}
+                </div>
+              </td>
+            </tr>
+            <!--F10 HIPERENLACES -->
+            <tr data-toggle="collapse" data-target="#info-f10" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 10</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}
+                  </span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][9] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de hiperenlaces en el sitio') }} =
+                  {{information_to_display["fv_extra_information"]["f10"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{10} = \text{enlaces presentes en el sitio web}$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f10" class="accordian-body collapse dashboard-description">
+                  {{ gettext('Normalmente, los sitios phishing contienen menos páginas')}}
+                  {{ gettext(' (por ejemplo, un enlace a una página de login)')}}
+                  {{ gettext(' que los legítimos.')}} <br>
+                  {{ gettext('Estos se encuentran contenidos en el atributo')}}
+                  {{ gettext(' "src" de las etiquetas pertenecientes a imágenes, scripts, frames,')}}
+                  {{ gettext(' etc., además del atributo "href" de la etiqueta ancla.')}}
+                </div>
+              </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-f11" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 11</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][10] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('¿Página vacía?')}} {{information_to_display["fv_extra_information"]["f11"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{11} = \left\{ \begin{array}{lr} 1, & \text{si la página no contiene enlaces}\\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f11" class="accordian-body collapse dashboard-description">
+                  {{gettext('Es muy sospechoso que una página web no contenga ningún hiperenlace debido')}}
+                  {{gettext(' a que se podrían estar utilizando técnicas de ocultación de sitios')}}
+                  {{gettext(' peligrosos para esquivar sistemas anti-phishing')}}
+                </div>
+              </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-f12" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 12</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][11] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de hiperenlaces externos')}} = {{information_to_display["fv_extra_information"]["f12"]}}
+                </p>
+              </td>
+              <td>
+                $$F_{12} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
+                \frac{\text{enlaces externos}}{\text{enlaces totales}}
+                \text{> 0.5 y el número de enlaces > 0} \\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f12" class="accordian-body collapse dashboard-description">
+                  {{ gettext('Debido a que los sitios atacantes suelen imitar la estética de sus objetivos,') }}
+                  {{ gettext(' es común que posean múltiples hiperenlaces que apunten a sitios externos.') }}
+                  {{ gettext(' Se consideran externos a aquellos enlaces absolutos distintos al sitio base.') }}
+                </div>
+              </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-f13" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 13</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][12] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de hiperenlaces vacíos') }} = {{information_to_display["fv_extra_information"]["f13"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{13} = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces vacíos}}
+                {\text{enlaces totales}} \text{> 0.34 y el número de enlaces > 0} \\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f13" class="accordian-body collapse dashboard-description">
+                  {{ gettext('Cuando un enlace está vacío, si el usuario pulsa, es redirigido a la') }}
+                  {{ gettext(' misma página de la que se parte (es decir, no hay redirección a un sitio distinto),') }}
+                  {{ gettext(' lo que incrementa las posibilidades de que la víctima caiga en el ataque.') }} <br>
+                  {{ gettext(' Además, también se pueden utilizar otro tipo de vulnerabilidades') }}
+                  {{ gettext(' existentes en los navegadores para aumentar la tasa de éxito.') }}
+                </div>
+              </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-f14" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 14</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][13] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de hiperenlaces erróneos') }} =
+                  {{information_to_display["fv_extra_information"]["f14"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{14} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
+                \frac{\text{enlaces erróneos}}{\text{enlaces totales}}
+                \text{> 0.3 y el número de enlaces > 0} \\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f14" class="accordian-body collapse dashboard-description">
+                  {{gettext('Se considera un enlace erróneo aquel que devuelve un código') }}
+                  {{gettext(' 403 o 404 cuando se pulsa en él.') }}
+                </div>
+              </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-f15" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 15</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-success"
+                    style="font-weight: bold;">{{gettext('Hiperenlaces')}}</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][14] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('Nº de hiperenlaces que redirigen') }} =
+                  {{information_to_display["fv_extra_information"]["f15"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{15} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
+                \frac{\text{enlaces que redirigen}}{\text{enlaces totales}}
+                \text{> 0.3 y el número de enlaces > 0} \\
+                0, & \text{ cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f15" class="accordian-body collapse dashboard-description">
+                  {{ gettext('Es común que los atacantes traten de confundir al usuario redirigiendo su') }}
+                  {{ gettext(' solicitud a lugares externos. Una redirección se identifica gracias a su') }}
+                  {{ gettext(' código de respuesta, que es un 301 o un 302.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F16 FICHERO CSS-->
+            <tr data-toggle="collapse" data-target="#info-f16" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 16</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-info" style="font-weight: bold;">Fichero CSS</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][15] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{gettext('¿Fichero CSS encontrado?') }} {{information_to_display["fv_extra_information"]["f16"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{16} = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero CSS y es externo}\\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f16" class="accordian-body collapse dashboard-description">
+                  {{gettext('Para imitar la estética de un sitio legítimo, los atacantes') }}
+                  {{gettext('podrían utilizar su fichero CSS.') }} <br>
+                  {{gettext('Un CSS es una hoja de estilos que define el aspecto visual de una página') }}
+                  {{gettext('web, y puede estar incrustado en el propio HTML de la página o ser un') }}
+                  {{gettext('fichero externo.') }}
+                  <br>
+                  {{gettext('En el caso de ser único y externo,') }}
+                  {{gettext('se entiende que puede tratarse de un intento de estafa.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F17 IDENTIDAD DE LA WEB-->
+            <tr data-toggle="collapse" data-target="#info-f17" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 17</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-primary" style="font-weight: bold;">
+                    {{ gettext('Identidad web') }}
+                  </span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][16] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ gettext('Palabra copyright') }}
+                  {{information_to_display["fv_extra_information"]["f17"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{17} = \left\{ \begin{array}{lr} 0, &
+                \text{si las palabras del copyright están en el dominio base}\\
+                1, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f17" class="accordian-body collapse dashboard-description">
+                  {{gettext('Las páginas legítimas suelen contener el nombre del dominio en la sección dedicada a') }}
+                  copyright. <br>
+                  {{gettext(' En el caso de que el nombre del dominio no aparezca en el texto del copyright,') }}
+                  {{gettext(' se entiende que la página puede ser una estafa.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F18 IDENTIDAD DE LA WEB-->
+            <tr data-toggle="collapse" data-target="#info-f18" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 18</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-primary" style="font-weight: bold;">
+                    {{ gettext('Identidad web') }}
+                  </span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][17] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ gettext('Palabra clave dominio base') }}
+                  {{information_to_display["fv_extra_information"]["f18"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{18} = \left\{ \begin{array}{lr} 0, & \text{si una keyword coincide con el dominio base}\\
+                1, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f18" class="accordian-body collapse dashboard-description">
+                  {{gettext('Para cada página web, se ha construido un conjunto de keywords compuesto por las') }}
+                  {{gettext(' palabras contenidas en el título, en las etiquetas meta ') }}
+                  {{gettext(' (cuyo campo name equivalga a description o keywords metatags)') }} <br>
+                  {{gettext(' y por las más relevantes del cuerpo (extraídas mediante el algoritmo TF-IDF).') }} <br>
+                  {{gettext(' Lo más común es que los sitios legítimos contengan al menos una de estas ') }}
+                  {{gettext(' palabras en el dominio base. En caso contrario, se considera un intento de phishing.') }}
+                </div>
+              </td>
+            </tr>
+            <!-- F19 IDENTIDAD DE LA WEB-->
+            <tr data-toggle="collapse" data-target="#info-f19" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 19</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-primary" style="font-weight: bold;">
+                    {{ gettext('Identidad web') }}
+                  </span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][18] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ gettext('¿Dominio externo en el favicon') }}
+                  {{information_to_display["fv_extra_information"]["f19"]}}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                $$F_{19} = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el favicon}\\
+                0, & \text{cualquier otro caso} \end{array}\right.$$
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="hiddenRow">
+                <div id="info-f19" class="accordian-body collapse dashboard-description">
+                  {{gettext('Un favicon es una miniatura asociada a una página web. Por ello, los') }}
+                  {{gettext(' atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la') }}
+                  {{gettext(' confianza de los usuarios.') }} <br>
+                  {{gettext(' De este modo, se considera intento de estafa cualquier ') }}
+                  {{gettext(' icono que contenga un enlace externo.') }} <br>
+                  {{gettext(' Para localizarlos, se ubica el atributo "rel" dentro de las etiquetas') }}
+                  {{gettext(' "link" y se comprueba que su valor sea la cadena "shortcut icon" o "icon".') }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if current_user.is_authenticated %}
+<div class="row text-center h-100">
+  <div class="col-md-12 text-center my-auto">
+    <div class="card card-block d-flex">
+      <div class="card-body align-items-center d-flex justify-content-center">
+        <span class="gray-description-forms text-lg font-weight-bolder text-center"
+          style="word-spacing: 3px;">
+          <img src="/static/assets/img/theme/robot.png"
+            style="width: 5%; height: 5%; margin-right: 25px; display: inline-block;">
+          <span class="primary-label-forms text-lg">{{gettext('¡Oye, tú, humano!') }}</span>
+          {{gettext('Si piensas que el análisis es erróneo y se trata de un falso resultado') }}, {{gettext(' ¡Háznoslo saber!') }}
+          <a id="btn-report-false-positive" class="btn btn-primary" style="margin-left: 25px; display: inline-block;"
+            href="{{ url_for('home_blueprint.report_false_positive') }}">
+            {{gettext('Reporta análisis erróneo') }}
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% include "includes/footer.html" %}
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{% endblock javascripts %}

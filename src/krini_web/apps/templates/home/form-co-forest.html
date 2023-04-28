@@ -1,0 +1,60 @@
+<div class="table-responsive">
+    <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+        <tbody class="list">
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">{{ gettext('Thetha') }} &nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('umbral de confianza con el decimal separado mediante un punto') }})
+                            </span>
+                        </p>
+                        {{ form.thetha(placeholder="0.75", class="form-control") }}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">{{ gettext('Número de árboles') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('número de clasificadores base') }})
+                            </span>
+                        </p>
+                        {{ form.n_trees(placeholder="6", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">{{ gettext('Max Features') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('atributos utilizados al dividir en la construcción del árbol')}})
+                            </span>
+                        </p>
+                        {{ form.max_features(placeholder="visibilidad", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-coforest" class="accordion-toggle">
+                <td style="text-align: left;">
+                    <div>
+                        <a class="btn btn-icon-only bg-primary">
+                            <i class="ni ni-bulb-61 text-white"></i>
+                        </a>
+                        <p class="primary-label-forms" style="display:inline">&nbsp;{{ gettext('Pseudocódigo') }}&nbsp;
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="hiddenRow">
+                    <div id="info-coforest" class="accordian-body collapse">
+                        <p style="text-align: center;">
+                            <img src="/static/assets/img/theme/coforest_pseudocode.png" alt="Pseudocódigo de Coforest">
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

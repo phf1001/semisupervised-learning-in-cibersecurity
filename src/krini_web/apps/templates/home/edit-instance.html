@@ -1,0 +1,220 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+{% if operation == "edit" %}
+{{ gettext('Editar instancia') }}
+{% else %}
+{{ gettext('Nueva instancia') }}
+{% endif %}
+{% endblock title %}
+{% block content %}
+
+<div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/instances">
+                                    {{ gettext('Administración de instancias') }}
+                                </a></li>
+                            {% if operation == "edit" %}
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ gettext('Editar instancia') }}
+                            </li>
+                            {% else %}
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ gettext('Nueva instancia') }}
+                            </li>
+                            {% endif %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form role="form" method="post" action="" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">
+                            {% if operation == "edit" %}
+                            {{ gettext('EDITAR INSTANCIA') }}
+                            {% else %}
+                            {{ gettext('NUEVA INSTANCIA') }}
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>
+                                        <p class="light-gray-thread-forms">
+                                            {% if operation == "edit" %}
+                                            {{ instance_dict["instance_URL"] }}
+                                            {% else %}
+                                            {{ gettext('RELLENA EL FORMULARIO') }}
+                                            {% endif %}
+                                        </p>
+                                    </th>
+                                    <th scope="col" class="sort" data-sort="type">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                {% if operation != "edit" %}
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-0" name="search">
+                                            <p class="primary-label-forms">
+                                                &nbsp;&nbsp;{{ gettext('Introduce una URL') }}&nbsp;
+                                                <span class="gray-description-forms">
+                                                    {{ gettext('preferiblemente con protocolo (http:// o https://)') }}
+                                                </span>
+                                            </p>
+                                            <div>
+                                                {{ form.url(placeholder="https://google.com", class="form-control") }}
+                                                <br \>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                {{ gettext('Etiquetas') }}
+                                                <span class="gray-description-forms">
+                                                    ({{ gettext('pulse enter para introducir una nueva') }}
+                                                    {{ gettext(' etiqueta o seleccione entre las disponibles') }})
+                                                </span>
+                                                {% if initial_value != "" %}
+                                                <br \>
+                                                <span class="previous-value-forms">
+                                                    {{ gettext('Valor previo:') }}
+                                                    {{initial_value | replace(",", ",")}}
+                                                </span>
+                                                <br \><br \>
+                                                <input type="text" name="labels" id="labels" class="form-control"
+                                                    value={{initial_value}} />
+                                                {% else %}
+                                                <br \><br \>
+                                                <input type="text" name="labels" id="labels" class="form-control" />
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                {{ gettext('Vector de características') }}
+                                                <span class="gray-description-forms">
+                                                    ({{ gettext('si no quieres generar un vector') }}
+                                                    {{ gettext(' ahora, deja seleccionada la opción') }}
+                                                    {{ gettext(' "mantener vector actual"') }})
+                                                </span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br \>
+                                                    {{ gettext('Valor previo:') }}
+                                                    {{ instance_dict["instance_fv"] }}</span>
+                                                {% endif %}
+                                                <br \><br \>
+                                                {{ form.regenerate_fv(class="form-control") }}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                {{ gettext('Clase') }}
+                                                <span class="gray-description-forms">
+                                                    ( {{ gettext('phishing si es una página maliciosa,') }}
+                                                    {{ gettext(' legítima en caso contrario. Si no conoces') }}
+                                                    {{ gettext('la clase, deja seleccionada la opción ') }}
+                                                    {{ gettext('"mantener valor actual"') }})
+                                                </span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br \>
+                                                    {{ gettext('Valor previo:') }}
+                                                    {% if instance_dict["instance_class"] == "no disponible" %}
+                                                    {{ gettext('esta instancia todavía no ha sido clasificada') }}
+                                                    {% else %}
+                                                    {{instance_dict["instance_class"] }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
+                                                <br \><br \>
+                                                {{ form.instance_class(class="form-control")}}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="form-group mb-3">
+                                            <p class="primary-label-forms">
+                                                {{ gettext('Pertenencia a lista') }}
+                                                <span class="gray-description-forms">
+                                                    ({{ gettext('lista blanca si es una página legítima') }}
+                                                    {{ gettext(' verificada, lista negra si es una página maliciosa') }}
+                                                    {{ gettext(' verificada. Si no conoces la lista, deja')}}
+                                                    {{ gettext(' seleccionada la opción "mantener valor actual"') }})
+                                                </span>
+                                                {% if operation == "edit" %}
+                                                <span class="previous-value-forms"><br \>
+                                                    {{ gettext('Valor previo:') }}
+                                                    {% if instance_dict["colour_list"] == None %}
+                                                    {{ gettext('esta instancia no pertenece a ninguna lista') }}
+                                                    {% else %}
+                                                    {{ instance_dict["colour_list"] }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
+                                                <br \><br \>
+                                                {{ form.instance_list(class="form-control")}}
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="text-center">
+                                            <button type="submit" name="siguiente" class="btn btn-primary my-4">
+                                                {{ gettext('Siguiente') }}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "includes/footer.html" %}
+        <div id="instance-tags" data-instance-tags="{{ instance_tags }}"></div>
+    </div>
+</form>
+{% endblock content %}
+
+{% block javascripts %}
+<script src="/static/assets/js/labels.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+{% endblock javascripts %}

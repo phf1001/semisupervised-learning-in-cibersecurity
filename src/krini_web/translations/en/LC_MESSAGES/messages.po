@@ -1,0 +1,2131 @@
+# English translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-04-28 09:54+0200\n"
+"PO-Revision-Date: 2023-04-28 09:54+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: apps/messages.py:21
+msgid "Error al realizar la operación solicitada."
+msgstr "english"
+
+#: apps/messages.py:24
+msgid "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
+msgstr "english"
+
+#: apps/messages.py:29
+msgid "No se ha encontrado la instancia."
+msgstr "english"
+
+#: apps/messages.py:32
+msgid "No se ha encontrado la información."
+msgstr "english"
+
+#: apps/messages.py:35
+msgid "Inicia sesión para reportar falsos positivos."
+msgstr "english"
+
+#: apps/messages.py:37
+msgid "Gracias por tu colaboración."
+msgstr "english"
+
+#: apps/messages.py:40
+msgid "¡Lo sentimos! No se ha podido registrar el falso resultado."
+msgstr "english"
+
+#: apps/messages.py:42
+msgid "Inténtalo de nuevo más adelante. Gracias por tu colaboración."
+msgstr "english"
+
+#: apps/messages.py:47
+msgid "Se ha producido un error al subir los archivos .csv."
+msgstr "english"
+
+#: apps/messages.py:50
+msgid "Se ha generado el conjunto de train y test aleatoriamente."
+msgstr "english"
+
+#: apps/messages.py:56
+msgid "Error al crear el modelo. ¿Has comprobado que los ficheros de "
+msgstr "english"
+
+#: apps/messages.py:59
+msgid "entrenamiento y test tengan un número mínimo de instancias?"
+msgstr "english"
+
+#: apps/messages.py:62
+msgid " Parecen ser demasiado pocas."
+msgstr "english"
+
+#: apps/messages.py:67
+msgid "No hay instancias para testear el modelo"
+msgstr "english"
+
+#: apps/messages.py:68
+msgid " (han sido todas vistas durante el entrenamiento)."
+msgstr "english"
+
+#: apps/messages.py:69
+msgid " Prueba a subir un csv. Mostrando scores almacenados en la BD."
+msgstr "english"
+
+#: apps/messages.py:75
+msgid "Error al cargar el modelo o alguno de sus parámetros."
+msgstr "english"
+
+#: apps/messages.py:78
+msgid "Operación no realizada: no se puede"
+msgstr "english"
+
+#: apps/messages.py:78
+msgid " generar el vector de características. La URL no está disponible."
+msgstr "english"
+
+#: apps/messages.py:83
+msgid "Error extrayendo el vector de características."
+msgstr "english"
+
+#: apps/messages.py:86
+msgid "Error reconstruyendo el objeto TFIDF"
+msgstr "english"
+
+#: apps/messages.py:89
+msgid "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
+msgstr "english"
+
+#: apps/messages.py:94
+msgid "Debe iniciar sesión para acceder a esta página."
+msgstr "english"
+
+#: apps/messages.py:97
+msgid "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
+msgstr "english"
+
+#: apps/messages.py:102
+msgid "No se ha podido cargar el fichero de la IA. Lo sentimos."
+msgstr "english"
+
+#: apps/messages.py:107
+msgid "Error al guardar el modelo en la BD o los datos de entrenamiento."
+msgstr "english"
+
+#: apps/messages.py:109
+msgid " Comprueba que las instancias utilizadas están en la BD."
+msgstr "english"
+
+#: apps/messages.py:112
+msgid "No se ha encontrado el modelo serializado."
+msgstr "english"
+
+#: apps/messages.py:115
+msgid "Error al generar el dataset."
+msgstr "english"
+
+#: apps/messages.py:118
+msgid "Error al generar el dataset de entrenamiento."
+msgstr "english"
+
+#: apps/messages.py:121
+msgid "El fichero subido no existe o no es un csv."
+msgstr "english"
+
+#: apps/messages.py:124
+msgid "El fichero no tiene el formato correcto. Prueba a descargarlo desde "
+msgstr "english"
+
+#: apps/messages.py:126
+msgid "la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
+msgstr "english"
+
+#: apps/messages.py:131
+msgid "No se han podido actualizar los scores en la base de datos."
+msgstr "english"
+
+#: apps/messages.py:136
+msgid "Clasificador base no encontrado"
+msgstr "english"
+
+#: apps/messages.py:152
+msgid "Por favor, introduce un nombre de usuario."
+msgstr "english"
+
+#: apps/messages.py:155
+msgid "Por favor, introduce una contraseña."
+msgstr "english"
+
+#: apps/messages.py:158
+msgid "Por favor, introduce un email."
+msgstr "english"
+
+#: apps/messages.py:161
+msgid "Por favor, introduce un email válido."
+msgstr "english"
+
+#: apps/messages.py:164
+msgid "El nombre de usuario ya está en uso."
+msgstr "english"
+
+#: apps/messages.py:167
+msgid "El email ya está en uso."
+msgstr "english"
+
+#: apps/messages.py:170
+msgid "Por favor, introduce tu nombre propio."
+msgstr "english"
+
+#: apps/messages.py:173
+msgid "Por favor, introduce tus apellidos."
+msgstr "english"
+
+#: apps/messages.py:176
+msgid "Por favor, introduce tus credenciales."
+msgstr "english"
+
+#: apps/messages.py:179
+msgid "Las credenciales introducidas no son correctas."
+msgstr "english"
+
+#: apps/messages.py:183
+msgid "Usuario creado con éxito."
+msgstr "english"
+
+#: apps/messages.py:185
+msgid " Inicia sesión"
+msgstr "english"
+
+#: apps/messages.py:190
+msgid "No se ha podido crear la cuenta. Inténtelo de nuevo más tarde."
+msgstr "english"
+
+#: apps/messages.py:195
+msgid "Por favor, introduce una URL."
+msgstr "english"
+
+#: apps/messages.py:198
+msgid "Por favor, selecciona una opción en el desplegable."
+msgstr "english"
+
+#: apps/messages.py:201
+msgid "Introduce una versión válida."
+msgstr "english"
+
+#: apps/messages.py:201
+msgid "Si no sabes qué poner, puedes probar a introducir un número entero."
+msgstr "english"
+
+#: apps/messages.py:206
+msgid "Por favor, introduce un nombre."
+msgstr "english"
+
+#: apps/messages.py:209
+msgid "Por favor, introduce una semilla aleatoria o -1 en su defecto."
+msgstr "english"
+
+#: apps/messages.py:214
+msgid "Por favor, introduce un porcentaje de instancias de entrenamiento."
+msgstr "english"
+
+#: apps/messages.py:219
+msgid "Por favor, introduce un porcentaje de instancias de entrenamiento válido."
+msgstr "english"
+
+#: apps/messages.py:225
+msgid "Por favor, introduce un número de árboles."
+msgstr "english"
+
+#: apps/messages.py:227
+msgid "Si no deseas ninguno puedes introducir 0."
+msgstr "english"
+
+#: apps/messages.py:231
+msgid "El número de árboles no es correcto."
+msgstr "english"
+
+#: apps/messages.py:231
+msgid "Introduce un número entre 0 y 100."
+msgstr "english"
+
+#: apps/messages.py:236
+msgid "Por favor, introduce un número decimal en thetha"
+msgstr "english"
+
+#: apps/messages.py:238
+msgid "(la coma se separa mediante un punto) o 0.75 en su defecto."
+msgstr "english"
+
+#: apps/messages.py:243
+msgid "El valor de thetha no es correcto."
+msgstr "english"
+
+#: apps/messages.py:243
+msgid "Introduce un número entre 0 y 1."
+msgstr "english"
+
+#: apps/messages.py:248
+msgid "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
+msgstr "english"
+
+#: apps/messages.py:266
+msgid "Operación realizada con éxito."
+msgstr "english"
+
+#: apps/messages.py:269
+msgid "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
+msgstr "english"
+
+#: apps/messages.py:274
+msgid "Realiza un análisis para acceder al dashboard y visualizar resultados."
+msgstr "english"
+
+#: apps/messages.py:279
+msgid "La información para mostrar ha caducado o no está disponible."
+msgstr "english"
+
+#: apps/messages.py:284
+msgid "Idioma cambiado correctamente."
+msgstr "english"
+
+#: apps/messages.py:287
+msgid "No se ha podido cambiar el idioma."
+msgstr "english"
+
+#: apps/messages.py:290
+msgid "Debes iniciar sesión para acceder a esta página."
+msgstr "english"
+
+#: apps/messages.py:293
+msgid "No tienes permisos para acceder a esta página."
+msgstr "english"
+
+#: apps/messages.py:296
+msgid "Falso resultado reportado correctamente."
+msgstr "english"
+
+#: apps/messages.py:296
+msgid "¡Gracias por tu colaboración!"
+msgstr "english"
+
+#: apps/messages.py:301
+msgid "Modelo eliminado correctamente."
+msgstr "english"
+
+#: apps/messages.py:304
+msgid "Modelo actualizado correctamente."
+msgstr "english"
+
+#: apps/messages.py:307
+msgid "Modelos eliminados correctamente."
+msgstr "english"
+
+#: apps/messages.py:310
+msgid "No se ha podido eliminar el modelo."
+msgstr "english"
+
+#: apps/messages.py:313
+msgid "No se ha podido actualizar el modelo."
+msgstr "english"
+
+#: apps/messages.py:316
+msgid "No se han podido eliminar los modelos."
+msgstr "english"
+
+#: apps/messages.py:319
+msgid "No se ha podido crear el modelo."
+msgstr "english"
+
+#: apps/messages.py:322
+msgid "Error al serializar el modelo."
+msgstr "english"
+
+#: apps/messages.py:325
+msgid "Error al actualizar el modelo por defecto."
+msgstr "english"
+
+#: apps/messages.py:328
+msgid "No se ha seleccionado ningún modelo."
+msgstr "english"
+
+#: apps/messages.py:332
+msgid "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos comunes."
+msgstr "english"
+
+#: apps/messages.py:336
+msgid "Los resultados de las scores podrían no ser fiables (optimistas)."
+msgstr "english"
+
+#: apps/messages.py:342
+msgid "Modelo creado y guardado correctamente."
+msgstr "english"
+
+#: apps/messages.py:345
+msgid "Recuerda que los resultados de las scores pueden ser optimistas si el "
+msgstr "english"
+
+#: apps/messages.py:347
+msgid "conjunto de test contiene instancias vistas durante el entrenamiento."
+msgstr "english"
+
+#: apps/messages.py:352 apps/messages.py:359
+msgid "english"
+"Test realizado correctamente. Puedes ver los resultados en la gráfica "
+"superior."
+msgstr "english"
+
+#: apps/messages.py:354
+msgid "Además, se han actualizado las scores en la base de datos."
+msgstr "english"
+
+#: apps/messages.py:364
+msgid "No se han podido calcular las métricas (asignado valor de 0.0): "
+msgstr "english"
+
+#: apps/messages.py:369
+msgid ". ¿Hay instancias positivas en el conjunto de test?"
+msgstr "english"
+
+#: apps/messages.py:372
+msgid "Instancia eliminada correctamente."
+msgstr "english"
+
+#: apps/messages.py:375
+msgid "No se ha podido eliminar la instancia."
+msgstr "english"
+
+#: apps/messages.py:378
+msgid "Instancias eliminadas correctamente."
+msgstr "english"
+
+#: apps/messages.py:381
+msgid "No se han podido eliminar las instancias."
+msgstr "english"
+
+#: apps/messages.py:384
+msgid "No se ha seleccionado ninguna instancia."
+msgstr "english"
+
+#: apps/messages.py:387
+msgid "Instancia creada y guardada correctamente."
+msgstr "english"
+
+#: apps/messages.py:390
+msgid "Sugerencia: comprueba que no estás creando una instancia que ya existe."
+msgstr "english"
+
+#: apps/messages.py:395
+msgid "No se han seleccionado ninguna sugerencia."
+msgstr "english"
+
+#: apps/messages.py:398
+msgid "No se han podido eliminar las sugerencias."
+msgstr "english"
+
+#: apps/messages.py:401
+msgid "Sugerencias eliminadas correctamente."
+msgstr "english"
+
+#: apps/messages.py:404
+msgid "No se ha podido eliminar la sugerencia."
+msgstr "english"
+
+#: apps/messages.py:407
+msgid "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
+msgstr "english"
+
+#: apps/messages.py:411
+msgid "Mensaje no disponible. ¡Lo sentimos!"
+msgstr "english"
+
+#: apps/messages.py:428
+msgid "No se ha podido llamar ni reconstruir la URL "
+msgstr "english"
+
+#: apps/messages.py:430
+msgid ". Tampoco existe información en la base de datos acerca de ella."
+msgstr "english"
+
+#: apps/messages.py:436
+msgid "Max features = "
+msgstr "english"
+
+#: apps/messages.py:439
+msgid "Thetha = "
+msgstr "english"
+
+#: apps/messages.py:442
+msgid "Nº árboles = "
+msgstr "english"
+
+#: apps/messages.py:445
+msgid "Nº clasificadores = "
+msgstr "english"
+
+#: apps/messages.py:448
+msgid "Clasificador "
+msgstr "english"
+
+#: apps/messages.py:461
+msgid "Naive Bayes"
+msgstr "english"
+
+#: apps/messages.py:464
+msgid "Árbol de decisión"
+msgstr "english"
+
+#: apps/messages.py:467
+msgid "k-vecinos más cercanos"
+msgstr "english"
+
+#: apps/messages.py:470
+msgid "legítimo"
+msgstr "english"
+
+#: apps/messages.py:473 apps/templates/home/dashboard.html:33
+msgid "LEGÍTIMA"
+msgstr "english"
+
+#: apps/messages.py:476
+msgid "phishing"
+msgstr "english"
+
+#: apps/messages.py:479
+msgid "no disponible"
+msgstr "english"
+
+#: apps/messages.py:482
+msgid "no hay ningún vector generado para esta instancia"
+msgstr "english"
+
+#: apps/messages.py:485
+msgid "lista-negra"
+msgstr "english"
+
+#: apps/messages.py:488
+msgid "lista-blanca"
+msgstr "english"
+
+#: apps/messages.py:491
+msgid "auto-clasificada"
+msgstr "english"
+
+#: apps/messages.py:494
+msgid "revisada"
+msgstr "english"
+
+#: apps/messages.py:497
+msgid "sugerencia-lista-blanca"
+msgstr "english"
+
+#: apps/messages.py:500
+msgid "sugerencia-lista-negra"
+msgstr "english"
+
+#: apps/messages.py:503
+msgid "sugerencia-phishing"
+msgstr "english"
+
+#: apps/messages.py:506
+msgid "sugerencia-legítima"
+msgstr "english"
+
+#: apps/messages.py:509
+msgid "nueva-instancia"
+msgstr "english"
+
+#: apps/messages.py:512
+msgid "revisión-recomendada"
+msgstr "english"
+
+#: apps/messages.py:515
+msgid "recién-escaneada-revisar"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:2 apps/templates/accounts/login.html:47
+#: apps/templates/includes/navigation.html:110
+msgid "Iniciar sesión"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:13
+msgid "INICIA SESIÓN"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:18
+#: apps/templates/accounts/register.html:16
+msgid "Introduce tus credenciales"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:28
+#: apps/templates/accounts/register.html:26 apps/templates/home/profile.html:74
+msgid "Nombre de usuario"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:38
+#: apps/templates/accounts/register.html:62
+msgid "Contraseña"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:55
+#: apps/templates/accounts/register.html:2
+#: apps/templates/accounts/register.html:71
+msgid "Registrarse"
+msgstr "english"
+
+#: apps/templates/accounts/login.html:59
+#: apps/templates/accounts/register.html:84
+msgid "Inicio"
+msgstr "english"
+
+#: apps/templates/accounts/register.html:12
+msgid "CREA TU CUENTA"
+msgstr "english"
+
+#: apps/templates/accounts/register.html:35
+msgid "Nombre propio"
+msgstr "english"
+
+#: apps/templates/accounts/register.html:44 apps/templates/home/profile.html:96
+msgid "Apellidos"
+msgstr "english"
+
+#: apps/templates/accounts/register.html:53 apps/templates/home/profile.html:81
+msgid "Correo electrónico"
+msgstr "english"
+
+#: apps/templates/accounts/register.html:80
+msgid "Usa una cuenta existente"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:2
+#: apps/templates/includes/navigation.html:40
+msgid "Dashboard"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:12
+msgid "Resultados del análisis"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:29
+msgid "HA SIDO MAYORITARIAMENTE CLASIFICADA COMO"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:31
+msgid "PHISHING"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:36
+msgid "Y ESTÁ CONTENIDA EN LA"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:39
+msgid "LISTA BLANCA"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:43
+msgid "LISTA NEGRA"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:67
+msgid "COMPARATIVA ENTRE CLASIFICADORES"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:85
+msgid "RESUMEN"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:86
+msgid "CLASIFICACIÓN"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:104
+msgid "EN DETALLE"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:112
+msgid "CLASIFICADOR"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:113
+msgid "PREDICCIÓN"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:114
+msgid "SEGURIDAD"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:177
+msgid "CADA CLASIFICADOR EN PARTICULAR"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:182
+#: apps/templates/home/dashboard.html:187
+#: apps/templates/home/edit-instance.html:194
+#: apps/templates/home/edit-model.html:122
+#: apps/templates/home/instances-administration.html:234
+#: apps/templates/home/instances-administration.html:241
+#: apps/templates/home/instances-review.html:213
+#: apps/templates/home/instances-review.html:220
+#: apps/templates/home/models-administration.html:253
+#: apps/templates/home/models-administration.html:260
+#: apps/templates/home/new-model.html:262
+#: apps/templates/home/test-model.html:140
+msgid "Siguiente"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:211
+msgid "VECTOR DE CARACTERÍSTICAS DE LA PÁGINA WEB"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:224
+#: apps/templates/home/dashboard.html:247
+#: apps/templates/home/dashboard.html:286
+#: apps/templates/home/dashboard.html:326
+#: apps/templates/home/dashboard.html:366
+#: apps/templates/home/dashboard.html:416
+#: apps/templates/home/dashboard.html:455
+#: apps/templates/home/dashboard.html:493
+#: apps/templates/home/dashboard.html:541
+#: apps/templates/home/dashboard.html:586
+#: apps/templates/home/dashboard.html:633
+#: apps/templates/home/dashboard.html:676
+#: apps/templates/home/dashboard.html:715
+#: apps/templates/home/dashboard.html:756
+#: apps/templates/home/dashboard.html:798
+#: apps/templates/home/dashboard.html:839
+#: apps/templates/home/dashboard.html:882
+#: apps/templates/home/dashboard.html:926
+#: apps/templates/home/dashboard.html:970
+#: apps/templates/home/dashboard.html:1015
+msgid "Característica"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:227
+msgid "Basada en"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:230
+msgid "Valor vector"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:233
+#: apps/templates/home/models-administration.html:103
+msgid "Parámetros"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:236
+msgid "Fórmula"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:239
+msgid "Descripción"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:261
+msgid "Puntos en la URL"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:277
+msgid "En general, los dominios legítimos no contienen más de tres puntos en"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:278
+msgid " la URL. Por lo tanto, esta característica se establece a 1 si el"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:279
+msgid " número de puntos en la URL es mayor o igual que 4."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:300
+msgid "Carácter relevante encontrado:"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:317
+msgid "english"
+"En una URL, el uso de \"@\" hace que se ignore todo lo escrito "
+"anteriormente al símbolo"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:318
+msgid "english"
+" , y \"-\" es utilizado para engañar a los usuarios en enlaces como por "
+"ejemplo"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:340
+msgid "Longitud de la URL"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:357
+msgid "Normalmente, los dominios oficiales son cortos y significativos."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:358
+msgid "Sin embargo, aquellos sitios de phishing suelen ser más largos"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:359
+msgid "con el fin de confundir al usuario u ocultar información"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:380
+msgid "Palabra sospechosa encontrada"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:397
+#: apps/templates/home/dashboard.html:571
+msgid "Según"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:401
+msgid "english"
+"es común que las páginas de phishing añadan palabras clave en los enlaces"
+" para ganar"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:402
+msgid "la confianza de sus víctimas."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:403
+msgid "english"
+"En concreto, se buscan y tienen encuenta enlaces que contengan las "
+"palabras:"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:405
+msgid "english"
+"Como aportación propia, se ha tenido en cuenta que estas palabras puedan "
+"estar"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:406
+msgid "escritas utilizando el"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:409
+msgid "lenguaje leet"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:430
+msgid "Dominio extra encontrado:"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:447
+msgid "english"
+"En los dominios legítimos, el TDL no está presente en la parte "
+"perteneciente al"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:448
+msgid " dominio base, ni ocurre más de una vez en la dirección."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:469
+msgid "¿http encontrado?"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:485
+msgid "english"
+"En sitios genuinos, la cadena \"http\" sólo se encuentra una vez en el "
+"protocolo."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:486
+msgid "english"
+" Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio"
+" phishing."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:507
+msgid "¿Marca famosa?"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:524
+msgid "english"
+"la gran mayoría de los sitios de phishing contienen el nombre de la marca"
+" objetivo en la\n"
+"                  URL."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:527
+msgid "english"
+"Por ello, se han seleccionado algunos de los objetivos más comunes para "
+"los atacantes"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:528
+msgid "english"
+" (por ejemplo, Google) y, si se encuentra el nombre en una posición "
+"incorrecta,"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:529
+msgid " se asume que se trata de un intento de estafa."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:530
+msgid "english"
+" Nuevamente, se ha tenido en consideración que dichas palabras puedan "
+"estar en"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:533
+msgid " lenguaje leet"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:555
+msgid "Nº de data URIs encontrados"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:574
+msgid "english"
+"los ataques basados en la existencia de un Data URI son muy comunes. Este"
+" esquema"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:575
+msgid "permite insertar datos en línea dentro de un documento."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:576
+msgid "El peligro reside en"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:577
+msgid "que esos datos pueden codificar cualquier tipo de archivo"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:578
+msgid "(por ejemplo, un script de Javascript),"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:579
+msgid "pudiendo extraer datos o incluso realizar ataques XSS."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:591
+msgid "Formulario de Login"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:602
+msgid "Valor del campo"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:621
+msgid "english"
+"Es común que los sitios de phishing incluyan formularios de inicio de "
+"sesión debido"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:622
+msgid " a que es una forma común de introducir datos personales."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:623
+msgid "english"
+" En concreto, la diferencia reside en que en los sitios legítimos el "
+"campo de"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:624
+msgid "english"
+" acción suele contener un enlace con el mismo dominio base que el sitio "
+"inicial."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:625
+msgid "english"
+" Sin embargo, en los sitios de phishing esto no es así. Hay otras "
+"variaciones como"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:626
+msgid "english"
+" campos vacíos, con enlaces nulos o archivos PHP que almacenen las "
+"credenciales."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:638
+#: apps/templates/home/dashboard.html:681
+#: apps/templates/home/dashboard.html:720
+#: apps/templates/home/dashboard.html:761
+#: apps/templates/home/dashboard.html:803
+#: apps/templates/home/dashboard.html:844
+msgid "Hiperenlaces"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:649
+msgid "Nº de hiperenlaces en el sitio"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:665
+msgid "Normalmente, los sitios phishing contienen menos páginas"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:666
+msgid " (por ejemplo, un enlace a una página de login)"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:667
+msgid " que los legítimos."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:668
+msgid "Estos se encuentran contenidos en el atributo"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:669
+msgid " \"src\" de las etiquetas pertenecientes a imágenes, scripts, frames,"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:670
+msgid " etc., además del atributo \"href\" de la etiqueta ancla."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:691
+msgid "¿Página vacía?"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:707
+msgid "Es muy sospechoso que una página web no contenga ningún hiperenlace debido"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:708
+msgid " a que se podrían estar utilizando técnicas de ocultación de sitios"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:709
+msgid " peligrosos para esquivar sistemas anti-phishing"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:730
+msgid "Nº de hiperenlaces externos"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:748
+msgid "english"
+"Debido a que los sitios atacantes suelen imitar la estética de sus "
+"objetivos,"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:749
+msgid " es común que posean múltiples hiperenlaces que apunten a sitios externos."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:750
+msgid "english"
+" Se consideran externos a aquellos enlaces absolutos distintos al sitio "
+"base."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:771
+msgid "Nº de hiperenlaces vacíos"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:788
+msgid "Cuando un enlace está vacío, si el usuario pulsa, es redirigido a la"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:789
+msgid "english"
+" misma página de la que se parte (es decir, no hay redirección a un sitio"
+" distinto),"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:790
+msgid " lo que incrementa las posibilidades de que la víctima caiga en el ataque."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:791
+msgid " Además, también se pueden utilizar otro tipo de vulnerabilidades"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:792
+msgid " existentes en los navegadores para aumentar la tasa de éxito."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:813
+msgid "Nº de hiperenlaces erróneos"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:832
+msgid "Se considera un enlace erróneo aquel que devuelve un código"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:833
+msgid " 403 o 404 cuando se pulsa en él."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:854
+msgid "Nº de hiperenlaces que redirigen"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:873
+msgid "Es común que los atacantes traten de confundir al usuario redirigiendo su"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:874
+msgid " solicitud a lugares externos. Una redirección se identifica gracias a su"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:875
+msgid " código de respuesta, que es un 301 o un 302."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:896
+msgid "¿Fichero CSS encontrado?"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:912
+msgid "Para imitar la estética de un sitio legítimo, los atacantes"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:913
+msgid "podrían utilizar su fichero CSS."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:914
+msgid "Un CSS es una hoja de estilos que define el aspecto visual de una página"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:915
+msgid "web, y puede estar incrustado en el propio HTML de la página o ser un"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:916
+msgid "fichero externo."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:918
+msgid "En el caso de ser único y externo,"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:919
+msgid "se entiende que puede tratarse de un intento de estafa."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:931
+#: apps/templates/home/dashboard.html:975
+#: apps/templates/home/dashboard.html:1020
+msgid "Identidad web"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:942
+msgid "Palabra copyright"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:960
+msgid "english"
+"Las páginas legítimas suelen contener el nombre del dominio en la sección"
+" dedicada a"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:962
+msgid "english"
+" En el caso de que el nombre del dominio no aparezca en el texto del "
+"copyright,"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:963
+msgid " se entiende que la página puede ser una estafa."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:986
+msgid "Palabra clave dominio base"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1003
+msgid "english"
+"Para cada página web, se ha construido un conjunto de keywords compuesto "
+"por las"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1004
+msgid " palabras contenidas en el título, en las etiquetas meta "
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1005
+msgid " (cuyo campo name equivalga a description o keywords metatags)"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1006
+msgid "english"
+" y por las más relevantes del cuerpo (extraídas mediante el algoritmo TF-"
+"IDF)."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1007
+msgid " Lo más común es que los sitios legítimos contengan al menos una de estas "
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1008
+msgid "english"
+" palabras en el dominio base. En caso contrario, se considera un intento "
+"de phishing."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1031
+msgid "¿Dominio externo en el favicon"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1048
+msgid "Un favicon es una miniatura asociada a una página web. Por ello, los"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1049
+msgid "english"
+" atacantes pueden plagiar los iconos de los sitios legítimos para ganarse"
+" la"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1050
+msgid " confianza de los usuarios."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1051
+msgid " De este modo, se considera intento de estafa cualquier "
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1052
+msgid " icono que contenga un enlace externo."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1053
+msgid " Para localizarlos, se ubica el atributo \"rel\" dentro de las etiquetas"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1054
+msgid "english"
+" \"link\" y se comprueba que su valor sea la cadena \"shortcut icon\" o "
+"\"icon\"."
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1074
+msgid "¡Oye, tú, humano!"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1075
+msgid "Si piensas que el análisis es erróneo y se trata de un falso resultado"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1075
+msgid " ¡Háznoslo saber!"
+msgstr "english"
+
+#: apps/templates/home/dashboard.html:1078
+msgid "Reporta análisis erróneo"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:5
+#: apps/templates/home/edit-instance.html:25
+msgid "Editar instancia"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:7
+#: apps/templates/home/edit-instance.html:29
+msgid "Nueva instancia"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:21
+#: apps/templates/home/instances-administration.html:14
+msgid "Administración de instancias"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:48
+msgid "EDITAR INSTANCIA"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:50
+msgid "NUEVA INSTANCIA"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:63
+msgid "RELLENA EL FORMULARIO"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:76 apps/templates/home/index.html:84
+msgid "Introduce una URL"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:78 apps/templates/home/index.html:86
+msgid "preferiblemente con protocolo (http:// o https://)"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:93
+#: apps/templates/home/instances-administration.html:116
+msgid "Etiquetas"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:95
+msgid "pulse enter para introducir una nueva"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:96
+msgid " etiqueta o seleccione entre las disponibles"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:101
+#: apps/templates/home/edit-instance.html:127
+#: apps/templates/home/edit-instance.html:149
+#: apps/templates/home/edit-instance.html:176
+#: apps/templates/home/edit-model.html:55
+#: apps/templates/home/edit-model.html:111
+msgid "Valor previo:"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:119
+#: apps/templates/home/instances-administration.html:107
+msgid "Vector de características"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:121
+msgid "si no quieres generar un vector"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:122
+msgid " ahora, deja seleccionada la opción"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:123
+msgid " \"mantener vector actual\"english"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:140
+#: apps/templates/home/instances-administration.html:110
+msgid "Clase"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:142
+msgid "phishing si es una página maliciosa,"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:143
+msgid " legítima en caso contrario. Si no conoces"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:144
+msgid "la clase, deja seleccionada la opción "
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:145
+msgid "\"mantener valor actual\"english"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:151
+msgid "esta instancia todavía no ha sido clasificada"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:167
+msgid "Pertenencia a lista"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:169
+msgid "lista blanca si es una página legítima"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:170
+msgid " verificada, lista negra si es una página maliciosa"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:171
+msgid " verificada. Si no conoces la lista, deja"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:172
+msgid " seleccionada la opción \"mantener valor actual\"english"
+msgstr "english"
+
+#: apps/templates/home/edit-instance.html:178
+msgid "esta instancia no pertenece a ninguna lista"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:2 apps/templates/home/edit-model.html:13
+msgid "Editar modelo"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:12
+#: apps/templates/home/models-administration.html:2
+#: apps/templates/home/models-administration.html:19
+#: apps/templates/home/new-model.html:13 apps/templates/home/test-model.html:13
+msgid "Administración de modelos"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:29
+msgid "EDITAR MODELO"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:38 apps/templates/home/new-model.html:40
+msgid "Parámetros generales"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:49 apps/templates/home/new-model.html:59
+msgid "Versión"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:51 apps/templates/home/new-model.html:61
+msgid "máximo tres enteros separados por puntos"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:66 apps/templates/home/new-model.html:72
+msgid "¿Es visible?"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:68 apps/templates/home/new-model.html:74
+msgid "implica que el resto de usuarios pueden utilizar el modelo"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:73
+#: apps/templates/home/edit-model.html:94
+msgid "Valor previo: Sí"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:75
+#: apps/templates/home/edit-model.html:96
+msgid "Valor previo: No"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:87
+msgid "¿Convertir en el clasificador por defecto?"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:89
+msgid "será utilizado cuando no haya selecciones"
+msgstr "english"
+
+#: apps/templates/home/edit-model.html:108
+#: apps/templates/home/models-administration.html:115
+#: apps/templates/home/new-model.html:109
+msgid "Notas"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:7
+msgid "Thetha"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:9
+msgid "umbral de confianza con el decimal separado mediante un punto"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:17
+msgid "Número de árboles"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:19
+msgid "número de clasificadores base"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:29
+msgid "Max Features"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:31
+msgid "atributos utilizados al dividir en la construcción del árbol"
+msgstr "english"
+
+#: apps/templates/home/form-co-forest.html:44
+#: apps/templates/home/form-democratic-co.html:81
+#: apps/templates/home/form-tri-training.html:50
+msgid "Pseudocódigo"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:8
+#: apps/templates/home/form-tri-training.html:8
+msgid "Primer clasificador"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:10
+#: apps/templates/home/form-democratic-co.html:33
+#: apps/templates/home/form-democratic-co.html:56
+#: apps/templates/home/form-tri-training.html:10
+#: apps/templates/home/form-tri-training.html:23
+#: apps/templates/home/form-tri-training.html:36
+msgid "algoritmo base utilizado"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:19
+#: apps/templates/home/form-democratic-co.html:42
+#: apps/templates/home/form-democratic-co.html:65
+msgid "Número de clasificadores"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:21
+#: apps/templates/home/form-democratic-co.html:44
+#: apps/templates/home/form-democratic-co.html:67
+msgid "número de clasificadores base de este tipo"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:31
+#: apps/templates/home/form-tri-training.html:21
+msgid "Segundo clasificador"
+msgstr "english"
+
+#: apps/templates/home/form-democratic-co.html:54
+#: apps/templates/home/form-tri-training.html:34
+msgid "Tercer clasificador"
+msgstr "english"
+
+#: apps/templates/home/index.html:5
+#: apps/templates/specials/creating-model.html:29
+#: apps/templates/specials/page-403.html:29
+#: apps/templates/specials/page-404.html:25
+#: apps/templates/specials/page-500.html:25
+#: apps/templates/specials/processing-url.html:29
+#: apps/templates/specials/updating-instance.html:29
+msgid "Página principal"
+msgstr "english"
+
+#: apps/templates/home/index.html:59
+msgid "KRINI"
+msgstr "english"
+
+#: apps/templates/home/index.html:72
+msgid "ANALIZADOR DE PHISHING"
+msgstr "english"
+
+#: apps/templates/home/index.html:99
+msgid "Selecciona un modelo"
+msgstr "english"
+
+#: apps/templates/home/index.html:101
+msgid "los modelos visibles se muestran en el despegable"
+msgstr "english"
+
+#: apps/templates/home/index.html:107
+msgid "Modelos disponibles"
+msgstr "english"
+
+#: apps/templates/home/index.html:141
+msgid "¿Análisis rápido?"
+msgstr "english"
+
+#: apps/templates/home/index.html:143
+msgid "Si la URL se encuentra en nuestra base de datos,"
+msgstr "english"
+
+#: apps/templates/home/index.html:144
+msgid "los resultados se mostrarán inmediatamente."
+msgstr "english"
+
+#: apps/templates/home/index.html:145
+msgid "Si no, se realizará un análisis completo "
+msgstr "english"
+
+#: apps/templates/home/index.html:146
+msgid "(1 minuto aproximadamente). En caso de encontrar la instancia "
+msgstr "english"
+
+#: apps/templates/home/index.html:147
+msgid "en la base de datos, no se mostrarán los valores"
+msgstr "english"
+
+#: apps/templates/home/index.html:148
+msgid "utilizados en la extracción del vector de características."
+msgstr "english"
+
+#: apps/templates/home/index.html:154
+msgid "¡Analiza mi URL!"
+msgstr "english"
+
+#: apps/templates/home/index.html:174
+msgid "Analizador de phishing"
+msgstr "english"
+
+#: apps/templates/home/index.html:177
+msgid "¡Bienvenido al analizador de enlaces de phishing! "
+msgstr "english"
+
+#: apps/templates/home/index.html:178
+msgid "Para utilizarlo, tan "
+msgstr "english"
+
+#: apps/templates/home/index.html:179
+msgid "sólo escribe la dirección de la página que quieres analizar y "
+msgstr "english"
+
+#: apps/templates/home/index.html:180
+msgid "pulsa el botón \"Scan\". En el dashboard podrás observar algunas "
+msgstr "english"
+
+#: apps/templates/home/index.html:181
+msgid "de las gráficas generadas por nuestros estimadores."
+msgstr "english"
+
+#: apps/templates/home/index.html:199
+msgid "¿Cómo funciona?"
+msgstr "english"
+
+#: apps/templates/home/index.html:202
+msgid "El resultado se obtiene de generar un vector de características "
+msgstr "english"
+
+#: apps/templates/home/index.html:203
+msgid "asociado a la página que se introduzca. Una vez conseguido, "
+msgstr "english"
+
+#: apps/templates/home/index.html:204
+msgid "se procesa mediante algoritmos de Machine Learning para obtener un "
+msgstr "english"
+
+#: apps/templates/home/index.html:205
+msgid "resultado que nos indique si la página es o no phishing."
+msgstr "english"
+
+#: apps/templates/home/index.html:223
+msgid "¿Puedo denunciar enlaces?"
+msgstr "english"
+
+#: apps/templates/home/index.html:226
+msgid "¡Por supuesto! Además de utilizar algoritmos de aprendizaje "
+msgstr "english"
+
+#: apps/templates/home/index.html:227
+msgid "semisupervisado, también puedes denunciar enlaces sospechosos "
+msgstr "english"
+
+#: apps/templates/home/index.html:228
+msgid "para que sean analizados por nuestro equipo de expertos. "
+msgstr "english"
+
+#: apps/templates/home/index.html:229
+msgid "Tan sólo tienes que iniciar sesión."
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:2
+#: apps/templates/includes/navigation.html:70
+msgid "Instancias"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:38
+msgid "Invertir selección"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:44
+#: apps/templates/home/instances-review.html:38
+#: apps/templates/home/models-administration.html:38
+msgid "Seleccionar"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:49
+#: apps/templates/home/instances-review.html:43
+#: apps/templates/home/models-administration.html:43
+msgid "Seleccionar todos"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:53
+#: apps/templates/home/instances-review.html:47
+#: apps/templates/home/models-administration.html:47
+msgid "Seleccionar todos en esta página"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:60
+#: apps/templates/home/instances-review.html:54
+#: apps/templates/home/models-administration.html:54
+msgid "Deseleccionar"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:65
+#: apps/templates/home/instances-review.html:59
+#: apps/templates/home/models-administration.html:59
+msgid "Deseleccionar todos"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:69
+#: apps/templates/home/instances-review.html:63
+#: apps/templates/home/models-administration.html:63
+msgid "Deseleccionar todos en esta página"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:75
+#: apps/templates/home/instances-review.html:69
+msgid "Eliminar seleccionados"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:79
+msgid "Descargar seleccionados"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:83
+msgid "Nueva"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:94
+msgid "ADMINISTRACIÓN DE INSTANCIAS"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:104
+#: apps/templates/home/instances-review.html:90
+#: apps/templates/home/report-url.html:40
+msgid "URL"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:113
+msgid "Revisor"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:119
+#: apps/templates/home/instances-review.html:102
+#: apps/templates/home/models-administration.html:124
+msgid "Más"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:176
+#: apps/templates/home/models-administration.html:191
+msgid "Editar"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:181
+#: apps/templates/home/models-administration.html:71
+#: apps/templates/home/models-administration.html:200
+msgid "Eliminar"
+msgstr "english"
+
+#: apps/templates/home/instances-administration.html:199
+#: apps/templates/home/instances-administration.html:206
+#: apps/templates/home/instances-review.html:179
+#: apps/templates/home/instances-review.html:186
+#: apps/templates/home/models-administration.html:218
+#: apps/templates/home/models-administration.html:225
+msgid "Previo"
+msgstr "english"
+
+#: apps/templates/home/instances-review.html:2
+#: apps/templates/home/instances-review.html:14
+#: apps/templates/includes/navigation.html:79
+msgid "Sugerencias"
+msgstr "english"
+
+#: apps/templates/home/instances-review.html:80
+msgid "REVISIÓN DE SUGERENCIAS"
+msgstr "english"
+
+#: apps/templates/home/instances-review.html:93
+msgid "Reportado por"
+msgstr "english"
+
+#: apps/templates/home/instances-review.html:96
+#: apps/templates/home/models-administration.html:112
+msgid "Fecha"
+msgstr "english"
+
+#: apps/templates/home/instances-review.html:99
+msgid "Sugerencia"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:75
+msgid "Nuevo"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:87
+msgid "MODELOS DISPONIBLES"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:97
+#: apps/templates/home/profile.html:89
+msgid "Nombre"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:100
+msgid "Algoritmo"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:106
+msgid "Métricas"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:109
+msgid "Autor"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:118
+msgid "Visible"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:121
+msgid "Defecto"
+msgstr "english"
+
+#: apps/templates/home/models-administration.html:195
+msgid "Testear"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:2 apps/templates/home/new-model.html:14
+msgid "Nuevo modelo"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:31
+msgid "NUEVO MODELO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:51
+msgid "Nombre del modelo"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:83
+msgid "¿Convertir en \"default\"?"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:85
+msgid "será el nuevo clasificador usado por defecto"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:96
+msgid "Semilla aleatoria"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:98
+msgid "un número entero o -1 si no deseas ninguna"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:127
+msgid "ALGORITMO DE APRENDIZAJE"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:135
+msgid "Parámetros propios del algoritmo"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:146
+msgid "SELECCIONA UN ALGORITMO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:148
+msgid "de aprendizaje semisupervisado"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:186
+msgid "CONJUNTO DE DATOS"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:194
+msgid "DATOS DE ENTRENAMIENTO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:203
+#: apps/templates/home/test-model.html:78
+msgid "SELECCIONA UN MÉTODO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:205
+msgid "de subida de datos de entrenamiento"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:211
+#: apps/templates/home/test-model.html:86
+msgid "Importar CSV"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:212
+msgid "Generar datos aleatoriamente"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:217
+msgid "DATOS ENTRENAMIENTO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:219
+msgid "Conjunto utilizado para entrenar"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:227
+#: apps/templates/home/test-model.html:68
+#: apps/templates/home/test-model.html:92
+msgid "DATOS DE TEST"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:229
+msgid "Conjunto para probar. Si se quieren resultados certeros,"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:230
+msgid " no debe contener ningún enlace utilizado para entrenar."
+msgstr "english"
+
+#: apps/templates/home/new-model.html:239
+msgid "En este caso, se van a generar aleatoriamente los "
+msgstr "english"
+
+#: apps/templates/home/new-model.html:240
+msgid "conjuntos de entrenamiento y test "
+msgstr "english"
+
+#: apps/templates/home/new-model.html:241
+msgid "utilizando todos los datos de la base de datos. "
+msgstr "english"
+
+#: apps/templates/home/new-model.html:243
+msgid "Podrás personalizar el porcentaje de"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:244
+msgid "instancias que se utilizarán para el"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:245
+msgid "entrenamiento (las que sobren se utilizarán para test)."
+msgstr "english"
+
+#: apps/templates/home/new-model.html:248
+msgid "PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO"
+msgstr "english"
+
+#: apps/templates/home/new-model.html:250
+msgid "Introduce sólo el número (por ejemplo, 80)"
+msgstr "english"
+
+#: apps/templates/home/profile.html:2
+#: apps/templates/includes/navigation.html:93
+msgid "Perfil"
+msgstr "english"
+
+#: apps/templates/home/profile.html:9
+msgid "Bienvenido"
+msgstr "english"
+
+#: apps/templates/home/profile.html:12
+msgid "Este es tu perfil principal. "
+msgstr "english"
+
+#: apps/templates/home/profile.html:13
+msgid "Puedes consultar todas tus estadísticas aquí."
+msgstr "english"
+
+#: apps/templates/home/profile.html:49
+msgid "URLs aceptadas"
+msgstr "english"
+
+#: apps/templates/home/profile.html:52
+msgid "URLs en revisión"
+msgstr "english"
+
+#: apps/templates/home/profile.html:63
+msgid "Información del perfil"
+msgstr "english"
+
+#: apps/templates/home/profile.html:69
+msgid "Información del usuario"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:3
+msgid "Reportar URL"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:14
+#: apps/templates/home/report-url.html:28
+msgid "Reporta una URL"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:45
+msgid "Tipo"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:55
+msgid "Objetivo"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:57
+msgid "preferiblemente con protocolo"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:71
+msgid "¿Qué vas a reportar?"
+msgstr "english"
+
+#: apps/templates/home/report-url.html:73
+msgid "Si sabes que es phishing escoge \"black-list\". "
+msgstr "english"
+
+#: apps/templates/home/report-url.html:74
+msgid "Si sabes que es legítima escoge \"white-list\"."
+msgstr "english"
+
+#: apps/templates/home/report-url.html:84
+msgid "Enviar"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:2 apps/templates/home/test-model.html:15
+msgid "Probar modelo"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:60
+msgid "PROBANDO MODELO"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:80
+msgid "de subida de datos de test"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:87
+msgid "Usar dataset"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:94
+msgid "Conjunto para probar."
+msgstr "english"
+
+#: apps/templates/home/test-model.html:95
+msgid "Si se quieren resultados certeros,"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:96
+msgid "no debe contener ninguna URL usada para entrenar"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:105
+msgid "En este caso, se utilizarán los datos del dataset."
+msgstr "english"
+
+#: apps/templates/home/test-model.html:106
+msgid "Para garantizar que los resultados sean certeros, no se"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:107
+msgid " utilizarán instancias vistas durante el entrenamiento"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:116
+msgid "¿Excluir ejemplos vistos al entrenar?"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:118
+msgid "Si se selecciona, en caso de haber instancias"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:119
+msgid "ya vistas durante el entrenamiento en el conjunto"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:120
+msgid "de test, serán omitidss."
+msgstr "english"
+
+#: apps/templates/home/test-model.html:128
+msgid "¿Actualizar la base de datos?"
+msgstr "english"
+
+#: apps/templates/home/test-model.html:130
+msgid "Si se selecciona, las scores serán "
+msgstr "english"
+
+#: apps/templates/home/test-model.html:131
+msgid "actualizadas con los resultados obtenidos."
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:31
+msgid "Análisis"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:50
+msgid "Denunciar URL"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:61
+msgid "Modelos"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:88
+msgid "Cuenta"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:98
+msgid "Ayuda"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:103
+msgid "Cerrar sesión"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:118
+msgid "Idioma"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:123
+msgid "Español"
+msgstr "english"
+
+#: apps/templates/includes/navigation.html:127
+msgid "Inglés"
+msgstr "english"
+
+#: apps/templates/specials/creating-model.html:2
+#: apps/templates/specials/processing-url.html:2
+#: apps/templates/specials/updating-instance.html:2
+msgid "Cargando"
+msgstr "english"
+
+#: apps/templates/specials/creating-model.html:15
+msgid "¡Estamos creando tu modelo!"
+msgstr "english"
+
+#: apps/templates/specials/creating-model.html:18
+msgid "Esto puede requerir unos minutos."
+msgstr "english"
+
+#: apps/templates/specials/page-403.html:2
+msgid "Error 403"
+msgstr "english"
+
+#: apps/templates/specials/page-403.html:15
+msgid "¿¡Oye, dónde vas!? Error 403"
+msgstr "english"
+
+#: apps/templates/specials/page-403.html:18
+msgid "Acceso restringido."
+msgstr "english"
+
+#: apps/templates/specials/page-403.html:20
+msgid "Inicia sesión"
+msgstr "english"
+
+#: apps/templates/specials/page-403.html:22
+msgid "o comprueba que tienes los permisos adecuados."
+msgstr "english"
+
+#: apps/templates/specials/page-404.html:2
+msgid "Error 404"
+msgstr "english"
+
+#: apps/templates/specials/page-404.html:15
+msgid "¡Ups! Error 404"
+msgstr "english"
+
+#: apps/templates/specials/page-404.html:18
+msgid "La página que estás intentando consultar no existe"
+msgstr "english"
+
+#: apps/templates/specials/page-500.html:2
+msgid "Error 500"
+msgstr "english"
+
+#: apps/templates/specials/page-500.html:15
+msgid "¡Oh oh! Error 500"
+msgstr "english"
+
+#: apps/templates/specials/page-500.html:18
+msgid "Hay un error interno en el servidor. Inténtalo más tarde."
+msgstr "english"
+
+#: apps/templates/specials/processing-url.html:15
+msgid "¡Estamos analizando tu URL!"
+msgstr "english"
+
+#: apps/templates/specials/processing-url.html:18
+#: apps/templates/specials/updating-instance.html:18
+msgid "Tiempo estimado: aproximadamente 1 minuto"
+msgstr "english"
+
+#: apps/templates/specials/updating-instance.html:15
+msgid "¡Estamos realizando la operación solicitada!"
+msgstr "english"
+

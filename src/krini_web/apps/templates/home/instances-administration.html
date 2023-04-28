@@ -1,0 +1,260 @@
+{% extends 'layouts/base.html' %}
+{% block title %} {{ gettext('Instancias') }} {% endblock title %}
+{% block content %}
+
+<form name="instances_form" method="POST" action="" novalidate>
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ gettext('Administración de instancias') }}
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--6">
+    <input type="hidden" name="selected_page" value="1" />
+    <input type="hidden" name="individual_instance" value="-1" />
+    <input type="hidden" name="previous_page" value="{{post_pagination.page}}" />
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token() }}
+    <div class="row">
+      <div class="col">
+        <div class="card bg-default">
+          <div class="card-header border-0">
+            <div class="row-flex no-gutters float justify-content-evenly">
+              <input type="hidden" name="button_pressed" value="ninguno" />
+              <button class="btn btn-outline-info float-left" type="submit" id="btn-select-all-others"
+                onclick="updateForm(null, 'seleccionar_todos_contrarios', {{post_pagination.page}}, null)">
+                <i class="bi bi-recycle"></i>
+                &nbsp;&nbsp;&nbsp;{{ gettext('Invertir selección') }}
+              </button>
+              <div class="dropdown">
+                <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="bi bi-check-square"></i>
+                  &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                  <button class="dropdown-item" type="submit" id="btn-select-all"
+                    onclick="updateForm(null, 'seleccionar_todos', {{post_pagination.page}}, null)">
+                    {{ gettext('Seleccionar todos') }}
+                  </button>
+                  <button class="dropdown-item" type="submit" id="btn-select-all-page"
+                    onclick="updateForm(null, 'seleccionar_todos_page', {{post_pagination.page}}, null)">
+                    {{ gettext('Seleccionar todos en esta página') }}
+                  </button>
+                </div>
+              </div>
+              <div class="dropdown">
+                <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"><i class="bi bi-x-square"></i>
+                  &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+                  <button class="dropdown-item" type="submit" id="btn-deselect-all"
+                    onclick="updateForm(null, 'deseleccionar_todos', {{post_pagination.page}}, null)">
+                    {{ gettext('Deseleccionar todos') }}
+                  </button>
+                  <button class="dropdown-item float-left" type="submit" id="btn-deselect-all-page"
+                    onclick="updateForm(null, 'deseleccionar_todos_page', {{post_pagination.page}}, null)">
+                    {{ gettext('Deseleccionar todos en esta página') }}
+                  </button>
+                </div>
+              </div>
+              <button class="btn btn-outline-danger float-right mr-3" type="submit" id="btn-elimina-select"
+                onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
+                <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}
+              </button>
+              <button class="btn btn-outline-warning float-right mr-3" type="submit" id="btn-descarga-csv"
+                onclick="updateForm(null, 'descargar', {{post_pagination.page}}, null)">
+                <i class="bi bi-cloud-arrow-down"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Descargar seleccionados') }}
+              </button>
+              <button class="btn btn-outline-success float-right mr-3" type="submit" id="btn-nueva"
+                onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)">
+                <i class="bi bi-plus-lg"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Nueva') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="mb-0">{{ gettext('ADMINISTRACIÓN DE INSTANCIAS') }}</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">&nbsp;</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('URL') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Vector de características') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Clase') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Revisor') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Etiquetas') }}</h5>
+                  </th>
+                  <th scope="col">
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Más') }}</h5>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                {% for instance in post_pagination.items %}
+                <tr>
+                  <td class="text-center">
+                    {% if instance["is_selected"] == 1 %}
+                    <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                      type="checkbox" class="krini-checkbox" name="checkbox-instance" checked>
+                    {% else %}
+                    <input id="checkbox-instance-{{ instance['instance_id'] }}" value="{{ instance['instance_id'] }}"
+                      type="checkbox" name="checkbox-instance" class="krini-checkbox">
+                    {% endif %}
+                  </td>
+                  <td class="text-center">
+                    <span class="light-gray-description-forms font-weight-bolder text-primary">
+                      {{ instance["instance_URL"] }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="light-gray-description-forms text-gray">{{ instance["instance_fv"] }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge rounded-pill text-white text-xs text-bolder"
+                      style="background-color:{{ instance['badge_colour'] }}; font-weight: bold;">
+                      {{ instance["instance_class"] }}
+                    </span>
+                  </td>
+                  <td class="font-weight-bolder text-primary text-center" style="font-size:15px;">
+                    {{ instance["reviewed_by"] }}
+                  </td>
+                  <td style='word-break: break-all; width: 200px; white-space: initial'>
+                    {% if instance["instance_labels"] == None %}
+                    {% else %}
+                    {% set colours = instance["instance_labels_colours"] %}
+                    {% for tag in instance["instance_labels"] %}
+                    {% if tag != "" %}
+                    <span class="badge badge-primary rounded-pill text-white text-xs text-bolder mb-2"
+                      style="background-color:{{colours[loop.index0]}}; font-weight: bold;">
+                      {{ tag }}&nbsp;
+                    </span>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                  </td>
+                  <td class="text-center">
+                    <div class="dropdown">
+                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <button class="dropdown-item" type="submit"
+                          id="btn-edita-individual-{{ instance['instance_id'] }}"
+                          onclick="updateForm({{ instance['instance_id'] }}, 'editar_individual', {{post_pagination.page}}, null)">
+                          {{ gettext('Editar') }}
+                        </button>
+                        <button class="dropdown-item text-red" type="submit"
+                          id="btn-elimina-individual-{{ instance['instance_id'] }}"
+                          onclick="updateForm({{ instance['instance_id'] }}, 'eliminar_individual', {{post_pagination.page}}, null)">
+                          {{ gettext('Eliminar') }}
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                {% if post_pagination.has_prev %}
+                <li class="page-item">
+                  {% set page = post_pagination.page - 1 %}
+                  <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
+                  </button>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">{{ gettext('Previo') }}</span>
+                  </a>
+                </li>
+                {% endif %}
+                {% for page in selected %}
+                {% if page %}
+                {% if page != post_pagination.page %}
+                <li class="page-item">
+                  <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
+                    {{ page }}
+                  </button>
+                </li>
+                {% else %}
+                <li class="page-item active">
+                  <a class="page-link">{{ page }}</a>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">...</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if post_pagination.has_next %}
+                <li class="page-item">
+                  {% set page = post_pagination.page + 1 %}
+                  <button class="page-link" type="submit" onclick="updateForm(null, 'ninguno', {{page}}, null)">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
+                  </button>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">{{ gettext('Siguiente') }}</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "includes/footer.html" %}
+  </div>
+</form>
+{% endblock content %}
+
+
+{% block javascripts %}
+<script src="/static/assets/js/argon.js?v=1.2.0"></script>
+<script src="/static/assets/js/instances.js"></script>
+{% endblock javascripts %}

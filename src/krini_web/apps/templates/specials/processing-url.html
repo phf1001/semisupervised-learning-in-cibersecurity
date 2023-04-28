@@ -1,0 +1,41 @@
+{% extends 'layouts/base-specials.html' %}
+{% block title %} {{ gettext('Cargando') }} {% endblock title %}
+{% block content %}
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header pb-5" style="position: relative;">
+                    <div class="text-center mt-2 mb-2">
+                        <div class="text-center mt-2">
+                            <img src="/static/assets/img/theme/robot-searching.png" style="width: 45%; height: 45%">
+                        </div>
+                        <div class="primary-label-forms text-center mt-2 mb-3" style="font-size: 22px;">
+                            <br />
+                            {{ gettext('¡Estamos analizando tu URL!') }}
+                        </div>
+                        <div class="text-center mb-2">
+                            {{ gettext('Tiempo estimado: aproximadamente 1 minuto') }}
+                        </div>
+                        <br /><br />
+                        <div class="loader"></div>
+                        <br /><br />
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 text-center">
+                <div class="col-12">
+                    <a href="/" class="text-light">
+                        <medium>{{ gettext('Página principal') }}</medium>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/js/loading.js"></script>
+<script src="{{url_for('static', filename='main.js')}}"></script>
+<script> window.location.replace('/extract_fv'); </script>
+{% endblock javascripts %}

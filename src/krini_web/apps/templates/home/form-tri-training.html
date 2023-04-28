@@ -1,0 +1,67 @@
+<div class="table-responsive">
+    <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+        <tbody class="list">
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">
+                            {{ gettext('Primer clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
+                        </p>
+                        {{ form.cls_one_tt(placeholder="Primer clasificador", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">
+                            {{ gettext('Segundo clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
+                        </p>
+                        {{ form.cls_two_tt(placeholder="Segundo clasificador", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <p class="primary-label-forms">
+                            {{ gettext('Tercer clasificador') }}&nbsp;
+                            <span class="gray-description-forms">
+                                ({{ gettext('algoritmo base utilizado') }})
+                            </span>
+                        </p>
+                        {{ form.cls_three_tt(placeholder="Tercer clasificador", class="form-control") }}
+                    </div>
+                </td>
+            </tr>
+            <tr data-toggle="collapse" data-target="#info-tri-training" class="accordion-toggle">
+                <td style="text-align: left;">
+                    <div>
+                        <a class="btn btn-icon-only bg-primary">
+                            <i class="ni ni-bulb-61 text-white"></i>
+                        </a>
+                        <p class="primary-label-forms" style="display:inline">
+                            &nbsp;{{ gettext('Pseudocódigo') }}&nbsp;
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="hiddenRow">
+                    <div id="info-tri-training" class="accordian-body collapse">
+                        <p style="text-align: center;">
+                            <img src="/static/assets/img/theme/tritraining_pseudocode.png"
+                                alt="Pseudocódigo de Tri Training">
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

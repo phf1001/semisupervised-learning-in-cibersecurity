@@ -1,0 +1,97 @@
+{% extends 'layouts/base.html' %}
+{% block title %}
+{{ gettext('Reportar URL') }}
+{% endblock title %}
+{% block content %}
+<div class="header bg-gradient-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ gettext('Reporta una URL') }}</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <h3 class="mb-0">{{ gettext('Reporta una URL') }}</h3>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <form role="form" method="post" action="" novalidate>
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+            <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">
+                    <p class="light-gray-thread-forms">
+                      {{ gettext('URL') }}
+                    </p>
+                  </th>
+                  <th scope="col">
+                    <p class="light-gray-thread-forms">
+                      {{ gettext('Tipo') }}
+                    </p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                <tr>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">
+                        {{ gettext('Objetivo') }}&nbsp;
+                        <span class="gray-description-forms">
+                          ({{ gettext('preferiblemente con protocolo') }})
+                        </span>
+                      </p>
+                      <div class="input-group input-group-alternative">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-world-2"></i></span>
+                        </div>
+                        {{ form.url(placeholder="https://www.google.com/", class="form-control") }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group mb-3">
+                      <p class="primary-label-forms">
+                        {{ gettext('¿Qué vas a reportar?') }}&nbsp;
+                        <span class="gray-description-forms">
+                          {{ gettext('Si sabes que es phishing escoge "black-list". ') }}
+                          {{ gettext('Si sabes que es legítima escoge "white-list".') }}
+                        </span>
+                      </p>
+                      {{ form.type(placeholder="type",class="form-control") }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="text-center">
+                      <button type="submit" name="report" class="btn btn-primary my-4">{{ gettext('Enviar') }}</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+</div>
+{% endblock content %}
