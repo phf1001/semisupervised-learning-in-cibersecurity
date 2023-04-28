@@ -252,7 +252,7 @@ class Available_models(db.Model):
         default=[0.0, 0.0, 0.0, 0.0, 0.0],
     )
     random_state = db.Column(db.Integer)
-    model_notes = db.Column(db.String(128))
+    model_notes = db.Column(db.String(512))
     model_algorithm = db.Column(db.String(2), nullable=False)
 
     __mapper_args__ = {

@@ -99,7 +99,7 @@
                                                 <br \>
                                                 <span class="previous-value-forms">
                                                     {{ gettext('Valor previo:') }}
-                                                    {{initial_value | replace(",", ",")}}
+                                                    {{initial_value | replace(",", ", ")}}
                                                 </span>
                                                 <br \><br \>
                                                 <input type="text" name="labels" id="labels" class="form-control"
@@ -209,7 +209,6 @@
 {% endblock content %}
 
 {% block javascripts %}
-<script src="/static/assets/js/labels.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
@@ -217,4 +216,5 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+<script src="/static/assets/js/labels.js"></script>
 {% endblock javascripts %}

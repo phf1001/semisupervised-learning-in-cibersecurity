@@ -8,7 +8,7 @@
                 <div class="card-header pb-5" style="position: relative;">
                     <div class="text-center mt-2 mb-2">
                         <div class="text-center mt-2">
-                            <img src="/static/assets/img/theme/robot-searching.png" style="width: 45%; height: 45%">
+                            <img src="/static/assets/img/theme/robot-searching.png" class="NO-CACHE" style="width: 45%; height: 45%">
                         </div>
                         <div class="primary-label-forms text-center mt-2 mb-3" style="font-size: 22px;">
                             <br />
@@ -36,6 +36,7 @@
 {% endblock content %}
 {% block javascripts %}
 <script src="/static/assets/js/loading.js"></script>
+<script src="/static/assets/js/randomimage.js"></script>
 <script src="{{url_for('static', filename='main.js')}}"></script>
 <script> window.location.replace('/updating_instance'); </script>
 {% endblock javascripts %}

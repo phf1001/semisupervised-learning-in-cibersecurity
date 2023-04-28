@@ -87,7 +87,7 @@
             <h3 class="mb-0">{{ gettext('MODELOS DISPONIBLES') }}</h3>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" style="table-layout:fixed;">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">
@@ -100,13 +100,13 @@
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Algoritmo') }}</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-left">{{ gettext('Parámetros') }}</h5>
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Parámetros') }}</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-center">{{ gettext('Métricas') }} [ACC, P, R, F-1, AUC]</h5>
+                    <h5 class="text-gray mb-0 text-center" style="text-align: right">Acc, P, R, F-1, AUC</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-center">{{ gettext('Autor') }}</h5>
+                    <h5 class="text-gray mb-0 text-right">{{ gettext('Autor') }}</h5>
                   </th>
                   <th scope="col">
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Fecha') }}</h5>
@@ -114,7 +114,7 @@
                   <th scope="col">
                     <h5 class="text-gray mb-0 text-left">{{ gettext('Notas') }}</h5>
                   </th>
-                  <th scope="col" class="sort" data-sort="visible">
+                  <th scope="col">
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Visible') }}</h5>
                   </th>
                   <th scope="col" class="sort" data-sort="default">
@@ -156,13 +156,13 @@
                   <td style="text-align: center; font-size:13px">
                     {{ model["model_scores"] }}
                   </td>
-                  <td style="text-align: center; font-size:15px; font-weight: bold; color:#5e72e4">
+                  <td class="text-right text-primary font-weight-bold" style="font-size:15px;">
                     {{ model["created_by"] }}
                   </td>
                   <td style="text-align: center; font-size:15px">
                     {{ model["creation_date"] }}
                   </td>
-                  <td class="text-left text-xs">
+                  <td class="text-left text-xs" style="white-space: initial; word-wrap: break-word">
                     {{ model["model_notes"] }}
                   </td>
                   <td style="text-align: center; font-size:25px">

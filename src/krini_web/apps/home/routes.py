@@ -1140,7 +1140,7 @@ def updating_instance():
         return redirect(url_for("home_blueprint.instances"))
 
     except exc.SQLAlchemyError:
-        flash(get_message("error_operation"), "danger")
+        flash(get_exception_message("error_operation"), "danger")
         flash(get_message("warning_check_duplicate_instance"), "info")
         db.session.rollback()
         return redirect(url_for("home_blueprint.instances"))

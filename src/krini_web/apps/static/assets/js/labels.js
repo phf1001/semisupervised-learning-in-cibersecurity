@@ -1,8 +1,12 @@
 
 $(document).ready(function () {
+    var tags = $('#instance-tags').data('instance-tags');
+    tags = tags.slice(1, -1);
+    tags = tags.replace(/'/g, '');
+    tags = tags.split(',');
     $('#labels').tokenfield({
         autocomplete: {
-            source: $('#instance-tags').data('instance-tags'),
+            source: tags,
             delay: 100
         },
         showAutocompleteOnFocus: true
