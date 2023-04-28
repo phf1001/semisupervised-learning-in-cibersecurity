@@ -30,7 +30,7 @@ class Available_instances(db.Model):
     reviewed_by = db.Column(
         db.Integer, db.ForeignKey("Users.id"), nullable=True
     )
-    instance_URL = db.Column(db.String(64), unique=True, nullable=False)
+    instance_URL = db.Column(db.String(256), unique=True, nullable=False)
     instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)))
     instance_class = db.Column(db.Integer)
     colour_list = db.Column(db.String(64))
