@@ -3,7 +3,6 @@ pandas==1.4.3
 PySocks==1.7.1
 scikit-learn==1.1.2
 scipy==1.9.3
-sslearn==1.0.0
 statsmodels==0.13.2
 threadpoolctl==3.1.0
 urllib3==1.26.5
@@ -25,4 +24,8 @@ jinja2==3.0.1
 flask-restx==0.5.1
 psycopg2-binary
 Werkzeug==2.1.0
-email-validator
+flask_babel
+tld==0.13
+lxml==4.9.2
+flask-babel==3.1.0
+Babel==2.12.1
