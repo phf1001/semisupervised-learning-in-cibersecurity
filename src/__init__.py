@@ -1,4 +1,5 @@
 __all__ = [
+    "krini_web",
     "models",
     "scripts",
     "phishing_fvg",

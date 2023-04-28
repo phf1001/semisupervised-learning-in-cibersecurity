@@ -1,5 +1,6 @@
 src/recommendation_attack_detection_fvg/dataset
 src/scripts/t*
+src/scripts/database
 *prueba*
 src/models/notebooks/iris
 src/models/notebooks/wine
