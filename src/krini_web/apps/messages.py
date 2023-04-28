@@ -448,7 +448,7 @@ def get_formatted_message(identifier, params=[]) -> str:
         return gettext("Clasificador ") + str(params[0]) + ": " + params[1]
 
 
-def get_constants_message(indentifier) -> str:
+def get_constants_message(identifier) -> str:
     """Translates the given constant to the current language.
 
     Args:
@@ -457,17 +457,59 @@ def get_constants_message(indentifier) -> str:
     Returns:
         str: constant translated
     """
-    if indentifier == "legitimate":
+    if identifier == "naive_bayes_name":
+        return gettext("Naive Bayes")
+
+    if identifier == "decision_tree_name":
+        return gettext("Árbol de decisión")
+
+    if identifier == "knn_name":
+        return gettext("k-vecinos más cercanos")
+
+    if identifier == "legitimate":
         return gettext("legítimo")
 
-    if indentifier == "legitimate_upper":
+    if identifier == "legitimate_upper":
         return gettext("LEGÍTIMA")
 
-    if indentifier == "phishing":
+    if identifier == "phishing":
         return gettext("phishing")
 
-    if indentifier == "unavailable":
+    if identifier == "unavailable":
         return gettext("no disponible")
 
-    if indentifier == "no_vector":
+    if identifier == "no_vector":
         return gettext("no hay ningún vector generado para esta instancia")
+
+    if identifier == "black-list":
+        return gettext("lista-negra")
+
+    if identifier == "white-list":
+        return gettext("lista-blanca")
+
+    if identifier == "auto-classified":
+        return gettext("auto-clasificada")
+
+    if identifier == "reviewed":
+        return gettext("revisada")
+
+    if identifier == "suggestion-white-list":
+        return gettext("sugerencia-lista-blanca")
+
+    if identifier == "suggestion-black-list":
+        return gettext("sugerencia-lista-negra")
+
+    if identifier == "suggestion-phishing":
+        return gettext("sugerencia-phishing")
+
+    if identifier == "suggestion-legitimate":
+        return gettext("sugerencia-legítima")
+
+    if identifier == "new-instance":
+        return gettext("nueva-instancia")
+
+    if identifier == "recommendation-review":
+        return gettext("revisión-recomendada")
+
+    if identifier == "suggestion-review-new-scanned":
+        return gettext("recién-escaneada-revisar")

@@ -10,17 +10,18 @@
 """
 import os
 from decouple import config
+from apps.messages import get_constants_message
 
 # Constants
 CO_FOREST_CONTROL = "CO-FOREST"
 TRI_TRAINING_CONTROL = "TRI-TRAINING"
 DEMOCRATIC_CO_CONTROL = "DEMOCRATIC-CO"
-NAIVE_BAYES_NAME = "Naive Bayes"
-DECISION_TREE_NAME = "Árbol de decisión"
-KNN_NAME = "k-vecinos más cercanos"
 NAIVE_BAYES_KEY = "NB"
 DECISION_TREE_KEY = "DT"
 KNN_KEY = "kNN"
+NAIVE_BAYES_NAME = get_constants_message("naive_bayes_name")
+DECISION_TREE_NAME = get_constants_message("decision_tree_name")
+KNN_NAME = get_constants_message("knn_name")
 DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
 )
@@ -29,22 +30,31 @@ AVAILABLE_LANGUAGES = ["en", "es"]
 
 
 class Config(object):
+    """General configuration class.
+
+    Args:
+        object (object): Object class.
+    """
+
     basedir = os.path.abspath(os.path.dirname(__file__))
     superiordir = os.getcwd()
-
-    # Set up the App SECRET_KEY
     SECRET_KEY = config("SECRET_KEY", default="S#perS3crEt_007")
     WTF_CSRF_SECRET_KEY = config(
         "WTF_CSRF_SECRET_KEY", default="S#perS3crEt_007"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
     BABEL_DEFAULT_LOCALE = BABEL_DEFAULT
     BABEL_TRANSLATION_DIRECTORIES = os.path.join(superiordir, "translations")
     LANGUAGES = AVAILABLE_LANGUAGES
 
 
 class ProductionConfig(Config):
+    """Production configuration class.
+
+    Args:
+        Config (Config): General configuration class.
+    """
+
     DEBUG = False
     database_url = os.environ.get("DATABASE_URL")
 
@@ -58,8 +68,13 @@ class ProductionConfig(Config):
 
 
 class DebugConfig(Config):
-    DEBUG = True
+    """Debug configuration class.
 
+    Args:
+        Config (Config): General configuration class.
+    """
+
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
         config("DB_ENGINE", default="postgresql"),
         config("DB_USERNAME", default="dev"),

@@ -14,9 +14,9 @@ items.forEach(item => {
         btnText = document.querySelector('.btn-text');
         
         if (checked && checked.length > 0) {
-            btnText.innerText = `Seleccionados (${checked.length})`;
+            btnText.innerText = `(${checked.length})`;
         } else {
-            btnText.innerText = "Modelos disponibles";
+            btnText.innerText = "";
         }
     })
 })
@@ -30,7 +30,7 @@ select_all.addEventListener('click', () => {
         }
     })
     btnText = document.querySelector('.btn-text');
-    btnText.innerText = `Seleccionados (${items.length})`;
+    btnText.innerText = `(${items.length})`;
 })
 
 deselect_all = document.getElementById("deselect-all");
@@ -42,7 +42,7 @@ deselect_all.addEventListener('click', () => {
         }
     })
     btnText = document.querySelector('.btn-text');
-    btnText.innerText = "Select your models";
+    btnText.innerText = "";
 })
 
 var saveButton = document.getElementById('btn-submit');
