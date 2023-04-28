@@ -245,8 +245,8 @@ def get_fv_and_info(
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
 
-    except Exception:
-        raise KriniException(msg)
+    except Exception as e:
+        raise KriniException(str(e))
 
 
 def get_mock_values_fv():

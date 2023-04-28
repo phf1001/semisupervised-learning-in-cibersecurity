@@ -249,7 +249,8 @@ def extract_fv():
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except KriniException:
+    except KriniException as e:
+        flash(str(e), "danger")
         flash(get_formatted_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
