@@ -422,7 +422,6 @@ def get_formatted_message(identifier, params=[]) -> str:
     Returns:
         str: message formatted and translated
     """
-
     if identifier == "not_callable_url":
         return (
             gettext("No se ha podido llamar ni reconstruir la URL ")

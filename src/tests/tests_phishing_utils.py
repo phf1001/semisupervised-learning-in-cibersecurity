@@ -202,6 +202,7 @@ class phishingUtilsMethods(unittest.TestCase):
             self.assertTrue(result == output_test)
 
     def test_get_number_errors(self):
+        """Test the number of errors for a given URL."""
         self.assertTrue(
             get_number_errors(
                 [

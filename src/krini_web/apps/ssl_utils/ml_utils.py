@@ -119,7 +119,6 @@ def get_array_scores(y_test, y_pred, y_pred_proba, want_message=False):
        (list, str) : tuple containing list with the scores
                      and info about possible errors (or None)
     """
-
     # filterwarnings("error", category=UndefinedMetricWarning)
     message = None
 

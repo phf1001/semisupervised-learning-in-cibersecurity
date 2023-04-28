@@ -120,12 +120,29 @@ class Candidate_instances(db.Model):
 
     @staticmethod
     def get_instance(instance_id):
+        """Returns the report with the given id.
+
+        Args:
+            instance_id (int): Instance id
+
+        Returns:
+            Candidate_instances: report with the given id
+        """
         return Candidate_instances.query.filter_by(
             instance_id=instance_id
         ).first()
 
     @staticmethod
     def get_instance_by_user(instance_id, user_id):
+        """Returns the instance with the given id and user id.
+
+        Args:
+            instance_id (int): Instance id
+            user_id (int): User id
+
+        Returns:
+            Candidate_instances: report with the given id and user id
+        """
         return Candidate_instances.query.filter_by(
             instance_id=instance_id, user_id=user_id
         ).first()
@@ -184,6 +201,14 @@ class Available_tags:
 
     @staticmethod
     def get_colour(tag):
+        """Returns the colour associated with the given tag.
+
+        Args:
+            tag (Available_tags): Tag
+
+        Returns:
+            str: Colour associated with the given tag (hex code)
+        """
         if (
             tag == Available_tags.white_list
             or tag == Available_tags.sug_white_list

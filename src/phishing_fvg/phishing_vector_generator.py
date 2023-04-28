@@ -59,6 +59,7 @@ class PHISH_FVG:
         self.extra_information = {"f{}".format(i): None for i in range(1, 20)}
 
     def set_feature_vector(self):
+        """Sets the feature vector for the URL."""
         self.set_f1()
         self.set_f2()
         self.set_f3()

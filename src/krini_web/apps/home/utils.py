@@ -751,7 +751,6 @@ def get_instances_view_dictionary(post_pagination_items, checks_values):
     Returns:
         list: list of dictionaries with the information of the instances
     """
-
     new_items_list = [
         get_instance_dict(instance) for instance in post_pagination_items
     ]
@@ -782,7 +781,6 @@ def get_candidate_instances_view_dictionary(
     Returns:
         list: list of dictionaries with the information of the instances
     """
-
     offset = (page - 1) * n_per_page
     new_items_list = [
         get_candidate_instance_dict(ci, offset + i)
@@ -831,7 +829,6 @@ def find_candidate_instances_sequence(report_numbers, n_per_page):
     Returns:
         list: list of instances selected (Candidate_instances objects)
     """
-
     affected_pages_reports = {}
 
     for report_number in report_numbers:
@@ -891,7 +888,6 @@ def update_report(candidate_instance, action):
     Returns:
         bool: True if the report was updated successfully, False otherwise
     """
-
     all = False
 
     if "todos" in action:
@@ -1494,7 +1490,6 @@ def get_models_view_dictionary(post_pagination_items, checks_values):
     Returns:
         list: list of dictionaries with the information of the instances
     """
-
     new_items_list = [get_model_dict(model) for model in post_pagination_items]
     ids_checked = list(checks_values)
 
@@ -1689,7 +1684,6 @@ def get_model_training_ids(model_id):
     Returns:
         set: set of instance_ids used to train.
     """
-
     model_training_rows = Model_is_trained_with.query.filter_by(
         model_id=model_id
     ).all()
@@ -1712,7 +1706,6 @@ def extract_X_y_csv(file_name, get_ids=False):
         (array, array, array): tuple with arrays of the features,
                                tags and ids if desired
     """
-
     try:
         df = pd.read_csv(file_name)
 
@@ -1747,7 +1740,6 @@ def check_correct_pandas(df):
     Returns:
         true if the dataframe is correct, false otherwise
     """
-
     columns_expected = (
         ["instance_id"] + ["f{}".format(i) for i in range(1, 20)] + ["tag"]
     )
@@ -1788,7 +1780,6 @@ def update_model_scores_db(model, scores):
     Raises:
         KriniDBException: if there is an error
     """
-
     try:
         model.model_scores = scores
         db.session.commit()

@@ -249,18 +249,16 @@ def extract_fv():
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except KriniException as e:
-        flash(str(e), "danger")
+    except KriniException:
         flash(get_formatted_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    """Analyzes the URL feature vector with the selected
-    models. Renders the dashboard. All exceptions are
-    catched and the user is redirected to the index page
-    when something unexpected happens.
+    """Analyzes the URL feature vector with the selected models.
+    Renders the dashboard. All exceptions are catched and the user
+    is redirected to the index page when something unexpected happens.
 
     Returns:
         function: renders the dashboard
@@ -1309,13 +1307,16 @@ def report_url():
     )
 
 
-@blueprint.route("/map", methods=["GET", "POST"])
-def map():
-    return render_template("home/map.html", segment=get_segment(request))
-
-
 @blueprint.route("/<template>")
 def route_template(template):
+    """Renders the template passed as parameter.
+
+    Args:
+        template (str): template name
+
+    Returns:
+        render_template: renders the template
+    """
     try:
         if not template.endswith(".html"):
             template += ".html"
@@ -1335,14 +1336,38 @@ def route_template(template):
 
 @blueprint.errorhandler(403)
 def access_forbidden(error):
+    """Handles the 403 error.
+
+    Args:
+        error (object): error object
+
+    Returns:
+        render_template: renders the template for error 403
+    """
     return render_template("specials/page-403.html"), 403
 
 
 @blueprint.errorhandler(404)
 def not_found_error(error):
+    """Handles the 404 error.
+
+    Args:
+        error (object): error object
+
+    Returns:
+        render_template: renders the template for error 404
+    """
     return render_template("specials/page-404.html"), 404
 
 
 @blueprint.errorhandler(500)
 def internal_error(error):
+    """Handles the 500 error.
+
+    Args:
+        error (object): error object
+
+    Returns:
+        render_template: renders the template for error 500
+    """
     return render_template("specials/page-500.html"), 500

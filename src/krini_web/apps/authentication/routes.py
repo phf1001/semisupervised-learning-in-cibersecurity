@@ -76,7 +76,6 @@ def register():
         function: redirect to the register page or to the
                     index page if the user is logged in.
     """
-
     try:
         create_account_form = CreateAccountForm(request.form)
         message = None
