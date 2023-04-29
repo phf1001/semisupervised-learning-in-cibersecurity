@@ -979,8 +979,6 @@ def edit_instance():
 
     try:
         form = InstanceForm()
-
-        # Tienes también la página previa
         messages = session.get("messages", None)
         selected_instance = Available_instances.query.filter_by(
             instance_id=messages["instance_id"]
@@ -991,7 +989,7 @@ def edit_instance():
         )
         instance_dict = get_instance_dict(selected_instance)
 
-        if "siguiente" in request.form and form.validate_on_submit():
+        if "siguiente" in request.form:
             session["messages"] = {
                 "form_data": request.form,
                 "instance_id": selected_instance.instance_id,
@@ -1000,10 +998,6 @@ def edit_instance():
             }
 
             return render_template("specials/updating-instance.html")
-
-        for key in form.errors.keys():
-            message = get_form_message(form.errors[key][0])
-            flash(message, "warning")
 
         return render_template(
             "home/edit-instance.html",
@@ -1017,6 +1011,7 @@ def edit_instance():
 
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
+        flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
 
 
@@ -1070,6 +1065,7 @@ def new_instance():
 
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
+        flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
 
 

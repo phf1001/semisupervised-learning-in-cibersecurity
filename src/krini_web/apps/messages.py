@@ -284,6 +284,11 @@ def get_form_message(identifier) -> str:
             "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
         )
 
+    if identifier == "check_labels_length":
+        return gettext(
+            "Comprueba que las etiquetas introducidas no tengan más de 63 caracteres"
+        )
+
     return get_message("Revisa que los campos estén correctamente rellenados.")
 
 
