@@ -135,6 +135,19 @@ def get_exception_message(identifier) -> str:
     if identifier == "base_cls_not_found":
         return gettext("Clasificador base no encontrado")
 
+    if identifier == "protected_models":
+        return (
+            gettext(
+                "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
+            )
+            + gettext(
+                "conexión con la base de datos es correcta y se muestra el mensaje de "
+            )
+            + gettext(
+                "'eliminado correctamente' para que sepas que el método funciona."
+            )
+        )
+
     return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
 
 

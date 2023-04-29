@@ -129,7 +129,7 @@
               </thead>
               <tbody class="list">
                 {% for model in post_pagination.items %}
-                <div class="flex-table row" role="rowgroup">
+                <tr>
                   <td class="text-center">
                     {% if model["is_selected"] == 1 %}
                     <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
@@ -196,7 +196,7 @@
                         </button>
                         <button class="dropdown-item" type="submit" id="btn-testea-individual-{{ model['model_id'] }}"
                           onclick="updateForm({{ model['model_id'] }}, 'testear_individual', {{post_pagination.page}}, null)">
-                          {{ gettext('Testear') }}
+                          {{ gettext('Evaluar') }}
                         </button>
                         <button class="dropdown-item text-red" type="submit"
                           id="btn-elimina-individual-{{ model['model_id'] }}"
@@ -206,7 +206,7 @@
                       </div>
                     </div>
                   </td>
-                </div>
+                </tr>
                 {% endfor %}
               </tbody>
             </table>
