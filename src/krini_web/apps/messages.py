@@ -194,6 +194,41 @@ def get_form_message(identifier) -> str:
     if identifier == "empty_url":
         return gettext("Por favor, introduce una URL.")
 
+    if identifier == "url_too_long":
+        return gettext(
+            "Por favor, introduce una URL más corta (máximo 255 caracteres)."
+        )
+
+    if identifier == "description_too_long":
+        return gettext(
+            "Por favor, introduce una descripción más corta (máximo 511 caracteres)."
+        )
+
+    if identifier == "model_name_too_long":
+        return gettext(
+            "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
+        )
+
+    if identifier == "username_too_long":
+        return gettext(
+            "Introduce un nombre de usuario más corto (máximo 63 caracteres)."
+        )
+
+    if identifier == "email_too_long":
+        return gettext(
+            "Por favor, introduce un email más corto (máximo 128 caracteres)."
+        )
+
+    if identifier == "first_name_too_long":
+        return gettext(
+            "Por favor, introduce un nombre propio más corto (máximo 63 caracteres)."
+        )
+
+    if identifier == "surname_too_long":
+        return gettext(
+            "Por favor, introduce unos apellidos más cortos (máximo 63 caracteres)."
+        )
+
     if identifier == "no_option_selected":
         return gettext("Por favor, selecciona una opción en el desplegable.")
 

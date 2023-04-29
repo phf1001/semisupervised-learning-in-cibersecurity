@@ -833,6 +833,10 @@ def edit_model():
             flash(get_message("model_updated"), "success")
             return redirect(url_for("home_blueprint.models"))
 
+        for key in form.errors.keys():
+            message = get_form_message(form.errors[key][0])
+            flash(message, "warning")
+
         return render_template(
             "home/edit-model.html",
             model=get_model_dict(model),
@@ -987,7 +991,7 @@ def edit_instance():
         )
         instance_dict = get_instance_dict(selected_instance)
 
-        if "siguiente" in request.form:
+        if "siguiente" in request.form and form.validate_on_submit():
             session["messages"] = {
                 "form_data": request.form,
                 "instance_id": selected_instance.instance_id,
@@ -996,6 +1000,10 @@ def edit_instance():
             }
 
             return render_template("specials/updating-instance.html")
+
+        for key in form.errors.keys():
+            message = get_form_message(form.errors[key][0])
+            flash(message, "warning")
 
         return render_template(
             "home/edit-instance.html",
@@ -1034,9 +1042,10 @@ def new_instance():
         form.validate_on_submit()
 
         for key in form.errors.keys():
-            if form.errors[key][0] == "empty_url":
+            val = form.errors[key][0]
+            if val == "empty_url" or val == "url_too_long":
                 validated = False
-                flash(get_form_message("empty_url"), "warning")
+                flash(get_form_message(val), "warning")
                 break
 
         if "siguiente" in request.form and validated:
@@ -1268,7 +1277,6 @@ def report_url():
             existing_instance = Available_instances.query.filter_by(
                 instance_URL=url
             ).first()
-
             if not existing_instance:
                 existing_instance = Available_instances(
                     instance_URL=url,

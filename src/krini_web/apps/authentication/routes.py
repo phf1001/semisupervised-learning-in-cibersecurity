@@ -111,6 +111,7 @@ def register():
         errors = create_account_form.errors
 
         if errors:
+            logout_user()
             message = ""
             for key in errors.keys():
                 message_id = create_account_form.errors[key][0]
