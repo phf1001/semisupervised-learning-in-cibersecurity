@@ -35,13 +35,13 @@
               <button class="btn btn-outline-info float-left" type="submit" id="btn-select-all-others"
                 onclick="updateForm(null, 'seleccionar_todos_contrarios', {{post_pagination.page}}, null)">
                 <i class="bi bi-recycle"></i>
-                &nbsp;&nbsp;&nbsp;{{ gettext('Invertir selección') }}
+                <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Invertir selección') }}</span>
               </button>
               <div class="dropdown">
                 <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   <i class="bi bi-check-square"></i>
-                  &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
+                  <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-select-all"
@@ -57,7 +57,7 @@
               <div class="dropdown">
                 <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false"><i class="bi bi-x-square"></i>
-                  &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
+                    <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-deselect-all"
@@ -70,17 +70,20 @@
                   </button>
                 </div>
               </div>
-              <button class="btn btn-outline-danger float-right mr-3" type="submit" id="btn-elimina-select"
+              <button class="btn btn-outline-danger float-right mr-2" type="submit" id="btn-elimina-select"
                 onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
-                <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}
+                <i class="bi bi-trash"></i>
+                <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}</span>
               </button>
-              <button class="btn btn-outline-warning float-right mr-3" type="submit" id="btn-descarga-csv"
+              <button class="btn btn-outline-warning float-right mr-2" type="submit" id="btn-descarga-csv"
                 onclick="updateForm(null, 'descargar', {{post_pagination.page}}, null)">
-                <i class="bi bi-cloud-arrow-down"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Descargar seleccionados') }}
+                <i class="bi bi-cloud-arrow-down"></i>
+                <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Descargar seleccionados') }}</span>
               </button>
-              <button class="btn btn-outline-success float-right mr-3" type="submit" id="btn-nueva"
+              <button class="btn btn-outline-success float-right mr-2" type="submit" id="btn-nueva"
                 onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)">
-                <i class="bi bi-plus-lg"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Nueva') }}
+                <i class="bi bi-plus-lg"></i>
+                <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Nueva') }}</span>
               </button>
             </div>
           </div>
@@ -133,8 +136,10 @@
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    <span class="light-gray-description-forms font-weight-bolder text-primary" style="word-break:break-all;">
-                      {{ instance["instance_URL"] }}
+                    <span class="light-gray-description-forms font-weight-bolder text-primary">
+                      <div style="white-space:initial; word-wrap: break-word; max-width: 375px;">
+                        {{ instance["instance_URL"] }}
+                      </div>
                     </span>
                   </td>
                   <td class="text-center">

@@ -35,7 +35,7 @@
                 <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   <i class="bi bi-check-square"></i>
-                  &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
+                  <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-select-all"
@@ -51,7 +51,7 @@
               <div class="dropdown">
                 <a class="btn btn-outline-primary float-left" href="#" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false"><i class="bi bi-x-square"></i>
-                  &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
+                  <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                   <button class="dropdown-item" type="submit" id="btn-deselect-all"
@@ -66,7 +66,8 @@
               </div>
               <button class="btn btn-outline-danger float-right mr-3" type="submit" id="btn-elimina-select"
                 onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
-                <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}
+                <i class="bi bi-trash"></i>
+                <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar seleccionados') }}</span>
               </button>
             </div>
           </div>
@@ -80,7 +81,7 @@
             <h3 class="mb-0">{{ gettext('REVISIÓN DE SUGERENCIAS') }}</h3>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" style="overflow-y: visible;">
               <thead class="thead">
                 <tr>
                   <th scope="col">
@@ -118,7 +119,9 @@
                     {% endif %}
                   </td>
                   <td class="text-primary text-center text-md font-weight-bolder">
-                    {{ instance["instance_URL"]}}
+                    <div style="white-space:initial; word-wrap: break-word; max-width: 600px;">
+                      {{ instance["instance_URL"]}}
+                    </div>
                   </td>
                   <td class="text-primary text-center text-md font-weight-bolder">
                     {{ instance["reported_by"] }}
@@ -142,22 +145,22 @@
                         <button class="dropdown-item text-bolder text-green" type="submit"
                           id="btn-acepta-individual-{{ instance['report_number'] }}"
                           onclick="updateForm({{ instance['report_number'] }}, 'aceptar', {{post_pagination.page}}, null)">
-                          Aceptar sugerencia
+                          {{ gettext('Aceptar sugerencia') }}
                         </button>
                         <button class="dropdown-item text-bolder text-red" type="submit"
                           id="btn-acepta-all-{{ instance['report_number'] }}"
                           onclick="updateForm({{ instance['report_number'] }}, 'aceptar_todos', {{post_pagination.page}}, null)">
-                          Aceptar sugerencia y eliminar todas las sugerencias asociadas a esta URL
+                          {{ gettext('Aceptar sugerencia y eliminar todas las sugerencias asociadas a esta URL') }}
                         </button>
                         <button class="dropdown-item text-bolder text-midnight" type="submit"
                           id="btn-descarta-individual-{{ instance['report_number'] }}"
                           onclick="updateForm({{ instance['report_number'] }}, 'descartar', {{post_pagination.page}}, null)">
-                          Descartar sugerencia
+                          {{ gettext('Descartar sugerencia') }}
                         </button>
                         <button class="dropdown-item text-bolder text-red" type="submit"
                           id="btn-descarta-all-{{ instance['report_number'] }}"
                           onclick="updateForm({{ instance['report_number'] }}, 'descartar_todos', {{post_pagination.page}}, null)">
-                          Descartar y eliminar todas las sugerencias asociadas a esta URL
+                          {{ gettext('Descartar y eliminar todas las sugerencias asociadas a esta URL') }}
                         </button>
                       </div>
                     </div>

@@ -35,7 +35,7 @@
                   <a class="btn btn-outline-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <i class="bi bi-check-square"></i>
-                    &nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}
+                    <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Seleccionar') }}</span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                     <button class="dropdown-item" type="submit" id="btn-select-all"
@@ -51,7 +51,7 @@
                 <div class="dropdown">
                   <a class="btn btn-outline-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"><i class="bi bi-x-square"></i>
-                    &nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}
+                    <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Deseleccionar') }}</span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
                     <button class="dropdown-item" type="submit" id="btn-deselect-all"
@@ -68,11 +68,13 @@
               <div class="col">
                 <button class="btn btn-outline-danger float-right" type="submit" id="btn-elimina-select"
                   onclick="updateForm(null, 'eliminar', {{post_pagination.page}}, null)">
-                  <i class="bi bi-trash"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar') }}
+                  <i class="bi bi-trash"></i>
+                  <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Eliminar') }}</span>
                 </button>
                 <button class="btn btn-outline-success float-right mr-3" type="submit" id="btn-nueva"
                   onclick="updateForm(null, 'crear', {{post_pagination.page}}, null)">
-                  <i class="bi bi-plus-lg"></i>&nbsp;&nbsp;&nbsp;{{ gettext('Nuevo') }}
+                  <i class="bi bi-plus-lg"></i>
+                  <span class="d-none d-md-inline">&nbsp;&nbsp;&nbsp;{{ gettext('Nuevo') }}</span>
                 </button>
               </div>
             </div>
@@ -87,7 +89,7 @@
             <h3 class="mb-0">{{ gettext('MODELOS DISPONIBLES') }}</h3>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush" style="table-layout:fixed;">
+            <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">
@@ -100,10 +102,10 @@
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Algoritmo') }}</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-center">{{ gettext('Parámetros') }}</h5>
+                    <h5 class="text-gray mb-0 text-left">{{ gettext('Parámetros') }}</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-center" style="text-align: right">Acc, P, R, F-1, AUC</h5>
+                    <h5 class="text-gray mb-0 text-center" style="text-align: right">{{ gettext('Métricas') }} [Acc, P, R, F-1, AUC]</h5>
                   </th>
                   <th scope="col">
                     <h5 class="text-gray mb-0 text-right">{{ gettext('Autor') }}</h5>
@@ -112,7 +114,7 @@
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Fecha') }}</h5>
                   </th>
                   <th scope="col">
-                    <h5 class="text-gray mb-0 text-left">{{ gettext('Notas') }}</h5>
+                    <h5 class="text-gray mb-0 text-center">{{ gettext('Notas') }}</h5>
                   </th>
                   <th scope="col">
                     <h5 class="text-gray mb-0 text-center">{{ gettext('Visible') }}</h5>
@@ -127,7 +129,7 @@
               </thead>
               <tbody class="list">
                 {% for model in post_pagination.items %}
-                <tr>
+                <div class="flex-table row" role="rowgroup">
                   <td class="text-center">
                     {% if model["is_selected"] == 1 %}
                     <input id="checkbox-model-{{ model['model_id'] }}" value="{{ model['model_id'] }}" type="checkbox"
@@ -162,8 +164,10 @@
                   <td style="text-align: center; font-size:15px">
                     {{ model["creation_date"] }}
                   </td>
-                  <td class="text-left text-xs" style="white-space: initial; word-wrap: break-word">
-                    {{ model["model_notes"] }}
+                  <td class="text-left text-xs">
+                    <div style="white-space:initial; word-wrap: break-word; max-width: 175px;">
+                      {{ model["model_notes"] }}
+                    </div>
                   </td>
                   <td style="text-align: center; font-size:25px">
                     {% if model["is_visible"] %}
@@ -202,7 +206,7 @@
                       </div>
                     </div>
                   </td>
-                </tr>
+                </div>
                 {% endfor %}
               </tbody>
             </table>
