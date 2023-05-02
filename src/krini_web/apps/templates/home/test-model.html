@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-{% block title %} {{ gettext('Probar modelo') }} {% endblock title %}
+{% block title %} {{ gettext('Evaluar modelo') }} {% endblock title %}
 {% block content %}
 
 <div class="header bg-gradient-primary pb-6">
@@ -12,7 +12,7 @@
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="/models">{{ gettext('Administración de modelos') }}</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ gettext('Probar modelo') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ gettext('Evaluar modelo') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -57,7 +57,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header border-0">
-                        <h3 class="mb-0">{{ gettext('PROBANDO MODELO') }} {{ model["model_name"] }}</h3>
+                        <h3 class="mb-0">{{ gettext('EVALUANDO MODELO') }} {{ model["model_name"] }}</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush" style="table-layout: fixed ; width: 100%;">

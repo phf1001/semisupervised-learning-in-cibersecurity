@@ -45,6 +45,7 @@ import re
 import pandas as pd
 from numpy import int64, float64, array
 import json
+from flask import flash
 from flask_login import current_user
 from datetime import datetime
 import logging
@@ -1215,6 +1216,8 @@ def remove_selected_models(ids_models):
     Removes the selected models from the database.
     It also deletes the file with the pickled model.
 
+    MODELS 1, 2 and 3 are not deleted.
+
     Args:
         ids_models (list): list containing ids
 
@@ -1225,15 +1228,20 @@ def remove_selected_models(ids_models):
         models_path = get_models_directory()
 
         for model_id in ids_models:
-            model = Available_models.query.filter_by(model_id=model_id).first()
+            if model_id not in ("1", "2", "3"):
+                model = Available_models.query.filter_by(
+                    model_id=model_id
+                ).first()
 
-            model_path = models_path + sep + model.file_name
-            if path.exists(model_path):
-                remove(model_path)
+                model_path = models_path + sep + model.file_name
+                if path.exists(model_path):
+                    remove(model_path)
 
-            Available_models.query.filter_by(model_id=model_id).delete()
+                Available_models.query.filter_by(model_id=model_id).delete()
+                db.session.commit()
 
-        db.session.commit()
+            else:
+                flash(get_exception_message("protected_models"), "info")
 
     except exc.SQLAlchemyError:
         db.session.rollback()
@@ -1442,7 +1450,11 @@ def update_model(model, form_data, models_path=None):
             model.model_name.split(" ")[0] + " " + new_model_version
         )
         model.file_name = new_file_name
-        model.model_notes = form_data["model_description"]
+
+        new_notes = form_data["model_description"]
+        if len(new_notes) > 0:
+            model.model_notes = new_notes
+
         model.is_visible = to_bolean(form_data["is_visible"])
         update_defaults = to_bolean(form_data["is_default"])
 

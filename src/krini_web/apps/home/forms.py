@@ -17,7 +17,7 @@ from wtforms import (
     IntegerField,
     FloatField,
 )
-from wtforms.validators import DataRequired, Regexp, NumberRange
+from wtforms.validators import DataRequired, Regexp, NumberRange, Length
 
 from apps.config import (
     NAIVE_BAYES_KEY,
@@ -46,7 +46,10 @@ class ReportURLForm(FlaskForm):
     url = TextField(
         "url",
         id="url_report",
-        validators=[DataRequired("empty_url")],
+        validators=[
+            DataRequired("empty_url"),
+            Length(max=255, message="url_too_long"),
+        ],
     )
     type = SelectField(
         "type",
@@ -68,7 +71,10 @@ class SearchURLForm(FlaskForm):
     url = TextField(
         "url",
         id="url_search",
-        validators=[DataRequired("empty_url")],
+        validators=[
+            DataRequired("empty_url"),
+            Length(max=255, message="url_too_long"),
+        ],
     )
     selected_models = HiddenField(
         "selected_models", render_kw={"id": "selected_models"}
@@ -84,7 +90,12 @@ class InstanceForm(FlaskForm):
     """
 
     url = TextField(
-        "url", id="url_instance", validators=[DataRequired("empty_url")]
+        "url",
+        id="url_instance",
+        validators=[
+            DataRequired("empty_url"),
+            Length(max=255, message="url_too_long"),
+        ],
     )
 
     instance_class = SelectField(
@@ -137,7 +148,11 @@ class SmallModelForm(FlaskForm):
         ],
     )
 
-    model_description = TextField("model_description", id="model_description")
+    model_description = TextField(
+        "model_description",
+        id="model_description",
+        validators=[Length(max=511, message="description_too_long")],
+    )
 
     model_algorithm = TextField("model_algorithm", id="model_algorithm")
 
@@ -167,7 +182,10 @@ class ModelForm(SmallModelForm):
     model_name = TextField(
         "model_name",
         id="model_name",
-        validators=[DataRequired("empty_name")],
+        validators=[
+            DataRequired("empty_name"),
+            Length(max=50, message="model_name_too_long"),
+        ],
     )
 
     random_state = IntegerField(

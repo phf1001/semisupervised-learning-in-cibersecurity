@@ -31,9 +31,9 @@ class Available_instances(db.Model):
         db.Integer, db.ForeignKey("Users.id"), nullable=True
     )
     instance_URL = db.Column(db.String(256), unique=True, nullable=False)
-    instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Float)))
+    instance_fv = db.Column(MutableList.as_mutable(db.ARRAY(db.Integer)))
     instance_class = db.Column(db.Integer)
-    colour_list = db.Column(db.String(64))
+    colour_list = db.Column(db.String(16))
     instance_labels = db.Column(MutableList.as_mutable(db.ARRAY(db.String(64))))
 
     def __init__(self, **kwargs):
@@ -149,6 +149,14 @@ class Candidate_instances(db.Model):
 
     @staticmethod
     def get_instance_url(instance_id):
+        """Returns the URL of the instance with the given id.
+
+        Args:
+            instance_id (int): Instance id
+
+        Returns:
+            str: URL of the instance with the given id
+        """
         return (
             Available_instances.query.filter_by(instance_id=instance_id)
             .first()
@@ -404,9 +412,9 @@ class Available_tri_trainings(Available_models):
         db.ForeignKey("Available_models.model_id", ondelete="CASCADE"),
         primary_key=True,
     )
-    cls_one = db.Column(db.String(8), nullable=False)
-    cls_two = db.Column(db.String(8), nullable=False)
-    cls_three = db.Column(db.String(8), nullable=False)
+    cls_one = db.Column(db.String(4), nullable=False)
+    cls_two = db.Column(db.String(4), nullable=False)
+    cls_three = db.Column(db.String(4), nullable=False)
 
     __mapper_args__ = {
         "polymorphic_identity": "tt",
@@ -431,7 +439,7 @@ class Available_democratic_cos(Available_models):
     )
     n_clss = db.Column(db.Integer, default=3, nullable=False)
     base_clss = db.Column(
-        MutableList.as_mutable(db.ARRAY(db.String(8))), nullable=False
+        MutableList.as_mutable(db.ARRAY(db.String(4))), nullable=False
     )
 
     __mapper_args__ = {

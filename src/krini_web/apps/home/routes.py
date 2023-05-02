@@ -833,6 +833,10 @@ def edit_model():
             flash(get_message("model_updated"), "success")
             return redirect(url_for("home_blueprint.models"))
 
+        for key in form.errors.keys():
+            message = get_form_message(form.errors[key][0])
+            flash(message, "warning")
+
         return render_template(
             "home/edit-model.html",
             model=get_model_dict(model),
@@ -975,8 +979,6 @@ def edit_instance():
 
     try:
         form = InstanceForm()
-
-        # Tienes también la página previa
         messages = session.get("messages", None)
         selected_instance = Available_instances.query.filter_by(
             instance_id=messages["instance_id"]
@@ -1009,6 +1011,7 @@ def edit_instance():
 
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
+        flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
 
 
@@ -1034,9 +1037,10 @@ def new_instance():
         form.validate_on_submit()
 
         for key in form.errors.keys():
-            if form.errors[key][0] == "empty_url":
+            val = form.errors[key][0]
+            if val == "empty_url" or val == "url_too_long":
                 validated = False
-                flash(get_form_message("empty_url"), "warning")
+                flash(get_form_message(val), "warning")
                 break
 
         if "siguiente" in request.form and validated:
@@ -1061,6 +1065,7 @@ def new_instance():
 
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
+        flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
 
 
@@ -1268,7 +1273,6 @@ def report_url():
             existing_instance = Available_instances.query.filter_by(
                 instance_URL=url
             ).first()
-
             if not existing_instance:
                 existing_instance = Available_instances(
                     instance_URL=url,

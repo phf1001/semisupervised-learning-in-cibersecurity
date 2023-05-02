@@ -12,7 +12,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 
 
 class LoginForm(FlaskForm):
@@ -26,7 +26,10 @@ class LoginForm(FlaskForm):
     username = TextField(
         "Username",
         id="username_login",
-        validators=[DataRequired("no_username")],
+        validators=[
+            DataRequired("no_username"),
+            Length(min=1, max=63, message="username_too_long"),
+        ],
     )
     password = PasswordField(
         "Password",
@@ -46,13 +49,19 @@ class CreateAccountForm(FlaskForm):
     username = TextField(
         "Username",
         id="username_create",
-        validators=[DataRequired("no_username")],
+        validators=[
+            DataRequired("no_username"),
+            Length(min=1, max=63, message="username_too_long"),
+        ],
     )
 
     email = TextField(
         "Email",
         id="email_create",
-        validators=[DataRequired("no_email")],
+        validators=[
+            DataRequired("no_email"),
+            Length(min=1, max=127, message="email_too_long"),
+        ],
     )
 
     password = PasswordField(
@@ -64,11 +73,17 @@ class CreateAccountForm(FlaskForm):
     user_first_name = TextField(
         "Name",
         id="name_create",
-        validators=[DataRequired("no_name")],
+        validators=[
+            DataRequired("no_name"),
+            Length(min=1, max=63, message="first_name_too_long"),
+        ],
     )
 
     user_last_name = TextField(
         "Surname",
         id="surname_create",
-        validators=[DataRequired("no_surname")],
+        validators=[
+            DataRequired("no_surname"),
+            Length(min=1, max=63, message="surname_too_long"),
+        ],
     )

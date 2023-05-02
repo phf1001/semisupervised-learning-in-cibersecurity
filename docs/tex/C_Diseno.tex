@@ -66,12 +66,12 @@ Se adjunta a continuación, para cada tabla, el diccionario de datos correspondi
 			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 			\midrule
 			\texttt{\textbf{\underline{id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador. Generado automáticamente mediante una secuencia. \\
-			\texttt{username} &  \texttt{VARCHAR(32)} & \texttt{UNIQUE NOT NULL} & Inmutable. Nombre de usuario proporcionado en el registro.\\
-			\texttt{email} & \texttt{VARCHAR(256)} & \texttt{UNIQUE NOT NULL} & Inmutable. Email del usuario proporcionado en el registro.\\
+			\texttt{username} &  \texttt{VARCHAR(64)} & \texttt{UNIQUE NOT NULL} & Inmutable. Nombre de usuario proporcionado en el registro.\\
+			\texttt{email} & \texttt{VARCHAR(128)} & \texttt{UNIQUE NOT NULL} & Inmutable. Email del usuario proporcionado en el registro.\\
 			\texttt{password} &  \texttt{BYTEA} & \texttt{NOT NULL} & Contraseña cifrada mediante \texttt{sha-512}. La \textit{salt} se obtiene aleatoriamente y está cifrada en \texttt{sha-256}.\\
 			\texttt{user\_first \_name} & \texttt{VARCHAR(64)} & & Nombre del usuario.\\
 			\texttt{user\_last \_name} & \texttt{VARCHAR(64)} & & Apellidos del usuario. \\
-			\texttt{user\_rol} & \texttt{VARCHAR(8)} & \texttt{NOT NULL} & Rol del usuario. Puede ser <<standard>> o <<admin>>. Por defecto: <<standard>>. \\
+			\texttt{user\_rol} & \texttt{VARCHAR(16)} & \texttt{NOT NULL} & Rol del usuario. Puede ser <<standard>> o <<admin>>. Por defecto: <<standard>>. \\
 			\texttt{n\_urls \_accepted} & \texttt{INTEGER} &  &  Atributo de usuarios <<standard>>. Contador de aquellas instancias que han sido reportadas y aceptadas por un administrador. \\
 			\bottomrule
 		\end{tabular}
@@ -96,8 +96,8 @@ La tabla~\ref{datadic:users} almacena la información relevante de cada usuario 
 			\texttt{instance\_url} & \texttt{VARCHAR(256)} & \texttt{UNIQUE NOT NULL} &  URL de la instancia. Inmutable.\\
 			\texttt{instance\_fv} &  \texttt{INTEGER ARRAY[19]} & & Vector de características de la URL.   \\
 			\texttt{instance \_class} & \texttt{INTEGER} & & Etiqueta de la clase. Puede valer $0$ si la URL es legítima o $1$ en caso de que sea \textit{phishing}. \\
-			\texttt{colour\_list} & \texttt{VARCHAR(12)} & & Puede ser <<black-list>>, <<white-list>> o estar vacío. En caso de contener un valor ha de ser aprobada por un administrador. \\
-			\texttt{instance \_labels} & \texttt{CHAR(128)} & &  Se preve que el campo varíe bastante, por lo que el tipo de dato no se ha definido como \texttt{VARCHAR}. Contiene etiquetas relacionadas con la instancia.\\
+			\texttt{colour\_list} & \texttt{VARCHAR(16)} & & Puede ser <<black-list>>, <<white-list>> o estar vacío. En caso de contener un valor ha de ser aprobada por un administrador. \\
+			\texttt{instance \_labels} & \texttt{VARCHAR(64) ARRAY[]} & &  Se preve que el campo varíe bastante, por lo que el tipo de dato no se ha definido como \texttt{VARCHAR}. Contiene etiquetas relacionadas con la instancia.\\
 			\bottomrule
 		\end{tabular}
 	}
@@ -124,9 +124,9 @@ La tabla~\ref{datadic:models} almacena los modelos de aprendizaje que han sido c
 			\texttt{creation \_date} & \texttt{TIMESTAMP} & &  Fecha de creación.   \\
 			\texttt{is\_default} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<false>>. Determina si un clasificador es el utilizado por defecto (cuando un usuario realiza una consulta y no selecciona ningún modelo).   \\
 			\texttt{is\_visible} & \texttt{BOOLEAN} & \texttt{NOT NULL} & Por defecto <<true>>. Determina si un clasificador está visible en la \textit{web} y disponible para ser utilizado.\\
-			\texttt{model\_scores} & \texttt{FLOAT(5) ARRAY} & \texttt{NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (en este orden) corresponden a las métricas \textit{accuracy}, \textit{precision}, \textit{recall}, F1 y AUC. \\			
+			\texttt{model\_scores} & \texttt{FLOAT ARRAY[5]} & \texttt{NOT NULL} & Por defecto \texttt{[0.0, 0.0, 0.0, 0.0, 0.0]}. Son las últimas estadísticas del último \textit{test} realizado al clasificador. Las columnas (en este orden) corresponden a las métricas \textit{accuracy}, \textit{precision}, \textit{recall}, F1 y AUC. \\			
 			\texttt{model\_ algorithm} & \texttt{VARCHAR(2)} & \texttt{NOT NULL} & Discriminante. Tomará valores entre \texttt{dc}, \texttt{tt} o \texttt{cf} controlados por aplicación.\\
-			\texttt{model\_notes} & \texttt{VARCHAR(128)} & & Notas acerca de los clasificadores base utilizados para crear el \textit{ensemble}. No debería cambiar de valor.\\
+			\texttt{model\_notes} & \texttt{VARCHAR(512)} & & Notas acerca del \textit{ensemble}.\\
 			\texttt{random\_state} & \texttt{INTEGER} & & Semilla aleatoria.  \\
 			\bottomrule
 		\end{tabular}
@@ -147,7 +147,7 @@ Si se comprueba el diagrama E-R, se puede comprobar que esta tabla es una ISA. E
 		\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
 		\midrule
 				\texttt{\textbf{\underline{model\_id}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}, FK(Available \_models) ON DELETE CASCADE} & Identificador. Generado por la secuencia de la tabla padre e introducido mediante código (debe coincidir). \\
-				\texttt{max\_features} & \texttt{VARCHAR(4)} & \texttt{NOT NULL} & Parámetro del árbol de decisión. Puede ser <<sqrt>> o <<log2>>. Por defecto <<log2>>.   \\
+				\texttt{max\_features} & \texttt{VARCHAR(8)} & \texttt{NOT NULL} & Parámetro del árbol de decisión. Puede ser <<sqrt>> o <<log2>>. Por defecto <<log2>>.   \\
 				\texttt{thetha} & \texttt{FLOAT(3)} & \texttt{NOT NULL} & Parámetro thetha del \textit{ensemble} (umbral de confianza). Por defecto 0.75.   \\
 				\texttt{n\_trees} & \texttt{INTEGER} & \texttt{NOT NULL} & Número de árboles. Por defecto 3.   \\
 				\bottomrule

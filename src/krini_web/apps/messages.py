@@ -135,6 +135,19 @@ def get_exception_message(identifier) -> str:
     if identifier == "base_cls_not_found":
         return gettext("Clasificador base no encontrado")
 
+    if identifier == "protected_models":
+        return (
+            gettext(
+                "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
+            )
+            + gettext(
+                "conexión con la base de datos es correcta y se muestra el mensaje de "
+            )
+            + gettext(
+                "'eliminado correctamente' para que sepas que el método funciona."
+            )
+        )
+
     return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
 
 
@@ -194,6 +207,41 @@ def get_form_message(identifier) -> str:
     if identifier == "empty_url":
         return gettext("Por favor, introduce una URL.")
 
+    if identifier == "url_too_long":
+        return gettext(
+            "Por favor, introduce una URL más corta (máximo 255 caracteres)."
+        )
+
+    if identifier == "description_too_long":
+        return gettext(
+            "Por favor, introduce una descripción más corta (máximo 511 caracteres)."
+        )
+
+    if identifier == "model_name_too_long":
+        return gettext(
+            "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
+        )
+
+    if identifier == "username_too_long":
+        return gettext(
+            "Introduce un nombre de usuario más corto (máximo 63 caracteres)."
+        )
+
+    if identifier == "email_too_long":
+        return gettext(
+            "Por favor, introduce un email más corto (máximo 128 caracteres)."
+        )
+
+    if identifier == "first_name_too_long":
+        return gettext(
+            "Por favor, introduce un nombre propio más corto (máximo 63 caracteres)."
+        )
+
+    if identifier == "surname_too_long":
+        return gettext(
+            "Por favor, introduce unos apellidos más cortos (máximo 63 caracteres)."
+        )
+
     if identifier == "no_option_selected":
         return gettext("Por favor, selecciona una opción en el desplegable.")
 
@@ -247,6 +295,11 @@ def get_form_message(identifier) -> str:
     if identifier == "invalid_n_clss":
         return gettext(
             "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
+        )
+
+    if identifier == "check_labels_length":
+        return gettext(
+            "Comprueba que las etiquetas introducidas no tengan más de 63 caracteres"
         )
 
     return get_message("Revisa que los campos estén correctamente rellenados.")
