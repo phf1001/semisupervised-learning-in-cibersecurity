@@ -389,6 +389,7 @@ def report_false_positive():
                 db.session.add(report)
                 db.session.commit()
                 flash(get_message("false_positive_reported"), "success")
+                return redirect(url_for("home_blueprint.dashboard"))
 
             else:
                 raise KriniException(

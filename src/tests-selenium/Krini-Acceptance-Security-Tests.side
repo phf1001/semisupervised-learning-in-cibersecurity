@@ -2,7 +2,7 @@
   "id": "38378812-afba-47d1-8151-f79cf9ce1262",
   "version": "2.0",
   "name": "Krini-Acceptance-Security-Tests",
-  "url": "http://127.0.0.1:5000",
+  "url": "https://krini.herokuapp.com",
   "tests": [{
     "id": "afd1c424-7cee-4fbd-bfe9-b2d1fd5716d1",
     "name": "CP01-Access_admin_page",
@@ -1645,6 +1645,6 @@
     "timeout": 300,
     "tests": ["f711d481-665c-45dc-922d-f9c9aee3dfb6", "dd84123f-7d1a-4f9f-9ad6-bbe9f9824be5"]
   }],
-  "urls": ["http://127.0.0.1:5000/"],
+  "urls": ["http://127.0.0.1:5000/", "https://krini.herokuapp.com/"],
   "plugins": []
 }
