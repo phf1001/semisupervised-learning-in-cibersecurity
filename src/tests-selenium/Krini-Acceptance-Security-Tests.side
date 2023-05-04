@@ -1636,7 +1636,14 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": []
+    "tests": ["21db1ffc-d79e-4eee-b5bb-e121c701a2d2", "2158935c-6ffa-4e88-99dd-3e0b73e4b6cc", "d76d079e-57f8-496d-8b37-f28d5a678f6f", "fa8b1415-94e4-4edb-a52d-b8640df2d70c", "c4b96737-e257-4f64-9cbc-ac8b28b94b78", "0f7622c3-ecc5-416f-b036-3deebc960e52"]
+  }, {
+    "id": "ac4dedc6-bcae-42de-a9cb-47b05481ff26",
+    "name": "UX",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["f711d481-665c-45dc-922d-f9c9aee3dfb6", "dd84123f-7d1a-4f9f-9ad6-bbe9f9824be5"]
   }],
   "urls": ["http://127.0.0.1:5000/"],
   "plugins": []
