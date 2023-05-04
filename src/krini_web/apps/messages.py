@@ -32,9 +32,11 @@ def get_exception_message(identifier) -> str:
         return gettext("No se ha encontrado la información.")
 
     if identifier == "log_to_report":
-        return gettext(
-            "Inicia sesión para reportar falsos positivos."
-        ) + gettext("Gracias por tu colaboración.")
+        return (
+            gettext("Inicia sesión para reportar falsos positivos")
+            + gettext(" (recuerda realizar un análisis previamente).")
+            + gettext(" Gracias por tu colaboración.")
+        )
 
     if identifier == "report_url_error":
         return gettext(
@@ -146,6 +148,11 @@ def get_exception_message(identifier) -> str:
             + gettext(
                 "'eliminado correctamente' para que sepas que el método funciona."
             )
+        )
+
+    if identifier == "incorrect_stream":
+        return gettext(
+            "¡Lo sentimos! No puedes acceder directamente a esta página."
         )
 
     return get_message("Ha ocurrido una excepción. ¡Lo sentimos!")
