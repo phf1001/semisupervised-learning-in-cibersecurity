@@ -2,9 +2,9 @@
 # -*-coding:utf-8 -*-
 """
 @File    :   routes.py
-@Time    :   2023/03/30 21:06:45
+@Time    :   2023/05/04 21:06:45
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   5.0
 @Contact :   phf1001@alu.ubu.es
 """
 from os import remove
@@ -28,24 +28,6 @@ from apps.ssl_utils.ml_utils import (
     translate_tag,
     deserialize_model,
 )
-from flask import (
-    render_template,
-    request,
-    flash,
-    redirect,
-    url_for,
-    session,
-    send_from_directory,
-    after_this_request,
-)
-from flask_login import login_required, current_user
-from werkzeug.exceptions import Forbidden
-from flask_wtf import FlaskForm
-from jinja2 import TemplateNotFound
-from datetime import datetime
-import json
-
-# DB Models
 from apps.home.forms import (
     ReportURLForm,
     SearchURLForm,
@@ -60,22 +42,34 @@ from apps.home.models import (
     Available_models,
     Available_tags,
 )
-
-# ML dependencies
-import numpy as np
-import time
-from sklearn.model_selection import train_test_split
-
 from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT
-
-logger = get_logger("krini-frontend")
-
 from apps.messages import (
     get_message,
     get_form_message,
     get_exception_message,
     get_formatted_message,
 )
+from flask import (
+    render_template,
+    request,
+    flash,
+    redirect,
+    url_for,
+    session,
+    send_from_directory,
+    after_this_request,
+)
+from flask_login import login_required, current_user
+from flask_wtf import FlaskForm
+from werkzeug.exceptions import Forbidden
+from jinja2 import TemplateNotFound
+from datetime import datetime
+import json
+import numpy as np
+import time
+from sklearn.model_selection import train_test_split
+
+logger = get_logger("krini-frontend")
 
 
 @blueprint.route("/language=<language>")
@@ -108,11 +102,14 @@ def index():
         function: renders a loading page
     """
     form = SearchURLForm(request.form)
+    session["checks"] = {}
 
     if not form.validate_on_submit():
         for key in form.errors.keys():
             message = get_form_message(form.errors[key][0])
             flash(message, "warning")
+
+        session["messages"] = {}
 
         return render_template(
             "home/index.html",
@@ -145,7 +142,7 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
     Returns:
         function: redirects to the dashboard
     """
-    time.sleep(3)
+    time.sleep(1.5)
     fv, fv_extra_information = get_mock_values_fv()
     session["messages"] = {
         "fv": fv.tolist(),
@@ -156,6 +153,7 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
         "colour_list": "black-list",
         "update_bbdd": False,
     }
+    session["checks"] = {}
     return redirect(url_for("home_blueprint.dashboard"))
 
 
@@ -253,6 +251,12 @@ def extract_fv():
         flash(get_formatted_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
+    except (KeyError, ValueError, TypeError):
+        session["messages"] = {}
+        session["checks"] = {}
+        flash(get_exception_message("incorrect_stream"), "danger")
+        return redirect(url_for("home_blueprint.index"))
+
 
 @blueprint.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -264,6 +268,7 @@ def dashboard():
         function: renders the dashboard
     """
     try:
+        session["checks"] = {}
         messages = session.get("messages", None)
 
         if messages:
@@ -317,6 +322,7 @@ def dashboard():
                 "model_confidence": make_array_safe(models_confidence),
             }
 
+            # If we want resutls to be reset, put {} instead of messages
             session["messages"] = messages
 
             return render_template(
@@ -324,13 +330,16 @@ def dashboard():
                 segment=get_segment(request),
                 information_to_display=information_to_display,
             )
+
         raise KriniException(get_message("no_info_display_dashboard"))
 
     except KriniException as e:
+        session["messages"] = {}
         flash(e.message, "danger")
         return redirect(url_for("home_blueprint.index"))
 
-    except KeyError:
+    except (KeyError, ValueError, TypeError):
+        session["messages"] = {}
         flash(
             get_message("no_info_available")
             + " "
@@ -349,6 +358,8 @@ def report_false_positive():
         function: redirects to the dashboard
     """
     try:
+        session["checks"] = {}
+
         if not current_user.is_authenticated:
             raise KriniNotLoggedException(get_message("not_logged"))
 
@@ -385,15 +396,21 @@ def report_false_positive():
                 )
 
         else:
-            raise KriniException(get_exception_message("not_info_found"))
+            raise ValueError(get_exception_message("not_info_found"))
 
     except KriniNotLoggedException:
+        session["messages"] = {}
         flash(get_exception_message("log_to_report"), "warning")
+        return redirect(url_for("home_blueprint.index"))
 
-    except (KriniException, KeyError):
+    except KriniException:
         flash(get_exception_message("report_url_error"), "warning")
+        return redirect(url_for("home_blueprint.dashboard"))
 
-    return redirect(url_for("home_blueprint.dashboard"))
+    except (KeyError, ValueError, TypeError):
+        session["messages"] = {}
+        flash(get_exception_message("incorrect_stream"), "danger")
+        return redirect(url_for("home_blueprint.index"))
 
 
 @login_required
@@ -427,6 +444,9 @@ def profile():
         if current_user.id == user_report:
             n_reports_reviewing += 1
 
+    session["messages"] = {}
+    session["checks"] = {}
+
     return render_template(
         "home/profile.html",
         n_reports_accepted=n_reports_accepted,
@@ -459,7 +479,6 @@ def models(n_per_page=10):
 
             if "crear" in request.form["button_pressed"]:
                 session["messages"] = {"previous_page": page}
-                session["checks"] = {}
                 return redirect(url_for("home_blueprint.new_model"))
 
             if (
@@ -469,8 +488,8 @@ def models(n_per_page=10):
                 session["messages"] = {
                     "previous_page": page,
                     "model_id": request.form["individual_model"],
+                    "action": request.form["button_pressed"],
                 }
-                session["checks"] = {}
                 return (
                     redirect(url_for("home_blueprint.test_model"))
                     if "testear" in request.form["button_pressed"]
@@ -513,7 +532,7 @@ def models(n_per_page=10):
             page = 1
             checks = {}
 
-    except KriniException:
+    except (KriniException, KeyError, ValueError, TypeError):
         flash(get_exception_message("error_operation"), "danger")
 
     session["checks"] = checks if checks else {}
@@ -549,6 +568,7 @@ def new_model():
         raise Forbidden()
 
     form = ModelForm()
+    session["checks"] = {}
 
     if "siguiente" in request.form and form.validate_on_submit():
         selected_method = translate_form_select_data_method(
@@ -615,6 +635,7 @@ def creating_model():
     try:
         messages = session.get("messages", None)
         form_data = messages["form_data"]
+        session["checks"] = {}
 
         # The classifier object is created
         if int(form_data["random_state"]) == -1:
@@ -659,10 +680,15 @@ def creating_model():
             test_ids,
         ) = return_X_y_train_test(dataset_method, dataset_params, get_ids=True)
 
-        # 20% Labelled, 80% Unlabelled
-        L_train, U_train, Ly_train, Uy_train = train_test_split(
-            X_train, y_train, test_size=0.8, random_state=5, stratify=y_train
-        )
+        try:
+            L_train, U_train, Ly_train, Uy_train = train_test_split(
+                X_train,
+                y_train,
+                test_size=0.8,
+                stratify=y_train,
+            )
+        except ValueError:
+            raise KriniException(get_exception_message("few_instances"))
 
         cls.fit(L_train, Ly_train, U_train)
         y_pred = cls.predict(X_test)
@@ -686,11 +712,13 @@ def creating_model():
 
     except KriniException as e:
         flash(str(e), "danger")
+        session["messages"] = {}
+        return redirect(url_for("home_blueprint.new_model"))
 
-    except ValueError:
-        flash(get_exception_message("few_instances"), "danger")
-
-    return redirect(url_for("home_blueprint.new_model"))
+    except (ValueError, KeyError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+        session["messages"] = {}
+        return redirect(url_for("home_blueprint.models"))
 
 
 @login_required
@@ -710,10 +738,13 @@ def test_model():
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
+    session["checks"] = {}
+
     try:
         form = TestModelForm()  # DO NOT INCLUDE REQUEST.FORM, FILES FAIL
-
         messages = session.get("messages", None)
+        if "testear" not in messages["action"]:
+            raise ValueError
         model_id = int(messages["model_id"])
         model = Available_models.query.get(model_id)
         analysis_scores = model.model_scores
@@ -731,19 +762,23 @@ def test_model():
             )
 
             if selected_method == "csv":
-                selected_method, params = save_files_to_temp(
-                    form.uploaded_test_csv.data
-                )[1]
+                try:
+                    selected_method, params = save_files_to_temp(
+                        form.uploaded_test_csv.data
+                    )[1]
 
-                if selected_method != "csv":
+                    if selected_method != "csv":
+                        raise ValueError
+
+                    X_test, y_test = return_X_y_single(
+                        selected_method,
+                        model_id=model_id,
+                        files_dict=params,
+                        omit_train_ids=omit_ids,
+                    )
+
+                except ValueError:
                     raise KriniException(get_exception_message("error_csv"))
-
-                X_test, y_test = return_X_y_single(
-                    selected_method,
-                    model_id=model_id,
-                    files_dict=params,
-                    omit_train_ids=omit_ids,
-                )
 
             if selected_method == "generate":
                 X_test, y_test = return_X_y_single(
@@ -800,7 +835,13 @@ def test_model():
         PickleError,
         FileNotFoundError,
     ):
+        session["messages"] = {}
         flash(get_exception_message("error_load_model"), "danger")
+        return redirect(url_for("home_blueprint.models"))
+
+    except (KeyError, ValueError, TypeError) as e:
+        session["messages"] = {}
+        flash(get_exception_message("incorrect_stream"), "danger")
         return redirect(url_for("home_blueprint.models"))
 
 
@@ -818,13 +859,15 @@ def edit_model():
         function: renders the test model page if the model is tested,
                   or the models page if there is a major exception
     """
+    session["checks"] = {}
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
     try:
         form = SmallModelForm()
-
         messages = session.get("messages", None)
+        if "editar" not in messages["action"]:
+            raise ValueError
         model_id = int(messages["model_id"])
         model = Available_models.query.get(model_id)
 
@@ -850,6 +893,10 @@ def edit_model():
     except (exc.SQLAlchemyError, AttributeError):
         flash(get_exception_message("error_load_model"), "danger")
 
+    except (KeyError, ValueError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+
+    session["messages"] = {}
     return redirect(url_for("home_blueprint.models"))
 
 
@@ -946,6 +993,9 @@ def instances(n_per_page=10):
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
 
+    except (KeyError, ValueError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+
     session["checks"] = checks if checks else {}
     post_pagination = Available_instances.all_paginated(page, n_per_page)
     post_pagination.items = get_instances_view_dictionary(
@@ -974,6 +1024,7 @@ def edit_instance():
     Returns:
         function: renders the updating page
     """
+    session["checks"] = {}
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
@@ -1014,6 +1065,10 @@ def edit_instance():
         flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
 
+    except (KeyError, ValueError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+        return redirect(url_for("home_blueprint.instances"))
+
 
 @login_required
 @blueprint.route("/new_instance", methods=["GET", "POST"])
@@ -1026,6 +1081,7 @@ def new_instance():
     Returns:
         function: renders the updating page
     """
+    session["checks"] = {}
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
@@ -1064,6 +1120,7 @@ def new_instance():
         )
 
     except KriniException:
+        session["messages"] = {}
         flash(get_exception_message("error_operation"), "danger")
         flash(get_exception_message("check_labels_length"), "info")
         return redirect(url_for("home_blueprint.instances"))
@@ -1080,6 +1137,7 @@ def updating_instance():
     Returns:
         function: renders the instances page
     """
+    session["checks"] = {}
     if not current_user.is_authenticated or current_user.user_rol != "admin":
         raise Forbidden()
 
@@ -1132,22 +1190,27 @@ def updating_instance():
                 selected_instance.instance_fv = fv.tolist()
 
         else:
-            time.sleep(1)  # To show the loading page
+            time.sleep(1.5)  # To show the loading page
 
         db.session.commit()
+        session["messages"] = {}
         flash(get_message("successful_operation"), "success")
         return redirect(url_for("home_blueprint.instances"))
 
     except KriniException:
         flash(get_exception_message("vector_not_generated"), "danger")
         db.session.rollback()
-        return redirect(url_for("home_blueprint.instances"))
 
     except exc.SQLAlchemyError:
         flash(get_exception_message("error_operation"), "danger")
         flash(get_message("warning_check_duplicate_instance"), "info")
         db.session.rollback()
-        return redirect(url_for("home_blueprint.instances"))
+
+    except (KeyError, ValueError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+
+    session["messages"] = {}
+    return redirect(url_for("home_blueprint.instances"))
 
 
 @login_required
@@ -1225,6 +1288,9 @@ def review_instances(n_per_page=10):
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
 
+    except (KeyError, ValueError, TypeError):
+        flash(get_exception_message("incorrect_stream"), "danger")
+
     session["checks"] = checks if checks else {}
     post_pagination = Candidate_instances.all_paginated(page, n_per_page)
     post_pagination.items = get_candidate_instances_view_dictionary(
@@ -1255,6 +1321,7 @@ def report_url():
         function: renders the report-url.html template with a flash
                   message that indicates the status of the report
     """
+    session["checks"] = {}
     if not current_user.is_authenticated:
         raise Forbidden()
 
@@ -1322,16 +1389,6 @@ def route_template(template):
         render_template: renders the template
     """
     try:
-        if not template.endswith(".html"):
-            template += ".html"
-
-        # Detect the current page
-        segment = get_segment(request)
-
-        # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + template, segment=segment)
-
-    except TemplateNotFound:
         return render_template("specials/page-404.html"), 404
 
     except Exception:
