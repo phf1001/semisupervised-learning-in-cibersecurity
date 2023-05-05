@@ -26,22 +26,95 @@ Posteriormente se ejecuta la aplicación mediante el comando \texttt{java -jar .
 
 
 \section{Pruebas del sistema}
+\label{s:pruebas}
 
-% Caso de prueba 1
-\begin{table}
-	\scalebox{0.80}{
-		\begin{tabular}{@{}p{3em} p{6em} p{6em} p{9em} p{6em} p{6em}@{}}		
-			\toprule
-			\textbf{ID~CP} & 1 & \textbf{ID~RF} & 1 & \textbf{Prioridad} & Alta \\ \hline
-			\multicolumn{6}{l}{\textbf{Descripción:} Esto es una descripción muy larga que se va de madre y hay un overflow segurísimo ay pues todavía no pero ahora sí} \\ \hline
-			\multicolumn{6}{l}{\textbf{Precondición:}} \\ \hline
-			\multicolumn{6}{l}{\textbf{Postcondición:}} \\ \hline
-			\textbf{Paso} & \textbf{Acción} & \textbf{Entrada} & \textbf{Salida esperada} & \textbf{Salida real} & \textbf{Resultado}\\
-			\midrule
-			1 & Ir a la página de modelos & CSV mal formado & Mensaje & Mensaje & OK\\
-			\bottomrule
-		\end{tabular}
-	}
-	\caption{CP-1.0 Nombre.}
-	\label{cp:nombre}
+\subsection{Pruebas unitarias}
+\label{s:pruebas-unitarias}
+Travis...
+
+\subsection{Pruebas de aceptación}
+\label{s:pruebas-aceptación}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-1}
+	\caption{CP-1 Acceso a página restringida.}
+	\label{cp:acc-restringido}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-2}
+	\caption{CP-2 Intento de registro con cuenta accedida.}
+	\label{cp:registro}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-3}
+	\caption{CP-3 Acceso a recursos estáticos.}
+	\label{cp:acc-html}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-4}
+	\caption{CP-4 Acceso a rutas excepcionales.}
+	\label{cp:wrong-stream}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-5}
+	\caption{CP-5 Cambio de lenguaje.}
+	\label{cp:language}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-6}
+	\caption{CP-6 Pantallas responsivas.}
+	\label{cp:hamburguer-menu}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-7}
+	\caption{CP-7 Funcionamiento de las \textit{check-boxes}.}
+	\label{cp:checkboxes}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-8}
+	\caption{CP-8 Análisis enlace incompleto.}
+	\label{cp:url-incompleta}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-9}
+	\caption{CP-9 Análisis enlace erróneo.}
+	\label{cp:wrong-url}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-10}
+	\caption{CP-10 Actualización del perfil con las denuncias de URLs.}
+	\label{cp:report-url}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-11}
+	\caption{CP-11 \texttt{csv} con formato incorrecto.}
+	\label{cp:wrong-csv}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-12}
+	\caption{CP-12 \texttt{csv} con conjunto de \textit{test} anómalo.}
+	\label{cp:strange-csv}
 \end{table}
