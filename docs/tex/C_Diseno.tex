@@ -245,7 +245,12 @@ Se enumeran a continuación las tablas que son resultado de una relación entre 
 
 En el desarrollo de \textit{software}, el diseño procedimental se refiere a la definición de pasos ordenados para realizar una determinada funcionalidad. Se utiliza para crear métodos y se basa en la descomposición del problema en pequeñas tareas ejecutadas secuencialmente para alcanzar el resultado deseado. Para ello, se ha hecho uso de diagramas de secuencia UML\footnote{El Lenguaje Unificado de Modelado (UML) es un lenguaje estándar de modelado visual utilizado durante el diseño y la implementación de sistemas de \textit{software}.}. Estos muestran la interacción entre distintos componentes en un sistema.
 
-Con el fin de facilitar la comprensión de ciertos métodos, se muestran a continuación los diagramas de las principales funcionalidades implementadas.
+Con el fin de facilitar la comprensión de ciertos métodos, se muestran a continuación los diagramas de algunas de las principales funcionalidades implementadas.
+
+
+
+\noindent
+\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\vspace*{5px} \textbf{Importante:} es destacable que, debido a las peculiaridades de la aplicación, en ciertas ocasiones se ha hecho una interpretación libre de los diagramas UML incorporando los principios semánticos de este lenguaje. Un ejemplo son las funciones correspondientes a la aplicación de Flask, que se han incorporado en los diagramas (sin negrita ni subrayado) debido a que manejan la lógica de negocio, pero no son objetos al uso.\vspace*{5px}}}
 
 \begin{itemize}
 	\item \textbf{Página principal}: en el diagrama~\ref{c:diagrama-seq-index} se representan los pasos seguidos para la acción más común: analizar una URL. Como se puede comprobar, el usuario realiza una petición y permanece esperando en la pantalla de carga correspondiente. Mientras tanto, el analizador procesa su petición.
@@ -259,33 +264,86 @@ Con el fin de facilitar la comprensión de ciertos métodos, se muestran a conti
 	Por último, en caso de que la URL sea llamable y si no se ha recorrido ningún camino previo, se analiza utilizando el método de extracción de vector de características expuesto en la sección teórica de la memoria. Este proceso requiere unos 40 segundos aproximadamente, aunque varía en función de las características de cada página (número de enlaces que contenga, etc.).
 	
 	Si no ha ocurrido ninguna excepción, en cualquiera de las opciones se ha extraído el vecto de características. Por lo tanto, sólo queda analizar y mostrar los resultados haciendo uso de técnicas visuales (gráficos interactivos) en el \textit{dashboard}, por lo que se redirige a esta pantalla. En caso de que ocurra alguna excepción, el usuario será redirigido a la página principal con un mensaje informativo.
-	
-	\begin{landscape}
-	\begin{figure}[h]
-		\caption[Diagrama: secuencia (página principal)]{Diagrama de secuencia de la página principal del analizador.}
-		\centering
-		\includegraphics[scale=0.37]{../img/anexos/diagrams/sequence-index}
-		\label{c:diagrama-seq-index}
-	\end{figure}
-	\end{landscape}
 
+	\begin{figure}[h]
+		\caption[Diagrama: secuencia (reportar url)]{Diagrama de secuencia de la página para reportar una URL.}
+		\centering
+		\includegraphics[width=\textwidth]{../img/anexos/diagrams/sequence-report_url}
+		\label{c:diagrama-seq-report_url}
+	\end{figure}
 
 	\item \textbf{Página para reportar una URL}: la secuencia se ilustra en el diagrama~\ref{c:diagrama-seq-report_url}. Como se puede comprobar, el usuario tan solo ha de introducir la URL, seleccionar el tipo (lista blanca o lista negra) y aceptar.
 	
 	Como internamente la tabla donde se almacenan las URLs reportadas necesita información para incluir un nuevo registro (identificador de la instancia y del usuario), se intenta recuperar la instancia que se está reportando. En caso de no existir, se crea una nueva y se añade a la base de datos. Por último, se incluye el reporte con los datos y se redirige al usuario a la misma página con un mensaje informativo.
 	
 	Es destacable que un usuario registrado no va a poder acceder a esta pantalla (antes será redirigido por el sistema de control a la página de inicio de sesión).
+
+	\item \textbf{Nueva instancia}: en el diagrama~\ref{c:diagrama-seq-instan} se muestra los pasos necesarios para crear una nueva instancia (es decir, una URL con su vector de características).
 	
+	En primer lugar, el usuario ineractúa con un formulario y, cuando confirma la selección, espera en una pantalla de carga al resultado. Internamente se comprueba que la instancia no exista ya en la base de datos (no hay ningún beneficio en almacenar URLs duplicadas) y, en caso de que no lo haga, se crea una con los datos introducidos por el usuario, además de las etiquetas por defecto.
+	
+	Es destacable que, debido a que generar un vector de características requiere tiempo y que la página esté activa, se ha permitido añadir instancias sin este campo (para que se genere más adelante). Aún así se debe recordar que una instancia sin vector no puede ser utilizada para entrenar modelos, pero sí se puede saber su pertenencia a una lista blanca o negra.
+		
 	\begin{figure}[h]
-		\caption[Diagrama: secuencia (reportar url)]{Diagrama de secuencia de la página para reportar una URL.}
+		\caption[Diagrama: secuencia (nueva instancia)]{Diagrama de secuencia correspondiente a la creación de una nueva instancia.}
 		\centering
-		\includegraphics[scale=0.4]{../img/anexos/diagrams/sequence-report_url}
-		\label{c:diagrama-seq-report_url}
+		\includegraphics[width=\textwidth]{../img/anexos/diagrams/sequence-new_instance}
+		\label{c:diagrama-seq-instan}
 	\end{figure}
 
-
+	\item \textbf{Evaluar modelo}: en el diagrama~\ref{c:diagrama-seq-test-model} se representa el flujo de comunicación correspondiente a la acción de evaluar modelos.
+	
+	Tras seleccionar un determinado modelo y pulsar en <<evaluar>>, el usuario deberá subir los datos (en formato correcto, si no será informado) o seleccionar si desea utilizar el \textit{dataset} de la aplicación. Internamente, la aplicación recupera el fichero asociado al modelo seleccionado y lo deserializa, consiguiendo un clasificador.
+	
+	Posteriormente se extrae el conjunto de \textit{test}. Si el usuario desea que se excluyan aquellas instancias vistas por el modelo durante el entrenamiento, la aplicación lo hará gracias a la tabla~\ref{datadic:modeltrainedwith} (\texttt{Model\_is\_trained \_with}). Por último, si el usuario lo desea, también se actualizarán las \textit{scores} del modelo y se mostrarán los resultados en una gráfica interactiva.
+	
+	\textbf{Importante}: En este diagrama es destacable la diferencia entre el objeto \texttt{cls} y el objeto \texttt{model}. Mientras que uno es un objeto de Python (con sus métodos \texttt{fit} y \texttt{predict}), el otro es su equivalente en el modelo de datos. Es decir, el objeto que transporta los datos correspondientes al clasificador almacenados en la base de datos.
+			
+	\item \textbf{Aceptar sugerencia}: en el diagrama~\ref{c:diagrama-seq-accept-review} se muestra la comunicación que tiene lugar cuando un administrador acepta una sugerencia.
+	
+	En primer lugar, se recupera la instancia que se está reportando y se limpian las etiquetas asociadas a sugerencias. Posteriormente, se comprueba qué está denunciando el usuario y se modifica la instancia en consecuencia (por ejemplo, si el usuario denuncia que una URL pertenece a una lista blanca, se actualiza el campo de esa URL y se establece como tal). Por último, se elimina la sugerencia y se actualizan las etiquetas para eliminar posibles incoherencias.
+	
+	\textbf{Importante:} con el fin de simplificar el diagrama, se muestran a la derecha la clase \texttt{Available\_tags} y el objeto \texttt{report}. Estos se utilizan para realizar las comprobaciones que permiten analizar qué está denunciando el usuario para así modificar la instancia adecuadamente. Se puede observar que sus atributos son utilizados en la alternativa, pero no se ha dibujado el flujo con el fin de facilitar la visualización del diagrama.
+	
+	
+	
 \end{itemize}
+
+	\begin{landscape}
+		\begin{figure}[h]
+			\caption[Diagrama: secuencia (página principal)]{Diagrama de secuencia de la página principal del analizador.}
+			\centering
+			\includegraphics[scale=0.45]{../img/anexos/diagrams/sequence-index}
+			\label{c:diagrama-seq-index}
+		\end{figure}
+	\end{landscape}
+
+	\begin{landscape}
+		\begin{figure}[h]
+			\caption[Diagrama: secuencia (evaluar modelo)]{Diagrama de secuencia correspondiente a la evaluación de un modelo.}
+			\centering
+			\includegraphics[scale=0.45]{../img/anexos/diagrams/sequence-test_model}
+			\label{c:diagrama-seq-test-model}
+		\end{figure}
+	\end{landscape}
+
+	\begin{landscape}
+		\begin{figure}[h]
+			\caption[Diagrama: secuencia (aceptar sugerencia)]{Diagrama de secuencia relativo a la aceptación de una sugerencia.}
+			\centering
+			\includegraphics[scale=0.55]{../img/anexos/diagrams/sequence-accept_review}
+			\label{c:diagrama-seq-accept-review}
+		\end{figure}
+	\end{landscape}
 
 \section{Diseño arquitectónico}
 \label{s:diseño-arquitectonico}
 
+En la figura~\ref{c:diagrama-deploy} se muestra el diagrama de despliegue de la aplicación. Como se puede comprobar, se ha optado por una arquitectura cliente-servidor. Además, se ha establecido un patrón de tres niveles, donde el cliente actúa como controlador de la vista de usuario, el servidor implementa la lógica de aplicación y, por último, el servidor de base de datos gestiona la capa de persistencia.
+
+	\begin{figure}[h]
+	\caption[Diagrama: despliegue]{Diagrama de despliegue de la aplicación.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/deploy}
+	\label{c:diagrama-deploy}
+	\end{figure}
