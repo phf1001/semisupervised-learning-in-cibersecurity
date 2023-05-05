@@ -4,7 +4,7 @@
 @File    :   tests_phishing_utils.py
 @Time    :   2023/03/30 20:55:06
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   2.0 Refactor
 @Contact :   phf1001@alu.ubu.es
 """
 
@@ -33,7 +33,7 @@ from phishing_fvg.phishing_utils import (
 )
 
 
-class phishingUtilsMethods(unittest.TestCase):
+class PhishingUtilsMethods(unittest.TestCase):
     """
     Tests for `phishing_utils.py
     Execute from parent directory
