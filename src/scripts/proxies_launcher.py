@@ -11,7 +11,7 @@
 import json
 import os
 import time
-from proxy_tor import proxy_tor
+from proxy_tor import ProxyTor
 from multiprocessing import Process
 
 if __name__ == "__main__":
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         while len(available_proxies) < n_desired_proxies:
             left = n_desired_proxies - len(available_proxies)
 
-            proxies = [proxy_tor(i) for i in range(counter, counter + left)]
+            proxies = [ProxyTor(i) for i in range(counter, counter + left)]
             workers = [
                 Process(target=proxy.launch_file, args=()) for proxy in proxies
             ]

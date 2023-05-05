@@ -37,8 +37,8 @@ sys.path.append(src_path)
 from models.classifiers.DemocraticCoClassifier import DemocraticCo
 from models.classifiers.TriTrainingClassifier import TriTraining
 from models.classifiers.CoForestClassifier import CoForest
-from phishing_fvg.phishing_vector_generator import PHISH_FVG
-from phishing_fvg.user_browsing import user_browsing
+from phishing_fvg.phishing_vector_generator import PhishingFVG
+from phishing_fvg.user_browsing import UserBrowsing
 from phishing_fvg.phishing_utils import (
     get_tfidf,
     get_tfidf_corpus,
@@ -200,7 +200,7 @@ def generate_tfidf_object(n_documents=100, file_name="tfidf.pkl"):
         n_documents (int, optional): Number of docs. Defaults to 100.
         file_name (str, optional): File name. Defaults to "tfidf.pkl".
     """
-    user = user_browsing()
+    user = UserBrowsing()
     urls = get_csv_data(get_data_path() + os.sep + "alexa_filtered.csv")[
         :n_documents
     ]
@@ -237,10 +237,8 @@ def get_fv_and_info(
         proxy (dict, optional): Proxy if desired. Defaults to None.
     """
     try:
-        msg = get_exception_message("error_TFIDF")
         tfidf = get_tfidf_object(tfidf_file)
-        msg = get_exception_message("error_load_vector")
-        ph_entity = PHISH_FVG(url, tfidf, get_proxy_from_file, proxy)
+        ph_entity = PhishingFVG(url, tfidf, get_proxy_from_file, proxy)
         ph_entity.set_feature_vector()
         return ph_entity.fv, ph_entity.extra_information
 

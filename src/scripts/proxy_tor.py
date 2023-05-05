@@ -14,7 +14,7 @@ import requests
 import time
 
 
-class proxy_tor:
+class ProxyTor:
     """
     Class containing the methods to
     create and manage a tor proxy.

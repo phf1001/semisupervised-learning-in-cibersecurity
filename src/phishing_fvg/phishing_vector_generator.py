@@ -21,10 +21,10 @@ from html import unescape
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from phishing_fvg.phishing_utils import *
-from phishing_fvg.user_browsing import user_browsing
+from phishing_fvg.user_browsing import UserBrowsing
 
 
-class PHISH_FVG:
+class PhishingFVG:
     """
     Class that extracts the feature vector from a given URL.
 
@@ -39,7 +39,7 @@ class PHISH_FVG:
 
         self.fv = np.array([-1 for i in range(19)])
 
-        self.user = user_browsing(
+        self.user = UserBrowsing(
             get_proxy_from_file=get_proxy_from_file, proxy=proxy
         )
 
