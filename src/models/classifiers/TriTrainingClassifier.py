@@ -37,9 +37,8 @@ class TriTraining(SSLEnsemble):
         random_state:
             Random object or seed
         """
+        super().__init__(classes=[], random_state=random_state)
         self.n = 3
-        self.classes = []
-        self.rd = self.check_random_state(random_state)
         self.classifiers = {0: h_0, 1: h_1, 2: h_2}
 
     def fit(self, L, y, U):
@@ -87,7 +86,7 @@ class TriTraining(SSLEnsemble):
                             cls_changes[i] = True
 
                         elif previous_l[i] > (e[i] / (previous_e[i] - e[i])):
-                            L_index = self.rd.choice(
+                            L_index = self.random_state.choice(
                                 L_i_size,
                                 ceil(
                                     (previous_e[i] * previous_l[i] / e[i]) - 1
@@ -126,7 +125,7 @@ class TriTraining(SSLEnsemble):
             Labeled data used for training
         """
         for i in range(self.n):
-            rand_rows = self.rd.choice(
+            rand_rows = self.random_state.choice(
                 L.shape[0], replace=True, size=(int(percentage * L.shape[0]))
             )
             self.classifiers[i] = self.classifiers[i].fit(

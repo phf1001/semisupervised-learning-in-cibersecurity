@@ -36,9 +36,8 @@ class DemocraticCo(SSLEnsemble):
         random_state:
             Random object or seed
         """
+        super().__init__(classes=[], random_state=random_state)
         self.n = len(base_cls)
-        self.classes = []
-        self.rd = self.check_random_state(random_state)
         self.classifiers = {i: base_cls[i] for i in range(self.n)}
         self.w = []
         self.alpha = 0.95

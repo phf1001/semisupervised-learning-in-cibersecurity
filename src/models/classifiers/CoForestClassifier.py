@@ -43,11 +43,10 @@ class CoForest(SSLEnsemble):
             Number of features to consider when looking
             for the best split
         """
-        self.random_state = self.check_random_state(random_state)
+        super().__init__(classes=[], random_state=random_state)
         self.n = n
         self.theta = theta
         self.max_features = max_features
-        self.classes = []
         self.ensemble = {}
 
     def create_trees(self, L, y, percentage=0.7):

@@ -15,11 +15,25 @@ import numbers
 
 class SSLEnsemble:
     """
-    SSL Emnsemble Classifier.
+    SSL Ensemble Classifier.
 
     Defines the parent class for all the ensemble classifiers.
     Contains the common methods and attributes.
     """
+
+    def __init__(self, classes=[], random_state=None):
+        """
+        Constructor. Creates the SSL ensemble classifier.
+
+        Parameters
+        ----------
+        classes: list
+            List of classes
+        random_state:
+            Random object to create deterministic experiments
+        """
+        self.random_state = self.check_random_state(random_state)
+        self.classes = classes
 
     def predict(self, samples):
         """
