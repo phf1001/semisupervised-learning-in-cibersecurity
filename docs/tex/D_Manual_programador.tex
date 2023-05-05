@@ -28,12 +28,33 @@ Posteriormente se ejecuta la aplicación mediante el comando \texttt{java -jar .
 \section{Pruebas del sistema}
 \label{s:pruebas}
 
+Las pruebas \textit{software} son un proceso sistemático y controlado para evaluar y verificar el correcto funcionamiento de un producto. Están reguladas por la ISO/IEC/IEEE 29119~\cite{iso-pruebas} y son fundamentales ya que permiten detectar errores y defectos antes del despliegue, pudiendo así ahorrar costos, tiempo, y facilitando la satisfacción del cliente.
+
+Existen distintos tipos de pruebas en función de qué se está evaluando. Generalmente se sigue un enfoque de más bajo nivel a más alto nivel, iniciando en las pruebas unitarias y finalizando en las pruebas de aceptación.
+
+
+
 \subsection{Pruebas unitarias}
 \label{s:pruebas-unitarias}
-Travis...
+
+Las pruebas unitarias se centran en comprobar el correcto funcionamiento de las partes individuales del \textit{software}. Se llevan a cabo a nivel de código y están diseñadas para detectar errores y defectos en unidades de menor tamaño (por ejemplo funciones o clases).
+
+En este proyecto se han probado algunas de las clases más importantes, en concreto... Además, las pruebas unitarias se han automatizado mediante Travis CI...
+
 
 \subsection{Pruebas de aceptación}
 \label{s:pruebas-aceptación}
+
+Las pruebas de aceptación se realizan para verificar si el \textit{software} está listo para su implementación y si cumple con los criterios de aceptación del cliente. En este proyecto se han querido evaluar algunos de los casos más <<extraños>> con el fin de comprobar su correcto funcionamiento. Estos se han organizado en tres \textit{test suites} divididas por categorías.
+
+Todos los casos de prueba mostrados en las tablas han sido automatizados utilizando Selenium (como se puede observar en la imagen~\ref{cp:selenium}). Los \textit{tests} se facilitan en el repositorio de la aplicación, además de los datos necesarios para ejecutarlos.
+
+\begin{figure}[h]
+	\caption[Selenium: ejecución automática de \textit{tests}]{Ejecución automática de las pruebas de aceptación y seguridad con la herramienta Selenium.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/selenium-tests}
+	\label{cp:selenium}
+\end{figure}
 
 \begin{table}[p]
 	\centering

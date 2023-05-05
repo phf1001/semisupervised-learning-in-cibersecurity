@@ -836,7 +836,7 @@
       "id": "479e8539-01ed-4f7d-9d9b-46aa51b7ce85",
       "comment": "",
       "command": "click",
-      "target": "id=checkbox-instance-152",
+      "target": "id=checkbox-instance-1",
       "targets": [
         ["id=checkbox-instance-152", "id"],
         ["name=checkbox-instance", "name"],
@@ -850,7 +850,7 @@
       "id": "9b177e4d-993d-43a1-8f4e-20b993219fc3",
       "comment": "",
       "command": "click",
-      "target": "id=checkbox-instance-149",
+      "target": "id=checkbox-instance-2",
       "targets": [
         ["id=checkbox-instance-149", "id"],
         ["css=#checkbox-instance-149", "css:finder"],
@@ -863,7 +863,7 @@
       "id": "9cc80ee1-7f21-420c-a22c-89ef41e7fa27",
       "comment": "",
       "command": "click",
-      "target": "id=checkbox-instance-150",
+      "target": "id=checkbox-instance-3",
       "targets": [
         ["id=checkbox-instance-150", "id"],
         ["css=#checkbox-instance-150", "css:finder"],
@@ -902,7 +902,7 @@
       "id": "1e1fdfff-cfae-47ae-b799-57eb79550605",
       "comment": "",
       "command": "assertChecked",
-      "target": "id=checkbox-instance-152",
+      "target": "id=checkbox-instance-1",
       "targets": [
         ["id=checkbox-instance-152", "id"],
         ["name=checkbox-instance", "name"],
@@ -916,7 +916,7 @@
       "id": "7cfe8265-018c-4455-b546-80b9b99084ec",
       "comment": "",
       "command": "assertChecked",
-      "target": "id=checkbox-instance-149",
+      "target": "id=checkbox-instance-2",
       "targets": [
         ["id=checkbox-instance-149", "id"],
         ["css=#checkbox-instance-149", "css:finder"],
@@ -929,7 +929,7 @@
       "id": "53396aa7-9605-4fb6-b104-988abbeb4c65",
       "comment": "",
       "command": "assertChecked",
-      "target": "id=checkbox-instance-150",
+      "target": "id=checkbox-instance-3",
       "targets": [
         ["id=checkbox-instance-150", "id"],
         ["css=#checkbox-instance-150", "css:finder"],
@@ -956,7 +956,7 @@
       "id": "5301c201-9555-4e85-a400-39e62373ce86",
       "comment": "",
       "command": "assertNotChecked",
-      "target": "id=checkbox-instance-152",
+      "target": "id=checkbox-instance-1",
       "targets": [
         ["id=checkbox-instance-152", "id"],
         ["name=checkbox-instance", "name"],
@@ -970,7 +970,7 @@
       "id": "209c3620-e753-4bf7-945e-7949633606fc",
       "comment": "",
       "command": "assertNotChecked",
-      "target": "id=checkbox-instance-149",
+      "target": "id=checkbox-instance-2",
       "targets": [
         ["id=checkbox-instance-149", "id"],
         ["css=#checkbox-instance-149", "css:finder"],
@@ -983,7 +983,7 @@
       "id": "acdac05d-c286-4580-ab90-ba093ff3b6eb",
       "comment": "",
       "command": "assertNotChecked",
-      "target": "id=checkbox-instance-150",
+      "target": "id=checkbox-instance-3",
       "targets": [
         ["id=checkbox-instance-150", "id"],
         ["css=#checkbox-instance-150", "css:finder"],
