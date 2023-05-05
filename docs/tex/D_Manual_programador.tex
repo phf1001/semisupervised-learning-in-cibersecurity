@@ -19,6 +19,12 @@
 
 \section{Compilación, instalación y ejecución de herramientas auxiliares}
 
+\begin{figure}[h]
+	\caption[\textit{Co-forest}: Configuración de un experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
+	\centering
+	\includegraphics[scale=0.5]{../img/anexos/manual/keel_gui.png}
+\end{figure}
+
 \subsection{KEEL}
 
 KEEL es una herramienta que permite experimentar con modelos de \textit{machine learning}. Ha sido creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{KEEL}.
@@ -26,12 +32,6 @@ KEEL es una herramienta que permite experimentar con modelos de \textit{machine 
 Para poder ejecutarla, en primer lugar, se han de descargar los ficheros fuente del repositorio de GitHub~\cite{keelRepo}. Una vez se han descargado, se compilan aprovechando el fichero \texttt{build.xmlz} contenido y la herramienta \texttt{ant}. Mediante el comando \texttt{ant cleanAll} se eliminan barios previos (para evitar conflictos), y mediante el comando \texttt{ant} se compila el código fuente.
 
 Posteriormente se ejecuta la aplicación mediante el comando \texttt{java -jar ./dist/GraphInterKeel.jar} y se utiliza mediante su interfaz gráfica.
-
-\begin{figure}[h]
-	\caption[\textit{Co-forest}: Configuración de un experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
-	\centering
-	\includegraphics[width=\textwidth]{../img/anexos/manual/keel_gui.png}
-\end{figure}
 
 
 \section{Pruebas del sistema}
@@ -42,13 +42,21 @@ Las pruebas \textit{software} son un proceso sistemático y controlado para eval
 Existen distintos tipos de pruebas en función de qué se está evaluando. Generalmente se sigue un enfoque de más bajo nivel a más alto nivel, iniciando en las pruebas unitarias y finalizando en las pruebas de aceptación.
 
 
-
 \subsection{Pruebas unitarias}
 \label{s:pruebas-unitarias}
 
 Las pruebas unitarias se centran en comprobar el correcto funcionamiento de las partes individuales del \textit{software}. Se llevan a cabo a nivel de código y están diseñadas para detectar errores y defectos en unidades de menor tamaño (por ejemplo funciones o clases).
 
-En este proyecto se han probado algunas de las clases más importantes, en concreto... Además, las pruebas unitarias se han automatizado mediante Travis CI...
+Debido a que los algoritmos de ML cuentan con pruebas independientes (comparaciones con otras implementaciones) y la \textit{web} cuenta con las pruebas descritas en la sección~\ref{s:pruebas-aceptación}, se han realizado pruebas unitarias para la clase de utilidades \texttt{phishing\_utils}.
+
+Además, las pruebas unitarias se han automatizado mediante Travis CI, de forma que cada vez que se hace un \textit{push} a las ramas principales o de desarrollo se dispara una \textit{build} que las ejecuta automáticamente como se muestra en la imagen~\ref{d:cp-travis}.
+
+\begin{figure}[h]
+	\caption[Pruebas unitarias: TravisCI]{Ejecución automática de las pruebas unitarias mediante TravisCI.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/cp/travis-tests}
+	\label{d:cp-travis}
+\end{figure}
 
 
 \subsection{Pruebas de aceptación}
