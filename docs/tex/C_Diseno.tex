@@ -339,11 +339,54 @@ Con el fin de facilitar la comprensión de ciertos métodos, se muestran a conti
 \section{Diseño arquitectónico}
 \label{s:diseño-arquitectonico}
 
+El diseño arquitectónico de \textit{software} es un proceso que implica la creación de una estructura sólida, funcional y coherente del sistema. Se distinguen dos apartados:
+
+\subsection{Clases}
+
+Un diagrama de clases es una herramienta visual utilizada en la programación orientada a objetos para ilustrar la estructura y las relaciones de clases en un sistema.
+
+Debido a que, como se ha comentado anteriormente, Python es un lenguaje más flexible, en un primer lugar se muestra en el diagrama~\ref{c:classes-general} que representa, en alto nivel, como se relacionan algunas de las clases que controlan las funcionalidades principales de la \textit{web}. Es destacable que se ha utilizado una interpretación propia de UML, adoptando ciertas herramientas visuales pero no siendo estrictos en su uso.
+
+\begin{figure}[h]
+	\caption[Diagrama: lógica general]{Diagrama general de la lógica de negocio principal en la aplicación.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/classes-general}
+	\label{c:classes-general}
+\end{figure}
+
+Como se puede comprobar, la aplicación utiliza ciertas dependencias, como los formularios de \texttt{Flask}, modelos de datos de \texttt{SQLAlchemy} y excepciones personalizadas, entre otros. Con el fin de fraccionar lo máximo posible el código para facilitar su reutilización, se ha creado un archivo de utilidades que no es una clase (Python permite importar funciones independientes). Este achivo, entre otros, utiliza la clase \texttt{logging}, \texttt{Pickle} y otro archivo de utilidades propio (este en concreto relacionado con ML).
+
+El segundo archivo de utilidades centraliza la lógica relacionada con la obtención de modelos y la gestión de vectores de características. Por eso se relaciona con clases como \texttt{SSLEnsemble} o \texttt{PhishingFVG}. Como estas dos sí son clases <<tradicionales>>, se han generado sus diagramas UML, que se visualizan en las imágenes~\ref{c:classes-ssl} y~\ref{c:classes-fvg} respectivamente.
+
+\begin{figure}[h]
+	\caption[Diagrama: clases (\texttt{SSLEnsemble})]{Diagrama de clases correspondiente a \texttt{SSLEnsemble}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/classes-ssl}
+	\label{c:classes-ssl}
+\end{figure}
+
+En el diagrama~\ref{c:classes-ssl} se muestra cómo se han implementado los algoritmos de aprendizaje semisupervisado (nótese que no todos los métodos han sido incluidos en el diagrama por cuestiones de visualización). Además, se representa su relación con los clasificadores base de la API de \texttt{SKLearn}.
+
+\begin{figure}[h]
+	\caption[Diagrama: clases (\texttt{PhishingFVG})]{Diagrama de clases correspondiente a \texttt{PhishingFVG}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/classes-fvg}
+	\label{c:classes-fvg}
+\end{figure}
+
+Por último, en el diagrama~\ref{c:classes-fvg} se muestra cómo se ha implementado la extracción de vectores de características. Como se puede observar, hay una clase principal para cada URL analizable que se sirve de un nuevo archivo de utilidades. Este archivo se ha extraído debido a que las funciones que contiene (se muestran algunos ejemplos) son muy generales, por lo que se podrían reutilizar en otros contextos. Nuevamente, no se trata de una clase.
+
+Por otro lado, se ha creado una clase que simula un usuario que navega en \textit{internet} y almacena campos que pueden ser utilizados junto con la librería \texttt{request} para <<engañar>> las \textit{webs} que se están analizando. Por ejemplo, muchas de ellas son escépticas si les llega una petición sin un \texttt{user-agent} en el encabezado. Para facilitar la limpieza del código, se accede a este tipo de campos a través de la clase \texttt{UserBrowsing}.
+
+Esta, además, está relacionada con la clase \texttt{ProxyTor}, ya que puede ser utilizado (o no) en las peticiones (generalmente se incluye como un parámetro (diccionario) en la petición y se levanta con el \textit{script} auxiliar \texttt{proxies\_launcher.py}). Por cuestiones de seguridad, esta opción es especialmente interesante cuando se genera un \textit{dataset} de \textit{phishing}.
+
+\subsection{Despliegue}
+
 En la figura~\ref{c:diagrama-deploy} se muestra el diagrama de despliegue de la aplicación. Como se puede comprobar, se ha optado por una arquitectura cliente-servidor. Además, se ha establecido un patrón de tres niveles, donde el cliente actúa como controlador de la vista de usuario, el servidor implementa la lógica de aplicación y, por último, el servidor de base de datos gestiona la capa de persistencia.
 
-	\begin{figure}[h]
+\begin{figure}[h]
 	\caption[Diagrama: despliegue]{Diagrama de despliegue de la aplicación.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/diagrams/deploy}
 	\label{c:diagrama-deploy}
-	\end{figure}
+\end{figure}
