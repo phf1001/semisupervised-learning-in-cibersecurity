@@ -4,7 +4,7 @@
 @File    :   utils.py
 @Time    :   2023/03/30 20:52:13
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   3.0 Inheritance from SSLEnsemble and intervals checked
 @Contact :   phf1001@alu.ubu.es
 """
 # Statmodels commented since it's giving problems with Heroku
@@ -18,6 +18,8 @@ def confidence_interval(cls, L, y):
     Returns the confidence interval  for the classifier cls given a set
     of labeled data L and the labels y.
 
+    Method 3 and 2 are the best ones (and most similar between them).
+
     Args:
         cls (object): classifier
         L (np.array): labeled data
@@ -26,7 +28,7 @@ def confidence_interval(cls, L, y):
     Returns:
         tuple: confidence interval
     """
-    return confidence_interval_method_1(cls, L, y)
+    return confidence_interval_method_2(cls, L, y)
 
 
 def confidence_interval_method_1(cls, L, y):
@@ -86,27 +88,26 @@ def confidence_interval_method_2(cls, L, y):
     return ((left - sq) / div, (left + sq) / div)
 
 
-# def confidence_interval_method_3(cls, L, y):
-#     """
-#     Returns the confidence interval  for the classifier cls given a set
-#     of labeled data L and the labels y.
+def confidence_interval_method_3(cls, L, y):
+    """
+    Returns the confidence interval  for the classifier cls given a set
+    of labeled data L and the labels y.
 
-#     Commented because it's giving problems with Heroku.
+    Commented because it's giving problems with Heroku.
 
-#     Suggested by José Luis Garrido Labrador.
+    Suggested by José Luis Garrido Labrador.
 
-#     Args:
-#         cls (object): classifier
-#         L (np.array): labeled data
-#         y (np.array): labels
+    Args:
+        cls (object): classifier
+        L (np.array): labeled data
+        y (np.array): labels
 
-#     Returns:
-#         tuple: confidence interval
-#     """
-#     y_pred = cls.predict(L)
-#     n_total = len(y)
-#     n_hits = (y_pred == y).sum()
-
-#     li, hi = proportion_confint(n_hits, n_total, alpha=0.05, method="wilson")
-#     return li, hi
-#     return 0, 0
+    Returns:
+        tuple: confidence interval
+    """
+    # y_pred = cls.predict(L)
+    # n_total = len(y)
+    # n_hits = (y_pred == y).sum()
+    li = hi = 0
+    # li, hi = proportion_confint(n_hits, n_total, alpha=0.05, method="wilson")
+    return li, hi

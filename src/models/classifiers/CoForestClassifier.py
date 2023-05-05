@@ -4,18 +4,22 @@
 @File    :   CoForestClassifier.py
 @Time    :   2023/03/30 20:50:46
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   3.0 Inheritance from SSLEnsemble
 @Contact :   phf1001@alu.ubu.es
 """
 
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import recall_score, precision_score
 import numpy as np
-import numbers
 from copy import deepcopy
+import os
+import sys
+
+src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(src_path)
+from models.classifiers.SSLEnsembleClassifier import SSLEnsemble
 
 
-class CoForest:
+class CoForest(SSLEnsemble):
     """
     SSL Co-Forest Classifier.
 
@@ -251,9 +255,8 @@ class CoForest:
 
     def subsample(self, hi, U, Wmax):
         """
-        Samples from U uniformly at random until
-        the sum of the sample weights reaches Wmax.
-        Bootstraping is applied.
+        Samples from U uniformly at random until the sum of the sample
+        weights reaches Wmax. Bootstraping is applied.
 
         Parameters
         ----------
@@ -282,8 +285,8 @@ class CoForest:
 
     def concomitant_oob_error(self, hi, L, y, mask_L):
         """
-        Calculates the Out of Bag Error of the concomitant
-        ensemble of hi for the whole labeled data.
+        Calculates the Out of Bag Error of the concomitant ensemble of hi
+        for the whole labeled data.
 
         Parameters
         ----------
@@ -323,9 +326,8 @@ class CoForest:
 
     def concomitant_confidence(self, hi, sample):
         """
-        Calculates the number of coincidences during
-        prediction of the hi concomitant ensemble for a
-        data sample.
+        Calculates the number of coincidences during prediction of the hi
+        concomitant ensemble for a data sample.
 
         Parameters
         ----------
@@ -353,8 +355,8 @@ class CoForest:
 
     def single_predict(self, sample):
         """
-        Returns the class predicted by coforest
-        for a given sample. Majority voting is used.
+        Returns the class predicted by coforest for a given sample.
+        Majority voting is used.
 
         Parameters
         ----------
@@ -372,30 +374,10 @@ class CoForest:
 
         return max(count, key=count.get)
 
-    def predict(self, samples):
-        """
-        Returns the labels predicted by the coforest
-        for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            labels predicted by the coforest.
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array([self.single_predict(sample) for sample in samples])
-
     def single_predict_proba(self, sample):
         """
-        Returns the probability for each class
-        predicted by coforest for a given sample.
+        Returns the probability for each class predicted by coforest
+        for a given sample.
 
         Parameters
         ----------
@@ -414,108 +396,3 @@ class CoForest:
 
         votes = np.array(list(count.values()))
         return votes / self.n
-
-    def predict_proba(self, samples):
-        """
-        Returns the probabilities predicted by
-        coforest for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            array containing one array for each
-            sample with probabilities for each
-            class.
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array(
-            [self.single_predict_proba(sample) for sample in samples]
-        )
-
-    def score(self, X_test, y_test):
-        """
-        Calculates the number of hits by coforest
-        given a training set.
-
-        Parameters
-        ----------
-        X_test: np_array
-            Samples used during testing
-        y_test: np_array
-            Samples' tags
-
-        Returns
-        -------
-        float:
-            percentage of hits.
-        """
-        y_predictions = self.predict(X_test)
-        return np.count_nonzero(y_predictions == y_test) / len(y_test)
-
-    @staticmethod
-    def check_random_state(seed=None):
-        """
-        Turn seed into a np.random.RandomState instance.
-        Source: SkLearn
-
-        Parameters
-        ----------
-        seed : None, int or instance of RandomState
-            If None, return the RandomState singleton.
-            If int, return a new RandomState seeded with seed.
-            If RandomState instance, return it.
-
-        Returns
-        -------
-        numpy.random.RandomState
-            The random state object based on seed parameter.
-        """
-        if seed is None or seed is np.random:
-            return np.random.mtrand._rand
-
-        if isinstance(seed, numbers.Integral):
-            return np.random.RandomState(seed)
-
-        if isinstance(seed, np.random.RandomState):
-            return seed
-
-        return None
-
-    @staticmethod
-    def recall(y_true, y_pred):
-        """
-        Returns recall.
-
-        Parameters
-        ----------
-        y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
-
-        Returns
-        -------
-        Recall score
-        """
-        return recall_score(y_true, y_pred)
-
-    @staticmethod
-    def precision(y_true, y_pred):
-        """
-        Returns precision.
-
-        Parameters
-        ----------
-        y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
-
-        Returns
-        -------
-        Precision score
-        """
-        return precision_score(y_true, y_pred)

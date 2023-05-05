@@ -4,16 +4,21 @@
 @File    :   TriTrainingClassifier.py
 @Time    :   2023/03/30 20:51:39
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   3.0 Inheritance from SSLEnsemble
 @Contact :   phf1001@alu.ubu.es
 """
 
 import numpy as np
-import numbers
 from math import floor, ceil
+import os
+import sys
+
+src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(src_path)
+from models.classifiers.SSLEnsembleClassifier import SSLEnsemble
 
 
-class TriTraining:
+class TriTraining(SSLEnsemble):
     """
     SSL Tri-Training Classifier.
 
@@ -175,35 +180,6 @@ class TriTraining:
 
         return (U[concordances], U_y_k[concordances])
 
-    @staticmethod
-    def check_random_state(seed=None):
-        """
-        Turn seed into a np.random.RandomState instance.
-        Source: SkLearn
-
-        Parameters
-        ----------
-        seed : None, int or instance of RandomState
-            If None, return the RandomState singleton.
-            If int, return a new RandomState seeded with seed.
-            If RandomState instance, return it.
-
-        Returns
-        -------
-        numpy.random.RandomState
-            The random state object based on seed parameter.
-        """
-        if seed is None or seed is np.random:
-            return np.random.mtrand._rand
-
-        if isinstance(seed, numbers.Integral):
-            return np.random.RandomState(seed)
-
-        if isinstance(seed, np.random.RandomState):
-            return seed
-
-        return None
-
     def single_predict(self, sample):
         """
         Returns the class predicted by tri-training.
@@ -226,26 +202,6 @@ class TriTraining:
             count[i] += 1
 
         return max(count, key=count.get)
-
-    def predict(self, samples):
-        """
-        Returns the labels predicted by the tri-training
-        for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            labels predicted by tri-training.
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array([self.single_predict(sample) for sample in samples])
 
     def single_predict_proba(self, sample):
         """
@@ -271,46 +227,3 @@ class TriTraining:
 
         votes = np.array(list(count.values()))
         return votes / self.n
-
-    def predict_proba(self, samples: np.array):
-        """
-        Returns the probabilities predicted by
-        tri-training for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            array containing one array for each
-            sample with probabilities for each
-            class.
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array(
-            [self.single_predict_proba(sample) for sample in samples]
-        )
-
-    def score(self, X, y_true):
-        """
-        Calculates the number of hits by tri-training.
-
-        Parameters
-        ----------
-        X: np_array
-            Samples to predict
-        y: np_array
-            True tags
-
-        Returns
-        -------
-        float:
-            percentage of hits.
-        """
-        y_predictions = self.predict(X)
-        return np.count_nonzero(y_predictions == y_true) / len(y_true)
