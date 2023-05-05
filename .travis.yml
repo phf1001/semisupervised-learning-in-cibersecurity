@@ -3,7 +3,7 @@ python:
   - "3.9"
 
 install:
-  - pip install -r src/tests/requirements.txt
+  - pip install -r src/tests/unit/requirements.txt
 
 branches:
   only:
@@ -14,6 +14,6 @@ jobs:
   include:
     - stage: test
       script:
-        - pushd src/tests
+        - pushd src/tests/unit
         - python3 tests_phishing_utils.py
         - popd
