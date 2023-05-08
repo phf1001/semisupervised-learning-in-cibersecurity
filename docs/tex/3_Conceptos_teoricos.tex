@@ -242,6 +242,7 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 Se facilita a continuación (pseudocódigo~\ref{alg:co-forest}) la versión del \textit{co-forest} de la tesis de Engelen~\cite{engelen2018thesis}, basada en la original~\cite{originalCoForest2007}, pero introduciendo los cambios observables en la sección <<Discusión de los parámetros del algoritmo>>.
 
 \begin{algorithm}
+	\label{alg:co-forest}
 	\KwIn{Conjunto de datos etiquetados $L \lbrace\left(x_i, y_i\right)\rbrace_{i=1}^l$, conjunto de datos no etiquetados $U \lbrace x_i \rbrace_{i=l+1}^{k}$, número de árboles $n$ y umbral de confianza $\theta$}
 	\KwOut{\textit{Ensemble} de árboles entrenado $H$.}
 	\BlankLine
@@ -249,7 +250,7 @@ Se facilita a continuación (pseudocódigo~\ref{alg:co-forest}) la versión del 
 		$L_{i} \leftarrow$ \textit{Bootstrap}($L$)\\
 		$h_i$ = EntrenarArbol($L_{i}$)\\
 		$\hat{e}_{i,t} \leftarrow 0.5$\\
-		$W_{i,0} \leftarrow min(\frac{1}{10}|$U$|, 100)$\\
+		$W_{i,0} \leftarrow$ Inicializar$W$($L$, criterio) \texttt{// Consultar sección~\ref{s-experimentacion-w-cof}} \\
 	}
 
 	$t \leftarrow 0$\\
@@ -281,8 +282,7 @@ Se facilita a continuación (pseudocódigo~\ref{alg:co-forest}) la versión del 
 	}
 }
 	\Return{$H$}
-
-	\caption{\textit{Co-Forest}}\label{alg:co-forest}
+	\caption{\textit{Co-Forest}}
 	\end{algorithm}
 
 \subsubsection{Fases}
@@ -318,13 +318,13 @@ De acuerdo con la ecuación~\ref{eqn:operar_rel_convergencia}, la función de ut
 
 
 \subsubsection{Discusión acerca de los parámetros del algoritmo}
-
+\label{s:discusion-paramentros-cof}
 Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el error debe disminuir y la confianza de predicción aumentar con cada iteración. Sin embargo, aunque esto se cumpla, puede ser que se deje de cumplir que $\hat{e}_{i,t}W_{i,t} < \hat{e}_{i,t-1}W_{i,t-1}$, ya que puede ocurrir que $ W_{i,t} >>> W_{i,t-1}$. Por este motivo y para cumplir con lo expuesto en la ecuación~\ref{eqn:relacion_e_W}, se limita $W_{max}$ como se muestra en la ecuación~\ref{eqn:Wmax} al realizar el muestreo de $U$ en el algoritmo.
 
 \begin{equation}\label{eqn:Wmax} W_{max} = \frac{\hat{e}_{i,t-1}W_{i,t-1}}{\hat{e}_{i, t}} > W_{i,t} \end{equation}
 
 
-\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto implica que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$, aunque destaca que imponer esta constante hace que el impacto de los datos sin etiquetar en el algoritmo dependa profundamente del tamaño del \textit{dataset}.
+\label{parag:Wmax_inicial} El algoritmo original propuesto por~\cite{originalCoForest2007} y el utilizado en~\cite{zhou2021SemisupervisedRecommendationAttack} dejan, sin embargo, una cuestión pendiente. Como se puede observar en la ecuación~\ref{eqn:Wmax}, $W_{max}$ requiere para calcularse tanto el OOBE como la $W$ obtenida en la iteración anterior, y ambos autores inician $W$ a 0. Esto implica que en la primera iteración $W_{max} = 0$ y, por lo tanto, evita que se realice un muestreo de $U$ para pseudo-etiquetar (pararía el algoritmo). En su tesis, Engelen~\cite{engelen2018thesis} propone solucionar este problema iniciando $W = min(\frac{1}{10}|U|, 100)$. Sin embargo y tras consultarlo con expertos en el área, se ha decidido realizar una pequeña experimentación para probar cómo afecta la inicialización de este parámetro al rendimiento del algoritmo. Se puede consultar en la sección~\ref{s-experimentacion-w-cof}.
 
 
 \subsubsection{Decisiones de implementación}
