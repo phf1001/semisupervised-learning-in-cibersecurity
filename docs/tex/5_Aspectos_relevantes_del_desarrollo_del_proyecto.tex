@@ -38,11 +38,48 @@ A continuación se facilitan los resultados de las pruebas realizadas con las im
 
 \subsection{Co-forest}
 
-Para comprobar la correctitud del algoritmo se han realizado diversos experimentos. En primer lugar, se ha evaluado el modelo en diversas situaciones de su ciclo de vida. Posteriormente, se ha realizado una comparativa contra la implementación proporcionada por KEEL.
+A diferencia del resto de algoritmos de semisupervisado, en el \textit{co-forest} se van a realizar dos tipos de experimentaciones distintas. En un primer lugar, se ha probado cómo la inicialización del vector $W$ afecta a la \textit{accuracy} del algoritmo. Posteriormente, para comprobar la correctitud del algoritmo, se han realizado diversos experimentos. Por un lado, se ha evaluado el modelo en diversas situaciones de su ciclo de vida. Por otro, se ha realizado una comparativa contra la implementación proporcionada por KEEL.
+
+
+\subsubsection{Inicialización del vector $W$}
+\label{s-experimentacion-w-cof}
+
+Como se introdujo en la sección~\ref{s:discusion-paramentros-cof}, el modo en que se inicialice el vector $W$ durante la fase de entrenamiento tiene un efecto en el desempeño del algoritmo. Debido a que en el pseudocódigo facilitado en la publicación~\cite{originalCoForest2007} se inicializa a 0 (lo que, como ya se comentó anteriormente, lleva a una parada del algoritmo), se han decidido probar tres criterios distintos (línea~5 del pseudocódigo~\ref{alg:co-forest}).
+
+\begin{itemize}
+	\item \textbf{\texttt{percentage\_L}}: este criterio consiste en inicializar el vector al mínimo entre la decima parte del tamaño de $L$ y 100. Es decir, al $min(\frac{1}{10}|$L$|, 100)$. Está basado en la tesis de Engelen~\cite{engelen2018thesis}, pero adaptado (en lugar de $U$ se utiliza $L$).
+	\item \textbf{\texttt{confidence\_L\_all}}: propuesto por César García-Osorio, consiste en inicializar la $W$ de forma similar a la línea~20 del pseudocódigo~\ref{alg:co-forest}, con la excepción de usar el conjunto $L$ en lugar de $U$.
+	\item \textbf{\texttt{confidence\_L\_thetha}}: adaptación propuesta por la autora (basada en el funcionamiento normal del algoritmo), consiste en realizar lo expuesto en \texttt{confidence\_L\_all} pero únicamente sumando a $W_{i,t}$ aquellos valores cuyas confianzas sean mayores que \textit{thetha}.
+\end{itemize}
+
+\begin{figure}[h]
+	\caption[\textit{Co-Forest}: resultados (inicialización $W$ con 6 árboles)]{Comparativa de la evolución de la \textit{accuracy} durante las iteraciones del entrenamiento entre las distintas formas de inicialización del vector $W$ para un \textit{co-forest} formado por 6 árboles.}
+	\label{img:w_init-6-trees}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_w-init_rd5_n6}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Co-Forest}: resultados (inicialización $W$ con 20 árboles)]{Comparativa de la evolución de la \textit{accuracy} durante las iteraciones del entrenamiento entre las distintas formas de inicialización del vector $W$ para un \textit{co-forest} formado por 20 árboles.}
+	\label{img:w_init-20-trees}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_w-init_rd5_n20}
+\end{figure}
+
+Los resultados se pueden observar en las gráficas~\ref{img:w_init-6-trees} y~\ref{img:w_init-20-trees}. Estas muestran la evolución de la \textit{accuracy} durante las distintas iteraciones del entrenamiento y han sido obtenidas realizando validación cruzada con 10 \textit{folds}.
+
+Como se ha comentado con anterioridad, el método de inicialización de $W$ influye en el tamaño del primer subconjunto de $U$. En los experimentos realizados, se ha comprobado que \texttt{percentage\_L} generalmente inicializa $W$ a un tamaño bastante inferior que \texttt{confidence\_L\_all} y \texttt{confidence\_L\_thetha}, que rondan valores similares siendo ligeramente inferior \texttt{confidence\_L\_thetha} (ya que se excluyen las muestras con poca confianza). Cabe destacar que esto también depende del tamaño del \textit{dataset}, pero ha ocurrido con todos los utilizados.
+
+Es observable que los resultados obtenidos dependen no sólo de cada \textit{dataset}, sino además del número de árboles utilizados durante la experimentación. Aparentemente, utilizando un menor número de árboles en el \textit{ensemble}, es favorecedor utilizar criterios que inicialicen $W$ a un mayor tamaño, mientras que si se utiliza un mayor número de árboles ocurre lo contrario. Puede ser que cuando se utiliza un \textit{ensemble} de mayor tamaño los árboles sean capaces de trabajar con un subconjunto menor de $U$ debido a que hay un mayor número de ellos y se compensa la votación por mayoría.
+
+
+Sin embargo, es destacable que las conclusiones obtenidas han sido extraídas utilizando únicamente unos pocos \textit{datasets}. Para realizar afirmaciones habría que ampliar el alcance de la experimentación.
+
+
 
 \subsubsection{Experimentación con el algoritmo}
 
-Los resultados se pueden observar en las gráficas~\ref{gr:cf_train-iterations},~\ref{cf:cf_time-percentage} y ~\ref{cf:tt_trees}.
+Los resultados se pueden observar en las gráficas~\ref{gr:cf_train-iterations},~\ref{cf:cf_time-percentage} y ~\ref{cf:tt_trees}. Todas las experimentaciones se han realizado con el criterio \texttt{percentage\_L}.
 
 
 \begin{itemize}

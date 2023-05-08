@@ -4,21 +4,21 @@
 @File    :   DemocraticCoClassifier.py
 @Time    :   2023/03/30 20:51:32
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   3.0 Inheritance from SSLEnsemble
 @Contact :   phf1001@alu.ubu.es
 """
 
 import os
 import sys
 import numpy as np
-import numbers
 
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from models.classifiers.utils import confidence_interval
+from models.classifiers.SSLEnsembleClassifier import SSLEnsemble
 
 
-class DemocraticCo:
+class DemocraticCo(SSLEnsemble):
     """
     Democratic co-learning Classifier.
 
@@ -36,9 +36,8 @@ class DemocraticCo:
         random_state:
             Random object or seed
         """
+        super().__init__(classes=[], random_state=random_state)
         self.n = len(base_cls)
-        self.classes = []
-        self.rd = self.check_random_state(random_state)
         self.classifiers = {i: base_cls[i] for i in range(self.n)}
         self.w = []
         self.alpha = 0.95
@@ -176,55 +175,6 @@ class DemocraticCo:
         li, hi = confidence_interval(classifier, L, y)
         return (li + hi) / 2
 
-    @staticmethod
-    def check_random_state(seed=None):
-        """
-        Turn seed into a np.random.RandomState instance.
-        Source: SkLearn
-
-        Parameters
-        ----------
-        seed : None, int or instance of RandomState
-            If None, return the RandomState singleton.
-            If int, return a new RandomState seeded with seed.
-            If RandomState instance, return it.
-
-        Returns
-        -------
-        numpy.random.RandomState
-            The random state object based on seed parameter.
-        """
-        if seed is None or seed is np.random:
-            return np.random.mtrand._rand
-
-        if isinstance(seed, numbers.Integral):
-            return np.random.RandomState(seed)
-
-        if isinstance(seed, np.random.RandomState):
-            return seed
-
-        return None
-
-    def predict(self, samples):
-        """
-        Returns the labels predicted by the democratic-co
-        for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            labels predicted by democratic-co
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array([self.single_predict(sample) for sample in samples])
-
     def single_predict(self, sample):
         """
         Returns the class predicted by democratic-co.
@@ -290,46 +240,3 @@ class DemocraticCo:
 
         votes = np.array(list(count.values()))
         return votes / self.n
-
-    def predict_proba(self, samples: np.array):
-        """
-        Returns the probabilities predicted by
-        democratic-co for a given data.
-
-        Parameters
-        ----------
-        samples: np_array
-            samples to predict
-
-        Returns
-        -------
-        np.array:
-            array containing one array for each
-            sample with probabilities for each
-            class.
-        """
-        samples = (lambda x: np.expand_dims(x, axis=0) if x.ndim == 1 else x)(
-            samples
-        )
-        return np.array(
-            [self.single_predict_proba(sample) for sample in samples]
-        )
-
-    def score(self, X, y_true):
-        """
-        Calculates the number of hits by democratic-co.
-
-        Parameters
-        ----------
-        X: np_array
-            Samples to predict
-        y: np_array
-            True tags
-
-        Returns
-        -------
-        float:
-            percentage of hits.
-        """
-        y_predictions = self.predict(X)
-        return np.count_nonzero(y_predictions == y_true) / len(y_true)

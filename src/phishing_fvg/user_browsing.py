@@ -16,7 +16,7 @@ sys.path.append(src_path)
 from phishing_fvg.phishing_utils import get_proxy
 
 
-class user_browsing:
+class UserBrowsing:
     """
     Class containing the methods to simulate
     a user browsing.

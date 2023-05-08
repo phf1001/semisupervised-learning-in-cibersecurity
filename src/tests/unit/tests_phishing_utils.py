@@ -4,17 +4,20 @@
 @File    :   tests_phishing_utils.py
 @Time    :   2023/03/30 20:55:06
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   2.0 Refactor
 @Contact :   phf1001@alu.ubu.es
 """
 
-import unittest
-import os
-import sys
 from html import unescape
+from pathlib import Path
+import unittest
+import sys
+import os
 
-src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-sys.path.append(src_path)
+curr_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+two_dir_up_ = os.fspath(Path(curr_dir.parent.parent).resolve())
+sys.path.append(two_dir_up_)
+
 from phishing_fvg.phishing_utils import (
     translate_leet_to_letters,
     get_splitted_url,
@@ -33,7 +36,7 @@ from phishing_fvg.phishing_utils import (
 )
 
 
-class phishingUtilsMethods(unittest.TestCase):
+class PhishingUtilsMethods(unittest.TestCase):
     """
     Tests for `phishing_utils.py
     Execute from parent directory

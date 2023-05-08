@@ -4,7 +4,7 @@
 @File    :   graphs_utils.py
 @Time    :   2023/03/30 20:54:37
 @Author  :   Patricia Hernando Fernández 
-@Version :   1.0
+@Version :   3.0 Inheritance from SSLEnsemble
 @Contact :   phf1001@alu.ubu.es
 """
 
@@ -14,7 +14,15 @@ import pandas as pd
 
 
 def append_to_csv(file, array):
-    """Appends an array to a csv file"""
+    """Appends an array to a csv file.
+
+    Args:
+        file (str): Path to the csv file
+        array (np.array): Array to append
+
+    Raises:
+        TypeError: If the file is not a csv file
+    """
     if ".csv" in file:
         with open(file, "a") as f:
             np.savetxt(f, array, fmt="%1.3f", newline=",")
@@ -22,13 +30,20 @@ def append_to_csv(file, array):
             f.close()
 
     else:
-        raise Exception("File must be a csv file")
+        raise TypeError("File must be a .csv file")
 
 
 def read_irregular_csv(file):
-    """
-    Reads an irregular csv file and
-    returns a list of lists
+    """Reads an irregular csv file.
+
+    Args:
+        file (str): Path to the csv file
+
+    Raises:
+        TypeError: If the file is not a .csv file
+
+    Returns:
+        list: List of lists with the data
     """
     if ".csv" in file:
         data = []
@@ -40,13 +55,17 @@ def read_irregular_csv(file):
 
         return data
 
-    raise Exception("File must be a csv file")
+    raise TypeError("File must be a .csv file")
 
 
 def create_graph_matrix(file):
-    """
-    Creates a matrix from an
-    irregular csv file
+    """Creates a graph matrix from a irregular .csv file.
+
+    Args:
+        file (str): Path to the csv file
+
+    Returns:
+        np.array: matrix
     """
     m = []
     l = read_irregular_csv(file)
@@ -63,9 +82,13 @@ def create_graph_matrix(file):
 
 
 def extract_training_data(csv_file):
-    """
-    Extracts the training data from
-    a csv file
+    """Extracts the training data from a csv file
+
+    Args:
+        csv_file (str): Path to the csv file
+
+    Returns:
+        tuple: L, L_tags, U
     """
     df = pd.read_csv(csv_file)
 
@@ -83,7 +106,14 @@ def extract_training_data(csv_file):
 
 
 def extract_test_data(csv_file):
-    """Extracts the test data from a csv file"""
+    """Extracts the test data from a csv file
+
+    Args:
+        csv_file (str): Path to the csv file
+
+    Returns:
+        tuple: X, y
+    """
     df = pd.read_csv(csv_file)
 
     caract_cols = df.columns
