@@ -184,6 +184,7 @@ def extract_fv():
             return trigger_mock_dashboard(models_ids, quick_analysis)
 
         callable_url = get_callable_url(url)
+        logger.info(f"Callable URL: {callable_url}")
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(
@@ -196,6 +197,11 @@ def extract_fv():
                     previous_instance.colour_list
                     if previous_instance.colour_list
                     else ""
+                )
+                quick_analysis = 1
+                flash(
+                    get_exception_message("url_not_callable_recuperable"),
+                    "info",
                 )
 
             else:

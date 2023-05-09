@@ -25,6 +25,13 @@ def get_exception_message(identifier) -> str:
             "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
         )
 
+    if identifier == "url_not_callable_recuperable":
+        return gettext(
+            "Actualmente la URL no es llamable desde esta aplicación, pero se ha "
+        ) + gettext(
+            "recuperado el vector de características almacenado en la base de datos."
+        )
+
     if identifier == "not_instance_found":
         return gettext("No se ha encontrado la instancia.")
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-05 14:08+0200\n"
+"POT-Creation-Date: 2023-05-09 15:32+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -27,578 +27,590 @@ msgid "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
 msgstr "You are already logged in. Sign out to create a new account."
 
 #: apps/messages.py:29
+msgid "Actualmente la URL no es llamable desde esta aplicación, pero se ha "
+msgstr "The URL cannot be called from the application right now, but the feature vector"
+
+#: apps/messages.py:31
+msgid "recuperado el vector de características almacenado en la base de datos."
+msgstr " has been restored from the data base."
+
+#: apps/messages.py:36
 msgid "No se ha encontrado la instancia."
 msgstr "Instance not found."
 
-#: apps/messages.py:32
+#: apps/messages.py:39
 msgid "No se ha encontrado la información."
 msgstr "Information not found."
 
-#: apps/messages.py:36
+#: apps/messages.py:43
 msgid "Inicia sesión para reportar falsos positivos"
 msgstr "Log in to report false positives"
 
-#: apps/messages.py:37
+#: apps/messages.py:44
 msgid " (recuerda realizar un análisis previamente)."
-msgstr " (remember to carry out an analysis previously)."
+msgstr " (remember to execute an analysis previously)."
 
-#: apps/messages.py:38
+#: apps/messages.py:45
 msgid " Gracias por tu colaboración."
 msgstr " Thank you for your collaboration."
 
-#: apps/messages.py:42
+#: apps/messages.py:49
 msgid "¡Lo sentimos! No se ha podido registrar el falso resultado."
 msgstr "We're sorry! Failed to log false result."
 
-#: apps/messages.py:44
+#: apps/messages.py:51
 msgid "Inténtalo de nuevo más adelante. Gracias por tu colaboración."
 msgstr "Please try again later. Thank you for your collaboration."
 
-#: apps/messages.py:49
+#: apps/messages.py:56
 msgid "Se ha producido un error al subir los archivos .csv."
 msgstr "An error occurred while uploading the .csv files."
 
-#: apps/messages.py:52
+#: apps/messages.py:59
 msgid "Se ha generado el conjunto de train y test aleatoriamente."
 msgstr "The set of train and test has been generated randomly."
 
-#: apps/messages.py:58
+#: apps/messages.py:65
 msgid "Error al crear el modelo. ¿Has comprobado que los ficheros de "
-msgstr "Error creating model. Have you checked that the files "
+msgstr "Error creating the model. Have you checked that the train and test files "
 
-#: apps/messages.py:61
+#: apps/messages.py:68
 msgid "entrenamiento y test tengan un número mínimo de instancias?"
-msgstr "training and test have a minimum number of instances?"
+msgstr "have a minimum number of instances?"
 
-#: apps/messages.py:64
+#: apps/messages.py:71
 msgid " Parecen ser demasiado pocas."
-msgstr " They seem to be too few."
+msgstr " They doesn't seem to be enough."
 
-#: apps/messages.py:69
+#: apps/messages.py:76
 msgid "No hay instancias para testear el modelo"
 msgstr "There are no instances to test the model"
 
-#: apps/messages.py:70
+#: apps/messages.py:77
 msgid " (han sido todas vistas durante el entrenamiento)."
 msgstr " (They have all been seen during training)."
 
-#: apps/messages.py:71
+#: apps/messages.py:78
 msgid " Prueba a subir un csv. Mostrando scores almacenados en la BD."
 msgstr " Try uploading a csv. Showing scores stored in the DB."
 
-#: apps/messages.py:77
+#: apps/messages.py:84
 msgid "Error al cargar el modelo o alguno de sus parámetros."
 msgstr "Error loading the model or any of its parameters."
 
-#: apps/messages.py:80
+#: apps/messages.py:87
 msgid "Operación no realizada: no se puede"
 msgstr "Operation not performed: cannot"
 
-#: apps/messages.py:80
+#: apps/messages.py:87
 msgid " generar el vector de características. La URL no está disponible."
 msgstr " generate the feature vector. The URL is not available."
 
-#: apps/messages.py:85
+#: apps/messages.py:92
 msgid "Error extrayendo el vector de características."
 msgstr "Error extracting feature vector."
 
-#: apps/messages.py:88
+#: apps/messages.py:95
 msgid "Error reconstruyendo el objeto TFIDF"
 msgstr "Error rebuilding TFIDF object"
 
-#: apps/messages.py:91
+#: apps/messages.py:98
 msgid "Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde."
 msgstr "An unexpected error has occurred. Please try again later."
 
-#: apps/messages.py:96
+#: apps/messages.py:103
 msgid "Debe iniciar sesión para acceder a esta página."
 msgstr "You must be logged in to access this page."
 
-#: apps/messages.py:99
+#: apps/messages.py:106
 msgid "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
 msgstr "An error has occurred in the database. Please try again later."
 
-#: apps/messages.py:104
+#: apps/messages.py:111
 msgid "No se ha podido cargar el fichero de la IA. Lo sentimos."
 msgstr "Failed to load AI file. We're sorry."
 
-#: apps/messages.py:109
+#: apps/messages.py:116
 msgid "Error al guardar el modelo en la BD o los datos de entrenamiento."
 msgstr "Error when saving the model in the DB or the training data."
 
-#: apps/messages.py:111
+#: apps/messages.py:118
 msgid " Comprueba que las instancias utilizadas están en la BD."
-msgstr " Check that the instances used are in the database."
+msgstr " Check that the instances used are in the database (file IDS)."
 
-#: apps/messages.py:114
+#: apps/messages.py:121
 msgid "No se ha encontrado el modelo serializado."
 msgstr "Serialized model not found."
 
-#: apps/messages.py:117
+#: apps/messages.py:124
 msgid "Error al generar el dataset."
 msgstr "Error generating the dataset."
 
-#: apps/messages.py:120
+#: apps/messages.py:127
 msgid "Error al generar el dataset de entrenamiento."
 msgstr "Error generating training dataset."
 
-#: apps/messages.py:123
+#: apps/messages.py:130
 msgid "El fichero subido no existe o no es un csv."
 msgstr "The uploaded file does not exist or is not a csv."
 
-#: apps/messages.py:126
+#: apps/messages.py:133
 msgid "El fichero no tiene el formato correcto. Prueba a descargarlo desde "
 msgstr "The file is not in the correct format. try downloading it from "
 
-#: apps/messages.py:128
+#: apps/messages.py:135
 msgid "la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
 msgstr "the application (it has to have an id, 19 attributes and the label)."
 
-#: apps/messages.py:133
+#: apps/messages.py:140
 msgid "No se han podido actualizar los scores en la base de datos."
 msgstr "The scores in the database could not be updated."
 
-#: apps/messages.py:138
+#: apps/messages.py:145
 msgid "Clasificador base no encontrado"
 msgstr "Base classifier not found"
 
-#: apps/messages.py:142
+#: apps/messages.py:149
 msgid "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
-msgstr "We're sorry! Models 1, 2 and 3 are protected. Still, the "
+msgstr "We're sorry! Models 1, 2 and 3 are protected. Still, "
 
-#: apps/messages.py:145
+#: apps/messages.py:152
 msgid "conexión con la base de datos es correcta y se muestra el mensaje de "
-msgstr "The connection to the database is successful and the error message is displayed. "
+msgstr ""
+"the connection to the database is successful and the 'deleted "
+"successfully' "
 
-#: apps/messages.py:148
+#: apps/messages.py:155
 msgid "'eliminado correctamente' para que sepas que el método funciona."
-msgstr "'deleted successfully' so you know the method works."
+msgstr "error message is displayed so you know the method works."
 
-#: apps/messages.py:154
+#: apps/messages.py:161
 msgid "¡Lo sentimos! No puedes acceder directamente a esta página."
 msgstr "We're sorry! You cannot directly access this page."
 
-#: apps/messages.py:172
+#: apps/messages.py:179
 msgid "Por favor, introduce un nombre de usuario."
 msgstr "Please enter a username."
 
-#: apps/messages.py:175
+#: apps/messages.py:182
 msgid "Por favor, introduce una contraseña."
 msgstr "Please enter a password."
 
-#: apps/messages.py:178
+#: apps/messages.py:185
 msgid "Por favor, introduce un email."
 msgstr "Please enter an email."
 
-#: apps/messages.py:181
+#: apps/messages.py:188
 msgid "Por favor, introduce un email válido."
 msgstr "Please enter a valid email."
 
-#: apps/messages.py:184
+#: apps/messages.py:191
 msgid "El nombre de usuario ya está en uso."
 msgstr "The username is already taken."
 
-#: apps/messages.py:187
+#: apps/messages.py:194
 msgid "El email ya está en uso."
 msgstr "The email is already in use."
 
-#: apps/messages.py:190
+#: apps/messages.py:197
 msgid "Por favor, introduce tu nombre propio."
 msgstr "Please enter your own name."
 
-#: apps/messages.py:193
+#: apps/messages.py:200
 msgid "Por favor, introduce tus apellidos."
 msgstr "Please enter your last name."
 
-#: apps/messages.py:196
+#: apps/messages.py:203
 msgid "Por favor, introduce tus credenciales."
 msgstr "Please enter your credentials."
 
-#: apps/messages.py:199
+#: apps/messages.py:206
 msgid "Las credenciales introducidas no son correctas."
 msgstr "The credentials entered are not correct."
 
-#: apps/messages.py:203
+#: apps/messages.py:210
 msgid "Usuario creado con éxito."
 msgstr "User created successfully."
 
-#: apps/messages.py:205
+#: apps/messages.py:212
 msgid " Inicia sesión"
 msgstr " Log in"
 
-#: apps/messages.py:210
+#: apps/messages.py:217
 msgid "No se ha podido crear la cuenta. Inténtelo de nuevo más tarde."
 msgstr "The account could not be created. Try it again later."
 
-#: apps/messages.py:215
+#: apps/messages.py:222
 msgid "Por favor, introduce una URL."
 msgstr "Please enter a URL."
 
-#: apps/messages.py:218
+#: apps/messages.py:225
 msgid "Por favor, introduce una URL más corta (máximo 255 caracteres)."
 msgstr "Please enter a shorter URL (maximum 255 characters)."
 
-#: apps/messages.py:223
+#: apps/messages.py:230
 msgid "Por favor, introduce una descripción más corta (máximo 511 caracteres)."
 msgstr "Please enter a shorter description (maximum 511 characters)."
 
-#: apps/messages.py:228
+#: apps/messages.py:235
 msgid "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
 msgstr "Please enter a shorter name (maximum 50 characters)."
 
-#: apps/messages.py:233
+#: apps/messages.py:240
 msgid "Introduce un nombre de usuario más corto (máximo 63 caracteres)."
 msgstr "Enter a shorter username (maximum 63 characters)."
 
-#: apps/messages.py:238
+#: apps/messages.py:245
 msgid "Por favor, introduce un email más corto (máximo 128 caracteres)."
 msgstr "Please enter a shorter email (maximum 128 characters)."
 
-#: apps/messages.py:243
+#: apps/messages.py:250
 msgid "Por favor, introduce un nombre propio más corto (máximo 63 caracteres)."
 msgstr "Please enter a shorter proper name (maximum 63 characters)."
 
-#: apps/messages.py:248
+#: apps/messages.py:255
 msgid "Por favor, introduce unos apellidos más cortos (máximo 63 caracteres)."
 msgstr "Please enter a shorter last name (maximum 63 characters)."
 
-#: apps/messages.py:253
+#: apps/messages.py:260
 msgid "Por favor, selecciona una opción en el desplegable."
 msgstr "Please select an option from the dropdown."
 
-#: apps/messages.py:256
+#: apps/messages.py:263
 msgid "Introduce una versión válida."
 msgstr "Please enter a valid version."
 
-#: apps/messages.py:256
+#: apps/messages.py:263
 msgid "Si no sabes qué poner, puedes probar a introducir un número entero."
 msgstr "If you don't know what to put, you can try entering an integer."
 
-#: apps/messages.py:261
+#: apps/messages.py:268
 msgid "Por favor, introduce un nombre."
 msgstr "Please enter a name."
 
-#: apps/messages.py:264
+#: apps/messages.py:271
 msgid "Por favor, introduce una semilla aleatoria o -1 en su defecto."
-msgstr "Please enter a random seed or -1 failing that."
+msgstr "Please enter a random seed or -1."
 
-#: apps/messages.py:269
+#: apps/messages.py:276
 msgid "Por favor, introduce un porcentaje de instancias de entrenamiento."
 msgstr "Please enter a percentage of training instances."
 
-#: apps/messages.py:274
+#: apps/messages.py:281
 msgid "Por favor, introduce un porcentaje de instancias de entrenamiento válido."
 msgstr "Please enter a valid training instance percentage."
 
-#: apps/messages.py:280
+#: apps/messages.py:287
 msgid "Por favor, introduce un número de árboles."
 msgstr "Please enter a number of trees."
 
-#: apps/messages.py:282
+#: apps/messages.py:289
 msgid "Si no deseas ninguno puedes introducir 0."
 msgstr "If you do not want any you can enter 0."
 
-#: apps/messages.py:286
+#: apps/messages.py:293
 msgid "El número de árboles no es correcto."
 msgstr "The number of trees is not correct."
 
-#: apps/messages.py:286
+#: apps/messages.py:293
 msgid "Introduce un número entre 0 y 100."
 msgstr "Enter a number between 0 and 100."
 
-#: apps/messages.py:291
+#: apps/messages.py:298
 msgid "Por favor, introduce un número decimal en thetha"
 msgstr "Please enter a decimal number in thetha"
 
-#: apps/messages.py:293
+#: apps/messages.py:300
 msgid "(la coma se separa mediante un punto) o 0.75 en su defecto."
 msgstr "(the comma is separated by a point) or 0.75 by default."
 
-#: apps/messages.py:298
+#: apps/messages.py:305
 msgid "El valor de thetha no es correcto."
 msgstr "The value of thetha is not correct."
 
-#: apps/messages.py:298
+#: apps/messages.py:305
 msgid "Introduce un número entre 0 y 1."
 msgstr "Enter a number between 0 and 1."
 
-#: apps/messages.py:303
+#: apps/messages.py:310
 msgid "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
 msgstr "Please enter a valid number of classifiers (between 0 and 10)."
 
-#: apps/messages.py:308
+#: apps/messages.py:315
 msgid "Comprueba que las etiquetas introducidas no tengan más de 63 caracteres"
 msgstr "Check that the entered labels do not have more than 63 characters"
 
-#: apps/messages.py:326
+#: apps/messages.py:333
 msgid "Operación realizada con éxito."
 msgstr "Operation carried out successfully."
 
-#: apps/messages.py:329
+#: apps/messages.py:336
 msgid "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
 msgstr "There is no model available. Try again later."
 
-#: apps/messages.py:334
+#: apps/messages.py:341
 msgid "Realiza un análisis para acceder al dashboard y visualizar resultados."
 msgstr "Perform an analysis to access the dashboard and view results."
 
-#: apps/messages.py:339
+#: apps/messages.py:346
 msgid "La información para mostrar ha caducado o no está disponible."
 msgstr "The information to display has expired or is not available."
 
-#: apps/messages.py:344
+#: apps/messages.py:351
 msgid "Idioma cambiado correctamente."
 msgstr "Language has been successfully changed"
 
-#: apps/messages.py:347
+#: apps/messages.py:354
 msgid "No se ha podido cambiar el idioma."
 msgstr "The language could not be changed."
 
-#: apps/messages.py:350
+#: apps/messages.py:357
 msgid "Debes iniciar sesión para acceder a esta página."
 msgstr "You must be logged in to access this page."
 
-#: apps/messages.py:353
+#: apps/messages.py:360
 msgid "No tienes permisos para acceder a esta página."
 msgstr "You do not have permission to access this page."
 
-#: apps/messages.py:356
+#: apps/messages.py:363
 msgid "Falso resultado reportado correctamente."
 msgstr "False result reported correctly."
 
-#: apps/messages.py:356
+#: apps/messages.py:363
 msgid "¡Gracias por tu colaboración!"
 msgstr "Thank you for your collaboration!"
 
-#: apps/messages.py:361
+#: apps/messages.py:368
 msgid "Modelo eliminado correctamente."
 msgstr "Model successfully removed."
 
-#: apps/messages.py:364
+#: apps/messages.py:371
 msgid "Modelo actualizado correctamente."
 msgstr "Model updated successfully."
 
-#: apps/messages.py:367
+#: apps/messages.py:374
 msgid "Modelos eliminados correctamente."
 msgstr "Models removed successfully."
 
-#: apps/messages.py:370
+#: apps/messages.py:377
 msgid "No se ha podido eliminar el modelo."
 msgstr "The model could not be deleted."
 
-#: apps/messages.py:373
+#: apps/messages.py:380
 msgid "No se ha podido actualizar el modelo."
 msgstr "The model could not be updated."
 
-#: apps/messages.py:376
+#: apps/messages.py:383
 msgid "No se han podido eliminar los modelos."
 msgstr "Models could not be deleted."
 
-#: apps/messages.py:379
+#: apps/messages.py:386
 msgid "No se ha podido crear el modelo."
 msgstr "The model could not be created."
 
-#: apps/messages.py:382
+#: apps/messages.py:389
 msgid "Error al serializar el modelo."
 msgstr "Failed to serialize model."
 
-#: apps/messages.py:385
+#: apps/messages.py:392
 msgid "Error al actualizar el modelo por defecto."
 msgstr "Failed to update default model."
 
-#: apps/messages.py:388
+#: apps/messages.py:395
 msgid "No se ha seleccionado ningún modelo."
 msgstr "No model has been selected."
 
-#: apps/messages.py:392
+#: apps/messages.py:399
 msgid "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos comunes."
-msgstr "Beware, the training and test sets have common data."
+msgstr "Beware, the train and test sets have common data."
 
-#: apps/messages.py:396
+#: apps/messages.py:403
 msgid "Los resultados de las scores podrían no ser fiables (optimistas)."
 msgstr "The results of the scores may not be reliable (optimistic)."
 
-#: apps/messages.py:402
+#: apps/messages.py:409
 msgid "Modelo creado y guardado correctamente."
 msgstr "Model created and saved successfully."
 
-#: apps/messages.py:405
+#: apps/messages.py:412
 msgid "Recuerda que los resultados de las scores pueden ser optimistas si el "
 msgstr "Remember that the results of the scores can be optimistic if the "
 
-#: apps/messages.py:407
+#: apps/messages.py:414
 msgid "conjunto de test contiene instancias vistas durante el entrenamiento."
 msgstr "test set contains instances seen during training."
 
-#: apps/messages.py:412 apps/messages.py:419
-msgid "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
-msgstr "Test done correctly. You can see the results in the graph above."
+#: apps/messages.py:419 apps/messages.py:426
+msgid ""
+"Test realizado correctamente. Puedes ver los resultados en la gráfica "
+"superior."
+msgstr "Test finished successfully. You can see the results in the graph above."
 
-#: apps/messages.py:414
+#: apps/messages.py:421
 msgid "Además, se han actualizado las scores en la base de datos."
 msgstr "In addition, the scores in the database have been updated."
 
-#: apps/messages.py:424
+#: apps/messages.py:431
 msgid "No se han podido calcular las métricas (asignado valor de 0.0): "
 msgstr "Metrics could not be calculated (assigned value of 0.0): "
 
-#: apps/messages.py:429
+#: apps/messages.py:436
 msgid ". ¿Hay instancias positivas en el conjunto de test?"
 msgstr ". Are there positive instances in the test set?"
 
-#: apps/messages.py:432
+#: apps/messages.py:439
 msgid "Instancia eliminada correctamente."
 msgstr "Instance deleted successfully."
 
-#: apps/messages.py:435
+#: apps/messages.py:442
 msgid "No se ha podido eliminar la instancia."
 msgstr "The instance could not be deleted."
 
-#: apps/messages.py:438
+#: apps/messages.py:445
 msgid "Instancias eliminadas correctamente."
 msgstr "Instances deleted successfully."
 
-#: apps/messages.py:441
+#: apps/messages.py:448
 msgid "No se han podido eliminar las instancias."
 msgstr "The instances could not be deleted."
 
-#: apps/messages.py:444
+#: apps/messages.py:451
 msgid "No se ha seleccionado ninguna instancia."
 msgstr "No instance has been selected."
 
-#: apps/messages.py:447
+#: apps/messages.py:454
 msgid "Instancia creada y guardada correctamente."
 msgstr "Instance created and saved successfully."
 
-#: apps/messages.py:450
+#: apps/messages.py:457
 msgid "Sugerencia: comprueba que no estás creando una instancia que ya existe."
 msgstr "Tip: Check that you are not creating an instance that already exists."
 
-#: apps/messages.py:455
+#: apps/messages.py:462
 msgid "No se han seleccionado ninguna sugerencia."
 msgstr "No suggestions have been selected."
 
-#: apps/messages.py:458
+#: apps/messages.py:465
 msgid "No se han podido eliminar las sugerencias."
 msgstr "Suggestions could not be removed."
 
-#: apps/messages.py:461
+#: apps/messages.py:468
 msgid "Sugerencias eliminadas correctamente."
 msgstr "Suggestions successfully removed."
 
-#: apps/messages.py:464
+#: apps/messages.py:471
 msgid "No se ha podido eliminar la sugerencia."
 msgstr "The suggestion could not be removed."
 
-#: apps/messages.py:467
+#: apps/messages.py:474
 msgid "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
 msgstr "Your URL has been successfully reported. Thank you for your collaboration!"
 
-#: apps/messages.py:471
+#: apps/messages.py:478
 msgid "Mensaje no disponible. ¡Lo sentimos!"
 msgstr "Message not available. We're sorry!"
 
-#: apps/messages.py:487
+#: apps/messages.py:494
 msgid "No se ha podido llamar ni reconstruir la URL "
 msgstr "Failed to call or rebuild URL "
 
-#: apps/messages.py:489
+#: apps/messages.py:496
 msgid ". Tampoco existe información en la base de datos acerca de ella."
 msgstr ". There is also no information in the database about it."
 
-#: apps/messages.py:495
+#: apps/messages.py:502
 msgid "Max features = "
 msgstr "Max features = "
 
-#: apps/messages.py:498
+#: apps/messages.py:505
 msgid "Thetha = "
 msgstr "Thetha = "
 
-#: apps/messages.py:501
+#: apps/messages.py:508
 msgid "Nº árboles = "
 msgstr "No. trees = "
 
-#: apps/messages.py:504
+#: apps/messages.py:511
 msgid "Nº clasificadores = "
 msgstr "No. classifiers = "
 
-#: apps/messages.py:507
+#: apps/messages.py:514
 msgid "Clasificador "
 msgstr "Classifier "
 
-#: apps/messages.py:520
+#: apps/messages.py:527
 msgid "Naive Bayes"
 msgstr "Naive Bayes"
 
-#: apps/messages.py:523
+#: apps/messages.py:530
 msgid "Árbol de decisión"
 msgstr "Decision tree"
 
-#: apps/messages.py:526
+#: apps/messages.py:533
 msgid "k-vecinos más cercanos"
 msgstr "k-nearest neighbors"
 
-#: apps/messages.py:529
+#: apps/messages.py:536
 msgid "legítimo"
 msgstr "legitimate"
 
-#: apps/messages.py:532 apps/templates/home/dashboard.html:33
+#: apps/messages.py:539 apps/templates/home/dashboard.html:33
 msgid "LEGÍTIMA"
 msgstr "LEGITIMATE"
 
-#: apps/messages.py:535
+#: apps/messages.py:542
 msgid "phishing"
 msgstr "phishing"
 
-#: apps/messages.py:538
+#: apps/messages.py:545
 msgid "no disponible"
 msgstr "not available"
 
-#: apps/messages.py:541
+#: apps/messages.py:548
 msgid "no hay ningún vector generado para esta instancia"
 msgstr "there is no vector generated for this instance"
 
-#: apps/messages.py:544
+#: apps/messages.py:551
 msgid "lista-negra"
 msgstr "blacklist"
 
-#: apps/messages.py:547
+#: apps/messages.py:554
 msgid "lista-blanca"
 msgstr "White list"
 
-#: apps/messages.py:550
+#: apps/messages.py:557
 msgid "auto-clasificada"
 msgstr "self-classified"
 
-#: apps/messages.py:553
+#: apps/messages.py:560
 msgid "revisada"
 msgstr "revised"
 
-#: apps/messages.py:556
+#: apps/messages.py:563
 msgid "sugerencia-lista-blanca"
 msgstr "whitelist-suggestion"
 
-#: apps/messages.py:559
+#: apps/messages.py:566
 msgid "sugerencia-lista-negra"
 msgstr "blacklist-suggestion"
 
-#: apps/messages.py:562
+#: apps/messages.py:569
 msgid "sugerencia-phishing"
 msgstr "phishing-suggestion"
 
-#: apps/messages.py:565
+#: apps/messages.py:572
 msgid "sugerencia-legítima"
 msgstr "legitimate-suggestion"
 
-#: apps/messages.py:568
+#: apps/messages.py:575
 msgid "nueva-instancia"
 msgstr "new-instance"
 
-#: apps/messages.py:571
+#: apps/messages.py:578
 msgid "revisión-recomendada"
 msgstr "recommended-revision"
 
-#: apps/messages.py:574
+#: apps/messages.py:581
 msgid "recién-escaneada-revisar"
 msgstr "just-scanned-review"
 
@@ -643,7 +655,7 @@ msgstr "CREAT YOUR ACCOUNT"
 
 #: apps/templates/accounts/register.html:35
 msgid "Nombre propio"
-msgstr "Own name"
+msgstr "Name"
 
 #: apps/templates/accounts/register.html:44 apps/templates/home/profile.html:96
 msgid "Apellidos"
@@ -731,7 +743,7 @@ msgstr "EACH CLASSIFIER IN PARTICULAR"
 #: apps/templates/home/new-model.html:262
 #: apps/templates/home/test-model.html:140
 msgid "Siguiente"
-msgstr "Following"
+msgstr "Next"
 
 #: apps/templates/home/dashboard.html:211
 msgid "VECTOR DE CARACTERÍSTICAS DE LA PÁGINA WEB"
@@ -802,11 +814,17 @@ msgid "Carácter relevante encontrado:"
 msgstr "Relevant character found:"
 
 #: apps/templates/home/dashboard.html:317
-msgid "En una URL, el uso de \"@\" hace que se ignore todo lo escrito anteriormente al símbolo"
-msgstr "In a URL, the use of \"@\" causes everything written before the symbol to be ignored"
+msgid ""
+"En una URL, el uso de \"@\" hace que se ignore todo lo escrito "
+"anteriormente al símbolo"
+msgstr ""
+"In a URL, the use of \"@\" causes everything written before the symbol to"
+" be ignored"
 
 #: apps/templates/home/dashboard.html:318
-msgid " , y \"-\" es utilizado para engañar a los usuarios en enlaces como por ejemplo"
+msgid ""
+" , y \"-\" es utilizado para engañar a los usuarios en enlaces como por "
+"ejemplo"
 msgstr " , and \"-\" is used to trick users into links such as"
 
 #: apps/templates/home/dashboard.html:340
@@ -835,7 +853,9 @@ msgid "Según"
 msgstr "According to"
 
 #: apps/templates/home/dashboard.html:401
-msgid "es común que las páginas de phishing añadan palabras clave en los enlaces para ganar"
+msgid ""
+"es común que las páginas de phishing añadan palabras clave en los enlaces"
+" para ganar"
 msgstr "it is common for phishing pages to add keywords in the links to earn"
 
 #: apps/templates/home/dashboard.html:402
@@ -843,12 +863,20 @@ msgid "la confianza de sus víctimas."
 msgstr "the trust of their victims."
 
 #: apps/templates/home/dashboard.html:403
-msgid "En concreto, se buscan y tienen encuenta enlaces que contengan las palabras:"
-msgstr "Specifically, links that contain the words are searched for and taken into account:"
+msgid ""
+"En concreto, se buscan y tienen encuenta enlaces que contengan las "
+"palabras:"
+msgstr ""
+"Specifically, links that contain the words are searched for and taken "
+"into account:"
 
 #: apps/templates/home/dashboard.html:405
-msgid "Como aportación propia, se ha tenido en cuenta que estas palabras puedan estar"
-msgstr "As an own contribution, it has been taken into account that these words may be"
+msgid ""
+"Como aportación propia, se ha tenido en cuenta que estas palabras puedan "
+"estar"
+msgstr ""
+"As an own contribution, it has been taken into account that these words "
+"may be"
 
 #: apps/templates/home/dashboard.html:406
 msgid "escritas utilizando el"
@@ -863,7 +891,9 @@ msgid "Dominio extra encontrado:"
 msgstr "Extra domain found:"
 
 #: apps/templates/home/dashboard.html:447
-msgid "En los dominios legítimos, el TDL no está presente en la parte perteneciente al"
+msgid ""
+"En los dominios legítimos, el TDL no está presente en la parte "
+"perteneciente al"
 msgstr "In legitimate domains, the TDL is not present in the part belonging to the"
 
 #: apps/templates/home/dashboard.html:448
@@ -875,11 +905,15 @@ msgid "¿http encontrado?"
 msgstr "http found?"
 
 #: apps/templates/home/dashboard.html:485
-msgid "En sitios genuinos, la cadena \"http\" sólo se encuentra una vez en el protocolo."
+msgid ""
+"En sitios genuinos, la cadena \"http\" sólo se encuentra una vez en el "
+"protocolo."
 msgstr "On genuine sites, the string \"http\" is found only once in the protocol."
 
 #: apps/templates/home/dashboard.html:486
-msgid " Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio phishing."
+msgid ""
+" Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio"
+" phishing."
 msgstr " However, it might happen more than once if it is a phishing site."
 
 #: apps/templates/home/dashboard.html:507
@@ -887,17 +921,27 @@ msgid "¿Marca famosa?"
 msgstr "famous brand?"
 
 #: apps/templates/home/dashboard.html:524
-msgid "la gran mayoría de los sitios de phishing contienen el nombre de la marca objetivo en la\n"
+msgid ""
+"la gran mayoría de los sitios de phishing contienen el nombre de la marca"
+" objetivo en la\n"
 "                  URL."
-msgstr "the vast majority of phishing sites contain the name of the targeted brand in the\n"
+msgstr ""
+"the vast majority of phishing sites contain the name of the targeted "
+"brand in the\n"
 "                  url."
 
 #: apps/templates/home/dashboard.html:527
-msgid "Por ello, se han seleccionado algunos de los objetivos más comunes para los atacantes"
-msgstr "Therefore, some of the most common targets for attackers have been selected."
+msgid ""
+"Por ello, se han seleccionado algunos de los objetivos más comunes para "
+"los atacantes"
+msgstr ""
+"Therefore, some of the most common targets for attackers have been "
+"selected."
 
 #: apps/templates/home/dashboard.html:528
-msgid " (por ejemplo, Google) y, si se encuentra el nombre en una posición incorrecta,"
+msgid ""
+" (por ejemplo, Google) y, si se encuentra el nombre en una posición "
+"incorrecta,"
 msgstr " (for example, Google) and, if the name is found in the wrong position,"
 
 #: apps/templates/home/dashboard.html:529
@@ -905,8 +949,12 @@ msgid " se asume que se trata de un intento de estafa."
 msgstr " It is assumed that it is a scam attempt."
 
 #: apps/templates/home/dashboard.html:530
-msgid " Nuevamente, se ha tenido en consideración que dichas palabras puedan estar en"
-msgstr " Once again, it has been taken into consideration that said words may be in"
+msgid ""
+" Nuevamente, se ha tenido en consideración que dichas palabras puedan "
+"estar en"
+msgstr ""
+" Once again, it has been taken into consideration that said words may be "
+"in"
 
 #: apps/templates/home/dashboard.html:533
 msgid " lenguaje leet"
@@ -917,7 +965,9 @@ msgid "Nº de data URIs encontrados"
 msgstr "Number of data URIs found"
 
 #: apps/templates/home/dashboard.html:574
-msgid "los ataques basados en la existencia de un Data URI son muy comunes. Este esquema"
+msgid ""
+"los ataques basados en la existencia de un Data URI son muy comunes. Este"
+" esquema"
 msgstr "attacks based on the existence of a Data URI are very common. This scheme"
 
 #: apps/templates/home/dashboard.html:575
@@ -949,7 +999,9 @@ msgid "Valor del campo"
 msgstr "field value"
 
 #: apps/templates/home/dashboard.html:621
-msgid "Es común que los sitios de phishing incluyan formularios de inicio de sesión debido"
+msgid ""
+"Es común que los sitios de phishing incluyan formularios de inicio de "
+"sesión debido"
 msgstr "It is common for phishing sites to include login forms due to"
 
 #: apps/templates/home/dashboard.html:622
@@ -957,19 +1009,31 @@ msgid " a que es una forma común de introducir datos personales."
 msgstr " because it is a common way to enter personal data."
 
 #: apps/templates/home/dashboard.html:623
-msgid " En concreto, la diferencia reside en que en los sitios legítimos el campo de"
+msgid ""
+" En concreto, la diferencia reside en que en los sitios legítimos el "
+"campo de"
 msgstr " Specifically, the difference is that on legitimate sites the field of"
 
 #: apps/templates/home/dashboard.html:624
-msgid " acción suele contener un enlace con el mismo dominio base que el sitio inicial."
-msgstr " action usually contains a link to the same base domain as the initial site."
+msgid ""
+" acción suele contener un enlace con el mismo dominio base que el sitio "
+"inicial."
+msgstr ""
+" action usually contains a link to the same base domain as the initial "
+"site."
 
 #: apps/templates/home/dashboard.html:625
-msgid " Sin embargo, en los sitios de phishing esto no es así. Hay otras variaciones como"
-msgstr " However, on phishing sites this is not the case. There are other variations like"
+msgid ""
+" Sin embargo, en los sitios de phishing esto no es así. Hay otras "
+"variaciones como"
+msgstr ""
+" However, on phishing sites this is not the case. There are other "
+"variations like"
 
 #: apps/templates/home/dashboard.html:626
-msgid " campos vacíos, con enlaces nulos o archivos PHP que almacenen las credenciales."
+msgid ""
+" campos vacíos, con enlaces nulos o archivos PHP que almacenen las "
+"credenciales."
 msgstr " empty fields, with null links or PHP files that store the credentials."
 
 #: apps/templates/home/dashboard.html:638
@@ -1015,7 +1079,9 @@ msgstr "Empty page?"
 
 #: apps/templates/home/dashboard.html:707
 msgid "Es muy sospechoso que una página web no contenga ningún hiperenlace debido"
-msgstr "It is very suspicious that a web page does not contain any hyperlinks due to"
+msgstr ""
+"It is very suspicious that a web page does not contain any hyperlinks due"
+" to"
 
 #: apps/templates/home/dashboard.html:708
 msgid " a que se podrían estar utilizando técnicas de ocultación de sitios"
@@ -1030,15 +1096,21 @@ msgid "Nº de hiperenlaces externos"
 msgstr "Number of external hyperlinks"
 
 #: apps/templates/home/dashboard.html:748
-msgid "Debido a que los sitios atacantes suelen imitar la estética de sus objetivos,"
+msgid ""
+"Debido a que los sitios atacantes suelen imitar la estética de sus "
+"objetivos,"
 msgstr "Because attacking sites often mimic the aesthetics of their targets,"
 
 #: apps/templates/home/dashboard.html:749
 msgid " es común que posean múltiples hiperenlaces que apunten a sitios externos."
-msgstr " it is common for them to have multiple hyperlinks pointing to external sites."
+msgstr ""
+" it is common for them to have multiple hyperlinks pointing to external "
+"sites."
 
 #: apps/templates/home/dashboard.html:750
-msgid " Se consideran externos a aquellos enlaces absolutos distintos al sitio base."
+msgid ""
+" Se consideran externos a aquellos enlaces absolutos distintos al sitio "
+"base."
 msgstr " Those absolute links other than the base site are considered external."
 
 #: apps/templates/home/dashboard.html:771
@@ -1050,8 +1122,12 @@ msgid "Cuando un enlace está vacío, si el usuario pulsa, es redirigido a la"
 msgstr "When a link is empty, if the user clicks, they are redirected to the"
 
 #: apps/templates/home/dashboard.html:789
-msgid " misma página de la que se parte (es decir, no hay redirección a un sitio distinto),"
-msgstr " same page from which you start (that is, there is no redirection to a different site),"
+msgid ""
+" misma página de la que se parte (es decir, no hay redirección a un sitio"
+" distinto),"
+msgstr ""
+" same page from which you start (that is, there is no redirection to a "
+"different site),"
 
 #: apps/templates/home/dashboard.html:790
 msgid " lo que incrementa las posibilidades de que la víctima caiga en el ataque."
@@ -1136,11 +1212,17 @@ msgid "Palabra copyright"
 msgstr "Copyright word"
 
 #: apps/templates/home/dashboard.html:960
-msgid "Las páginas legítimas suelen contener el nombre del dominio en la sección dedicada a"
-msgstr "Legitimate pages usually contain the domain name in the section dedicated to"
+msgid ""
+"Las páginas legítimas suelen contener el nombre del dominio en la sección"
+" dedicada a"
+msgstr ""
+"Legitimate pages usually contain the domain name in the section dedicated"
+" to"
 
 #: apps/templates/home/dashboard.html:962
-msgid " En el caso de que el nombre del dominio no aparezca en el texto del copyright,"
+msgid ""
+" En el caso de que el nombre del dominio no aparezca en el texto del "
+"copyright,"
 msgstr " In the event that the domain name does not appear in the copyright text,"
 
 #: apps/templates/home/dashboard.html:963
@@ -1152,7 +1234,9 @@ msgid "Palabra clave dominio base"
 msgstr "Base domain keyword"
 
 #: apps/templates/home/dashboard.html:1003
-msgid "Para cada página web, se ha construido un conjunto de keywords compuesto por las"
+msgid ""
+"Para cada página web, se ha construido un conjunto de keywords compuesto "
+"por las"
 msgstr "For each web page, a set of keywords has been built consisting of the"
 
 #: apps/templates/home/dashboard.html:1004
@@ -1164,15 +1248,21 @@ msgid " (cuyo campo name equivalga a description o keywords metatags)"
 msgstr " (whose name field is equivalent to description or keywords metatags)"
 
 #: apps/templates/home/dashboard.html:1006
-msgid " y por las más relevantes del cuerpo (extraídas mediante el algoritmo TF-IDF)."
-msgstr " and by the most relevant of the body (extracted using the TF-IDF algorithm)."
+msgid ""
+" y por las más relevantes del cuerpo (extraídas mediante el algoritmo TF-"
+"IDF)."
+msgstr ""
+" and by the most relevant of the body (extracted using the TF-IDF "
+"algorithm)."
 
 #: apps/templates/home/dashboard.html:1007
 msgid " Lo más común es que los sitios legítimos contengan al menos una de estas "
 msgstr " Most commonly, legitimate sites contain at least one of these "
 
 #: apps/templates/home/dashboard.html:1008
-msgid " palabras en el dominio base. En caso contrario, se considera un intento de phishing."
+msgid ""
+" palabras en el dominio base. En caso contrario, se considera un intento "
+"de phishing."
 msgstr " words in the base domain. Otherwise, it is considered a phishing attempt."
 
 #: apps/templates/home/dashboard.html:1031
@@ -1184,7 +1274,9 @@ msgid "Un favicon es una miniatura asociada a una página web. Por ello, los"
 msgstr "A favicon is a thumbnail associated with a web page. Therefore, the"
 
 #: apps/templates/home/dashboard.html:1049
-msgid " atacantes pueden plagiar los iconos de los sitios legítimos para ganarse la"
+msgid ""
+" atacantes pueden plagiar los iconos de los sitios legítimos para ganarse"
+" la"
 msgstr " Attackers can plagiarize icons from legitimate sites to gain"
 
 #: apps/templates/home/dashboard.html:1050
@@ -1204,8 +1296,12 @@ msgid " Para localizarlos, se ubica el atributo \"rel\" dentro de las etiquetas"
 msgstr " To locate them, the \"rel\" attribute is placed inside the tags"
 
 #: apps/templates/home/dashboard.html:1054
-msgid " \"link\" y se comprueba que su valor sea la cadena \"shortcut icon\" o \"icon\"."
-msgstr " \"link\" and checks that its value is the string \"shortcut icon\" or \"icon\"."
+msgid ""
+" \"link\" y se comprueba que su valor sea la cadena \"shortcut icon\" o "
+"\"icon\"."
+msgstr ""
+" \"link\" and checks that its value is the string \"shortcut icon\" or "
+"\"icon\"."
 
 #: apps/templates/home/dashboard.html:1074
 msgid "¡Oye, tú, humano!"
@@ -1523,11 +1619,11 @@ msgstr "(approximately 1 minute). In case of finding the instance "
 
 #: apps/templates/home/index.html:147
 msgid "en la base de datos, no se mostrarán los valores"
-msgstr "in the database, the values will not be displayed"
+msgstr "in the database, the values used in the extraction"
 
 #: apps/templates/home/index.html:148
 msgid "utilizados en la extracción del vector de características."
-msgstr "used in the extraction of the feature vector."
+msgstr " of the feature vector will not be displayed."
 
 #: apps/templates/home/index.html:154
 msgid "¡Analiza mi URL!"
@@ -1543,11 +1639,11 @@ msgstr "Welcome to Phishing Link Analyzer! "
 
 #: apps/templates/home/index.html:178
 msgid "Para utilizarlo, tan "
-msgstr "To use it, so "
+msgstr "To use it, you just have to "
 
 #: apps/templates/home/index.html:179
 msgid "sólo escribe la dirección de la página que quieres analizar y "
-msgstr "just write the address of the page you want to analyze and "
+msgstr "write the URL of the page you want to analyze and "
 
 #: apps/templates/home/index.html:180
 msgid "pulsa el botón \"Scan\". En el dashboard podrás observar algunas "
@@ -1555,7 +1651,7 @@ msgstr "press the \"Scan\" button. In the dashboard you can see some "
 
 #: apps/templates/home/index.html:181
 msgid "de las gráficas generadas por nuestros estimadores."
-msgstr "from the graphs generated by our estimators."
+msgstr "of the graphs generated by our classifiers."
 
 #: apps/templates/home/index.html:199
 msgid "¿Cómo funciona?"
@@ -1571,7 +1667,7 @@ msgstr "associated with the page entered. Once achieved, "
 
 #: apps/templates/home/index.html:204
 msgid "se procesa mediante algoritmos de Machine Learning para obtener un "
-msgstr "is processed by Machine Learning algorithms to obtain a "
+msgstr "it is processed by Machine Learning algorithms to obtain a "
 
 #: apps/templates/home/index.html:205
 msgid "resultado que nos indique si la página es o no phishing."
@@ -1583,15 +1679,15 @@ msgstr "Can I report links?"
 
 #: apps/templates/home/index.html:226
 msgid "¡Por supuesto! Además de utilizar algoritmos de aprendizaje "
-msgstr "Of course! In addition to using learning algorithms "
+msgstr "Of course! In addition to using semisupervised learning algorithms, "
 
 #: apps/templates/home/index.html:227
 msgid "semisupervisado, también puedes denunciar enlaces sospechosos "
-msgstr "semisupervised, you can also report suspicious links "
+msgstr "you can also report suspicious links "
 
 #: apps/templates/home/index.html:228
 msgid "para que sean analizados por nuestro equipo de expertos. "
-msgstr "to be analyzed by our team of experts. "
+msgstr "that will be analyzed by our team of experts. "
 
 #: apps/templates/home/index.html:229
 msgid "Tan sólo tienes que iniciar sesión."
@@ -1684,7 +1780,7 @@ msgstr "Edit"
 #: apps/templates/home/models-administration.html:72
 #: apps/templates/home/models-administration.html:204
 msgid "Eliminar"
-msgstr "Eliminate"
+msgstr "Delete"
 
 #: apps/templates/home/instances-administration.html:204
 #: apps/templates/home/instances-administration.html:211
@@ -1881,11 +1977,11 @@ msgstr "You can customize the percentage of"
 
 #: apps/templates/home/new-model.html:244
 msgid "instancias que se utilizarán para el"
-msgstr "instances that will be used for the"
+msgstr "instances that will be used during"
 
 #: apps/templates/home/new-model.html:245
 msgid "entrenamiento (las que sobren se utilizarán para test)."
-msgstr "training (those that are left over will be used for testing)."
+msgstr "training (those that are left over will be used for test)."
 
 #: apps/templates/home/new-model.html:248
 msgid "PORCENTAJE DE INSTANCIAS PARA ENTRENAMIENTO"
