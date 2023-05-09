@@ -184,7 +184,6 @@ def extract_fv():
             return trigger_mock_dashboard(models_ids, quick_analysis)
 
         callable_url = get_callable_url(url)
-        logger.info(f"Callable URL: {callable_url}")
 
         if callable_url is None:
             previous_instance = Available_instances.query.filter_by(
