@@ -8,7 +8,7 @@ La especificación de diseño es una descripción detallada de la estructura, el
 \label{s:diseno-datos}
 A continuación se expone el procedimiento seguido para desarrollar el diseño de datos de la aplicación.
 
-Para implementar la persistencia, se ha decidido utilizar una base de datos PostgreSQL (debido a la compatibilidad con Heroku y a su caracter \textit{open-source}). El diseño de la misma ha pasado por diversas fases: el diseño del modelo entidad-relación (disponible en la subsección~\ref{c:diagrama_entidad_relacion}), el diseño del diagrama relacional (subsección~\ref{c:diagrama_relacional}) y, por último, el diccionario de datos (subsección~\ref{c:diccionario_datos}).
+Para implementar la persistencia, se ha decidido utilizar una base de datos PostgreSQL (debido a la compatibilidad con Heroku y a su carácter \textit{open-source}). El diseño de la misma ha pasado por diversas fases: el diseño del modelo entidad-relación (disponible en la subsección~\ref{c:diagrama_entidad_relacion}), el diseño del diagrama relacional (subsección~\ref{c:diagrama_relacional}) y, por último, el diccionario de datos (subsección~\ref{c:diccionario_datos}).
 
 
 \subsection{Modelo entidad-relación}
@@ -296,7 +296,7 @@ Con el fin de facilitar la comprensión de ciertos métodos, se muestran a conti
 	
 	Posteriormente se extrae el conjunto de \textit{test}. Si el usuario desea que se excluyan aquellas instancias vistas por el modelo durante el entrenamiento, la aplicación lo hará gracias a la tabla~\ref{datadic:modeltrainedwith} (\texttt{Model\_is\_trained \_with}). Por último, si el usuario lo desea, también se actualizarán las \textit{scores} del modelo y se mostrarán los resultados en una gráfica interactiva.
 	
-	\textbf{Importante}: En este diagrama es destacable la diferencia entre el objeto \texttt{cls} y el objeto \texttt{model}. Mientras que uno es un objeto de Python (con sus métodos \texttt{fit} y \texttt{predict}), el otro es su equivalente en el modelo de datos. Es decir, el objeto que transporta los datos correspondientes al clasificador almacenados en la base de datos.
+	\textbf{Importante}: En este diagrama es reseñable la diferencia entre el objeto \texttt{cls} y el objeto \texttt{model}. Mientras que uno es un objeto de Python (con sus métodos \texttt{fit} y \texttt{predict}), el otro es su equivalente en el modelo de datos. Es decir, el objeto que transporta los datos correspondientes al clasificador almacenados en la base de datos.
 			
 	\item \textbf{Aceptar sugerencia}: en el diagrama~\ref{c:diagrama-seq-accept-review} se muestra la comunicación que tiene lugar cuando un administrador acepta una sugerencia.
 	
@@ -375,7 +375,7 @@ En el diagrama~\ref{c:classes-ssl} se muestra cómo se han implementado los algo
 
 Por último, en el diagrama~\ref{c:classes-fvg} se muestra cómo se ha implementado la extracción de vectores de características. Como se puede observar, hay una clase principal para cada URL analizable que se sirve de un nuevo archivo de utilidades. Este archivo se ha extraído debido a que las funciones que contiene (se muestran algunos ejemplos) son muy generales, por lo que se podrían reutilizar en otros contextos. Nuevamente, no se trata de una clase.
 
-Por otro lado, se ha creado una clase que simula un usuario que navega en \textit{internet} y almacena campos que pueden ser utilizados junto con la librería \texttt{request} para <<engañar>> las \textit{webs} que se están analizando. Por ejemplo, muchas de ellas son escépticas si les llega una petición sin un \texttt{user-agent} en el encabezado. Para facilitar la limpieza del código, se accede a este tipo de campos a través de la clase \texttt{UserBrowsing}.
+Por otro lado, se ha creado una clase que simula un usuario que navega en \textit{Internet} y almacena campos que pueden ser utilizados junto con la librería \texttt{request} para <<engañar>> las \textit{webs} que se están analizando. Por ejemplo, muchas de ellas son escépticas si les llega una petición sin un \texttt{user-agent} en el encabezado. Para facilitar la limpieza del código, se accede a este tipo de campos a través de la clase \texttt{UserBrowsing}.
 
 Esta, además, está relacionada con la clase \texttt{ProxyTor}, ya que puede ser utilizado (o no) en las peticiones (generalmente se incluye como un parámetro (diccionario) en la petición y se levanta con el \textit{script} auxiliar \texttt{proxies\_launcher.py}). Por cuestiones de seguridad, esta opción es especialmente interesante cuando se genera un \textit{dataset} de \textit{phishing}.
 

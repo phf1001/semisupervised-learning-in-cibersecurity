@@ -1,6 +1,6 @@
 \capitulo{3}{Conceptos teóricos}
 
-Se sintetizarán a continuación algunos de los conceptos teóricos más relevantes para la correcta comprensión del documento.
+Se sintetizarán a continuación algunos de los conceptos teóricos más relevantes para la correcta comprensión del trabajo realizado.
 
 \section{Apendizaje automático}
 
@@ -46,7 +46,7 @@ Inicialmente, se pueden diferenciar dos categorías~\cite{engelen2020surveyOnSem
 
 
 \begin{figure}[h]
-\caption[Taxonomía de métodos de aprendizaje semisupervisado]{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de \textit{A survey on semi-supervised learning}~\cite{engelen2020surveyOnSemiSupervised}.}
+\caption[Taxonomía de métodos de aprendizaje semisupervisado]{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de <<\textit{A survey on semi-supervised learning}>>~\cite{engelen2020surveyOnSemiSupervised}.}
 \centering
 \includegraphics[width=\textwidth]{../img/memoria/3_hoos_taxonomy.pdf}
 \end{figure}
@@ -105,7 +105,7 @@ El \textit{bagging} es muy útil cuando se dispone poca cantidad de datos, y la 
 Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{random forest}}, uno de los métodos de \textit{bagging} más populares que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando el \textit{ensemble} devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 
 \begin{figure}[h]
-	\caption[Entrenamiento \textit{bagging} y \textit{boosting}]{Diferencias entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
+	\caption[Entrenamiento \textit{bagging} y \textit{boosting}]{Diferencias esquemáticas entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
 	\label{img:bagging}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting.pdf}
@@ -134,9 +134,13 @@ Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se pue
 
 
 
-\section{Métricas de evaluación}
+\section{Métricas y técnicas de evaluación}
 
-En este trabajo de investigación se van a realizar continuamente comparaciones entre modelos de clasificación. Para ello, es necesario definir unas métricas. Estas se basan en conceptos que se exponen a continuación~\cite{apuntesSisint}:
+En este trabajo de investigación se van a realizar continuamente comparaciones entre modelos de clasificación. Con el fin de hacerlo correctamente, es necesario definir unas métricas y técnicas de evaluación. 
+
+\subsection{Métricas de evaluación}
+
+Estas se basan en conceptos que se exponen a continuación~\cite{apuntesSisint}:
 
 \begin{itemize}
 	\item \textbf{Verdadero positivo o \textit{True positive}}: se obtiene cuando un clasificador acierta en su predicción y esta es la clase de interés. Generalmente es la clase <<positiva>> y, en el caso de la aplicación en la detección de ataques a sistemas de recomendación, la <<minoritaria>>.
@@ -179,15 +183,15 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	
 	\begin{equation}\label{eqn:f-measure} \textrm{F-Measure} = 2 \times \frac{precision \times recall}{precision + recall} = \frac{ 2 \times TP}{2 \times TP + FP + FN} \end{equation}
 	
-	\item \textbf{Curva ROC (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
-	
 	\begin{figure}[h]
 		\caption[Curva ROC]{Calidad del clasificador en función de su curva ROC. Extraída de \url{https://ca.wikipedia.org/wiki/Fitxer:Roc_curve.svg}}
 		\label{img:curva_roc}
 		\centering
 		\includegraphics[scale=0.2]{../img/memoria/3_curva_roc}
-	\end{figure}
-
+	\end{figure}	
+	
+	\item \textbf{Curva ROC (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
+	
 	\item \textbf{Curva PR (\textit{precision-recall curve)}}:  Representación gráfica de la precisión frente al \textit{recall}. Cuando se presenta un \textit{class imbalance problem} con muy pocas clases positivas, es adecuado utilizar una curva de estas características debido a que la \textit{precision} y el \textit{recall} permiten evaluar la actuación del clasificador en la clase minoritaria~\cite{imbalanced2013Haibo}.
 	
 	\item \textbf{AUC (\textit{area under curve})}: Número decimal que representa el área bajo una determinada curva. Cuando una curva es perfecta (ya sea ROC o PR), su área es $1$.
@@ -200,6 +204,27 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	\end{figure}
 	
 \end{itemize}
+
+\subsection{Técnicas de evaluación}
+
+
+La validación cruzada es una técnica utilizada para evaluar los resultados de un modelo y garantizar que son independientes de la partición concreta de los datos de entrenamiento y prueba. Se utiliza en entornos donde el objetivo principal es la predicción y se quiere estimar la precisión real de un clasificador. 
+
+Aunque hay varias formas de realizar esta ténica, la principal (y la utilizada en este proyecto) es la validación cruzada de $K$ iteraciones (\textit{K-fold cross-validation}).
+
+En este proceso los datos de muestra se dividen en $K$ subconjuntos. Uno de los subconjuntos se utiliza como conjunto de \textit{test} y el resto ($K$-1) como conjunto de entrenamiento. Este proceso se repite $k$ veces, utilizando un subconjunto de prueba distinto cada vez~\cite{validacionCruzada}.
+
+Los resultados finales son la media aritmética de los obtenidos en cada iteración. De esta forma, se garantiza que los resultados obtenidos no son producto de una partición concreta de los datos.
+
+La principal desventaja es que requiere un mayor uso de recursos computacionales, y aunque se puede asignar un entero cualquiera al parámetro $k$, lo más común es establecer $k$ = 10 (10-\textit{fold cross-validation}).
+
+\begin{figure}[h]
+	\caption[Validación cruzada]{Proceso de validación cruzada. Extraída de \url{https://es.wikipedia.org/wiki/Validacion_cruzada}}
+	\label{img:val_cruz}
+	\centering
+	\includegraphics[scale=0.3]{../img/memoria/3_kcross_validation}
+\end{figure}
+
 
 \section{\textit{Co-forest}}
 
@@ -231,7 +256,7 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 	\item $L$: conjunto de datos etiquetados utilizados durante el entrenamiento.
 	\item $L_{i}$: subconjunto obtenido tras aplicar \textit{bootstrapping} a $L$ que se utiliza para entrenar el árbol $h_{i}$.
 	\item $U$: conjunto de datos no etiquetados utilizados durante el entrenamiento.
-	\item $U'_{i,t}$: subconjunto aleatorio de U cuya $W$ es menor que $W_max$ (consultar ecuación~\ref{eqn:Wmax}).
+	\item $U'_{i,t}$: subconjunto aleatorio de U cuya $W$ es menor que $W_{max}$ (consultar ecuación~\ref{eqn:Wmax}).
 	\item $L'_{i,t}$: subconjunto formado por aquellas muestras de $U'_{i,t}$ cuya confianza de predicción es superior a $\theta$.
 	\item $\theta$: nivel de confianza mínimo que tiene que tener el clasificador al predecir la etiqueta de una muestra de $U$ para ser utilizada durante el entrenamiento de un árbol.
 	\item $\hat{e}_{i,t}$: OOBE cometido por $H_{i}$ en $L$ en el instante de tiempo $t$.
@@ -268,9 +293,9 @@ Se facilita a continuación (pseudocódigo~\ref{alg:co-forest}) la versión del 
 			
 			\ForEach{$x_j \in U'_{i,t}$}{
 				
-				\If{Confianza($H_i, x_j$) > $\theta$}{
+				\If{\text{Confianza}($H_i, x_j$) > $\theta$}{
 					$L'_{i,t} \leftarrow L'_{i,t} \cup {x_j, H_i(x_j)}$\\
-					$W_{i,t} \leftarrow W_{i,t} + Confianza(H_i, x_j)$
+					$W_{i,t} \leftarrow W_{i,t} + \text{Confianza}(H_i, x_j)$
 				}
 			}
 		}
@@ -329,7 +354,7 @@ Intuitivamente se puede deducir la ecuación~\ref{eqn:relacion_e_W}, ya que el e
 
 \subsubsection{Decisiones de implementación}
 
-Además de los aspectos expuestos en el apartado anterior, hay dos decisiones adicionales que se han tomado en la implementación por no estar contempladas en el algoritmo original.
+Además de los aspectos expuestos en el apartado anterior, hay dos decisiones adicionales que se han tomado en la implementación por no estar contempladas en el pseudocódigo original.
 
 En primer lugar, el valor de $W_{max}$ cuando $\hat{e}_{i, t}$  es $0$. Como se puede comprobar en la fórmula~\ref{eqn:Wmax}, al estar en el denominador, se produce una indeterminación. Si el valor se sustituye por un número muy cercano a 0, $W_{max}$ tiende a infinito, provocando una submuestra de $U$ ilimitada. Como la función de $W_{max}$ es determinar el tamaño de la submuestra, y en este caso el error del conjunto concomitante es nulo, se ha decidido mantenerlo alto pero limitar a $\theta\times|U|$.
 
@@ -367,7 +392,7 @@ Para facilitar la comprensión del pseudocódigo, se definen a continuación alg
 \end{itemize} 
 
 \subsubsection{Pseudocódigo}
-Se facilita a continuación (pseudocódigo~\ref{alg:tri-training}) el pseudocódigo original~\cite{tritraining2005@original} del \textit{tri-training}.
+Se facilita a continuación (pseudocódigo~\ref{alg:tri-training}) el pseudocódigo original~\cite{tritraining2005@original} del algoritmo \textit{tri-training}.
 
 \begin{algorithm}
 	
@@ -405,7 +430,7 @@ Se facilita a continuación (pseudocódigo~\ref{alg:tri-training}) el pseudocód
 					}
 					\ElseIf{ $l'_i > \frac{e_i}{e'_i - e_i}$} {
 						$|L_i| \leftarrow Submuestrear(L_i, \lceil \frac{e'_i \times l'_i}{e_i} - 1\rceil)$\\
-						$actualizar_i \leftarrow$ True\\
+						$actualizar_i \leftarrow$ Verdadero\\
 					}
 				}
 			}
@@ -448,7 +473,7 @@ Como se muestra en la función de utilidad de la ecuación~\ref{eqn:operar_rel_c
 
 El \textit{democratic-co learning} es un método de aprendizaje semisupervisado que sólo necesita una vista de los datos para entrenarse y, además, es aplicable cuando se tiene un pequeño conjunto de datos etiquetados~\cite{democraticCoLearning2004original}.
 
-Como estimadores base se utiliza un conjunto de algoritmos de aprendizaje que se utiliza para entrenar un conjunto de clasificadores. Teóricamente este conjunto puede tener un tamaño arbitrario ($n$), aunque en aplicaciones reales, $n$ equivale a $3$.
+Como estimadores base se utiliza un conjunto de algoritmos de aprendizaje que se emplea para entrenar un conjunto de clasificadores. Teóricamente este conjunto puede tener un tamaño arbitrario ($n$), aunque en el artículo oríginal se utilizó $n$ = 3 durante la experimentación.
 
 Además, en la fase de predicción, el método cuenta con un algoritmo de combinación de etiquetas basado en el <<peso>> (como sinónimo de confianza) que tiene cada clasificador~\cite{democraticCoLearning2004original}.
 
@@ -456,7 +481,7 @@ Además, en la fase de predicción, el método cuenta con un algoritmo de combin
 
 \subsubsection{Variables utilizadas}
 
-Se definen a continuación algunas de las variables utilizadas en el pseudocódigo facilitado por~\cite{democraticCoLearning2004original}:
+Se definen a continuación algunas de las variables utilizadas en el pseudocódigo facilitado en~\cite{democraticCoLearning2004original}:
 
 \begin{itemize}
 	\item $A_{i}$: algoritmo de aprendizaje i-ésimo original (antes de ser entrenado).
@@ -496,7 +521,7 @@ Se facilita a continuación (pseudocódigo~\ref{alg:democratic-co}) el pseudocó
 		\For{$x \in U$}{
 			\For{posible etiqueta $j = 1, ..., r$} {
 				$c_j = |\{H_i | H_i(x) = j\}|$ }
-			$k$ = arg max$_j\{c_j\}$
+			$k$ = argmax$_j\{c_j\}$
 		}
 	
 		\# Se escogen las muestras a proponer para etiquetar\\
@@ -576,14 +601,14 @@ Debido a que este ajuste puede no resultar efectivo cuando los valores de confia
 Aunque es probable que el lector se sienta atraído por los algoritmos mostrados en secciones anteriores, se calcula que aproximadamente un 80\%~\cite{apuntesMineria} del esfuerzo en un proceso de minería de datos se destina a fases previas a la aplicación de los algoritmos. Por ello, se muestra a continuación el ciclo de vida del proceso (ilustrado en la imagen~\ref{img:proceso_mineria}), donde se pueden diferenciar distintas fases~\cite{apuntesSisint}:
 
 \begin{enumerate}
-	\item \textbf{Definición y comprensión del problema}: como se puede deducir, para que un modelo pueda llegar a ser útil, se han de definir bien las instancias. Es decir, la calidad de la solución depende de lo bien que pueda el analista (o ingeniero de datos) definir y modelar el problema. Por ello, es fundamental que la mayor parte del esfuerzo se dedique a conseguir un \textit{dataset} apropiado y de calidad. Para ello, el primer paso, es comprender qué se quiere conseguir aplicando la minería y cuáles son los objetivos a conseguir.
+	\item \textbf{Definición y comprensión del problema}: como se puede deducir, para que un modelo pueda llegar a ser útil, se han de definir bien las instancias. Es decir, la calidad de la solución depende de lo bien que pueda el analista (o ingeniero de datos) definir y modelar el problema. Por ello, es fundamental que la mayor parte del esfuerzo se dedique a conseguir un \textit{dataset} apropiado y de calidad. Para ello, el primer paso, es comprender qué se quiere conseguir aplicando la minería y cuáles son los objetivos a perseguir.
 	
 	\item \textbf{Adquisición de los datos}: el siguiente paso consiste en obtener los datos del problema que se quiere resolver. Para ello, se han de identificar las fuentes necesarias, recolectar e integrar los datos (incluso si este proceso requiere conversión y alineación). El resultado es un \textit{dataset} coherente, aunque no listo para ser introducido en un algoritmo.
 	
 	\item \textbf{Preparación de los datos}: se distinguen dos fases: la exploración y el preprocesado de los datos. El objetivo de la exploración es entender y definir los datos. Es decir, encontrar posibles correlaciones, tendencias o valores atípicos (\textit{outliers}) con el fin de facilitar las fases posteriores. Por otro lado, el preprocesado busca preparar los datos para poder ser analizados. Para ello se ha de limpiar las instancias (eliminar duplicados, inconsistencias, valores perdidos, ruido, etc.), transformarlas (escalar rangos, reducir dimensiones o realizar filtrados) y, optativamente, seleccionar los atributos (o las instancias) que resulten relevantes para resolver el problema.
 	
-	\item \textbf{Análisis de los datos}: en este apartado se seleccionan los algoritmos de ML apropiados para los datos (se recuerda que no existe ningún algoritmo que funcione siempre mejor que otros sino que cada problema tiene uno mejor adecuado), se construye el modelo, se entrena con los datos preparados y se evalúa el desempeño.
-	\item \textbf{Informe}: en esta fase se comunican los resultados utilizando gráficos.
+	\item \textbf{Análisis de los datos}: en este apartado se seleccionan los algoritmos de \textit{machine learning} (ML) apropiados para los datos (se recuerda que no existe ningún algoritmo que funcione siempre mejor que otros sino que cada problema tiene uno mejor adecuado), se construye el modelo, se entrena con los datos preparados y se evalúa el desempeño.
+	\item \textbf{Informe}: en esta fase se comunican los resultados utilizando gráficos, informes y todo tipo de herramientas que faciliten la comprensión del conocimiento expuesto.
 	\item \textbf{Actuación}: el último paso consiste en la toma de decisiones basadas en los informes generados. Es importante destacar que el impacto de las acciones tomadas ha de ser evaluado.
 \end{enumerate}
 
@@ -666,13 +691,13 @@ La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, ca
 
 Cada vez que se visita una \textit{web}, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
 
-Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado (por ejemplo: \url{www[.]atacante[.]com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
+Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado (por ejemplo: \texttt{www[.]atacante[.]com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
 
 \begin{itemize}
 	\item \textbf{SQL Injection (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
 	
 \begin{figure}[h]
-	\caption[Ataques \textit{web}: SQLi]{Infografía de un ataque SQLi.}
+	\caption[Ataques \textit{web}: SQLi]{Infografía de un ataque SQL Injection.}
 	\label{img:sqli}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_sqli.pdf}

@@ -1,6 +1,6 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 
-Este proyecto de investigación pretende abarcar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad. Por ello, en este apartado se pueden encontrar diversos puntos importantes.
+Este capítulo de la memoria pretende resumir y resaltar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad. Por ello, en este apartado se pueden encontrar diversos puntos importantes.
 
 En la primera subsección~\ref{sec:5_ssl} se desarrollará cómo se han validado los algoritmos de aprendizaje implementados. Para ello, se definirá qué experimentos se han realizado, se reportarán los resultados obtenidos y se realizarán comparativas contra otras implementaciones.
 
@@ -197,7 +197,7 @@ Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keel
 
 \subsection{Tri-Training}
 
-Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra sslearn y LAMDA para probar la implementación.
+Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra sslearn\footnote{ Disponible en {\url{https://github.com/jlgarridol/sslearn}}} y LAMDA\footnote{Disponible en {\url{https://github.com/YGZWQZD/LAMDA-SSL}}} para validar la implementación.
 
 
 \subsubsection{Experimentación con el algoritmo}
@@ -309,7 +309,7 @@ El objetivo de este apartado en el proyecto es probar nuevos métodos de aprendi
 
 \subsection{MovieLens 10M}
 
-MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{https://movielens.org/}.
+MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{ Disponible en {\url{https://movielens.org/}}}.
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
 
@@ -358,7 +358,7 @@ En primer lugar, se han seleccionado 1\,000 perfiles aleatorios verdaderos y se 
 			Genuino &1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
 			\textit{Random attack} &-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
 			\textit{Average attack} &-	& \hfil 10 & \hfil 10 & \hfil 10 & \hfil 10 \\
-			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 \\
+			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 
 			\\ \bottomrule
 		\end{tabular}
 	\end{centering}
@@ -405,7 +405,7 @@ Puede parecer que los resultados son muy satisfactorios debido a que, en situaci
 
 Sin embargo, una de las fases del ciclo de vida del ML es el preanálisis de datos. Si se observa con detenimiento el \textit{dataset}, se puede comprobar que la media del \textit{filler size} de los usuarios genuinos es aproximadamente de un 1.34$\%$ y que únicamente un 10$\%$ de los usuarios tiene un \textit{filler size} superior al 3$\%$. Por ello y teniendo en cuenta que para cada conjunto (ya sea de entrenamiento o de \textit{test}) se selecciona aleatoriamente un 1.45\% del total los usuarios genuinos, es muy probable que esté formado por perfiles con un \textit{filler size} inferior al 3$\%$. Por lo tanto, la única <<columna>> verdaderamente significativa es la primera, y como se puede comprobar los resultados no son buenos. En otras palabras, es muy probable que el \textit{recall} sea tan bueno en la mayoría de los casos porque los perfiles inyectados tienen un número de valoraciones muy superior a los perfiles genuinos, no porque el método de extracción sea relevante y significativo.
 
-Adicionalmente, se piensa que el método de extracción de vectores de características no es muy adecuado. El hecho de que se aplique directamente en bases de datos sin ningún tipo de ordenación implica que tiene que existir alguna relación subyacente en el orden <<por defecto>> de los datos y el comportamiento de los usuarios, lo que es una suposición que no puede extrapolarse a todos los conjuntos de datos. Si la base de datos estuviese, por ejemplo, ordenada por popularidad, sería natural que los usuarios votasen más en las primeras ventanas. Si estuviese ordenada por fechas, podría existir una relación entre la edad del usuario y las ventanas en las que vota (películas de su <<época>>). Sin embargo, al no existir ningún tipo de orden, es una hipótesis demasiado general para ser asumida. Por ello, se ha decidido cerrar esta línea de investigación.
+Adicionalmente, se piensa que el método de extracción de vectores de características no es muy adecuado. El hecho de que se aplique directamente en bases de datos sin ningún tipo de ordenación implica que tiene que existir alguna relación subyacente en el orden <<por defecto>> de los datos y el comportamiento de los usuarios, lo que es una suposición que no puede extrapolarse a todos los conjuntos de datos. Si la base de datos estuviese, por ejemplo, ordenada por popularidad, sería natural que los usuarios votasen más en las primeras ventanas. Si estuviese ordenada por fechas, podría existir una relación entre la edad del usuario y las ventanas en las que vota (películas de su <<época>>). Sin embargo, al no existir ningún tipo de orden, es una hipótesis demasiado general para ser asumida. Por ello, se decidió cerrar esta línea de investigación.
 
 
 \section{Detección de \textit{phishing}}
