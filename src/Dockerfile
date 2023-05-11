@@ -17,6 +17,3 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY .. /usr/src/semisupervised-learning-in-cibersecurity
-
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/semisupervised-learning-in-cibersecurity/src/krini_web/entrypoint.sh"]
