@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./src
+    command: bash -c "pwd && ls -l && cd ./src/krini_web && flask run --host=0.0.0.0 --port=5000"
+    volumes:
+      - ./src:/usr/src/semisupervised-learning-in-cibersecurity/src
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env.dev
