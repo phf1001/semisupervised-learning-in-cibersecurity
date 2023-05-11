@@ -9,6 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install dependencies
+RUN apt-get update && apt-get install -y netcat
 RUN pip install --upgrade pip
 RUN pwd
 COPY requirements.txt /usr/src/semisupervised-learning-in-cibersecurity/requirements.txt
@@ -16,3 +17,6 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY .. /usr/src/semisupervised-learning-in-cibersecurity
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/semisupervised-learning-in-cibersecurity/src/krini_web/entrypoint.sh"]

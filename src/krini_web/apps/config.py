@@ -75,14 +75,18 @@ class DebugConfig(Config):
     """
 
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
-        config("DB_ENGINE", default="postgresql"),
-        config("DB_USERNAME", default="dev"),
-        config("DB_PASS", default="123"),
-        config("DB_HOST", default="localhost"),
-        config("DB_PORT", default=5432),
-        config("DB_NAME", default="krini"),
-    )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", None)
+
+    if SQLALCHEMY_DATABASE_URI is None:
+        SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
+            config("DB_ENGINE", default="postgresql"),
+            config("DB_USERNAME", default="dev"),
+            config("DB_PASS", default="123"),
+            config("DB_HOST", default="localhost"),
+            config("DB_PORT", default=5432),
+            config("DB_NAME", default="krini"),
+        )
 
 
 # Load all possible configurations
