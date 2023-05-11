@@ -209,6 +209,7 @@ class PhishingFVG:
         F7 = 1, if brand in incorrect position (subdomains).
         F7 = 0, otherwise
         """
+        remove_word = True
         targets = get_phishing_targets_set()
 
         lower_url = self.url.lower()
@@ -230,8 +231,12 @@ class PhishingFVG:
 
         if without_tld.count(".") > 0:
             sub_domains = without_tld[: without_tld.rindex(".")]
+
+        elif without_tld.count("-") > 0:
+            sub_domains = without_tld
+            remove_word = False
         else:
-            sub_domains = ""  # without_tld
+            sub_domains = ""
 
         for word in get_splitted_url(path + sub_domains):
             leet_translation = translate_leet_to_letters(
@@ -239,7 +244,7 @@ class PhishingFVG:
             )  # Decisión propia
 
             # If the original one does not have numbers it is removed
-            if not re.search(r"\d", word):
+            if not re.search(r"\d", word) and remove_word:
                 leet_translation -= {word}
 
             for fake in leet_translation:
