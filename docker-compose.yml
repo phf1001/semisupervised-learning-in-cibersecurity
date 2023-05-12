@@ -21,4 +21,4 @@ services:
       - ./.env.prod.db
 
 volumes:
-  postgres_data:
+  data:
