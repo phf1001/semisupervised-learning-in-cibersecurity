@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import hashlib
 import binascii
+import time
 
 
 def hash_pass(password):
@@ -21,39 +22,6 @@ def hash_pass(password):
     )
     pwdhash = binascii.hexlify(pwdhash)
     return salt + pwdhash
-
-
-def insert_users(connection):
-    """
-    Insert a dummy admin into the database.
-
-    Args:
-        connection (psycopg2.connection): database connection
-    """
-    try:
-        cursor = connection.cursor()
-        postgres_insert_query = """ INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol) VALUES (%s,%s,%s,%s,%s,%s)"""
-
-        records_to_insert = [
-            (
-                "admin",
-                "admin@admin.es",
-                hash_pass("admin"),
-                "Admin",
-                "Admin",
-                "admin",
-            )
-        ]
-
-        for record_to_insert in records_to_insert:
-            cursor.execute(postgres_insert_query, record_to_insert)
-
-        connection.commit()
-        cursor.close()
-
-    except (Exception, psycopg2.Error):
-        connection.rollback()
-        print("Error while inserting data to table Users")
 
 
 def last_insert_id(connection, table_name, pk_name):
@@ -81,11 +49,52 @@ def last_insert_id(connection, table_name, pk_name):
 
     except (Exception, psycopg2.Error):
         connection.rollback()
-        print(
+        raise Exception(
             "Error while getting last id from table {table_name}".format(
                 table_name=table_name
             )
         )
+
+
+def insert_users(connection):
+    """
+    Insert a dummy admin into the database.
+
+    Args:
+        connection (psycopg2.connection): database connection
+    """
+    try:
+        cursor = connection.cursor()
+        postgres_insert_query = """ INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol) VALUES (%s,%s,%s,%s,%s,%s)"""
+
+        records_to_insert = [
+            (
+                "admin",
+                "admin@admin.es",
+                hash_pass("admin"),
+                "Admin",
+                "Admin",
+                "admin",
+            ),
+            (
+                "user",
+                "user@user.es",
+                hash_pass("user"),
+                "User",
+                "User",
+                "standard",
+            ),
+        ]
+
+        for record_to_insert in records_to_insert:
+            cursor.execute(postgres_insert_query, record_to_insert)
+
+        connection.commit()
+        cursor.close()
+
+    except (Exception, psycopg2.Error):
+        connection.rollback()
+        print("Error while inserting data to table Users")
 
 
 def insert_models(connection):
@@ -210,25 +219,42 @@ def insert_instances(connection):
 
 if __name__ == "__main__":
     """Entry point for the script."""
-    try:
-        connection = psycopg2.connect(
-            user="dev",
-            password="123",
-            host="0.0.0.0",
-            port="5432",
-            database="krini",
-        )
 
-        insert_users(connection)
-        insert_models(connection)
-        insert_instances(connection)
+    tries = 0
 
-    except (Exception, psycopg2.Error) as e:
-        print(str(e))
-        print("Error while connecting to PostgreSQL")
-        connection.rollback()
+    while tries < 5:
+        try:
+            connection = None
+            connection = psycopg2.connect(
+                user="dev",
+                password="123",
+                host="db",
+                port="5432",
+                database="krini",
+            )
 
-    finally:
-        if connection:
-            connection.close()
-            print("PostgreSQL connection is closed")
+            if last_insert_id(connection, "Users", "id") in [0, 1]:
+                insert_users(connection)
+
+            if last_insert_id(connection, "Available_models", "model_id") in [
+                0,
+                1,
+            ]:
+                insert_models(connection)
+
+            if last_insert_id(
+                connection, "Available_instances", "instance_id"
+            ) in [0, 1]:
+                insert_instances(connection)
+            break
+
+        except (Exception, psycopg2.Error) as e:
+            print(str(e))
+            tries += 1
+            time.sleep(5)
+            if connection:
+                connection.rollback()
+
+    if connection:
+        connection.close()
+        print("PostgreSQL connection is closed")

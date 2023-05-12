@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   web:
-    image: phf1001/krini:web-v1
-    command: bash -c "cd krini_web && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
+    image: phf1001/krini:web-v4
+    command: bash -c "cd krini_web/mock_data && python3 fill_database.py && cd .. && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
     ports:
       - 5000:5000
     environment:
@@ -17,7 +17,7 @@ services:
       - db
 
   db:
-    image: phf1001/krini:db-v1
+    image: phf1001/krini:db-v4
     ports:
       - 5432:5432
     volumes:

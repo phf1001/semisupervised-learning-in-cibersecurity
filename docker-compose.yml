@@ -1,9 +1,10 @@
 version: '3.8'
 
 services:
+
   web:
     build: ./src
-    command: bash -c "cd krini_web && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
+    command: bash -c "cd krini_web/mock_data && python3 fill_database.py && cd .. && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
     ports:
       - 5000:5000
     env_file:
@@ -13,12 +14,11 @@ services:
 
   db:
     image: postgres
-    ports:
-      - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
+    restart: always
 
 volumes:
   data:

@@ -16,3 +16,4 @@ src/models/notebooks/wine
 */__pycache__/
 .pytest_cache/
 .coverage
+data
