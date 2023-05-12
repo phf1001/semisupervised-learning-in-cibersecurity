@@ -18,6 +18,8 @@ services:
 
   db:
     image: phf1001/krini:db-v1
+    ports:
+      - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data/
     environment:
