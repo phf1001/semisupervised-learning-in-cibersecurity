@@ -111,8 +111,8 @@ def insert_models(connection):
         records_to_insert = [
             (
                 1,
-                "co-forest 100.1.2",
-                "co-forest_100-1-2.pkl",
+                "co-forest 1",
+                "co-forest_1.pkl",
                 "2020-01-01",
                 False,
                 True,

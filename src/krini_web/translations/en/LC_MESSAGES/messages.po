@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-09 15:32+0200\n"
+"POT-Creation-Date: 2023-05-13 14:02+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -28,7 +28,9 @@ msgstr "You are already logged in. Sign out to create a new account."
 
 #: apps/messages.py:29
 msgid "Actualmente la URL no es llamable desde esta aplicación, pero se ha "
-msgstr "The URL cannot be called from the application right now, but the feature vector"
+msgstr ""
+"The URL cannot be called from the application right now, but the feature "
+"vector"
 
 #: apps/messages.py:31
 msgid "recuperado el vector de características almacenado en la base de datos."
@@ -175,14 +177,13 @@ msgid "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
 msgstr "We're sorry! Models 1, 2 and 3 are protected. Still, "
 
 #: apps/messages.py:152
-msgid "conexión con la base de datos es correcta y se muestra el mensaje de "
+msgid "conexión con la base de datos es correcta y se muestra el mensaje "
 msgstr ""
-"the connection to the database is successful and the 'deleted "
-"successfully' "
+"the connection to the database is successful and the operation message "
 
 #: apps/messages.py:155
-msgid "'eliminado correctamente' para que sepas que el método funciona."
-msgstr "error message is displayed so you know the method works."
+msgid "correspondiente a la operación para que sepas que el método funciona."
+msgstr "is displayed so you know the method works."
 
 #: apps/messages.py:161
 msgid "¡Lo sentimos! No puedes acceder directamente a esta página."

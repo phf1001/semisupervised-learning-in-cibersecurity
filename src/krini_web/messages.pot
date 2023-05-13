@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-09 15:32+0200\n"
+"POT-Creation-Date: 2023-05-13 14:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,11 +174,11 @@ msgid "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
 msgstr ""
 
 #: apps/messages.py:152
-msgid "conexión con la base de datos es correcta y se muestra el mensaje de "
+msgid "conexión con la base de datos es correcta y se muestra el mensaje "
 msgstr ""
 
 #: apps/messages.py:155
-msgid "'eliminado correctamente' para que sepas que el método funciona."
+msgid "correspondiente a la operación para que sepas que el método funciona."
 msgstr ""
 
 #: apps/messages.py:161
