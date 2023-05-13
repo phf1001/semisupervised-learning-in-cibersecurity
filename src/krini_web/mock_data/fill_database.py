@@ -4,6 +4,7 @@ import os
 import hashlib
 import binascii
 import time
+from datetime import datetime
 
 
 def hash_pass(password):
@@ -37,23 +38,15 @@ def last_insert_id(connection, table_name, pk_name):
     """
     try:
         cursor = connection.cursor()
-        sequence = "{table_name}_{pk_name}_seq".format(
-            table_name=table_name, pk_name=pk_name
-        )
-        cursor.execute(
-            'SELECT last_value from "{sequence}"'.format(sequence=sequence)
-        )
+        sequence = f"{table_name}_{pk_name}_seq"
+        cursor.execute(f'SELECT last_value from "{sequence}"')  # SQLi safe
         last_id = cursor.fetchone()[0]
         cursor.close()
         return last_id
 
     except (Exception, psycopg2.Error):
         connection.rollback()
-        raise Exception(
-            "Error while getting last id from table {table_name}".format(
-                table_name=table_name
-            )
-        )
+        raise Exception(f"Error while getting last id from table {table_name}")
 
 
 def insert_users(connection):
@@ -65,7 +58,11 @@ def insert_users(connection):
     """
     try:
         cursor = connection.cursor()
-        postgres_insert_query = """ INSERT INTO "Users" (username, email, password, user_first_name, user_last_name, user_rol) VALUES (%s,%s,%s,%s,%s,%s)"""
+        postgres_insert_query = """ 
+        INSERT INTO "Users" 
+            (username, email, password, user_first_name, user_last_name, user_rol) 
+        VALUES (%s,%s,%s,%s,%s,%s)
+        """
 
         records_to_insert = [
             (
@@ -106,7 +103,10 @@ def insert_models(connection):
     """
     try:
         cursor = connection.cursor()
-        postgres_insert_query = """INSERT INTO "Available_models" (created_by, model_name, file_name, creation_date, is_default, is_visible, model_scores, random_state, model_notes, model_algorithm) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        postgres_insert_query = """INSERT INTO "Available_models" 
+                (created_by, model_name, file_name, creation_date, is_default, 
+                is_visible, model_scores, random_state, model_notes, model_algorithm) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
 
         records_to_insert = [
             (
@@ -154,15 +154,21 @@ def insert_models(connection):
         last_id = last_insert_id(connection, "Available_models", "model_id")
 
         cursor = connection.cursor()
-        postgres_insert_query = """INSERT INTO "Available_co_forests" (model_id, n_trees, thetha, max_features) VALUES (%s, %s, %s, %s);"""
+        postgres_insert_query = """INSERT INTO "Available_co_forests" 
+                                    (model_id, n_trees, thetha, max_features) 
+                                    VALUES (%s, %s, %s, %s);"""
         record_to_insert = (last_id - 2, 6, 0.75, "log2")
         cursor.execute(postgres_insert_query, record_to_insert)
 
-        postgres_insert_query = """INSERT INTO "Available_tri_trainings" (model_id, cls_one, cls_two, cls_three) VALUES (%s, %s, %s, %s);"""
+        postgres_insert_query = """INSERT INTO "Available_tri_trainings" 
+                                    (model_id, cls_one, cls_two, cls_three) 
+                                    VALUES (%s, %s, %s, %s);"""
         record_to_insert = (last_id - 1, "kNN", "NB", "DT")
         cursor.execute(postgres_insert_query, record_to_insert)
 
-        postgres_insert_query = """INSERT INTO "Available_democratic_cos" (model_id, n_clss, base_clss) VALUES (%s, %s, %s);"""
+        postgres_insert_query = """INSERT INTO "Available_democratic_cos" 
+                                    (model_id, n_clss, base_clss) 
+                                    VALUES (%s, %s, %s);"""
         record_to_insert = (last_id, 3, ["kNN", "NB", "DT"])
         cursor.execute(postgres_insert_query, record_to_insert)
 
@@ -182,11 +188,15 @@ def insert_instances(connection):
         connection (psycopg2.connection): database connection
     """
     cursor = connection.cursor()
-    postgres_insert_query = """ INSERT INTO "Available_instances" ("instance_URL", instance_fv, instance_class, colour_list, instance_labels, reviewed_by) VALUES (%s,%s,%s,%s,%s,%s)"""
+    postgres_insert_query = """ INSERT INTO "Available_instances" 
+                                    ("instance_URL", instance_fv, 
+                                    instance_class, colour_list, 
+                                    instance_labels, reviewed_by) 
+                                    VALUES (%s,%s,%s,%s,%s,%s)"""
 
     df = pd.read_csv("instances_db.csv", delimiter=";")
 
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
         try:
             tag = int(row["tag"])
             fv = row["fv"].replace('"', "'")
@@ -214,12 +224,63 @@ def insert_instances(connection):
 
         except (Exception, psycopg2.Error):
             connection.rollback()
-            print("Failed to insert {}".format(row["url"]))
+            print(f"Failed to insert {row['url']}")
 
 
-if __name__ == "__main__":
-    """Entry point for the script."""
+def insert_reports(connection):
+    """
+    Insert dummy reports into the database.
 
+    Args:
+        connection (psycopg2.connection): database connection
+    """
+    try:
+        cursor = connection.cursor()
+        postgres_insert_query = """INSERT INTO "Candidate_instances" 
+                (date_reported, instance_id, user_id, suggestions) 
+                VALUES (%s, %s, %s, %s);"""
+
+        records_to_insert = [
+            (
+                datetime.now(),
+                1,
+                1,
+                "suggestion-white-list",
+            ),
+            (
+                datetime.now(),
+                10,
+                2,
+                "suggestion-white-list",
+            ),
+            (
+                datetime.now(),
+                70,
+                2,
+                "suggestion-black-list",
+            ),
+            (
+                datetime.now(),
+                80,
+                2,
+                "suggestion-black-list",
+            ),
+        ]
+
+        for record_to_insert in records_to_insert:
+            cursor.execute(postgres_insert_query, record_to_insert)
+
+        connection.commit()
+        cursor.close()
+
+    except (Exception, psycopg2.Error) as e:
+        print(str(e))
+        connection.rollback()
+        print("Error while inserting data to table Candidate_instances")
+
+
+def start():
+    """Inserts data into the database."""
     tries = 0
 
     while tries < 5:
@@ -228,7 +289,7 @@ if __name__ == "__main__":
             connection = psycopg2.connect(
                 user="dev",
                 password="123",
-                host="db",
+                host="localhost",
                 port="5432",
                 database="krini",
             )
@@ -246,6 +307,8 @@ if __name__ == "__main__":
                 connection, "Available_instances", "instance_id"
             ) in [0, 1]:
                 insert_instances(connection)
+                insert_reports(connection)
+
             break
 
         except (Exception, psycopg2.Error) as e:
@@ -258,3 +321,7 @@ if __name__ == "__main__":
     if connection:
         connection.close()
         print("PostgreSQL connection is closed")
+
+
+if __name__ == "__main__":
+    start()
