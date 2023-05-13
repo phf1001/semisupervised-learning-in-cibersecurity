@@ -243,9 +243,7 @@ class Available_tags:
 
         if tag == Available_tags.reviewed:
             return "#3FB59E"
-
-        else:
-            return "#FF7518"
+        return "#FF7518"
 
 
 class Available_models(db.Model):
@@ -344,8 +342,7 @@ class Available_models(db.Model):
                 model.is_default = True
                 db.session.commit()
                 return True
-            else:
-                raise SQLAlchemyError
+            raise SQLAlchemyError
 
         except SQLAlchemyError:
             db.session.rollback()
