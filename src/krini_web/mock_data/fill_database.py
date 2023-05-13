@@ -289,7 +289,7 @@ def start():
             connection = psycopg2.connect(
                 user="dev",
                 password="123",
-                host="localhost",
+                host="db",
                 port="5432",
                 database="krini",
             )

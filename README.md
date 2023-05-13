@@ -9,7 +9,7 @@
 
 <h2 align="center">
   <br>
-  <a href="#"> KRINI </a>
+  <a href="https://krini.herokuapp.com/index"> KRINI </a>
 </h2>
 
 <h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
@@ -93,8 +93,54 @@ Regarding this repository, two investigation lines have been opened: detection o
 | Documentation        |         ✔️         |       
 | Feature vectors extraction |         ✔️         |    
 | Graphs generator |         ✔️         |    
+| Flask web app |         ✔️         |  
 | Tor instances and SOCKS5 proxies scripts |         ✔️         |    
 
+
+## Deploy the web in Docker
+
+You can access the app via the web or deploy our Docker images. Everything is automatic! 🐳
+
+Mock data will be included in the database so that you can play! An administrator user (admin/admin) and a standard user (user/user) have been created. Feel free to log in or create your own!
+
+> 💡 First download your O.S scripts (OS-all-files.zip) and extract them &nbsp;&middot;&nbsp; [Linux](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/dev/docker-deploy-kit/linux) &nbsp;&middot;&nbsp; [Windows](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/dev/docker-deploy-kit/windows) &nbsp;&middot;&nbsp;
+
+Then, change to the directory where the scripts are and then execute them in this order. 
+> Please follow the screen instructions! 
+
+### Linux 🐧
+Open a terminal in the directory containing the scripts. Execute (in this order):
+```sh
+sh docker-first-time.sh  # Execute this one only the first time you raise the containers or if the data volume have been removed and you want to reset the database
+sh docker-init.sh
+
+# Now the web is up! Access it via the script instructions :)
+# Once you have finished, you can clean your system using
+sh docker-clean.sh
+```
+
+Pss: if the database port is in use, you can:
+```sh
+sudo netstat -p -nlp | grep 5432
+sudo kill <PID>
+```
+
+Pss: a `data` directory will be created to make your database modifications persistant. If you want to delete it or reset the database, just execute:
+```sh
+sudo rm -R data
+```
+
+### Windows 🪟
+
+Reach via the file explorer the directory where you have extracted the files. Execute (in this order):
+```sh
+docker-first-time.bat # Execute this one only the first time you raise the containers
+docker-init.bat
+
+# Now the web is up! Access it via the script instructions :)
+# Once you have finished, you can clean your system using
+docker-clean.bat
+```
 
 ## Wiki 
 

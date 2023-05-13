@@ -1,4 +1,5 @@
 @echo off
+:: Author: Patricia Hernando Fernández
 chcp 65001 > nul 2> nul
 
 echo  _  __ _____   _____  _   _  _____ 

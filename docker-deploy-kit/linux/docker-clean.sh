@@ -1,5 +1,5 @@
 #!/bin/bash
-#!/bin/bash
+# Author: Patricia Hernando Fernández
 R='\033[0;31m'   
 G='\033[1;32m'   
 Y='\033[1;33m'  
