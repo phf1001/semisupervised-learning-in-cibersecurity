@@ -1100,7 +1100,7 @@ def new_instance():
 
         for key in form.errors.keys():
             val = form.errors[key][0]
-            if val == "empty_url" or val == "url_too_long":
+            if val in ("empty_url", "url_too_long"):
                 validated = False
                 flash(get_form_message(val), "warning")
                 break

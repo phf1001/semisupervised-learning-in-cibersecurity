@@ -677,10 +677,7 @@ def update_batch_checks(
     if modality == "deseleccionar_todos":
         checks = {}
 
-    elif (
-        modality == "seleccionar_todos"
-        or modality == "seleccionar_todos_contrarios"
-    ):
+    elif modality in ("seleccionar_todos", "seleccionar_todos_contrarios"):
         if sequence:
             n_instances = Candidate_instances.query.count()
             checks = {str(i): i for i in range(n_instances)}
@@ -1069,7 +1066,7 @@ def create_csv_selected_instances(
         fv = instance.instance_fv
         tag = instance.instance_class
 
-        if fv and (tag == 0 or tag == 1):
+        if fv and tag in (0, 1):
             data.append([instance.instance_id] + fv + [tag])
 
     df = pd.DataFrame(
@@ -1560,9 +1557,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
                 + [instance.instance_class]
                 for instance in instances
                 if instance.instance_fv
-                and (
-                    instance.instance_class == 1 or instance.instance_class == 0
-                )
+                and instance.instance_class in (1, 0)
             ]
 
             df = pd.DataFrame(
@@ -1676,7 +1671,7 @@ def get_all_instances_database_rows(exclude_ids=set()):
         for instance in instances
         if instance.instance_fv
         and instance.instance_id not in exclude_ids
-        and (instance.instance_class == 1 or instance.instance_class == 0)
+        and instance.instance_class in (1, 0)
     ]
 
     df = pd.DataFrame(
