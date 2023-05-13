@@ -342,7 +342,7 @@ En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo 
 
 Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
 
-\subsubsection{Generación de conjuntos de entrenamiento y \textit{test}. Parámetros.}
+\subsubsection{Generación del \textit{dataset} y parámetros.}
 
 Para generar el conjunto de entrenamiento, se ha utilizado el mismo proceso que el descrito en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}. La distribución de los datos utilizados se muestra en la tabla~\ref{tbl:entrenamiento_ML10M}.
 
@@ -372,7 +372,7 @@ En cuanto a los parámetros del algoritmo, se han establecido los mismos que en 
 
 Cabe destacar que, debido a que es escaso el número de instancias positivas, se ha decidido utilizar como curva para calcular las AUC la curva \textit{precision-recall} (en lugar de la curva ROC).
 
-\subsubsection{Resultados}
+\subsection{Resultados}
 
 Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados. Se ilustran en las respectivas gráficas: \textit{random attack}~\ref{5_random_attack}, \textit{average attack}~\ref{5_average_attack} y \textit{bandwagon attack}~\ref{5_bandwagon_attack}.
 
@@ -399,7 +399,7 @@ En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML
 	\label{5_bandwagon_attack}
 \end{figure}
 
-\subsubsection{Discusión de los resultados}
+\subsection{Discusión de los resultados}
 
 Puede parecer que los resultados son muy satisfactorios debido a que, en situaciones en las que el \textit{filler size} del atacante es mayor o igual que el $3\%$, el \textit{recall} (es decir, la cantidad de instancias positivas que se encuentran) para la mayoría de los algoritmos es muy alto y la precisión (de las instancias que se clasifican como positivas, cuántas lo son realmente) es generalmente buena (exceptuando tal vez, la del \textit{tri-training}, lo que es lógico porque también posee un \textit{recall} mayor).
 
@@ -416,14 +416,15 @@ Se detalla a continuación el proceso seguido en las distintas fases relacionada
 
 \begin{table}
 	\begin{centering}
-		\begin{tabular}{@{} p{10em} p{6em} p{6em}@{}}
+		\begin{tabular}{@{} p{9em} p{6em} p{7em} p{7em}@{}}
 			\toprule
-			\textbf{\textit{Dataset}} &\raggedleft\textbf{Instancias} &\hfil\textbf{Categoría} \\ \midrule
-			\textit{Phishtank} & \raggedleft 1\,528 &\hfil \textit{Phishing}\\
-			\textit{Openphish} & \raggedleft 613 &\hfil \textit{Phishing}\\
-			Alexa & \raggedleft 1\,600 &\hfil Genuino\\
-			Plataforma de pago & \raggedleft 66 &\hfil Genuino\\
-			Páginas de banca & \raggedleft 50 &\hfil Genuino\\
+			\textbf{\textit{Dataset}} & \raggedleft\textbf{Instancias en~\cite{featuresPhishing2018Gupta}} &\raggedleft\textbf{Instancias reales} &\hfil\textbf{Categoría} \\ \midrule
+			PhishTank + OpenPhish & \raggedleft 2\,141 & \raggedleft 1\,057 &\hfil \textit{Phishing}\\
+			Alexa & \raggedleft 1\,600 & \raggedleft 1\,145 &\hfil Genuino\\
+			Plataforma de pago & \raggedleft 66 & \raggedleft 51 &\hfil Genuino\\
+			Páginas de banca & \raggedleft 252 & \raggedleft 37 &\hfil Genuino\\
+			\midrule
+			\textbf{Total} & \raggedleft 4059 & \raggedleft 2290 &\hfil \\
 			\bottomrule
 		\end{tabular}
 		\caption[\textit{Phishing}: descripción del \textit{dataset}]{\textit{Dataset} de \textit{phishing}.}
@@ -431,14 +432,70 @@ Se detalla a continuación el proceso seguido en las distintas fases relacionada
 	\end{centering}
 \end{table}
 
-Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código, por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo SOCKS5. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección~\ref{sec:script_tor}.
+Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código (es decir, realizando \textit{web scraping}\footnote{\textit{Web scraping} es el proceso de recolectar datos desde la \textit{web} (en este caso, de forma automática mediante \textit{scripting}).}), por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo \texttt{SOCKS5}. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección~\ref{sec:script_tor}.
 
-Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas y el resultado final se muestra en la tabla~\ref{tbl:dataset_phishing}.
+Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas y la comparativa entre el \textit{dataset} original y el recopilado para los experimentos se muestra en la tabla~\ref{tbl:dataset_phishing}.
 
-En el caso de Phish Tank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se han tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de Open Phish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, se recupera en peticiones mediante código.
+En el caso de PhishTank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se han tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de OpenPhish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, este fichero se recupera mediante peticiones.
 
-Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa\footnote{\textit{Top} extraído de \url{https://www.expireddomains.net/alexa-top-websites/} debido a que Amazon está realizando reformas en el servicio.}, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de Expired domains~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de Shopify~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de Similar Web~\cite{banksitesTop} (solo que el número está limitado a 50). Debido a que los enlaces facilitados por estas plataformas no contienen protocolo, se ha generado un \textit{script} auxiliar que encuentra el correspondiente y filtra aquellas páginas en inglés y español (no se ha utilizado el \textit{header} para realizar esta tarea porque no se incluye en la librería de Python, por lo que se ha analizado el lenguaje).
+Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa\footnote{\textit{Top} extraído de \url{https://www.expireddomains.net/alexa-top-websites/} debido a que Amazon está realizando reformas en el servicio.}, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de Expired domains~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de Shopify~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de Similar Web~\cite{banksitesTop} (solo que el número está limitado a 50). Debido a que los enlaces facilitados por estas plataformas no contienen protocolo, se ha generado un \textit{script} auxiliar que encuentra el correspondiente y filtra aquellas páginas en inglés y español para garantizar compatibilidad con el TF-IDF utilizado para extraer palabras clave (no se ha utilizado el \textit{header} para realizar esta tarea porque no se incluye en la librería de Python, por lo que se ha analizado el lenguaje).
 
+Es muy destacable que se ha limitado el número de instancias de \textit{phishing} utilizadas para que sea exactamente la mitad del \textit{dataset}. Además, también es reseñable que las páginas de \textit{phishing} son distintas a las utilizadas en el \textit{paper} original debido a que PhishTank y OpenPhish actualizan sus bases de datos a diario. Para extraer los vectores de características, se ha seguido el procedimiento mostrado en la sección~\ref{sec:vectores_caracteristicas_phishing} (es necesario que las páginas estén levantadas).
+
+\subsubsection{Parámetros y clasificadores}
+
+Para realizar esta experimentación se han utilizado distintos modelos de aprendizaje. Es destacable que se ha incluído un algoritmo de aprendizaje supervisado para comparar los resultados del mismo contra otros algoritmos semisupervisados.
+
+En primer lugar, se han introducido \textit{ensembles} basados en árboles. Por un lado, se dispone de un \textit{random forest} y, por otro, dos \textit{co-forests}. Uno de ellos ha sido entrenado utilizando $n = 6$ árboles y el criterio \texttt{confidence\_L\_theta}, mientras que el otro posee $n = 20$ y \texttt{percentage\_L} (consultar sección~\ref{s-experimentacion-w-cof}). Por último, también se han incluído un \textit{tri-training} y un \textit{democratic-co} que utilizan como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN}.
+
+\subsection{Resultados generales}
+
+Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $87$.$96\%$ y, el peor, una equivalente al $84$.$24\%$. Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor precisión (de las que dice que son positivas, cuantas lo son en realidad). Como es esperable, ambos \textit{co-forest} se comportan de manera muy similar.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19})]{Resultados generales del método de detección de \textit{phishing}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_all_big}
+	\label{gr:ph-f1f19-all}
+\end{figure}
+
+Para obtener una visión más real de lo que está ocurriendo, se muestra en la imagen~\ref{gr:ph-f1f19_cof_clt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, en los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f8}, matriz de confusión \texttt{CoF\_PL})]{Matriz de confusión correspondiente al clasificador \texttt{CoF\_PL}.}
+	\centering
+	\includegraphics[scale=0.8]{../img/memoria/5_phishing/f1f19_cof_clt}
+	\label{gr:ph-f1f19_cof_clt}
+\end{figure}
+
+\subsection{Resultados grupales}
+
+A continuación, se va a evaluar el desempeño de cada grupo de características por separado. Para ello, se va a repetir la experimentación únicamente utilizando subconjuntos del total de atributos para entrenar y evaluar.
+
+\subsubsection{Características basadas en la URL}
+
+Este grupo está formado por las características que comprenden el intervalo \texttt{f1-f8}, ambas inclusive. Los resultados se muestran en la imagen~\ref{gr:ph-f1f8_small}
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f8})]{Resultados de la evaluación utilizando únicamente las características basadas en la URL.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f8_small}
+	\label{gr:ph-f1f8_small}
+\end{figure}
+
+\subsubsection{Características basadas en la aparición del formulario de \textit{login}}
+Este grupo está formado por la característica \texttt{f9}.
+
+\subsubsection{Características basadas en los hiperenlaces contenidos}
+Este grupo está formado por las características que comprenden el intervalo \texttt{f10-f15}, ambas inclusive.
+
+\subsubsection{Características basadas en el fichero \texttt{csv}}
+Este grupo está formado por la característica \texttt{f16}.
+
+\subsubsection{Características basadas en la identidad de la página \textit{web}}
+Este grupo está formado por las características que comprenden el intervalo \texttt{f17-f19}, ambas inclusive.
+
+\subsection{Discusión de los resultados}
 
 
 

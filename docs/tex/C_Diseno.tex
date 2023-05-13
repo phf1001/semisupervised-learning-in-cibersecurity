@@ -382,11 +382,21 @@ Esta, además, está relacionada con la clase \texttt{ProxyTor}, ya que puede se
 
 \subsection{Despliegue}
 
-En la figura~\ref{c:diagrama-deploy} se muestra el diagrama de despliegue de la aplicación. Como se puede comprobar, se ha optado por una arquitectura cliente-servidor. Además, se ha establecido un patrón de tres niveles, donde el cliente actúa como controlador de la vista de usuario, el servidor implementa la lógica de aplicación y, por último, el servidor de base de datos gestiona la capa de persistencia.
+En la figura~\ref{c:diagrama-deploy-heroku} se muestra el diagrama de despliegue de la aplicación en Heroku. Como se puede comprobar, se ha optado por una arquitectura cliente-servidor. Además, se ha establecido un patrón de tres niveles, donde el cliente actúa como controlador de la vista de usuario, el servidor implementa la lógica de aplicación y, por último, el servidor de base de datos gestiona la capa de persistencia.
 
 \begin{figure}[h]
 	\caption[Diagrama: despliegue]{Diagrama de despliegue de la aplicación.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/anexos/diagrams/deploy}
-	\label{c:diagrama-deploy}
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/deploy-heroku}
+	\label{c:diagrama-deploy-heroku}
+\end{figure}
+
+
+Auxiliarmente, se ha ofrecido la posibilidad de que se pueda desplegar localmente a través de Docker. En este caso, el diagrama de despliegue se corresponde con la figura~\ref{c:diagrama-deploy-docker}.
+
+\begin{figure}[h]
+	\caption[Diagrama: despliegue]{Diagrama de despliegue de la aplicación.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/diagrams/deploy-docker}
+	\label{c:diagrama-deploy-docker}
 \end{figure}
