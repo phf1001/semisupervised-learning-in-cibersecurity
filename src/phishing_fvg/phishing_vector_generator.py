@@ -142,8 +142,15 @@ class PhishingFVG:
         F4 = 1, if URL contains any suspicious word
         F4 = 0, otherwise
         """
-        splitted_url = get_splitted_url(self.url)
         suspicious_words = get_suspicious_keywords()
+
+        for word in suspicious_words:
+            if word in self.url:
+                self.fv[3] = 1
+                self.extra_information["f4"] = word
+                return
+
+        splitted_url = get_splitted_url(self.url)
 
         for word in splitted_url:
             leet_translation = translate_leet_to_letters(
@@ -199,14 +206,15 @@ class PhishingFVG:
     def set_f7(self):
         """
         Sets F7.
-        F7 = 1, if brand in incorrect position.
+        F7 = 1, if brand in incorrect position (subdomains).
         F7 = 0, otherwise
         """
+        remove_word = True
         targets = get_phishing_targets_set()
 
         lower_url = self.url.lower()
         parsed = urlparse(lower_url)
-        path = parsed.path
+        path = parsed.path + parsed.query
 
         for target in targets:
             if target in path:  # or target in sub_domains
@@ -223,8 +231,12 @@ class PhishingFVG:
 
         if without_tld.count(".") > 0:
             sub_domains = without_tld[: without_tld.rindex(".")]
-        else:
+
+        elif without_tld.count("-") > 0:
             sub_domains = without_tld
+            remove_word = False
+        else:
+            sub_domains = ""
 
         for word in get_splitted_url(path + sub_domains):
             leet_translation = translate_leet_to_letters(
@@ -232,7 +244,7 @@ class PhishingFVG:
             )  # Decisión propia
 
             # If the original one does not have numbers it is removed
-            if not re.search(r"\d", word):
+            if not re.search(r"\d", word) and remove_word:
                 leet_translation -= {word}
 
             for fake in leet_translation:
@@ -429,7 +441,6 @@ class PhishingFVG:
         F16 = 1, if CSS file is external and contains foreign domain name
         F16 = 0, otherwise
 
-        #'assets/bootstrap/css/bootstrap.min.css' foreign?
         """
         external_csss = self.soup.findAll("link", rel="stylesheet")
 
@@ -437,7 +448,7 @@ class PhishingFVG:
             link = extract_url_href(css)
 
             if is_foreign(self.url, link):
-                self.extra_information["f16"] = link
+                self.extra_information["f16"] = "CSS externo"
                 self.fv[15] = 1
                 return
 
@@ -491,7 +502,7 @@ class PhishingFVG:
         keywords = get_site_keywords(self.html, self.tfidf, 15)
 
         for keyword in keywords:
-            if re.findall(keyword, self.base):
+            if len(keyword) >= 3 and re.findall(keyword, self.base):
                 self.fv[17] = 0
                 self.extra_information["f18"] = keyword
                 return

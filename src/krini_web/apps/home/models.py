@@ -217,16 +217,10 @@ class Available_tags:
         Returns:
             str: Colour associated with the given tag (hex code)
         """
-        if (
-            tag == Available_tags.white_list
-            or tag == Available_tags.sug_white_list
-        ):
+        if tag in (Available_tags.white_list, Available_tags.sug_white_list):
             return "#58B1CD"
 
-        if (
-            tag == Available_tags.black_list
-            or tag == Available_tags.sug_black_list
-        ):
+        if tag in (Available_tags.black_list, Available_tags.sug_black_list):
             return "#191970"
 
         if tag == Available_tags.auto_classified:
@@ -249,9 +243,7 @@ class Available_tags:
 
         if tag == Available_tags.reviewed:
             return "#3FB59E"
-
-        else:
-            return "#FF7518"
+        return "#FF7518"
 
 
 class Available_models(db.Model):
@@ -350,8 +342,7 @@ class Available_models(db.Model):
                 model.is_default = True
                 db.session.commit()
                 return True
-            else:
-                raise SQLAlchemyError
+            raise SQLAlchemyError
 
         except SQLAlchemyError:
             db.session.rollback()

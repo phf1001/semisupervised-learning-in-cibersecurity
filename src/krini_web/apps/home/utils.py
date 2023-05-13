@@ -677,10 +677,7 @@ def update_batch_checks(
     if modality == "deseleccionar_todos":
         checks = {}
 
-    elif (
-        modality == "seleccionar_todos"
-        or modality == "seleccionar_todos_contrarios"
-    ):
+    elif modality in ("seleccionar_todos", "seleccionar_todos_contrarios"):
         if sequence:
             n_instances = Candidate_instances.query.count()
             checks = {str(i): i for i in range(n_instances)}
@@ -1069,7 +1066,7 @@ def create_csv_selected_instances(
         fv = instance.instance_fv
         tag = instance.instance_class
 
-        if fv and (tag == 0 or tag == 1):
+        if fv and tag in (0, 1):
             data.append([instance.instance_id] + fv + [tag])
 
     df = pd.DataFrame(
@@ -1423,48 +1420,53 @@ def update_model(model, form_data, models_path=None):
         bool: True if the model was updated correctly.
     """
     try:
-        new_model_version = form_data["model_version"]
+        if model.model_id not in (1, 2, 3):
+            new_model_version = form_data["model_version"]
 
-        if models_path is None:
-            models_path = get_models_directory()
+            if models_path is None:
+                models_path = get_models_directory()
 
-        new_file_name = (
-            model.file_name.split("_")[0]
-            + "_"
-            + new_model_version.replace(".", "-")
-            + ".pkl"
-        )
-
-        old_file_location = models_path + sep + model.file_name
-        new_file_location = models_path + sep + new_file_name
-
-        if path.isfile(old_file_location):
-            rename(old_file_location, new_file_location)
-
-        else:
-            raise KriniDBException(
-                get_exception_message("serialized_not_found")
+            new_file_name = (
+                model.file_name.split("_")[0]
+                + "_"
+                + new_model_version.replace(".", "-")
+                + ".pkl"
             )
 
-        model.model_name = (
-            model.model_name.split(" ")[0] + " " + new_model_version
-        )
-        model.file_name = new_file_name
+            old_file_location = models_path + sep + model.file_name
+            new_file_location = models_path + sep + new_file_name
 
-        new_notes = form_data["model_description"]
-        if len(new_notes) > 0:
-            model.model_notes = new_notes
+            if path.isfile(old_file_location):
+                rename(old_file_location, new_file_location)
 
-        model.is_visible = to_bolean(form_data["is_visible"])
-        update_defaults = to_bolean(form_data["is_default"])
+            else:
+                raise KriniDBException(
+                    get_exception_message("serialized_not_found")
+                )
 
-        if update_defaults:
-            done = Available_models.update_default_model(model.model_id)
-            if not done:
-                raise KriniDBException(get_message("default_not_updated"))
+            model.model_name = (
+                model.model_name.split(" ")[0] + " " + new_model_version
+            )
+            model.file_name = new_file_name
 
-        db.session.flush()
-        db.session.commit()
+            new_notes = form_data["model_description"]
+            if len(new_notes) > 0:
+                model.model_notes = new_notes
+
+            model.is_visible = to_bolean(form_data["is_visible"])
+            update_defaults = to_bolean(form_data["is_default"])
+
+            if update_defaults:
+                done = Available_models.update_default_model(model.model_id)
+                if not done:
+                    raise KriniDBException(get_message("default_not_updated"))
+
+            db.session.flush()
+            db.session.commit()
+
+        else:
+            flash(get_exception_message("protected_models"), "info")
+
         return True
 
     except exc.SQLAlchemyError:
@@ -1555,9 +1557,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
                 + [instance.instance_class]
                 for instance in instances
                 if instance.instance_fv
-                and (
-                    instance.instance_class == 1 or instance.instance_class == 0
-                )
+                and instance.instance_class in (1, 0)
             ]
 
             df = pd.DataFrame(
@@ -1671,7 +1671,7 @@ def get_all_instances_database_rows(exclude_ids=set()):
         for instance in instances
         if instance.instance_fv
         and instance.instance_id not in exclude_ids
-        and (instance.instance_class == 1 or instance.instance_class == 0)
+        and instance.instance_class in (1, 0)
     ]
 
     df = pd.DataFrame(

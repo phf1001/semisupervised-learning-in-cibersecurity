@@ -25,6 +25,13 @@ def get_exception_message(identifier) -> str:
             "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
         )
 
+    if identifier == "url_not_callable_recuperable":
+        return gettext(
+            "Actualmente la URL no es llamable desde esta aplicación, pero se ha "
+        ) + gettext(
+            "recuperado el vector de características almacenado en la base de datos."
+        )
+
     if identifier == "not_instance_found":
         return gettext("No se ha encontrado la instancia.")
 
@@ -143,10 +150,10 @@ def get_exception_message(identifier) -> str:
                 "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
             )
             + gettext(
-                "conexión con la base de datos es correcta y se muestra el mensaje de "
+                "conexión con la base de datos es correcta y se muestra el mensaje "
             )
             + gettext(
-                "'eliminado correctamente' para que sepas que el método funciona."
+                "correspondiente a la operación para que sepas que el método funciona."
             )
         )
 

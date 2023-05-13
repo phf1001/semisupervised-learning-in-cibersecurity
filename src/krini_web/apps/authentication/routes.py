@@ -121,10 +121,8 @@ def register():
             return render_template(
                 "accounts/register.html", form=create_account_form, msg=message
             )
-
-        else:
-            flash(get_exception_message("already_logged"), "info")
-            return redirect(url_for("home_blueprint.index"))
+        flash(get_exception_message("already_logged"), "info")
+        return redirect(url_for("home_blueprint.index"))
 
     except (KriniException, SQLAlchemyError) as e:
         if e.__class__ == KriniException:

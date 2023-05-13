@@ -197,6 +197,11 @@ def extract_fv():
                     if previous_instance.colour_list
                     else ""
                 )
+                quick_analysis = 1
+                flash(
+                    get_exception_message("url_not_callable_recuperable"),
+                    "info",
+                )
 
             else:
                 raise KriniException("Url not callable")
@@ -390,11 +395,9 @@ def report_false_positive():
                 db.session.commit()
                 flash(get_message("false_positive_reported"), "success")
                 return redirect(url_for("home_blueprint.dashboard"))
-
-            else:
-                raise KriniException(
-                    get_exception_message("not_instance_found")
-                )
+            raise KriniException(
+                get_exception_message("not_instance_found")
+            )
 
         else:
             raise ValueError(get_exception_message("not_info_found"))
@@ -1095,7 +1098,7 @@ def new_instance():
 
         for key in form.errors.keys():
             val = form.errors[key][0]
-            if val == "empty_url" or val == "url_too_long":
+            if val in ("empty_url", "url_too_long"):
                 validated = False
                 flash(get_form_message(val), "warning")
                 break
@@ -1279,8 +1282,7 @@ def review_instances(n_per_page=10):
                 ):
                     flash(get_message("successful_operation"), "success")
                     return redirect(url_for("home_blueprint.review_instances"))
-                else:
-                    flash(get_exception_message("error_operation"), "danger")
+                flash(get_exception_message("error_operation"), "danger")
 
         else:
             page = 1

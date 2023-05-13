@@ -1,6 +1,6 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 
-Este proyecto de investigación pretende abarcar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad. Por ello, en este apartado se pueden encontrar diversos puntos importantes.
+Este capítulo de la memoria pretende resumir y resaltar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad. Por ello, en este apartado se pueden encontrar diversos puntos importantes.
 
 En la primera subsección~\ref{sec:5_ssl} se desarrollará cómo se han validado los algoritmos de aprendizaje implementados. Para ello, se definirá qué experimentos se han realizado, se reportarán los resultados obtenidos y se realizarán comparativas contra otras implementaciones.
 
@@ -197,7 +197,7 @@ Los resultados obtenidos se pueden observar en la tabla~\ref{tabla_coforest_keel
 
 \subsection{Tri-Training}
 
-Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra sslearn y LAMDA para probar la implementación.
+Al igual que en los algoritmos anteriores, se ha decidido experimentar con distintas opciones a la hora de representar las gráficas, además de realizar una comparativa contra sslearn\footnote{ Disponible en {\url{https://github.com/jlgarridol/sslearn}}} y LAMDA\footnote{Disponible en {\url{https://github.com/YGZWQZD/LAMDA-SSL}}} para validar la implementación.
 
 
 \subsubsection{Experimentación con el algoritmo}
@@ -309,7 +309,7 @@ El objetivo de este apartado en el proyecto es probar nuevos métodos de aprendi
 
 \subsection{MovieLens 10M}
 
-MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{https://movielens.org/}.
+MovieLens10M~\cite{groupLensDatasets} es un conjunto de datos utilizado típicamente en la investigación y desarrollo de sistemas de recomendación. Contiene 10\,000\,054 opiniones generadas por 71\,567 usuarios acerca de 10\,681 películas. Estas reseñas han sido recopiladas del servicio \textit{online} de películas MovieLens\footnote{ Disponible en {\url{https://movielens.org/}}}.
 
 Los usuarios han sido seleccionados aleatoriamente entre los perfiles que tengan más de 20 películas valoradas y está documentado que todos son auténticos~\cite{zhou2021SemisupervisedRecommendationAttack} y pertenecen a usuarios reales. Por lo tanto, los perfiles atacantes han de ser construidos mediante programación.
 
@@ -342,7 +342,7 @@ En el caso del ataque \textit{average}, el procedimiento ha sido el mismo, solo 
 
 Por último, el ataque \textit{bandwagon}. Este ataque se realiza exactamente igual que el \textit{random} solo que, además, se añade un conjunto nuevo, los <<ítems seleccionados>> o $I_s$. En este caso, se escogen los $k$ ítems más populares de la base de datos (se entiende por más <<popular>> aquel ítem que posea más valoraciones). Evidentemente, este conjunto se excluye (además de los ítems objetivo) a la hora de escoger los ítems de relleno. La valoración asignada a $I_s$ ha sido o bien la máxima, o bien la mínima (en función de su nota media).
 
-\subsubsection{Generación de conjuntos de entrenamiento y \textit{test}. Parámetros.}
+\subsubsection{Generación del \textit{dataset} y parámetros.}
 
 Para generar el conjunto de entrenamiento, se ha utilizado el mismo proceso que el descrito en el \textit{paper} de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}. La distribución de los datos utilizados se muestra en la tabla~\ref{tbl:entrenamiento_ML10M}.
 
@@ -358,7 +358,7 @@ En primer lugar, se han seleccionado 1\,000 perfiles aleatorios verdaderos y se 
 			Genuino &1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
 			\textit{Random attack} &-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
 			\textit{Average attack} &-	& \hfil 10 & \hfil 10 & \hfil 10 & \hfil 10 \\
-			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 \\
+			\textit{Bandwagon attack} &- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 
 			\\ \bottomrule
 		\end{tabular}
 	\end{centering}
@@ -372,7 +372,7 @@ En cuanto a los parámetros del algoritmo, se han establecido los mismos que en 
 
 Cabe destacar que, debido a que es escaso el número de instancias positivas, se ha decidido utilizar como curva para calcular las AUC la curva \textit{precision-recall} (en lugar de la curva ROC).
 
-\subsubsection{Resultados}
+\subsection{Resultados}
 
 Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados. Se ilustran en las respectivas gráficas: \textit{random attack}~\ref{5_random_attack}, \textit{average attack}~\ref{5_average_attack} y \textit{bandwagon attack}~\ref{5_bandwagon_attack}.
 
@@ -399,13 +399,13 @@ En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML
 	\label{5_bandwagon_attack}
 \end{figure}
 
-\subsubsection{Discusión de los resultados}
+\subsection{Discusión de los resultados}
 
 Puede parecer que los resultados son muy satisfactorios debido a que, en situaciones en las que el \textit{filler size} del atacante es mayor o igual que el $3\%$, el \textit{recall} (es decir, la cantidad de instancias positivas que se encuentran) para la mayoría de los algoritmos es muy alto y la precisión (de las instancias que se clasifican como positivas, cuántas lo son realmente) es generalmente buena (exceptuando tal vez, la del \textit{tri-training}, lo que es lógico porque también posee un \textit{recall} mayor).
 
 Sin embargo, una de las fases del ciclo de vida del ML es el preanálisis de datos. Si se observa con detenimiento el \textit{dataset}, se puede comprobar que la media del \textit{filler size} de los usuarios genuinos es aproximadamente de un 1.34$\%$ y que únicamente un 10$\%$ de los usuarios tiene un \textit{filler size} superior al 3$\%$. Por ello y teniendo en cuenta que para cada conjunto (ya sea de entrenamiento o de \textit{test}) se selecciona aleatoriamente un 1.45\% del total los usuarios genuinos, es muy probable que esté formado por perfiles con un \textit{filler size} inferior al 3$\%$. Por lo tanto, la única <<columna>> verdaderamente significativa es la primera, y como se puede comprobar los resultados no son buenos. En otras palabras, es muy probable que el \textit{recall} sea tan bueno en la mayoría de los casos porque los perfiles inyectados tienen un número de valoraciones muy superior a los perfiles genuinos, no porque el método de extracción sea relevante y significativo.
 
-Adicionalmente, se piensa que el método de extracción de vectores de características no es muy adecuado. El hecho de que se aplique directamente en bases de datos sin ningún tipo de ordenación implica que tiene que existir alguna relación subyacente en el orden <<por defecto>> de los datos y el comportamiento de los usuarios, lo que es una suposición que no puede extrapolarse a todos los conjuntos de datos. Si la base de datos estuviese, por ejemplo, ordenada por popularidad, sería natural que los usuarios votasen más en las primeras ventanas. Si estuviese ordenada por fechas, podría existir una relación entre la edad del usuario y las ventanas en las que vota (películas de su <<época>>). Sin embargo, al no existir ningún tipo de orden, es una hipótesis demasiado general para ser asumida. Por ello, se ha decidido cerrar esta línea de investigación.
+Adicionalmente, se piensa que el método de extracción de vectores de características no es muy adecuado. El hecho de que se aplique directamente en bases de datos sin ningún tipo de ordenación implica que tiene que existir alguna relación subyacente en el orden <<por defecto>> de los datos y el comportamiento de los usuarios, lo que es una suposición que no puede extrapolarse a todos los conjuntos de datos. Si la base de datos estuviese, por ejemplo, ordenada por popularidad, sería natural que los usuarios votasen más en las primeras ventanas. Si estuviese ordenada por fechas, podría existir una relación entre la edad del usuario y las ventanas en las que vota (películas de su <<época>>). Sin embargo, al no existir ningún tipo de orden, es una hipótesis demasiado general para ser asumida. Por ello, se decidió cerrar esta línea de investigación.
 
 
 \section{Detección de \textit{phishing}}
@@ -416,14 +416,15 @@ Se detalla a continuación el proceso seguido en las distintas fases relacionada
 
 \begin{table}
 	\begin{centering}
-		\begin{tabular}{@{} p{10em} p{6em} p{6em}@{}}
+		\begin{tabular}{@{} p{9em} p{6em} p{7em} p{7em}@{}}
 			\toprule
-			\textbf{\textit{Dataset}} &\raggedleft\textbf{Instancias} &\hfil\textbf{Categoría} \\ \midrule
-			\textit{Phishtank} & \raggedleft 1\,528 &\hfil \textit{Phishing}\\
-			\textit{Openphish} & \raggedleft 613 &\hfil \textit{Phishing}\\
-			Alexa & \raggedleft 1\,600 &\hfil Genuino\\
-			Plataforma de pago & \raggedleft 66 &\hfil Genuino\\
-			Páginas de banca & \raggedleft 50 &\hfil Genuino\\
+			\textbf{\textit{Dataset}} & \raggedleft\textbf{Instancias en~\cite{featuresPhishing2018Gupta}} &\raggedleft\textbf{Instancias reales} &\hfil\textbf{Categoría} \\ \midrule
+			PhishTank + OpenPhish & \raggedleft 2\,141 & \raggedleft 1\,057 &\hfil \textit{Phishing}\\
+			Alexa & \raggedleft 1\,600 & \raggedleft 1\,145 &\hfil Genuino\\
+			Plataforma de pago & \raggedleft 66 & \raggedleft 51 &\hfil Genuino\\
+			Páginas de banca & \raggedleft 252 & \raggedleft 37 &\hfil Genuino\\
+			\midrule
+			\textbf{Total} & \raggedleft 4059 & \raggedleft 2290 &\hfil \\
 			\bottomrule
 		\end{tabular}
 		\caption[\textit{Phishing}: descripción del \textit{dataset}]{\textit{Dataset} de \textit{phishing}.}
@@ -431,14 +432,145 @@ Se detalla a continuación el proceso seguido en las distintas fases relacionada
 	\end{centering}
 \end{table}
 
-Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código, por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo SOCKS5. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección~\ref{sec:script_tor}.
+Para extraer los vectores de características, en este caso, se necesita extraer el \texttt{html} de distintas páginas web (tanto verdaderas como de \textit{phishing}) mediante peticiones de código (es decir, realizando \textit{web scraping}\footnote{\textit{Web scraping} es el proceso de recolectar datos desde la \textit{web} (en este caso, de forma automática mediante \textit{scripting}).}), por lo que se necesita conocer su dirección. Para garantizar el anonimato en las peticiones que se realizan a páginas de \textit{phishing}, se han utilizado \textit{proxies} con un protocolo \texttt{SOCKS5}. Para levantarlos, se ha utilizado un \textit{script} de implementación propia descrito en la sección~\ref{sec:script_tor}.
 
-Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas y el resultado final se muestra en la tabla~\ref{tbl:dataset_phishing}.
+Se ha intentado replicar el \textit{dataset} (procedencia y número) utilizado en el \textit{paper} de Jain y Gupta~\cite{featuresPhishing2018Gupta}, pero muchos de los enlaces facilitados no están disponibles actualmente. Por ello, se han buscado alternativas y la comparativa entre el \textit{dataset} original y el recopilado para los experimentos se muestra en la tabla~\ref{tbl:dataset_phishing}.
 
-En el caso de Phish Tank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se han tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de Open Phish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, se recupera en peticiones mediante código.
+En el caso de PhishTank, la base de datos sigue disponible y es accesible en su página web~\cite{phishTankDB}. Debido a que se actualiza a diario, se recupera mediante una petición \textit{get}, aunque se han tenido dificultades (solucionadas utilizando \textit{proxies} y los \textit{headers} adecuados) debido a que el sitio tiende a bloquear si se hacen unas pocas peticiones seguidas. También sigue accesible la base de OpenPhish~\cite{openFishDB}, aunque en este caso el número máximo de instancias obtenibles gratuitamente está limitado a 500 y se puede encontrar en un fichero en su página web~\cite{openFishFile}. Debido a que también se actualiza periódicamente, este fichero se recupera mediante peticiones.
 
-Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa\footnote{\textit{Top} extraído de \url{https://www.expireddomains.net/alexa-top-websites/} debido a que Amazon está realizando reformas en el servicio.}, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de Expired domains~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de Shopify~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de Similar Web~\cite{banksitesTop} (solo que el número está limitado a 50). Debido a que los enlaces facilitados por estas plataformas no contienen protocolo, se ha generado un \textit{script} auxiliar que encuentra el correspondiente y filtra aquellas páginas en inglés y español (no se ha utilizado el \textit{header} para realizar esta tarea porque no se incluye en la librería de Python, por lo que se ha analizado el lenguaje).
+Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visitadas mediante Alexa\footnote{\textit{Top} extraído de \url{https://www.expireddomains.net/alexa-top-websites/} debido a que Amazon está realizando reformas en el servicio.}, del \textit{top} de plataformas de pago disponibles y de algunos de los sitios de banca más populares. En el caso de los enlaces genuinos, ninguna de las direcciones facilitadas en el \textit{paper} original está disponible. Por ello, los sitios más consultados en Alexa se han obtenido de Expired domains~\cite{AlexaTopWebsites}, las plataformas de pago más comunes de Shopify~\cite{paymentGatewaysWebsites} y los sitios bancarios, al igual que en el \textit{paper} original, de Similar Web~\cite{banksitesTop} (solo que el número está limitado a 50). Debido a que los enlaces facilitados por estas plataformas no contienen protocolo, se ha generado un \textit{script} auxiliar que encuentra el correspondiente y filtra aquellas páginas en inglés y español para garantizar compatibilidad con el TF-IDF utilizado para extraer palabras clave (no se ha utilizado el \textit{header} para realizar esta tarea porque no se incluye en la librería de Python, por lo que se ha analizado el lenguaje).
+
+Es muy destacable que se ha limitado el número de instancias de \textit{phishing} utilizadas para que sea exactamente la mitad del \textit{dataset}. Además, también es reseñable que las páginas de \textit{phishing} son distintas a las utilizadas en el \textit{paper} original debido a que PhishTank y OpenPhish actualizan sus bases de datos a diario. Para extraer los vectores de características, se ha seguido el procedimiento mostrado en la sección~\ref{sec:vectores_caracteristicas_phishing} (es necesario que las páginas estén levantadas).
+
+\subsubsection{Parámetros y clasificadores}
+
+Para realizar esta experimentación se han utilizado distintos modelos de aprendizaje. Es destacable que se ha incluído un algoritmo de aprendizaje supervisado para comparar los resultados del mismo contra otros algoritmos semisupervisados. Los algoritmos de aprendizaje supervisado han sido entrenados con el 100\% de los datos etiquetados disponibles, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. El motivo por el que se ha escogido el \textit{random forest} como método de aprendizaje supervisado contra el que comparar, es porque es el clasificador que mejor rendimiento reportó en el \textit{paper} utilizado de referencia~\cite{featuresPhishing2018Gupta}. Por lo tanto, sirve de <<cota superior>> del rendimiento para los algoritmos supervisados.
+
+A continuación se va a especificar los algoritmos concretos utilizados. Respecto a los \textit{ensembles} basados en árboles, por un lado, se dispone de un \textit{random forest} y, por otro, dos \textit{co-forests}. Uno de ellos ha sido entrenado utilizando $n = 6$ árboles y el criterio \texttt{confidence\_L\_theta}, mientras que el otro posee $n = 20$ y \texttt{percentage\_L} (consultar sección~\ref{s-experimentacion-w-cof}). Por último, también se han incluído un \textit{tri-training} y un \textit{democratic-co} que utilizan como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN}.
 
 
+\subsection{Resultados generales}
+
+Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $88\%$ y, el peor, una equivalente al $84\%$. Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor precisión (de las que dice que son positivas, cuantas lo son en realidad). Como es esperable, ambos \textit{co-forest} se comportan de manera muy similar.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19})]{Resultados generales del método de detección de \textit{phishing}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_all_big}
+	\label{gr:ph-f1f19-all}
+\end{figure}
+
+Para obtener una visión más real de lo que está ocurriendo, se muestra en la imagen~\ref{gr:ph-f1f19_cof_clt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, en los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, matriz de confusión \texttt{CoF\_PL})]{Matriz de confusión correspondiente al clasificador \texttt{CoF\_PL}.}
+	\centering
+	\includegraphics[scale=0.8]{../img/memoria/5_phishing/f1f19_cof_clt}
+	\label{gr:ph-f1f19_cof_clt}
+\end{figure}
+
+\subsection{Resultados grupales}
+
+A continuación, se va a evaluar el desempeño de cada grupo de características por separado. Para ello, se va a repetir la experimentación únicamente utilizando subconjuntos del total de atributos para entrenar y evaluar.
+
+\subsubsection{Características basadas en la URL}
+
+Este grupo está formado por las características que comprenden el intervalo \texttt{f1-f8}, ambas inclusive. Los resultados se muestran en la imagen~\ref{gr:ph-f1f8_small}.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f8})]{Resultados de la evaluación utilizando únicamente las características basadas en la URL.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f8_small}
+	\label{gr:ph-f1f8_small}
+\end{figure}
+
+Como se puede comprobar, aunque la \textit{accuracy} obtenida es buena, en general, se encuentran pocas instancias de \textit{phishing} utilizando este subconjunto. Aún así, es destacable la precisión de la aproximación, ya que aunque se encuentren pocas instancias, prácticamente todas las que se dice que son \textit{phishing} lo son en realidad.
+
+Observando la matriz de confusión correspondiente al \textit{tri-training} (imagen~\ref{gr:ph-f1f8_tt}), se puede observar como la situación es la misma que la anterior (es decir, hay más falsos negativos que falsos positivos).
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f8}, matriz de confusión \texttt{TT})]{Matriz de confusión correspondiente al clasificador \texttt{TT}.}
+	\centering
+	\includegraphics[scale=0.8]{../img/memoria/5_phishing/f1f8_tt}
+	\label{gr:ph-f1f8_tt}
+\end{figure}
+
+\subsubsection{Características basadas en la aparición del formulario de \textit{login}}
+Este grupo está formado por la característica \texttt{f9}. Los resultados se muestran en la imagen~\ref{gr:ph-f9_small}.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f9})]{Resultados de la evaluación utilizando únicamente la característica basada en la aparición del formulario de \textit{login}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f9_small}
+	\label{gr:ph-f9_small}
+\end{figure}
+
+Como se puede intuir, clasificar utilizando únicamente un atributo binario no da resultados especiamente satisfactorios. Además, se depende de que las páginas contengan formularios (no necesariamente tienen por qué contenerlas todas, y menos en el índice). En este caso aparecen muchos falsos positivos (instancias legítimas clasificadas como estafas).
+
+\subsubsection{Características basadas en los hiperenlaces contenidos}
+Este grupo está formado por las características que comprenden el intervalo \texttt{f10-f15}, ambas inclusive. Los resultados se muestran en la imagen~\ref{gr:ph-f10f15_small}
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f10-f15})]{Resultados de la evaluación utilizando únicamente las características basadas en los hiperenlaces contenidos.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_small}
+	\label{gr:ph-f10f15_small}
+\end{figure}
+
+Como se puede comprobar, los resultados son bastante satisfactorios. Para obtener una visión más real de lo que ocurre y qué atributos son más importantes, se ha dibujado un árbol de decisión (limitado a una altura máxima $h = 4$ (de un total de $h = 22$) para una correcta visualización) que se muestra en la imagen~\ref{gr:ph-f10f15_tree}. Es destacable que el atributo $X[0]$ es en realidad el $f10$ (el resto siguen la misma sucesión).
+
+Como se puede comprobar, el atributo que mejor divide el conjunto es el número de hiperenlaces contenidos, aunque también se utilizan otros como el ratio de enlaces externos, vacíos y redirecciones.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f10-f15}, atributos relevantes)]{Atributos más importantes del subconjunto \texttt{f10-f15} (inicio del árbol).}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_tree}
+	\label{gr:ph-f10f15_tree}
+\end{figure}
+
+
+\subsubsection{Características basadas en el fichero \texttt{css}}
+Este grupo está formado por la característica \texttt{f16}. Los resultados se muestran en la imagen~\ref{gr:ph-f16_small}
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f16})]{Resultados de la evaluación utilizando únicamente la característica basada en el fichero \texttt{css}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f16_small}
+	\label{gr:ph-f16_small}
+\end{figure}
+
+En general este atributo no es bueno. Hoy en día, muchas páginas legítimas también contienen ficheros \texttt{css} alojados en dominios externos, por lo que no es una característica que pueda dividir fielmente las instancias.
+
+\subsubsection{Características basadas en la identidad de la página \textit{web}}
+Este grupo está formado por las características que comprenden el intervalo \texttt{f17-f19}, ambas inclusive. Los resultados se muestran en la imagen~\ref{gr:ph-f17f19_small}.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f17-f19})]{Resultados de la evaluación utilizando únicamente las características basadas en la identidad de la página \textit{web}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f17f19_small}
+	\label{gr:ph-f17f19_small}
+\end{figure}
+
+En general, este subconjunto tiene un desempeño aceptable, aunque la precisión no es muy alta. Es destacable que los atributos 17 (\textit{copyright}) y 18 (palabras clave) dependen del lenguaje, por lo que hay que entrenar correctamente los objetos TF-IDF (con documentos que posean cuerpos en el idioma a analizar) y pueden no ser atributos <<adecuados para utilizarse en solitario>>.
+
+
+\subsection{Discusión de los resultados}
+
+En general se opina que el método de detección tiene unos resultados satisfactorios, aunque es destacable que se han obtenido peores resultados que en el \textit{paper} utilizado como referencia~\cite{featuresPhishing2018Gupta}. Por ejemplo, en su experimentación el \textit{random forest} alcanza una \textit{accuracy} del 99\%, mientras que en la mostrada en este trabajo se alcanza un 88\%.
+
+Observando un árbol de decisión entrenado con el conjunto total de datos, se puede obtener una idea aproximada de los atributos más relevantes. Estos son el 10 (número de enlaces), el 2 (aparición de <<@>> y <<->> en la URL), el 3 (longitud de la URL), el 15 (ratio de redirecciones) y el 18 (aparición de palabras clave en el dominio base). Cabe destacar que el árbol real contiene 23 alturas. Se opina que los subconjuntos de atributos no son significantes por sí solos, pero que en conjunto modelan correctamente una página legítima o una de \textit{phishing}.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes)]{Atributos más relevantes durante la clasificación (inicio del árbol).}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_tree}
+	\label{gr:ph-f1f19_tree}
+\end{figure}
+
+Comparando los algoritmos de aprendizaje semisupervisados con el supervisado, se piensa que el resultado obtenido es muy bueno ya que los algoritmos de aprendizaje supervisado han sido entrenados con el 100\% de los datos etiquetados disponibles, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. A pesar de esto, comparando las \textit{accuracys} entre clasificadores, el mejor clasificador (\textit{random forest}) tiene una equivalente al 88\%, el peor (\textit{democratic co}) una equivalente al 84\% y el resto se encuentra en ese intervalo (por ejemplo, el \textit{co-forest} entrenado con el criterio /texttt{percentage\_L} cuenta con un 86\%). Como se puede comprobar, la diferencia es mínima y, por lo tanto, la aproximación obtenida puede ser utilizada en una situación de escasez de etiquetas. Es destacable que el \textit{democratic-co} tiene incluso una mejor precisión que el \textit{random-forest}, y se recuerda que el \textit{random-forest} es el algoritmo supervisado que mejor se comporta en la experimentación de~\cite{featuresPhishing2018Gupta}, por lo que es una cota superior del desempeño esperado para los algoritmos supervisados.
+
+Además, se opina que el método propuesto tiene muchas ventajas, como la independencia de herramientas externas (por ejemplo, consulta de autoridades certificadoras) y la extracción de los vectores desde el lado cliente.
+
+Concluyendo, se piensa que el método mostrado puede ser muy útil para realizar filtrados masivos, pero teniendo en cuenta que cuando los clasificadores fallan, en la mayoría de los casos lo hacen calificando instancias de \textit{phishing} como legítimas. Es destacable el buen desempeño de la aproximación aún contando con escasez de etiquetas.
 
 
