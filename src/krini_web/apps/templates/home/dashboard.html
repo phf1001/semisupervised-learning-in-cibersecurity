@@ -262,8 +262,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_1 = \left\{ \begin{array}{lr} 1, & \text{puntos en URL} \ge 4\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_1 = \left\{ \begin{array}{lr} 1, & \text{dots in URL} \ge 4\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -306,8 +311,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
-                $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
-                0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% if language == 'es' %}
+                  $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
+                  0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                  $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contains '@' or '-'}\\
+                  0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary">
@@ -345,8 +355,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_3 = \left\{ \begin{array}{lr} 1, & \text{si la longitud de la URL} \ge 74\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_3 = \left\{ \begin{array}{lr} 1, & \text{if URL length} \ge 74\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -390,8 +405,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_4 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene palabras sospechosas}\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_4 = \left\{ \begin{array}{lr} 1, & \text{if URL contains suspicious words}\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -444,9 +464,15 @@
               </p>
             </td>
             <td style="text-align: center;">
+              {% if language == 'es' %}
               $$F_5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\
               1, & \text{si hay más de un TDL en la URL} \\
               0, & \text{cualquier otro caso} \end{array} \right.$$
+              {% else %}
+              $$F_5 = \left\{ \begin{array}{lr} 1, & \text{if TLD is present in the domain zone}\\
+              1, & \text{if there is more than one TLD in the URL} \\
+              0, & \text{any other case} \end{array} \right.$$
+              {% endif %}
             </td>
             <td style="text-align: center;">
               <button class="btn btn-icon-only bg-primary text-center">
@@ -488,8 +514,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
-                $$F_6 = \left\{ \begin{array}{lr} 1, & \text{si http en URL -gt 1}\\
+                {% if language == 'es' %}
+                $$F_6 = \left\{ \begin{array}{lr} 1, & \text{si http en URL > 1}\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_6 = \left\{ \begin{array}{lr} 1, & \text{if http in URL > 1}\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -531,9 +562,15 @@
                 </p>
               </td>
               <td>
+                {% if language == 'es' %}
                 $$F_7 = \left\{ \begin{array}{lr} 1, & \text{si la URL contiene el nombre de una marca}\\ &
                 \text{famosa en la URL y la posición no es la correcta}\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_7 = \left\{ \begin{array}{lr} 1, & \text{if URL contains a famous brand name}\\ &
+                \text{in the URL and the position is not the correct one}\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -579,8 +616,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_8 = \left\{ \begin{array}{lr} 1, & \text{si la página contiene algún Data URI}\\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_8 = \left\{ \begin{array}{lr} 1, & \text{if the page contains any Data URI}\\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -635,11 +677,18 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_9 = \left\{ \begin{array}{lr} 1, & \text{si el valor del campo de acción está vacío,}\\ &
                 \text{equivale a #, o es} \texttt{"javascript:void(0)"}\\
                 1, & \text{si el valor del campo de acción posee una} \\ & \text{sintáxis compatible con "fichero.php"}
                 \\
                 0, & \text{cualquier otro caso} \end{array} \right.$$
+                {% else %}
+                $$F_9 = \left\{ \begin{array}{lr} 1, & \text{if the value of the action field is empty,}\\ &
+                \text{equivalent to #, or is} \texttt{"javascript:void(0)"}\\
+                1, & \text{if the value of the action field has a} \\ & \text{syntax compatible with "file.php"} \\
+                0, & \text{any other case} \end{array} \right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -683,7 +732,11 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{10} = \text{enlaces presentes en el sitio web}$$
+                {% else %}
+                $$F_{10} = \text{links present in the website}$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -729,8 +782,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{11} = \left\{ \begin{array}{lr} 1, & \text{si la página no contiene enlaces}\\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{11} = \left\{ \begin{array}{lr} 1, & \text{if the page does not contain links}\\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -768,10 +826,17 @@
                 </p>
               </td>
               <td>
+                {% if language == 'es' %}
                 $$F_{12} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
                 \frac{\text{enlaces externos}}{\text{enlaces totales}}
                 \text{> 0.5 y el número de enlaces > 0} \\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{12} = \left\{ \begin{array}{lr} 1, & \text{if the ratio }
+                \frac{\text{external links}}{\text{total links}}
+                \text{> 0.5 and the number of links > 0} \\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -809,9 +874,15 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{13} = \left\{ \begin{array}{lr} 1, & \text{si el ratio } \frac{\text{enlaces vacíos}}
                 {\text{enlaces totales}} \text{> 0.34 y el número de enlaces > 0} \\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{13} = \left\{ \begin{array}{lr} 1, & \text{if the ratio } \frac{\text{empty links}}
+                {\text{total links}} \text{> 0.34 and the number of links > 0} \\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -852,10 +923,17 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{14} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
                 \frac{\text{enlaces erróneos}}{\text{enlaces totales}}
                 \text{> 0.3 y el número de enlaces > 0} \\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{14} = \left\{ \begin{array}{lr} 1, & \text{if the ratio }
+                \frac{\text{wrong links}}{\text{total links}}
+                \text{> 0.3 and the number of links > 0} \\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -893,10 +971,17 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{15} = \left\{ \begin{array}{lr} 1, & \text{si el ratio }
                 \frac{\text{enlaces que redirigen}}{\text{enlaces totales}}
                 \text{> 0.3 y el número de enlaces > 0} \\
                 0, & \text{ cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{15} = \left\{ \begin{array}{lr} 1, & \text{if the ratio }
+                \frac{\text{redirecting links}}{\text{total links}}
+                \text{> 0.3 and the number of links > 0} \\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -939,8 +1024,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{16} = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero CSS y es externo}\\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{16} = \left\{ \begin{array}{lr} 1, & \text{if there is a CSS file and it is external}\\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -990,9 +1080,15 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{17} = \left\{ \begin{array}{lr} 0, &
                 \text{si las palabras del copyright están en el dominio base}\\
                 1, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{17} = \left\{ \begin{array}{lr} 0, &
+                \text{if the words of the copyright are in the base domain}\\
+                1, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -1038,8 +1134,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{18} = \left\{ \begin{array}{lr} 0, & \text{si una keyword coincide con el dominio base}\\
                 1, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{18} = \left\{ \begin{array}{lr} 0, & \text{if a keyword matches the base domain}\\
+                1, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">
@@ -1087,8 +1188,13 @@
                 </p>
               </td>
               <td style="text-align: center;">
+                {% if language == 'es' %}
                 $$F_{19} = \left\{ \begin{array}{lr} 1, & \text{si se encuentra un dominio externo en el favicon}\\
                 0, & \text{cualquier otro caso} \end{array}\right.$$
+                {% else %}
+                $$F_{19} = \left\{ \begin{array}{lr} 1, & \text{if an external domain is found in the favicon}\\
+                0, & \text{any other case} \end{array}\right.$$
+                {% endif %}
               </td>
               <td style="text-align: center;">
                 <button class="btn btn-icon-only bg-primary text-center">

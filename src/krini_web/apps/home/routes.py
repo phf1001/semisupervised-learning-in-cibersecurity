@@ -338,6 +338,7 @@ def dashboard():
                 "home/dashboard.html",
                 segment=get_segment(request),
                 information_to_display=information_to_display,
+                language=session.get("language", BABEL_DEFAULT),
             )
 
         raise KriniException(get_message("no_info_display_dashboard"))
