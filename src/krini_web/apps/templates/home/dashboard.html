@@ -298,7 +298,11 @@
               <td>
                 <p class="dashboard-text">
                   {{gettext('Carácter relevante encontrado:') }}
+                  {% if information_to_display["fv_extra_information"]["f2"] == '' %}
+                  {{gettext('ninguno')}}
+                  {% else %}
                   {{information_to_display["fv_extra_information"]["f2"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -377,8 +381,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('Palabra sospechosa encontrada') }} :
+                  {{gettext('Palabra sospechosa encontrada') }}:
+                  {% if information_to_display["fv_extra_information"]["f4"] == '' %}
+                  {{gettext('ninguna')}}
+                  {% else %}
                   {{information_to_display["fv_extra_information"]["f4"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -413,7 +421,7 @@
             </tr>
             <!-- F5-->
             <td>
-              <p class="dashboard-text">{{ gettext('Característica') }} 5'</p>
+              <p class="dashboard-text">{{ gettext('Característica') }} 5</p>
             </td>
             <td>
               <p class="text-white text-center">
@@ -427,7 +435,12 @@
             </td>
             <td>
               <p class="dashboard-text">
-                {{ gettext('Dominio extra encontrado:') }} {{information_to_display["fv_extra_information"]["f5"]}}
+                {{ gettext('Dominio extra encontrado:') }}
+                {% if information_to_display["fv_extra_information"]["f5"] == '' %}
+                {{gettext('ninguno')}}
+                {% else %}
+                {{information_to_display["fv_extra_information"]["f5"]}}
+                {% endif %}
               </p>
             </td>
             <td style="text-align: center;">
@@ -466,7 +479,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('¿http encontrado?') }} {{information_to_display["fv_extra_information"]["f6"]}}
+                  {{gettext('¿Extra HTTP encontrado?') }}
+                  {% if information_to_display["fv_extra_information"]["f6"] == 'yes' %}
+                  {{gettext('sí')}}
+                  {% else %}
+                  {{information_to_display["fv_extra_information"]["f6"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -504,7 +522,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('¿Marca famosa?') }} {{information_to_display["fv_extra_information"]["f7"]}}
+                  {{gettext('¿Marca famosa?') }}
+                  {% if information_to_display["fv_extra_information"]["f7"] == '' %}
+                  {{gettext('ninguna')}}
+                  {% else %}
+                  {{information_to_display["fv_extra_information"]["f7"]}}
+                  {% endif %}
                 </p>
               </td>
               <td>
@@ -599,7 +622,16 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('Valor del campo') }} = {{information_to_display["fv_extra_information"]["f9"]}}
+                  {{gettext('Valor del campo') }}:
+                  {% if information_to_display["fv_extra_information"]["f9"] == 1 %}
+                  {{gettext('vacío, asterisco o _javascript:void(0)_')}}
+                  {% elif information_to_display["fv_extra_information"]["f9"] == 2 %}
+                  {{gettext('compatible con _fichero.php_')}}
+                  {% elif information_to_display["fv_extra_information"]["f9"] == 3 %}
+                  {{gettext('dominio externo')}}
+                  {% elif information_to_display["fv_extra_information"]["f9"] == 4 %}
+                  {{gettext('no peligroso')}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -688,7 +720,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('¿Página vacía?')}} {{information_to_display["fv_extra_information"]["f11"]}}
+                  {{gettext('¿Página vacía?')}}
+                  {% if information_to_display["fv_extra_information"]["f11"] == 'yes' %}
+                  {{gettext('sí')}}
+                  {% else %}
+                  {{information_to_display["fv_extra_information"]["f11"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -893,7 +930,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{gettext('¿Fichero CSS encontrado?') }} {{information_to_display["fv_extra_information"]["f16"]}}
+                  {{gettext('¿Fichero css externo encontrado?') }}
+                  {% if information_to_display["fv_extra_information"]["f16"] == 'yes' %}
+                  {{gettext('sí')}}
+                  {% else %}
+                  {{information_to_display["fv_extra_information"]["f16"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -939,8 +981,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{ gettext('Palabra copyright') }}
+                  {{ gettext('Palabra copyright') }}: 
+                  {% if information_to_display["fv_extra_information"]["f17"] == '' %}
+                  {{gettext('ninguna')}}
+                  {% else %}
                   {{information_to_display["fv_extra_information"]["f17"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -983,8 +1029,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{ gettext('Palabra clave dominio base') }}
+                  {{ gettext('Palabra clave dominio base') }}:
+                  {% if information_to_display["fv_extra_information"]["f18"] == '' %}
+                  {{gettext('ninguna')}}
+                  {% else %}
                   {{information_to_display["fv_extra_information"]["f18"]}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">
@@ -1028,8 +1078,12 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{ gettext('¿Dominio externo en el favicon') }}
-                  {{information_to_display["fv_extra_information"]["f19"]}}
+                  {{ gettext('¿Dominio externo en el favicon?') }}
+                  {% if information_to_display["fv_extra_information"]["f19"] == 'yes' %}
+                  {{gettext('sí')}}
+                  {% else %}
+                  {{gettext('no')}}
+                  {% endif %}
                 </p>
               </td>
               <td style="text-align: center;">

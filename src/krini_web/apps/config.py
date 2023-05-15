@@ -27,6 +27,7 @@ DEFAULT_USER_AGENT = (
 )
 BABEL_DEFAULT = "es"
 AVAILABLE_LANGUAGES = ["en", "es"]
+MAX_MODELS_DASHBOARD = 8
 
 
 class Config(object):

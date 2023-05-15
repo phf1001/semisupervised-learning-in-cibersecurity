@@ -112,7 +112,7 @@ class PhishingFVG:
         elif minus_found:
             found_characters += "-"
         else:
-            found_characters += "ninguno"
+            found_characters += ""
 
         self.extra_information["f2"] = found_characters
 
@@ -163,7 +163,7 @@ class PhishingFVG:
                 return
 
         self.fv[3] = 0
-        self.extra_information["f4"] = "ninguna"
+        self.extra_information["f4"] = ""
 
     def set_f5(self):
         """
@@ -187,7 +187,7 @@ class PhishingFVG:
 
         else:
             self.fv[4] = 0
-            self.extra_information["f5"] = "ninguno"
+            self.extra_information["f5"] = ""
 
     def set_f6(self):
         """
@@ -197,11 +197,11 @@ class PhishingFVG:
         """
         if len(re.findall("http", self.url)) > 1:
             self.fv[5] = 1
-            self.extra_information["f6"] = "Sí"
+            self.extra_information["f6"] = "yes"
 
         else:
             self.fv[5] = 0
-            self.extra_information["f6"] = "No"
+            self.extra_information["f6"] = "no"
 
     def set_f7(self):
         """
@@ -255,7 +255,7 @@ class PhishingFVG:
                         return
 
         self.fv[6] = 0
-        self.extra_information["f7"] = "ninguna"
+        self.extra_information["f7"] = ""
 
     def set_f8(self):
         """
@@ -293,25 +293,21 @@ class PhishingFVG:
                 if len(action_content) > 0:
                     if is_empty(action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information[
-                            "f9"
-                        ] = "vacío, asterisco o _javascript:void(0)_"
+                        self.extra_information["f9"] = 1
                         return
 
                     if is_simple_php_file(action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information[
-                            "f9"
-                        ] = "compatible con _fichero.php_"
+                        self.extra_information["f9"] = 2
                         return
 
                     if is_foreign(self.url, action_content[0]):
                         self.fv[8] = 1
-                        self.extra_information["f9"] = "dominio extranjero"
+                        self.extra_information["f9"] = 3
                         return
 
         self.fv[8] = 0
-        self.extra_information["f9"] = "no peligroso"
+        self.extra_information["f9"] = 4
 
     def set_f10_f11(self):
         """
@@ -328,11 +324,11 @@ class PhishingFVG:
 
         if n_hyperlinks_found == 0:
             self.fv[10] = 1
-            self.extra_information["f11"] = "Sí"
+            self.extra_information["f11"] = "yes"
 
         else:
             self.fv[10] = 0
-            self.extra_information["f11"] = "No"
+            self.extra_information["f11"] = "no"
 
     def set_f12(self):
         """
@@ -448,12 +444,12 @@ class PhishingFVG:
             link = extract_url_href(css)
 
             if is_foreign(self.url, link):
-                self.extra_information["f16"] = "CSS externo"
+                self.extra_information["f16"] = "yes"
                 self.fv[15] = 1
                 return
 
         self.fv[15] = 0
-        self.extra_information["f16"] = "ninguno"
+        self.extra_information["f16"] = "no"
 
     def set_f17(self):
         """
@@ -491,7 +487,7 @@ class PhishingFVG:
                         return
 
         self.fv[16] = 1
-        self.extra_information["f17"] = "ninguna"
+        self.extra_information["f17"] = ""
 
     def set_f18(self):
         """
@@ -508,7 +504,7 @@ class PhishingFVG:
                 return
 
         self.fv[17] = 1
-        self.extra_information["f18"] = "ninguna"
+        self.extra_information["f18"] = ""
 
     def set_f19(self):
         """
@@ -524,8 +520,8 @@ class PhishingFVG:
 
             if is_foreign(self.url, link):
                 self.fv[18] = 1
-                self.extra_information["f19"] = link
+                self.extra_information["f19"] = "yes"
                 return
 
         self.fv[18] = 0
-        self.extra_information["f19"] = "No"
+        self.extra_information["f19"] = "no"
