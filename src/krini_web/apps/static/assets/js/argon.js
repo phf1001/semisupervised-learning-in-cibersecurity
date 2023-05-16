@@ -3,6 +3,7 @@
 
 =========================================================
 * Argon Dashboard - v1.2.0
+* Edited by: Patricia Hernando Fernández
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/argon-dashboard
