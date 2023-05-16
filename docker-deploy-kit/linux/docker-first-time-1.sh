@@ -15,11 +15,13 @@ echo
 echo "${Y}~ Inicialización por primera vez del sistema (1)~ ${N}"
 echo
 
-read -r -p "Este script libera los puertos 5432 y 5000 de tu sistema (elimina algún proceso en caso de que estén ocupados) ¿Deseas continuar? [y/N] " response
+read -r -p "Este script libera los puertos 5432 y 5000 de tu sistema (elimina algún proceso en caso de que estén ocupados), además de contenedores previos de Krini ¿Deseas continuar? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY]) 
 	docker-compose down -v > /dev/null 2>&1
 	docker kill $(docker ps -q) > /dev/null 2>&1
+	docker rm semisupervised-learning-in-cibersecurity_web > /dev/null 2>&1
+	docker rm semisupervised-learning-in-cibersecurity_db > /dev/null 2>&1
 	sudo kill $(sudo lsof -t -i:5432) > /dev/null 2>&1
 	sudo kill $(sudo lsof -t -i:5000) > /dev/null 2>&1
 	echo "${Y}~ Por favor, espera unos instantes mientras se levantan los contenedores. ~"
