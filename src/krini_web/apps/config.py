@@ -28,11 +28,6 @@ DEFAULT_USER_AGENT = (
 BABEL_DEFAULT = "es"
 AVAILABLE_LANGUAGES = ["en", "es"]
 MAX_MODELS_DASHBOARD = 8
-DB_USER = os.getenv("POSTGRES_USER", "dev")
-DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "123")
-DB_HOST = os.getenv("SQL_HOST", "db")
-DB_PORT = os.getenv("SQL_PORT", "5432")
-DB_DATABASE = os.getenv("POSTGRES_DB", "krini")
 
 
 class Config(object):

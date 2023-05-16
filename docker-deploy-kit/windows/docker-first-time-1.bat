@@ -22,5 +22,5 @@ timeout /t 30 /NOBREAK > nul
 echo.
 echo ~ Listo. Por favor, abre la siguiente URL en tu navegador: 0.0.0.0:5000/ ~
 echo ~ Si no está disponible, prueba con 127.0.0.1:5000/ ~
-echo ~ Después, ciérrala y ejecuta el script 'docker-init.bat'. ~
+echo ~ Después, ciérrala y ejecuta el script 'docker-first-time-2.bat'. ~
 echo.

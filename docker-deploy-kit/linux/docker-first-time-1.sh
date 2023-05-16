@@ -12,18 +12,16 @@ echo  '|  <  |  _  /   | |  | . ` |  | | '
 echo  '| . \ | | \ \  _| |_ | |\  | _| |_ '
 echo  "|_|\_\|_|  \_\|_____||_| \_||_____|${N}"
 echo
-echo "${Y}~ Inicialización por primera vez del sistema ~ ${N}"
+echo "${Y}~ Inicialización por primera vez del sistema (1)~ ${N}"
 echo
 docker-compose down -v > /dev/null 2>&1
 docker kill $(docker ps -q) > /dev/null 2>&1
-docker rmi -f $(docker images -q) > /dev/null 2>&1
-docker-compose down -v > /dev/null 2>&1
 echo "${Y}~ Por favor, espera unos instantes mientras se levantan los contenedores. ~"
 echo "~ Al ser la primera vez, este proceso puede tardar alrededor de un minuto. ~ ${N}"
 echo 
 docker-compose -f docker-compose.yml up -d --build
 echo 
-echo "${G}~~~ pss: si tienes el puerto 5432 ocupado, pulsa ctrl + c. Después, puedes ejecutar $sudo netstat -p -nlp | grep 5432 seguido de un $sudo kill <PID> para recuperarlo ~~~"
+echo "${G}~~~ pss: si tienes el puerto 5432 ocupado, pulsa ctrl + c. Después, puedes ejecutar $sudo netstat -p -nlp | grep 5432 seguido de un $sudo kill <PID> para recuperarlo y reinicia el script.~~~"
 echo 
 echo "${Y}~ Contenedores levantados... ¡Ya no queda nada! ~"
 echo "${Y}~ Por favor, espera 30 segundos mientras se crea la estructura necesaria. ~"
@@ -31,5 +29,5 @@ sleep 30
 echo 
 echo "${Y}~ Listo. Por favor, abre la siguiente URL en tu navegador: 0.0.0.0:5000/ ~"
 echo "${Y}~ Si no está disponible, prueba con 127.0.0.1:5000/ ~"
-echo "${Y}~ Después, ciérrala y ejecuta el script "docker-init.sh". ~${N}"
+echo "${Y}~ Después, ciérrala y ejecuta el script "docker-first-time-2.sh". ~${N}"
 echo 
