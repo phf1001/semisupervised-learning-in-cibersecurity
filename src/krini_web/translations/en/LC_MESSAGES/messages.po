@@ -2000,11 +2000,11 @@ msgstr "TEST DATA"
 
 #: apps/templates/home/new-model.html:229
 msgid "Conjunto para probar. Si se quieren resultados certeros,"
-msgstr "Set to try. If you want accurate results,"
+msgstr "set used to test. If accurate results are desired,"
 
 #: apps/templates/home/new-model.html:230
 msgid " no debe contener ningún enlace utilizado para entrenar."
-msgstr " It must not contain any links used for training."
+msgstr " It must not contain any URLs used for training."
 
 #: apps/templates/home/new-model.html:239
 msgid "En este caso, se van a generar aleatoriamente los "

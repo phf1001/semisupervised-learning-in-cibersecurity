@@ -618,7 +618,10 @@ def new_model():
         flash(message, "warning")
 
     return render_template(
-        "home/new-model.html", form=form, segment=get_segment(request)
+        "home/new-model.html",
+        form=form,
+        segment=get_segment(request),
+        language=session.get("language", BABEL_DEFAULT),
     )
 
 

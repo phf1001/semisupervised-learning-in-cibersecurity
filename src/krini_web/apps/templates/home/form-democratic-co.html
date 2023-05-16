@@ -87,8 +87,13 @@
                 <td colspan="2" class="hiddenRow">
                     <div id="info-democratic-co" class="accordian-body collapse">
                         <p style="text-align: center;">
+                            {% if language == 'es' %}
                             <img src="/static/assets/img/theme/democraticco_pseudocode.png"
                                 alt="Pseudocódigo de Democratic Co">
+                            {% else %}
+                            <img src="/static/assets/img/theme/democraticco_pseudocode_en.png"
+                                alt="Pseudocode of Democratic Co">
+                            {% endif %}
                         </p>
                     </div>
                 </td>
