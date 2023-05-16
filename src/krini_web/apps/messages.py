@@ -367,6 +367,11 @@ def get_message(identifier) -> str:
     if identifier == "model_removed":
         return gettext("Modelo eliminado correctamente.")
 
+    if identifier == "too_many_models":
+        return gettext(
+            "No se pueden mostrar más de 8 modelos en el dashboard."
+        ) + gettext(" Se han utilizado los 8 primeros.")
+
     if identifier == "model_updated":
         return gettext("Modelo actualizado correctamente.")
 

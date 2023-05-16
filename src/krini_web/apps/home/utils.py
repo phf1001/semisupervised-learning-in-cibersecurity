@@ -1223,9 +1223,10 @@ def remove_selected_models(ids_models):
     """
     try:
         models_path = get_models_directory()
+        flash_msg = False
 
         for model_id in ids_models:
-            if model_id not in ("1", "2", "3"):
+            if model_id not in ("1", "2", "3", 1, 2, 3):
                 model = Available_models.query.filter_by(
                     model_id=model_id
                 ).first()
@@ -1238,7 +1239,10 @@ def remove_selected_models(ids_models):
                 db.session.commit()
 
             else:
-                flash(get_exception_message("protected_models"), "info")
+                flash_msg = True
+
+        if flash_msg:
+            flash(get_exception_message("protected_models"), "info")
 
     except exc.SQLAlchemyError:
         db.session.rollback()
@@ -1420,7 +1424,7 @@ def update_model(model, form_data, models_path=None):
         bool: True if the model was updated correctly.
     """
     try:
-        if model.model_id not in (1, 2, 3):
+        if model.model_id not in ("1", "2", "3", 1, 2, 3):
             new_model_version = form_data["model_version"]
 
             if models_path is None:
@@ -1556,8 +1560,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
                 + instance.instance_fv
                 + [instance.instance_class]
                 for instance in instances
-                if instance.instance_fv
-                and instance.instance_class in (1, 0)
+                if instance.instance_fv and instance.instance_class in (1, 0)
             ]
 
             df = pd.DataFrame(

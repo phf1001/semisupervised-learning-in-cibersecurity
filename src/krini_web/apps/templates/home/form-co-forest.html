@@ -50,7 +50,11 @@
                 <td colspan="2" class="hiddenRow">
                     <div id="info-coforest" class="accordian-body collapse">
                         <p style="text-align: center;">
+                            {% if language == 'es' %}
                             <img src="/static/assets/img/theme/coforest_pseudocode.png" alt="Pseudocódigo de Coforest">
+                            {% else %}
+                            <img src="/static/assets/img/theme/coforest_pseudocode_en.png" alt="Coforest pseudocode">
+                            {% endif %}
                         </p>
                     </div>
                 </td>

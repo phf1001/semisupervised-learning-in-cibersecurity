@@ -42,7 +42,7 @@ from apps.home.models import (
     Available_models,
     Available_tags,
 )
-from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT
+from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT, MAX_MODELS_DASHBOARD
 from apps.messages import (
     get_message,
     get_form_message,
@@ -147,7 +147,7 @@ def trigger_mock_dashboard(models_ids, quick_analysis):
     session["messages"] = {
         "fv": fv.tolist(),
         "fv_extra_information": fv_extra_information,
-        "url": "http://phishing.com/query?param=1",
+        "url": "http://phishing.cat.com/query?param=login@microsoft",
         "models_ids": models_ids,
         "quick_analysis": quick_analysis,
         "colour_list": "black-list",
@@ -284,6 +284,10 @@ def dashboard():
             if len(selected_models) == 0:
                 raise KriniException(get_message("no_models_available"))
 
+            if len(selected_models) > MAX_MODELS_DASHBOARD:
+                selected_models = selected_models[:MAX_MODELS_DASHBOARD]
+                flash(get_message("too_many_models"), "warning")
+
             classifiers_info_tuples = [
                 get_model(model_id) for model_id in selected_models
             ]
@@ -334,6 +338,7 @@ def dashboard():
                 "home/dashboard.html",
                 segment=get_segment(request),
                 information_to_display=information_to_display,
+                language=session.get("language", BABEL_DEFAULT),
             )
 
         raise KriniException(get_message("no_info_display_dashboard"))
@@ -395,9 +400,7 @@ def report_false_positive():
                 db.session.commit()
                 flash(get_message("false_positive_reported"), "success")
                 return redirect(url_for("home_blueprint.dashboard"))
-            raise KriniException(
-                get_exception_message("not_instance_found")
-            )
+            raise KriniException(get_exception_message("not_instance_found"))
 
         else:
             raise ValueError(get_exception_message("not_info_found"))
@@ -615,7 +618,10 @@ def new_model():
         flash(message, "warning")
 
     return render_template(
-        "home/new-model.html", form=form, segment=get_segment(request)
+        "home/new-model.html",
+        form=form,
+        segment=get_segment(request),
+        language=session.get("language", BABEL_DEFAULT),
     )
 
 

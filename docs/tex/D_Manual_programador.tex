@@ -17,7 +17,86 @@
 
 \section{Compilación, instalación y ejecución del proyecto}
 
-\section{Compilación, instalación y ejecución de herramientas auxiliares}
+\subsection{Entorno virtual}
+...
+
+\subsection{\textit{Web}: Despliegue en local (servidor de Flask y base de datos PostgreSQL)}
+
+Para programar y probar la aplicación \textit{web}, se recomienda utilizar el propio servidor de Flask. Para ello, se han de seguir los siguientes pasos:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity /src/krini\_web}
+	\item Activar el entorno virtual \texttt{\$ . env/bin/activate}
+	\item Exportar las variables de entorno \texttt{\$ export FLASK\_APP=run.py}
+	\item Activar el modo depuración \texttt{\$ export FLASK\_ENV=development}
+	\item Lanzar el servidor mediante el comando \texttt{\$ flask run --host=127.0.0.1 --port=5000}. Evidentemente, se pueden configurar las direcciones y puertos que se considere necesario.
+\end{enumerate}
+
+\textbf{Nota:} para desarrollo, se ha utilizado una base de datos PostgreSQL en \texttt{localhost}. En Ubuntu se puede configurar siguiendo las instrucciones mostradas en~\cite{postgrelocal}. Es importante contar con una base de datos llamada \texttt{krini}, un usuario \texttt{dev} con privilegios y contraseña \texttt{123}. Las tablas se crean solas (mediante SQLAlchemy) al visitar la aplicación.
+
+\subsubsection{Compilar y modificar los archivos de idiomas}
+
+Cuando se introduzca una cadena nueva en el programa, se debe etiquetar mediante la función \texttt{gettext()}. Posteriormente, se han de seguir los pasos mostrados a continuación~\cite{pybabelmanual}:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity /src/krini\_web}
+	\item Activar el entorno virtual \texttt{\$ . env/bin/activate}
+	\item Actualizar el fichero \texttt{.pot \$ pybabel extract -F babel.cfg -o} 
+	\texttt{ messages.pot --input-dirs=. }
+	\item La primera vez, generar los ficheros \texttt{.po} y \texttt{.mo} mediante el comando \texttt{\$pybabel init -i messages.pot -d translations -l <idioma>}. Las veces sucesivas, simplemente actualizar mediante el comando \texttt{\$pybabel update -i messages.pot -d}.
+	\item Realizar los cambios que se desee en el fichero \texttt{.po}.
+	\item Compilar las modificaciones \texttt{\$ pybabel compile -d translations}. 
+\end{enumerate}
+
+
+
+\subsection{\textit{Web}: Despliegue en Docker}
+
+Para garantizar que la aplicación pueda ejecutarse independientemente del sistema anfitrión, se han utilizado contenedores de Docker.
+
+A nivel de usuario se ha automatizado el despliegue mediante \textit{scripts} multiplataforma\footnote{Disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}} que descargan las imágenes del repositorio de DockerHub\footnote{Disponible en \url{https://hub.docker.com/r/phf1001/krini}} de la autora~\cite{dockerHub}. Los pasos necesarios serán descritos en la correspondiente sección del manual.
+
+A nivel de programador, se ha configurado el archivo \texttt{DockerFile} que genera una imagen de Python en la que se copia la carpeta \texttt{src} del repositorio e instala el archivo \texttt{requirements.txt}. Para levantar los contenedores, se facilita el correspondiente archivo \texttt{docker-compose}, que lanza la \textit{web} y una base de datos PostgreSQL~\cite{dockerFlaskPostgre}. Para hacer la base de datos persistente y evitar que se reinicie cada vez que se levanta la imagen, se ha mapeado un volumen \texttt{data}~\cite{dockerPersist}.
+
+Además, para que los usuarios no tengan la base de datos vacía, se ha creado un \textit{script} de Python que se ejecuta en el contenedor gracias al \texttt{docker-compose} e inserta usuarios, modelos, URLs y reportes. Está copiado en la imagen.
+
+De esta forma, cuando un programador quiera actualizar las imágenes de Docker debe:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity} (nótese la ubicación, la raíz del repositorio).
+	\item Ejecutar el comando \texttt{\$ docker-compose build --no-cache}.
+	\item Ejecutar el comando \texttt{\$ docker-compose -f docker-compose.yml up -d --build}.
+	\item Comprobar que ambas imágenes están disponibles mediante \texttt{\$ docker images -a}.
+	\item Actualizar la web en DockerHub mediante \texttt{\$ docker tag semisupervised -learning-in-cibersecurity\_web phf1001/krini:web-<número> \&\& docker push phf1001/krini:web-v<número>}
+	\item Actualizar la base de datos en DockerHub mediante \texttt{\$ docker tag postgres phf1001/krini:db-v<número> \&\& docker push phf1001 /krini:db-v<número>}
+	\item Cambiar las versiones en los \texttt{docker-compose} para los clientes.
+\end{enumerate}
+
+Nota: durante el desarrollo, a veces se ha dejado el puerto 5432 expuesto por motivos de comodidad (acceso a la base de datos por terminal). Si Docker avisa de que no puede levantar contenedores ya que el puerto esta ocupado, se recomienda ejecutar \texttt{\$ sudo netstat -p -nlp | grep 5432} para comprobar por quién y, si se está de acuerdo, matar el proceso mediante \texttt{sudo kill <PID>}. Si no se necesitan los puertos, también se puede eliminar el campo \texttt{ports} del \texttt{docker-compose}
+
+Nota: se dispone de un \textit{script} tanto en \texttt{.sh} como en \texttt{.bat} llamado \texttt{docker-clean} que pausa, limpia y elimina contenedores (e imágenes) para no consumir recursos.
+
+
+\subsection{\textit{Web}: Despliegue en Heroku}
+
+El despliegue en Heroku se complica un poco más de lo habitual por la estructura de directorios creada (la aplicación \textit{web} se encuentra varías carpetas alejada de la raíz y hace uso de elementos externos).
+
+Los pasos seguidos para desplegar la aplicación se pueden consultar en~\cite{herokudeploy}. Es destacable la necesidad de crear un archivo \texttt{Procfile} (define los pasos que se ejecutan al iniciar la aplicación~\cite{herokuprocfile}) que se encuentre en la raíz del directorio que se quiere desplegar (en este caso, sólo \texttt{src}, no tiene sentido subir la documentación) junto con el archivo \texttt{requirements.txt} de la \textit{web}. Además, se ha incluído un fichero \texttt{runtime.txt} para indicar la versión de Python deseada.
+
+Nótese que el fichero \texttt{Procfile} almacena el contenido \texttt{\$ web: cd krini\_web \&\& gunicorn run:app --log-file=-} (por la necesidad comentada de cambiar de directorio ya que se encuentra dentro de \texttt{src} para que Heroku encuentre la aplicación). Al igual que en Docker, se ha utilizado un servidor Gunicorn por ser un servidor WSGI\footnote{\textit{Web Server Gateway Interface}: especificación que describe cómo se comunica un servidor \textit{web} con una aplicación \textit{web} y cómo se procesan las solicitudes/peticiones.} compatible con varios \textit{frameworks} (entre ellos, Flask).
+
+Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásico se complica un poco. Los pasos son:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity} (nótese la ubicación, la raíz del repositorio).
+	\item Ejecutar el comando \texttt{\$ git subtree push --prefix src/ heroku main
+	}. Es probable que requiera un inicio de sesión.
+\end{enumerate}
+
+La base de datos PostgreSQL de la \textit{web} también se ha desplegado en Heroku mediante un \textit{add-on} y es accesible por CLI mediante el comando \texttt{\$
+heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión mediante variables de entorno.
+
+\section{\textit{Web}: Compilación, instalación y ejecución de herramientas auxiliares}
 
 \begin{figure}[h]
 	\caption[\textit{Co-forest}: Configuración de un experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}

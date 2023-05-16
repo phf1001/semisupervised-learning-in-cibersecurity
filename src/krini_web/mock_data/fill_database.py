@@ -6,6 +6,12 @@ import binascii
 import time
 from datetime import datetime
 
+DB_USER = os.getenv("POSTGRES_USER", "dev")
+DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "123")
+DB_HOST = os.getenv("SQL_HOST", "db")
+DB_PORT = os.getenv("SQL_PORT", "5432")
+DB_DATABASE = os.getenv("POSTGRES_DB", "krini")
+
 
 def hash_pass(password):
     """
@@ -114,7 +120,7 @@ def insert_models(connection):
                 "co-forest 1",
                 "co-forest_1.pkl",
                 "2020-01-01",
-                False,
+                True,
                 True,
                 [0.9, 0.85, 0.8, 0.87, 0.9],
                 5,
@@ -287,11 +293,11 @@ def start():
         try:
             connection = None
             connection = psycopg2.connect(
-                user="dev",
-                password="123",
-                host="db",
-                port="5432",
-                database="krini",
+                user=DB_USER,
+                password=DB_PASSWORD,
+                host=DB_HOST,
+                port=DB_PORT,
+                database=DB_DATABASE,
             )
 
             if last_insert_id(connection, "Users", "id") in [0, 1]:

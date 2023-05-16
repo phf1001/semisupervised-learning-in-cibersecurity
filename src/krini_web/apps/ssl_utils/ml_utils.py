@@ -254,25 +254,25 @@ def get_mock_values_fv():
     """
     fv = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 1, 1, 1, 1])
     fv_extra_information = {
-        "f1": 322,
+        "f1": 2,
         "f2": "@",
-        "f3": 56,
+        "f3": 51,
         "f4": "login",
         "f5": ".cat",
-        "f6": "No",
-        "f7": "Google",
-        "f8": "No",
-        "f9": "asterisco",
+        "f6": "no",
+        "f7": "microsoft",
+        "f8": 3,
+        "f9": 1,
         "f10": "5",
-        "f11": "No",
+        "f11": "no",
         "f12": 2,
         "f13": 3,
         "f14": 4,
         "f15": 5,
-        "f16": "No",
-        "f17": "Natura",
-        "f18": "Natura",
-        "f19": "No",
+        "f16": "yes",
+        "f17": "",
+        "f18": "",
+        "f19": "yes",
     }
 
     return fv, fv_extra_information

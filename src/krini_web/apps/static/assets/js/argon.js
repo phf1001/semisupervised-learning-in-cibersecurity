@@ -3,6 +3,7 @@
 
 =========================================================
 * Argon Dashboard - v1.2.0
+* Edited by: Patricia Hernando Fernández
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/argon-dashboard
@@ -313,8 +314,7 @@ var Charts = (function () {
 			},
 			ticks: {
 				padding: 20
-			},
-			maxBarThickness: 10
+			}
 		});
 
 		return options;
@@ -1208,6 +1208,7 @@ if (clsValues && clsNames) {
 							label: 'Score (%)',
 							data: model_data,
 							backgroundColor: bckColor,
+							maxBarThickness: 15
 						}]
 					},
 					options: {
@@ -1341,29 +1342,34 @@ if (clsValues && clsNames) {
 				datasets: [{
 					label: metrics[0],
 					data: accuracys,
-					backgroundColor: 'rgb(153, 255, 102)'
+					backgroundColor: 'rgb(153, 255, 102)',
+					maxBarThickness: 10
 				},
 
 				{
 					label: metrics[1],
 					data: precisions,
-					backgroundColor: 'rgb(255, 153, 255)'
+					backgroundColor: 'rgb(255, 153, 255)',
+					maxBarThickness: 10
 				},
 
 				{
 					label: metrics[2],
 					data: recalls,
-					backgroundColor: 'rgb(255, 255, 102)'
+					backgroundColor: 'rgb(255, 255, 102)',
+					maxBarThickness: 10
 				},
 				{
 					label: metrics[3],
 					data: f1s,
-					backgroundColor: 'rgb(153, 204, 255)'
+					backgroundColor: 'rgb(153, 204, 255)',
+					maxBarThickness: 10
 				},
 				{
 					label: metrics[4],
 					data: rocs,
-					backgroundColor: 'rgb(255, 204, 102)'
+					backgroundColor: 'rgb(255, 204, 102)',
+					maxBarThickness: 10
 				}]
 			};
 
@@ -1426,6 +1432,7 @@ if (clsValues && clsNames) {
 							label: ['Score'],
 							data: model_data,
 							backgroundColor: bckColor,
+							maxBarThickness: 20
 						}]
 					},
 					options: {

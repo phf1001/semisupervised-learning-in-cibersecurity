@@ -14,9 +14,19 @@ echo  "|_|\_\|_|  \_\|_____||_| \_||_____|${N}"
 echo
 echo "${Y}~ Limpiador de residuos de docker ~${N}"
 echo
-echo "${Y}~ Iniciando limpieza... ~${N}"
-echo ''docker-compose down -v > /dev/null 2>&1
-docker kill $(docker ps -q) > /dev/null 2>&1
-docker rmi -f $(docker images -q) > /dev/null 2>&1
-docker-compose down -v > /dev/null 2>&1
-echo "${Y}~ Limpieza terminada. ~${N}"
+read -r -p "Este script borra todos los contenedores y todas las imágenes de tu sistema. ¿Estás seguro de que quieres continuar? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY]) 
+	echo "${Y}~ Iniciando limpieza... ~${N}"
+	docker-compose down -v > /dev/null 2>&1
+	docker kill $(docker ps -q) > /dev/null 2>&1
+	docker rmi -f $(docker images -q) > /dev/null 2>&1
+	docker rm -f $(docker ps -a -q) > /dev/null 2>&1
+	echo "${Y}~ Limpieza terminada. ~${N}"
+        ;;
+    *)
+        echo "${Y}~ Parado. ~${N}"
+        ;;
+esac
+
+

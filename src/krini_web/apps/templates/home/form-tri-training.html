@@ -56,8 +56,13 @@
                 <td class="hiddenRow">
                     <div id="info-tri-training" class="accordian-body collapse">
                         <p style="text-align: center;">
+                            {% if language == 'es' %}
                             <img src="/static/assets/img/theme/tritraining_pseudocode.png"
                                 alt="Pseudocódigo de Tri Training">
+                            {% else %}
+                            <img src="/static/assets/img/theme/tritraining_pseudocode_en.png"
+                                alt="Tri Training pseudocode">
+                            {% endif %}
                         </p>
                     </div>
                 </td>
