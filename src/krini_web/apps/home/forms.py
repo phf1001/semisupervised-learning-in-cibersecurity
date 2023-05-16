@@ -18,20 +18,19 @@ from wtforms import (
     FloatField,
 )
 from wtforms.validators import DataRequired, Regexp, NumberRange, Length
+from flask_babel import gettext
 
 from apps.config import (
     NAIVE_BAYES_KEY,
-    NAIVE_BAYES_NAME,
     DECISION_TREE_KEY,
-    DECISION_TREE_NAME,
     KNN_KEY,
-    KNN_NAME,
 )
 
+# Importing from messages.py is not working in select forms
 available_base_cls = [
-    (NAIVE_BAYES_KEY, NAIVE_BAYES_NAME),
-    (KNN_KEY, KNN_NAME),
-    (DECISION_TREE_KEY, DECISION_TREE_NAME),
+    (NAIVE_BAYES_KEY, gettext("Naive Bayes")),
+    (KNN_KEY, gettext("Árbol de decisión")),
+    (DECISION_TREE_KEY, gettext("k-vecinos más cercanos")),
 ]
 
 
@@ -102,7 +101,7 @@ class InstanceForm(FlaskForm):
         "instance_class",
         id="instance-class",
         choices=[
-            (-1, "Mantener valor actual"),
+            (-1, gettext("Mantener valor actual")),
             (1, "Phishing"),
             (0, "Legítima"),
         ],
@@ -112,7 +111,7 @@ class InstanceForm(FlaskForm):
         "instance_list",
         id="instance-list",
         choices=[
-            (-1, "Mantener valor actual"),
+            (-1, gettext("Mantener valor actual")),
             ("black-list", "Black-list"),
             ("white-list", "White-list"),
         ],
@@ -122,8 +121,8 @@ class InstanceForm(FlaskForm):
         "regenerate_fv",
         id="regenerate-fv",
         choices=[
-            (-1, "Mantener vector actual"),
-            (1, "Generar nuevo vector de características"),
+            (-1, gettext("Mantener vector actual")),
+            (1, gettext("Generar nuevo vector de características")),
         ],
     )
 
@@ -166,7 +165,7 @@ class SmallModelForm(FlaskForm):
     is_default = SelectField(
         "is_default",
         id="is_default",
-        choices=[("False", "No"), ("True", "Sí")],
+        choices=[("False", "No"), ("True", gettext("Sí"))],
         default="False",
     )
 

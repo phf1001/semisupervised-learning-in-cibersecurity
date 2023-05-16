@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 10:37+0200\n"
+"POT-Creation-Date: 2023-05-16 10:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -543,15 +543,15 @@ msgstr ""
 msgid "Clasificador "
 msgstr ""
 
-#: apps/messages.py:532
+#: apps/home/forms.py:31 apps/messages.py:532
 msgid "Naive Bayes"
 msgstr ""
 
-#: apps/messages.py:535
+#: apps/home/forms.py:32 apps/messages.py:535
 msgid "Árbol de decisión"
 msgstr ""
 
-#: apps/messages.py:538
+#: apps/home/forms.py:33 apps/messages.py:538
 msgid "k-vecinos más cercanos"
 msgstr ""
 
@@ -617,6 +617,22 @@ msgstr ""
 
 #: apps/messages.py:586
 msgid "recién-escaneada-revisar"
+msgstr ""
+
+#: apps/home/forms.py:104 apps/home/forms.py:114
+msgid "Mantener valor actual"
+msgstr ""
+
+#: apps/home/forms.py:124
+msgid "Mantener vector actual"
+msgstr ""
+
+#: apps/home/forms.py:125
+msgid "Generar nuevo vector de características"
+msgstr ""
+
+#: apps/home/forms.py:168
+msgid "Sí"
 msgstr ""
 
 #: apps/templates/accounts/login.html:2 apps/templates/accounts/login.html:47
@@ -756,24 +772,24 @@ msgstr ""
 
 #: apps/templates/home/dashboard.html:224
 #: apps/templates/home/dashboard.html:247
-#: apps/templates/home/dashboard.html:286
-#: apps/templates/home/dashboard.html:330
-#: apps/templates/home/dashboard.html:370
-#: apps/templates/home/dashboard.html:424
-#: apps/templates/home/dashboard.html:468
-#: apps/templates/home/dashboard.html:511
-#: apps/templates/home/dashboard.html:564
-#: apps/templates/home/dashboard.html:609
-#: apps/templates/home/dashboard.html:665
-#: apps/templates/home/dashboard.html:708
-#: apps/templates/home/dashboard.html:752
-#: apps/templates/home/dashboard.html:793
-#: apps/templates/home/dashboard.html:835
-#: apps/templates/home/dashboard.html:876
-#: apps/templates/home/dashboard.html:919
-#: apps/templates/home/dashboard.html:968
-#: apps/templates/home/dashboard.html:1016
-#: apps/templates/home/dashboard.html:1065
+#: apps/templates/home/dashboard.html:291
+#: apps/templates/home/dashboard.html:340
+#: apps/templates/home/dashboard.html:385
+#: apps/templates/home/dashboard.html:444
+#: apps/templates/home/dashboard.html:494
+#: apps/templates/home/dashboard.html:542
+#: apps/templates/home/dashboard.html:601
+#: apps/templates/home/dashboard.html:651
+#: apps/templates/home/dashboard.html:714
+#: apps/templates/home/dashboard.html:761
+#: apps/templates/home/dashboard.html:810
+#: apps/templates/home/dashboard.html:858
+#: apps/templates/home/dashboard.html:906
+#: apps/templates/home/dashboard.html:954
+#: apps/templates/home/dashboard.html:1004
+#: apps/templates/home/dashboard.html:1058
+#: apps/templates/home/dashboard.html:1112
+#: apps/templates/home/dashboard.html:1166
 msgid "Característica"
 msgstr ""
 
@@ -802,535 +818,535 @@ msgstr ""
 msgid "Puntos en la URL"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:277
+#: apps/templates/home/dashboard.html:282
 msgid "En general, los dominios legítimos no contienen más de tres puntos en"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:278
+#: apps/templates/home/dashboard.html:283
 msgid " la URL. Por lo tanto, esta característica se establece a 1 si el"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:279
+#: apps/templates/home/dashboard.html:284
 msgid " número de puntos en la URL es mayor o igual que 4."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:300
+#: apps/templates/home/dashboard.html:305
 msgid "Carácter relevante encontrado:"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:302
-#: apps/templates/home/dashboard.html:440
+#: apps/templates/home/dashboard.html:307
+#: apps/templates/home/dashboard.html:460
 msgid "ninguno"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:321
+#: apps/templates/home/dashboard.html:331
 msgid ""
 "En una URL, el uso de \"@\" hace que se ignore todo lo escrito "
 "anteriormente al símbolo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:322
+#: apps/templates/home/dashboard.html:332
 msgid ""
 " , y \"-\" es utilizado para engañar a los usuarios en enlaces como por "
 "ejemplo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:344
+#: apps/templates/home/dashboard.html:354
 msgid "Longitud de la URL"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:361
+#: apps/templates/home/dashboard.html:376
 msgid "Normalmente, los dominios oficiales son cortos y significativos."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:362
+#: apps/templates/home/dashboard.html:377
 msgid "Sin embargo, aquellos sitios de phishing suelen ser más largos"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:363
+#: apps/templates/home/dashboard.html:378
 msgid "con el fin de confundir al usuario u ocultar información"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:384
+#: apps/templates/home/dashboard.html:399
 msgid "Palabra sospechosa encontrada"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:386
-#: apps/templates/home/dashboard.html:527
-#: apps/templates/home/dashboard.html:986
-#: apps/templates/home/dashboard.html:1034
+#: apps/templates/home/dashboard.html:401
+#: apps/templates/home/dashboard.html:558
+#: apps/templates/home/dashboard.html:1076
+#: apps/templates/home/dashboard.html:1130
 msgid "ninguna"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:405
-#: apps/templates/home/dashboard.html:594
+#: apps/templates/home/dashboard.html:425
+#: apps/templates/home/dashboard.html:636
 msgid "Según"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:409
+#: apps/templates/home/dashboard.html:429
 msgid ""
 "es común que las páginas de phishing añadan palabras clave en los enlaces"
 " para ganar"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:410
+#: apps/templates/home/dashboard.html:430
 msgid "la confianza de sus víctimas."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:411
+#: apps/templates/home/dashboard.html:431
 msgid ""
 "En concreto, se buscan y tienen encuenta enlaces que contengan las "
 "palabras:"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:413
+#: apps/templates/home/dashboard.html:433
 msgid ""
 "Como aportación propia, se ha tenido en cuenta que estas palabras puedan "
 "estar"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:414
+#: apps/templates/home/dashboard.html:434
 msgid "escritas utilizando el"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:417
+#: apps/templates/home/dashboard.html:437
 msgid "lenguaje leet"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:438
+#: apps/templates/home/dashboard.html:458
 msgid "Dominio extra encontrado:"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:460
+#: apps/templates/home/dashboard.html:486
 msgid ""
 "En los dominios legítimos, el TDL no está presente en la parte "
 "perteneciente al"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:461
+#: apps/templates/home/dashboard.html:487
 msgid " dominio base, ni ocurre más de una vez en la dirección."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:482
+#: apps/templates/home/dashboard.html:508
 msgid "¿Extra HTTP encontrado?"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:484
-#: apps/templates/home/dashboard.html:725
-#: apps/templates/home/dashboard.html:935
-#: apps/templates/home/dashboard.html:1083
+#: apps/templates/home/dashboard.html:510
+#: apps/templates/home/dashboard.html:778
+#: apps/templates/home/dashboard.html:1020
+#: apps/templates/home/dashboard.html:1184
 msgid "sí"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:503
+#: apps/templates/home/dashboard.html:534
 msgid ""
 "En sitios genuinos, la cadena \"http\" sólo se encuentra una vez en el "
 "protocolo."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:504
+#: apps/templates/home/dashboard.html:535
 msgid ""
 " Sin embargo, puede ser que ocurra más de una vez si se trata de un sitio"
 " phishing."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:525
+#: apps/templates/home/dashboard.html:556
 msgid "¿Marca famosa?"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:547
+#: apps/templates/home/dashboard.html:584
 msgid ""
 "la gran mayoría de los sitios de phishing contienen el nombre de la marca"
 " objetivo en la\n"
 "                  URL."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:550
+#: apps/templates/home/dashboard.html:587
 msgid ""
 "Por ello, se han seleccionado algunos de los objetivos más comunes para "
 "los atacantes"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:551
+#: apps/templates/home/dashboard.html:588
 msgid ""
 " (por ejemplo, Google) y, si se encuentra el nombre en una posición "
 "incorrecta,"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:552
+#: apps/templates/home/dashboard.html:589
 msgid " se asume que se trata de un intento de estafa."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:553
+#: apps/templates/home/dashboard.html:590
 msgid ""
 " Nuevamente, se ha tenido en consideración que dichas palabras puedan "
 "estar en"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:556
+#: apps/templates/home/dashboard.html:593
 msgid " lenguaje leet"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:578
+#: apps/templates/home/dashboard.html:615
 msgid "Nº de data URIs encontrados"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:597
+#: apps/templates/home/dashboard.html:639
 msgid ""
 "los ataques basados en la existencia de un Data URI son muy comunes. Este"
 " esquema"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:598
+#: apps/templates/home/dashboard.html:640
 msgid "permite insertar datos en línea dentro de un documento."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:599
+#: apps/templates/home/dashboard.html:641
 msgid "El peligro reside en"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:600
+#: apps/templates/home/dashboard.html:642
 msgid "que esos datos pueden codificar cualquier tipo de archivo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:601
+#: apps/templates/home/dashboard.html:643
 msgid "(por ejemplo, un script de Javascript),"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:602
+#: apps/templates/home/dashboard.html:644
 msgid "pudiendo extraer datos o incluso realizar ataques XSS."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:614
+#: apps/templates/home/dashboard.html:656
 msgid "Formulario de Login"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:625
+#: apps/templates/home/dashboard.html:667
 msgid "Valor del campo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:627
+#: apps/templates/home/dashboard.html:669
 msgid "vacío, asterisco o _javascript:void(0)_"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:629
+#: apps/templates/home/dashboard.html:671
 msgid "compatible con _fichero.php_"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:631
+#: apps/templates/home/dashboard.html:673
 msgid "dominio externo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:633
+#: apps/templates/home/dashboard.html:675
 msgid "no peligroso"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:653
+#: apps/templates/home/dashboard.html:702
 msgid ""
 "Es común que los sitios de phishing incluyan formularios de inicio de "
 "sesión debido"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:654
+#: apps/templates/home/dashboard.html:703
 msgid " a que es una forma común de introducir datos personales."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:655
+#: apps/templates/home/dashboard.html:704
 msgid ""
 " En concreto, la diferencia reside en que en los sitios legítimos el "
 "campo de"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:656
+#: apps/templates/home/dashboard.html:705
 msgid ""
 " acción suele contener un enlace con el mismo dominio base que el sitio "
 "inicial."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:657
+#: apps/templates/home/dashboard.html:706
 msgid ""
 " Sin embargo, en los sitios de phishing esto no es así. Hay otras "
 "variaciones como"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:658
+#: apps/templates/home/dashboard.html:707
 msgid ""
 " campos vacíos, con enlaces nulos o archivos PHP que almacenen las "
 "credenciales."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:670
-#: apps/templates/home/dashboard.html:713
-#: apps/templates/home/dashboard.html:757
-#: apps/templates/home/dashboard.html:798
-#: apps/templates/home/dashboard.html:840
-#: apps/templates/home/dashboard.html:881
+#: apps/templates/home/dashboard.html:719
+#: apps/templates/home/dashboard.html:766
+#: apps/templates/home/dashboard.html:815
+#: apps/templates/home/dashboard.html:863
+#: apps/templates/home/dashboard.html:911
+#: apps/templates/home/dashboard.html:959
 msgid "Hiperenlaces"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:681
+#: apps/templates/home/dashboard.html:730
 msgid "Nº de hiperenlaces en el sitio"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:697
+#: apps/templates/home/dashboard.html:750
 msgid "Normalmente, los sitios phishing contienen menos páginas"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:698
+#: apps/templates/home/dashboard.html:751
 msgid " (por ejemplo, un enlace a una página de login)"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:699
+#: apps/templates/home/dashboard.html:752
 msgid " que los legítimos."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:700
+#: apps/templates/home/dashboard.html:753
 msgid "Estos se encuentran contenidos en el atributo"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:701
+#: apps/templates/home/dashboard.html:754
 msgid " \"src\" de las etiquetas pertenecientes a imágenes, scripts, frames,"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:702
+#: apps/templates/home/dashboard.html:755
 msgid " etc., además del atributo \"href\" de la etiqueta ancla."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:723
+#: apps/templates/home/dashboard.html:776
 msgid "¿Página vacía?"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:744
+#: apps/templates/home/dashboard.html:802
 msgid "Es muy sospechoso que una página web no contenga ningún hiperenlace debido"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:745
+#: apps/templates/home/dashboard.html:803
 msgid " a que se podrían estar utilizando técnicas de ocultación de sitios"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:746
+#: apps/templates/home/dashboard.html:804
 msgid " peligrosos para esquivar sistemas anti-phishing"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:767
+#: apps/templates/home/dashboard.html:825
 msgid "Nº de hiperenlaces externos"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:785
+#: apps/templates/home/dashboard.html:850
 msgid ""
 "Debido a que los sitios atacantes suelen imitar la estética de sus "
 "objetivos,"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:786
+#: apps/templates/home/dashboard.html:851
 msgid " es común que posean múltiples hiperenlaces que apunten a sitios externos."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:787
+#: apps/templates/home/dashboard.html:852
 msgid ""
 " Se consideran externos a aquellos enlaces absolutos distintos al sitio "
 "base."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:808
+#: apps/templates/home/dashboard.html:873
 msgid "Nº de hiperenlaces vacíos"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:825
+#: apps/templates/home/dashboard.html:896
 msgid "Cuando un enlace está vacío, si el usuario pulsa, es redirigido a la"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:826
+#: apps/templates/home/dashboard.html:897
 msgid ""
 " misma página de la que se parte (es decir, no hay redirección a un sitio"
 " distinto),"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:827
+#: apps/templates/home/dashboard.html:898
 msgid " lo que incrementa las posibilidades de que la víctima caiga en el ataque."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:828
+#: apps/templates/home/dashboard.html:899
 msgid " Además, también se pueden utilizar otro tipo de vulnerabilidades"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:829
+#: apps/templates/home/dashboard.html:900
 msgid " existentes en los navegadores para aumentar la tasa de éxito."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:850
+#: apps/templates/home/dashboard.html:921
 msgid "Nº de hiperenlaces erróneos"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:869
+#: apps/templates/home/dashboard.html:947
 msgid "Se considera un enlace erróneo aquel que devuelve un código"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:870
+#: apps/templates/home/dashboard.html:948
 msgid " 403 o 404 cuando se pulsa en él."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:891
+#: apps/templates/home/dashboard.html:969
 msgid "Nº de hiperenlaces que redirigen"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:910
+#: apps/templates/home/dashboard.html:995
 msgid "Es común que los atacantes traten de confundir al usuario redirigiendo su"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:911
+#: apps/templates/home/dashboard.html:996
 msgid " solicitud a lugares externos. Una redirección se identifica gracias a su"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:912
+#: apps/templates/home/dashboard.html:997
 msgid " código de respuesta, que es un 301 o un 302."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:933
+#: apps/templates/home/dashboard.html:1018
 msgid "¿Fichero css externo encontrado?"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:954
+#: apps/templates/home/dashboard.html:1044
 msgid "Para imitar la estética de un sitio legítimo, los atacantes"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:955
+#: apps/templates/home/dashboard.html:1045
 msgid "podrían utilizar su fichero CSS."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:956
+#: apps/templates/home/dashboard.html:1046
 msgid "Un CSS es una hoja de estilos que define el aspecto visual de una página"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:957
+#: apps/templates/home/dashboard.html:1047
 msgid "web, y puede estar incrustado en el propio HTML de la página o ser un"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:958
+#: apps/templates/home/dashboard.html:1048
 msgid "fichero externo."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:960
+#: apps/templates/home/dashboard.html:1050
 msgid "En el caso de ser único y externo,"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:961
+#: apps/templates/home/dashboard.html:1051
 msgid "se entiende que puede tratarse de un intento de estafa."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:973
-#: apps/templates/home/dashboard.html:1021
-#: apps/templates/home/dashboard.html:1070
+#: apps/templates/home/dashboard.html:1063
+#: apps/templates/home/dashboard.html:1117
+#: apps/templates/home/dashboard.html:1171
 msgid "Identidad web"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:984
+#: apps/templates/home/dashboard.html:1074
 msgid "Palabra copyright"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1006
+#: apps/templates/home/dashboard.html:1102
 msgid ""
 "Las páginas legítimas suelen contener el nombre del dominio en la sección"
 " dedicada a"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1008
+#: apps/templates/home/dashboard.html:1104
 msgid ""
 " En el caso de que el nombre del dominio no aparezca en el texto del "
 "copyright,"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1009
+#: apps/templates/home/dashboard.html:1105
 msgid " se entiende que la página puede ser una estafa."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1032
+#: apps/templates/home/dashboard.html:1128
 msgid "Palabra clave dominio base"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1053
+#: apps/templates/home/dashboard.html:1154
 msgid ""
 "Para cada página web, se ha construido un conjunto de keywords compuesto "
 "por las"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1054
+#: apps/templates/home/dashboard.html:1155
 msgid " palabras contenidas en el título, en las etiquetas meta "
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1055
+#: apps/templates/home/dashboard.html:1156
 msgid " (cuyo campo name equivalga a description o keywords metatags)"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1056
+#: apps/templates/home/dashboard.html:1157
 msgid ""
 " y por las más relevantes del cuerpo (extraídas mediante el algoritmo TF-"
 "IDF)."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1057
+#: apps/templates/home/dashboard.html:1158
 msgid " Lo más común es que los sitios legítimos contengan al menos una de estas "
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1058
+#: apps/templates/home/dashboard.html:1159
 msgid ""
 " palabras en el dominio base. En caso contrario, se considera un intento "
 "de phishing."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1081
+#: apps/templates/home/dashboard.html:1182
 msgid "¿Dominio externo en el favicon?"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1085
+#: apps/templates/home/dashboard.html:1186
 msgid "no"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1102
+#: apps/templates/home/dashboard.html:1208
 msgid "Un favicon es una miniatura asociada a una página web. Por ello, los"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1103
+#: apps/templates/home/dashboard.html:1209
 msgid ""
 " atacantes pueden plagiar los iconos de los sitios legítimos para ganarse"
 " la"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1104
+#: apps/templates/home/dashboard.html:1210
 msgid " confianza de los usuarios."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1105
+#: apps/templates/home/dashboard.html:1211
 msgid " De este modo, se considera intento de estafa cualquier "
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1106
+#: apps/templates/home/dashboard.html:1212
 msgid " icono que contenga un enlace externo."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1107
+#: apps/templates/home/dashboard.html:1213
 msgid " Para localizarlos, se ubica el atributo \"rel\" dentro de las etiquetas"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1108
+#: apps/templates/home/dashboard.html:1214
 msgid ""
 " \"link\" y se comprueba que su valor sea la cadena \"shortcut icon\" o "
 "\"icon\"."
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1128
+#: apps/templates/home/dashboard.html:1234
 msgid "¡Oye, tú, humano!"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1129
+#: apps/templates/home/dashboard.html:1235
 msgid "Si piensas que el análisis es erróneo y se trata de un falso resultado"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1129
+#: apps/templates/home/dashboard.html:1235
 msgid " ¡Háznoslo saber!"
 msgstr ""
 
-#: apps/templates/home/dashboard.html:1132
+#: apps/templates/home/dashboard.html:1238
 msgid "Reporta análisis erróneo"
 msgstr ""
 
