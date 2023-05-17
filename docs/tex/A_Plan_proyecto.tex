@@ -841,16 +841,29 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 La viabilidad legal de un proyecto \textit{software} es la evaluación de aquellos aspectos legales relacionados con el desarrollo y la distribución del producto estudiado. Algunos de los puntos principales a analizar son el cumplimiento de leyes de propiedad intelectual, la protección de datos personales y el estudio de licencias. En este proyecto, además, se estudiará la legalidad del \textit{web scraping}.
 
-\subsubsection{Licencias}
+\subsubsection{Licencias de \textit{software}}
 
 Una licencia de \textit{software} es un acuerdo legal entre el titular de los derechos de autor (o el propietario del \textit{software}) y el usuario final donde se establecen los términos y condiciones bajo los cuales se permite el uso del producto~\cite{licenciaQueEs}.
 
 A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
 
+La comparativa entre licencias\footnote{Realizada con \url{https://joinup.ec.europa.eu/collection/eupl/solution/joinup-licensing-assistant/jla-find-and-compare-software-licenses}} se muestra la tabla~\ref{a:permisos}. El único detalle que no se muestra en la imagen es que la BSD-2-Clause License es más permisiva que la BSD-3-Clause License~\cite{BSD}. Como se puede comprobar, el orden de restrictividad (de más permisiva a más restrictiva) es el siguiente:
+
+\begin{enumerate}
+	\item The Unlicense
+	\item MIT License
+	\item BSD-2-Clause License
+	\item BSD-3-Clause License
+	\item BSD License (original, no aprobada por la Open Source Iniciative (OSI~\cite{BSD}) y sustituída por la BSD-3-Clause License).
+	\item Apache 2.0
+	\item GNU LGPLv2
+	\item GNU GPLv2
+\end{enumerate}
+
 
 \begin{table}[p]
 	\centering
-	\begin{tabularx}{\linewidth}{ p{0.28\textwidth} p{0.14\textwidth} p{0.5\textwidth} }
+	\begin{tabularx}{\linewidth}{ p{0.3\textwidth} p{0.15\textwidth} p{0.55\textwidth} }
 		\toprule
 		\textbf{Dependencia} & \textbf{Versión} & \textbf{Licencia} \\
 		\midrule
@@ -870,31 +883,49 @@ A continuación, se va a realizar un análisis de las licencias bajo las que est
 		\texttt{jsonschema} & 4.17.3 & MIT License \\
 		\texttt{lxml} & 4.9.2 & BSD-3-Clause License \\
 		\texttt{nltk} & 3.8.1 & Apache Software License (2.0)\\
-		\texttt{node} & 1.2.1 & BSD License\\
+		\texttt{node} & 1.2.1 & BSD-2-Clause License\\
 		\texttt{numpy} & 1.23.3 & BSD-3-Clause License \\
 		\texttt{pandas} & 1.4.3 & BSD-3-Clause License \\
-		\texttt{psycopg2-binary} & 2.9.6 & Lesser General Public License (LGPL) \\
+		\texttt{psycopg2-binary} & 2.9.6 & GNU Lesser General Public (LGPLv2) \\
 		\texttt{PySocks} & 1.7.1 & BSD License \\
 		\texttt{pytest} & 7.2.0 & MIT License \\
 		\texttt{python-decouple} & 3.4 & MIT License \\
 		\texttt{regex} & 2023.3.23 & Apache Software License  \\
 		\texttt{requests} & 2.28.2 & Apache Software License (2.0) \\
-		\texttt{scikit-learn} & 1.1.2 & BSD License (new BSD)\\
+		\texttt{scikit-learn} & 1.1.2 & BSD-3-Clause License\\
 		\texttt{scipy} & 1.9.3 & BSD License \\
 		\texttt{SQLAlchemy} & 1.4.23 & MIT License \\
-		\texttt{sslearn} & 1.1.0 & BSD License (new BSD) \\
+		\texttt{sslearn} & 1.1.0 & BSD-3-Clause License \\
 		\texttt{LAMDA-SSL} & 1.0 & MIT License \\
 		\texttt{threadpoolctl} & 3.1.0 & BSD-3-Clause License \\
-		\texttt{tld} & 0.13 & General Public License v2 (GPLv2)\\
+		\texttt{tld} & 0.13 & GNU General Public License (GPLv2)\\
 		\texttt{urllib3} & 1.26.5 & MIT License \\
 		\texttt{Werkzeug} & 2.1.0 & BSD-3-Clause License \\
 		\texttt{WTForms} & 2.3.3 & BSD-3-Clause License \\
 		\bottomrule
 	\end{tabularx}
-	\caption[Licencias: dependencias o utilidades]{Dependencias o utilidades del proyecto y licencias bajo las cuales están registradas.}
+	\caption[Licencias: dependencias o utilidades]{Dependencias o utilidades del proyecto y licencias bajo las cuales están registradas. Extraídas de \url{https://pypi.org/}.}
 	\label{a:licencias}
 \end{table}
 
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/licenses/licenses}
+	\caption[Licencias: permisos]{Acciones permitidas en función de las licencias.}
+	\label{a:permisos}
+\end{table}
+
+A pesar de que todas las licencias son \textit{open source}, hay algunas cuyo tipo es \textit{copyleft}\footnote{En las licencias \textit{copyleft}, el código deriva de código \textit{open source} y hereda sus licencias.} (LGLP y GLP~\cite{oslicenses}). Por lo tanto, se ha decidido aplicar este tipo de licencias al \textit{software} desarrollado, solo que utilizando las nuevas versiones (GLPv3 en lugar de GLPv2).
+
+Respecto a las imágenes incluídas en la \textit{web}, son libres de utilización siempre que se de crédito a los autores. Por ello, se ha incluído en el \texttt{README.md} del proyecto las fuentes de cada uno de los los iconos utilizados\footnote{Extraídos de: \url{https://www.flaticon.es/}}.
+
+Concluyendo, el \textit{software} desarrollado será lanzado bajo una licencia GNU GLPv3.
+
+\subsubsection{Licencias de documentación}
+
+En cuanto a la documentación, se ha decidido distribuir bajo una licencia Creative Commons. En un principio, se quería usar la licencia: CC BY-NC: \textit{Attribution + Non-Commercial}. Esta implica que la documentación necesita atribución y no se puede comercializar, pero sí se puede modificar la obra~\cite{cclicenses}.
+
+Sin embargo, debido a que algunas imágenes compartidas han sido autorizadas bajo mayores restricciones, se han tenido que cambiar los permisos, aplicando una licencia CC BY-ND-NC 4.0:\textit{ Attribution + Non-Derivate + Non-Commercial}. Es decir, se permite el uso libre siempre que haya atribución, no sea con fines comerciales y no se modifique la obra.
 
 \subsubsection{\textit{Web Scraping}}
 
