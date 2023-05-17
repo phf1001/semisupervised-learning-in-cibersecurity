@@ -8,7 +8,7 @@ Debido al auge de las metodologías ágiles en la industria y sus indiscutibles 
 
 Posteriormente, se expondrá la viabilidad legal y económica del producto.
 
-\section{Scrum}
+\subsection{Scrum}
 
 Scrum es una metodología ágil basada en cuatro valores~\cite{scrumMaster2022}. Sintetizando sus principios, se puede deducir que se pretende valorar a los individuos por encima de las herramientas, el \textit{software} apropiado a la documentación exhaustiva, la colaboración con el cliente y la habilidad de dar respuesta al cambio ante imprevistos.
 
@@ -831,8 +831,83 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 \section{Estudio de viabilidad}
 
+...
+
 \subsection{Viabilidad económica}
+
+...
 
 \subsection{Viabilidad legal}
 
+La viabilidad legal de un proyecto \textit{software} es la evaluación de aquellos aspectos legales relacionados con el desarrollo y la distribución del producto estudiado. Algunos de los puntos principales a analizar son el cumplimiento de leyes de propiedad intelectual, la protección de datos personales y el estudio de licencias. En este proyecto, además, se estudiará la legalidad del \textit{web scraping}.
 
+\subsubsection{Licencias}
+
+Una licencia de \textit{software} es un acuerdo legal entre el titular de los derechos de autor (o el propietario del \textit{software}) y el usuario final donde se establecen los términos y condiciones bajo los cuales se permite el uso del producto~\cite{licenciaQueEs}.
+
+A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.28\textwidth} p{0.14\textwidth} p{0.5\textwidth} }
+		\toprule
+		\textbf{Dependencia} & \textbf{Versión} & \textbf{Licencia} \\
+		\midrule
+		\texttt{Argon Dashboard} & 2022 & MIT License\\
+		\texttt{Babel} & 2.12.1 & MIT License\\
+		\texttt{beautifulsoup4} & 4.11.1 & MIT License \\
+		\texttt{email-validator} & 1.1.3 & The Unlicense \\
+		\texttt{Flask} & 2.0.1 & BSD-3-Clause License\\
+		\texttt{flask-babel} & 3.1.0 & BSD License\\
+		\texttt{Flask-Bootstrap} & 3.3.7.1 & Apache Software License (2.0)\\
+		\texttt{Flask-Login} & 0.6.0 & MIT License \\
+		\texttt{Flask-Migrate} & 3.1.0 & MIT License \\
+		\texttt{Flask-SQLAlchemy} & 2.5.1 & BSD-3-Clause License \\
+		\texttt{Flask-WTF} & 0.15.1 & BSD-3-Clause License \\
+		\texttt{gunicorn} & 20.1.0 & MIT License \\
+		\texttt{Jinja2} & 3.1.2 & BSD-3-Clause License \\
+		\texttt{jsonschema} & 4.17.3 & MIT License \\
+		\texttt{lxml} & 4.9.2 & BSD-3-Clause License \\
+		\texttt{nltk} & 3.8.1 & Apache Software License (2.0)\\
+		\texttt{node} & 1.2.1 & BSD License\\
+		\texttt{numpy} & 1.23.3 & BSD-3-Clause License \\
+		\texttt{pandas} & 1.4.3 & BSD-3-Clause License \\
+		\texttt{psycopg2-binary} & 2.9.6 & Lesser General Public License (LGPL) \\
+		\texttt{PySocks} & 1.7.1 & BSD License \\
+		\texttt{pytest} & 7.2.0 & MIT License \\
+		\texttt{python-decouple} & 3.4 & MIT License \\
+		\texttt{regex} & 2023.3.23 & Apache Software License  \\
+		\texttt{requests} & 2.28.2 & Apache Software License (2.0) \\
+		\texttt{scikit-learn} & 1.1.2 & BSD License (new BSD)\\
+		\texttt{scipy} & 1.9.3 & BSD License \\
+		\texttt{SQLAlchemy} & 1.4.23 & MIT License \\
+		\texttt{sslearn} & 1.1.0 & BSD License (new BSD) \\
+		\texttt{LAMDA-SSL} & 1.0 & MIT License \\
+		\texttt{threadpoolctl} & 3.1.0 & BSD-3-Clause License \\
+		\texttt{tld} & 0.13 & General Public License v2 (GPLv2)\\
+		\texttt{urllib3} & 1.26.5 & MIT License \\
+		\texttt{Werkzeug} & 2.1.0 & BSD-3-Clause License \\
+		\texttt{WTForms} & 2.3.3 & BSD-3-Clause License \\
+		\bottomrule
+	\end{tabularx}
+	\caption[Licencias: dependencias o utilidades]{Dependencias o utilidades del proyecto y licencias bajo las cuales están registradas.}
+	\label{a:licencias}
+\end{table}
+
+
+\subsubsection{\textit{Web Scraping}}
+
+Uno de los aspectos que puede resultar más polémico en este proyecto es la utilización de \textit{web scraping} durante la extracción de vectores de características en el contexto de clasificación de sitios \textit{phishing}.
+
+Es destacable que el \textit{web scraping} no supone una ilegalidad siempre que las prácticas que se realicen cumplan ciertos requisitos~\cite{legalidadWebScrapingI}.
+
+\begin{itemize}
+	\item No utilizar propiedad intelectual o marcas registradas.
+	\item No violar derechos de autor ni realizar competencia desleal.
+	\item Cumplir tanto la Ley Orgánica de Protección de Datos de Carácter Personal (LOPD~\cite{LOPD}) como el Reglamento General de Protección de Datos Europeo (RGPD~\cite{RGPD}).
+	\item No realizar sobrecargas en los servidores de los sitios \textit{scrapeados}.
+	\item No acceder sin autorización a servicios informáticos.
+\end{itemize}
+
+Como se ha expuesto en el desarrollo de la memoria, para obtener un vector de características únicamente se necesita realizar una petición al servidor principal para extraer el código HTML de la página. Debido a que esto no se clasifica como mala práctica y no se almacena ningún tipo de dato \textit{scrapeado}, se concluye que este método no supone una amenaza legal para el proyecto.
