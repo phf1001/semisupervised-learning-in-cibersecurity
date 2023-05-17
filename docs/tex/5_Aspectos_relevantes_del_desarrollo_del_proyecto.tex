@@ -445,12 +445,14 @@ Es muy destacable que se ha limitado el número de instancias de \textit{phishin
 
 \subsubsection{Parámetros y clasificadores}
 
-Para realizar esta experimentación se han utilizado distintos modelos de aprendizaje. Es destacable que se ha incluído un algoritmo de aprendizaje supervisado para comparar los resultados del mismo contra otros algoritmos semisupervisados. Los algoritmos de aprendizaje supervisado han sido entrenados con el 100\% de los datos etiquetados disponibles, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. El motivo por el que se ha escogido el \textit{random forest} como método de aprendizaje supervisado contra el que comparar, es porque es el clasificador que mejor rendimiento reportó en el \textit{paper} utilizado de referencia~\cite{featuresPhishing2018Gupta}. Por lo tanto, sirve de <<cota superior>> del rendimiento para los algoritmos supervisados.
+Para realizar esta experimentación se han utilizado distintos modelos de aprendizaje. Es destacable que se ha incluído un algoritmo de aprendizaje supervisado para comparar los resultados del mismo contra otros algoritmos semisupervisados. Los algoritmos de aprendizaje supervisado han sido entrenados con el 20\% de los datos etiquetados disponibles en cada \textit{fold}, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. El motivo por el que se ha escogido el \textit{random forest} como método de aprendizaje supervisado contra el que comparar, es porque es el clasificador que mejor rendimiento reportó en el \textit{paper} utilizado de referencia~\cite{featuresPhishing2018Gupta}. Por lo tanto, sirve de <<cota superior>> del rendimiento para los algoritmos supervisados.
 
-A continuación se va a especificar los algoritmos concretos utilizados. Respecto a los \textit{ensembles} basados en árboles, por un lado, se dispone de un \textit{random forest} y, por otro, dos \textit{co-forests}. Uno de ellos ha sido entrenado utilizando $n = 6$ árboles y el criterio \texttt{confidence\_L\_theta}, mientras que el otro posee $n = 20$ y \texttt{percentage\_L} (consultar sección~\ref{s-experimentacion-w-cof}). Por último, también se han incluído un \textit{tri-training} y un \textit{democratic-co} que utilizan como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN}.
+A continuación se va a especificar los algoritmos concretos utilizados. Respecto a los \textit{ensembles} basados en árboles, por un lado, se dispone de un \textit{random forest} con $n = 6$ y, por otro, dos \textit{co-forests}. Uno de ellos ha sido entrenado utilizando $n = 6$ árboles y el criterio \texttt{confidence\_L\_theta}, mientras que el otro posee $n = 20$ y \texttt{percentage\_L} (consultar sección~\ref{s-experimentacion-w-cof}). Por último, también se han incluído un \textit{tri-training} y un \textit{democratic-co} que utilizan como estimadores base un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} (con $k = 5$).
 
 
 \subsection{Resultados generales}
+
+CORREGIR CON EL CAMBIO DE L
 
 Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $88\%$ y, el peor, una equivalente al $84\%$. Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor precisión (de las que dice que son positivas, cuantas lo son en realidad). Como es esperable, ambos \textit{co-forest} se comportan de manera muy similar.
 
@@ -481,7 +483,7 @@ Este grupo está formado por las características que comprenden el intervalo \t
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f1-f8})]{Resultados de la evaluación utilizando únicamente las características basadas en la URL.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f8_small}
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f8_big}
 	\label{gr:ph-f1f8_small}
 \end{figure}
 
@@ -514,7 +516,7 @@ Este grupo está formado por las características que comprenden el intervalo \t
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f10-f15})]{Resultados de la evaluación utilizando únicamente las características basadas en los hiperenlaces contenidos.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_small}
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_big}
 	\label{gr:ph-f10f15_small}
 \end{figure}
 
@@ -548,7 +550,7 @@ Este grupo está formado por las características que comprenden el intervalo \t
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f17-f19})]{Resultados de la evaluación utilizando únicamente las características basadas en la identidad de la página \textit{web}.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f17f19_small}
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f17f19_big}
 	\label{gr:ph-f17f19_small}
 \end{figure}
 
@@ -559,10 +561,18 @@ En general, este subconjunto tiene un desempeño aceptable, aunque la precisión
 
 En general se opina que el método de detección tiene unos resultados satisfactorios, aunque es destacable que se han obtenido peores resultados que en el \textit{paper} utilizado como referencia~\cite{featuresPhishing2018Gupta}. Por ejemplo, en su experimentación el \textit{random forest} alcanza una \textit{accuracy} del 99\%, mientras que en la mostrada en este trabajo se alcanza un 88\%.
 
-Observando un árbol de decisión entrenado con el conjunto total de datos, se puede obtener una idea aproximada de los atributos más relevantes. Estos son el 10 (número de enlaces), el 2 (aparición de <<@>> y <<->> en la URL), el 3 (longitud de la URL), el 15 (ratio de redirecciones) y el 18 (aparición de palabras clave en el dominio base). Cabe destacar que el árbol real contiene 23 alturas. Se opina que los subconjuntos de atributos no son significantes por sí solos, pero que en conjunto modelan correctamente una página legítima o una de \textit{phishing}.
+COMENTAR RFI
+\begin{figure}[h]
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes RFI)]{Atributos más relevantes durante la clasificación (bosque de \textit{random-forests}).}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_rfi}
+	\label{gr:ph-f1f19_rfi}
+\end{figure}
+
+Observando un árbol de decisión entrenado con el conjunto total de datos, se puede obtener una idea aproximada de los atributos más relevantes. Estos son el 10 (número de enlaces), el 2 (aparición de <<@>> y <<->> en la URL), el 3 (longitud de la URL), el 15 (ratio de redirecciones), el 17 (palabra de \textit{copyright} en el dominio base) y el 18 (aparición de palabras clave en el dominio base). Cabe destacar que el árbol real contiene 23 alturas. Se opina que los subconjuntos de atributos no son significantes por sí solos, pero que en conjunto modelan correctamente una página legítima o una de \textit{phishing}.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes)]{Atributos más relevantes durante la clasificación (inicio del árbol).}
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes DT)]{Atributos más relevantes durante la clasificación (inicio del árbol).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_tree}
 	\label{gr:ph-f1f19_tree}
