@@ -452,9 +452,9 @@ A continuación se va a especificar los algoritmos concretos utilizados. Respect
 
 \subsection{Resultados generales}
 
-CORREGIR CON EL CAMBIO DE L
 
-Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $88\%$ y, el peor, una equivalente al $84\%$. Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor precisión (de las que dice que son positivas, cuantas lo son en realidad). Como es esperable, ambos \textit{co-forest} se comportan de manera muy similar.
+
+Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $85$.$69\%$ (\textit{co-forest}) y, el peor, una equivalente al $84$.$03\%$ (\textit{democratic-co}). Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor precisión (de las que dice que son positivas, cuantas lo son en realidad).
 
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f1-f19})]{Resultados generales del método de detección de \textit{phishing}.}
@@ -463,7 +463,7 @@ Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f
 	\label{gr:ph-f1f19-all}
 \end{figure}
 
-Para obtener una visión más real de lo que está ocurriendo, se muestra en la imagen~\ref{gr:ph-f1f19_cof_clt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, en los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
+Para obtener una visión más real de lo que está ocurriendo, se muestra en la imagen~\ref{gr:ph-f1f19_cof_clt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, dentro de los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
 
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, matriz de confusión \texttt{CoF\_PL})]{Matriz de confusión correspondiente al clasificador \texttt{CoF\_PL}.}
@@ -525,7 +525,7 @@ Como se puede comprobar, los resultados son bastante satisfactorios. Para obtene
 Como se puede comprobar, el atributo que mejor divide el conjunto es el número de hiperenlaces contenidos, aunque también se utilizan otros como el ratio de enlaces externos, vacíos y redirecciones.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f10-f15}, atributos relevantes)]{Atributos más importantes del subconjunto \texttt{f10-f15} (inicio del árbol).}
+	\caption[\textit{Phishing}: detección (\texttt{f10-f15}, atributos relevantes, DT)]{Atributos más importantes del subconjunto \texttt{f10-f15} (inicio del árbol).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_tree}
 	\label{gr:ph-f10f15_tree}
@@ -554,22 +554,23 @@ Este grupo está formado por las características que comprenden el intervalo \t
 	\label{gr:ph-f17f19_small}
 \end{figure}
 
-En general, este subconjunto tiene un desempeño aceptable, aunque la precisión no es muy alta. Es destacable que los atributos 17 (\textit{copyright}) y 18 (palabras clave) dependen del lenguaje, por lo que hay que entrenar correctamente los objetos TF-IDF (con documentos que posean cuerpos en el idioma a analizar) y pueden no ser atributos <<adecuados para utilizarse en solitario>>.
+En general, este subconjunto tiene un desempeño aceptable, aunque ni el \textit{recall} ni la precisión son muy altos. Los clasificadores que mejor se comportan en este caso son el \textit{democratic-co} y el \textit{tri-training}. Es destacable que los atributos 17 (\textit{copyright}) y 18 (palabras clave) dependen del lenguaje, por lo que hay que entrenar correctamente los objetos TF-IDF (con documentos que posean cuerpos en el idioma a analizar) y pueden no ser atributos <<adecuados para utilizarse en solitario>>.
 
 
 \subsection{Discusión de los resultados}
 
-En general se opina que el método de detección tiene unos resultados satisfactorios, aunque es destacable que se han obtenido peores resultados que en el \textit{paper} utilizado como referencia~\cite{featuresPhishing2018Gupta}. Por ejemplo, en su experimentación el \textit{random forest} alcanza una \textit{accuracy} del 99\%, mientras que en la mostrada en este trabajo se alcanza un 88\%.
+En general se opina que el método de detección tiene unos resultados satisfactorios, aunque es destacable que se han obtenido peores resultados que en el \textit{paper} utilizado como referencia~\cite{featuresPhishing2018Gupta}. Por ejemplo, en su experimentación el \textit{random forest} alcanza una \textit{accuracy} del 99\%, mientras que en la mostrada en este trabajo se alcanza un 85\%.
 
-COMENTAR RFI
 \begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes RFI)]{Atributos más relevantes durante la clasificación (bosque de \textit{random-forests}).}
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes RFI)]{Atributos más relevantes durante la clasificación (bosque de 5\,000 árboles).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_rfi}
 	\label{gr:ph-f1f19_rfi}
 \end{figure}
 
-Observando un árbol de decisión entrenado con el conjunto total de datos, se puede obtener una idea aproximada de los atributos más relevantes. Estos son el 10 (número de enlaces), el 2 (aparición de <<@>> y <<->> en la URL), el 3 (longitud de la URL), el 15 (ratio de redirecciones), el 17 (palabra de \textit{copyright} en el dominio base) y el 18 (aparición de palabras clave en el dominio base). Cabe destacar que el árbol real contiene 23 alturas. Se opina que los subconjuntos de atributos no son significantes por sí solos, pero que en conjunto modelan correctamente una página legítima o una de \textit{phishing}.
+Para valorar la importancia de los atributos durante la clasificación, se han utilizado dos aproximaciones. En primer lugar, en la gráfica~\ref{gr:ph-f1f19_rfi}, se muestra la importancia que da a cada atributo un bosque de 5\,000 árboles (\textit{random forest}). Por otro lado, para obtener una idea aproximada de cómo se realiza <<la división>> internamente, se ha entrenado y representado un único árbol de decisión como se muestra en la imagen~\ref{gr:ph-f1f19_tree} (cabe destacar que el árbol real contiene 23 alturas, pero la representación se ha limitado a 4).
+
+Como se puede observar, las características más relevantes son la 10 (número de enlaces), la 2 (aparición de <<@>> y <<->> en la URL), la 18 (aparición de palabras clave en el dominio base), la 17 (palabra de \textit{copyright} en el dominio base) y la 3 (longitud de la URL). Se opina que los subconjuntos de atributos no son significantes por sí solos, pero que en conjunto modelan correctamente una página legítima o una de \textit{phishing}.
 
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes DT)]{Atributos más relevantes durante la clasificación (inicio del árbol).}
@@ -578,10 +579,43 @@ Observando un árbol de decisión entrenado con el conjunto total de datos, se p
 	\label{gr:ph-f1f19_tree}
 \end{figure}
 
-Comparando los algoritmos de aprendizaje semisupervisados con el supervisado, se piensa que el resultado obtenido es muy bueno ya que los algoritmos de aprendizaje supervisado han sido entrenados con el 100\% de los datos etiquetados disponibles, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. A pesar de esto, comparando las \textit{accuracys} entre clasificadores, el mejor clasificador (\textit{random forest}) tiene una equivalente al 88\%, el peor (\textit{democratic co}) una equivalente al 84\% y el resto se encuentra en ese intervalo (por ejemplo, el \textit{co-forest} entrenado con el criterio /texttt{percentage\_L} cuenta con un 86\%). Como se puede comprobar, la diferencia es mínima y, por lo tanto, la aproximación obtenida puede ser utilizada en una situación de escasez de etiquetas. Es destacable que el \textit{democratic-co} tiene incluso una mejor precisión que el \textit{random-forest}, y se recuerda que el \textit{random-forest} es el algoritmo supervisado que mejor se comporta en la experimentación de~\cite{featuresPhishing2018Gupta}, por lo que es una cota superior del desempeño esperado para los algoritmos supervisados.
-
-Además, se opina que el método propuesto tiene muchas ventajas, como la independencia de herramientas externas (por ejemplo, consulta de autoridades certificadoras) y la extracción de los vectores desde el lado cliente.
+Adicionalmente, es reseñable que el método propuesto tiene muchas ventajas, como la independencia de herramientas externas (por ejemplo, consulta de autoridades certificadoras) y la extracción de los vectores desde el lado cliente.
 
 Concluyendo, se piensa que el método mostrado puede ser muy útil para realizar filtrados masivos, pero teniendo en cuenta que cuando los clasificadores fallan, en la mayoría de los casos lo hacen calificando instancias de \textit{phishing} como legítimas. Es destacable el buen desempeño de la aproximación aún contando con escasez de etiquetas.
 
 
+\subsection{Comparativa entre algoritmos de aprendizaje supervisado y semisupervisado}
+
+En esta experimentación no sólo se pueden obtener conclusiones acerca del desempeño de la aproximación planteada (para detectar enlaces de \textit{phishing}), sino que además se puede plantear una comparativa entre el comportamiento de los algoritmos de aprendizaje supervisado y semisupervisado. Para ello, se muestran a continuación las gráficas~\ref{gr:ph-f1f19_sl-ssl-acc},~\ref{gr:ph-f1f19_sl-ssl-rec},~\ref{gr:ph-f1f19_sl-ssl-prec} y~\ref{gr:ph-f1f19_sl-ssl-f1}.
+
+Estas han sido obtenidas realizando validación cruzada. En cada \textit{fold}, el conjunto de entrenamiento ha sido dividido en datos etiquetados ($L$) y sin etiquetar ($U$) (se eliminan las etiquetas), y posteriormente se ha representado la media de los \textit{folds}. El tamaño de los conjuntos ha sido definido por porcentajes. Evidentemente, los algoritmos de aprendizaje supervisado han sido entrenados utilizando únicamente $L$, mientras que los algoritmos de aprendizaje semisupervisado han sido entrenados utilizando $L$ y $U$.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\centering
+	\includegraphics[scale=0.5]{../img/memoria/5_phishing/f1f19_evolution_acc}
+	\label{gr:ph-f1f19_sl-ssl-acc}
+\end{figure}
+
+En la gráfica~\ref{gr:ph-f1f19_sl-ssl-acc} se muestra la evolución de la \textit{accuracy} en función del número de etiquetas utilizadas durante la fase de entrenamiento. Como se puede observar, el clasificador que mejor desempeño presenta en general es el \textit{co-forest} de 20 árboles.
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_rec}
+	\label{gr:ph-f1f19_sl-ssl-rec}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_prec}
+	\label{gr:ph-f1f19_sl-ssl-prec}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_f1}
+	\label{gr:ph-f1f19_sl-ssl-f1}
+\end{figure}
