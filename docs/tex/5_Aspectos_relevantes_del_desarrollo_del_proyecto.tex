@@ -593,29 +593,49 @@ Estas han sido obtenidas realizando validación cruzada. En cada \textit{fold}, 
 \begin{figure}[h]
 	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
 	\centering
-	\includegraphics[scale=0.5]{../img/memoria/5_phishing/f1f19_evolution_acc}
+	\includegraphics[scale=0.45]{../img/memoria/5_phishing/f1f19_evolution_acc}
 	\label{gr:ph-f1f19_sl-ssl-acc}
 \end{figure}
 
-En la gráfica~\ref{gr:ph-f1f19_sl-ssl-acc} se muestra la evolución de la \textit{accuracy} en función del número de etiquetas utilizadas durante la fase de entrenamiento. Como se puede observar, el clasificador que mejor desempeño presenta en general es el \textit{co-forest} de 20 árboles.
+En la gráfica~\ref{gr:ph-f1f19_sl-ssl-acc} se muestra la evolución de la \textit{accuracy} en función del número de etiquetas utilizadas durante la fase de entrenamiento. Como se puede observar, el clasificador que mejor desempeño presenta normalmente es el \textit{co-forest} de 20 árboles. En situaciones de escasez de etiquetas ($\le~40\%$), se puede comprobar como, en general, los algoritmos de aprendizaje semisupervisado presentan mejor desempeño, en especial los \textit{co-forest}.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{recall})]{Evolución del \textit{recall} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_rec}
+	\includegraphics[scale=0.45]{../img/memoria/5_phishing/f1f19_evolution_rec}
 	\label{gr:ph-f1f19_sl-ssl-rec}
 \end{figure}
 
+En la gráfica~\ref{gr:ph-f1f19_sl-ssl-rec} se muestra la evolución del \textit{recall} en función del número de etiquetas utilizadas durante la fase de entrenamiento. Como se puede observar, en este caso tanto el \textit{tri-training} como el \textit{democratic-co} se desenvuelven peor que los \textit{ensembles} basados en árboles. Tal vez se deba a que estos algoritmos cuentan con un menor número de clasificadores base (y, además, son más estables que los árboles).
+
+Nuevamente, los mejores clasificadores con el \textit{co-forest} y el \textit{random forest}. En situaciones de escasez de etiquetas, los \textit{co-forest} son capaces de encontrar más instancias de \textit{phishing}, pero son superados por su versión supervisada en cuanto se cuenta con más recursos.
+
 \begin{figure}[h]
-	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\caption[\textit{Phishing}: comparativa SL contra SSL (precisión)]{Evolución de la precisión para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_prec}
+	\includegraphics[scale=0.45]{../img/memoria/5_phishing/f1f19_evolution_prec}
 	\label{gr:ph-f1f19_sl-ssl-prec}
 \end{figure}
 
+En la gráfica~\ref{gr:ph-f1f19_sl-ssl-prec} se muestra la evolución de la precisión en función del número de etiquetas utilizadas durante la fase de entrenamiento.
+
+Es relevante no <<dejarse engañar>> por los resultados y analizar cada gráfica presentada. Se recuerda al lector que la precisión es aquella medida que determina, para un clasificador, el porcentaje de aciertos que presenta para las instancias positivas.
+
+Como se puede comprobar, en este caso el \textit{tri-training} es el clasificador que mejores resultados presenta. Sin embargo, esto se debe en gran parte a que encuentra menos positivos que el resto. Por ello, se procede a evaluar esta medida en contexto. Para ello se va a utilizar la medida F1, que relaciona la precisión y el \textit{recall}.
+
 \begin{figure}[h]
-	\caption[\textit{Phishing}: comparativa SL contra SSL (\textit{accuracy})]{Evolución de la \textit{accuracy} para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
+	\caption[\textit{Phishing}: comparativa SL contra SSL (F1~\textit{score})]{Evolución de la medida F1 para distintos \textit{ensembles} en función del porcentaje de etiquetas.}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_evolution_f1}
+	\includegraphics[scale=0.45]{../img/memoria/5_phishing/f1f19_evolution_f1}
 	\label{gr:ph-f1f19_sl-ssl-f1}
 \end{figure}
+
+En la gráfica~\ref{gr:ph-f1f19_sl-ssl-f1} se muestra la evolución de la medida F1 en función del número de etiquetas utilizadas durante la fase de entrenamiento. 
+
+La medida F1 es el promedio armónico ponderado de la precisión y el \textit{recall}, lo que permite establecer una relación entre ambas. Como se puede observar, los mejores clasificadores encontrando y prediciendo instancias positivas son el \textit{co-forest} de 20 árboles y el \textit{random-forest}.
+
+Concluyendo, se ha podido observar como los algoritmos que en este caso han presentado mejor resultado son los \textit{ensembles} de árboles, probablemente debido a que cuentan con un mayor número de clasificadores base y estos (los árboles) son muy inestables, causando grandes variaciones en el resultado con pequeños cambios en el conjunto de entrenamiento.
+
+En general, se puede afirmar que los algoritmos semisupervisados son muy útiles cuando se cuenta con una escasez de recursos, pero que son ligeramente superados por los supervisados en caso contrario. 
+
+Además, es muy importante destacar uno de los principios básicos del \textit{machine learning} y es que no existe un algoritmo que sea universalmente mejor que otros, sino que cada uno destaca en aplicaciones concretas. En este caso, se ha comprobado como utilizar \textit{ensembles} de árboles es una muy buena aproximación
