@@ -831,13 +831,135 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 \section{Estudio de viabilidad}
 
-...
+La viabilidad de un proyecto \textit{software} es la capacidad que tiene este para ser realizado de manera exitosa y cumpliendo los objetivos propuestos. Para determinar si este proyecto es factible, se va a evaluar la viabilidad económica (sección~\ref{s:ve}) y la viabilidad legal (sección~\ref{s:vl}).
 
 \subsection{Viabilidad económica}
+\label{s:ve}
 
-...
+Determinar si un proyecto es viable en términos económicos implica analizar los costos y beneficios del proyecto. Por ello, se desarrollan dichos apartados a continuación.
+
+Es destacable que el análisis se tendrá en cuenta suponiendo que el proyecto se realiza en un entorno empresarial real con una compañía situada en España.
+
+\subsubsection{Costes}
+
+Este término se refiere al desembolso realizado para adquirir (o producir) un bien o servicio. Se desglosan a su vez en distintas categorías:
+
+\begin{enumerate}
+	\item\textbf{Costes de empleados:} En este caso se cuenta con el desarrollador (alumno) y el \textit{product owner} (tutor académico).
+
+Se estima que el tiempo real invertido en el proyecto por parte del desarrollador ha sido equivalente a X horas repartidas a lo largo de 9 meses. Esto implica que el trabajo semanal equivale a Y horas.
+
+Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 horas\footnote{\url{Fuente: https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, se estima que el salario medio bruto por hora equivale a 12€. Por ello, el salario bruto del programador equivale a Z€.
+
+A esta cantidad se le deben excluir los impuestos que ha de pagar la empresa por el empleado\footnote{\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$5\%$ de desempleo y un $0$.$20\%$ de FOGASA. Por lo tanto, la empresa debe pagar por este trabajador P€/mes.
+
+Respecto al tutor de prácticas, suponiendo que cobra de media 50\,000€ brutos al año\footnote{Extraído de \url{https://as.com/actualidad/cuanto-cobra-un-profesor-de-universidad-en-espana-y-cual-es-su-salario-si-es-de-la-publica-o-privada-n/}}, se calcula que el sueldo bruto por hora es de M€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar N€ brutos al mes. Sumando los impuestos, la empresa debería pagar B€/mes por los servicios prestados.
+
+Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en la tabla~\ref{a:costes-personal}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Salario bruto (€/mes)} & \textbf{Coste empresa (€/mes)} \\
+		\midrule
+		Sueldo desarrollador &  & \\
+		Sueldo \textit{product owner} & & \\
+		\midrule
+		\textbf{Total meses} & & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: empleados]{Costes calculados para el personal del proyecto.}
+	\label{a:costes-personal}
+\end{table}
+
+
+\item\textbf{Costes \textit{hardware}:}
+
+Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\midrule
+		 &  & \\
+		\midrule
+		\textbf{Total meses} & & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: \textit{hardware}]{Costes calculados para el \textit{hardware} del proyecto.}
+	\label{a:costes-hardware}
+\end{table}
+
+\item\textbf{Costes \textit{software}:}
+
+Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\midrule
+		&  & \\
+		\midrule
+		\textbf{Total meses} & & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: \textit{software}]{Costes calculados para el \textit{software} del proyecto.}
+	\label{a:costes-software}
+\end{table}
+
+
+\item\textbf{Otros:}
+
+Por lo tanto, el coste total para la empresa a nivel de costes adicionales se muestra en la tabla~\ref{a:costes-otros}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\midrule
+		&  & \\
+		\midrule
+		\textbf{Total meses} & & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: otros]{Otros costes calculados para el proyecto.}
+	\label{a:costes-otros}
+\end{table}
+
+
+\item\textbf{Total:}
+
+En la tabla~\ref{a:costes} se muestra el total de los costos que ha supuesto el proyecto para la empresa.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r}
+		\toprule
+		\textbf{Sección} & \textbf{Coste (€)} \\
+		\midrule
+		Empleados & \\
+		\textit{Hardware} & \\
+		\textit{Software} & \\
+		Otros & \\
+		\midrule
+		\textbf{Total meses} & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: total]{Total de costes calculados para el proyecto.}
+	\label{a:costes}
+\end{table}
+\end{enumerate}
+
+\subsubsection{Beneficios}
 
 \subsection{Viabilidad legal}
+\label{s:vl}
 
 La viabilidad legal de un proyecto \textit{software} es la evaluación de aquellos aspectos legales relacionados con el desarrollo y la distribución del producto estudiado. Algunos de los puntos principales a analizar son el cumplimiento de leyes de propiedad intelectual, la protección de datos personales y el estudio de licencias. En este proyecto, además, se estudiará la legalidad del \textit{web scraping}.
 
