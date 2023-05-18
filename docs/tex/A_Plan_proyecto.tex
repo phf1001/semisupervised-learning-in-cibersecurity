@@ -842,18 +842,21 @@ Es destacable que el análisis se tendrá en cuenta suponiendo que el proyecto s
 
 \subsubsection{Costes}
 
-Este término se refiere al desembolso realizado para adquirir (o producir) un bien o servicio. Se desglosan a su vez en distintas categorías siendo destacable que, para calcular las amortizaciones, se ha tenido en cuenta la duración real del proyecto (X meses):
+Este término se refiere al desembolso realizado para adquirir (o producir) un bien o servicio. Se desglosan a su vez en distintas categorías siendo destacable que, para calcular las amortizaciones, se ha tenido en cuenta la duración real del proyecto (8.5 meses o 37 semanas).
 
 \begin{enumerate}
-	\item\textbf{Costes de empleados:} en este caso se cuenta con el desarrollador (alumno) y el \textit{product owner} (tutor académico).
+	\item\textbf{Costes de empleados:} en este caso se cuenta con una desarrolladora (la alumna) y el \textit{product owner} (tutor académico).
 
-Se estima que el tiempo real invertido en el proyecto por parte del desarrollador ha sido equivalente a X horas repartidas a lo largo de 9 meses. Esto implica que el trabajo semanal equivale a Y horas.
+Se estima que el tiempo real invertido en el proyecto por parte de la desarrolladora ha sido equivalente a X horas repartidas a lo largo de 8.5 meses. Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos anuales\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 ~horas\footnote{Fuente: \url{ https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, el salario medio bruto por hora es, aproximadamente, 12€. Por ello, el salario bruto del programador equivale a $X horas \times 12\frac{\text{€}}{hora} = Y \text{€}$.
 
-Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 horas\footnote{\url{Fuente: https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, se estima que el salario medio bruto por hora equivale a 12€. Por ello, el salario bruto del programador equivale a Z€.
+A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por el empleado\footnote{Fuente:~\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$50\%$ de desempleo, un $0$.$20\%$ de FOGASA, un $0$.$60\%$ de formación profesional y un $1$.$50\%$ por accidentes de trabajo. Por lo tanto, la empresa debe pagar por este trabajador P€/mes. Esta cifra proviene de despejar en la ecuación~\ref{eqn:sueldo-patri}.
 
-A esta cantidad se le deben excluir los impuestos que ha de pagar la empresa por el empleado\footnote{\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$5\%$ de desempleo y un $0$.$20\%$ de FOGASA. Por lo tanto, la empresa debe pagar por este trabajador P€/mes.
+\begin{equation}\label{eqn:sueldo-patri} \frac{X\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} =  \frac{\text{€}}{mes}\end{equation}
 
-Respecto al tutor de prácticas, suponiendo que cobra de media 50\,000€ brutos al año\footnote{Extraído de \url{https://as.com/actualidad/cuanto-cobra-un-profesor-de-universidad-en-espana-y-cual-es-su-salario-si-es-de-la-publica-o-privada-n/}}, se calcula que el sueldo bruto por hora es de M€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar N€ brutos al mes. Sumando los impuestos, la empresa debería pagar B€/mes por los servicios prestados.
+
+Respecto al tutor del proyecto, suponiendo que cobra de media 43\,400€ brutos al año\footnote{Fuente: \url{https://as.com/actualidad/cuanto-cobra-un-profesor-de-universidad-en-espana-y-cual-es-su-salario-si-es-de-la-publica-o-privada-n/}}, se calcula que el sueldo bruto por hora es de 23.85€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 314€ brutos al mes. Sumando los impuestos, la empresa debería pagar 457.80€/mes por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
+
+\begin{equation}\label{eqn:sueldo-alvar} \frac{314 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 457\text{.}80 \frac{\text{€}}{mes}\end{equation}
 
 Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en la tabla~\ref{a:costes-personal}.
 
@@ -863,10 +866,10 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 		\toprule
 		\textbf{Concepto} & \textbf{Salario bruto (€/mes)} & \textbf{Coste empresa (€/mes)} \\
 		\midrule
-		Sueldo desarrollador &  & \\
-		Sueldo \textit{product owner} & & \\
+		Sueldo desarrolladora & X & Y \\
+		Sueldo \textit{product owner} & 314 & 457.80 \\
 		\midrule
-		\textbf{Total meses} & & \\
+		\textbf{Total en 8.5 meses} & suma * 8.5 € & suma * 8.5 €\\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: empleados]{Costes calculados para el personal del proyecto.}
@@ -884,16 +887,16 @@ No se calculan gastos de servidores ya que la \textit{web} ha sido desplegada en
 		\toprule
 		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
 		\midrule
-		 &  & \\
+		MSI Stealth 15M & 1\,599€ & 283.15 \\
 		\midrule
-		\textbf{Total meses} & & \\
+		\textbf{Total} & 1\,599€ & 283.15 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: \textit{hardware}]{Costes calculados para el \textit{hardware} del proyecto.}
 	\label{a:costes-hardware}
 \end{table}
 
-\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}.
+\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0,93€ (18 de Mayo del 2023, 16:10).
 
 \begin{table}[p]
 	\centering
@@ -901,9 +904,19 @@ No se calculan gastos de servidores ya que la \textit{web} ha sido desplegada en
 		\toprule
 		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
 		\midrule
-		&  & \\
+		Heroku & 556.56 & 394.27 \\
+		Docker & 278.16 & 197.03 \\
+		Travis CI & 1324.44 & 938.15\\
+		Sonar Cloud  & 120 & 85\\
+		DeepSource Bot  & 267.12 & 189.21\\
+		ZenHub  & 92,76 & 65.71\\
+		GitGuardian  & 0 & 0\\
+		GitHub  & 44.52 & 31.54\\
+		Selenium IDE & 0 & 0\\
+		Ubuntu 20.4  & 0 & 0\\
+		VS Code  & 0 & 0\\
 		\midrule
-		\textbf{Total meses} & & \\
+		\textbf{Total} & 2683.56 & 1900.86 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: \textit{software}]{Costes calculados para el \textit{software} del proyecto.}
@@ -911,17 +924,21 @@ No se calculan gastos de servidores ya que la \textit{web} ha sido desplegada en
 \end{table}
 
 
-\item\textbf{Otros:} en este apartado se agrupan aquellos costes no categorizables en secciones anteriores, además de gastos indirectos. El coste total para la empresa a nivel de costes adicionales se muestra en la tabla~\ref{a:costes-otros}.
+\item\textbf{Otros:} en este apartado se agrupan aquellos costes no categorizables en secciones anteriores, además de gastos indirectos. El coste total para la empresa a nivel de costes adicionales se muestra en la tabla~\ref{a:costes-otros}, suponiendo una empleada que teletrabaja y a quién se le pagan los gastos por hora.
 
 \begin{table}[p]
 	\centering
 	\begin{tabular}{l r r}
 		\toprule
-		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\textbf{Concepto} & \textbf{Coste (€/hora)} & \textbf{Coste real (€)} \\
 		\midrule
-		&  & \\
+		Oficina & 0 & 0\\
+		Fibra Óptica & 0.048 & \\
+		Luz & 0.056 & \\
+		Calefacción & 0.27 & \\
+		Agua & 0.03 & \\
 		\midrule
-		\textbf{Total meses} & & \\
+		\textbf{Total} & & \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: otros]{Otros costes calculados para el proyecto.}
