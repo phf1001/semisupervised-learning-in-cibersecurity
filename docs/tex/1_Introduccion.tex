@@ -7,3 +7,46 @@ Este trabajo de investigación pretende explorar cómo la minería de datos, en 
 Un sistema de recomendación es un algoritmo desarrollado con el fin de resumir información y facilitar la toma de decisiones. Son herramientas que pretenden realizar sugerencias de objetos que pueden resultar interesantes para un determinado perfil. Económicamente, este tipo de algoritmo es un claro objeto de interés, puesto que puede influir en la toma de decisiones de los compradores y hacer que se inclinen por un determinado producto (por ejemplo, el que tenga una mejor valoración). Los atacantes conocen esta situación y manipulan estas herramientas mediante el uso de perfiles falsos con el fin de beneficiar sus productos o perjudicar los de la competencia. Por ello, uno de los objetivos del proyecto es explorar cómo el aprendizaje semisupervisado puede ayudar a detectar los ataques a sistemas de recomendación, diferenciando entre perfiles genuinos e inyectados, además de comprobar la veracidad de los trabajos previos planteados por otros investigadores.
 
 Por otro lado, se denomina \textit{phishing} a la técnica de ingeniería social en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque es uno de los más comunes y peligrosos. Según el informe \textit{State of the Phish Report}, en el 2021, un 83\% de las empresas encuestadas sufrieron un ataque de estas características y el 54\% acabó con brechas de datos de clientes~\cite{phishingPorcentajeExito}. Por ello, se pretende crear un sistema de detección que permita distinguir enlaces falsos de auténticos mediante ténicas de aprendizaje semisupervisado.
+
+\section{Estructura de la memoria}
+
+El proyecto ha sido dividido en dos documentos independientes pero complementarios.
+
+\subsection{Memoria}
+
+Documento principal donde se pueden encontrar los siguientes apartados:
+
+\begin{enumerate}
+	\item \textbf{Introducción}: contextualización, estructura y recursos del proyecto.
+	\item \textbf{Objetivos}: exposición de los pilares básicos del trabajo y las metas propuestas.
+	\item \textbf{Conceptos teóricos}: descripción de los fundamentos principales necesarios para la correcta comprensión del documento.
+	\item \textbf{Técnicas y herramientas}: enumeración de algunas de las técnicas y herramientas utilizadas durante el desarrollo del proyecto.
+	\item \textbf{Aspectos relevantes del proyecto}: exposición y análisis de los experimentos realizados y las aproximaciones propuestas.
+	\item \textbf{Trabajos relacionados}: comparación entre literatura existente desarrollada en el mismo ámbito que el trabajo presentado.
+	\item \textbf{Conclusiones y líneas de trabajo futuras}: resumen de los aprendizajes obtenidos y proposición de ideas de mejora.
+\end{enumerate}
+
+\subsection{Anexos}
+
+Documento orientado hacia el desarrollo del producto entregado, se divide en las siguientes secciones:
+
+\begin{enumerate}
+	\item \textbf{Plan de proyecto \textit{software}}: discusión acerca de la viabilidad temporal, económica y legal del producto presentado.
+	\item \textbf{Especificación de requisitos}: análisis de las características que debe poseer el proyecto \textit{software} mediante el uso de catálogos, prototipos, diagramas y tablas.
+	\item \textbf{Especificación de diseño}: descripción detallada de la estructura,
+	el comportamiento y la interacción de la propuesta entregada.
+	\item \textbf{Documentación técnica de programación}: recursos diseñados para disminuir la curva de aprendizaje y facilitar la inclusión de otros desarrolladores en el proyecto.
+	\item \textbf{Documentación de usuario}: manuales necesarios para garantizar que el usuario final del producto pueda utilizar el \textit{software} con facilidad y reciba soporte adecuado.
+\end{enumerate} 
+
+\section{Enlaces adicionales}
+
+Se facilita a continuación el acceso directo a los materiales del proyecto.
+
+\begin{enumerate}
+	\item Repositorio del proyecto:
+	\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity}
+	\item \textit{Web} desplegada en Heroku: \url{https://krini.herokuapp.com/index}
+	\item Imágenes de Docker con la \textit{web} y su base de datos: \url{https://hub.docker.com/r/phf1001/krini/tags}
+	\item \textit{Scripts} de despliegue en distintos sistemas operativos: \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}
+\end{enumerate}
