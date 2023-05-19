@@ -227,8 +227,7 @@ La principal desventaja es que requiere un mayor uso de recursos computacionales
 
 
 \section{\textit{Co-forest}}
-
-\subsection{Descripción}
+\label{coforest-teoria}
 
 El denominado \textit{co-forest}~\cite{originalCoForest2007} es un método de clasificación para aprendizaje semisupervisado (más concretamente, de envoltura) que permite construir un \textit{ensemble} de árboles de decisión (clasificación). Este método está basado en el \textit{random forest} y se podría considerar su <<versión semisupervisada>>. 
 
@@ -362,9 +361,7 @@ Por otro lado, tampoco se hace explícito cómo iniciar $W_{i,t}$ en aquellas it
 
 
 \section{\textit{Tri-Training}}
-
-\subsection{Descripción}
-
+\label{tritraining-teoria}
 
 El denominado \textit{tri-training}~\cite{tritraining2005@original} es un método de clasificación para aprendizaje semisupervisado perteneciente a la rama del \textit{co-training}. Utiliza tres estimadores base ($i$, $j$ y $k$) que son entrenados utilizando un conjunto de datos etiquetados $L$ y pseudo-etiquetas generadas por el resto del conjunto.
 
@@ -468,8 +465,7 @@ Para cada iteración del algoritmo, se considera un $L_i$ independiente y obteni
 Como se muestra en la función de utilidad de la ecuación~\ref{eqn:operar_rel_convergencia}, como $f$ es inversamente proporcional a  $\frac{c}{\epsilon^{2}}$, entonces se puede deducir que si $f^t > f^{t-1}$ entonces $e^t < e^{t-1}$, lo que implica que el clasificador $i$ va a mejorar si se utilizan las pseudo-etiquetas de $L^t$ en el entrenamiento~\cite{tritraining2005@original}.
 
 \section{\textit{Democratic-co learning}}
-
-\subsection{Descripción}
+\label{democraticco-teoria}
 
 El \textit{democratic-co learning} es un método de aprendizaje semisupervisado que sólo necesita una vista de los datos para entrenarse y, además, es aplicable cuando se tiene un pequeño conjunto de datos etiquetados~\cite{democraticCoLearning2004original}.
 
@@ -607,7 +603,7 @@ Aunque es probable que el lector se sienta atraído por los algoritmos mostrados
 	
 	\item \textbf{Preparación de los datos}: se distinguen dos fases: la exploración y el preprocesado de los datos. El objetivo de la exploración es entender y definir los datos. Es decir, encontrar posibles correlaciones, tendencias o valores atípicos (\textit{outliers}) con el fin de facilitar las fases posteriores. Por otro lado, el preprocesado busca preparar los datos para poder ser analizados. Para ello se ha de limpiar las instancias (eliminar duplicados, inconsistencias, valores perdidos, ruido, etc.), transformarlas (escalar rangos, reducir dimensiones o realizar filtrados) y, optativamente, seleccionar los atributos (o las instancias) que resulten relevantes para resolver el problema.
 	
-	\item \textbf{Análisis de los datos}: en este apartado se seleccionan los algoritmos de \textit{machine learning} (ML) apropiados para los datos (se recuerda que no existe ningún algoritmo que funcione siempre mejor que otros sino que cada problema tiene uno mejor adecuado), se construye el modelo, se entrena con los datos preparados y se evalúa el desempeño.
+	\item \textbf{Análisis de los datos}: en este apartado se seleccionan los algoritmos de aprendizaje automático apropiados para los datos (se recuerda que no existe ningún algoritmo que funcione siempre mejor que otros sino que cada problema tiene uno mejor adecuado), se construye el modelo, se entrena con los datos preparados y se evalúa el desempeño.
 	\item \textbf{Informe}: en esta fase se comunican los resultados utilizando gráficos, informes y todo tipo de herramientas que faciliten la comprensión del conocimiento expuesto.
 	\item \textbf{Actuación}: el último paso consiste en la toma de decisiones basadas en los informes generados. Es importante destacar que el impacto de las acciones tomadas ha de ser evaluado.
 \end{enumerate}
@@ -882,7 +878,7 @@ Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_fe
 		$X \leftarrow X \cup x_u$\\
 	}
 	\Return{$X$}
-	\caption{Algoritmo de generación de vectores de características.}
+	\caption{Generación de vectores de características para la detección de ataques en sistemas de recomendación.}
 	\label{alg:window_feature_extraction}
 \end{algorithm}
 
@@ -911,7 +907,7 @@ Se exponen a continuación algunas de las técnicas auxiliares más comunes tant
 
 La escritura \textit{leet} es un lenguaje utilizado en la informática cuando se quiere evitar que ciertos archivos (o páginas \textit{web}) se descubran mediante la búsqueda por palabras clave~\cite{leetSpectrum}. La aplicación más sencilla es sustituir aquellas letras que se parezcan a números por estos mismos. Por ejemplo, en lugar de escribir \textit{password}, se podría utilizar \texttt{p4\$\$w0rd}.
 
-Es común que páginas de \textit{phishing} utilicen estas técnicas con el fin de confundir al usuario. Por ejemplo, si un enlace contiene la palabra \textit{0ffice} en lugar de \textit{Office}, es sencillo que un usuario que no esté prestando especial atención caiga en la estafa por no haberse percatado de que la letra O mayúscula es, en realidad, un cero.
+Es común que páginas de \textit{phishing} utilicen estas técnicas con el fin de confundir al usuario. Por ejemplo, si un enlace contiene la palabra \textit{0ffice} en lugar de \textit{Office}, es sencillo que un usuario que no esté prestando especial atención caiga en la estafa por no haberse percatado de que la letra <<O>> mayúscula es, en realidad, un cero.
 
 \subsubsection{TF-IDF}
 

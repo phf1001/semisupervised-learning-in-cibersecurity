@@ -9,7 +9,7 @@ Es reseñable que este proyecto se sostiene sobre tres pilares complementarios p
 
 \subsection{Aprendizaje semisupervisado}
 
-Por un lado, en este trabajo se pretende ahondar en el concepto de aprendizaje semisupervisado. Para ello, se va a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest}, el \textit{democratic-co learning} y el \textit{tri-training}.
+Por un lado, en este trabajo se pretende ahondar en el concepto de aprendizaje semisupervisado. Para ello, se van a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest} (consultar aspectos teóricos en la sección~\ref{coforest-teoria} y la experimentación en la sección~\ref{coforest-exp}), el \textit{democratic-co learning} (secciones~\ref{democraticco-teoria} y~\ref{democraticco-exp}) y el \textit{tri-training} (secciones~\ref{tritraining-teoria} y~\ref{tritraining-exp}).
 
 Es reseñable que se pretende alcanzar un nivel de comprensión superior a la mera programación, realizando incluso pequeñas aportaciones a los algoritmos (basadas en la experimentación) en aquellos casos donde el pseudocódigo facilitado por los autores carezca de detalles de implementación.
 
@@ -17,12 +17,11 @@ Es reseñable que se pretende alcanzar un nivel de comprensión superior a la me
 
 Implementar algoritmos es un ejercicio relevante, pero carece de sentido si no pueden ser utilizados. Por ello, se pretende encontrar una aplicación a los mismos. Concretamente, se ha propuesto el modelado de un problema real relacionado con la ciberseguridad.
 
-En un primer lugar se valoró estudiar la detección de ataques en sistemas de recomendación, pero se desestimó por su bajo desempeño. Finalmente, se ha escogido la detección de \textit{phishing}.
-
+En un primer lugar se valoró estudiar la detección de ataques en sistemas de recomendación~\cite{zhou2021SemisupervisedRecommendationAttack}, pero se desestimó por su bajo desempeño. Finalmente, se ha escogido la detección de \textit{phishing}~\cite{featuresPhishing2018Gupta}.
 
 \subsection{Desarrollo}
 
-Por último, se pretende elaborar una herramienta que permita poner al servicio de la comunidad el conocimiento desarrollado. Se ha decidido crear un analizador de \textit{phishing} en formato página \textit{web}, permitiendo además la administración avanzada de modelos de \textit{machine learning} e instancias de aprendizaje.
+Por último, se pretende diseñar e implementar una herramienta (\textit{web}) que permita poner al servicio de la comunidad el conocimiento desarrollado. Se ha decidido crear un analizador de \textit{phishing} en formato página \textit{web}, permitiendo además la administración avanzada de modelos de \textit{machine learning} e instancias de aprendizaje.
 
 \section{Objetivos}
 
@@ -38,7 +37,7 @@ Se han propuesto los siguientes objetivos técnicos:
 	\item Experimentar con detalles de implementación no concretados: para comprobar cómo determinadas decisiones pueden afectar el desempeño de un algoritmo.
 	\item Comparar contra implementaciones de terceros: logrando unas condiciones de análisis justas.
 	\item Modelar un problema de ciberseguridad: ofreciendo una solución práctica basada en el aprendizaje predictivo.
-	\item Establecer medidas de seguridad: siendo consciente de que los métodos de extracción pueden amenzar vulnerabilidades y mitigando el riesgo.
+	\item Establecer medidas de seguridad: siendo consciente de que los métodos de extracción pueden amenazar vulnerabilidades y mitigando el riesgo.
 	\item Evaluar la calidad de la solución aportada: en términos de rendimiento.
 	\item Aprendizaje de nuevas tecnologías: y familiarización con la programación \textit{web}.
 	
@@ -51,8 +50,8 @@ Se han propuesto los siguientes objetivos de desarrollo software:
 
 \begin{enumerate}
 	\item Implementar de forma estándar los algoritmos: siguiendo interfaces conocidas por la comunidad (métodos \texttt{fit} y \texttt{predict}).
-	\item Adoptar metodologías ágiles de desarrollo: y familiarización con el flujo de Scrum.
-	\item Documentar el producto desarrollado: de forma concisa y que resuma utilizando herramientas visuales (como diagramas) la arquitectura planteada.
+	\item Adoptar metodologías ágiles de desarrollo y familiarización con el flujo de Scrum.
+	\item Documentar el producto desarrollado: de forma concisa y que resuma, utilizando herramientas visuales (como diagramas), la arquitectura planteada.
 	\item Lograr un código de calidad: desarrollando un producto que tenga una deuda técnica baja y una curva de aprendizaje asumible mediante el uso de herramientas como SonarCloud.
 	\item Aplicar la integración y entrega continua: de forma que se garantice el desarrollo de un producto mínimo viable que permita la detección temprana de errores y facilite la corrección por parte del tutor.
 	\item Vincular fuentes de persistencia: como bases de datos SQL.
