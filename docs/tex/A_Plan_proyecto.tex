@@ -4,12 +4,12 @@
 
 En este documento se pretende mostrar el plan de proyecto seguido a la hora de realizar el trabajo de fin de grado.
 
-Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022}, temario necesario para obtener la certificación de Scrum Manager.
+Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022} (temario necesario para obtener la certificación de Scrum Manager) y se exponen en la sección~\ref{s:scrum}.
 
-Posteriormente, se expondrá la viabilidad legal y económica del producto.
+En cuanto a la estructura de este anexo, en un primer lugar se expondrá la planificación temporal del proyecto (sección~\ref{s:temp}). Posteriormente, se analizará la viabilidad legal (sección~\ref{s:vl}) y económica (sección~\ref{s:ve}).
 
 \subsection{Scrum}
-
+\label{s:scrum}
 Scrum es una metodología ágil basada en cuatro valores~\cite{scrumMaster2022}. Sintetizando sus principios, se puede deducir que se pretende valorar a los individuos por encima de las herramientas, el \textit{software} apropiado a la documentación exhaustiva, la colaboración con el cliente y la habilidad de dar respuesta al cambio ante imprevistos.
 
 Siguiendo este esquema, se desarrolla el <<ciclo de Scrum>> representado en la imagen~\ref{img:ciclo_scrum}, que se puede dividir en varios pilares.
@@ -21,7 +21,7 @@ Siguiendo este esquema, se desarrolla el <<ciclo de Scrum>> representado en la i
 	\includegraphics[scale=0.45]{../img/anexos/scrum/ciclo}
 \end{figure}
 
-\subsection{Roles}
+\subsubsection{Roles}
 Descripción de los posibles interventores durante el desarrollo de un producto.
 
 \begin{itemize}
@@ -32,7 +32,7 @@ Descripción de los posibles interventores durante el desarrollo de un producto.
 	\item Equipo de desarrollo: es el conjunto de programadores autogestionados encargados de generar los incrementos. Profesionales multifuncionales, deben completar las tareas que se les asignen en el plazo estimado, además de participar en la toma de decisiones.
 \end{itemize}
 
-\subsection{Artefactos}
+\subsubsection{Artefactos}
 
 Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encuentran:
 
@@ -44,7 +44,7 @@ Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encu
 	\item Gráfico de producto o \textit{burn up report}: mide cuánto se ha completado respecto al total.
 \end{itemize}
 
-\subsection{Eventos}
+\subsubsection{Eventos}
 Durante el ciclo de Scrum, se pueden identificar varias actividades que constituyen la rutina y se represetan en la imagen~\ref{img:eventos_scrum} facilitada por el Manual de Scrum~\cite{scrumMaster2022}.
 
 \begin{figure}[h]
@@ -62,7 +62,7 @@ Durante el ciclo de Scrum, se pueden identificar varias actividades que constitu
 	\item Retrospectiva del \textit{sprint}: se aporta el \textit{feedback} necesario para mejorar la siguiente iteración.
 \end{enumerate}
 
-\subsection{Medición}
+\subsubsection{Medición}
 
 Como se puede observar, cada equipo puede realizar una cantidad de trabajo, generalmente fija, en cada \textit{sprint}. Por ello, es necesario estimar el tiempo que requiere cada tarea y no asignar más trabajo del que se pueda asimilar en cada iteración.
 
@@ -70,6 +70,7 @@ En este proyecto, se han utilizado los <<puntos de historia>> como unidad de med
 
 
 \section{Planificación temporal}
+\label{s:temp}
 
 \subsection{Planificación por \textit{sprints}}
 \label{s:planificacion-sprints}
@@ -670,7 +671,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
 	
-	Hasta este \textit{sprint} se ha conseguido implementar una \textit{web} con funcionalidad mínima. Se ha decidido que, durante los 4 siguientes, se dedicará un \textit{sprint} a cada sección de la \textit{web} para implementar la funcionalidad al completo y realizar la documentación disponible en estos anexos. Por lo tanto, \textit{sprint} 18 se ha dedicado al \textit{index}, a la página de reportar URLs y al \textit{dashboard}. Aprovechando las vacaciones se ha decidido, además, integrar toda la documentación atrasada e introducir nuevos experimentos para el \textit{co-forest}.
+	Hasta este \textit{sprint} se ha conseguido implementar una \textit{web} con funcionalidad mínima. Se ha decidido que, durante los 4 siguientes, se dedicará un \textit{sprint} a cada sección de la \textit{web} para implementar la funcionalidad al completo y realizar la documentación disponible en estos anexos. Por lo tanto, el \textit{sprint} 18 se ha dedicado al \textit{index}, a la página de reportar URLs y al \textit{dashboard}. Aprovechando las vacaciones se ha decidido, además, integrar toda la documentación atrasada e introducir nuevos experimentos para el \textit{co-forest}.
 	
 	\begin{enumerate}
 		\item \textit{Web}: finalizar el \textit{index} (mostrar solo modelos visibles, controlar las excepciones, corección de URLs por parte del usuario, introducir el análisis rápido, modificar la interfaz), mejorar el \textit{dashboard} (espaciado en las fórmulas, introducir botón de notificar análisis incorrectos, añadir un gráfico interactivo global con las métricas para todos los clasificadores, arreglar ejes de los gráficos y añadir las métricas F1 y ROC AUC) y arreglar la página para reportar URLs (adaptar al modelo de datos tras las nuevas correcciones).
@@ -699,7 +700,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 	\item \textbf{\textit{Sprint review meeting}}
 	
-	Como se ha ido documentando en los \textit{issues} de GitHub\footnote{\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/115}}, lo más relevante ha sido la experimentación con el \textit{co-forest}, ya que se piensa que la inicialización del vector \texttt{previous\_w} tiene un impacto real mayor que el estimado en el desempeño del algoritmo. Por ello, se ha planificado una experimentación a gran escala para cuando la \textit{web} se finalice. Respecto a la \textit{web}, se han comentado ciertas sugerencias de mejora (colores en las etiquetas, etc.).
+	Como se ha ido documentando en los \textit{issues} de GitHub\footnote{\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/115}}, lo más relevante ha sido la experimentación con el \textit{co-forest}, ya que se intuye que la inicialización del vector \texttt{previous\_w} tiene un impacto real mayor que el estimado en el desempeño del algoritmo. Por ello, se ha planificado una experimentación a gran escala para cuando la \textit{web} se finalice. Respecto a la \textit{web}, se han comentado ciertas sugerencias de mejora (colores en las etiquetas, etc.).
 	
 \end{itemize}
 
@@ -768,7 +769,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	
 	\item \textbf{\textit{Sprint review meeting}}
 	
-	Esta reunión fue particularmente extensa ya que se planteó la distribución temporal de todo lo restante para completar el proyecto. Además, también se realizaron ciertas correcciones relacionadas con los diagramas y se comentó un problema respectivo a la internacionalización.
+	Esta reunión fue particularmente extensa ya que se planteó la distribución temporal de todas las tareas restantes para completar el proyecto. Además, también se realizaron ciertas correcciones relacionadas con los diagramas y se comentó un problema respectivo a la internacionalización.
 \end{itemize}
 
 
@@ -836,7 +837,7 @@ La viabilidad de un proyecto \textit{software} es la capacidad que tiene este pa
 \subsection{Viabilidad económica}
 \label{s:ve}
 
-Determinar si un proyecto es viable en términos económicos implica analizar los costos y beneficios del proyecto. Por ello, se desarrollan dichos apartados a continuación.
+Determinar si un proyecto es viable en términos económicos implica analizar los costes y beneficios del proyecto. Por ello, se desarrollan dichos apartados a continuación.
 
 Es destacable que el análisis se tendrá en cuenta suponiendo que el proyecto se realiza en un entorno empresarial real con una compañía situada en España.
 
@@ -869,7 +870,7 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 		Sueldo desarrolladora & X & Y \\
 		Sueldo \textit{product owner} & 314 & 457.80 \\
 		\midrule
-		\textbf{Total en 8.5 meses} & suma * 8.5 € & suma * 8.5 €\\
+		\textbf{Total en 8.5 meses} & suma $\times$ 8.5 € & suma $\times$ 8.5 €\\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: empleados]{Costes calculados para el personal del proyecto.}
@@ -877,9 +878,7 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 \end{table}
 
 
-\item\textbf{Costes \textit{hardware}:} para la realización del proyecto únicamente ha sido necesario contar con un ordenador para la desarrolladora. Este equipo se trata de un MSI Stealth 15M (Intel Core i7-11375H, 16 GB de RAM, 1 TB de SSD y NVIDIA GeForce RTX 3060) con un precio de venta al público de 1\,599€. Se calcula que el ordenador será amortizado en 4 años. Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
-
-No se calculan gastos de servidores ya que la \textit{web} ha sido desplegada en Heroku (PaaS).
+\item\textbf{Costes \textit{hardware}:} para la realización del proyecto únicamente ha sido necesario contar con un ordenador para la desarrolladora. Este equipo se trata de un MSI Stealth 15M (Intel Core i7-11375H, 16 GB de RAM, 1 TB de SSD y NVIDIA GeForce RTX 3060) con un precio de venta al público de 1\,599€. Se calcula que el ordenador será amortizado en 4 años. En cuanto a servidores, se establece el precio de Heroku, ya que la \textit{web} ha sido desplegada en ahí (PaaS). Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
 
 \begin{table}[p]
 	\centering
@@ -888,15 +887,16 @@ No se calculan gastos de servidores ya que la \textit{web} ha sido desplegada en
 		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
 		\midrule
 		MSI Stealth 15M & 1\,599€ & 283.15 \\
+		Heroku & 556.56 & 394.27 \\
 		\midrule
-		\textbf{Total} & 1\,599€ & 283.15 \\
+		\textbf{Total} & 2\,155.56€ & 677.42 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: \textit{hardware}]{Costes calculados para el \textit{hardware} del proyecto.}
 	\label{a:costes-hardware}
 \end{table}
 
-\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0,93€ (18 de Mayo del 2023, 16:10).
+\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0.93€ (18 de Mayo del 2023, 16:10).
 
 \begin{table}[p]
 	\centering
@@ -973,7 +973,7 @@ Un beneficio es aquella ventaja financiera obtenida como resultado de un proyect
 
 Este producto ha sido desarrollado con el fin de aportar herramientas útiles socialmente y realizar una modesta contribución en la lucha por un entorno digital seguro, inclusivo y para todos. Por lo tanto, no se pretende monetizar su uso ni obtener ganancias económicas a través de la \textit{web}.
 
-Se considera por lo tanto que este proyecto tiene un carácter social y, en caso de necesitar inversores, los mayores interesados serán empresas de mayor envergadura que pretendan mejorar su imagen de cara al público. Como última opción se podría valorar la sustentación del producto mediante la inclusión de anuncios en la \textit{web}.
+Se considera por lo tanto que este proyecto tiene un carácter social y, en caso de necesitar inversores, los mayores interesados serán empresas de mayor envergadura que pretendan mejorar su imagen de cara al público. Como última opción se podría valorar la sustentación del producto mediante la inclusión de anuncios en la \textit{web}. No obstante, este análisis no ha sido realizado.
 
 \subsection{Viabilidad legal}
 \label{s:vl}

@@ -63,7 +63,7 @@ Además, para que los usuarios no tengan la base de datos vacía, se ha creado u
 De esta forma, cuando un programador quiera actualizar las imágenes de Docker debe:
 
 \begin{enumerate}
-	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity} (nótese la ubicación, la raíz del repositorio).
+	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning-in-cibersecurity}.
 	\item Ejecutar el comando \texttt{\$ docker-compose build --no-cache}.
 	\item Ejecutar el comando \texttt{\$ docker-compose -f docker-compose.yml up -d --build}.
 	\item Comprobar que ambas imágenes están disponibles mediante \texttt{\$ docker images -a}.
@@ -74,12 +74,12 @@ De esta forma, cuando un programador quiera actualizar las imágenes de Docker d
 
 Nota: durante el desarrollo, a veces se ha dejado el puerto 5432 expuesto por motivos de comodidad (acceso a la base de datos por terminal). Si Docker avisa de que no puede levantar contenedores ya que el puerto esta ocupado, se recomienda ejecutar \texttt{\$ sudo netstat -p -nlp | grep 5432} para comprobar por quién y, si se está de acuerdo, matar el proceso mediante \texttt{sudo kill <PID>}. Si no se necesitan los puertos, también se puede eliminar el campo \texttt{ports} del \texttt{docker-compose}
 
-Nota: se dispone de un \textit{script} tanto en \texttt{.sh} como en \texttt{.bat} llamado \texttt{docker-clean} que pausa, limpia y elimina contenedores (e imágenes) para no consumir recursos.
+Nota: se dispone de un \textit{script} tanto en \texttt{.sh} como en \texttt{.bat} llamado \texttt{docker-clean} que pausa, limpia y elimina contenedores (e imágenes) para liberar recursos.
 
 
 \subsection{\textit{Web}: Despliegue en Heroku}
 
-El despliegue en Heroku se complica un poco más de lo habitual por la estructura de directorios creada (la aplicación \textit{web} se encuentra varías carpetas alejada de la raíz y hace uso de elementos externos).
+El despliegue en Heroku se complica un poco más de lo habitual por la estructura de directorios creada (la aplicación \textit{web} se encuentra varias carpetas alejada de la raíz y hace uso de elementos externos).
 
 Los pasos seguidos para desplegar la aplicación se pueden consultar en~\cite{herokudeploy}. Es destacable la necesidad de crear un archivo \texttt{Procfile} (define los pasos que se ejecutan al iniciar la aplicación~\cite{herokuprocfile}) que se encuentre en la raíz del directorio que se quiere desplegar (en este caso, sólo \texttt{src}, no tiene sentido subir la documentación) junto con el archivo \texttt{requirements.txt} de la \textit{web}. Además, se ha incluído un fichero \texttt{runtime.txt} para indicar la versión de Python deseada.
 
@@ -88,7 +88,7 @@ Nótese que el fichero \texttt{Procfile} almacena el contenido \texttt{\$ web: c
 Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásico se complica un poco. Los pasos son:
 
 \begin{enumerate}
-	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity} (nótese la ubicación, la raíz del repositorio).
+	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning-in-cibersecurity}.
 	\item Ejecutar el comando \texttt{\$ git subtree push --prefix src/ heroku main
 	}. Es probable que requiera un inicio de sesión.
 \end{enumerate}
@@ -143,7 +143,7 @@ Además, las pruebas unitarias se han automatizado mediante Travis CI, de forma 
 
 Las pruebas de aceptación se realizan para verificar si el \textit{software} está listo para su implementación y si cumple con los criterios de aceptación del cliente. En este proyecto se han querido evaluar algunos de los casos más <<extraños>> con el fin de comprobar su correcto funcionamiento. Estos se han organizado en tres \textit{test suites} divididas por categorías.
 
-Todos los casos de prueba mostrados en las tablas han sido automatizados utilizando Selenium (como se puede observar en la imagen~\ref{cp:selenium}). Los \textit{tests} se facilitan en el repositorio de la aplicación, además de los datos necesarios para ejecutarlos.
+Todos los casos de prueba mostrados en las tablas han sido automatizados utilizando Selenium (como se puede observar en la imagen~\ref{cp:selenium}). Los \textit{test} se facilitan en el repositorio de la aplicación, además de los datos necesarios para ejecutarlos.
 
 \begin{figure}[h]
 	\caption[Selenium: ejecución automática de pruebas de aceptación]{Ejecución automática de las pruebas de aceptación y seguridad con la herramienta Selenium.}
@@ -183,7 +183,7 @@ Todos los casos de prueba mostrados en las tablas han sido automatizados utiliza
 \begin{table}[p]
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/cp/CP-5}
-	\caption{CP-5 Cambio de lenguaje.}
+	\caption{CP-5 Cambio de idioma.}
 	\label{cp:language}
 \end{table}
 
