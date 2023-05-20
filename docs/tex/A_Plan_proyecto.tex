@@ -4,9 +4,9 @@
 
 En este documento se pretende mostrar el plan de proyecto seguido a la hora de realizar el trabajo de fin de grado.
 
-Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022} (temario necesario para obtener la certificación de Scrum Manager) y se exponen en la sección~\ref{s:scrum}.
+Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022} (temario necesario para obtener la certificación de Scrum Manager) y se exponen en la sección~\hyperref[s:scrum]{A.1.1}.
 
-En cuanto a la estructura de este anexo, en un primer lugar se expondrá la planificación temporal del proyecto (sección~\ref{s:temp}). Posteriormente, se analizará la viabilidad legal (sección~\ref{s:vl}) y económica (sección~\ref{s:ve}).
+En cuanto a la estructura de este anexo, en un primer lugar se expondrá la planificación temporal del proyecto (sección~\ref{s:temp}). Posteriormente, se analizará la viabilidad económica (sección~\hyperref[s:ve]{A.3.1}) y legal (sección~\hyperref[s:vl]{A.3.2}).
 
 \subsection{Scrum}
 \label{s:scrum}
@@ -832,7 +832,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 \section{Estudio de viabilidad}
 
-La viabilidad de un proyecto \textit{software} es la capacidad que tiene este para ser realizado de manera exitosa y cumpliendo los objetivos propuestos. Para determinar si este proyecto es factible, se va a evaluar la viabilidad económica (sección~\ref{s:ve}) y la viabilidad legal (sección~\ref{s:vl}).
+La viabilidad de un proyecto \textit{software} es la capacidad que tiene este para ser realizado de manera exitosa y cumpliendo los objetivos propuestos. Para determinar si este proyecto es factible, se va a evaluar la viabilidad económica (sección~\hyperref[s:ve]{A.3.1}) y legal (sección~\hyperref[s:vl]{A.3.2}).
 
 \subsection{Viabilidad económica}
 \label{s:ve}
@@ -855,11 +855,11 @@ A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por
 \begin{equation}\label{eqn:sueldo-patri} \frac{X\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} =  \frac{\text{€}}{mes}\end{equation}
 
 
-Respecto al tutor del proyecto, suponiendo que cobra de media 43\,400€ brutos al año\footnote{Fuente: \url{https://as.com/actualidad/cuanto-cobra-un-profesor-de-universidad-en-espana-y-cual-es-su-salario-si-es-de-la-publica-o-privada-n/}}, se calcula que el sueldo bruto por hora es de 23.85€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 314€ brutos al mes. Sumando los impuestos, la empresa debería pagar 457.80€/mes por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
+Respecto al tutor del proyecto, suponiendo que cobra de media 38\,707.62€ brutos al año\footnote{Fuente: \url{https://www.ubu.es/sites/default/files/portal_page/files/pdi_funcionario_ano_2022.pdf}}, se calcula que el sueldo bruto por hora es de 19.77€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 258.05€ brutos al mes. Sumando los impuestos, la empresa debería pagar 376.17€/mes por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
 
-\begin{equation}\label{eqn:sueldo-alvar} \frac{314 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 457\text{.}80 \frac{\text{€}}{mes}\end{equation}
+\begin{equation}\label{eqn:sueldo-alvar} \frac{258\text{.}05 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 376\text{.}17 \frac{\text{€}}{mes}\end{equation}
 
-Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en la tabla~\ref{a:costes-personal}.
+Por lo tanto, el coste total para la empresa a nivel de personal se muestra en la tabla~\ref{a:costes-personal}.
 
 \begin{table}[p]
 	\centering
@@ -868,7 +868,7 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 		\textbf{Concepto} & \textbf{Salario bruto (€/mes)} & \textbf{Coste empresa (€/mes)} \\
 		\midrule
 		Sueldo desarrolladora & X & Y \\
-		Sueldo \textit{product owner} & 314 & 457.80 \\
+		Sueldo \textit{product owner} & 258.05 & 376.17 \\
 		\midrule
 		\textbf{Total en 8.5 meses} & suma $\times$ 8.5 € & suma $\times$ 8.5 €\\
 		\bottomrule
@@ -904,7 +904,6 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 		\toprule
 		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
 		\midrule
-		Heroku & 556.56 & 394.27 \\
 		Docker & 278.16 & 197.03 \\
 		Travis CI & 1324.44 & 938.15\\
 		Sonar Cloud  & 120 & 85\\
@@ -916,7 +915,7 @@ Por lo tanto, el coste total para la empresa a nivel de empleados se muestra en 
 		Ubuntu 20.4  & 0 & 0\\
 		VS Code  & 0 & 0\\
 		\midrule
-		\textbf{Total} & 2683.56 & 1900.86 \\
+		\textbf{Total} & 2127 & 1506.63 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: \textit{software}]{Costes calculados para el \textit{software} del proyecto.}
