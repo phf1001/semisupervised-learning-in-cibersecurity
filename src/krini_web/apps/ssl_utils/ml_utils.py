@@ -155,7 +155,7 @@ def get_array_scores(y_test, y_pred, y_pred_proba, want_message=False):
             if not message:
                 message = get_message("zero_scores")
 
-            message += "{}, ".format(metric[0])
+            message += f"{metric[0]}, "
 
     if message:
         message = message[:-2]

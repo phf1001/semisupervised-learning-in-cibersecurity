@@ -54,6 +54,11 @@ class CoForest(SSLEnsemble):
         Generates a dict containing co-forest's trees.
         Initializes the classifiers using bootstrapping.
 
+        Please, note that original bagging sets the size of the bootstrap
+        to the size of L (percentage should be =1). However, since small
+        datasets are being used, the percentage is smaller to ensure that
+        concomitant_oob_error is calculated.
+
         Parameters
         ----------
         L: np.array
@@ -75,6 +80,7 @@ class CoForest(SSLEnsemble):
         mask_L = np.zeros(shape=((L.shape[0]), self.n), dtype=int, order="C")
 
         for i in range(self.n):
+            # Original bagging sets the size of the bootstrap to the size of L
             rand_rows = self.random_state.choice(
                 L.shape[0], replace=True, size=int(percentage * L.shape[0])
             )

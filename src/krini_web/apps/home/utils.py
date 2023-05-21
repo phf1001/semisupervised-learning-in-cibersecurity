@@ -28,7 +28,6 @@ from apps.home.exceptions import (
 )
 from apps import db
 from apps.authentication.models import Users
-from apps.home.exceptions import KriniNotLoggedException
 from apps.home.models import (
     Available_tags,
     Available_models,
@@ -265,7 +264,7 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
 
         raise KriniNotLoggedException("User is not logged in.")
 
-    except (KriniNotLoggedException, exc.SQLAlchemyError) as e:
+    except (KriniNotLoggedException, exc.SQLAlchemyError):
         db.session.rollback()
         return False
 
@@ -416,7 +415,7 @@ def get_parameters(model, algorithm="SEMI-SUPERVISED"):
 
     if algorithm == DEMOCRATIC_CO_CONTROL:
         information = cls_to_string_list(model.base_clss)
-        information.append("Nº clasificadores = {}".format(model.n_clss))
+        information.append(f"Nº clasificadores = {model.n_clss}")
         return information, "cyan"
 
 
@@ -803,7 +802,8 @@ def find_candidate_instance_sequence(previous_page, n_per_page, report_number):
     Args:
         previous_page (int): previous page, the one displayed before the request
         n_per_page (int): number of instances per page
-        report_number (int): number of the instance above all displayed (order, starting in 0)
+        report_number (int): number of the instance above all displayed
+                             (order, starting in 0)
 
     Returns:
         CandidateInstance: instance selected
@@ -951,16 +951,17 @@ def accept_report(candidate_instance, all):
         if not modified or not deleted:
             raise exc.SQLAlchemyError("Error accepting suggestions")
 
+        user_reporting_id = candidate_instance.user_id
+        user_reporting = Users.query.filter_by(id=user_reporting_id).first()
+
+        if user_reporting.n_urls_accepted is None:
+            user_reporting.n_urls_accepted = 0
         else:
-            user_reporting_id = candidate_instance.user_id
-            user_reporting = Users.query.filter_by(id=user_reporting_id).first()
-            if user_reporting.n_urls_accepted is None:
-                user_reporting.n_urls_accepted = 0
-            else:
-                user_reporting.n_urls_accepted += 1
-            db.session.flush()
-            db.session.commit()
-            return True
+            user_reporting.n_urls_accepted += 1
+
+        db.session.flush()
+        db.session.commit()
+        return True
 
     except (exc.SQLAlchemyError, AttributeError):
         db.session.rollback()
@@ -1071,9 +1072,7 @@ def create_csv_selected_instances(
 
     df = pd.DataFrame(
         data,
-        columns=["instance_id"]
-        + ["f{}".format(i) for i in range(1, 20)]
-        + ["tag"],
+        columns=["instance_id"] + [f"f{i}" for i in range(1, 20)] + ["tag"],
     )
 
     download_directory = get_temporary_download_directory()
@@ -1218,12 +1217,16 @@ def remove_selected_models(ids_models):
     Args:
         ids_models (list): list containing ids
 
+    Returns:
+        bool: True if some model has been deleted, False otherwise
+
     Raises:
         KriniDBException: raised if there is an error in the database
     """
     try:
         models_path = get_models_directory()
         flash_msg = False
+        some_deleted = False
 
         for model_id in ids_models:
             if model_id not in ("1", "2", "3", 1, 2, 3):
@@ -1237,12 +1240,15 @@ def remove_selected_models(ids_models):
 
                 Available_models.query.filter_by(model_id=model_id).delete()
                 db.session.commit()
+                some_deleted = True
 
             else:
                 flash_msg = True
 
         if flash_msg:
             flash(get_exception_message("protected_models"), "info")
+
+        return some_deleted
 
     except exc.SQLAlchemyError:
         db.session.rollback()
@@ -1296,6 +1302,7 @@ def serialize_store_model(
     Returns:
         (bool, int): True if the model was stored correctly and its id.
     """
+    file_location = None
     try:
         model_name = form_data["model_name"]
         model_version = form_data["model_version"]
@@ -1308,9 +1315,7 @@ def serialize_store_model(
 
         if existing_instance:
             raise KriniException(
-                "Ya existe un modelo con ese nombre y esa versión <<{}>>.".format(
-                    model_store_name
-                )
+                f"Existe un modelo con ese nombre y esa versión: {model_store_name}."
             )
 
         file_location = serialize_model(cls, file_name)
@@ -1389,7 +1394,8 @@ def serialize_store_model(
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        remove(file_location)
+        if file_location:
+            remove(file_location)
         raise KriniException(
             get_exception_message("error_storing_model_or_training_data")
         )
@@ -1566,7 +1572,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
             df = pd.DataFrame(
                 data=instances,
                 columns=["instance_id"]
-                + ["f{}".format(i) for i in range(1, 20)]
+                + [f"f{i}" for i in range(1, 20)]
                 + ["instance_class"],
             )
 
@@ -1679,7 +1685,7 @@ def get_all_instances_database_rows(exclude_ids=set()):
 
     df = pd.DataFrame(
         data=instances,
-        columns=["f{}".format(i) for i in range(1, 20)] + ["instance_class"],
+        columns=[f"f{i}" for i in range(1, 20)] + ["instance_class"],
     )
 
     X_test = df.iloc[:, :-1].values
@@ -1703,7 +1709,7 @@ def get_model_training_ids(model_id):
         model_id=model_id
     ).all()
 
-    return set([row.instance_id for row in model_training_rows])
+    return {row.instance_id for row in model_training_rows}
 
 
 def extract_X_y_csv(file_name, get_ids=False):
@@ -1756,13 +1762,13 @@ def check_correct_pandas(df):
         true if the dataframe is correct, false otherwise
     """
     columns_expected = (
-        ["instance_id"] + ["f{}".format(i) for i in range(1, 20)] + ["tag"]
+        ["instance_id"] + [f"f{i}" for i in range(1, 20)] + ["tag"]
     )
 
     # All except instance_id and f10
     booleans_expected = (
-        ["f{}".format(i) for i in range(1, 10)]
-        + ["f{}".format(i) for i in range(11, 20)]
+        [f"f{i}" for i in range(1, 10)]
+        + [f"f{i}" for i in range(11, 20)]
         + ["tag"]
     )
 

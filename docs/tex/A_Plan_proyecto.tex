@@ -4,12 +4,12 @@
 
 En este documento se pretende mostrar el plan de proyecto seguido a la hora de realizar el trabajo de fin de grado.
 
-Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022}, temario necesario para obtener la certificación de Scrum Manager.
+Debido al auge de las metodologías ágiles en la industria y sus indiscutibles ventajas, se ha escogido la metodología Scrum para desarrollar el proyecto. Los conceptos teóricos seguidos se encuentran en el <<Manual de Scrum>>~\cite{scrumMaster2022} (temario necesario para obtener la certificación de Scrum Manager) y se exponen en la sección~\hyperref[s:scrum]{A.1.1}.
 
-Posteriormente, se expondrá la viabilidad legal y económica del producto.
+En cuanto a la estructura de este anexo, en un primer lugar se expondrá la planificación temporal del proyecto (sección~\ref{s:temp}). Posteriormente, se analizará la viabilidad económica (sección~\hyperref[s:ve]{A.3.1}) y legal (sección~\hyperref[s:vl]{A.3.2}).
 
-\section{Scrum}
-
+\subsection{Scrum}
+\label{s:scrum}
 Scrum es una metodología ágil basada en cuatro valores~\cite{scrumMaster2022}. Sintetizando sus principios, se puede deducir que se pretende valorar a los individuos por encima de las herramientas, el \textit{software} apropiado a la documentación exhaustiva, la colaboración con el cliente y la habilidad de dar respuesta al cambio ante imprevistos.
 
 Siguiendo este esquema, se desarrolla el <<ciclo de Scrum>> representado en la imagen~\ref{img:ciclo_scrum}, que se puede dividir en varios pilares.
@@ -21,7 +21,7 @@ Siguiendo este esquema, se desarrolla el <<ciclo de Scrum>> representado en la i
 	\includegraphics[scale=0.45]{../img/anexos/scrum/ciclo}
 \end{figure}
 
-\subsection{Roles}
+\subsubsection{Roles}
 Descripción de los posibles interventores durante el desarrollo de un producto.
 
 \begin{itemize}
@@ -32,7 +32,7 @@ Descripción de los posibles interventores durante el desarrollo de un producto.
 	\item Equipo de desarrollo: es el conjunto de programadores autogestionados encargados de generar los incrementos. Profesionales multifuncionales, deben completar las tareas que se les asignen en el plazo estimado, además de participar en la toma de decisiones.
 \end{itemize}
 
-\subsection{Artefactos}
+\subsubsection{Artefactos}
 
 Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encuentran:
 
@@ -44,7 +44,7 @@ Son las <<herramientas>>~\cite{scrumMaster2022} elementales. Entre ellos se encu
 	\item Gráfico de producto o \textit{burn up report}: mide cuánto se ha completado respecto al total.
 \end{itemize}
 
-\subsection{Eventos}
+\subsubsection{Eventos}
 Durante el ciclo de Scrum, se pueden identificar varias actividades que constituyen la rutina y se represetan en la imagen~\ref{img:eventos_scrum} facilitada por el Manual de Scrum~\cite{scrumMaster2022}.
 
 \begin{figure}[h]
@@ -62,7 +62,7 @@ Durante el ciclo de Scrum, se pueden identificar varias actividades que constitu
 	\item Retrospectiva del \textit{sprint}: se aporta el \textit{feedback} necesario para mejorar la siguiente iteración.
 \end{enumerate}
 
-\subsection{Medición}
+\subsubsection{Medición}
 
 Como se puede observar, cada equipo puede realizar una cantidad de trabajo, generalmente fija, en cada \textit{sprint}. Por ello, es necesario estimar el tiempo que requiere cada tarea y no asignar más trabajo del que se pueda asimilar en cada iteración.
 
@@ -70,6 +70,7 @@ En este proyecto, se han utilizado los <<puntos de historia>> como unidad de med
 
 
 \section{Planificación temporal}
+\label{s:temp}
 
 \subsection{Planificación por \textit{sprints}}
 \label{s:planificacion-sprints}
@@ -670,7 +671,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 \begin{itemize}
 	\item \textbf{\textit{Planning meeting}}
 	
-	Hasta este \textit{sprint} se ha conseguido implementar una \textit{web} con funcionalidad mínima. Se ha decidido que, durante los 4 siguientes, se dedicará un \textit{sprint} a cada sección de la \textit{web} para implementar la funcionalidad al completo y realizar la documentación disponible en estos anexos. Por lo tanto, \textit{sprint} 18 se ha dedicado al \textit{index}, a la página de reportar URLs y al \textit{dashboard}. Aprovechando las vacaciones se ha decidido, además, integrar toda la documentación atrasada e introducir nuevos experimentos para el \textit{co-forest}.
+	Hasta este \textit{sprint} se ha conseguido implementar una \textit{web} con funcionalidad mínima. Se ha decidido que, durante los 4 siguientes, se dedicará un \textit{sprint} a cada sección de la \textit{web} para implementar la funcionalidad al completo y realizar la documentación disponible en estos anexos. Por lo tanto, el \textit{sprint} 18 se ha dedicado al \textit{index}, a la página de reportar URLs y al \textit{dashboard}. Aprovechando las vacaciones se ha decidido, además, integrar toda la documentación atrasada e introducir nuevos experimentos para el \textit{co-forest}.
 	
 	\begin{enumerate}
 		\item \textit{Web}: finalizar el \textit{index} (mostrar solo modelos visibles, controlar las excepciones, corección de URLs por parte del usuario, introducir el análisis rápido, modificar la interfaz), mejorar el \textit{dashboard} (espaciado en las fórmulas, introducir botón de notificar análisis incorrectos, añadir un gráfico interactivo global con las métricas para todos los clasificadores, arreglar ejes de los gráficos y añadir las métricas F1 y ROC AUC) y arreglar la página para reportar URLs (adaptar al modelo de datos tras las nuevas correcciones).
@@ -699,7 +700,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 	\item \textbf{\textit{Sprint review meeting}}
 	
-	Como se ha ido documentando en los \textit{issues} de GitHub\footnote{\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/115}}, lo más relevante ha sido la experimentación con el \textit{co-forest}, ya que se piensa que la inicialización del vector \texttt{previous\_w} tiene un impacto real mayor que el estimado en el desempeño del algoritmo. Por ello, se ha planificado una experimentación a gran escala para cuando la \textit{web} se finalice. Respecto a la \textit{web}, se han comentado ciertas sugerencias de mejora (colores en las etiquetas, etc.).
+	Como se ha ido documentando en los \textit{issues} de GitHub\footnote{\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/115}}, lo más relevante ha sido la experimentación con el \textit{co-forest}, ya que se intuye que la inicialización del vector \texttt{previous\_w} tiene un impacto real mayor que el estimado en el desempeño del algoritmo. Por ello, se ha planificado una experimentación a gran escala para cuando la \textit{web} se finalice. Respecto a la \textit{web}, se han comentado ciertas sugerencias de mejora (colores en las etiquetas, etc.).
 	
 \end{itemize}
 
@@ -768,7 +769,7 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	
 	\item \textbf{\textit{Sprint review meeting}}
 	
-	Esta reunión fue particularmente extensa ya que se planteó la distribución temporal de todo lo restante para completar el proyecto. Además, también se realizaron ciertas correcciones relacionadas con los diagramas y se comentó un problema respectivo a la internacionalización.
+	Esta reunión fue particularmente extensa ya que se planteó la distribución temporal de todas las tareas restantes para completar el proyecto. Además, también se realizaron ciertas correcciones relacionadas con los diagramas y se comentó un problema respectivo a la internacionalización.
 \end{itemize}
 
 
@@ -831,8 +832,251 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 
 \section{Estudio de viabilidad}
 
+La viabilidad de un proyecto \textit{software} es la capacidad que tiene este para ser realizado de manera exitosa y cumpliendo los objetivos propuestos. Para determinar si este proyecto es factible, se va a evaluar la viabilidad económica (sección~\hyperref[s:ve]{A.3.1}) y legal (sección~\hyperref[s:vl]{A.3.2}).
+
 \subsection{Viabilidad económica}
+\label{s:ve}
+
+Determinar si un proyecto es viable en términos económicos implica analizar los costes y beneficios del proyecto. Por ello, se desarrollan dichos apartados a continuación.
+
+Es destacable que el análisis se tendrá en cuenta suponiendo que el proyecto se realiza en un entorno empresarial real con una compañía situada en España.
+
+\subsubsection{Costes}
+
+Este término se refiere al desembolso realizado para adquirir (o producir) un bien o servicio. Se desglosan a su vez en distintas categorías siendo destacable que, para calcular las amortizaciones, se ha tenido en cuenta la duración real del proyecto (8.5 meses o 37 semanas).
+
+\begin{enumerate}
+	\item\textbf{Costes de empleados:} en este caso se cuenta con una desarrolladora (la alumna) y el \textit{product owner} (tutor académico).
+
+Se estima que el tiempo real invertido en el proyecto por parte de la desarrolladora ha sido equivalente a X horas repartidas a lo largo de 8.5 meses. Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos anuales\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 ~horas\footnote{Fuente: \url{ https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, el salario medio bruto por hora es, aproximadamente, 12€. Por ello, el salario bruto del programador equivale a $X horas \times 12\frac{\text{€}}{hora} = Y \text{€}$.
+
+A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por el empleado\footnote{Fuente:~\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$50\%$ de desempleo, un $0$.$20\%$ de FOGASA, un $0$.$60\%$ de formación profesional y un $1$.$50\%$ por accidentes de trabajo. Por lo tanto, la empresa debe pagar por este trabajador P€/mes. Esta cifra proviene de despejar en la ecuación~\ref{eqn:sueldo-patri}.
+
+\begin{equation}\label{eqn:sueldo-patri} \frac{X\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} =  \frac{\text{€}}{mes}\end{equation}
+
+
+Respecto al tutor del proyecto, suponiendo que cobra de media 38\,707.62€ brutos al año\footnote{Fuente: \url{https://www.ubu.es/sites/default/files/portal_page/files/pdi_funcionario_ano_2022.pdf}}, se calcula que el sueldo bruto por hora es de 19.77€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 258.05€ brutos al mes. Sumando los impuestos, la empresa debería pagar 376.17€/mes por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
+
+\begin{equation}\label{eqn:sueldo-alvar} \frac{258\text{.}05 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 376\text{.}17 \frac{\text{€}}{mes}\end{equation}
+
+Por lo tanto, el coste total para la empresa a nivel de personal se muestra en la tabla~\ref{a:costes-personal}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Salario bruto (€/mes)} & \textbf{Coste empresa (€/mes)} \\
+		\midrule
+		Sueldo desarrolladora & X & Y \\
+		Sueldo \textit{product owner} & 258.05 & 376.17 \\
+		\midrule
+		\textbf{Total en 8.5 meses} & suma $\times$ 8.5 € & suma $\times$ 8.5 €\\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: empleados]{Costes calculados para el personal del proyecto.}
+	\label{a:costes-personal}
+\end{table}
+
+
+\item\textbf{Costes \textit{hardware}:} para la realización del proyecto únicamente ha sido necesario contar con un ordenador para la desarrolladora. Este equipo se trata de un MSI Stealth 15M (Intel Core i7-11375H, 16 GB de RAM, 1 TB de SSD y NVIDIA GeForce RTX 3060) con un precio de venta al público de 1\,599€. Se calcula que el ordenador será amortizado en 4 años. En cuanto a servidores, se establece el precio de Heroku, ya que la \textit{web} ha sido desplegada en ahí (PaaS). Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\midrule
+		MSI Stealth 15M & 1\,599€ & 283.15 \\
+		Heroku & 556.56 & 394.27 \\
+		\midrule
+		\textbf{Total} & 2\,155.56€ & 677.42 \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: \textit{hardware}]{Costes calculados para el \textit{hardware} del proyecto.}
+	\label{a:costes-hardware}
+\end{table}
+
+\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0.93€ (18 de Mayo del 2023, 16:10).
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€)} & \textbf{Coste amortizado (€)} \\
+		\midrule
+		Docker & 278.16 & 197.03 \\
+		Travis CI & 1324.44 & 938.15\\
+		Sonar Cloud  & 120 & 85\\
+		DeepSource Bot  & 267.12 & 189.21\\
+		ZenHub  & 92,76 & 65.71\\
+		GitGuardian  & 0 & 0\\
+		GitHub  & 44.52 & 31.54\\
+		Selenium IDE & 0 & 0\\
+		Ubuntu 20.4  & 0 & 0\\
+		VS Code  & 0 & 0\\
+		\midrule
+		\textbf{Total} & 2127 & 1506.63 \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: \textit{software}]{Costes calculados para el \textit{software} del proyecto.}
+	\label{a:costes-software}
+\end{table}
+
+
+\item\textbf{Otros:} en este apartado se agrupan aquellos costes no categorizables en secciones anteriores, además de gastos indirectos. El coste total para la empresa a nivel de costes adicionales se muestra en la tabla~\ref{a:costes-otros}, suponiendo una empleada que teletrabaja y a quién se le pagan los gastos por hora.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r r}
+		\toprule
+		\textbf{Concepto} & \textbf{Coste (€/hora)} & \textbf{Coste real (€)} \\
+		\midrule
+		Oficina & 0 & 0\\
+		Fibra Óptica & 0.048 & \\
+		Luz & 0.056 & \\
+		Calefacción & 0.27 & \\
+		Agua & 0.03 & \\
+		\midrule
+		\textbf{Total} & & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: otros]{Otros costes calculados para el proyecto.}
+	\label{a:costes-otros}
+\end{table}
+
+
+\item\textbf{Total:} en la tabla~\ref{a:costes} se muestra el total de los costos que ha supuesto el proyecto para la empresa propietaria.
+
+\begin{table}[p]
+	\centering
+	\begin{tabular}{l r}
+		\toprule
+		\textbf{Sección} & \textbf{Coste (€)} \\
+		\midrule
+		Empleados & \\
+		\textit{Hardware} & \\
+		\textit{Software} & \\
+		Otros & \\
+		\midrule
+		\textbf{Total meses} & \\
+		\bottomrule
+	\end{tabular}
+	\caption[Costes: total]{Total de costes calculados para el proyecto.}
+	\label{a:costes}
+\end{table}
+\end{enumerate}
+
+\subsubsection{Beneficios}
+
+Un beneficio es aquella ventaja financiera obtenida como resultado de un proyecto y representa el incremento del valor económico (o de los recursos) para una entidad.
+
+Este producto ha sido desarrollado con el fin de aportar herramientas útiles socialmente y realizar una modesta contribución en la lucha por un entorno digital seguro, inclusivo y para todos. Por lo tanto, no se pretende monetizar su uso ni obtener ganancias económicas a través de la \textit{web}.
+
+Se considera por lo tanto que este proyecto tiene un carácter social y, en caso de necesitar inversores, los mayores interesados serán empresas de mayor envergadura que pretendan mejorar su imagen de cara al público. Como última opción se podría valorar la sustentación del producto mediante la inclusión de anuncios en la \textit{web}. No obstante, este análisis no ha sido realizado.
 
 \subsection{Viabilidad legal}
+\label{s:vl}
+
+La viabilidad legal de un proyecto \textit{software} es la evaluación de aquellos aspectos legales relacionados con el desarrollo y la distribución del producto estudiado. Algunos de los puntos principales a analizar son el cumplimiento de leyes de propiedad intelectual, la protección de datos personales y el estudio de licencias. En este proyecto, además, se estudiará la legalidad del \textit{web scraping}.
+
+\subsubsection{Licencias de \textit{software}}
+
+Una licencia de \textit{software} es un acuerdo legal entre el titular de los derechos de autor (o el propietario del \textit{software}) y el usuario final donde se establecen los términos y condiciones bajo los cuales se permite el uso del producto~\cite{licenciaQueEs}.
+
+A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
+
+La comparativa entre licencias\footnote{Realizada con \url{https://joinup.ec.europa.eu/collection/eupl/solution/joinup-licensing-assistant/jla-find-and-compare-software-licenses}} se muestra la tabla~\ref{a:permisos}. El único detalle que no se muestra en la imagen es que la BSD-2-Clause License es más permisiva que la BSD-3-Clause License~\cite{BSD}. Como se puede comprobar, el orden de restrictividad (de más permisiva a más restrictiva) es el siguiente:
+
+\begin{enumerate}
+	\item The Unlicense
+	\item MIT License
+	\item BSD-2-Clause License
+	\item BSD-3-Clause License
+	\item BSD License (original, no aprobada por la Open Source Iniciative (OSI~\cite{BSD}) y sustituída por la BSD-3-Clause License).
+	\item Apache 2.0
+	\item GNU LGPLv2
+	\item GNU GPLv2
+\end{enumerate}
 
 
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.3\textwidth} p{0.15\textwidth} p{0.55\textwidth} }
+		\toprule
+		\textbf{Dependencia} & \textbf{Versión} & \textbf{Licencia} \\
+		\midrule
+		\texttt{Argon Dashboard} & 2022 & MIT License\\
+		\texttt{Babel} & 2.12.1 & MIT License\\
+		\texttt{beautifulsoup4} & 4.11.1 & MIT License \\
+		\texttt{email-validator} & 1.1.3 & The Unlicense \\
+		\texttt{Flask} & 2.0.1 & BSD-3-Clause License\\
+		\texttt{flask-babel} & 3.1.0 & BSD License\\
+		\texttt{Flask-Bootstrap} & 3.3.7.1 & Apache Software License (2.0)\\
+		\texttt{Flask-Login} & 0.6.0 & MIT License \\
+		\texttt{Flask-Migrate} & 3.1.0 & MIT License \\
+		\texttt{Flask-SQLAlchemy} & 2.5.1 & BSD-3-Clause License \\
+		\texttt{Flask-WTF} & 0.15.1 & BSD-3-Clause License \\
+		\texttt{gunicorn} & 20.1.0 & MIT License \\
+		\texttt{Jinja2} & 3.1.2 & BSD-3-Clause License \\
+		\texttt{jsonschema} & 4.17.3 & MIT License \\
+		\texttt{lxml} & 4.9.2 & BSD-3-Clause License \\
+		\texttt{nltk} & 3.8.1 & Apache Software License (2.0)\\
+		\texttt{node} & 1.2.1 & BSD-2-Clause License\\
+		\texttt{numpy} & 1.23.3 & BSD-3-Clause License \\
+		\texttt{pandas} & 1.4.3 & BSD-3-Clause License \\
+		\texttt{psycopg2-binary} & 2.9.6 & GNU Lesser General Public (LGPLv2) \\
+		\texttt{PySocks} & 1.7.1 & BSD License \\
+		\texttt{pytest} & 7.2.0 & MIT License \\
+		\texttt{python-decouple} & 3.4 & MIT License \\
+		\texttt{regex} & 2023.3.23 & Apache Software License  \\
+		\texttt{requests} & 2.28.2 & Apache Software License (2.0) \\
+		\texttt{scikit-learn} & 1.1.2 & BSD-3-Clause License\\
+		\texttt{scipy} & 1.9.3 & BSD License \\
+		\texttt{SQLAlchemy} & 1.4.23 & MIT License \\
+		\texttt{sslearn} & 1.1.0 & BSD-3-Clause License \\
+		\texttt{LAMDA-SSL} & 1.0 & MIT License \\
+		\texttt{threadpoolctl} & 3.1.0 & BSD-3-Clause License \\
+		\texttt{tld} & 0.13 & GNU General Public License (GPLv2)\\
+		\texttt{urllib3} & 1.26.5 & MIT License \\
+		\texttt{Werkzeug} & 2.1.0 & BSD-3-Clause License \\
+		\texttt{WTForms} & 2.3.3 & BSD-3-Clause License \\
+		\bottomrule
+	\end{tabularx}
+	\caption[Licencias: dependencias o utilidades]{Dependencias o utilidades del proyecto y licencias bajo las cuales están registradas. Extraídas de \url{https://pypi.org/}.}
+	\label{a:licencias}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/licenses/licenses}
+	\caption[Licencias: permisos]{Acciones permitidas en función de las licencias.}
+	\label{a:permisos}
+\end{table}
+
+A pesar de que todas las licencias son \textit{open source}, hay algunas cuyo tipo es \textit{copyleft}\footnote{En las licencias \textit{copyleft}, el código deriva de código \textit{open source} y hereda sus licencias.} (LGLP y GLP~\cite{oslicenses}). Por lo tanto, se ha decidido aplicar este tipo de licencias al \textit{software} desarrollado, solo que utilizando las nuevas versiones (GLPv3 en lugar de GLPv2).
+
+Respecto a las imágenes incluídas en la \textit{web}, son libres de utilización siempre que se de crédito a los autores. Por ello, se ha incluído en el \texttt{README.md} del proyecto las fuentes de cada uno de los los iconos utilizados\footnote{Extraídos de: \url{https://www.flaticon.es/}}.
+
+Concluyendo, el \textit{software} desarrollado será lanzado bajo una licencia GNU GLPv3.
+
+\subsubsection{Licencias de documentación}
+
+En cuanto a la documentación, se ha decidido distribuir bajo una licencia Creative Commons. En un principio, se quería usar la licencia: CC BY-NC: \textit{Attribution + Non-Commercial}. Esta implica que la documentación necesita atribución y no se puede comercializar, pero sí se puede modificar la obra~\cite{cclicenses}.
+
+Sin embargo, debido a que algunas imágenes compartidas han sido autorizadas bajo mayores restricciones, se han tenido que cambiar los permisos, aplicando una licencia CC BY-ND-NC 4.0:\textit{ Attribution + Non-Derivate + Non-Commercial}. Es decir, se permite el uso libre siempre que haya atribución, no sea con fines comerciales y no se modifique la obra.
+
+\subsubsection{\textit{Web Scraping}}
+
+Uno de los aspectos que puede resultar más polémico en este proyecto es la utilización de \textit{web scraping} durante la extracción de vectores de características en el contexto de clasificación de sitios \textit{phishing}.
+
+Es destacable que el \textit{web scraping} no supone una ilegalidad siempre que las prácticas que se realicen cumplan ciertos requisitos~\cite{legalidadWebScrapingI}.
+
+\begin{itemize}
+	\item No utilizar propiedad intelectual o marcas registradas.
+	\item No violar derechos de autor ni realizar competencia desleal.
+	\item Cumplir tanto la Ley Orgánica de Protección de Datos de Carácter Personal (LOPD~\cite{LOPD}) como el Reglamento General de Protección de Datos Europeo (RGPD~\cite{RGPD}).
+	\item No realizar sobrecargas en los servidores de los sitios \textit{scrapeados}.
+	\item No acceder sin autorización a servicios informáticos.
+\end{itemize}
+
+Como se ha expuesto en el desarrollo de la memoria, para obtener un vector de características únicamente se necesita realizar una petición al servidor principal para extraer el código HTML de la página. Debido a que esto no se clasifica como mala práctica y no se almacena ningún tipo de dato \textit{scrapeado}, se concluye que este método no supone una amenaza legal para el proyecto.

@@ -13,9 +13,6 @@ from sqlalchemy.orm import load_only
 from apps.home import blueprint
 from apps import db
 from apps.home.exceptions import KriniException, KriniNotLoggedException
-from apps.home.models import (
-    Available_models,
-)
 from apps.home.utils import *
 from apps.ssl_utils.ml_utils import (
     get_array_scores,
@@ -62,7 +59,6 @@ from flask import (
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from werkzeug.exceptions import Forbidden
-from jinja2 import TemplateNotFound
 from datetime import datetime
 import json
 import numpy as np
@@ -402,8 +398,7 @@ def report_false_positive():
                 return redirect(url_for("home_blueprint.dashboard"))
             raise KriniException(get_exception_message("not_instance_found"))
 
-        else:
-            raise ValueError(get_exception_message("not_info_found"))
+        raise ValueError(get_exception_message("not_info_found"))
 
     except KriniNotLoggedException:
         session["messages"] = {}
@@ -523,14 +518,16 @@ def models(n_per_page=10):
 
             if "eliminar" in request.form["button_pressed"]:
                 if "individual" in request.form["button_pressed"]:
-                    remove_selected_models([request.form["individual_model"]])
-                    flash(get_message("model_removed"), "success")
+                    if remove_selected_models(
+                        [request.form["individual_model"]]
+                    ):
+                        flash(get_message("model_removed"), "success")
+
                 else:
                     selected = list(checks.values())
                     if len(selected) == 0:
                         flash(get_message("model_not_selected"), "warning")
-                    else:
-                        remove_selected_models(selected)
+                    elif remove_selected_models(selected):
                         flash(get_message("models_removed"), "success")
 
                 return redirect(url_for("home_blueprint.models"))
@@ -691,7 +688,7 @@ def creating_model():
         ) = return_X_y_train_test(dataset_method, dataset_params, get_ids=True)
 
         try:
-            L_train, U_train, Ly_train, Uy_train = train_test_split(
+            L_train, U_train, Ly_train, _ = train_test_split(
                 X_train,
                 y_train,
                 test_size=0.8,
@@ -849,7 +846,7 @@ def test_model():
         flash(get_exception_message("error_load_model"), "danger")
         return redirect(url_for("home_blueprint.models"))
 
-    except (KeyError, ValueError, TypeError) as e:
+    except (KeyError, ValueError, TypeError):
         session["messages"] = {}
         flash(get_exception_message("incorrect_stream"), "danger")
         return redirect(url_for("home_blueprint.models"))
@@ -1195,9 +1192,9 @@ def updating_instance():
 
             if callable_url is None:
                 raise KriniException("No se puede llamar la URL.")
-            else:
-                fv = get_fv_and_info(callable_url)[0]
-                selected_instance.instance_fv = fv.tolist()
+
+            fv = get_fv_and_info(callable_url)[0]
+            selected_instance.instance_fv = fv.tolist()
 
         else:
             time.sleep(1.5)  # To show the loading page
