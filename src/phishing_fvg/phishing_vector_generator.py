@@ -20,8 +20,28 @@ from html import unescape
 
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
-from phishing_fvg.phishing_utils import *
 from phishing_fvg.user_browsing import UserBrowsing
+from phishing_fvg.phishing_utils import (
+    get_bin_source_code,
+    find_hyperlinks_tags,
+    get_suspicious_keywords,
+    get_splitted_url,
+    translate_leet_to_letters,
+    get_splitted_url_keep_dots,
+    get_tlds_set,
+    get_phishing_targets_set,
+    find_data_URIs,
+    is_empty,
+    is_simple_php_file,
+    is_foreign,
+    get_number_foreign_hyperlinks,
+    get_number_empty_hyperlinks,
+    get_number_errors,
+    get_number_redirects,
+    extract_url_href,
+    remove_punctuation,
+    get_site_keywords,
+)
 
 
 class PhishingFVG:

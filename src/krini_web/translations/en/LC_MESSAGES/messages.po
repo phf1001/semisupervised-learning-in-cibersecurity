@@ -691,7 +691,7 @@ msgstr "Log in"
 #: apps/templates/accounts/login.html:59
 #: apps/templates/accounts/register.html:84
 msgid "Inicio"
-msgstr "Start"
+msgstr "Home"
 
 #: apps/templates/accounts/register.html:12
 msgid "CREA TU CUENTA"
@@ -703,7 +703,7 @@ msgstr "Name"
 
 #: apps/templates/accounts/register.html:44 apps/templates/home/profile.html:96
 msgid "Apellidos"
-msgstr "Surnames"
+msgstr "Surname"
 
 #: apps/templates/accounts/register.html:53 apps/templates/home/profile.html:81
 msgid "Correo electrónico"
@@ -2215,7 +2215,7 @@ msgstr "updated with the results obtained."
 #: apps/templates/includes/footer-fullscreen.html:15
 #: apps/templates/includes/footer.html:16
 msgid "Imágenes usadas"
-msgstr ""
+msgstr "Used images"
 
 #: apps/templates/includes/navigation.html:31
 msgid "Análisis"

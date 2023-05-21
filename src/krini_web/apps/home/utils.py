@@ -28,7 +28,6 @@ from apps.home.exceptions import (
 )
 from apps import db
 from apps.authentication.models import Users
-from apps.home.exceptions import KriniNotLoggedException
 from apps.home.models import (
     Available_tags,
     Available_models,
@@ -1304,6 +1303,7 @@ def serialize_store_model(
         (bool, int): True if the model was stored correctly and its id.
     """
     try:
+        file_location = None
         model_name = form_data["model_name"]
         model_version = form_data["model_version"]
         model_store_name = model_name + " " + model_version
@@ -1396,7 +1396,8 @@ def serialize_store_model(
 
     except exc.SQLAlchemyError:
         db.session.rollback()
-        remove(file_location)
+        if file_location:
+            remove(file_location)
         raise KriniException(
             get_exception_message("error_storing_model_or_training_data")
         )

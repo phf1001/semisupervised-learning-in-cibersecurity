@@ -13,9 +13,6 @@ from sqlalchemy.orm import load_only
 from apps.home import blueprint
 from apps import db
 from apps.home.exceptions import KriniException, KriniNotLoggedException
-from apps.home.models import (
-    Available_models,
-)
 from apps.home.utils import *
 from apps.ssl_utils.ml_utils import (
     get_array_scores,
@@ -62,7 +59,6 @@ from flask import (
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 from werkzeug.exceptions import Forbidden
-from jinja2 import TemplateNotFound
 from datetime import datetime
 import json
 import numpy as np
