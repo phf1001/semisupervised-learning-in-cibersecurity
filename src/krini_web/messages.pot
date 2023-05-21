@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-21 11:22+0200\n"
+"POT-Creation-Date: 2023-05-21 11:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -462,9 +462,7 @@ msgid "conjunto de test contiene instancias vistas durante el entrenamiento."
 msgstr ""
 
 #: apps/messages.py:433 apps/messages.py:440
-msgid ""
-"Test realizado correctamente. Puedes ver los resultados en la gráfica "
-"superior."
+msgid "Test realizado. Puedes ver los resultados en la gráfica superior."
 msgstr ""
 
 #: apps/messages.py:435

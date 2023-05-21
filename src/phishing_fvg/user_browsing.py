@@ -15,6 +15,12 @@ src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from phishing_fvg.phishing_utils import get_proxy
 
+ACCEPT = (
+    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+)
+USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0)"
+USER_AGENT += " Gecko/20100101 Firefox/110.0"
+
 
 class UserBrowsing:
     """
@@ -48,7 +54,7 @@ class UserBrowsing:
         self.header = {
             "Host": url,
             "User-Agent": self.user_agent,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept": ACCEPT,
             "Accept-Language": "es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3",
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
@@ -62,11 +68,9 @@ class UserBrowsing:
     @staticmethod
     def get_user_agent():
         """Returns a user agent."""
-        return "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"
+        return USER_AGENT
 
     @staticmethod
     def get_simple_user_header_agent():
         """Returns a simple user header agent."""
-        return {
-            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0"
-        }
+        return {"User-Agent": USER_AGENT}

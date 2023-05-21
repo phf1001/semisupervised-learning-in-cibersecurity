@@ -802,7 +802,8 @@ def find_candidate_instance_sequence(previous_page, n_per_page, report_number):
     Args:
         previous_page (int): previous page, the one displayed before the request
         n_per_page (int): number of instances per page
-        report_number (int): number of the instance above all displayed (order, starting in 0)
+        report_number (int): number of the instance above all displayed
+                             (order, starting in 0)
 
     Returns:
         CandidateInstance: instance selected
@@ -1302,8 +1303,8 @@ def serialize_store_model(
     Returns:
         (bool, int): True if the model was stored correctly and its id.
     """
+    file_location = None
     try:
-        file_location = None
         model_name = form_data["model_name"]
         model_version = form_data["model_version"]
         model_store_name = model_name + " " + model_version

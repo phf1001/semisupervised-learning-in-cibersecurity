@@ -42,9 +42,11 @@ class ProxyTor:
         intentos = 0
 
         while intentos < 3:
-            state = os.system(
-                f"curl --proxy socks5h://localhost:{self.socks_port} http://ipinfo.io/ip >/dev/null 2>&1"
+            bash_command = (
+                f"curl --proxy socks5h://localhost:{self.socks_port} "
             )
+            bash_command += "http://ipinfo.io/ip >/dev/null 2>&1"
+            state = os.system(bash_command)
 
             if state == 0:
                 given_ip = requests.get(

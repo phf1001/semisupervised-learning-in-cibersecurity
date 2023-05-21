@@ -21,6 +21,9 @@ src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
 from phishing_fvg.phishing_utils import get_alexa_sites, get_data_path
 
+USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0)"
+USER_AGENT += " Gecko/20100101 Firefox/110.0"
+
 
 if __name__ == "__main__":
     working_urls = []
@@ -32,9 +35,7 @@ if __name__ == "__main__":
                 url = protocol + url
                 request_content = requests.get(
                     url,
-                    headers={
-                        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"
-                    },
+                    headers={"User-Agent": USER_AGENT},
                     timeout=15,
                 ).content
                 html = unescape(

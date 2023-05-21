@@ -431,14 +431,14 @@ def get_message(identifier) -> str:
 
     if identifier == "test_success_update_db":
         return gettext(
-            "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
+            "Test realizado. Puedes ver los resultados en la gráfica superior."
         ) + gettext(
             "Además, se han actualizado las scores en la base de datos."
         )
 
     if identifier == "test_success":
         return gettext(
-            "Test realizado correctamente. Puedes ver los resultados en la gráfica superior."
+            "Test realizado. Puedes ver los resultados en la gráfica superior."
         )
 
     if identifier == "zero_scores":

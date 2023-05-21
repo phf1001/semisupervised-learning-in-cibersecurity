@@ -206,11 +206,11 @@ class PhishingUtilsMethods(unittest.TestCase):
 
     def test_get_number_errors(self):
         """Test the number of errors for a given URL."""
+        my_repo = "https://github.com/phf1001/"
+        my_repo += "semisupervised-recommendation-atk-detection"
         self.assertTrue(
             get_number_errors(
-                [
-                    "https://github.com/phf1001/semisupervised-recommendation-atk-detection"
-                ],
+                [my_repo],
                 {},
                 {},
             )
