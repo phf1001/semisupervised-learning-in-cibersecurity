@@ -168,6 +168,7 @@ def extract_fv():
         function: redirects to the dashboard
     """
     try:
+        logger.info("Extracting FV")
         messages = session.get("messages", None)
         url = messages["url"]
         models_ids = messages["models"]
@@ -236,6 +237,7 @@ def extract_fv():
                         )
                     colour_list = ""
 
+        logger.info("Ready")
         session["messages"] = {
             "fv": fv,
             "fv_extra_information": fv_extra_information,
@@ -248,11 +250,13 @@ def extract_fv():
 
         return redirect(url_for("home_blueprint.dashboard"))
 
-    except KriniException:
+    except KriniException as e:
+        logger.info(str(e))
         flash(get_formatted_message("not_callable_url", [url]), "danger")
         return redirect(url_for("home_blueprint.index"))
 
-    except (KeyError, ValueError, TypeError):
+    except (KeyError, ValueError, TypeError) as e:
+        logger.info(str(e))
         session["messages"] = {}
         session["checks"] = {}
         flash(get_exception_message("incorrect_stream"), "danger")

@@ -132,6 +132,7 @@ def get_callable_url(url):
     Returns:
         str: The URL with the protocol, or None if it fails.
     """
+    logger.info("Checking if the URL is callable...")
     try:
         requests.get(
             url,
@@ -139,6 +140,7 @@ def get_callable_url(url):
             timeout=5,
         ).content
 
+        logger.info("Completed")
         return url
 
     except requests.exceptions.RequestException:

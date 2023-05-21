@@ -12,6 +12,7 @@
 import os
 import sys
 import pickle
+import logging
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -45,6 +46,48 @@ from phishing_fvg.phishing_utils import (
     get_csv_data,
     get_data_path,
 )
+
+
+def get_logger(
+    name,
+    file_name="log_krini",
+    logger_level=logging.DEBUG,
+    file_level=logging.DEBUG,
+):
+    """
+    Returns a logger with the given name and the given
+    parameters.
+
+    Args:
+        name (str): logger name.
+        file_name(str, optional): file name. Defaults to "log_krini".
+        logger_level (str, optional): Defaults to logging.DEBUG.
+        file_level (str, optional): Defaults to logging.DEBUG.
+
+    Returns:
+        object: logger object.
+    """
+    new_logger = logging.getLogger(name)
+
+    if new_logger.hasHandlers():
+        new_logger.handlers.clear()
+
+    new_logger.setLevel(logger_level)
+
+    fh = logging.FileHandler(file_name)
+    fh.setLevel(file_level)
+    fh.setFormatter(
+        logging.Formatter(
+            "[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+    )
+    new_logger.addHandler(fh)
+
+    return new_logger
+
+
+logger = get_logger("krini-frontend")
 
 
 def get_co_forest(
@@ -237,12 +280,17 @@ def get_fv_and_info(
         proxy (dict, optional): Proxy if desired. Defaults to None.
     """
     try:
+        logger.info("Getting feature vector and info from url")
         tfidf = get_tfidf_object(tfidf_file)
+        logger.info("TFIDF object loaded")
         ph_entity = PhishingFVG(url, tfidf, get_proxy_from_file, proxy)
+        logger.info("PhishingFVG object created")
         ph_entity.set_feature_vector()
+        logger.info("Feature vector setted")
         return ph_entity.fv, ph_entity.extra_information
 
     except Exception as e:
+        logger.info(str(e))
         raise KriniException(str(e))
 
 

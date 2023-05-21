@@ -17,6 +17,8 @@ from tld import get_tld
 from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 from html import unescape
+import logging
+
 
 src_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 sys.path.append(src_path)
@@ -77,27 +79,85 @@ class PhishingFVG:
         self.tfidf = tfidf
 
         self.extra_information = {"f{}".format(i): None for i in range(1, 20)}
+        self.logger = self.get_logger("phishing_fvg")
+
+    def get_logger(
+        self,
+        name,
+        file_name="log_krini",
+        logger_level=logging.DEBUG,
+        file_level=logging.DEBUG,
+    ):
+        """
+        Returns a logger with the given name and the given
+        parameters.
+
+        Args:
+            name (str): logger name.
+            file_name(str, optional): file name. Defaults to "log_krini".
+            logger_level (str, optional): Defaults to logging.DEBUG.
+            file_level (str, optional): Defaults to logging.DEBUG.
+
+        Returns:
+            object: logger object.
+        """
+        new_logger = logging.getLogger(name)
+
+        if new_logger.hasHandlers():
+            new_logger.handlers.clear()
+
+        new_logger.setLevel(logger_level)
+
+        fh = logging.FileHandler(file_name)
+        fh.setLevel(file_level)
+        fh.setFormatter(
+            logging.Formatter(
+                "[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+        )
+        new_logger.addHandler(fh)
+
+        return new_logger
 
     def set_feature_vector(self):
         """Sets the feature vector for the URL."""
         self.set_f1()
+        self.logger.info("F1 set")
         self.set_f2()
+        self.logger.info("F2 set")
         self.set_f3()
+        self.logger.info("F3 set")
         self.set_f4()
+        self.logger.info("F4 set")
         self.set_f5()
+        self.logger.info("F5 set")
         self.set_f6()
+        self.logger.info("F6 set")
         self.set_f7()
+        self.logger.info("F7 set")
         self.set_f8()
+        self.logger.info("F8 set")
         self.set_f9()
+        self.logger.info("F9 set")
         self.set_f10_f11()
+        self.logger.info("F10 and F11 set")
         self.set_f12()
+        self.logger.info("F12 set")
         self.set_f13()
+        self.logger.info("F13 set")
         self.set_f14()
+        self.logger.info("F14 set")
         self.set_f15()
+        self.logger.info("F15 set")
         self.set_f16()
+        self.logger.info("F16 set")
         self.set_f17()
+        self.logger.info("F17 set")
         self.set_f18()
+        self.logger.info("F18 set")
         self.set_f19()
+        self.logger.info("F19 set")
 
     def set_f1(self):
         """

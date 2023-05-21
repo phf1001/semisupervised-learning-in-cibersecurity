@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: phf1001/krini:web-v7
+    image: phf1001/krini-linux-mint:web-v2
     container_name: semisupervised-learning-in-cibersecurity_web
     command: bash -c "cd krini_web/mock_data && python3 fill_database.py && cd .. && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
     ports:
@@ -18,7 +18,7 @@ services:
       - db
 
   db:
-    image: phf1001/krini:db-v7
+    image: phf1001/krini-linux-mint:bd-v1
     container_name: semisupervised-learning-in-cibersecurity_db
     ports:
       - 5432:5432
