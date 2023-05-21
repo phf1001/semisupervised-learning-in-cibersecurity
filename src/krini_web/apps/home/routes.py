@@ -689,7 +689,7 @@ def creating_model():
         ) = return_X_y_train_test(dataset_method, dataset_params, get_ids=True)
 
         try:
-            L_train, U_train, Ly_train, Uy_train = train_test_split(
+            L_train, U_train, Ly_train, _ = train_test_split(
                 X_train,
                 y_train,
                 test_size=0.8,
@@ -847,7 +847,7 @@ def test_model():
         flash(get_exception_message("error_load_model"), "danger")
         return redirect(url_for("home_blueprint.models"))
 
-    except (KeyError, ValueError, TypeError) as e:
+    except (KeyError, ValueError, TypeError):
         session["messages"] = {}
         flash(get_exception_message("incorrect_stream"), "danger")
         return redirect(url_for("home_blueprint.models"))

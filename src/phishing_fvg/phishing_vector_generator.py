@@ -197,7 +197,7 @@ class PhishingFVG:
 
         splitted_url = get_splitted_url_keep_dots(rest)
         tlds = get_tlds_set()
-        tlds = set(["." + tld for tld in tlds])
+        tlds = {"." + tld for tld in tlds}
 
         extra_tlds_found = splitted_url & tlds
 

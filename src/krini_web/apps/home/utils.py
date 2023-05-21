@@ -264,7 +264,7 @@ def save_bbdd_analized_instance(callable_url, fv, tag=-1):
 
         raise KriniNotLoggedException("User is not logged in.")
 
-    except (KriniNotLoggedException, exc.SQLAlchemyError) as e:
+    except (KriniNotLoggedException, exc.SQLAlchemyError):
         db.session.rollback()
         return False
 
@@ -415,7 +415,7 @@ def get_parameters(model, algorithm="SEMI-SUPERVISED"):
 
     if algorithm == DEMOCRATIC_CO_CONTROL:
         information = cls_to_string_list(model.base_clss)
-        information.append("Nº clasificadores = {}".format(model.n_clss))
+        information.append(f"Nº clasificadores = {model.n_clss}")
         return information, "cyan"
 
 
@@ -1071,9 +1071,7 @@ def create_csv_selected_instances(
 
     df = pd.DataFrame(
         data,
-        columns=["instance_id"]
-        + ["f{}".format(i) for i in range(1, 20)]
-        + ["tag"],
+        columns=["instance_id"] + [f"f{i}" for i in range(1, 20)] + ["tag"],
     )
 
     download_directory = get_temporary_download_directory()
@@ -1316,9 +1314,7 @@ def serialize_store_model(
 
         if existing_instance:
             raise KriniException(
-                "Ya existe un modelo con ese nombre y esa versión <<{}>>.".format(
-                    model_store_name
-                )
+                f"Existe un modelo con ese nombre y esa versión: {model_store_name}."
             )
 
         file_location = serialize_model(cls, file_name)
@@ -1575,7 +1571,7 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
             df = pd.DataFrame(
                 data=instances,
                 columns=["instance_id"]
-                + ["f{}".format(i) for i in range(1, 20)]
+                + [f"f{i}" for i in range(1, 20)]
                 + ["instance_class"],
             )
 
@@ -1688,7 +1684,7 @@ def get_all_instances_database_rows(exclude_ids=set()):
 
     df = pd.DataFrame(
         data=instances,
-        columns=["f{}".format(i) for i in range(1, 20)] + ["instance_class"],
+        columns=[f"f{i}" for i in range(1, 20)] + ["instance_class"],
     )
 
     X_test = df.iloc[:, :-1].values
@@ -1712,7 +1708,7 @@ def get_model_training_ids(model_id):
         model_id=model_id
     ).all()
 
-    return set([row.instance_id for row in model_training_rows])
+    return {row.instance_id for row in model_training_rows}
 
 
 def extract_X_y_csv(file_name, get_ids=False):
@@ -1765,13 +1761,13 @@ def check_correct_pandas(df):
         true if the dataframe is correct, false otherwise
     """
     columns_expected = (
-        ["instance_id"] + ["f{}".format(i) for i in range(1, 20)] + ["tag"]
+        ["instance_id"] + [f"f{i}" for i in range(1, 20)] + ["tag"]
     )
 
     # All except instance_id and f10
     booleans_expected = (
-        ["f{}".format(i) for i in range(1, 10)]
-        + ["f{}".format(i) for i in range(11, 20)]
+        [f"f{i}" for i in range(1, 10)]
+        + [f"f{i}" for i in range(11, 20)]
         + ["tag"]
     )
 
