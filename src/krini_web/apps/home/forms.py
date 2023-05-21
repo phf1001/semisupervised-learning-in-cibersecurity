@@ -29,8 +29,8 @@ from apps.config import (
 # Importing from messages.py is not working in select forms
 available_base_cls = [
     (NAIVE_BAYES_KEY, gettext("Naive Bayes")),
-    (KNN_KEY, gettext("Árbol de decisión")),
-    (DECISION_TREE_KEY, gettext("k-vecinos más cercanos")),
+    (DECISION_TREE_KEY, gettext("Árbol de decisión")),
+    (KNN_KEY, gettext("k-vecinos más cercanos")),
 ]
 
 

@@ -1218,12 +1218,16 @@ def remove_selected_models(ids_models):
     Args:
         ids_models (list): list containing ids
 
+    Returns:
+        bool: True if some model has been deleted, False otherwise
+
     Raises:
         KriniDBException: raised if there is an error in the database
     """
     try:
         models_path = get_models_directory()
         flash_msg = False
+        some_deleted = False
 
         for model_id in ids_models:
             if model_id not in ("1", "2", "3", 1, 2, 3):
@@ -1237,12 +1241,15 @@ def remove_selected_models(ids_models):
 
                 Available_models.query.filter_by(model_id=model_id).delete()
                 db.session.commit()
+                some_deleted = True
 
             else:
                 flash_msg = True
 
         if flash_msg:
             flash(get_exception_message("protected_models"), "info")
+
+        return some_deleted
 
     except exc.SQLAlchemyError:
         db.session.rollback()

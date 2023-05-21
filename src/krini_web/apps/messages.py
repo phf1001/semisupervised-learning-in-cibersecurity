@@ -145,16 +145,10 @@ def get_exception_message(identifier) -> str:
         return gettext("Clasificador base no encontrado")
 
     if identifier == "protected_models":
-        return (
-            gettext(
-                "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. Aún así, la "
-            )
-            + gettext(
-                "conexión con la base de datos es correcta y se muestra el mensaje "
-            )
-            + gettext(
-                "correspondiente a la operación para que sepas que el método funciona."
-            )
+        return gettext(
+            "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. "
+        ) + gettext(
+            "Ten en cuenta que aunque lo selecciones, no será eliminado. "
         )
 
     if identifier == "incorrect_stream":
@@ -315,6 +309,21 @@ def get_form_message(identifier) -> str:
         return gettext(
             "Comprueba que las etiquetas introducidas no tengan más de 63 caracteres"
         )
+
+    if identifier == "Not a valid integer value":
+        return gettext("Por favor, introduce un número entero válido.")
+
+    if identifier == "Not a valid float value":
+        return gettext("Por favor, introduce un número decimal válido.")
+
+    if identifier == "Not a valid boolean value":
+        return gettext("Por favor, introduce un valor booleano válido.")
+
+    if identifier == "Not a valid list value":
+        return gettext("Por favor, introduce una lista válida.")
+
+    if identifier == "Not a valid text value":
+        return gettext("Por favor, introduce un texto válido.")
 
     return get_message("Revisa que los campos estén correctamente rellenados.")
 

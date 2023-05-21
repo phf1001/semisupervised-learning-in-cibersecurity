@@ -523,14 +523,16 @@ def models(n_per_page=10):
 
             if "eliminar" in request.form["button_pressed"]:
                 if "individual" in request.form["button_pressed"]:
-                    remove_selected_models([request.form["individual_model"]])
-                    flash(get_message("model_removed"), "success")
+                    if remove_selected_models(
+                        [request.form["individual_model"]]
+                    ):
+                        flash(get_message("model_removed"), "success")
+
                 else:
                     selected = list(checks.values())
                     if len(selected) == 0:
                         flash(get_message("model_not_selected"), "warning")
-                    else:
-                        remove_selected_models(selected)
+                    elif remove_selected_models(selected):
                         flash(get_message("models_removed"), "success")
 
                 return redirect(url_for("home_blueprint.models"))
