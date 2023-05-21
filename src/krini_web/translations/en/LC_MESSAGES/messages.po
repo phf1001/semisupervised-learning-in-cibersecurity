@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-21 10:44+0200\n"
+"POT-Creation-Date: 2023-05-21 11:22+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -562,97 +562,101 @@ msgstr "No. classifiers = "
 msgid "Clasificador "
 msgstr "Classifier "
 
-#: apps/home/forms.py:31 apps/messages.py:541
+#: apps/messages.py:541
 msgid "Naive Bayes"
 msgstr "Naive Bayes"
 
-#: apps/home/forms.py:32 apps/messages.py:544
+#: apps/messages.py:544
 msgid "Árbol de decisión"
 msgstr "Decision tree"
 
-#: apps/home/forms.py:33 apps/messages.py:547
+#: apps/messages.py:547
 msgid "k-vecinos más cercanos"
-msgstr "k-nearest neighbors"
+msgstr "k-Nearest Neighbors"
 
 #: apps/messages.py:550
-msgid "legítimo"
-msgstr "legitimate"
-
-#: apps/messages.py:553 apps/templates/home/dashboard.html:33
-msgid "LEGÍTIMA"
-msgstr "LEGITIMATE"
-
-#: apps/messages.py:556
-msgid "phishing"
-msgstr "phishing"
-
-#: apps/messages.py:559
-msgid "no disponible"
-msgstr "not available"
-
-#: apps/messages.py:562
-msgid "no hay ningún vector generado para esta instancia"
-msgstr "there is no vector generated for this instance"
-
-#: apps/messages.py:565
-msgid "lista-negra"
-msgstr "blacklist"
-
-#: apps/messages.py:568
-msgid "lista-blanca"
-msgstr "White list"
-
-#: apps/messages.py:571
-msgid "auto-clasificada"
-msgstr "self-classified"
-
-#: apps/messages.py:574
-msgid "revisada"
-msgstr "revised"
-
-#: apps/messages.py:577
-msgid "sugerencia-lista-blanca"
-msgstr "whitelist-suggestion"
-
-#: apps/messages.py:580
-msgid "sugerencia-lista-negra"
-msgstr "blacklist-suggestion"
-
-#: apps/messages.py:583
-msgid "sugerencia-phishing"
-msgstr "phishing-suggestion"
-
-#: apps/messages.py:586
-msgid "sugerencia-legítima"
-msgstr "legitimate-suggestion"
-
-#: apps/messages.py:589
-msgid "nueva-instancia"
-msgstr "new-instance"
-
-#: apps/messages.py:592
-msgid "revisión-recomendada"
-msgstr "recommended-revision"
-
-#: apps/messages.py:595
-msgid "recién-escaneada-revisar"
-msgstr "just-scanned-review"
-
-#: apps/home/forms.py:104 apps/home/forms.py:114
 msgid "Mantener valor actual"
 msgstr "Keep current value"
 
-#: apps/home/forms.py:124
+#: apps/messages.py:553
 msgid "Mantener vector actual"
 msgstr "Keep current vector"
 
-#: apps/home/forms.py:125
+#: apps/messages.py:556
+msgid "legítimo"
+msgstr "legitimate"
+
+#: apps/messages.py:559 apps/templates/home/dashboard.html:33
+msgid "LEGÍTIMA"
+msgstr "LEGITIMATE"
+
+#: apps/messages.py:562
+msgid "Legítima"
+msgstr "Legitimate"
+
+#: apps/messages.py:565
+msgid "Sí"
+msgstr "Yes"
+
+#: apps/messages.py:568
 msgid "Generar nuevo vector de características"
 msgstr "Generate a new feature vector"
 
-#: apps/home/forms.py:168
-msgid "Sí"
-msgstr "Yes"
+#: apps/messages.py:571
+msgid "phishing"
+msgstr "phishing"
+
+#: apps/messages.py:574
+msgid "no disponible"
+msgstr "not available"
+
+#: apps/messages.py:577
+msgid "no hay ningún vector generado para esta instancia"
+msgstr "there is no vector generated for this instance"
+
+#: apps/messages.py:580
+msgid "lista-negra"
+msgstr "blacklist"
+
+#: apps/messages.py:583
+msgid "lista-blanca"
+msgstr "White list"
+
+#: apps/messages.py:586
+msgid "auto-clasificada"
+msgstr "self-classified"
+
+#: apps/messages.py:589
+msgid "revisada"
+msgstr "revised"
+
+#: apps/messages.py:592
+msgid "sugerencia-lista-blanca"
+msgstr "whitelist-suggestion"
+
+#: apps/messages.py:595
+msgid "sugerencia-lista-negra"
+msgstr "blacklist-suggestion"
+
+#: apps/messages.py:598
+msgid "sugerencia-phishing"
+msgstr "phishing-suggestion"
+
+#: apps/messages.py:601
+msgid "sugerencia-legítima"
+msgstr "legitimate-suggestion"
+
+#: apps/messages.py:604
+msgid "nueva-instancia"
+msgstr "new-instance"
+
+#: apps/messages.py:607
+msgid "revisión-recomendada"
+msgstr "recommended-revision"
+
+#: apps/messages.py:610
+msgid "recién-escaneada-revisar"
+msgstr "just-scanned-review"
 
 #: apps/templates/accounts/login.html:2 apps/templates/accounts/login.html:47
 #: apps/templates/includes/navigation.html:110
@@ -1470,7 +1474,7 @@ msgstr " now, leave the option selected"
 
 #: apps/templates/home/edit-instance.html:123
 msgid " \"mantener vector actual\""
-msgstr " \"hold current vector\""
+msgstr " \"keep current vector\""
 
 #: apps/templates/home/edit-instance.html:140
 #: apps/templates/home/instances-administration.html:113
@@ -1491,7 +1495,7 @@ msgstr "the class, leave the option selected "
 
 #: apps/templates/home/edit-instance.html:145
 msgid "\"mantener valor actual\""
-msgstr "\"hold current value\""
+msgstr "\"keep current value\""
 
 #: apps/templates/home/edit-instance.html:151
 msgid "esta instancia todavía no ha sido clasificada"
@@ -2208,6 +2212,11 @@ msgstr "If selected, scores will be "
 msgid "actualizadas con los resultados obtenidos."
 msgstr "updated with the results obtained."
 
+#: apps/templates/includes/footer-fullscreen.html:15
+#: apps/templates/includes/footer.html:16
+msgid "Imágenes usadas"
+msgstr ""
+
 #: apps/templates/includes/navigation.html:31
 msgid "Análisis"
 msgstr "Analysis"
@@ -2314,10 +2323,4 @@ msgstr "Estimated time: about 1 minute"
 #: apps/templates/specials/updating-instance.html:15
 msgid "¡Estamos realizando la operación solicitada!"
 msgstr "We are performing the requested operation!"
-
-#~ msgid "conexión con la base de datos es correcta y se muestra el mensaje "
-#~ msgstr "the connection to the database is successful and the operation message "
-
-#~ msgid "correspondiente a la operación para que sepas que el método funciona."
-#~ msgstr "is displayed so you know the method works."
 

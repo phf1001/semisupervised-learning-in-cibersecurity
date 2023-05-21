@@ -18,7 +18,7 @@ from wtforms import (
     FloatField,
 )
 from wtforms.validators import DataRequired, Regexp, NumberRange, Length
-from flask_babel import gettext
+from flask_babel import lazy_gettext
 
 from apps.config import (
     NAIVE_BAYES_KEY,
@@ -28,9 +28,9 @@ from apps.config import (
 
 # Importing from messages.py is not working in select forms
 available_base_cls = [
-    (NAIVE_BAYES_KEY, gettext("Naive Bayes")),
-    (DECISION_TREE_KEY, gettext("Árbol de decisión")),
-    (KNN_KEY, gettext("k-vecinos más cercanos")),
+    (NAIVE_BAYES_KEY, lazy_gettext("Naive Bayes")),
+    (DECISION_TREE_KEY, lazy_gettext("Árbol de decisión")),
+    (KNN_KEY, lazy_gettext("k-vecinos más cercanos")),
 ]
 
 
@@ -101,9 +101,9 @@ class InstanceForm(FlaskForm):
         "instance_class",
         id="instance-class",
         choices=[
-            (-1, gettext("Mantener valor actual")),
+            (-1, lazy_gettext("Mantener valor actual")),
             (1, "Phishing"),
-            (0, "Legítima"),
+            (0, lazy_gettext("Legítima")),
         ],
     )
 
@@ -111,7 +111,7 @@ class InstanceForm(FlaskForm):
         "instance_list",
         id="instance-list",
         choices=[
-            (-1, gettext("Mantener valor actual")),
+            (-1, lazy_gettext("Mantener valor actual")),
             ("black-list", "Black-list"),
             ("white-list", "White-list"),
         ],
@@ -121,8 +121,8 @@ class InstanceForm(FlaskForm):
         "regenerate_fv",
         id="regenerate-fv",
         choices=[
-            (-1, gettext("Mantener vector actual")),
-            (1, gettext("Generar nuevo vector de características")),
+            (-1, lazy_gettext("Mantener vector actual")),
+            (1, lazy_gettext("Generar nuevo vector de características")),
         ],
     )
 
@@ -165,7 +165,7 @@ class SmallModelForm(FlaskForm):
     is_default = SelectField(
         "is_default",
         id="is_default",
-        choices=[("False", "No"), ("True", gettext("Sí"))],
+        choices=[("False", "No"), ("True", lazy_gettext("Sí"))],
         default="False",
     )
 

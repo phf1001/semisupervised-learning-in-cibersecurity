@@ -546,11 +546,26 @@ def get_constants_message(identifier) -> str:
     if identifier == "knn_name":
         return gettext("k-vecinos más cercanos")
 
+    if identifier == "keep_current_value":
+        return gettext("Mantener valor actual")
+
+    if identifier == "keep_current_vector":
+        return gettext("Mantener vector actual")
+
     if identifier == "legitimate":
         return gettext("legítimo")
 
     if identifier == "legitimate_upper":
         return gettext("LEGÍTIMA")
+
+    if identifier == "legitimate_sentence":
+        return gettext("Legítima")
+
+    if identifier == "yes":
+        return gettext("Sí")
+
+    if identifier == "new_vector":
+        return gettext("Generar nuevo vector de características")
 
     if identifier == "phishing":
         return gettext("phishing")
