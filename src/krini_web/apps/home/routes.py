@@ -398,8 +398,7 @@ def report_false_positive():
                 return redirect(url_for("home_blueprint.dashboard"))
             raise KriniException(get_exception_message("not_instance_found"))
 
-        else:
-            raise ValueError(get_exception_message("not_info_found"))
+        raise ValueError(get_exception_message("not_info_found"))
 
     except KriniNotLoggedException:
         session["messages"] = {}
@@ -1193,9 +1192,9 @@ def updating_instance():
 
             if callable_url is None:
                 raise KriniException("No se puede llamar la URL.")
-            else:
-                fv = get_fv_and_info(callable_url)[0]
-                selected_instance.instance_fv = fv.tolist()
+
+            fv = get_fv_and_info(callable_url)[0]
+            selected_instance.instance_fv = fv.tolist()
 
         else:
             time.sleep(1.5)  # To show the loading page
