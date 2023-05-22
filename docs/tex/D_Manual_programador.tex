@@ -20,6 +20,39 @@
 \subsection{Entorno virtual}
 ...
 
+\subsection{Generación de \textit{datasets} para \textit{phishing}}
+
+Cuando se quieran generar vectores de características para un número elevado de instancias, se recomienda hacerlo protegiendo la identidad del usuario mediante el uso de un \textit{proxy} de Tor. Para ello:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{semisupervised-learning-in-cibersecurity /src/scripts}
+	\item Lanzar el \textit{script} para levantar \textit{proxies} mediante el comando \texttt{\$ sudo python3 proxies\_launcher.py}
+	\item Introducir por teclado el número de \textit{proxies} deseados y esperar a que se levanten.
+	\item Generar el \textit{dataset} ejecutando el \textit{notebook} \texttt{phishing\_dataset\_generator .ipynb} mediante VSCode.
+\end{enumerate}
+
+\subsection{Ejecución de experimentos en remoto}
+
+Hay ocasiones en las que los experimentos lanzados requieren una cantidad muy elevada de recursos. En dichos casos, lo mejor es ejecutar los \textit{scripts} en servidores de mayor envergadura. Para ello se seguirán los siguientes pasos:
+
+\begin{enumerate}
+	\item Activar la \texttt{vpn} de la UBU\footnote{\url{https://www.ubu.es/servicio-de-informatica-y-comunicaciones/documentacion-de-ayuda/manuales-de-usuario/manuales-vpn}} (se requiere autorización previa).
+	\item Acceder al servidor deseado vía \texttt{ssh}. Para ello, ejecutar el comando \texttt{ssh -X -p 22 usuario@ipmáquina} y autenticarse.
+	\item Si es la primera ejecución:
+		\begin{enumerate}
+			\item Descargar el repositorio deseado mediante \texttt{git} o copiar los archivos mediante el comando \texttt{\$ scp -r ubicaciónlocal usuario} \texttt{@ipmáquina:ubicaciónremota}. Si se usa el comando \texttt{\$ scp}, hacerlo desde local.
+			\item Crear un entorno virtual (o copiar uno existente mediante \texttt{scp} en caso de falta de permisos).
+		\end{enumerate}
+	\item Para evitar que el proceso lanzado se muera al cerrar el \texttt{ssh}, abrir una terminal de \texttt{tmux} mediante el comando \texttt{\$ tmux}.
+	\item Activar el entorno virtual.
+	\item Lanzar el \textit{script} deseado desde \texttt{tmux} mediante el comando \texttt{python3 script.py}.
+	\item Desacoplar la terminal pulsando \texttt{Ctrl + b y luego d}.
+	\item Comprobar que el \textit{script} se está ejecutando mediante \texttt{ps -fA | grep python}
+	\item Consultar los logs mediante el comando \texttt{\$ nano} o \texttt{\$ tail}.
+	\item Copiar los ficheros resultantes a local mediante \texttt{\$ scp}.
+	\item Si se quiere recuperar la terminal desacoplada, hacerlo mediante \texttt{\$ tmux attach}.
+\end{enumerate}
+
 \subsection{\textit{Web}: Despliegue en local (servidor de Flask y base de datos PostgreSQL)}
 
 Para programar y probar la aplicación \textit{web}, se recomienda utilizar el propio servidor de Flask. Para ello, se han de seguir los siguientes pasos:
@@ -41,14 +74,14 @@ Cuando se introduzca una cadena nueva en el programa, se debe etiquetar mediante
 \begin{enumerate}
 	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity /src/krini\_web}
 	\item Activar el entorno virtual \texttt{\$ . env/bin/activate}
-	\item Actualizar el fichero \texttt{.pot \$ pybabel extract -F babel.cfg -o} 
+	\item Actualizar el fichero \texttt{.pot \$ pybabel extract -F babel.cfg -o}
+	
 	\texttt{ messages.pot --input-dirs=. }
-	\item La primera vez, generar los ficheros \texttt{.po} y \texttt{.mo} mediante el comando \texttt{\$pybabel init -i messages.pot -d translations -l <idioma>}. Las veces sucesivas, simplemente actualizar mediante el comando \texttt{\$pybabel update -i messages.pot -d}.
+	\item La primera vez, generar los ficheros \texttt{.po} y \texttt{.mo} mediante el comando \texttt{\$pybabel init -i messages.pot -d translations -l <idioma>}.
+	Las veces sucesivas, simplemente actualizar mediante el comando \texttt{\$pybabel update -i messages.pot -d}.
 	\item Realizar los cambios que se desee en el fichero \texttt{.po}.
 	\item Compilar las modificaciones \texttt{\$ pybabel compile -d translations}. 
 \end{enumerate}
-
-
 
 \subsection{\textit{Web}: Despliegue en Docker}
 
@@ -63,7 +96,7 @@ Además, para que los usuarios no tengan la base de datos vacía, se ha creado u
 De esta forma, cuando un programador quiera actualizar las imágenes de Docker debe:
 
 \begin{enumerate}
-	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning-in-cibersecurity}.
+	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning -in-cibersecurity}.
 	\item Ejecutar el comando \texttt{\$ docker-compose build --no-cache}.
 	\item Ejecutar el comando \texttt{\$ docker-compose -f docker-compose.yml up -d --build}.
 	\item Comprobar que ambas imágenes están disponibles mediante \texttt{\$ docker images -a}.
@@ -88,7 +121,7 @@ Nótese que el fichero \texttt{Procfile} almacena el contenido \texttt{\$ web: c
 Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásico se complica un poco. Los pasos son:
 
 \begin{enumerate}
-	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning-in-cibersecurity}.
+	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning -in-cibersecurity}.
 	\item Ejecutar el comando \texttt{\$ git subtree push --prefix src/ heroku main
 	}. Es probable que requiera un inicio de sesión.
 \end{enumerate}

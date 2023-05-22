@@ -285,12 +285,47 @@ def insert_reports(connection):
         print("Error while inserting data to table Candidate_instances")
 
 
+def insert_models_trained_with(connection):
+    """
+    Insert models trained with dummy instances into the relation database.
+
+    Args:
+        connection (psycopg2.connection): database connection
+    """
+    try:
+        cursor = connection.cursor()
+        postgres_insert_query = """INSERT INTO "Model_is_trained_with" 
+                (instance_id, model_id) 
+                VALUES (%s, %s);"""
+
+        last_instance = last_insert_id(
+            connection, "Available_instances", "instance_id"
+        )
+
+        for model_id in (1, 2, 3):
+            for instance_id in range(1, last_instance + 1):
+                record_to_insert = (instance_id, model_id)
+                cursor.execute(postgres_insert_query, record_to_insert)
+
+        connection.commit()
+        cursor.close()
+
+    except (Exception, psycopg2.Error) as e:
+        print(str(e))
+        connection.rollback()
+        print("Error while inserting data to table Model_is_trained_with")
+
+
 def start():
     """Inserts data into the database."""
     tries = 0
 
     while tries < 5:
         try:
+            models_inserted = False
+            instances_inserted = False
+            users_inserted = False
+
             connection = None
             connection = psycopg2.connect(
                 user=DB_USER,
@@ -302,18 +337,26 @@ def start():
 
             if last_insert_id(connection, "Users", "id") in [0, 1]:
                 insert_users(connection)
+                users_inserted = True
 
             if last_insert_id(connection, "Available_models", "model_id") in [
                 0,
                 1,
             ]:
                 insert_models(connection)
+                models_inserted = True
 
             if last_insert_id(
                 connection, "Available_instances", "instance_id"
             ) in [0, 1]:
                 insert_instances(connection)
+                instances_inserted = True
+
+            if users_inserted and instances_inserted:
                 insert_reports(connection)
+
+            if models_inserted and instances_inserted:
+                insert_models_trained_with(connection)
 
             break
 

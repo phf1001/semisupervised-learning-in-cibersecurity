@@ -25,6 +25,11 @@ def get_exception_message(identifier) -> str:
             "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
         )
 
+    if identifier == "error_ssl":
+        return gettext(
+            "Error al realizar la petición a la URL. ¿Tiene un certificado válido?"
+        )
+
     if identifier == "url_not_callable_recuperable":
         return gettext(
             "Actualmente la URL no es llamable desde esta aplicación, pero se ha "
@@ -105,6 +110,11 @@ def get_exception_message(identifier) -> str:
     if identifier == "krini_db_exception_default":
         return gettext(
             "Ha ocurrido un error en la base de datos. Inténtelo de nuevo más adelante."
+        )
+
+    if identifier == "krini_SSL_exception_default":
+        return gettext(
+            "Error con el certificado SSL. Inténtelo de nuevo más adelante."
         )
 
     if identifier == "IA_file_not_found":
