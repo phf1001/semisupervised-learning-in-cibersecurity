@@ -25,6 +25,49 @@ from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import pandas as pd
+import logging
+
+
+def get_logger(
+    name,
+    file_name="log_krini",
+    logger_level=logging.DEBUG,
+    file_level=logging.DEBUG,
+):
+    """
+    Returns a logger with the given name and the given
+    parameters.
+
+    Args:
+        name (str): logger name.
+        file_name(str, optional): file name. Defaults to "log_krini".
+        logger_level (str, optional): Defaults to logging.DEBUG.
+        file_level (str, optional): Defaults to logging.DEBUG.
+
+    Returns:
+        object: logger object.
+    """
+    new_logger = logging.getLogger(name)
+
+    if new_logger.hasHandlers():
+        new_logger.handlers.clear()
+
+    new_logger.setLevel(logger_level)
+
+    fh = logging.FileHandler(file_name)
+    fh.setLevel(file_level)
+    fh.setFormatter(
+        logging.Formatter(
+            "[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+    )
+    new_logger.addHandler(fh)
+
+    return new_logger
+
+
+logger = get_logger("phishing_fvg")
 
 
 def get_data_path():
@@ -419,7 +462,8 @@ def get_number_errors(hyperlinks, headers, proxies):
                 if code in (404, 403):
                     n_errors += 1
 
-            except requests.exceptions.RequestException:
+            except requests.exceptions.RequestException as e:
+                logger.info(str(e))
                 pass
 
     return n_errors
@@ -445,7 +489,8 @@ def get_number_redirects(hyperlinks, headers, proxies):
                 if code in (301, 302):
                     n_redirects += 1
 
-            except requests.exceptions.RequestException:
+            except requests.exceptions.RequestException as e:
+                logger.info(str(e))
                 pass
 
     return n_redirects
@@ -673,7 +718,8 @@ def get_tfidf_corpus(urls, headers, proxies):
             html = html.decode("utf-8", errors="ignore")
             corpus.append(get_text_cleaned(html))
 
-        except requests.exceptions.RequestException:
+        except requests.exceptions.RequestException as e:
+            logger.info(str(e))
             pass
 
     return corpus
@@ -886,7 +932,8 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
 
         return set(urls[:n])
 
-    except (requests.exceptions.RequestException, json.JSONDecodeError):
+    except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
+        logger.info(str(e))
         return set()
 
 
@@ -917,5 +964,6 @@ def get_phish_tank_urls_csv(n=2000):
 
         return set(urls[:n])
 
-    except requests.exceptions.RequestException:
+    except requests.exceptions.RequestException as e:
+        logger.info(str(e))
         return set()
