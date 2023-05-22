@@ -4,7 +4,7 @@ services:
   web:
     image: phf1001/krini:web-v7
     container_name: semisupervised-learning-in-cibersecurity_web
-    command: bash -c "cd krini_web/mock_data && python3 fill_database.py && cd .. && gunicorn --bind 0.0.0.0:5000 run:app --log-file=-"
+    command: bash -c "cd krini_web/mock_data && python3 fill_database.py && cd .. && gunicorn run:app --bind 0.0.0.0:5000 --timeout 0 --log-file=-"
     ports:
       - 5000:5000
     environment:

@@ -17,3 +17,4 @@ src/models/notebooks/wine
 .pytest_cache/
 .coverage
 data
+*debug_cls*
