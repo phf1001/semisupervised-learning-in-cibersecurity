@@ -25,6 +25,7 @@ from apps.home.exceptions import (
     KriniNotLoggedException,
     KriniDBException,
     KriniException,
+    KriniSSLException,
 )
 from apps import db
 from apps.authentication.models import Users
@@ -49,6 +50,12 @@ from flask_login import current_user
 from datetime import datetime
 import logging
 import requests
+from requests.exceptions import (
+    RequestException,
+    ConnectionError,
+    InvalidJSONError,
+    InvalidURL,
+)
 import urllib.parse
 from pickle import PickleError
 from sqlalchemy import exc
@@ -141,7 +148,15 @@ def get_callable_url(url):
 
         return url
 
-    except requests.exceptions.RequestException:
+    except requests.exceptions.SSLError:
+        raise KriniSSLException(get_exception_message("error_ssl"))
+
+    except (
+        ConnectionError,
+        RequestException,
+        InvalidJSONError,
+        InvalidURL,
+    ):
         return complete_uncallable_url(url)
 
 
@@ -180,7 +195,12 @@ def complete_uncallable_url(url):
 
         return url
 
-    except requests.exceptions.RequestException:
+    except (
+        ConnectionError,
+        RequestException,
+        InvalidJSONError,
+        InvalidURL,
+    ):
         return None
 
 
@@ -210,7 +230,12 @@ def find_url_protocol(url, protocols=[]):
 
             return protocol
 
-        except requests.exceptions.RequestException:
+        except (
+            ConnectionError,
+            RequestException,
+            InvalidJSONError,
+            InvalidURL,
+        ):
             pass
 
     return None

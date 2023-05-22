@@ -30,6 +30,25 @@ class KriniException(Exception):
         return self.message
 
 
+class KriniSSLException(KriniException):
+    """
+    Used when a URL has certificate problems.
+
+    Args:
+        Exception (class): parent class
+    """
+
+    def __init__(
+        self,
+        message=get_exception_message("krini_SSL_exception_default"),
+    ):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return self.message
+
+
 class KriniNotLoggedException(KriniException):
     """
     Used when a user tries to access a page that

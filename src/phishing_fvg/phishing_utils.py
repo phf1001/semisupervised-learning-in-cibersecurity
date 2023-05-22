@@ -20,6 +20,12 @@ import csv
 from urllib.parse import urlparse
 import json
 import requests
+from requests.exceptions import (
+    ConnectionError,
+    RequestException,
+    InvalidJSONError,
+    InvalidURL,
+)
 from bs4 import BeautifulSoup
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -419,7 +425,12 @@ def get_number_errors(hyperlinks, headers, proxies):
                 if code in (404, 403):
                     n_errors += 1
 
-            except requests.exceptions.RequestException:
+            except (
+                ConnectionError,
+                RequestException,
+                InvalidJSONError,
+                InvalidURL,
+            ):
                 pass
 
     return n_errors
@@ -445,7 +456,12 @@ def get_number_redirects(hyperlinks, headers, proxies):
                 if code in (301, 302):
                     n_redirects += 1
 
-            except requests.exceptions.RequestException:
+            except (
+                ConnectionError,
+                RequestException,
+                InvalidJSONError,
+                InvalidURL,
+            ):
                 pass
 
     return n_redirects
@@ -673,7 +689,12 @@ def get_tfidf_corpus(urls, headers, proxies):
             html = html.decode("utf-8", errors="ignore")
             corpus.append(get_text_cleaned(html))
 
-        except requests.exceptions.RequestException:
+        except (
+            ConnectionError,
+            RequestException,
+            InvalidJSONError,
+            InvalidURL,
+        ):
             pass
 
     return corpus
@@ -886,7 +907,13 @@ def get_phish_tank_urls_json(n=2000, proxy=None):
 
         return set(urls[:n])
 
-    except (requests.exceptions.RequestException, json.JSONDecodeError):
+    except (
+        ConnectionError,
+        RequestException,
+        InvalidJSONError,
+        InvalidURL,
+        json.JSONDecodeError,
+    ):
         return set()
 
 
@@ -917,5 +944,5 @@ def get_phish_tank_urls_csv(n=2000):
 
         return set(urls[:n])
 
-    except requests.exceptions.RequestException:
+    except (ConnectionError, RequestException, InvalidJSONError, InvalidURL):
         return set()
