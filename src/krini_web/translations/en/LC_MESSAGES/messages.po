@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: phf1001@alu.ubu.es\n"
-"POT-Creation-Date: 2023-05-22 11:24+0200\n"
+"POT-Creation-Date: 2023-05-22 16:12+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <phf1001@alu.ubu.es>\n"
 "Language: en\n"
@@ -114,7 +114,7 @@ msgstr " generate the feature vector. The URL is not available."
 
 #: apps/messages.py:97
 msgid "Error extrayendo el vector de características."
-msgstr "Error extracting feature vector."SL
+msgstr "Error extracting feature vector.\"S"
 
 #: apps/messages.py:100
 msgid "Error reconstruyendo el objeto TFIDF"
@@ -134,7 +134,9 @@ msgstr "An error has occurred in the database. Please try again later."
 
 #: apps/messages.py:116
 msgid "Error con el certificado SSL. Inténtelo de nuevo más adelante."
-msgstr "An error has ocurred with the SSL certificate of the URL. Please try again later."
+msgstr ""
+"An error has ocurred with the SSL certificate of the URL. Please try "
+"again later."
 
 #: apps/messages.py:121
 msgid "No se ha podido cargar el fichero de la IA. Lo sentimos."
@@ -1661,8 +1663,8 @@ msgstr "Third classifier"
 #: apps/templates/specials/page-403.html:29
 #: apps/templates/specials/page-404.html:25
 #: apps/templates/specials/page-500.html:25
-#: apps/templates/specials/processing-url.html:29
-#: apps/templates/specials/updating-instance.html:29
+#: apps/templates/specials/processing-url.html:30
+#: apps/templates/specials/updating-instance.html:30
 msgid "Página principal"
 msgstr "Home"
 
@@ -2325,6 +2327,11 @@ msgstr "We are analyzing your URL!"
 #: apps/templates/specials/updating-instance.html:18
 msgid "Tiempo estimado: aproximadamente 1 minuto"
 msgstr "Estimated time: about 1 minute"
+
+#: apps/templates/specials/processing-url.html:19
+#: apps/templates/specials/updating-instance.html:19
+msgid " Las URLs más complejas pueden tardar hasta 4 minutos."
+msgstr " If your URL is complex, it could take up to 4 minutes."
 
 #: apps/templates/specials/updating-instance.html:15
 msgid "¡Estamos realizando la operación solicitada!"

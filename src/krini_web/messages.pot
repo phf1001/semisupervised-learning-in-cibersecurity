@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-22 11:24+0200\n"
+"POT-Creation-Date: 2023-05-22 16:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1629,8 +1629,8 @@ msgstr ""
 #: apps/templates/specials/page-403.html:29
 #: apps/templates/specials/page-404.html:25
 #: apps/templates/specials/page-500.html:25
-#: apps/templates/specials/processing-url.html:29
-#: apps/templates/specials/updating-instance.html:29
+#: apps/templates/specials/processing-url.html:30
+#: apps/templates/specials/updating-instance.html:30
 msgid "Página principal"
 msgstr ""
 
@@ -2292,6 +2292,11 @@ msgstr ""
 #: apps/templates/specials/processing-url.html:18
 #: apps/templates/specials/updating-instance.html:18
 msgid "Tiempo estimado: aproximadamente 1 minuto"
+msgstr ""
+
+#: apps/templates/specials/processing-url.html:19
+#: apps/templates/specials/updating-instance.html:19
+msgid " Las URLs más complejas pueden tardar hasta 4 minutos."
 msgstr ""
 
 #: apps/templates/specials/updating-instance.html:15
