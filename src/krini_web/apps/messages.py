@@ -158,7 +158,7 @@ def get_exception_message(identifier) -> str:
         return gettext(
             "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. "
         ) + gettext(
-            "Ten en cuenta que aunque lo selecciones, no será eliminado. "
+            "Ten en cuenta que aunque lo selecciones, no serán eliminados. "
         )
 
     if identifier == "incorrect_stream":
@@ -369,6 +369,11 @@ def get_message(identifier) -> str:
     if identifier == "language_changed":
         return gettext("Idioma cambiado correctamente.")
 
+    if identifier == "tip_urls":
+        return gettext(
+            "Consejo: Prueba a introducir la ruta completa con el protocolo incluído, "
+        ) + gettext("tal y como aparece en el navegador.")
+
     if identifier == "language_not_changed":
         return gettext("No se ha podido cambiar el idioma.")
 
@@ -440,10 +445,14 @@ def get_message(identifier) -> str:
         )
 
     if identifier == "test_success_update_db":
-        return gettext(
-            "Test realizado. Puedes ver los resultados en la gráfica superior."
-        ) + gettext(
-            "Además, se han actualizado las scores en la base de datos."
+        return (
+            gettext(
+                "Test realizado. Puedes ver los resultados en la gráfica superior."
+            )
+            + " "
+            + gettext(
+                "Además, se han actualizado las scores en la base de datos. "
+            )
         )
 
     if identifier == "test_success":

@@ -254,6 +254,7 @@ def extract_fv():
 
     except KriniException:
         flash(get_formatted_message("not_callable_url", [url]), "danger")
+        flash(get_message("tip_urls"), "info")
         return redirect(url_for("home_blueprint.index"))
 
     except (KeyError, ValueError, TypeError):
