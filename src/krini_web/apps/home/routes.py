@@ -1002,6 +1002,9 @@ def instances(n_per_page=10):
             page = 1
             checks = {}
 
+    except KriniDBException as e:
+        flash(str(e), "warning")
+
     except KriniException:
         flash(get_exception_message("error_operation"), "danger")
 

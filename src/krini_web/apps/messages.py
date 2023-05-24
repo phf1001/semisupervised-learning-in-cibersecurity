@@ -146,6 +146,11 @@ def get_exception_message(identifier) -> str:
             "la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
         )
 
+    if identifier == "no_fv_among_instances":
+        return gettext(
+            "Ninguna de las instancias seleccionadas tiene un vector de"
+        ) + gettext(" características asociado.")
+
     if identifier == "error_updating_scores":
         return gettext(
             "No se han podido actualizar los scores en la base de datos."
