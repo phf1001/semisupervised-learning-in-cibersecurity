@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-24 20:59+0200\n"
+"POT-Creation-Date: 2023-05-25 12:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -678,7 +678,7 @@ msgid "recién-escaneada-revisar"
 msgstr ""
 
 #: apps/templates/accounts/login.html:2 apps/templates/accounts/login.html:47
-#: apps/templates/includes/navigation.html:110
+#: apps/templates/includes/navigation.html:115
 msgid "Iniciar sesión"
 msgstr ""
 
@@ -2218,22 +2218,32 @@ msgid "Cuenta"
 msgstr ""
 
 #: apps/templates/includes/navigation.html:98
+#: apps/templates/includes/navigation.html:128
 msgid "Ayuda"
 msgstr ""
 
 #: apps/templates/includes/navigation.html:103
+#: apps/templates/includes/navigation.html:133
+msgid "Escríbeme"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:108
 msgid "Cerrar sesión"
 msgstr ""
 
-#: apps/templates/includes/navigation.html:118
+#: apps/templates/includes/navigation.html:122
+msgid "Otros"
+msgstr ""
+
+#: apps/templates/includes/navigation.html:142
 msgid "Idioma"
 msgstr ""
 
-#: apps/templates/includes/navigation.html:123
+#: apps/templates/includes/navigation.html:147
 msgid "Español"
 msgstr ""
 
-#: apps/templates/includes/navigation.html:127
+#: apps/templates/includes/navigation.html:151
 msgid "Inglés"
 msgstr ""
 
