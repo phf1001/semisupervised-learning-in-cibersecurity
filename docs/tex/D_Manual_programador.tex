@@ -2,9 +2,22 @@
 
 \section{Introducción}
 
-\section{Estructura de directorios}
+En este anexo se describe la documentación técnica de programación. Es decir, aquellos recursos que pretenden ser de utilidad para otros desarrolladores cuyo objetivo sea modificar el proyecto.
 
-...
+En primer lugar, en la sección~\ref{s:estructura-dirs}, se describirá la estructura de directorios del proyecto. A continuación, se detallará el manual del programador (sección~\ref{s:man-prog}) y se enumerarán los pasos necesarios para instalar y ejecutar el proyecto (sección~\ref{s:inst-prog}) y las herramientas auxiliares utilizadas (sección~\ref{ds:inst-aux}). Por último, se detallarán las pruebas del sistema en el apartado~\ref{s:pruebas}.
+
+\section{Estructura de directorios}
+\label{s:estructura-dirs}
+
+El repositorio del proyecto\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity}} inicialmente se divide en tres directorios:
+
+\begin{itemize}
+	\item \texttt{docker-deploy-kit}: incluye los \textit{scripts} necesarios para desplegar la aplicación en Docker a nivel de usuario. Su uso será detallado en la sección~\ref{s-e:docker-deploy-users}.
+	\item \texttt{docs}: alberga la documentación del trabajo.
+	\item \texttt{src}: contiene el código fuente de la aplicación, pruebas y recursos desarrollados, además de ficheros de configuración de herramientas y otros archivos relevanes.
+\end{itemize}
+
+Este anexo se centrará, por lo tanto, en el directorio \texttt{src}. En la ilustración~\ref{d:diag-repo-structure} se muestran las carpetas principales albergadas en este directorio. Es relevante que no todo el contenido está representado en la ilustración.
 
 \begin{figure}[h]
 	\caption[Diagrama: estructura de directorios]{Diagrama que representa la estructura física de directorios en el repositorio.}
@@ -13,9 +26,69 @@
 	\label{d:diag-repo-structure}
 \end{figure}
 
+A continuación, se facilita una explicación más detallada del contenido de cada directorio:
+
+\begin{itemize}
+	\item \texttt{krini\_web}: alberga los recursos necesarios para la programación de la \textit{web}. 
+	
+	El directorio \texttt{apps} contiene la lógica de negocio principal y se divide a su vez en \texttt{authentication} (controla los inicios de sesión y registros), \texttt{home} (implementa la funcionalidad principal de la \textit{web}) y \texttt{ssl\_utils} (engloba los recursos de \textit{machine learning} necesarios así como los modelos serializados). También incluye recursos estáticos (hojas de estilos, \textit{scripts}, imágenes, etc.) en la carpeta \texttt{static} y plantillas HTML en el directorio \texttt{templates}.
+	
+	Hay otros directorios respectivos a entornos de programación, ficheros de configuración de servicios (Babel, Gunicorn, etc.) o \textit{scripts} de inserción de datos de prueba (\textit{mock}) para garantizar que los usuarios de Docker cuenten con recursos mínimos (carpeta \texttt{mock\_data}).
+	
+	\item \texttt{models}: dividido a su vez en \texttt{classifiers} y \texttt{notebooks}, alberga la implementación de los algoritmos de aprendizaje semisupervisado desarrollados y recursos auxiliares para la generación de las gráficas mostradas en la memoria.
+	
+	\item \texttt{phishing\_fvg}: comprende todo lo necesario para extraer vectores de características de URLs de \textit{phishing}, además de recursos necesarios (ficheros con dominios y otros datos) y resultados de experimentación. Se facilitan además \textit{notebooks} para generar gráficas o \textit{datasets}, además de un objeto TF-IDF serializado entrenado para extraer palabras clave.
+	
+	\item \texttt{recommendation\_attack\_detection\_fvg}: contiene los recursos necesarios para extraer vectores de características y representar los resultados de la aproximación planteada para detectar automáticamente ataques en sistemas de recomendación\footnote{El \textit{dataset} no ha sido incluído debido a su gran tamaño, pero se puede obtener en \url{https://grouplens.org/datasets/movielens/10m/}}.
+	
+	\item \texttt{scripts}: facilita \textit{scripts} con soluciones <<rápidas>> a problemas planteados durante el desarrollo del proyecto. Los archivos más destacables son los utilizados para levantar \textit{proxies} de Tor.
+
+	\item \texttt{tests}: engloba las pruebas unitarias (escritas en Python y ejecutadas mediante TravisCI en cada \textit{build}) y de aceptación (programadas en Selenium).
+	
+	\item \textbf{Otros}: además de los directorios enumerados, también se incluyen archivos de creación de imágenes de Docker, \textit{logs}, ficheros de dependencias (\texttt{requirements.txt}), de configuración de Heroku (\texttt{runtime.txt} y \texttt{Procfile}), licencias, \texttt{README.md}, variables de producción y desarrollo, etc.
+\end{itemize}
+
+
+
 \section{Manual del programador}
+\label{s:man-prog}
+
+Habiendo descrito la estructura de directorios en la sección~\ref{s:estructura-dirs} y facilitando los detalles de instalación en las siguientes subsecciones del proyecto, son pocos los detalles que quedan por concretar en esta subsección. Por lo tanto, simplemente se pretenden facilitar ciertos detalles acerca del entorno utilizado por la desarrolladora.
+
+\begin{itemize}
+
+\item \textbf{Sistema Operativo}: se recomienda encarecidamente utilizar un entorno Linux para el desarrollo del proyecto. En concreto se está utilizando un Ubuntu en versión 20.4.
+
+Como se comprobará más adelante, gran parte de los procesos requeridos se pueden desarrollar más facilmente en sistemas operativos orientados a ficheros (por ejemplo, la configuración de \textit{proxies}) o la conexión a servidores remotos.
+
+También se ha utilizado un sistema operativo Windows para realizar pruebas de despliegue debido a que es uno de los entornos más populares.
+
+
+\item \textbf{Entorno de programación}: sin pretender repetir lo expuesto en la memoria\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/blob/main/docs/memoria.pdf}} (sección 4), se enumeran algunos detalles:
+
+\begin{itemize}
+	\item VSCode: como editor de código fuente.
+	\item Python: en versión 3.10+ y con las dependencias mencionadas en la tabla~\ref{a:licencias}.
+\end{itemize}
+
+\item \textbf{Git y automatización del \textit{pipeline}}: actualmente, cada vez que se realiza un \textit{push} a la rama de desarrollo o la principal en Git, se lanzan ciertos procesos de control de calidad. Es importante revisar y analizar la salida proporcionada por dichas herramientas y corregir posibles defectos antes de realizar \textit{pull requests} a la rama principal.
+
+\begin{figure}[h]
+	\caption[Herramientas: control de calidad automatizado en el \textit{pipeline}.]{Herramientas de control de calidad automatizadas en el \textit{pipeline} del repositorio.}
+	\centering
+	\includegraphics[scale=0.2]{../img/anexos/manual/gitpipeline}
+\end{figure}
+
+Es destacable que toda rama que se fusiona con \texttt{main} tiene que estar revisada por mínimo una persona (está protegida).
+
+Respecto al control de ramas, se recomienda poseer una de desarrollo por cada programador. Se han realizado además otras para corregir errores o mantener registro de las \textit{release} realizadas.
+
+
+
+\end{itemize}
 
 \section{Compilación, instalación y ejecución del proyecto}
+\label{s:inst-prog}
 
 \subsection{Entorno virtual}
 ...
@@ -130,9 +203,10 @@ La base de datos PostgreSQL de la \textit{web} también se ha desplegado en Hero
 heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión mediante variables de entorno.
 
 \section{\textit{Web}: Compilación, instalación y ejecución de herramientas auxiliares}
+\label{ds:inst-aux}
 
 \begin{figure}[h]
-	\caption[\textit{Co-forest}: Configuración de un experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
+	\caption[Herramientas auxiliares: experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
 	\centering
 	\includegraphics[scale=0.5]{../img/anexos/manual/keel_gui.png}
 \end{figure}
