@@ -160,7 +160,10 @@ Para programar y probar la aplicación \textit{web}, se recomienda utilizar el p
 	\item Lanzar el servidor mediante el comando \texttt{\$ flask run --host=127.0.0.1 --port=5000}. Evidentemente, se pueden configurar las direcciones y puertos que se considere necesario.
 \end{enumerate}
 
-\textbf{Nota:} para desarrollo, se ha utilizado una base de datos PostgreSQL en \texttt{localhost}. En Ubuntu se puede configurar siguiendo las instrucciones mostradas en~\cite{postgrelocal}. Es importante contar con una base de datos llamada \texttt{krini}, un usuario \texttt{dev} con privilegios y contraseña \texttt{123}. Las tablas se crean solas (mediante SQLAlchemy) al visitar la aplicación.
+\begin{itemize}
+	\item Para desarrollo, se ha utilizado una base de datos PostgreSQL en \texttt{localhost}. En Ubuntu se puede configurar siguiendo las instrucciones mostradas en~\cite{postgrelocal}. Es importante contar con una base de datos llamada \texttt{krini}, un usuario \texttt{dev} con privilegios y contraseña \texttt{123}. Las tablas se crean solas (mediante SQLAlchemy) al visitar la aplicación.
+	\item La \textit{web} está basada en una plantilla para aplicaciones Flask llamada Argon Dashboard\footnote{\url{https://github.com/creativetimofficial/argon-dashboard}}.
+\end{itemize}
 
 \subsubsection{Compilar y modificar los archivos de idiomas}
 
