@@ -76,7 +76,7 @@ class PhishingFVG:
         self.hyperlinks = find_hyperlinks_tags(self.soup)
         self.tfidf = tfidf
 
-        self.extra_information = {"f{}".format(i): None for i in range(1, 20)}
+        self.extra_information = {f"f{i}": None for i in range(1, 20)}
 
     def set_feature_vector(self):
         """Sets the feature vector for the URL."""

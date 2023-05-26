@@ -135,7 +135,7 @@ class SSLEnsemble:
         Parameters
         ----------
         y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
+        y_pred: np.array with labels predicted by the classifier
 
         Returns
         -------
@@ -151,7 +151,7 @@ class SSLEnsemble:
         Parameters
         ----------
         y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
+        y_pred: np.array with labels predicted by the classifier
 
         Returns
         -------
