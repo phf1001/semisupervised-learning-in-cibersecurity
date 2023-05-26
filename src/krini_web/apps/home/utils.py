@@ -1165,7 +1165,7 @@ def check_n_instances(n_instances):
     try:
         n_instances = int(n_instances)
 
-        if n_instances > 0 and n_instances < 100:
+        if 0 < n_instances < 100:
             dataset_tuple = ("generate", n_instances)
         else:
             dataset_tuple = ("generate", 80)

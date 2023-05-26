@@ -843,7 +843,6 @@ def get_open_fish_urls():
     set
         Set containing phishing domains.
     """
-
     user_agent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0)"
     user_agent += " Gecko/20100101 Firefox/50.0"
 

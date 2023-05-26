@@ -304,8 +304,7 @@ class PhishingFVG:
         forms_found = re.findall("<form[^>]+>", self.html)
 
         if len(forms_found) > 0:
-            for i in range(len(forms_found)):
-                form_found = forms_found[i]
+            for _, form_found in enumerate(forms_found):
                 action_content = re.findall(
                     '(?:action=")([^"]*)(?:")', form_found
                 )
