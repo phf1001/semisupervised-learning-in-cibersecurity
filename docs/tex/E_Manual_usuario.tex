@@ -91,6 +91,7 @@ En este punto del manual se supone que todos los usuarios tienen acceso a la apl
 
 A continuación, se procede a ilustrar las funcionalidades básicas de la \textit{web}. Es destacable que no todos los usuarios cuentan con acceso a todas las funcionalidades (consultar diagrama de casos de uso~\ref{b:diagrama-cu}). Por ello, se recomienda probar el producto con una cuenta con permisos de administración.
 
+
 \subsection{Analizador}
 
 \begin{figure}[h]
@@ -100,4 +101,185 @@ A continuación, se procede a ilustrar las funcionalidades básicas de la \texti
 	\label{e-1:index}
 \end{figure}
 
-En la ilustración
+En la ilustración~\ref{e-1:index} se muestra la página principal del analizador disponible para cualquier usuario. Para escanear una URL, basta con introducirla en el campo correspondiente. Es preferible introducir la dirección tal y como aparece en el navegador, pero si no es posible, la aplicación tratará de completarla.
+
+A continuación se pueden seleccionar los clasificadores que se desee en el desplegable. Si no se selecciona ninguno, se analizará con el modelo por defecto, y en caso de que no exista, con uno aleatorio.
+
+Opcionalmente se puede marcar la casilla <<análisis rápido>>. En este caso, no se extraerá el vector de características si ya existe en la base de datos.
+
+Tras pulsar el botón de analizar, se mostrará una pantalla de carga mientras se extrae el vector de características correspondiente.
+
+\begin{figure}[h]
+	\caption[Manual de usuario: página de carga]{Página de análisis de URL.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/2_analysis}
+	\label{e-1:analysis}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: error 403]{Página de error 403.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/0_error_403}
+	\label{e-0:error-403}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: error 404]{Página de error 404.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/0_error_404}
+	\label{e-0:error-404}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: error 500]{Página de error 500.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/0_error_500}
+	\label{e-0:error-500}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: gráficas del \textit{dashboard}]{\textit{Dashboard} mostrado tras un análisis.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/3_dashboard_1}
+	\label{e-3:dashboard-1}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: vector de características en el \textit{dashboard}]{Análisis del vector de características mostrado en el dashboard.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/3_dashboard_2}
+	\label{e-3:dashboard-2}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: reportar análisis erróneo]{Reportar análisis realizados erróneamente.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/3_report_false_analysis}
+	\label{e-3:report-false-analysis}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: reportar pertenencia a lista]{Página para reportar pertenencia a lista blanca o lista negra.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/4_report_url}
+	\label{e-3:report-url}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: página de modelos]{Página de administración de modelos.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_models}
+	\label{e-5:models}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: nuevo modelo]{Formulario de creación de nuevos modelos.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_new_model}
+	\label{e-5:new-model}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: editar modelo]{Formulario de edición de modelos existentes.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_edit_model}
+	\label{e-5:edit-model}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: evaluar modelo]{Página de evaluación de modelos existentes.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_test_model}
+	\label{e-5:test-model}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: página de instancias]{Página de administración de instancias.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_instances}
+	\label{e-5:instances}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: nueva instancia]{Formulario de creación de nuevas instancias.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_new_instance}
+	\label{e-5:new-instance}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: editar instancia]{Formulario de edición de instancias existentes.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_edit_instance}
+	\label{e-5:edit-instance}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: etiquetas predeterminadas]{Menú con las etiquetas predeterminadas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_labels}
+	\label{e-6:labels}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: ejemplos de etiquetas]{Instancias con variedad de etiquetas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_instances_more_labels}
+	\label{e-6:more-labels}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: administrar sugerencias]{Página de administración de sugerencias o \textit{reports}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/7_reports}
+	\label{e-7:reports}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: inicio de sesión]{Página de inicio de sesión.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/8_login}
+	\label{e-8:login}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: crear nueva cuenta]{Página de creación de nuevas cuentas.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/8_register}
+	\label{e-8:register}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: perfil]{Perfil de un usuario que ha iniciado sesión en la aplicación.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/8_profile}
+	\label{e-8:profile}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: barra navegación (usuario iniciado)]{Barra de navegación correspondiente a un administrador}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/9_navbar_init}
+	\label{e-9:navbar}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: barra navegación (visitante)]{Barra de navegación correspondiente a un usuario visitante.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/9_navbar_no_init}
+	\label{e-9:navbar-2}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: \textit{dashboard} (versión móvil)]{\textit{Dashboard} visualizado desde el navegador de un teléfono.}
+	\centering
+	\includegraphics[scale=0.1]{../img/anexos/user_guide/0_dashboard_mobile}
+	\label{e-0:dashboard-mobile}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: menú (versión móvil)]{Menú de navegación visualizado desde un dispositivo móvil.}
+	\centering
+	\includegraphics[scale=0.1]{../img/anexos/user_guide/0_menu_mobile}
+	\label{e-0:menu-mobile}
+\end{figure}
