@@ -100,7 +100,9 @@ Principalmente utilizados para control de versiones, realización de \textit{tes
 	
 	\item \textbf{Selenium IDE}: herramienta de automatización que permite grabar, editar y depurar pruebas, además de exportarlas a algunos de los lenguajes de programación más comunes. En concreto, se ha utilizado la extensión para navegadores Selenium IDE, que consiste en un entorno de pruebas \textit{software} para \textit{webs} que permite grabar y reproducir \textit{test} paso a paso sin necesidad de programar~\cite{seleniumIDE}.
 	
-	\item \textbf{Github}: portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. Ha sido escogido por ser una de las plataformas más populares, además de por permitir la interacción entre distintos usuarios. La gestión del \textit{backlog} del producto ha sido simulada mediante la creación de \textit{issues}.
+	\item \textbf{GitHub}: portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. Ha sido escogido por ser una de las plataformas más populares, además de por permitir la interacción entre distintos usuarios. La gestión del \textit{backlog} del producto ha sido simulada mediante la creación de \textit{issues}.
+	
+	\item \textbf{Pandoc}: conversor de documentos de código abierto~\cite{pandoc} utilizado para convertir \LaTeX{} en HTML y facilitar la escritura de la \textit{wiki} del repositorio\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}}.
 \end{itemize}
 
 \subsection{Programas}
@@ -109,12 +111,11 @@ En versión de escritorio, únicamente ha sido necesario recurrir a:
 
 \begin{itemize}
 	\item \textbf{KEEL}. herramienta desarrollada en Java por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{keelRepo}. Proporciona implementaciones de \textit{machine learning}, y ha sido utilizada para probar aquellos algoritmos no disponibles en las librerías de Python mencionadas anteriormente.
-
 	\item \textbf{\TeX{}Studio}
 	Editor de \LaTeX{} utilizado.
-	
 	\item \textbf{Git BASH}
 	Emulador de BASH para Microsoft Windows que proporciona una terminal de línea de comandos de Git.
+	\item \textbf{Notion}: organizador de tareas multiplataforma utilizado para tomar notas, planificar temporalmente el trabajo y contabilizar el número de horas dedicadas al proyecto~\cite{notion}.
 \end{itemize}
 
 
@@ -145,13 +146,14 @@ Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del có
 \label{sec:despliegue}
 
 \begin{itemize}
-	\item \textbf{Flask}: \textit{framework} que permite desarrollar páginas \textit{web} utilizando Python~\cite{flask}. Además, permite la instalación de \textit{plugins} para aumentar su funcionalidad (como, por ejemplo, flask-WTF para gestionar formularios o flask-login para el manejo de sesiones).
+	\item \textbf{Flask}: \textit{framework} que permite desarrollar páginas \textit{web} utilizando Python~\cite{flask}. Además, permite la instalación de \textit{plugins} para aumentar su funcionalidad (como, por ejemplo, flask-WTF para gestionar formularios o flask-login para el manejo de sesiones). 
 	\item \textbf{Babel}: extensión de Flask utilizada para internacionalizar la aplicación \textit{web} desarrollada~\cite{flaskBabel}. En concreto, la funcionalidad principal utilizada ha sido la traducción mediante archivos \texttt{.pot}, \texttt{.po} y \texttt{.mo}.
 	\item \textbf{Jinja2}: motor de plantillas utilizado para generar páginas HTML~\cite{jinja}.
+	\item \textbf{Argon Dashboard}: plantilla empleada como base para la \textit{web}\footnote{Disponible en \url{https://github.com/creativetimofficial/argon-dashboard}}.
 	\item \textbf{PostgreSQL}: base de datos relacional utilizada debido a su carácter \textit{open source} y disponibilidad multiplataforma.~\cite{postgresql}.
 	\item \textbf{SQLAlchemy}: librería utilizada como ORM (\textit{object-relational mapper}). Es decir, permite trabajar con objetos y gestiona su traducción a SQL de forma transparente al programador.~\cite{SQLAlchemy}.
 	\item \textbf{Heroku}: solución de plataforma como servicio (PaaS) basada en la nube que gestiona la infraestructura de las aplicaciones desplegadas (en este caso, Krini\footnote{Disponible en \url{https://krini.herokuapp.com/index}})~\cite{heroku}.
-	\item \textbf{Gunicorn} servidor web HTTP para aplicaciones Python.~\cite{gunicorn}.
+	\item \textbf{Gunicorn} servidor web HTTP para aplicaciones Python.~\cite{gunicorn}. Cabe destacar que es fundamental su correcta configuración para evitar errores de concurrencia~\cite{herokuPreload}.
 	\item \textbf{Docker}: plataforma de contenedores que simplifica la implementación y gestión de aplicaciones en cualquier entorno.~\cite{docker}.
 \end{itemize}
 

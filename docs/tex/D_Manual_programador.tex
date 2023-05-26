@@ -2,9 +2,22 @@
 
 \section{Introducción}
 
-\section{Estructura de directorios}
+En este anexo se describe la documentación técnica de programación. Es decir, aquellos recursos que pretenden ser de utilidad para otros desarrolladores cuyo objetivo sea modificar el proyecto.
 
-...
+En primer lugar, en la sección~\ref{s:estructura-dirs}, se describirá la estructura de directorios del proyecto. A continuación, se detallará el manual del programador (sección~\ref{s:man-prog}) y se enumerarán los pasos necesarios para instalar y ejecutar el proyecto (sección~\ref{s:inst-prog}) y las herramientas auxiliares utilizadas (sección~\ref{ds:inst-aux}). Por último, se detallarán las pruebas del sistema (apartado~\ref{s:pruebas}).
+
+\section{Estructura de directorios}
+\label{s:estructura-dirs}
+
+El repositorio del proyecto\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity}} inicialmente se divide en tres directorios:
+
+\begin{itemize}
+	\item \texttt{docker-deploy-kit}: incluye los \textit{scripts} necesarios para desplegar la aplicación en Docker a nivel de usuario. Su uso será detallado en la sección~\ref{s-e:docker-deploy-users}.
+	\item \texttt{docs}: alberga la documentación del trabajo.
+	\item \texttt{src}: contiene el código fuente de la aplicación, pruebas y recursos desarrollados, además de ficheros de configuración de herramientas y otros archivos relevanes.
+\end{itemize}
+
+Este anexo se centrará, por lo tanto, en el directorio \texttt{src}. En la ilustración~\ref{d:diag-repo-structure} se muestran las carpetas principales albergadas en este directorio. Es relevante que no todo el contenido está representado en la ilustración.
 
 \begin{figure}[h]
 	\caption[Diagrama: estructura de directorios]{Diagrama que representa la estructura física de directorios en el repositorio.}
@@ -13,12 +26,93 @@
 	\label{d:diag-repo-structure}
 \end{figure}
 
+A continuación, se facilita una explicación más detallada del contenido de cada directorio:
+
+\begin{itemize}
+	\item \texttt{krini\_web}: alberga los recursos necesarios para la programación de la \textit{web}. 
+	
+	El directorio \texttt{apps} contiene la lógica de negocio principal y se divide a su vez en \texttt{authentication} (controla los inicios de sesión y registros), \texttt{home} (implementa la funcionalidad principal de la \textit{web}) y \texttt{ssl\_utils} (engloba los recursos de \textit{machine learning} necesarios así como los modelos serializados). También incluye recursos estáticos (hojas de estilos, \textit{scripts}, imágenes, etc.) en la carpeta \texttt{static} y plantillas HTML en el directorio \texttt{templates}.
+	
+	Hay otros directorios respectivos a entornos de programación, ficheros de configuración de servicios (Babel, Gunicorn, etc.) o \textit{scripts} de inserción de datos de prueba (\textit{mock}) para garantizar que los usuarios de Docker cuenten con recursos mínimos (carpeta \texttt{mock\_data}).
+	
+	\item \texttt{models}: dividido a su vez en \texttt{classifiers} y \texttt{notebooks}, alberga la implementación de los algoritmos de aprendizaje semisupervisado desarrollados y recursos auxiliares para la generación de las gráficas mostradas en la memoria.
+	
+	\item \texttt{phishing\_fvg}: comprende todo lo necesario para extraer vectores de características de URLs de \textit{phishing}, además de recursos necesarios (ficheros con dominios y otros datos) y resultados de experimentación. Se facilitan además \textit{notebooks} para generar gráficas o \textit{datasets}, además de un objeto TF-IDF serializado entrenado para extraer palabras clave.
+	
+	\item \texttt{recommendation\_attack\_detection\_fvg}: contiene los recursos necesarios para extraer vectores de características y representar los resultados de la aproximación planteada para detectar automáticamente ataques en sistemas de recomendación\footnote{El \textit{dataset} no ha sido incluído debido a su gran tamaño, pero se puede obtener en \url{https://grouplens.org/datasets/movielens/10m/}}.
+	
+	\item \texttt{scripts}: facilita \textit{scripts} con soluciones <<rápidas>> a problemas planteados durante el desarrollo del proyecto. Los archivos más destacables son los utilizados para levantar \textit{proxies} de Tor.
+
+	\item \texttt{tests}: engloba las pruebas unitarias (escritas en Python y ejecutadas mediante TravisCI en cada \textit{build}) y de aceptación (programadas en Selenium).
+	
+	\item \textbf{Otros}: además de los directorios enumerados, también se incluyen archivos de creación de imágenes de Docker, \textit{logs}, ficheros de dependencias (\texttt{requirements.txt}), de configuración de Heroku (\texttt{runtime.txt} y \texttt{Procfile}), licencias, \texttt{README.md}, variables de producción y desarrollo, etc.
+\end{itemize}
+
+
+
 \section{Manual del programador}
+\label{s:man-prog}
+
+Habiendo descrito la estructura de directorios en la sección~\ref{s:estructura-dirs} y facilitando los detalles de instalación en las siguientes subsecciones del proyecto, son pocos los detalles que quedan por concretar en esta subsección. Por lo tanto, simplemente se pretenden facilitar ciertos detalles acerca del entorno utilizado por la desarrolladora.
+
+\begin{itemize}
+
+\item \textbf{Sistema Operativo}: se recomienda encarecidamente utilizar un entorno Linux para el desarrollo del proyecto. En concreto se está utilizando un Ubuntu en versión 20.4.
+
+Como se comprobará más adelante, gran parte de los procesos requeridos se pueden desarrollar más facilmente en sistemas operativos orientados a ficheros (por ejemplo, la configuración de \textit{proxies}) o la conexión a servidores remotos.
+
+También se ha utilizado un sistema operativo Windows para realizar pruebas de despliegue debido a que es uno de los entornos más populares.
+
+
+\item \textbf{Entorno de programación}: sin pretender repetir lo expuesto en la memoria\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/blob/main/docs/memoria.pdf}} (sección 4), se enumeran algunos detalles:
+
+\begin{itemize}
+	\item VSCode: como editor de código fuente.
+	\item Python: en versión 3.10+ y con las dependencias mencionadas en la tabla~\ref{a:licencias}.
+\end{itemize}
+
+\item \textbf{Git y automatización del \textit{pipeline}}: actualmente, cada vez que se realiza un \textit{push} a la rama de desarrollo o la principal en Git, se lanzan ciertos procesos de control de calidad. Es importante revisar y analizar la salida proporcionada por dichas herramientas y corregir posibles defectos antes de realizar \textit{pull requests} a la rama principal.
+
+\begin{figure}[h]
+	\caption[Herramientas: control de calidad automatizado en el \textit{pipeline}.]{Herramientas de control de calidad automatizadas en el \textit{pipeline} del repositorio.}
+	\centering
+	\includegraphics[scale=0.2]{../img/anexos/manual/gitpipeline}
+\end{figure}
+
+Es destacable que toda rama que se fusiona con \texttt{main} tiene que estar revisada por mínimo una persona (está protegida).
+
+Respecto al control de ramas, se recomienda poseer una de desarrollo por cada programador. Se han realizado además otras para corregir errores o mantener registro de las \textit{release} realizadas.
+
+
+
+\end{itemize}
 
 \section{Compilación, instalación y ejecución del proyecto}
+\label{s:inst-prog}
+
+A continuación, se desglosan algunos de los puntos principales para poder editar el producto facilitado.
+
+\subsection{Obtención del código fuente}
+
+Para adquirir el código fuente de la aplicación, se puede descargar de GitHub\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity}} utilizando la interfaz gráfica (opción de descargar \texttt{ZIP}) o mediante un \texttt{\$ git clone}.
+
+Para abrir el editor de código, basta con abrir una terminal en la localización del repositorio y ejecutar el comando \texttt{\$ code .}
 
 \subsection{Entorno virtual}
-...
+
+Dependiendo del uso que se esté dando al repositorio (no es lo mismo simplemente ejecutar los algoritmos de apendizaje que toda la \textit{web}), se necesitan unas dependencias u otras. En función de lo requerido, se puede crear un entorno virtual u otro.
+
+A continuación se describe cómo crear un entorno virtual genérico e instalar los requisitos necesarios para modificar y ejecutar la \textit{web}:
+
+\begin{enumerate}
+	\item Entrar en el directorio \texttt{semisupervised-learning-in-cibersecurity /src/krini\_web}
+	\item Crear el entorno \texttt{\$ virtualenv env}
+	\item Activar el entorno \texttt{\$ source  env/bin/activate}
+	\item Instalar las dependencias \texttt{\$ pip3 install -r requirements.txt}\footnote{Por motivos de despliegue, el archivo de requerimientos se encuentra en \texttt{src} (por lo que se puede hacer previamente un \texttt{\$ cd} a la carpeta padre).}
+\end{enumerate}
+
+Cabe destacar que para desplegar en herramientas que necesitan menos recursos (por ejemplo, TravisCI, que ejecuta pruebas unitarias) se han creado ficheros de requerimientos personalizados que se encuentran en sus respectivas carpetas.
+
 
 \subsection{Generación de \textit{datasets} para \textit{phishing}}
 
@@ -53,23 +147,27 @@ Hay ocasiones en las que los experimentos lanzados requieren una cantidad muy el
 	\item Si se quiere recuperar la terminal desacoplada, hacerlo mediante \texttt{\$ tmux attach}.
 \end{enumerate}
 
-\subsection{\textit{Web}: Despliegue en local (servidor de Flask y base de datos PostgreSQL)}
+\subsection{\textit{Web}: Despliegue en local (Flask y PostgreSQL)}
 
 Para programar y probar la aplicación \textit{web}, se recomienda utilizar el propio servidor de Flask. Para ello, se han de seguir los siguientes pasos:
 
 \begin{enumerate}
 	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity /src/krini\_web}
 	\item Activar el entorno virtual \texttt{\$ . env/bin/activate}
+	\item Asegurarse de que el fichero \texttt{run.py} tiene el modo \texttt{DEBUG} en \texttt{default = True}.
 	\item Exportar las variables de entorno \texttt{\$ export FLASK\_APP=run.py}
 	\item Activar el modo depuración \texttt{\$ export FLASK\_ENV=development}
 	\item Lanzar el servidor mediante el comando \texttt{\$ flask run --host=127.0.0.1 --port=5000}. Evidentemente, se pueden configurar las direcciones y puertos que se considere necesario.
 \end{enumerate}
 
-\textbf{Nota:} para desarrollo, se ha utilizado una base de datos PostgreSQL en \texttt{localhost}. En Ubuntu se puede configurar siguiendo las instrucciones mostradas en~\cite{postgrelocal}. Es importante contar con una base de datos llamada \texttt{krini}, un usuario \texttt{dev} con privilegios y contraseña \texttt{123}. Las tablas se crean solas (mediante SQLAlchemy) al visitar la aplicación.
+\begin{itemize}
+	\item Para desarrollo, se ha utilizado una base de datos PostgreSQL en \texttt{localhost}. En Ubuntu se puede configurar siguiendo las instrucciones mostradas en~\cite{postgrelocal}. Es importante contar con una base de datos llamada \texttt{krini}, un usuario \texttt{dev} con privilegios y contraseña \texttt{123}. Las tablas se crean solas (mediante SQLAlchemy) al visitar la aplicación.
+	\item La \textit{web} está basada en una plantilla para aplicaciones Flask llamada Argon Dashboard\footnote{\url{https://github.com/creativetimofficial/argon-dashboard}}.
+\end{itemize}
 
 \subsubsection{Compilar y modificar los archivos de idiomas}
 
-Cuando se introduzca una cadena nueva en el programa, se debe etiquetar mediante la función \texttt{gettext()}. Posteriormente, se han de seguir los pasos mostrados a continuación~\cite{pybabelmanual}:
+Cuando se introduzca una cadena nueva en el programa, se debe etiquetar mediante la función \texttt{gettext()} o \texttt{lazy\_gettext()} (en función del tipo de traducción deseada). Posteriormente, se han de seguir los pasos mostrados a continuación~\cite{pybabelmanual}:
 
 \begin{enumerate}
 	\item Entrar en el directorio \texttt{\$ semisupervised-learning-in-cibersecurity /src/krini\_web}
@@ -77,37 +175,41 @@ Cuando se introduzca una cadena nueva en el programa, se debe etiquetar mediante
 	\item Actualizar el fichero \texttt{.pot \$ pybabel extract -F babel.cfg -o}
 	
 	\texttt{ messages.pot --input-dirs=. }
-	\item La primera vez, generar los ficheros \texttt{.po} y \texttt{.mo} mediante el comando \texttt{\$pybabel init -i messages.pot -d translations -l <idioma>}.
+	\item La primera vez, generar los ficheros \texttt{.po} y \texttt{.mo} mediante el comando \texttt{\$pybabel init -i messages.pot -d translations -l <idioma>} .
 	Las veces sucesivas, simplemente actualizar mediante el comando \texttt{\$pybabel update -i messages.pot -d}.
 	\item Realizar los cambios que se desee en el fichero \texttt{.po}.
 	\item Compilar las modificaciones \texttt{\$ pybabel compile -d translations}. 
 \end{enumerate}
 
-\subsection{\textit{Web}: Despliegue en Docker}
+\subsection{\textit{Web}: Actualización de imágenes de Docker}
 
 Para garantizar que la aplicación pueda ejecutarse independientemente del sistema anfitrión, se han utilizado contenedores de Docker.
 
-A nivel de usuario se ha automatizado el despliegue mediante \textit{scripts} multiplataforma\footnote{Disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}} que descargan las imágenes del repositorio de DockerHub\footnote{Disponible en \url{https://hub.docker.com/r/phf1001/krini}} de la autora~\cite{dockerHub}. Los pasos necesarios serán descritos en la correspondiente sección del manual.
+A nivel de usuario se ha automatizado el despliegue mediante \textit{scripts} multiplataforma\footnote{Disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}} que descargan las imágenes del repositorio de DockerHub\footnote{Disponible en \url{https://hub.docker.com/r/phf1001/krini}} de la autora~\cite{dockerHub}. Los pasos necesarios serán descritos en la correspondiente sección del manual de usuario~\ref{s-e:docker-deploy-users}.
 
 A nivel de programador, se ha configurado el archivo \texttt{DockerFile} que genera una imagen de Python en la que se copia la carpeta \texttt{src} del repositorio e instala el archivo \texttt{requirements.txt}. Para levantar los contenedores, se facilita el correspondiente archivo \texttt{docker-compose}, que lanza la \textit{web} y una base de datos PostgreSQL~\cite{dockerFlaskPostgre}. Para hacer la base de datos persistente y evitar que se reinicie cada vez que se levanta la imagen, se ha mapeado un volumen \texttt{data}~\cite{dockerPersist}.
 
-Además, para que los usuarios no tengan la base de datos vacía, se ha creado un \textit{script} de Python que se ejecuta en el contenedor gracias al \texttt{docker-compose} e inserta usuarios, modelos, URLs y reportes. Está copiado en la imagen.
+Además, para que los usuarios no tengan la base de datos vacía, se ha creado un \textit{script} de Python (\texttt{krini\_web/mock\_data/fill\_database.py}) que se ejecuta en el contenedor gracias al \texttt{docker-compose} e inserta usuarios, modelos, URLs y reportes. Está copiado en la imagen.
 
 De esta forma, cuando un programador quiera actualizar las imágenes de Docker debe:
 
 \begin{enumerate}
 	\item Entrar en el directorio raíz del repositorio \texttt{\$ semisupervised-learning -in-cibersecurity}.
 	\item Ejecutar el comando \texttt{\$ docker-compose build --no-cache}.
-	\item Ejecutar el comando \texttt{\$ docker-compose -f docker-compose.yml up -d --build}.
+	\item Ejecutar el comando \texttt{\$ docker-compose -f docker-compose.yml} \texttt{up -d --build}.
 	\item Comprobar que ambas imágenes están disponibles mediante \texttt{\$ docker images -a}.
-	\item Actualizar la web en DockerHub mediante \texttt{\$ docker tag semisupervised -learning-in-cibersecurity\_web phf1001/krini:web-<número> \&\& docker push phf1001/krini:web-v<número>}
-	\item Actualizar la base de datos en DockerHub mediante \texttt{\$ docker tag postgres phf1001/krini:db-v<número> \&\& docker push phf1001 /krini:db-v<número>}
+	\item Actualizar la web en DockerHub mediante \texttt{\$ docker tag semisupervi sed -learning-in-cibersecurity\_web phf1001/krini:web-<n> \&\& docker push phf1001/krini:web-v<n>}
+	\item Actualizar la base de datos en DockerHub mediante \texttt{\$ docker tag postgres phf1001/krini:db-v<n> \&\& docker push phf1001/krini :db-v<n>}
 	\item Cambiar las versiones en los \texttt{docker-compose} para los clientes.
 \end{enumerate}
 
-Nota: durante el desarrollo, a veces se ha dejado el puerto 5432 expuesto por motivos de comodidad (acceso a la base de datos por terminal). Si Docker avisa de que no puede levantar contenedores ya que el puerto esta ocupado, se recomienda ejecutar \texttt{\$ sudo netstat -p -nlp | grep 5432} para comprobar por quién y, si se está de acuerdo, matar el proceso mediante \texttt{sudo kill <PID>}. Si no se necesitan los puertos, también se puede eliminar el campo \texttt{ports} del \texttt{docker-compose}
+Algunos comentarios al respecto:
 
-Nota: se dispone de un \textit{script} tanto en \texttt{.sh} como en \texttt{.bat} llamado \texttt{docker-clean} que pausa, limpia y elimina contenedores (e imágenes) para liberar recursos.
+\begin{itemize}
+	\item Durante el desarrollo, a veces se ha dejado el puerto 5432 expuesto por motivos de comodidad (acceso a la base de datos por terminal). Si Docker avisa de que no puede levantar contenedores ya que el puerto esta ocupado, se recomienda ejecutar \texttt{\$ sudo netstat -p -nlp | grep 5432} para comprobar por quién y, si se está de acuerdo, matar el proceso mediante \texttt{sudo kill <PID>}. Si no se necesitan los puertos, también se puede eliminar el campo \texttt{ports} del \texttt{docker-compose}
+	
+	\item Se dispone de un \textit{script} tanto en \texttt{.sh} como en \texttt{.bat} llamado \texttt{docker-clean} que pausa, limpia y elimina contenedores (e imágenes) para liberar recursos. 
+\end{itemize}
 
 
 \subsection{\textit{Web}: Despliegue en Heroku}
@@ -116,7 +218,7 @@ El despliegue en Heroku se complica un poco más de lo habitual por la estructur
 
 Los pasos seguidos para desplegar la aplicación se pueden consultar en~\cite{herokudeploy}. Es destacable la necesidad de crear un archivo \texttt{Procfile} (define los pasos que se ejecutan al iniciar la aplicación~\cite{herokuprocfile}) que se encuentre en la raíz del directorio que se quiere desplegar (en este caso, sólo \texttt{src}, no tiene sentido subir la documentación) junto con el archivo \texttt{requirements.txt} de la \textit{web}. Además, se ha incluído un fichero \texttt{runtime.txt} para indicar la versión de Python deseada.
 
-Nótese que el fichero \texttt{Procfile} almacena el contenido \texttt{\$ web: cd krini\_web \&\& gunicorn run:app --log-file=-} (por la necesidad comentada de cambiar de directorio ya que se encuentra dentro de \texttt{src} para que Heroku encuentre la aplicación). Al igual que en Docker, se ha utilizado un servidor Gunicorn por ser un servidor WSGI\footnote{\textit{Web Server Gateway Interface}: especificación que describe cómo se comunica un servidor \textit{web} con una aplicación \textit{web} y cómo se procesan las solicitudes/peticiones.} compatible con varios \textit{frameworks} (entre ellos, Flask).
+Nótese que el fichero \texttt{Procfile} ejecuta \texttt{\$ web: cd krini \_web \&\& guni corn run:app --preload --workers 4 --timeout 0 --log-file=-} (por la necesidad comentada de cambiar de directorio ya que se encuentra dentro de \texttt{src} para que Heroku encuentre la aplicación). Al igual que en Docker, se ha utilizado un servidor Gunicorn por ser un servidor WSGI\footnote{\textit{Web Server Gateway Interface}: especificación que describe cómo se comunica un servidor \textit{web} con una aplicación \textit{web} y cómo se procesan las solicitudes/peticiones.} compatible con varios \textit{frameworks} (entre ellos, Flask).
 
 Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásico se complica un poco. Los pasos son:
 
@@ -129,10 +231,12 @@ Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásic
 La base de datos PostgreSQL de la \textit{web} también se ha desplegado en Heroku mediante un \textit{add-on} y es accesible por CLI mediante el comando \texttt{\$
 heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión mediante variables de entorno.
 
-\section{\textit{Web}: Compilación, instalación y ejecución de herramientas auxiliares}
+\section{Compilación, instalación y ejecución de herramientas auxiliares}
+\label{ds:inst-aux}
 
+Se enumeran a continuación algunas herramientas auxiliares utilizadas durante el desarrollo del proyecto y se facilitan los pasos para ejecutar su despliegue.
 \begin{figure}[h]
-	\caption[\textit{Co-forest}: Configuración de un experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
+	\caption[Herramientas auxiliares: experimento en KEEL]{Configuración de un experimento que utiliza el algoritmo \textit{co-forest} mediante la GUI de KEEL.}
 	\centering
 	\includegraphics[scale=0.5]{../img/anexos/manual/keel_gui.png}
 \end{figure}
@@ -141,7 +245,7 @@ heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión 
 
 KEEL es una herramienta que permite experimentar con modelos de \textit{machine learning}. Ha sido creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia~\cite{KEEL}.
 
-Para poder ejecutarla, en primer lugar, se han de descargar los ficheros fuente del repositorio de GitHub~\cite{keelRepo}. Una vez se han descargado, se compilan aprovechando el fichero \texttt{build.xmlz} contenido y la herramienta \texttt{ant}. Mediante el comando \texttt{ant cleanAll} se eliminan barios previos (para evitar conflictos), y mediante el comando \texttt{ant} se compila el código fuente.
+Para poder ejecutarla, en primer lugar, se han de descargar los ficheros fuente del repositorio de GitHub~\cite{keelRepo}. Una vez se han descargado, se compilan aprovechando el fichero \texttt{build.xmlz} contenido y la herramienta \texttt{ant}. Mediante el comando \texttt{ant cleanAll} se eliminan recursos previos (para evitar conflictos), y mediante el comando \texttt{ant} se compila el código fuente.
 
 Posteriormente se ejecuta la aplicación mediante el comando \texttt{java -jar ./dist/GraphInterKeel.jar} y se utiliza mediante su interfaz gráfica.
 

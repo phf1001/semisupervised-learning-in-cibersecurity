@@ -1067,6 +1067,9 @@ def create_csv_selected_instances(
         Available_instances.instance_id.in_(ids_instances)
     ).all()
 
+    if len(instances) == 0:
+        raise KriniDBException(get_message("instance_not_selected"))
+
     data = []
     for instance in instances:
         fv = instance.instance_fv
@@ -1074,6 +1077,9 @@ def create_csv_selected_instances(
 
         if fv and tag in (0, 1):
             data.append([instance.instance_id] + fv + [tag])
+
+    if len(data) == 0:
+        raise KriniDBException(get_exception_message("no_fv_among_instances"))
 
     df = pd.DataFrame(
         data,

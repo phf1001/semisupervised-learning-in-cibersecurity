@@ -1,6 +1,6 @@
 \capitulo{6}{Trabajos relacionados}
 
-Dentro de este proyecto se pueden diferenciar distintas líneas de investigación. Entre ellas se distinguen las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado, las centradas en formalizar ataques a sistemas de recomendación y las dedicadas a la detección de \textit{phishing} mediante algoritmos de \textit{machine learning}.
+Dentro de este proyecto se pueden diferenciar distintas líneas de investigación. Entre ellas se distinguen las dirigidas hacia el desarrollo y comprensión de los algoritmos de aprendizaje semisupervisado, las centradas en formalizar ataques a sistemas de recomendación y las dedicadas a la detección de \textit{phishing} mediante algoritmos de \textit{machine learning}.  Por último, se exponen aplicaciones con características similares a la desarrollada.
 
 \subsection{Algoritmos de aprendizaje semisupervisado}
 
@@ -44,7 +44,15 @@ Previo a este documento,también es relevante contemplar otros trabajos, como la
 
 \subsection{Detección de \textit{phishing} mediante algoritmos de \textit{machine learning}}
 
-El estudio de la aplicación de los algoritmos de aprendizaje dedicado a la detección de \textit{phishing} se ha basado principalmente en los artículos enumerados a continuación:
+El estudio de la aplicación de los algoritmos de aprendizaje dedicado a la detección de \textit{phishing} se ha basado principalmente en el artículo enumerado a continuación:
 
 \subsubsection{\textit{Machine Learning} aplicado a la detección de \textit{phishing}}
 El artículo más destacable es <<\textit{Towards detection of phishing websites on client-side using machine learning based approach}>>~\cite{featuresPhishing2018Gupta}. En este \textit{paper}, se propone un método de detección muy destacable debido a que la detección se realiza en el lado del <<cliente>> y es independiente de terceras partes (como herramientas de OSINT). Por este motivo, la generación de vectores de características es rápida y confiable.
+
+\subsection{Analizadores de \textit{phishing}}
+
+Se ha comprobado como existen herramientas similares a la desarrollada. Sin embargo, en la gran mayoría de los casos, requieren de servicios externos como consultores de dominios, análisis de servidores o entidades certificadoras. Algunos ejemplos son CheckPhish\footnote{Disponible en \url{https://app.checkphish.ai/}} o EasyDMarc\footnote{Disponible en \url{https://easydmarc.com/tools/phishing-url}}.
+
+Además de la dependencia de servicios de terceros, la principal desventaja de la mayoría de estos servicios es que tienen un límite de peticiones diario (si no se compran licencias de uso). Otro aspecto relevante es que no se permite la generación de nuevos modelos de aprendizaje desde las \textit{webs}.
+
+En contraste, la aplicación desarrollada es gratuita y altamente personalizable. Se permite la generación de instancias, modelos y se garantiza la independencia de servicios de terceros.

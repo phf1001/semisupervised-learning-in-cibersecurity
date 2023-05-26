@@ -33,7 +33,7 @@ Cuando se habla de aprendizaje semisupervisado, hay ciertas suposiciones que se 
 
 
 \begin{figure}[h]
-	\caption[Suposiciones del aprendizaje semisupervisado]{Suposiciones del aprendizaje semisupervisado: \textit{smoothness} y \textit{low-density assumption} a la izquierda, \textit{mainfold assumption} a la derecha. Extraída de \textit{<<A survey on semi-supervised learning>>}~\cite{engelen2020surveyOnSemiSupervised}.}
+	\caption[Aprendizaje semisupervisado: suposiciones]{Suposiciones del aprendizaje semisupervisado: \textit{smoothness} y \textit{low-density assumption} a la izquierda, \textit{mainfold assumption} a la derecha. Extraída de \textit{<<A survey on semi-supervised learning>>}~\cite{engelen2020surveyOnSemiSupervised}.}
 	\label{img:assumptions}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_assumptions.pdf}
@@ -46,7 +46,7 @@ Inicialmente, se pueden diferenciar dos categorías~\cite{engelen2020surveyOnSem
 
 
 \begin{figure}[h]
-\caption[Taxonomía de métodos de aprendizaje semisupervisado]{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de <<\textit{A survey on semi-supervised learning}>>~\cite{engelen2020surveyOnSemiSupervised}.}
+\caption[Aprendizaje semisupervisado: taxonomía de métodos]{Taxonomía de métodos de aprendizaje semisupervisados. Extraída de <<\textit{A survey on semi-supervised learning}>>~\cite{engelen2020surveyOnSemiSupervised}.}
 \centering
 \includegraphics[width=\textwidth]{../img/memoria/3_hoos_taxonomy.pdf}
 \end{figure}
@@ -105,7 +105,7 @@ El \textit{bagging} es muy útil cuando se dispone poca cantidad de datos, y la 
 Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{random forest}}, uno de los métodos de \textit{bagging} más populares que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando el \textit{ensemble} devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 
 \begin{figure}[h]
-	\caption[Entrenamiento \textit{bagging} y \textit{boosting}]{Diferencias esquemáticas entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
+	\caption[\textit{Ensembres}: entrenamiento en \textit{bagging} y \textit{boosting}]{Diferencias esquemáticas entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
 	\label{img:bagging}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting.pdf}
@@ -126,7 +126,7 @@ En el caso de que todos los estimadores base sean <<iguales>>, es frecuente util
 Sin embargo, si se sabe que algunos clasificadores son mejores que otros, se puede aplicar \textit{weighted majority voting}, donde las etiquetas predichas por los estimadores con mejor rendimiento tienen más peso que el resto (se asigna una proporción).
 
 \begin{figure}[h]
-	\caption[Combinación mediante votación en \textit{ensembles}]{Representación de la combinación mediante votación.}
+	\caption[\textit{Ensembles}: Combinación mediante votación]{Representación de la combinación mediante votación.}
 	\label{img:voting}
 	\centering
 	\includegraphics[scale=0.5]{../img/memoria/3_voting.pdf}
@@ -184,10 +184,10 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	\begin{equation}\label{eqn:f-measure} \textrm{F-Measure} = 2 \times \frac{precision \times recall}{precision + recall} = \frac{ 2 \times TP}{2 \times TP + FP + FN} \end{equation}
 	
 	\begin{figure}[h]
-		\caption[Curva ROC]{Calidad del clasificador en función de su curva ROC. Extraída de \url{https://ca.wikipedia.org/wiki/Fitxer:Roc_curve.svg}}
+		\caption[Métricas: curva ROC]{Calidad del clasificador en función de su curva ROC.}
 		\label{img:curva_roc}
 		\centering
-		\includegraphics[scale=0.2]{../img/memoria/3_curva_roc}
+		\includegraphics[scale=0.8]{../img/memoria/3_curva_roc}
 	\end{figure}	
 	
 	\item \textbf{Curva ROC (\textit{operating characteristic curve})}: Representación gráfica del \textit{recall} frente a la \textit{specificity}~\cite{AUC2022google}. Un clasificador perfecto tendría una <<curva>> equivalente a un punto en la esquina superior izquierda de la gráfica, mientras que el peor clasificador (uno aleatorio) obtendría una recta diagonal. Si la curva está por debajo de esta recta que divide el área en dos, significa que las predicciones están siendo <<invertidas>>. Esta medida es popular debido a que no se ve afectada por problemas de clases no balanceadas~\cite{AUC2020imbalanced}. Sin embargo, sí que es sensible cuando hay muy pocas instancias positivas en el \textit{dataset} y las estimaciones pueden no ser certeras~\cite{leaningImbalanced2018Salvador}.
@@ -197,7 +197,7 @@ Dadas las definiciones anteriores, se facilitan las siguientes métricas utiliza
 	\item \textbf{AUC (\textit{area under curve})}: Número decimal que representa el área bajo una determinada curva. Cuando una curva es perfecta (ya sea ROC o PR), su área es $1$.
 	
 	\begin{figure}[h]
-		\caption[AUC curvas ROC y PR]{Representación de las curvas ROC y PR obtenidas por un \textit{co-forest} entrenado con un \textit{dataset} de clasificación binario.}
+		\caption[Métricas: AUC curvas ROC y PR]{Representación de las curvas ROC y PR obtenidas por un \textit{co-forest} entrenado con un \textit{dataset} de clasificación binario.}
 		\label{img:curva_roc_pr}
 		\centering
 		\includegraphics[scale=0.7]{../img/memoria/3_auc_roc_pr}
@@ -219,10 +219,10 @@ Los resultados finales son la media aritmética de los obtenidos en cada iteraci
 La principal desventaja es que requiere un mayor uso de recursos computacionales, y aunque se puede asignar un entero cualquiera al parámetro $k$, lo más común es establecer $k$ = 10 (10-\textit{fold cross-validation}).
 
 \begin{figure}[h]
-	\caption[Validación cruzada]{Proceso de validación cruzada. Extraída de \url{https://es.wikipedia.org/wiki/Validacion_cruzada}}
+	\caption[Técnicas: validación cruzada]{Proceso de validación cruzada. Ejemplo con 3 \textit{folds}.}
 	\label{img:val_cruz}
 	\centering
-	\includegraphics[scale=0.3]{../img/memoria/3_kcross_validation}
+	\includegraphics[scale=0.45]{../img/memoria/3_kcross_validation}
 \end{figure}
 
 
@@ -609,7 +609,7 @@ Aunque es probable que el lector se sienta atraído por los algoritmos mostrados
 \end{enumerate}
 
 \begin{figure}[h]
-	\caption[Proceso de minería de datos]{Representación del proceso de minería de datos.}
+	\caption[Proceso de minería de datos: metodología]{Representación del proceso de minería de datos.}
 	\label{img:proceso_mineria}
 	\centering
 	\includegraphics[scale=0.5]{../img/memoria/3_ML_phases.pdf}
@@ -668,7 +668,7 @@ Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que l
 Uno de los protocolos que permite ocultar esta información es el llamado enrutado cebolla (\textit{onion routing})~\cite{TorAvast2022}, que recibe su nombre por el sistema de capas que utiliza, como se representa en la imagen~\ref{img:red_tor}. En el mismo, se pueden diferenciar las siguientes fases~\cite{TorKeepCoding2022}: 
 
 \begin{figure}[h]
-	\caption[Enrutado cebolla.]{Infografía de la red Tor y del enrutado cebolla.}
+	\caption[Ciberseguridad: enrutado cebolla]{Infografía de la red Tor y del enrutado cebolla.}
 	\label{img:red_tor}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_onion_routing.pdf}
@@ -941,7 +941,7 @@ Para calcular esta puntuación, se han de utilizar las ecuaciones facilitadas a 
 Para caracterizar un enlace de \textit{phishing} desde el lado del cliente, es suficiente con fijarse en cinco tipos de atributos clasificados en función de lo que definen~\cite{featuresPhishing2018Gupta}: las características basadas en la URL, las basadas en la aparición del formulario de \textit{login}, las  basadas en los hiperenlaces contenidos, las basadas en el fichero \texttt{CSS} y, por último, las basadas en la identidad de la página web.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: Anatomía de una URL.]{Ilustración que muestra la anatomía de una URL.}
+	\caption[\textit{Phishing}: Anatomía de una URL]{Ilustración que muestra la anatomía de una URL.}
 	\centering
 	\includegraphics[scale=1]{../img/memoria/5_url_anatomia.pdf}
 	\label{img:5_url_anatomia}

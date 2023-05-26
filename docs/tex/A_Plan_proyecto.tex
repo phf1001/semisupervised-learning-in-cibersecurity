@@ -820,12 +820,12 @@ Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño de
 	
 	\begin{enumerate}
 		\item Comparación y experimentación en la detección de \textit{phishing}: realizando validación cruzada repetida y utilizando métodos de aprendizaje semisupervisado y supervisado. Lanzar los experimentos en servidores de la universidad (configurar \texttt{vpn}).
-		\item Correcciones de documentación: principalmente repeticiones de gráficas ajustando ejes y etiquetas, además de otras anotaciones indicadas.
+		\item Correcciones de documentación: principalmente repeticiones de gráficas ajustando ejes y etiquetas, realización de imágenes de <<cosecha propia>>, además de otras anotaciones indicadas.
 		\item Viabilidad económica y legal: realizar y documentar el análisis del proyecto.
-		\item Manual del programador: escribir la documentación técnica.
-		\item Depuración: corrección de defectos encontrados en la \textit{web} por parte del tutor. Mejorar la traducción. Solucionar problema de Docker en Linux Mint.
-		\item Calidad: solución de \textit{code smells}.
-		\item Documentación: completar apartados pendientes (\textit{abstract}, \textit{keywords}, mejorar la introducción, etc.).
+		\item Manual del programador: escribir la documentación técnica y realizar la \textit{wiki} del proyecto utilizando Pandoc.
+		\item Depuración: corrección de defectos encontrados en la \textit{web} por parte del tutor. Mejorar la traducción. Solucionar problema de Docker en Linux Mint (SSL y certificados). Arreglar aspectos relacionados con la concurrencia con Gunicorn. Mejorar la sección de ayuda.
+		\item Calidad: reducción de \textit{code smells}.
+		\item Documentación: completar apartados pendientes (\textit{abstract}, \textit{keywords}, mejorar la introducción, completar herramientas relacionadas, etc.).
 		
 		
 	\end{enumerate}
@@ -1017,7 +1017,7 @@ La viabilidad legal de un proyecto \textit{software} es la evaluación de aquell
 
 Una licencia de \textit{software} es un acuerdo legal entre el titular de los derechos de autor (o el propietario del \textit{software}) y el usuario final donde se establecen los términos y condiciones bajo los cuales se permite el uso del producto~\cite{licenciaQueEs}.
 
-A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
+A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema (principalmente librerías de Python y el Argon Dashboard\footnote{Plantilla utilizada para desarrollar la \textit{web} disponible en \url{https://github.com/creativetimofficial/argon-dashboard}}) y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
 
 La comparativa entre licencias\footnote{Realizada con \url{https://joinup.ec.europa.eu/collection/eupl/solution/joinup-licensing-assistant/jla-find-and-compare-software-licenses}} se muestra la tabla~\ref{a:permisos}. El único detalle que no se muestra en la imagen es que la BSD-2-Clause License es más permisiva que la BSD-3-Clause License~\cite{BSD}. Como se puede comprobar, el orden de restrictividad (de más permisiva a más restrictiva) es el siguiente:
 
