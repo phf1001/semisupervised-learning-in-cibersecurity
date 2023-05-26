@@ -57,7 +57,7 @@ class PhishingFVG:
         self.base = parsed.netloc
         self.path = parsed.path
 
-        self.fv = np.array([-1 for i in range(19)])
+        self.fv = np.array([-1 for _ in range(19)])
 
         self.user = UserBrowsing(
             get_proxy_from_file=get_proxy_from_file, proxy=proxy

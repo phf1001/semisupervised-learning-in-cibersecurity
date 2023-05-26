@@ -24,8 +24,14 @@ from phishing_fvg.phishing_utils import (
 )
 
 ordered_list = get_csv_data(get_data_path() + os.sep + "alexa_top_10k.csv")
-# set_alexa = get_alexa_sites()
-set_alexa = pd.read_csv("genuine_pd.csv", delimiter=";")
+# Change the flag to True if you want to use the genuine_pd.csv file
+from_file = False
+
+
+if from_file:
+    set_alexa = pd.read_csv("genuine_pd.csv", delimiter=";")
+else:
+    set_alexa = get_alexa_sites()
 
 ordered_working = []
 
