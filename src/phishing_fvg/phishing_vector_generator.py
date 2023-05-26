@@ -57,7 +57,7 @@ class PhishingFVG:
         self.base = parsed.netloc
         self.path = parsed.path
 
-        self.fv = np.array([-1 for i in range(19)])
+        self.fv = np.array([-1 for _ in range(19)])
 
         self.user = UserBrowsing(
             get_proxy_from_file=get_proxy_from_file, proxy=proxy
@@ -76,7 +76,7 @@ class PhishingFVG:
         self.hyperlinks = find_hyperlinks_tags(self.soup)
         self.tfidf = tfidf
 
-        self.extra_information = {"f{}".format(i): None for i in range(1, 20)}
+        self.extra_information = {f"f{i}": None for i in range(1, 20)}
 
     def set_feature_vector(self):
         """Sets the feature vector for the URL."""
@@ -304,8 +304,7 @@ class PhishingFVG:
         forms_found = re.findall("<form[^>]+>", self.html)
 
         if len(forms_found) > 0:
-            for i in range(len(forms_found)):
-                form_found = forms_found[i]
+            for _, form_found in enumerate(forms_found):
                 action_content = re.findall(
                     '(?:action=")([^"]*)(?:")', form_found
                 )

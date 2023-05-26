@@ -21,7 +21,7 @@ class SSLEnsemble:
     Contains the common methods and attributes.
     """
 
-    def __init__(self, classes=[], random_state=None):
+    def __init__(self, classes=None, random_state=None):
         """
         Constructor. Creates the SSL ensemble classifier.
 
@@ -33,6 +33,9 @@ class SSLEnsemble:
             Random object to create deterministic experiments
         """
         self.random_state = self.check_random_state(random_state)
+
+        if classes is None:
+            classes = []
         self.classes = classes
 
     def predict(self, samples):
@@ -132,7 +135,7 @@ class SSLEnsemble:
         Parameters
         ----------
         y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
+        y_pred: np.array with labels predicted by the classifier
 
         Returns
         -------
@@ -148,7 +151,7 @@ class SSLEnsemble:
         Parameters
         ----------
         y_true: np.array with true labels
-        y_pred: np.array with labels predicted by co-forest
+        y_pred: np.array with labels predicted by the classifier
 
         Returns
         -------

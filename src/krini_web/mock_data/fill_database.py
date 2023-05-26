@@ -12,6 +12,8 @@ DB_HOST = os.getenv("SQL_HOST", "db")
 DB_PORT = os.getenv("SQL_PORT", "5432")
 DB_DATABASE = os.getenv("POSTGRES_DB", "krini")
 
+MODEL_DESCRIPTION = "Example model, please not delete."
+
 
 def hash_pass(password):
     """
@@ -124,7 +126,7 @@ def insert_models(connection):
                 True,
                 [0.9, 0.85, 0.8, 0.87, 0.9],
                 5,
-                "Example model, please not delete.",
+                MODEL_DESCRIPTION,
                 "cf",
             ),
             (
@@ -136,7 +138,7 @@ def insert_models(connection):
                 True,
                 [0.7, 1.0, 1.0, 0.92, 1],
                 5,
-                "Example model, please not delete.",
+                MODEL_DESCRIPTION,
                 "tt",
             ),
             (
@@ -148,7 +150,7 @@ def insert_models(connection):
                 True,
                 [1.0, 1.0, 1.0, 0.55, 0.5],
                 5,
-                "Example model, please not delete.",
+                MODEL_DESCRIPTION,
                 "dc",
             ),
         ]

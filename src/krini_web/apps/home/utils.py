@@ -891,33 +891,33 @@ def update_report(candidate_instance, action):
     Returns:
         bool: True if the report was updated successfully, False otherwise
     """
-    all = False
+    bulk_update = False
 
     if "todos" in action:
-        all = True
+        bulk_update = True
 
     if "aceptar" in action:
-        done = accept_report(candidate_instance, all)
+        done = accept_report(candidate_instance, bulk_update)
 
     elif "descartar" in action:
-        done = reject_report(candidate_instance, all)
+        done = reject_report(candidate_instance, bulk_update)
 
     return done
 
 
-def reject_report(candidate_instance, all):
+def reject_report(candidate_instance, bulk_update):
     """
     Rejects the report and removes it from the database.
 
     Args:
         candidate_instance (Candidate_instances): candidate instance to be rejected
-        all (bool): True if all the instances with the same URL are rejected
+        bulk_update (bool): True if all the instances with the same URL are rejected
 
     Returns:
         bool: True if the report was rejected successfully, False otherwise
     """
     try:
-        if all:
+        if bulk_update:
             candidate_instances = Candidate_instances.query.filter_by(
                 instance_id=candidate_instance.instance_id
             ).all()
@@ -936,13 +936,13 @@ def reject_report(candidate_instance, all):
         return False
 
 
-def accept_report(candidate_instance, all):
+def accept_report(candidate_instance, bulk_update):
     """
     Accepts the report, updates the main instance and removes it from the database.
 
     Args:
         candidate_instance (Candidate_instances): candidate instance to be accepted
-        all (bool): True if all the instances with the same URL are accepted
+        bulk_update (bool): True if all the instances with the same URL are accepted
 
     Returns:
         bool: True if the report was accepted successfully, False otherwise
@@ -951,7 +951,7 @@ def accept_report(candidate_instance, all):
         modified = accept_incoming_suggestion(candidate_instance)
 
         if modified:
-            deleted = reject_report(candidate_instance, all)
+            deleted = reject_report(candidate_instance, bulk_update)
 
         if not modified or not deleted:
             raise exc.SQLAlchemyError("Error accepting suggestions")
@@ -1165,7 +1165,7 @@ def check_n_instances(n_instances):
     try:
         n_instances = int(n_instances)
 
-        if n_instances > 0 and n_instances < 100:
+        if 0 < n_instances < 100:
             dataset_tuple = ("generate", n_instances)
         else:
             dataset_tuple = ("generate", 80)
@@ -1587,7 +1587,6 @@ def return_X_y_train_test(dataset_method, dataset_params, get_ids=False):
                 + ["instance_class"],
             )
 
-            # df = df.loc[(df.instance_class == 1) | (df.instance_class == 0)]
             train_percentage = int(dataset_params) / 100
 
             train = df.sample(frac=train_percentage)

@@ -8,12 +8,54 @@
 @Contact :   phf1001@alu.ubu.es
 """
 from os import remove
+from pickle import PickleError
 from sqlalchemy import exc
 from sqlalchemy.orm import load_only
-from apps.home import blueprint
 from apps import db
-from apps.home.exceptions import KriniException, KriniNotLoggedException
-from apps.home.utils import *
+from apps.home import blueprint
+from apps.home.exceptions import (
+    KriniException,
+    KriniNotLoggedException,
+    KriniSSLException,
+    KriniDBException,
+)
+
+from apps.home.utils import (
+    get_logger,
+    get_segment,
+    get_callable_url,
+    get_selected_models_ids,
+    get_model,
+    get_sum_tags_numeric,
+    save_bbdd_analized_instance,
+    sanitize_url,
+    make_array_safe,
+    update_batch_checks,
+    update_checks,
+    remove_selected_models,
+    get_models_view_dictionary,
+    translate_form_select_data_method,
+    translate_form_select_algorithm,
+    save_files_to_temp,
+    check_n_instances,
+    return_X_y_train_test,
+    serialize_store_model,
+    return_X_y_single,
+    update_model_scores_db,
+    get_model_dict,
+    update_model,
+    remove_selected_instances,
+    get_instances_view_dictionary,
+    create_csv_selected_instances,
+    get_instance_dict,
+    remove_selected_reports,
+    find_candidate_instance_sequence,
+    update_report,
+    get_candidate_instances_view_dictionary,
+    CO_FOREST_CONTROL,
+    TRI_TRAINING_CONTROL,
+    DEMOCRATIC_CO_CONTROL,
+)
 from apps.ssl_utils.ml_utils import (
     get_array_scores,
     get_co_forest,
@@ -39,6 +81,7 @@ from apps.home.models import (
     Available_models,
     Available_tags,
 )
+from apps.authentication.models import Users
 from apps.config import AVAILABLE_LANGUAGES, BABEL_DEFAULT, MAX_MODELS_DASHBOARD
 from apps.messages import (
     get_message,
@@ -115,12 +158,12 @@ def index():
         )
 
     url = request.form["url"]
-    models = request.form["selected_models"]
+    selected_models = request.form["selected_models"]
     quick_analysis = 1 if request.form.get("checkbox-quick-scan") else 0
 
     session["messages"] = {
         "url": url.replace(" ", ""),
-        "models": models,
+        "models": selected_models,
         "quick_analysis": quick_analysis,
     }
 
