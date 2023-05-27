@@ -122,7 +122,7 @@ Feel free to reach me out! 💌
 
 <br />
 
-### Used images
+## Used images
 
 🛍️ Resources have been taken from [Flaticon](https://www.flaticon.es/). All credits to owners.
 

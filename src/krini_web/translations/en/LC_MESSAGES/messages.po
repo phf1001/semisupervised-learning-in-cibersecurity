@@ -2339,7 +2339,7 @@ msgstr "The page you are trying to view does not exist"
 
 #: apps/templates/specials/page-408.html:2
 msgid "Error 408"
-msgstr "Error 404"
+msgstr "Error 408"
 
 #: apps/templates/specials/page-408.html:15
 msgid "Heroku Timeout"
