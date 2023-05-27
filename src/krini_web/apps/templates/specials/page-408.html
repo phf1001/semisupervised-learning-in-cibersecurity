@@ -1,0 +1,38 @@
+{% extends 'layouts/base-specials.html' %}
+{% block title %} {{ gettext('Error 408') }} {% endblock title %}
+
+{% block content %}
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-transparent pb-5">
+          <div class="text-center mt-2">
+            <img src="/static/assets/img/theme/408-robot-timeout.png" style="width: 45%; height: 45%">
+          </div>
+          <div class="primary-label-forms text-center mt-2 mb-3" style="font-size: 22px;" id="txtbox:error-title">
+            <br>
+            {{ gettext('Heroku Timeout') }}
+          </div>
+          <div class="text-center mb-2">
+            {{ gettext('¡Lo sentimos! Heroku no soporta peticiones de más de 30 segundos.') }}
+            {{ gettext(' Si quieres acceso a la funcionalidad completa de la web,') }}
+            {{ gettext(' te recomendamos que levantes tu propio contenedor de ') }}
+            <a target="_blank"
+              href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit">
+              {{ gettext('Docker') }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 text-center">
+        <div class="col-12">
+          <a href="/" class="text-light">
+            <medium>{{ gettext('Página principal') }}</medium>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
