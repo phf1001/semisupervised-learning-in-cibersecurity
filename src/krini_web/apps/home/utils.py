@@ -1326,7 +1326,7 @@ def serialize_store_model(
 
         if existing_instance:
             raise KriniException(
-                f"Existe un modelo con ese nombre y esa versión: {model_store_name}."
+                get_formatted_message("model_name_exists", [model_store_name])
             )
 
         file_location = serialize_model(cls, file_name)
@@ -1484,11 +1484,11 @@ def update_model(model, form_data, models_path=None):
 
             db.session.flush()
             db.session.commit()
+            return True
 
         else:
-            flash(get_exception_message("protected_models"), "info")
-
-        return True
+            flash(get_exception_message("protected_models_edit"), "info")
+            return False
 
     except exc.SQLAlchemyError:
         db.session.rollback()

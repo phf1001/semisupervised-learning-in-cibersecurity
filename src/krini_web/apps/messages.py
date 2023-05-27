@@ -128,7 +128,9 @@ def get_exception_message(identifier) -> str:
         ) + gettext(" Comprueba que las instancias utilizadas están en la BD.")
 
     if identifier == "serialized_not_found":
-        return gettext("No se ha encontrado el modelo serializado.")
+        return gettext("No se ha encontrado el modelo serializado. ") + gettext(
+            "Te sugerimos que elimines el clasificador y lo vuelvas a crear."
+        )
 
     if identifier == "error_extracting_X_y":
         return gettext("Error al generar el dataset.")
@@ -164,6 +166,13 @@ def get_exception_message(identifier) -> str:
             "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. "
         ) + gettext(
             "Ten en cuenta que aunque lo selecciones, no serán eliminados. "
+        )
+
+    if identifier == "protected_models_edit":
+        return gettext(
+            "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. "
+        ) + gettext(
+            "Por lo tanto, el modelo que has seleccionado no ha sido editado. "
         )
 
     if identifier == "incorrect_stream":
@@ -534,6 +543,11 @@ def get_formatted_message(identifier, params=[]) -> str:
             + gettext(
                 ". Tampoco existe información en la base de datos acerca de ella."
             )
+        )
+    if identifier == "model_name_exists":
+        return (
+            gettext("Ya existe un modelo con ese nombre y esa versión: ")
+            + params[0]
         )
 
     if identifier == "max_features":

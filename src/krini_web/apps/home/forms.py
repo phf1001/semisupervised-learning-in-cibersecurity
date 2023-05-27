@@ -141,7 +141,7 @@ class SmallModelForm(FlaskForm):
         default="1",
         validators=[
             Regexp(
-                r"^\d+(.\d){0,2}$",
+                r"^\d+(.\d+){0,2}$",
                 message="invalid_version",
             )
         ],
