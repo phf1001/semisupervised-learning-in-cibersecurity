@@ -14,7 +14,7 @@ from decouple import config
 from apps.config import config_dict
 from apps import create_app, db
 
-DEBUG = config("DEBUG", default=True, cast=bool)
+DEBUG = config("DEBUG", default=False, cast=bool)
 get_config_mode = "Debug" if DEBUG else "Production"
 
 try:

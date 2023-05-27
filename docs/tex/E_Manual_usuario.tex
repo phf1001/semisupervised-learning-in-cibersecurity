@@ -178,6 +178,7 @@ Los administradores podrán gestionar todos los modelos de aprendizaje disponibl
 \end{figure}
 
 \subsubsection{Nuevo modelo}
+\label{s-e:nuevo-modelo}
 
 \begin{figure}[h]
 	\caption[Manual de usuario: nuevo modelo]{Formulario de creación de nuevos modelos.}
@@ -228,6 +229,8 @@ Por otro lado, es destacable que si se utilizan instancias vistas durante el ent
 \subsection{Instancias}
 \label{s-e:instances}
 
+Los administradores podrán gestionar todas las URLs disponibles en la sección de <<instancias>> (imagen~\ref{e-5:instances}).
+
 \begin{figure}[h]
 	\caption[Manual de usuario: página de instancias]{Página de administración de instancias.}
 	\centering
@@ -235,12 +238,26 @@ Por otro lado, es destacable que si se utilizan instancias vistas durante el ent
 	\label{e-5:instances}
 \end{figure}
 
+\subsubsection{Generar conjuntos de entrenamiento y \textit{test}}
+
+¡Generar conjuntos para entrenar y probar modelos es muy fácil utilizando la aplicación!
+
+Si se selecciona la opción (consultar sección~\ref{s-e:nuevo-modelo}), la creación es automática. Sin embargo, la partición se realiza aleatoriamente (con los tamaños indicados).
+
+Si por el contrario se prefiere tener control sobre qué instancias pertenecen a cada conjunto, se recomienda descargar un fichero \texttt{.csv}. Para ello, tan sólo hay que seleccionar las instancias deseadas (se mantienen aunque haya desplazamiento entre páginas) y pulsar el botón de descargar. Se recomienda encarecidamente utilizar el botón <<invertir selección>> para construir el conjunto contrario, ya que pasarán a seleccionarse todas las instancias que antes no lo estaban y viceversa (sin solapamientos).
+
+Se recuerda que aquellas instancias que no contengan vector de características no serán descargadas.
+
+\subsubsection{Nueva instancia}
+
 \begin{figure}[h]
 	\caption[Manual de usuario: nueva instancia]{Formulario de creación de nuevas instancias.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/user_guide/6_new_instance}
 	\label{e-5:new-instance}
 \end{figure}
+
+\subsubsection{Editar instancia}
 
 \begin{figure}[h]
 	\caption[Manual de usuario: editar instancia]{Formulario de edición de instancias existentes.}
