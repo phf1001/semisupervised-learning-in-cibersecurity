@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-25 12:51+0200\n"
+"POT-Creation-Date: 2023-05-27 09:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2264,6 +2264,7 @@ msgstr ""
 #: apps/templates/specials/creating-model.html:29
 #: apps/templates/specials/page-403.html:29
 #: apps/templates/specials/page-404.html:25
+#: apps/templates/specials/page-408.html:31
 #: apps/templates/specials/page-500.html:25
 #: apps/templates/specials/processing-url.html:30
 #: apps/templates/specials/updating-instance.html:30
@@ -2300,6 +2301,30 @@ msgstr ""
 
 #: apps/templates/specials/page-404.html:18
 msgid "La página que estás intentando consultar no existe"
+msgstr ""
+
+#: apps/templates/specials/page-408.html:2
+msgid "Error 408"
+msgstr ""
+
+#: apps/templates/specials/page-408.html:15
+msgid "Heroku Timeout"
+msgstr ""
+
+#: apps/templates/specials/page-408.html:18
+msgid "¡Lo sentimos! Heroku no soporta peticiones de más de 30 segundos."
+msgstr ""
+
+#: apps/templates/specials/page-408.html:19
+msgid " Si quieres acceso a la funcionalidad completa de la web,"
+msgstr ""
+
+#: apps/templates/specials/page-408.html:20
+msgid " te recomendamos que levantes tu propio contenedor de "
+msgstr ""
+
+#: apps/templates/specials/page-408.html:23
+msgid "Docker"
 msgstr ""
 
 #: apps/templates/specials/page-500.html:2

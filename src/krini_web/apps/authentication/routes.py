@@ -206,6 +206,19 @@ def not_found_error(error):
     return render_template("specials/page-404.html"), 404
 
 
+@blueprint.errorhandler(408)
+def timeout_error(error):
+    """Handles the 408 error.
+
+    Args:
+        error (object): error object
+
+    Returns:
+        render_template: renders the template for error 408
+    """
+    return render_template("specials/page-408.html"), 408
+
+
 @blueprint.errorhandler(500)
 def internal_error(error):
     """
