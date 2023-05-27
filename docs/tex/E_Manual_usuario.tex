@@ -168,12 +168,16 @@ En caso de que la URL no exista previamente, será incluida en la sección de <<
 \subsection{Modelos}
 \label{s-e:models}
 
+Los administradores podrán gestionar todos los modelos de aprendizaje disponibles en la sección de <<modelos>> (imagen~\ref{e-5:models}).
+
 \begin{figure}[h]
 	\caption[Manual de usuario: página de modelos]{Página de administración de modelos.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_models}
 	\label{e-5:models}
 \end{figure}
+
+\subsubsection{Nuevo modelo}
 
 \begin{figure}[h]
 	\caption[Manual de usuario: nuevo modelo]{Formulario de creación de nuevos modelos.}
@@ -182,12 +186,30 @@ En caso de que la URL no exista previamente, será incluida en la sección de <<
 	\label{e-5:new-model}
 \end{figure}
 
+Para crear un modelo, basta con pulsar en el botón <<nuevo>>. Esta acción rederigirá al usuario a un formulario (imagen~\ref{e-5:new-model}) donde podrá personalizar los parámetros de el clasificador semisupervisado que quiera crear, además de seleccionar el algoritmo deseado. Pulsando en la bombilla perteneciente al pseudocódigo se desplegará el pseudocódigo de los \textit{ensembles} disponibles.
+
+Posteriormente se podrá elegir los datos de entrenamiento y test con los que se quieren crea y evaluar el algoritmo. Se ofrecen dos opciones:
+
+\begin{enumerate}
+	\item \textbf{Subir un fichero \texttt{csv}}: en este caso, deberá tener el formato adecuado\footnote{El formato correcto consiste en 21 columnas por instancia correspondientes al ID de la instancia, los atributos del vector \texttt{f1-f19} y la etiqueta. Se recomienda descargar una URL en la sección <<instancias>>~\ref{s-e:instances} para asegurar que el formato es correcto.} y no podrá contener valores <<perdidos>> en ninguna instancia. La ventaja principal es que se puede elegir las URLs a utilizar durante las fases de entrenamiento y test.
+	\item \textbf{Utilizar el \textit{dataset} de la aplicación}: en este caso, los conjuntos se crean aleatoriamente con el contenido de la base de datos. Se puede parametrizar el porcentaje total de las instancias destinadas a los conjuntos de entrenamiento y \textit{test}.
+\end{enumerate}
+
+Es destacable que las instancias deben estar vinculadas mediante un identificador con la base de datos de la aplicación para garantizar que se pueda apartar las instancias ya vistas durante el entrenamiento de la evaluación en fases posteriores. Por ello, si se quiere subir un fichero \texttt{csv}, se recomienda que se haya descargado previamente utilizando la sección <<instancias>> (sección~\ref{s-e:instances} del manual) de la aplicación.
+
+\subsubsection{Editar modelo}
+
+Como se muestra en la imagen~\ref{e-5:edit-model}, se pueden modificar ciertos parámetros de los modelos existentes. Otros atributos ocultos (como el nombre del fichero con el objeto serializado) se actualizarán automáticamente. Para facilitar la edición, se indica en naranja los valores anteriores al usuario.
+
 \begin{figure}[h]
 	\caption[Manual de usuario: editar modelo]{Formulario de edición de modelos existentes.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_edit_model}
 	\label{e-5:edit-model}
 \end{figure}
+
+
+\subsubsection{Evaluar modelo}
 
 \begin{figure}[h]
 	\caption[Manual de usuario: evaluar modelo]{Página de evaluación de modelos existentes.}
@@ -196,6 +218,12 @@ En caso de que la URL no exista previamente, será incluida en la sección de <<
 	\label{e-5:test-model}
 \end{figure}
 
+
+Si se quiere comprobar cómo un modelo reacciona ante nuevas instancias, se puede poner a prueba como se muestra en la imagen~\ref{e-5:test-model}. Para ello, sólo se ha de subir los datos con los que se quiera formar el conjunto de entrenamiento o indicar que se desea utilizar el \textit{dataset} de la aplicación.
+
+Si se quieren actualizar las métricas almacenadas en la base de datos, se puede hacer seleccionando la opción <<actualizar base de datos>>. Se debe tener en cuenta que esto afectará a las gráficas de rendimiento mostradas en el \textit{dashboard}.
+
+Por otro lado, es destacable que si se utilizan instancias vistas durante el entrenamiento para probar un clasificador, es posible que los resultados obtenidos sean optimistas. Por ello, se facilita la opción <<excluir ejemplos vistos durante el entrenamiento>>, de forma que aquellas URLs ya utilizadas serán eliminadas de los conjuntos de \textit{test}.
 
 \subsection{Instancias}
 \label{s-e:instances}
