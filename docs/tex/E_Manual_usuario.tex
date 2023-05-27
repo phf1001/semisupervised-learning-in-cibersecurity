@@ -76,11 +76,11 @@ Para levantar el servidor en local y garantizar que la base de datos se rellena 
 	\item Ubicarse en la carpeta donde se encuentren los \textit{scripts}.
 	\item Si es la primera vez que se ejecuta:
 	\begin{enumerate}
-	\item Lanzar el script \texttt{docker-first-time-1.sh} y seguir las instrucciones (esperar 30 segundos y abrir el navegador cuando lo indique).
-	\item Ejecutar el \textit{script} \texttt{docker-first-time-2.sh} y respetar los pasos indicados (esperar 30 segundos antes de abrir el navegador).
+	\item Lanzar el script \texttt{docker-first-time-1} y seguir las instrucciones (esperar 30 segundos y abrir el navegador cuando lo indique).
+	\item Ejecutar el \textit{script} \texttt{docker-first-time-2} y respetar los pasos indicados (esperar 30 segundos antes de abrir el navegador).
 	\end{enumerate}
-	\item Si se quieren parar los contenedores para reutilizarlos luego, ejecutar el \textit{script} \texttt{docker-stop.sh} y \texttt{docker-start.sh} para volver a iniciarlos.
-	\item Si se quieren borrar las imágenes y contenedores del sistema definitivamente, ejecutar el \textit{script} \texttt{docker-clean.sh}
+	\item Si se quieren parar los contenedores para reutilizarlos luego, ejecutar el \textit{script} \texttt{docker-stop} y \texttt{docker-start} para volver a iniciarlos.
+	\item Si se quieren borrar las imágenes y contenedores del sistema definitivamente, ejecutar el \textit{script} \texttt{docker-clean}
 \end{enumerate}
 
 \textbf{Importante}: iniciar el demonio de Docker antes de lanzar los \textit{scripts}. En Windows basta con ejecutar la aplicación de escritorio.
@@ -200,7 +200,7 @@ Posteriormente se podrá elegir los datos de entrenamiento y \textit{test} con l
 
 \begin{enumerate}
 	\item \textbf{Subir un fichero \texttt{csv}}: en este caso, deberá tener el formato adecuado\footnote{El formato correcto consiste en 21 columnas por instancia correspondientes al identificador de la URL, los atributos del vector (\texttt{f1-f19}) y la etiqueta. Se recomienda descargar una URL en la sección <<instancias>> (apartado~\ref{s-e:instances}) para asegurar que el formato es correcto.} y no podrá contener valores <<perdidos>> en ninguna instancia. La ventaja principal es que se puede elegir las URLs a utilizar durante las fases de entrenamiento y \textit{test}.
-	\item \textbf{Utilizar el \textit{dataset} de la aplicación}: en este caso, los conjuntos se crean aleatoriamente con el contenido de la base de datos. Se puede parametrizar el porcentaje total de las instancias destinadas a los conjuntos de entrenamiento y \textit{test}.
+	\item \textbf{Utilizar el \textit{dataset} de la aplicación}: en este caso, los conjuntos se crean aleatoriamente con el contenido de la base de datos. Se puede parametrizar el porcentaje total de las instancias destinadas a los conjuntos de entrenamiento y \textit{test}. Únicamente se tendrán en cuenta aquellas instancias que posean vector de características, etiquetas y hayan sido revisadas por un administrador.
 \end{enumerate}
 
 Es destacable que las instancias deben estar vinculadas mediante un identificador con la base de datos de la aplicación para garantizar que se pueda apartar las instancias ya vistas durante el entrenamiento de la evaluación en fases posteriores. Por ello, si se quiere subir un fichero \texttt{csv}, se recomienda que se haya descargado previamente utilizando la sección <<instancias>> (apartado~\ref{s-e:instances} del manual) de la aplicación.
@@ -253,7 +253,7 @@ Si se selecciona la opción <<utilizar \textit{dataset}>>, (consultar sección~\
 
 Si por el contrario se prefiere tener control sobre qué instancias pertenecen a cada conjunto, se recomienda descargar un fichero \texttt{.csv}. Para ello, tan sólo hay que seleccionar las instancias deseadas (se mantienen aunque haya desplazamiento entre páginas) y pulsar el botón de descargar. Se recomienda encarecidamente utilizar el botón <<invertir selección>> para construir el conjunto contrario, ya que pasarán a seleccionarse todas las instancias que antes no lo estaban y viceversa (sin solapamientos).
 
-Se recuerda que aquellas instancias que no contengan vector de características no serán descargadas.
+Se recuerda que aquellas instancias que no contengan vector de características o etiqueta de clase (\textit{phishing} o legítima) no serán descargadas.
 
 \subsubsection{Nueva instancia}
 
