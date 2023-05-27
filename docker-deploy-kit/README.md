@@ -9,6 +9,8 @@ Mock data will be included in the database so that you can play! An administrato
 Then, change to the directory where the scripts are and then execute them in this order. 
 > Please follow the screen instructions! 
 
+<br />
+
 ### Linux 🐧
 Open a terminal in the directory containing the scripts. Execute (in this order):
 ```sh
@@ -38,6 +40,8 @@ Pss: a `data` directory will be created to make your database modifications pers
 sudo rm -R data
 ```
 
+<br />
+
 ### Windows 🪟
 > **Please be sure Docker Daemon is up! You just have to init Docker Desktop**
 
@@ -58,11 +62,13 @@ docker-start.bat
 docker-clean.bat
 ```
 
+<br />
 
 ### Need more help?
 
-You can check our [Wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs).
+You can check our [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs).
 
+<br />
 
 ### Contact
 

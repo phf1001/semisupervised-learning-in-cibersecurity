@@ -1489,7 +1489,7 @@ def not_found_error(error):
 
 
 @blueprint.errorhandler(408)
-def internal_error(error):
+def timeout_error(error):
     """Handles the 408 error.
 
     Args:

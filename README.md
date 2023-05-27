@@ -34,9 +34,6 @@
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=ncloc" alt="sc-loc">
 </a>
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
-<img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=alert_status" alt="sc-qualitygate">
-</a>
-<a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=reliability_rating" alt="sc-reliability">
 </a>
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
@@ -83,6 +80,7 @@ Regarding this repository, two investigation lines have been opened: detection o
 </td>
 </tr>
 </table>
+<br />
 
 ## Features
 
@@ -96,24 +94,25 @@ Regarding this repository, two investigation lines have been opened: detection o
 | Flask web app |         ✔️         |  
 | Tor instances and SOCKS5 proxies scripts |         ✔️         |    
 
+<br />
 
 ## Deploy the web in Docker
 
-You can access the app via the web or deploy our Docker images. Everything is automatic! 🐳
+You can access the app via [Krini](https://krini.herokuapp.com/index) or deploy our Docker images. Everything is automatic! 🐳
 
-Check all the information in the [docker-deploy-kit](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit).
+> Check all the information in the [docker-deploy-kit](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit) README.md
+
+<br />
 
 
-## Wiki 
-
-Do you **need some help**? Check the _articles_ from the [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/) 🔍.
-
-## Docs
-
-📚 You can check the original template at:
->  [Template Source](https://github.com/ubutfgm/plantillaLatex)
-
+## Docs, wiki and tutotials
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+📚 **Need some help**? Check out our [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs)
+
+> Original documentation template is available in [GitHub](https://github.com/ubutfgm/plantillaLatex)
+
+<br />
 
 ## Contact
 
@@ -121,12 +120,17 @@ Feel free to reach me out! 💌
 
 > GitHub [phf1001](https://github.com/phf1001) &nbsp;&middot;&nbsp; LinkedIn [patriciahf](https://www.linkedin.com/in/patriciahf) &nbsp;&middot;&nbsp; Email [phf1001](mailto:phf1001@alu.ubu.es) 
 
-## License
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<br />
 
 ### Used images
 
-🛍️ All the resources have been taken from [Flaticon](https://www.flaticon.es/)
+🛍️ Resources have been taken from [Flaticon](https://www.flaticon.es/). All credits to owners.
 
 > [Robot (by: Freepik)](https://www.flaticon.com/free-icon/robot_3398643) &nbsp;&middot;&nbsp; [Shield (by: Freepik)](https://www.flaticon.com/free-icon/shield_5781297) &nbsp;&middot;&nbsp; [Forbidden (by: Freepik)](https://www.flaticon.com/free-icon/walk_1661941) &nbsp;&middot;&nbsp; [Question marks (by: Freepik)](https://www.flaticon.com/free-icon/question-mark_5726532) &nbsp;&middot;&nbsp; [Cogwheel (by: Uniconlabs)](https://www.flaticon.com/free-icon/breakdown_9760208) &nbsp;&middot;&nbsp; [Crafts (by: Freepik)](https://www.flaticon.com/free-icon/paper-crafts_3813693) &nbsp;&middot;&nbsp; [Analyze (by: geotatah)](https://www.flaticon.com/free-icon/analyze_993845) &nbsp;&middot;&nbsp; [Sand clock (by: surang)](https://www.flaticon.com/free-icon/analyze_993845) 
+
+<br />
+
+## License
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<br />
