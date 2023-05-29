@@ -29,5 +29,3 @@ echo "${R} -> Ejecutar el script docker-stop para parar los contenedores (recome
 echo "${R} -> Ejecutar el script docker-start para reiniciarlos."
 echo "${R} -> Ejecutar el script docker-clean.sh para eliminar imágenes y contenedores (recomendado si no se quiere volver a ejecutar, se borrarán los modelos creados). ~${N}"
 echo 
-
-

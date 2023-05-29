@@ -1,7 +1,6 @@
 :: Author: Patricia Hernando Fernández
 @echo off
 chcp 65001 > nul 2> nul
-
 echo  _  __ _____   _____  _   _  _____ 
 echo ^| ^|/ /^|  __ \ ^|_   _^|^| \ ^| ^|^|_   _^|
 echo ^| ' / ^| ^|__) ^|  ^| ^|  ^|  \^| ^|  ^| ^| 

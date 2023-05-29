@@ -25,4 +25,4 @@ echo ~ Cuando acabes, puedes:
 echo -^> Ejecutar el script docker-stop para parar los contenedores (recomendado si se va a seguir ejecutando una segunda vez).
 echo -^> Ejecutar el script docker-start para reiniciarlos.
 echo -^> Ejecutar el script docker-clean.sh para eliminar imágenes y contenedores (recomendado si no se quiere volver a ejecutar, se borrarán los modelos creados).
-echo 
+echo

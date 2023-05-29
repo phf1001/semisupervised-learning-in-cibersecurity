@@ -28,5 +28,3 @@ case "$response" in
         echo "${Y}~ Parado. ~${N}"
         ;;
 esac
-
-
