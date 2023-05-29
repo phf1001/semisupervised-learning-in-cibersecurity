@@ -1,7 +1,6 @@
 :: Author: Patricia Hernando Fernández
 @echo off
 chcp 65001 > nul 2> nul
-
 echo  _  __ _____   _____  _   _  _____ 
 echo ^| ^|/ /^|  __ \ ^|_   _^|^| \ ^| ^|^|_   _^|
 echo ^| ' / ^| ^|__) ^|  ^| ^|  ^|  \^| ^|  ^| ^| 
@@ -20,7 +19,6 @@ echo ~ Contenedores levantados. ~
 echo ~ Por favor, espera 30 segundos mientras se crea la estructura necesaria. ~
 timeout /t 30 /NOBREAK > nul
 echo.
-echo ~ Listo. Por favor, abre la siguiente URL en tu navegador: 0.0.0.0:5000/ ~
-echo ~ Si no está disponible, prueba con 127.0.0.1:5000/ ~
+echo ~ Listo. Por favor, accede a la web introduciendo la siguiente URL en tu navegador: 127.0.0.1:5000/ ~
 echo ~ Después, ciérrala y ejecuta el script 'docker-first-time-2.bat'. ~
 echo.

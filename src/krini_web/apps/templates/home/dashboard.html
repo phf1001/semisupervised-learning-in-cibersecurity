@@ -312,11 +312,11 @@
               </td>
               <td style="text-align: center;">
                 {% if language == 'es' %}
-                  $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
-                  0, & \text{cualquier otro caso} \end{array} \right.$$
+                $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contiene '@' o '-'}\\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
                 {% else %}
-                  $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contains '@' or '-'}\\
-                  0, & \text{any other case} \end{array} \right.$$
+                $$F_2 = \left\{ \begin{array}{lr} 1, & \text{URL contains '@' or '-'}\\
+                0, & \text{any other case} \end{array} \right.$$
                 {% endif %}
               </td>
               <td style="text-align: center;">
@@ -440,45 +440,46 @@
               </td>
             </tr>
             <!-- F5-->
-            <td>
-              <p class="dashboard-text">{{ gettext('Característica') }} 5</p>
-            </td>
-            <td>
-              <p class="text-white text-center">
-                <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
-              </p>
-            </td>
-            <td>
-              <p class="dashboard-text">
-                {{ information_to_display["fv"][4] }}
-              </p>
-            </td>
-            <td>
-              <p class="dashboard-text">
-                {{ gettext('Dominio extra encontrado:') }}
-                {% if information_to_display["fv_extra_information"]["f5"] == '' %}
-                {{gettext('ninguno')}}
+            <tr data-toggle="collapse" data-target="#info-f5" class="accordion-toggle">
+              <td>
+                <p class="dashboard-text">{{ gettext('Característica') }} 5</p>
+              </td>
+              <td>
+                <p class="text-white text-center">
+                  <span class="badge rounded-pill bg-gradient-warning" style="font-weight: bold;">URL</span>
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ information_to_display["fv"][4] }}
+                </p>
+              </td>
+              <td>
+                <p class="dashboard-text">
+                  {{ gettext('Dominio extra encontrado:') }}
+                  {% if information_to_display["fv_extra_information"]["f5"] == '' %}
+                  {{gettext('ninguno')}}
+                  {% else %}
+                  {{information_to_display["fv_extra_information"]["f5"]}}
+                  {% endif %}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                {% if language == 'es' %}
+                $$F_5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\
+                1, & \text{si hay más de un TDL en la URL} \\
+                0, & \text{cualquier otro caso} \end{array} \right.$$
                 {% else %}
-                {{information_to_display["fv_extra_information"]["f5"]}}
+                $$F_5 = \left\{ \begin{array}{lr} 1, & \text{if TLD is present in the domain zone}\\
+                1, & \text{if there is more than one TLD in the URL} \\
+                0, & \text{any other case} \end{array} \right.$$
                 {% endif %}
-              </p>
-            </td>
-            <td style="text-align: center;">
-              {% if language == 'es' %}
-              $$F_5 = \left\{ \begin{array}{lr} 1, & \text{si el TDL está presente en la zona del dominio}\\
-              1, & \text{si hay más de un TDL en la URL} \\
-              0, & \text{cualquier otro caso} \end{array} \right.$$
-              {% else %}
-              $$F_5 = \left\{ \begin{array}{lr} 1, & \text{if TLD is present in the domain zone}\\
-              1, & \text{if there is more than one TLD in the URL} \\
-              0, & \text{any other case} \end{array} \right.$$
-              {% endif %}
-            </td>
-            <td style="text-align: center;">
-              <button class="btn btn-icon-only bg-primary text-center">
-                <i class="ni ni-bulb-61 text-white"></i>
-              </button>
-            </td>
+              </td>
+              <td style="text-align: center;">
+                <button class="btn btn-icon-only bg-primary text-center">
+                  <i class="ni ni-bulb-61 text-white"></i>
+                </button>
+              </td>
             </tr>
             <tr>
               <td colspan="6" class="hiddenRow">
@@ -1071,7 +1072,7 @@
               </td>
               <td>
                 <p class="dashboard-text">
-                  {{ gettext('Palabra copyright') }}: 
+                  {{ gettext('Palabra copyright') }}:
                   {% if information_to_display["fv_extra_information"]["f17"] == '' %}
                   {{gettext('ninguna')}}
                   {% else %}
@@ -1227,12 +1228,12 @@
   <div class="col-md-12 text-center my-auto">
     <div class="card card-block d-flex">
       <div class="card-body align-items-center d-flex justify-content-center">
-        <span class="gray-description-forms text-lg font-weight-bolder text-center"
-          style="word-spacing: 3px;">
+        <span class="gray-description-forms text-lg font-weight-bolder text-center" style="word-spacing: 3px;">
           <img src="/static/assets/img/theme/robot.png"
             style="width: 5%; height: 5%; margin-right: 25px; display: inline-block;">
           <span class="primary-label-forms text-lg">{{gettext('¡Oye, tú, humano!') }}</span>
-          {{gettext('Si piensas que el análisis es erróneo y se trata de un falso resultado') }}, {{gettext(' ¡Háznoslo saber!') }}
+          {{gettext('Si piensas que el análisis es erróneo y se trata de un falso resultado') }},
+          {{gettext(' ¡Háznoslo saber!') }}
           <a id="btn-report-false-positive" class="btn btn-primary" style="margin-left: 25px; display: inline-block;"
             href="{{ url_for('home_blueprint.report_false_positive') }}">
             {{gettext('Reporta análisis erróneo') }}

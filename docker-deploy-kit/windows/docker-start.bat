@@ -17,4 +17,4 @@ docker start semisupervised-learning-in-cibersecurity_db  > nul 2> nul
 docker start semisupervised-learning-in-cibersecurity_web > nul 2> nul
 
 echo ~ Contenedores levantados. ~
-echo ~ Busca 0.0.0.0:5000/ (o 127.0.0.1:5000 si no está disponible) en tu navegador. ¡Gracias! ~
+echo ~ Accede a la web a través de la dirección 127.0.0.1:5000. ¡Gracias! ~

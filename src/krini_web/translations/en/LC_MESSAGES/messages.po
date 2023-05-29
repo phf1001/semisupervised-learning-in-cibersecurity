@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: phf1001@alu.ubu.es\n"
-"POT-Creation-Date: 2023-05-27 09:10+0200\n"
+"POT-Creation-Date: 2023-05-27 17:25+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <phf1001@alu.ubu.es>\n"
 "Language: en\n"
@@ -151,534 +151,546 @@ msgid " Comprueba que las instancias utilizadas están en la BD."
 msgstr " Check that the instances used are in the database (file IDS)."
 
 #: apps/messages.py:131
-msgid "No se ha encontrado el modelo serializado."
-msgstr "Serialized model not found."
+msgid "No se ha encontrado el modelo serializado. "
+msgstr "Serialized model not found. "
 
-#: apps/messages.py:134
+#: apps/messages.py:131
+msgid "Te sugerimos que elimines el clasificador y lo vuelvas a crear."
+msgstr "We suggest you to delete the classifier and create a new one."
+
+#: apps/messages.py:136
 msgid "Error al generar el dataset."
 msgstr "Error generating the dataset."
 
-#: apps/messages.py:137
+#: apps/messages.py:139
 msgid "Error al generar el dataset de entrenamiento."
 msgstr "Error generating training dataset."
 
-#: apps/messages.py:140
+#: apps/messages.py:142
 msgid "El fichero subido no existe o no es un csv."
 msgstr "The uploaded file does not exist or is not a csv."
 
-#: apps/messages.py:143
+#: apps/messages.py:145
 msgid "El fichero no tiene el formato correcto. Prueba a descargarlo desde "
 msgstr "The file is not in the correct format. try downloading it from "
 
-#: apps/messages.py:145
+#: apps/messages.py:147
 msgid "la aplicación (tiene que tener un id, 19 atributos y la etiqueta)."
 msgstr "the application (it has to have an id, 19 attributes and the label)."
 
-#: apps/messages.py:150
+#: apps/messages.py:152
 msgid "Ninguna de las instancias seleccionadas tiene un vector de"
 msgstr "None among the selected instances have a feature"
 
-#: apps/messages.py:152
+#: apps/messages.py:154
 msgid " características asociado."
 msgstr " vector generated."
 
-#: apps/messages.py:155
+#: apps/messages.py:157
 msgid "No se han podido actualizar los scores en la base de datos."
 msgstr "The scores in the database could not be updated."
 
-#: apps/messages.py:160
+#: apps/messages.py:162
 msgid "Clasificador base no encontrado"
 msgstr "Base classifier not found"
 
-#: apps/messages.py:163
+#: apps/messages.py:165 apps/messages.py:172
 msgid "¡Lo sentimos! Los modelos 1, 2 y 3 están protegidos. "
 msgstr "We're sorry! Models 1, 2 and 3 are protected.  "
 
-#: apps/messages.py:165
+#: apps/messages.py:167
 msgid "Ten en cuenta que aunque lo selecciones, no serán eliminados. "
 msgstr "Please, notice that they won't be deleted even if you pick them."
 
-#: apps/messages.py:170
+#: apps/messages.py:174
+msgid "Por lo tanto, el modelo que has seleccionado no ha sido editado. "
+msgstr "Due to this reason, the model you have tried to modify hasn't been edited."
+
+#: apps/messages.py:179
 msgid "¡Lo sentimos! No puedes acceder directamente a esta página."
 msgstr "We're sorry! You cannot directly access this page."
 
-#: apps/messages.py:188
+#: apps/messages.py:197
 msgid "Por favor, introduce un nombre de usuario."
 msgstr "Please enter a username."
 
-#: apps/messages.py:191
+#: apps/messages.py:200
 msgid "Por favor, introduce una contraseña."
 msgstr "Please enter a password."
 
-#: apps/messages.py:194
+#: apps/messages.py:203
 msgid "Por favor, introduce un email."
 msgstr "Please enter an email."
 
-#: apps/messages.py:197
+#: apps/messages.py:206
 msgid "Por favor, introduce un email válido."
 msgstr "Please enter a valid email."
 
-#: apps/messages.py:200
+#: apps/messages.py:209
 msgid "El nombre de usuario ya está en uso."
 msgstr "The username is already taken."
 
-#: apps/messages.py:203
+#: apps/messages.py:212
 msgid "El email ya está en uso."
 msgstr "The email is already in use."
 
-#: apps/messages.py:206
+#: apps/messages.py:215
 msgid "Por favor, introduce tu nombre propio."
 msgstr "Please enter your own name."
 
-#: apps/messages.py:209
+#: apps/messages.py:218
 msgid "Por favor, introduce tus apellidos."
 msgstr "Please enter your last name."
 
-#: apps/messages.py:212
+#: apps/messages.py:221
 msgid "Por favor, introduce tus credenciales."
 msgstr "Please enter your credentials."
 
-#: apps/messages.py:215
+#: apps/messages.py:224
 msgid "Las credenciales introducidas no son correctas."
 msgstr "The credentials entered are not correct."
 
-#: apps/messages.py:219
+#: apps/messages.py:228
 msgid "Usuario creado con éxito."
 msgstr "User created successfully."
 
-#: apps/messages.py:221
+#: apps/messages.py:230
 msgid " Inicia sesión"
 msgstr " Log in"
 
-#: apps/messages.py:226
+#: apps/messages.py:235
 msgid "No se ha podido crear la cuenta. Inténtelo de nuevo más tarde."
 msgstr "The account could not be created. Try it again later."
 
-#: apps/messages.py:231
+#: apps/messages.py:240
 msgid "Por favor, introduce una URL."
 msgstr "Please enter a URL."
 
-#: apps/messages.py:234
+#: apps/messages.py:243
 msgid "Por favor, introduce una URL más corta (máximo 255 caracteres)."
 msgstr "Please enter a shorter URL (maximum 255 characters)."
 
-#: apps/messages.py:239
+#: apps/messages.py:248
 msgid "Por favor, introduce una descripción más corta (máximo 511 caracteres)."
 msgstr "Please enter a shorter description (maximum 511 characters)."
 
-#: apps/messages.py:244
+#: apps/messages.py:253
 msgid "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
 msgstr "Please enter a shorter name (maximum 50 characters)."
 
-#: apps/messages.py:249
+#: apps/messages.py:258
 msgid "Introduce un nombre de usuario más corto (máximo 63 caracteres)."
 msgstr "Enter a shorter username (maximum 63 characters)."
 
-#: apps/messages.py:254
+#: apps/messages.py:263
 msgid "Por favor, introduce un email más corto (máximo 128 caracteres)."
 msgstr "Please enter a shorter email (maximum 128 characters)."
 
-#: apps/messages.py:259
+#: apps/messages.py:268
 msgid "Por favor, introduce un nombre propio más corto (máximo 63 caracteres)."
 msgstr "Please enter a shorter proper name (maximum 63 characters)."
 
-#: apps/messages.py:264
+#: apps/messages.py:273
 msgid "Por favor, introduce unos apellidos más cortos (máximo 63 caracteres)."
 msgstr "Please enter a shorter last name (maximum 63 characters)."
 
-#: apps/messages.py:269
+#: apps/messages.py:278
 msgid "Por favor, selecciona una opción en el desplegable."
 msgstr "Please select an option from the dropdown."
 
-#: apps/messages.py:272
+#: apps/messages.py:281
 msgid "Introduce una versión válida."
 msgstr "Please enter a valid version."
 
-#: apps/messages.py:272
+#: apps/messages.py:281
 msgid "Si no sabes qué poner, puedes probar a introducir un número entero."
 msgstr "If you don't know what to put, you can try entering an integer."
 
-#: apps/messages.py:277
+#: apps/messages.py:286
 msgid "Por favor, introduce un nombre."
 msgstr "Please enter a name."
 
-#: apps/messages.py:280
+#: apps/messages.py:289
 msgid "Por favor, introduce una semilla aleatoria o -1 en su defecto."
 msgstr "Please enter a random seed or -1."
 
-#: apps/messages.py:285
+#: apps/messages.py:294
 msgid "Por favor, introduce un porcentaje de instancias de entrenamiento."
 msgstr "Please enter a percentage of training instances."
 
-#: apps/messages.py:290
+#: apps/messages.py:299
 msgid "Por favor, introduce un porcentaje de instancias de entrenamiento válido."
 msgstr "Please enter a valid training instance percentage."
 
-#: apps/messages.py:296
+#: apps/messages.py:305
 msgid "Por favor, introduce un número de árboles."
 msgstr "Please enter a number of trees."
 
-#: apps/messages.py:298
+#: apps/messages.py:307
 msgid "Si no deseas ninguno puedes introducir 0."
 msgstr "If you do not want any you can enter 0."
 
-#: apps/messages.py:302
+#: apps/messages.py:311
 msgid "El número de árboles no es correcto."
 msgstr "The number of trees is not correct."
 
-#: apps/messages.py:302
+#: apps/messages.py:311
 msgid "Introduce un número entre 0 y 100."
 msgstr "Enter a number between 0 and 100."
 
-#: apps/messages.py:307
+#: apps/messages.py:316
 msgid "Por favor, introduce un número decimal en thetha"
 msgstr "Please enter a decimal number in thetha"
 
-#: apps/messages.py:309
+#: apps/messages.py:318
 msgid "(la coma se separa mediante un punto) o 0.75 en su defecto."
 msgstr "(the comma is separated by a point) or 0.75 by default."
 
-#: apps/messages.py:314
+#: apps/messages.py:323
 msgid "El valor de thetha no es correcto."
 msgstr "The value of thetha is not correct."
 
-#: apps/messages.py:314
+#: apps/messages.py:323
 msgid "Introduce un número entre 0 y 1."
 msgstr "Enter a number between 0 and 1."
 
-#: apps/messages.py:319
+#: apps/messages.py:328
 msgid "Por favor, introduce un número válido de clasificadores (entre 0 y 10)."
 msgstr "Please enter a valid number of classifiers (between 0 and 10)."
 
-#: apps/messages.py:324
+#: apps/messages.py:333
 msgid "Comprueba que las etiquetas introducidas no tengan más de 63 caracteres"
 msgstr "Check that the entered labels do not have more than 63 characters"
 
-#: apps/messages.py:329
+#: apps/messages.py:338
 msgid "Por favor, introduce un número entero válido."
 msgstr "Please, enter a valid integer value."
 
-#: apps/messages.py:332
+#: apps/messages.py:341
 msgid "Por favor, introduce un número decimal válido."
 msgstr "Please, enter a valid float value."
 
-#: apps/messages.py:335
+#: apps/messages.py:344
 msgid "Por favor, introduce un valor booleano válido."
 msgstr "Please, enter a valid boolean value."
 
-#: apps/messages.py:338
+#: apps/messages.py:347
 msgid "Por favor, introduce una lista válida."
 msgstr "Please, enter a valid list value."
 
-#: apps/messages.py:341
+#: apps/messages.py:350
 msgid "Por favor, introduce un texto válido."
 msgstr "Please, enter a valid text value."
 
-#: apps/messages.py:357
+#: apps/messages.py:366
 msgid "Operación realizada con éxito."
 msgstr "Operation carried out successfully."
 
-#: apps/messages.py:360
+#: apps/messages.py:369
 msgid "No hay ningún modelo disponible. Inténtalo de nuevo más tarde."
 msgstr "There is no model available. Try again later."
 
-#: apps/messages.py:365
+#: apps/messages.py:374
 msgid "Realiza un análisis para acceder al dashboard y visualizar resultados."
 msgstr "Perform an analysis to access the dashboard and view results."
 
-#: apps/messages.py:370
+#: apps/messages.py:379
 msgid "La información para mostrar ha caducado o no está disponible."
 msgstr "The information to display has expired or is not available."
 
-#: apps/messages.py:375
+#: apps/messages.py:384
 msgid "Idioma cambiado correctamente."
 msgstr "Language has been successfully changed"
 
-#: apps/messages.py:378
+#: apps/messages.py:387
 msgid "Consejo: Prueba a introducir la ruta completa con el protocolo incluído, "
 msgstr "Tip: Introduce the complete URL (including its path), "
 
-#: apps/messages.py:380
+#: apps/messages.py:389
 msgid "tal y como aparece en el navegador."
 msgstr "just as it is displayed in the browser."
 
-#: apps/messages.py:383
+#: apps/messages.py:392
 msgid "No se ha podido cambiar el idioma."
 msgstr "The language could not be changed."
 
-#: apps/messages.py:386
+#: apps/messages.py:395
 msgid "Debes iniciar sesión para acceder a esta página."
 msgstr "You must be logged in to access this page."
 
-#: apps/messages.py:389
+#: apps/messages.py:398
 msgid "No tienes permisos para acceder a esta página."
 msgstr "You do not have permission to access this page."
 
-#: apps/messages.py:392
+#: apps/messages.py:401
 msgid "Falso resultado reportado correctamente."
 msgstr "False result reported correctly."
 
-#: apps/messages.py:392
+#: apps/messages.py:401
 msgid "¡Gracias por tu colaboración!"
 msgstr "Thank you for your collaboration!"
 
-#: apps/messages.py:397
+#: apps/messages.py:406
 msgid "Modelo eliminado correctamente."
 msgstr "Model successfully removed."
 
-#: apps/messages.py:400
+#: apps/messages.py:409
 msgid "No se pueden mostrar más de 8 modelos en el dashboard."
 msgstr "You can't pick more than 8 classifiers to be used in the dashboard."
 
-#: apps/messages.py:402
+#: apps/messages.py:411
 msgid " Se han utilizado los 8 primeros."
 msgstr " We have chosen the first 8."
 
-#: apps/messages.py:405
+#: apps/messages.py:414
 msgid "Modelo actualizado correctamente."
 msgstr "Model updated successfully."
 
-#: apps/messages.py:408
+#: apps/messages.py:417
 msgid "Modelos eliminados correctamente."
 msgstr "Models removed successfully."
 
-#: apps/messages.py:411
+#: apps/messages.py:420
 msgid "No se ha podido eliminar el modelo."
 msgstr "The model could not be deleted."
 
-#: apps/messages.py:414
+#: apps/messages.py:423
 msgid "No se ha podido actualizar el modelo."
 msgstr "The model could not be updated."
 
-#: apps/messages.py:417
+#: apps/messages.py:426
 msgid "No se han podido eliminar los modelos."
 msgstr "Models could not be deleted."
 
-#: apps/messages.py:420
+#: apps/messages.py:429
 msgid "No se ha podido crear el modelo."
 msgstr "The model could not be created."
 
-#: apps/messages.py:423
+#: apps/messages.py:432
 msgid "Error al serializar el modelo."
 msgstr "Failed to serialize model."
 
-#: apps/messages.py:426
+#: apps/messages.py:435
 msgid "Error al actualizar el modelo por defecto."
 msgstr "Failed to update default model."
 
-#: apps/messages.py:429
+#: apps/messages.py:438
 msgid "No se ha seleccionado ningún modelo."
 msgstr "No model has been selected."
 
-#: apps/messages.py:433
+#: apps/messages.py:442
 msgid "¡Cuidado!, los conjuntos de entrenamiento y test tienen datos comunes."
 msgstr "Beware, the train and test sets have common data."
 
-#: apps/messages.py:437
+#: apps/messages.py:446
 msgid "Los resultados de las scores podrían no ser fiables (optimistas)."
 msgstr "The results of the scores may not be reliable (optimistic)."
 
-#: apps/messages.py:443
+#: apps/messages.py:452
 msgid "Modelo creado y guardado correctamente."
 msgstr "Model created and saved successfully."
 
-#: apps/messages.py:446
+#: apps/messages.py:455
 msgid "Recuerda que los resultados de las scores pueden ser optimistas si el "
 msgstr "Remember that the results of the scores can be optimistic if the "
 
-#: apps/messages.py:448
+#: apps/messages.py:457
 msgid "conjunto de test contiene instancias vistas durante el entrenamiento."
 msgstr "test set contains instances seen during training."
 
-#: apps/messages.py:454 apps/messages.py:464
+#: apps/messages.py:463 apps/messages.py:473
 msgid "Test realizado. Puedes ver los resultados en la gráfica superior."
 msgstr "Test finished successfully. You can see the results in the upper graph."
 
-#: apps/messages.py:458
+#: apps/messages.py:467
 msgid "Además, se han actualizado las scores en la base de datos. "
 msgstr "In addition, the scores stored in the database have been updated."
 
-#: apps/messages.py:469
+#: apps/messages.py:478
 msgid "No se han podido calcular las métricas (asignado valor de 0.0): "
 msgstr "Metrics could not be calculated (assigned value of 0.0): "
 
-#: apps/messages.py:474
+#: apps/messages.py:483
 msgid ". ¿Hay instancias positivas en el conjunto de test?"
 msgstr ". Are there positive instances in the test set?"
 
-#: apps/messages.py:477
+#: apps/messages.py:486
 msgid "Instancia eliminada correctamente."
 msgstr "Instance deleted successfully."
 
-#: apps/messages.py:480
+#: apps/messages.py:489
 msgid "No se ha podido eliminar la instancia."
 msgstr "The instance could not be deleted."
 
-#: apps/messages.py:483
+#: apps/messages.py:492
 msgid "Instancias eliminadas correctamente."
 msgstr "Instances deleted successfully."
 
-#: apps/messages.py:486
+#: apps/messages.py:495
 msgid "No se han podido eliminar las instancias."
 msgstr "The instances could not be deleted."
 
-#: apps/messages.py:489
+#: apps/messages.py:498
 msgid "No se ha seleccionado ninguna instancia."
 msgstr "No instance has been selected."
 
-#: apps/messages.py:492
+#: apps/messages.py:501
 msgid "Instancia creada y guardada correctamente."
 msgstr "Instance created and saved successfully."
 
-#: apps/messages.py:495
+#: apps/messages.py:504
 msgid "Sugerencia: comprueba que no estás creando una instancia que ya existe."
 msgstr "Tip: Check that you are not creating an instance that already exists."
 
-#: apps/messages.py:500
+#: apps/messages.py:509
 msgid "No se han seleccionado ninguna sugerencia."
 msgstr "No suggestions have been selected."
 
-#: apps/messages.py:503
+#: apps/messages.py:512
 msgid "No se han podido eliminar las sugerencias."
 msgstr "Suggestions could not be removed."
 
-#: apps/messages.py:506
+#: apps/messages.py:515
 msgid "Sugerencias eliminadas correctamente."
 msgstr "Suggestions successfully removed."
 
-#: apps/messages.py:509
+#: apps/messages.py:518
 msgid "No se ha podido eliminar la sugerencia."
 msgstr "The suggestion could not be removed."
 
-#: apps/messages.py:512
+#: apps/messages.py:521
 msgid "Tu URL ha sido reportada exitosamente. ¡Gracias por tu colaboración!"
 msgstr "Your URL has been successfully reported. Thank you for your collaboration!"
 
-#: apps/messages.py:516
+#: apps/messages.py:525
 msgid "Mensaje no disponible. ¡Lo sentimos!"
 msgstr "Message not available. We're sorry!"
 
-#: apps/messages.py:532
+#: apps/messages.py:541
 msgid "No se ha podido llamar ni reconstruir la URL "
 msgstr "Failed to call or rebuild URL "
 
-#: apps/messages.py:534
+#: apps/messages.py:543
 msgid ". Tampoco existe información en la base de datos acerca de ella."
 msgstr ". There is also no information in the database about it."
 
-#: apps/messages.py:540
+#: apps/messages.py:549
+msgid "Ya existe un modelo con ese nombre y esa versión: "
+msgstr "There is an existing model with the same name and version (choose a new one): "
+
+#: apps/messages.py:554
 msgid "Max features = "
 msgstr "Max features = "
 
-#: apps/messages.py:543
+#: apps/messages.py:557
 msgid "Thetha = "
 msgstr "Thetha = "
 
-#: apps/messages.py:546
+#: apps/messages.py:560
 msgid "Nº árboles = "
 msgstr "No. trees = "
 
-#: apps/messages.py:549
+#: apps/messages.py:563
 msgid "Nº clasificadores = "
 msgstr "No. classifiers = "
 
-#: apps/messages.py:552
+#: apps/messages.py:566
 msgid "Clasificador "
 msgstr "Classifier "
 
-#: apps/messages.py:565
+#: apps/messages.py:579
 msgid "Naive Bayes"
 msgstr "Naive Bayes"
 
-#: apps/messages.py:568
+#: apps/messages.py:582
 msgid "Árbol de decisión"
 msgstr "Decision tree"
 
-#: apps/messages.py:571
+#: apps/messages.py:585
 msgid "k-vecinos más cercanos"
 msgstr "k-Nearest Neighbors"
 
-#: apps/messages.py:574
+#: apps/messages.py:588
 msgid "Mantener valor actual"
 msgstr "Keep current value"
 
-#: apps/messages.py:577
+#: apps/messages.py:591
 msgid "Mantener vector actual"
 msgstr "Keep current vector"
 
-#: apps/messages.py:580
+#: apps/messages.py:594
 msgid "legítimo"
 msgstr "legitimate"
 
-#: apps/messages.py:583 apps/templates/home/dashboard.html:33
+#: apps/messages.py:597 apps/templates/home/dashboard.html:33
 msgid "LEGÍTIMA"
 msgstr "LEGITIMATE"
 
-#: apps/messages.py:586
+#: apps/messages.py:600
 msgid "Legítima"
 msgstr "Legitimate"
 
-#: apps/messages.py:589
+#: apps/messages.py:603
 msgid "Sí"
 msgstr "Yes"
 
-#: apps/messages.py:592
+#: apps/messages.py:606
 msgid "Generar nuevo vector de características"
 msgstr "Generate a new feature vector"
 
-#: apps/messages.py:595
+#: apps/messages.py:609
 msgid "phishing"
 msgstr "phishing"
 
-#: apps/messages.py:598
+#: apps/messages.py:612
 msgid "no disponible"
 msgstr "not available"
 
-#: apps/messages.py:601
+#: apps/messages.py:615
 msgid "no hay ningún vector generado para esta instancia"
 msgstr "there is no vector generated for this instance"
 
-#: apps/messages.py:604
+#: apps/messages.py:618
 msgid "lista-negra"
 msgstr "blacklist"
 
-#: apps/messages.py:607
+#: apps/messages.py:621
 msgid "lista-blanca"
 msgstr "White list"
 
-#: apps/messages.py:610
+#: apps/messages.py:624
 msgid "auto-clasificada"
 msgstr "self-classified"
 
-#: apps/messages.py:613
+#: apps/messages.py:627
 msgid "revisada"
 msgstr "revised"
 
-#: apps/messages.py:616
+#: apps/messages.py:630
 msgid "sugerencia-lista-blanca"
 msgstr "whitelist-suggestion"
 
-#: apps/messages.py:619
+#: apps/messages.py:633
 msgid "sugerencia-lista-negra"
 msgstr "blacklist-suggestion"
 
-#: apps/messages.py:622
+#: apps/messages.py:636
 msgid "sugerencia-phishing"
 msgstr "phishing-suggestion"
 
-#: apps/messages.py:625
+#: apps/messages.py:639
 msgid "sugerencia-legítima"
 msgstr "legitimate-suggestion"
 
-#: apps/messages.py:628
+#: apps/messages.py:642
 msgid "nueva-instancia"
 msgstr "new-instance"
 
-#: apps/messages.py:631
+#: apps/messages.py:645
 msgid "revisión-recomendada"
 msgstr "recommended-revision"
 
-#: apps/messages.py:634
+#: apps/messages.py:648
 msgid "recién-escaneada-revisar"
 msgstr "just-scanned-review"
 
@@ -710,7 +722,7 @@ msgstr "Password"
 #: apps/templates/accounts/register.html:2
 #: apps/templates/accounts/register.html:71
 msgid "Registrarse"
-msgstr "Log in"
+msgstr "Register"
 
 #: apps/templates/accounts/login.html:59
 #: apps/templates/accounts/register.html:84
@@ -910,7 +922,7 @@ msgstr "Normally, official domains are short and significant."
 
 #: apps/templates/home/dashboard.html:377
 msgid "Sin embargo, aquellos sitios de phishing suelen ser más largos"
-msgstr "However, those phishing sites are usually longer"
+msgstr "However, phishing sites are usually longer"
 
 #: apps/templates/home/dashboard.html:378
 msgid "con el fin de confundir al usuario u ocultar información"
@@ -1013,7 +1025,7 @@ msgid ""
 " objetivo en la\n"
 "                  URL."
 msgstr ""
-"the vast majority of phishing sites contain the name of the targeted "
+"The vast majority of phishing sites contain the name of the targeted "
 "brand in the\n"
 "                  url."
 
@@ -1416,11 +1428,11 @@ msgstr "Hey you human!"
 
 #: apps/templates/home/dashboard.html:1235
 msgid "Si piensas que el análisis es erróneo y se trata de un falso resultado"
-msgstr "If you think that the analysis is wrong and it is a false result"
+msgstr "If you think that the analysis is wrong and it is a false result..."
 
 #: apps/templates/home/dashboard.html:1235
 msgid " ¡Háznoslo saber!"
-msgstr " let us know!"
+msgstr " Let us know!"
 
 #: apps/templates/home/dashboard.html:1238
 msgid "Reporta análisis erróneo"
@@ -1464,11 +1476,11 @@ msgstr "preferably with protocol (http:// or https://)"
 #: apps/templates/home/edit-instance.html:93
 #: apps/templates/home/instances-administration.html:119
 msgid "Etiquetas"
-msgstr "tags"
+msgstr "Tags"
 
 #: apps/templates/home/edit-instance.html:95
 msgid "pulse enter para introducir una nueva"
-msgstr "press enter to enter a new"
+msgstr "press enter to create a new"
 
 #: apps/templates/home/edit-instance.html:96
 msgid " etiqueta o seleccione entre las disponibles"
@@ -1486,7 +1498,7 @@ msgstr "Previous value:"
 #: apps/templates/home/edit-instance.html:119
 #: apps/templates/home/instances-administration.html:110
 msgid "Vector de características"
-msgstr "feature vector"
+msgstr "Feature vector"
 
 #: apps/templates/home/edit-instance.html:121
 msgid "si no quieres generar un vector"
@@ -1527,7 +1539,7 @@ msgstr "this instance has not yet been classified"
 
 #: apps/templates/home/edit-instance.html:167
 msgid "Pertenencia a lista"
-msgstr "list membership"
+msgstr "List"
 
 #: apps/templates/home/edit-instance.html:169
 msgid "lista blanca si es una página legítima"
@@ -1732,15 +1744,15 @@ msgstr "Analyze my URL!"
 
 #: apps/templates/home/index.html:174
 msgid "Analizador de phishing"
-msgstr "phishing analyzer"
+msgstr "Phishing scanner"
 
 #: apps/templates/home/index.html:177
 msgid "¡Bienvenido al analizador de enlaces de phishing! "
-msgstr "Welcome to Phishing Link Analyzer! "
+msgstr "Welcome to Krini! A phishing scanner."
 
 #: apps/templates/home/index.html:178
 msgid "Para utilizarlo, tan "
-msgstr "To use it, you just have to "
+msgstr "In order to use it, you just have to "
 
 #: apps/templates/home/index.html:179
 msgid "sólo escribe la dirección de la página que quieres analizar y "
@@ -1748,7 +1760,7 @@ msgstr "write the URL of the page you want to analyze and "
 
 #: apps/templates/home/index.html:180
 msgid "pulsa el botón \"Scan\". En el dashboard podrás observar algunas "
-msgstr "press the \"Scan\" button. In the dashboard you can see some "
+msgstr "press the \"scan\" button. In the dashboard, you can see some "
 
 #: apps/templates/home/index.html:181
 msgid "de las gráficas generadas por nuestros estimadores."
@@ -1978,7 +1990,7 @@ msgstr "NEW MODEL"
 
 #: apps/templates/home/new-model.html:51
 msgid "Nombre del modelo"
-msgstr "model name"
+msgstr "Model name"
 
 #: apps/templates/home/new-model.html:83
 msgid "¿Convertir en \"default\"?"
@@ -2027,7 +2039,7 @@ msgstr "SELECT A METHOD"
 
 #: apps/templates/home/new-model.html:205
 msgid "de subida de datos de entrenamiento"
-msgstr "training data upload"
+msgstr "to upload training data"
 
 #: apps/templates/home/new-model.html:211
 #: apps/templates/home/test-model.html:86
@@ -2090,7 +2102,7 @@ msgstr "PERCENTAGE OF INSTANCES FOR TRAINING"
 
 #: apps/templates/home/new-model.html:250
 msgid "Introduce sólo el número (por ejemplo, 80)"
-msgstr "Enter only the number (for example, 80)"
+msgstr "just introduce the number (for example, 80)"
 
 #: apps/templates/home/profile.html:2
 #: apps/templates/includes/navigation.html:93
@@ -2152,7 +2164,7 @@ msgstr "What are you going to report?"
 
 #: apps/templates/home/report-url.html:73
 msgid "Si sabes que es phishing escoge \"black-list\". "
-msgstr "If you know it is phishing, choose \"black-list\". "
+msgstr "If you are sure that the URL is a phishing site, choose \"black-list\". "
 
 #: apps/templates/home/report-url.html:74
 msgid "Si sabes que es legítima escoge \"white-list\"."
@@ -2347,7 +2359,9 @@ msgstr "Heroku Timeout"
 
 #: apps/templates/specials/page-408.html:18
 msgid "¡Lo sentimos! Heroku no soporta peticiones de más de 30 segundos."
-msgstr "Apologies! Heroku is unable to execute requests which are longer than 30 seconds."
+msgstr ""
+"Apologies! Heroku is unable to execute requests which are longer than 30 "
+"seconds."
 
 #: apps/templates/specials/page-408.html:19
 msgid " Si quieres acceso a la funcionalidad completa de la web,"

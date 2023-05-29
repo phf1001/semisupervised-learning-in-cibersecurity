@@ -7,11 +7,6 @@
   <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"> Semisupervised learning in cibersecurity </a>
 </h1>
 
-<h2 align="center">
-  <br>
-  <a href="https://krini.herokuapp.com/index"> KRINI </a>
-</h2>
-
 <h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
 
 <p align="center">
@@ -59,8 +54,11 @@
 <p align="center">
   <a href="#about">About</a> •
   <a href="#features">Features</a> •
-  <a href="#wiki">Wiki</a> •
-  <a href="#docs">Docs</a> •
+  <a href="#deploy-the-web-in-docker">Docker</a> •
+  <a href="#docs-wiki-and-tutorials">Docs</a> •
+  <a href="#docs-wiki-and-tutorials">Wiki</a> •
+  <a href="#docs-wiki-and-tutorials">Tutorials</a> •
+  <a href="#used-images">Images</a> •
   <a href="#contact">Contact</a> •
   <a href="#license">License</a>
 </p>
@@ -105,7 +103,7 @@ You can access the app via [Krini](https://krini.herokuapp.com/index) or deploy 
 <br />
 
 
-## Docs, wiki and tutotials
+## Docs, wiki and tutorials
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 📚 **Need some help**? Check out our [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs)

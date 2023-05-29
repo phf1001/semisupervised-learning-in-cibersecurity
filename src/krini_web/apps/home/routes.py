@@ -927,8 +927,8 @@ def edit_model():
         model = Available_models.query.get(model_id)
 
         if "siguiente" in request.form and form.validate_on_submit():
-            update_model(model, request.form)
-            flash(get_message("model_updated"), "success")
+            if update_model(model, request.form):
+                flash(get_message("model_updated"), "success")
             return redirect(url_for("home_blueprint.models"))
 
         for key in form.errors.keys():
