@@ -39,6 +39,12 @@ from apps.home.models import (
     Candidate_instances,
     Model_is_trained_with,
 )
+from apps.messages import (
+    get_exception_message,
+    get_message,
+    get_formatted_message,
+    get_constants_message,
+)
 from werkzeug.utils import secure_filename
 from os import path, remove, listdir, sep, rename
 import re
@@ -54,13 +60,6 @@ from requests.exceptions import RequestException
 import urllib.parse
 from pickle import PickleError
 from sqlalchemy import exc
-
-from apps.messages import (
-    get_exception_message,
-    get_message,
-    get_formatted_message,
-    get_constants_message,
-)
 
 
 def get_logger(
@@ -1486,9 +1485,8 @@ def update_model(model, form_data, models_path=None):
             db.session.commit()
             return True
 
-        else:
-            flash(get_exception_message("protected_models_edit"), "info")
-            return False
+        flash(get_exception_message("protected_models_edit"), "info")
+        return False
 
     except exc.SQLAlchemyError:
         db.session.rollback()

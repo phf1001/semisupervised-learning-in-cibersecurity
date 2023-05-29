@@ -35,8 +35,7 @@ case "$response" in
 	echo "${Y}~ Por favor, espera 30 segundos mientras se crea la estructura necesaria. ~"
 	sleep 30
 	echo 
-	echo "${Y}~ Listo. Por favor, abre la siguiente URL en tu navegador: 0.0.0.0:5000/ ~"
-	echo "${Y}~ Si no está disponible, prueba con 127.0.0.1:5000/ ~"
+	echo "${Y}~ Listo. Por favor, accede a la web introduciendo la siguiente dirección en tu navegador: 127.0.0.1:5000/ ~"
 	echo "${Y}~ Después, ciérrala y ejecuta el script "docker-first-time-2.sh". ~${N}"
 	echo 
         ;;

@@ -20,10 +20,9 @@ echo.
 echo ~ Por favor, espera 30 segundos. Estamos asegurando que tu base de datos no está vacía. ¡Así la experiencia será mucho mejor! ~
 timeout /t 30 /NOBREAK > nul
 echo.
-echo ~ Listo. Busca 0.0.0.0:5000/ (o 127.0.0.1:5000 si no está disponible) en tu navegador. ¡Gracias! ~
-echo ~ Cuando acabes puedes ejecutar el script docker-clean.bat para asegurar que tu ordenador queda limpio. ~
-echo ~ Cuando acabes puedes:
-echo -^> Ejecutar el script docker-stop para parar los contenedores (recomendado si se va a seguir ejecutando una segunda vez.
+echo ~ Listo. Puedes acceder a la web mediante la dirección 127.0.0.1:5000. ¡Gracias! ~
+echo ~ Cuando acabes, puedes:
+echo -^> Ejecutar el script docker-stop para parar los contenedores (recomendado si se va a seguir ejecutando una segunda vez).
 echo -^> Ejecutar el script docker-start para reiniciarlos.
 echo -^> Ejecutar el script docker-clean.sh para eliminar imágenes y contenedores (recomendado si no se quiere volver a ejecutar, se borrarán los modelos creados).
 echo 
