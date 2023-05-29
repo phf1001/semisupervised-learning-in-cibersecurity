@@ -28,4 +28,4 @@ echo "${Y}~ Cuando acabes, puedes:"
 echo "${R} -> Ejecutar el script docker-stop para parar los contenedores (recomendado si se va a seguir ejecutando una segunda vez)."
 echo "${R} -> Ejecutar el script docker-start para reiniciarlos."
 echo "${R} -> Ejecutar el script docker-clean.sh para eliminar imágenes y contenedores (recomendado si no se quiere volver a ejecutar, se borrarán los modelos creados). ~${N}"
-echo 
+echo
