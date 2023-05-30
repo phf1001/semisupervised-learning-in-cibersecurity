@@ -7,7 +7,7 @@ En la subsección~\ref{sec:5_ssl} se desarrollará cómo se han validado los alg
 
 En la subsección~\ref{sec:5_detec_ataques} se mostrarán los resultados obtenidos tras aplicar métodos de aprendizaje a la detección de ataques en sistemas de recomendación y se valorará si el método de generación de vectores de características expuesto en~\ref{sec:vectores_catacterísticas_ataquesisrec} es extrapolable a una aplicación real.
 
-Por último, en la subsección~\ref{sec:5_phishing} (dedicada al \textit{phishing}), se estudiarán los resultados del método de extracción expuesto en~\ref{sec:vectores_caracteristicas_phishing}.
+Por último, en la subsección~\ref{sec:5_phishing} (dedicada al \textit{phishing}), se estudiarán los resultados del método de extracción expuesto en~\ref{sec:vectores_caracteristicas_phishing}, además de realizar una comparativa entre el rendimiento de algoritmos de aprendizaje supervisado y semisupervisado aplicados a esta aproximación.
 
 \section{Algoritmos de aprendizaje semisupervisado}
 \label{sec:5_ssl}
@@ -45,7 +45,7 @@ A diferencia del resto de algoritmos de aprendizaje semisupervisado, en el \text
 \subsubsection{Inicialización del vector $W$}
 \label{s-experimentacion-w-cof}
 
-Como se introdujo en la sección~\ref{s:discusion-paramentros-cof}, el modo en que se inicialice el vector $W$ durante la fase de entrenamiento tiene un efecto en el desempeño del algoritmo. Debido a que en el pseudocódigo facilitado en la publicación~\cite{originalCoForest2007} se inicializa a 0 (lo que, como ya se comentó anteriormente, lleva a una parada del algoritmo), se han decidido probar tres criterios distintos (línea~5 del pseudocódigo~\ref{alg:co-forest}).
+Como se introdujo en la sección~\hyperref[s:discusion-paramentros-cof]{3.5}, el modo en que se inicialice el vector $W$ durante la fase de entrenamiento tiene un efecto en el desempeño del algoritmo. Debido a que en el pseudocódigo facilitado en la publicación~\cite{originalCoForest2007} se inicializa a 0 (lo que, como ya se comentó anteriormente, lleva a una parada del algoritmo), se han decidido probar tres criterios distintos (línea~5 del pseudocódigo~\ref{alg:co-forest}).
 
 \begin{itemize}
 	\item \textbf{\texttt{percentage\_L}}: este criterio consiste en inicializar el vector al mínimo entre la decima parte del tamaño de $L$ y 100. Es decir, al $min(\frac{1}{10}|$L$|, 100)$. Está basado en la tesis de Engelen~\cite{engelen2018thesis}, pero adaptado: en lugar de $U$ se utiliza $L$.
@@ -249,7 +249,7 @@ Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{fo
 En el caso de la comparativa contra \textit{sslearn}, el resultado se puede contemplar en la ilustración~\ref{gr:tt_vs_sslearn}, mientras que el caso de LAMDA se observa en la ilustración~\ref{gr:tt_vs_lamda}. Como se puede comprobar, la media de la \textit{accuracy} para ambos modelos es prácticamente idéntica. Hay algunas variaciones en la \textit{accuracy} para distintos \textit{folds}, pero pueden deberse a detalles de implementación y selección de los conjuntos internamente. Por este motivo, la implementación se considera correcta.
 
 \begin{figure}[h]
-	\caption[\textit{Tri-training}: comparativa contra \textit{sslearn}]{Iilustración que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de \textit{sslearn} y la propia.}
+	\caption[\textit{Tri-training}: comparativa contra sslearn]{Iilustración que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de sslearn y la propia.}
 	\centering
 	\includegraphics[scale=0.62]{../img/memoria/5_tritraining_sslearn}
 	\label{gr:tt_vs_sslearn}
@@ -298,7 +298,7 @@ En el caso del \textit{democratic-co}, se ha optado por comparar la implementaci
 Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
 
 \begin{figure}[h]
-	\caption[\textit{Democratic-co}: comparativa contra \textit{sslearn}]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
+	\caption[\textit{Democratic-co}: comparativa contra sslearn]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
 	\centering
 	\includegraphics[scale=0.62]{../img/memoria/5_democraticco_sslearn}
 	\label{gr:dc_vs_sslearn}
@@ -387,21 +387,21 @@ En la leyenda se puede comprobar que se han utilizado distintos algoritmos de ML
 \begin{figure}[h]
 	\caption[\textit{Random attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
 	\centering
-	\includegraphics[scale=0.45]{../img/memoria/5_resultados_random_attack}
+	\includegraphics[scale=0.44]{../img/memoria/5_resultados_random_attack}
 	\label{5_random_attack}
 \end{figure}
 
 \begin{figure}[h]
 	\caption[\textit{Average attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{average attack} en el \textit{dataset} MovieLens10M.}
 	\centering
-	\includegraphics[scale=0.45]{../img/memoria/5_resultados_average_attack}
+	\includegraphics[scale=0.44]{../img/memoria/5_resultados_average_attack}
 	\label{5_average_attack}
 \end{figure}
 
 \begin{figure}[h]
 	\caption[\textit{Bandwagon attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{bandwagon attack} en el \textit{dataset} MovieLens10M.}
 	\centering
-	\includegraphics[scale=0.45]{../img/memoria/5_resultados_bandwagon_attack}
+	\includegraphics[scale=0.44]{../img/memoria/5_resultados_bandwagon_attack}
 	\label{5_bandwagon_attack}
 \end{figure}
 
@@ -416,7 +416,8 @@ Adicionalmente, se piensa que el método de extracción de vectores de caracter�
 
 \section{Detección de \textit{phishing}}
 \label{sec:5_phishing}
-Se detalla a continuación el proceso seguido en las distintas fases relacionadas con la experimentación.
+
+Debido a que la línea de investigación respectiva a la detección de ataques en sistemas de recomendación ha sido cerrada, se ha buscado una aproximación a la seguridad informática alternativa: la detección de \textit{phishing}. Se detalla a continuación el proceso seguido en las distintas fases relacionadas con la experimentación.
 
 \subsection{Extracción de las URL del \textit{dataset}}
 \label{ss:extracción-dataset-phishing}
@@ -449,7 +450,7 @@ Los sitios legítimos se han extraído del \textit{top} 1 millón páginas visit
 
 Es muy destacable que se ha limitado el número de instancias de \textit{phishing} utilizadas para que sea exactamente la mitad del \textit{dataset}. Además, también es reseñable que las páginas de \textit{phishing} son distintas a las utilizadas en el \textit{paper} original debido a que PhishTank y OpenPhish actualizan sus bases de datos a diario. Para extraer los vectores de características, se ha seguido el procedimiento mostrado en la sección~\ref{sec:vectores_caracteristicas_phishing} (es necesario que las páginas estén levantadas).
 
-\subsubsection{Parámetros y clasificadores}
+\subsection{Parámetros y clasificadores}
 
 Para realizar esta experimentación se han utilizado distintos modelos de aprendizaje. Es destacable que se ha incluído un algoritmo de aprendizaje supervisado para comparar los resultados del mismo contra otros algoritmos semisupervisados. Los algoritmos de aprendizaje supervisado han sido entrenados con el 20\% de los datos etiquetados disponibles en cada \textit{fold}, mientras que los algoritmos semisupervisados han sido entrenados con un 20\% de etiquetas y un 80\% de datos sin etiquetar. El motivo por el que se ha escogido el \textit{random forest} como método de aprendizaje supervisado contra el que comparar, es porque es el clasificador que mejor rendimiento reportó en el \textit{paper} utilizado de referencia~\cite{featuresPhishing2018Gupta}. Por lo tanto, sirve de <<cota superior>> del rendimiento para los algoritmos supervisados.
 
@@ -457,8 +458,6 @@ A continuación, se van a especificar los algoritmos concretos utilizados. Respe
 
 
 \subsection{Resultados generales}
-
-
 
 Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f19-all}. Como se puede comprobar, la propuesta planteada es aceptable, teniendo el clasificador con mejor desempeño una \textit{accuracy} del $85$.$69\%$ (\textit{co-forest}) y, el peor, una equivalente al $84$.$03\%$ (\textit{democratic-co}). Como se puede observar, el clasificador (\textit{democratic-co}) con peor \textit{recall} (el que menos instancias positivas <<encuentra>>) también es el que posee una mayor \textit{precision} (de las que dice que son positivas, cuantas lo son en realidad).
 
@@ -645,3 +644,7 @@ Concluyendo, se ha podido observar como los algoritmos que en este caso han pres
 En general, se puede afirmar que los algoritmos semisupervisados son muy útiles cuando se cuenta con una escasez de recursos, pero que son ligeramente superados por los supervisados en caso contrario (como es de esperar). 
 
 Además, es muy importante destacar uno de los principios básicos del \textit{machine learning} y es que no existe un algoritmo que sea universalmente mejor que otros, sino que cada uno destaca en aplicaciones concretas (\textit{no free lunch theorem}). En este caso, se ha comprobado como utilizar \textit{ensembles} de árboles es una muy buena aproximación.
+
+\subsection{Conclusión final}
+
+Debido a que se considera que la aproximación propuesta es útil, se ha decidido desarrollar una herramienta \textit{web}\footnote{Disponible en \url{https://krini.herokuapp.com/index}} que sirva como analizador de enlaces, clasificando entre páginas legítimas o fraudulentas, además de permitir entrenar los modelos de aprendizaje semisupervisado de la sección~\ref{sec:5_ssl} y gestionar instancias. Todos los detalles de desarrollo se encuentran en los Anexos.

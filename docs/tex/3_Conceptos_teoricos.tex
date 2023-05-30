@@ -62,7 +62,7 @@ Consecuentemente, el procedimiento consta de dos fases que se repiten en cada it
 
 Dentro de esta categoría, se pueden diferenciar tres grandes grupos: \textit{self-training}, que utilizan únicamente un clasificador, \textit{co-training}~\cite{engelen2020surveyOnSemiSupervised}, que utilizan más de uno y los \textit{pseudo-labelled boosting methods}, que construyen clasificadores individuales que se alimentan de las predicciones más fiables. Se estudiará más en profundidad los métodos \textit{co-training}.
 
-\subsubsection{Co-training}
+\subsubsection{\textit{Co-training}}
 
 En estos algoritmos, varios clasificadores son entrenados iterativamente utilizando datos etiquetados y añadiendo las predicciones (resultados) más confiables al conjunto para ser utilizadas en las siguientes iteraciones~\cite{engelen2020surveyOnSemiSupervised}. Para que los clasificadores sean capaces de generar información distinta, generalmente se divide el conjunto de entrada según alguna característica (no siendo estrictamente necesario). El \textit{co-forest}, algoritmo protagonista de este proyecto, pertenece a esta categoría.
 
@@ -240,6 +240,7 @@ El criterio de parada de la fase de entrenamiento del \textit{co-forest} es el \
 
 \subsection{Algoritmo}
 
+Se facilitan a continuación algunos detalles más concretos acerca del \textit{co-forest}.
 
 \subsubsection{Variables utilizadas}
 
@@ -373,6 +374,8 @@ Por otro lado, el error para $i$ se aproxima dividiendo el número de muestras d
 
 \subsection{Algoritmo}
 
+Se facilitan a continuación algunos detalles más concretos acerca del \textit{tri-training}.
+
 \subsubsection{Variables utilizadas}
 
 Para facilitar la comprensión del pseudocódigo, se definen a continuación algunas de las variables utilizadas:
@@ -474,6 +477,8 @@ Como estimadores base se utiliza un conjunto de algoritmos de aprendizaje que se
 Además, en la fase de predicción, el método cuenta con un algoritmo de combinación de etiquetas basado en el <<peso>> (como sinónimo de confianza) que tiene cada clasificador~\cite{democraticCoLearning2004original}.
 
 \subsection{Algoritmo}
+
+Se facilitan a continuación algunos detalles más concretos acerca del \textit{democratic-co learning}.
 
 \subsubsection{Variables utilizadas}
 
