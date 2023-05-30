@@ -27,7 +27,7 @@
       </div>
       <div class="row mt-3 text-center">
         <div class="col-12">
-          <a class="text-light" href="/index">
+          <a class="text-light" href="/index" target="_blank">
             <medium>{{ gettext('Página principal') }}</medium>
           </a>
         </div>
@@ -36,14 +36,3 @@
   </div>
 </div>
 {% endblock content %}
-
-<!-- Dodge heroku iframe settings -->
-{% block javascripts %}
-<script>
-  Event.observe(window, 'load', function () {
-    $$('a').each(function (e) {
-      e.writeAttribute('target', '_parent');
-    });
-  });
-</script>
-{% endblock javascripts %}
