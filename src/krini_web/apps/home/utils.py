@@ -1013,7 +1013,7 @@ def accept_incoming_suggestion(candidate_instance):
                 new_labels.remove(Available_tags.auto_classified)
 
         new_labels.append(Available_tags.reviewed)
-        affected_instance.instance_labels = new_labels
+        affected_instance.instance_labels = [*set(new_labels)]
         affected_instance.reviewed_by = current_user.id
         db.session.commit()
         return True
