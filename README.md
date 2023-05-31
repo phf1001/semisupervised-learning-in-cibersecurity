@@ -63,9 +63,6 @@
   <a href="#contact">Contact</a> •
   <a href="#license">License</a>
   <br /><br />
-  <a href="https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng">
-    <img src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/4e9d02f0-bb42-425e-abd0-9a7addbd1e57" width="50" height="50"/>
-  </a>
 </p>
 
 ---
@@ -94,8 +91,8 @@ Regarding this repository, two investigation lines have been opened: detection o
 | [Krini (a web phishing scanner developed using Flask)](https://krini.herokuapp.com/index) |         ✔️         |    
 | Useful scripts (SOCKS5 proxies, Docker deploy and more!)          |         ✔️         |    
 | [Cool wallpapers 🎨](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/wallpapers)       |         ✔️         |  
-| [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs), [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) and [tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng)        |         ✔️         |    
-
+| [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs) and [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) |         ✔️         |    
+| [YouTube](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) ▶️ |         ✔️         |  
 <br />
 
 ## Deploy the web in Docker
