@@ -219,9 +219,15 @@
                           {{ gettext('Conjunto utilizado para entrenar') }}
                         </span>
                       </p>
-                      <div class="form-control">
-                        {{ form.uploaded_train_csv }}
-                      </div>
+                      <p class="primary-label-forms">
+                        <input type="file" name="uploaded_train_csv" id="uploaded_train_csv" accept=".csv" title=" ">
+                        &nbsp;&nbsp;&nbsp;
+                        <label for="uploaded_train_csv" class="input-labels">
+                          {{ gettext('Selecciona un archivo') }}
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="uploaded_filename_train" class="gray-description-forms"></label>
+                      </p>
                       <br></br>
                       <p class="primary-label-forms">
                         {{ gettext('DATOS DE TEST') }}&nbsp;
@@ -230,9 +236,15 @@
                           {{ gettext(' no debe contener ningún enlace utilizado para entrenar.') }}
                         </span>
                       </p>
-                      <div class="form-control">
-                        {{ form.uploaded_test_csv }}
-                      </div>
+                      <p class="primary-label-forms">
+                        <input type="file" name="uploaded_test_csv" id="uploaded_test_csv" accept=".csv" title=" ">
+                        &nbsp;&nbsp;&nbsp;
+                        <label for="uploaded_test_csv" class="input-labels">
+                          {{ gettext('Selecciona un archivo') }}
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="uploaded_filename" class="gray-description-forms"></label>
+                      </p>
                     </div>
                     <div id="hd2" style="display: none">
                       <span class="gray-description-forms">
@@ -274,3 +286,6 @@
   </div>
 </form>
 {% endblock content %}
+{% block javascripts %}
+<script src="/static/assets/js/nameuploadedfile.js"></script>
+{% endblock javascripts %}
