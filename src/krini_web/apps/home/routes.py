@@ -1209,9 +1209,8 @@ def updating_instance():
             ).first()
 
         elif messages["operation"] == "new":
-            selected_instance = Available_instances(
-                instance_URL=messages["instance_URL"]
-            )
+            instance_URL = messages["instance_URL"].replace(" ", "")
+            selected_instance = Available_instances(instance_URL=instance_URL)
             db.session.add(selected_instance)
             db.session.flush()
 
@@ -1387,6 +1386,7 @@ def report_url():
     if "report" in request.form and form.validate_on_submit():
         try:
             url = request.form["url"]
+            url = url.replace(" ", "")
             report_type = request.form["type"]
 
             if report_type == "black-list":

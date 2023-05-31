@@ -15,6 +15,17 @@ echo
 echo "${Y}~ Lanzador de la web ~${N}"
 echo
 echo "${Y}~ Levantando contenedores... ~${N}"
-docker start semisupervised-learning-in-cibersecurity_db > /dev/null 2>&1
-docker start semisupervised-learning-in-cibersecurity_web > /dev/null 2>&1
-echo "${Y}~ Contenedores levantados. ~${N}"
+read -r -p "Este script libera los puertos 5432 y 5000 de tu sistema (elimina algún proceso en caso de que estén ocupados)¿Deseas continuar? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+	sudo kill $(sudo lsof -t -i:5432) > /dev/null 2>&1
+	sudo kill $(sudo lsof -t -i:5000) > /dev/null 2>&1
+    docker start semisupervised-learning-in-cibersecurity_db > /dev/null 2>&1
+    docker start semisupervised-learning-in-cibersecurity_web > /dev/null 2>&1
+    echo "${Y}~ Contenedores levantados. ~${N}"
+	echo 
+        ;;
+    *)
+        echo "${Y}~ Parado. ~${N}"
+        ;;
+esac

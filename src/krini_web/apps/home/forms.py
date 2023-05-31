@@ -53,7 +53,7 @@ class ReportURLForm(FlaskForm):
     type = SelectField(
         "type",
         id="type",
-        choices=[("black-list", "Blacklist"), ("white-list", "Whitelist")],
+        choices=[("black-list", "Black-list"), ("white-list", "White-list")],
         validators=[DataRequired("no_option_selected")],
     )
 

@@ -142,7 +142,7 @@ Hay ocasiones en las que los experimentos lanzados requieren una cantidad muy el
 	\item Lanzar el \textit{script} deseado desde \texttt{tmux} mediante el comando \texttt{python3 script.py}.
 	\item Desacoplar la terminal pulsando \texttt{Ctrl + b y luego d}.
 	\item Comprobar que el \textit{script} se está ejecutando mediante \texttt{ps -fA | grep python}
-	\item Consultar los logs mediante el comando \texttt{\$ nano} o \texttt{\$ tail}.
+	\item Consultar los \textit{logs} mediante el comando \texttt{\$ nano} o \texttt{\$ tail}.
 	\item Copiar los ficheros resultantes a local mediante \texttt{\$ scp}.
 	\item Si se quiere recuperar la terminal desacoplada, hacerlo mediante \texttt{\$ tmux attach}.
 \end{enumerate}
@@ -231,8 +231,13 @@ Para desplegar únicamente \texttt{src}~\cite{herokusubtree}, el comando clásic
 	}. Es probable que requiera un inicio de sesión.
 \end{enumerate}
 
-La base de datos PostgreSQL de la \textit{web} también se ha desplegado en Heroku mediante un \textit{add-on} y es accesible por CLI mediante el comando \texttt{\$
-heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión mediante variables de entorno.
+Algunos detalles a tener en cuenta:
+
+\begin{itemize}
+	\item La base de datos PostgreSQL de la \textit{web} también se ha desplegado en Heroku mediante un \textit{add-on} y es accesible por CLI mediante el comando \texttt{\$heroku pg:psql <base> --app krini}. En código, se recupera la URI de conexión mediante variables de entorno.
+	\item Es importante destacar que, para que la \textit{web} desplegada pueda utilizar \texttt{https}, es necesario activar los certificados SSL\footnote{Un certificado SSL (\textit{secure socket layer}) permite cifrar la conexión entre cliente y servidor, además de autentificar una \textit{web} como legítima.} y renovarlos cada tres meses. El proceso acerca de cómo hacerlo se puede consultar en la documentación oficial de Heroku\footnote{Disponible en: \url{https://devcenter.heroku.com/articles/ssl}}.
+\end{itemize}
+
 
 \section{Compilación, instalación y ejecución de herramientas auxiliares}
 \label{ds:inst-aux}

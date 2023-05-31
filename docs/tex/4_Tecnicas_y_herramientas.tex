@@ -162,9 +162,9 @@ Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del có
 En algunos casos no se han encontrado soluciones de terceros y ha sido necesario implementar \textit{scripts} propios. Los mas relevantes se citan a continuación:
 
 \begin{itemize}
-	\item \textbf{\textit{Script} para levantar proxies SOCKS5}:
+	\item \textbf{\textit{Script} para levantar proxies \texttt{SOCKS5}}:
 	\label{sec:script_tor}
-Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo SOCKS5.
+Durante la extracción de vectores de características, se realizan peticiones a páginas de \textit{phishing}. Para garantizar que estas páginas no puedan rastrear desde donde se ha realizado la petición, se han utilizado \textit{proxies} que implementan el protocolo \texttt{SOCKS5}.
 
 Para ello, se ha implementado en Python un \textit{script} auxiliar que levanta en paralelo tantas instancias de Tor como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 

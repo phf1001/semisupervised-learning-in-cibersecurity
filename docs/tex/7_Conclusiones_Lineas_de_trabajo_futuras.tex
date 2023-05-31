@@ -1,4 +1,77 @@
 \capitulo{7}{Conclusiones y Líneas de trabajo futuras}
 
-Todo proyecto debe incluir las conclusiones que se derivan de su desarrollo. Éstas pueden ser de diferente índole, dependiendo de la tipología del proyecto, pero normalmente van a estar presentes un conjunto de conclusiones relacionadas con los resultados del proyecto y un conjunto de conclusiones técnicas. 
-Además, resulta muy útil realizar un informe crítico indicando cómo se puede mejorar el proyecto, o cómo se puede continuar trabajando en la línea del proyecto realizado. 
+En este último capítulo de la memoria se pretende enumerar algunos de los aprendizajes extraídos durante la realización del proyecto, además de proponer ideas de mejora para refinar el desempeño de la propuesta presentada.
+
+Es destacable que los puntos desarrollados a continuación son de carácter general. Si se quieren leer conclusiones concretas acerca de algoritmos o aproximaciones de detección relacionadas con la ciberseguridad, se recomienda consultar el capítulo~\hyperref[s:5]{5} de la memoria.
+
+\subsection{Conclusiones}
+
+Debido a que se han extraído aprendizajes de diversa índole durante el desarrollo del proyecto, se han decidido clasificar en tres secciones distintas. En un primer lugar, se van a exponer conclusiones <<científicas>> (referentes a la experimentación). Posteriormente, conclusiones <<técnicas>> (asociadas con el desarrollo del producto \textit{software}). Por último, se enumeran algunas conclusiones <<personales>> (relacionadas con el aprendizaje propio de la desarrolladora durante el proyecto).
+
+\subsubsection{Científicas}
+
+Con respecto a las metodologías de modelado y solución de problemas mediante aprendizaje automático, se destaca la importancia de <<no dejarse llevar>> por los algoritmos y prestar verdadera \textbf{atención a los métodos de extracción y preparado de datos}. Es infinitamente más complicado (y, por lo tanto, consume más recursos) extraer un \textit{dataset} apropiado que encontrar algoritmos adecuados para las tareas de clasificación.
+
+Del método de detección de \textit{phishing} se destaca la \textbf{dificultad de realizar correctamente \textit{web scraping}}. Es indudable la gran variedad de formas que existen en la programación \textit{web} para conseguir un mismo objetivo, y lograr una aproximación <<universal>> es, por lo tanto, un objetivo muy ambicioso.
+
+Destacable además la importancia de \textbf{parametrizar correctamente los algoritmos}. Se ha comprobado mediante la experimentación con el \textit{co-forest}, como pequeños cambios pueden suponer un impacto en el desempeño de un modelo, por lo que es fundamental que los ajustes sean corectos.
+
+Sin embargo, la conclusión más significativa extraída en esta sección es que \textbf{no siempre se obtienen resultados brillantes, y eso está bien}. Es igual de importante descubrir una aproximación nueva que cerrar líneas de investigación que tal vez no sean tan relevantes.
+
+\subsubsection{Técnicas}
+
+Indudablemente se ha de mencionar la importancia de introducir \textbf{herramientas de control de calidad en los repositorios} desde el momento de su creación. En este proyecto se introdujo el concepto de calidad cuando ya estaba avanzado, lo que conllevó enfrentarse a un gran número de defectos que podrían haber sido evitados poco a poco durante fases tempranas del desarrollo. También es fundamental mencionar la necesidad de \textbf{evaluar} las salidas que nos proporcionan estas herramientas y saber analizar falsos positivos o no actuar en situaciones de <<peligro>> (si, por ejemplo, no se dispone de una \textbf{batería robusta de pruebas} que verifique la posible introducción de defectos de regresión).
+
+Por otro lado, y respectivo a la programación \textit{web}, se ha aprendido la importancia (y dificultad) de realizar un \textbf{despliegue correcto}. El lanzamiento del producto desarrollado ha supuesto más de un reto y, muchas, veces, sin solución <<gratuita>>. Sin embargo, es subrayable que siempre se pueden encontrar alternativas (en este proyecto, por ejemplo, la solución a los \textit{timeouts} Heroku se ha logrado mediante contenedores de Docker). También es reseñable la correcta configuración de los servidores de despliegue, ya que pueden surgir problemas (por ejemplo, de concurrencia), que no se encontraban en los servidores de desarrollo.
+
+Es destacable, además, la relevancia de (cuando sea posible) depender del menor número de herramientas de terceros, ya que pueden generar conflictos entre ellas o incluso introducir fallos de seguridad.
+
+Por útimo, mencionar la gran importancia de contar con una correcta \textbf{documentación}, aunque suponga desviar una gran cantidad de recursos de desarrollo (sobre todo, a nivel temporal).
+
+\subsubsection{Personales}
+
+En un primer lugar, se destaca la \textbf{importancia de poseer un juicio crítico} con el trabajo propio y ajeno, y saber evaluar en condiciones justas el conocimiento extraído. Se ha podido comprobar como ciertos \textit{papers} publicados plantean aproximaciones como <<universales>>, cuando en realidad funcionan por ajustarse a un conjunto de datos en concreto y suponer generalizaciones que no se mencionan.
+
+Relacionado, también se destaca la capacidad de saber \textbf{analizar el contenido de las publicaciones científicas} y no suponer que todo lo expuesto en ellas es indudablemente correcto. Se ha verificado como, en muchos \textit{papers}, hay detalles de implementación que no se enumeran de forma explícita y es el desarrollador quien debe tomar decisiones.
+
+Por otro lado, se destaca cada vez más la \textbf{importancia de saber adaptarse antes que dominar a la perfección todo tipo de tecnologías}. En muchas ocasiones, se ha tenido que aprender nuevas herramientas o paradigmas de programación que no se conocían, y no siempre se dispone del tiempo necesario para <<convertirse en un experto>> de una tecnología nueva. Por ello, es fudamental acostumbrarse a buscar lo que se necesite y saber aplicarlo.
+
+Por último, subrayar la importancia de la \textbf{constancia frente a la motivación}.
+
+
+\subsection{Líneas de trabajo futuras}
+
+El mundo de la ciberseguridad se encuentra en constante cambio, y los distintos tipos de ataques existentes avanzan con el fin de ser indetectables. Por ello, es fundamental anticiparse a dicha evolución y establecer líneas de trabajo que mejoren las aproximaciones actuales.
+
+A continuación, se van a detallar algunos aspectos que se podrían implementar para refinar el proyecto. Nuevamente, van a ser desglosados en distintas categorías:
+
+\subsubsection{Algoritmos de aprendizaje semisupervisado}
+
+Respecto al estudio e implementación de algoritmos de aprendizaje semisupervisado, se sugiere:
+
+\begin{itemize}
+	\item \textbf{Implementar nuevos algoritmos}: y validar los resultados obtenidos con el fin de aumentar la oferta de \textit{ensembles} en la \textit{web}.
+	\item \textbf{Mejorar las implementaciones actuales}: introduciendo, por ejemplo, computación paralela.
+\end{itemize}
+
+\subsubsection{Detección de \textit{phishing}}
+
+Relacionado con la detección y clasificación de páginas fraudulentas o legítimas, se propone:
+
+\begin{itemize}
+	\item \textbf{Investigar nuevos métodos de extracción de vectores de características}: con el fin de mejorar la detección de \textit{phishing}\footnote{Algunas ideas ya se encuentran registradas y se pueden consultar en el \textit{issue} \#132 del repositorio \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues/132}}.
+\end{itemize}
+
+
+\subsubsection{Krini (página \textit{web})}
+
+Relativo al producto \textit{software} entregado, se plantea:
+
+\begin{itemize}
+	\item \textbf{Nuevos algoritmos}: incorporar nuevos algoritmos de aprendizaje para aumentar la diversidad de modelos existentes.
+	\item  \textbf{Mayor variedad de estimadores base}: incluir nuevos estimadores base de la API de Scikit-Learn y ofrecer una mayor flexibilidad a la hora de configurar estos clasificadores.
+	\item \textbf{Nuevos métodos de detección}: basados en la extracción de vectores de características alternativos (se podría, incluso, analizar las URLs utilizando varios procedimientos).
+	\item \textbf{Internacionalizar}: atendiendo a las características de las culturas objetivo y adaptando no solo el idioma (también iconos, colores, etc.).
+	\item \textbf{Gestión de usuarios}: incluir un nuevo caso de uso que permita a los administradores gestionar usuarios desde la aplicación.
+	\item \textbf{Despliegue}: buscar alternativas a Heroku con el fin de facilitar el acceso completo a la aplicación sin tener que desplegar con Docker.
+\end{itemize}

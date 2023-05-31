@@ -233,6 +233,10 @@ Si se quieren actualizar las métricas almacenadas en la base de datos, se puede
 
 Por otro lado, es destacable que si se utilizan instancias vistas durante el entrenamiento para probar un clasificador, es posible que los resultados obtenidos sean optimistas. Por ello, se facilita la opción <<excluir ejemplos vistos durante el entrenamiento>>, de forma que aquellas URLs ya utilizadas serán eliminadas automáticamente de los conjuntos de \textit{test}.
 
+\subsubsection{Eliminar modelos}
+
+Este caso de uso se puede ejecutar individualmente o en \textit{bulk}. Para eliminar un solo modelo, basta con pulsar el botón de <<más>> y a continuación <<eliminar>>. Para borrar varios, se pueden seleccionar pulsando en sus \textit{checkboxes} y haciendo \textit{click} en el botón de la esquina superior derecha.
+
 \subsection{Instancias}
 \label{s-e:instances}
 
@@ -290,11 +294,14 @@ Todas las instancias existentes pueden ser editadas a través del formulario que
 
 Es destacable que, en caso de conflicto de etiquetas (ejemplo: se selecciona pertenencia a una lista negra y se pone como etiqueta \texttt{white-list}), las menos prioritarias serán eliminadas.
 
+\subsubsection{Eliminar instancias}
+
+Este caso de uso se puede ejecutar individualmente o en \textit{bulk}. Para eliminar una sola instancia, basta con pulsar el botón de <<más>> y a continuación en <<eliminar>>. Para borrar varias, se pueden seleccionar pulsando en sus \textit{checkboxes} y haciendo \textit{click} en el botón de la esquina superior derecha.
 
 \subsection{Sugerencias}
 \label{s-e:sugerencias}
 
-Cuando un usuario registrado reporta un análisis que considera erróneo (consultar sección~\ref{s-e:report-false-analy}) o denuncia una URL por pertenecer a una lista blanca o negra (consultar sección~\ref{s-e:report-url}), se crea una nueva entrada en la sección de <<sugerencias>>. También se crean nuevas sugerencias cuando un usuario registrado analiza una URL (para recordar al administrador que revise la nueva instancia).
+Cuando un usuario registrado reporta un análisis que considera erróneo (consultar sección~\ref{s-e:report-false-analy}) o denuncia una URL por pertenecer a una lista blanca o negra (consultar sección~\ref{s-e:report-url}), se crea una nueva entrada en la sección de <<sugerencias>>. También se crean nuevas sugerencias cuando un usuario registrado analiza una URL que no se encuentra previamente en la base de datos (para recordar al administrador que revise la nueva instancia).
 
 \begin{figure}[h]
 	\caption[Manual de usuario: administrar sugerencias]{Página de administración de sugerencias o \textit{reports}.}
