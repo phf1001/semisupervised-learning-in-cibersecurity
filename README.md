@@ -63,7 +63,7 @@
   <a href="#contact">Contact</a> •
   <a href="#license">License</a>
   <br /><br />
-  <a target="_blank" href="https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng">
+  <a href="https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng">
     <img src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/4e9d02f0-bb42-425e-abd0-9a7addbd1e57" width="50" height="50"/>
   </a>
 </p>
