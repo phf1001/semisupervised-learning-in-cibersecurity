@@ -52,6 +52,7 @@
 </p>
       
 <p align="center">
+  <br />
   <a href="#about">About</a> •
   <a href="#features">Features</a> •
   <a href="#deploy-the-web-in-docker">Docker</a> •
@@ -61,6 +62,10 @@
   <a href="#used-images">Images</a> •
   <a href="#contact">Contact</a> •
   <a href="#license">License</a>
+  <br /><br />
+  <a target="_blank" href="https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng">
+    <img src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/4e9d02f0-bb42-425e-abd0-9a7addbd1e57" width="50" height="50"/>
+  </a>
 </p>
 
 ---
@@ -85,21 +90,21 @@ Regarding this repository, two investigation lines have been opened: detection o
 |                            | In this repo  | 
 | -------------------------- | :----------------: | 
 | SSL algorithms implementation         |         ✔️         |   
-| Useful scripts             |         ✔️         |    
-| Documentation        |         ✔️         |       
-| Feature vectors extraction |         ✔️         |    
-| Graphs generator |         ✔️         |    
-| Flask web app |         ✔️         |  
-| Tor instances and SOCKS5 proxies scripts |         ✔️         |    
+| Phishing detection using machine learning |         ✔️         |    
+| [Krini (a web phishing scanner developed using Flask)](https://krini.herokuapp.com/index) |         ✔️         |    
+| Useful scripts (SOCKS5 proxies, Docker deploy and more!)          |         ✔️         |    
+| [Cool wallpapers 🎨](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/wallpapers)       |         ✔️         |  
+| [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs), [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) and [tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng)        |         ✔️         |    
 
 <br />
 
 ## Deploy the web in Docker
 
-You can access the app via [Krini](https://krini.herokuapp.com/index) or deploy our Docker images. Everything is automatic! 🐳
+You can access the scanner via [Krini](https://krini.herokuapp.com/index) or deploy our Docker images. Everything is automatic! 🐳
 
 > Check all the information in the [docker-deploy-kit](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit) README.md
 
+**Are you a developer?** Take a look in our [developer guide](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/Manual-del-programador) for more details
 <br />
 
 

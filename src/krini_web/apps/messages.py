@@ -398,8 +398,10 @@ def get_message(identifier) -> str:
         return gettext("No tienes permisos para acceder a esta página.")
 
     if identifier == "false_positive_reported":
-        return gettext("Falso resultado reportado correctamente.") + gettext(
-            "¡Gracias por tu colaboración!"
+        return (
+            gettext("Falso resultado reportado correctamente.")
+            + " "
+            + gettext("¡Gracias por tu colaboración!")
         )
 
     if identifier == "model_removed":
