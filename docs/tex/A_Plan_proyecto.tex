@@ -869,16 +869,16 @@ Este término se refiere al desembolso realizado para adquirir (o producir) un b
 \begin{enumerate}
 	\item\textbf{Costes de empleados:} en este caso se cuenta con una desarrolladora (la alumna) y el \textit{product owner} (tutor académico).
 
-Se estima que el tiempo real invertido en el proyecto por parte de la desarrolladora ha sido equivalente a X horas repartidas a lo largo de 8.5 meses. Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos anuales\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 ~horas\footnote{Fuente: \url{ https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, el salario medio bruto por hora es, aproximadamente, 12€. Por ello, el salario bruto del programador equivale a $X horas \times 12\frac{\text{€}}{hora} = Y \text{€}$.
+Se estima que el tiempo real invertido en el proyecto por parte de la desarrolladora ha sido equivalente a 650 horas repartidas a lo largo de 8.5 meses. Teniendo en cuenta que el sueldo base promedio de un programador \textit{junior} en España equivale a 21\,496€ brutos anuales\footnote{Fuente: \url{https://es.indeed.com/career/programador-junior/salaries}} y que el tiempo anual trabajado en una jornada completa es aproximadamente 1\,820 ~horas\footnote{Fuente: \url{ https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, el salario medio bruto por hora es, aproximadamente, 11.82€. Por ello, el salario bruto del programador equivale a $650\text{ horas} \times 11\text{.}82\frac{\text{€}}{hora} = 7677.14\text{€}$ (aproximadamente 903.2$\frac{\text{€}}{mes}$).
 
-A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por el empleado\footnote{Fuente:~\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$50\%$ de desempleo, un $0$.$20\%$ de FOGASA, un $0$.$60\%$ de formación profesional y un $1$.$50\%$ por accidentes de trabajo. Por lo tanto, la empresa debe pagar por este trabajador P€/mes. Esta cifra proviene de despejar en la ecuación~\ref{eqn:sueldo-patri}.
+A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por el empleado\footnote{Fuente:~\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$50\%$ de desempleo, un $0$.$20\%$ de FOGASA, un $0$.$60\%$ de formación profesional y un $1$.$50\%$ por accidentes de trabajo. Por lo tanto, la empresa debe pagar por este trabajador 1\,316.62$\frac{\text{€}}{mes}$. Esta cifra proviene de despejar en la ecuación~\ref{eqn:sueldo-patri}.
 
-\begin{equation}\label{eqn:sueldo-patri} \frac{X\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} =  \frac{\text{€}}{mes}\end{equation}
+\begin{equation}\label{eqn:sueldo-patri} \frac{903.2\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 1316\text{.}62 \frac{\text{€}}{mes}\end{equation}
 
 
-Respecto al tutor del proyecto, suponiendo que cobra de media 38\,707.62€ brutos al año\footnote{Fuente: \url{https://www.ubu.es/sites/default/files/portal_page/files/pdi_funcionario_ano_2022.pdf}}, se calcula que el sueldo bruto por hora es de 19.77€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 258.05€ brutos al mes. Sumando los impuestos, la empresa debería pagar 376.17€/mes por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
+Respecto al tutor del proyecto, suponiendo que cobra de media 38\,707.62€ brutos al año\footnote{Fuente: \url{https://www.ubu.es/sites/default/files/portal_page/files/pdi_funcionario_ano_2022.pdf}}, se calcula que el sueldo bruto por hora es de 21.27€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 277.23€ brutos al mes. Sumando los impuestos, la empresa debería pagar 404.12$\frac{\text{€}}{mes}$ por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
 
-\begin{equation}\label{eqn:sueldo-alvar} \frac{258\text{.}05 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 376\text{.}17 \frac{\text{€}}{mes}\end{equation}
+\begin{equation}\label{eqn:sueldo-alvar} \frac{277\text{.}23 \frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 404\text{.}12 \frac{\text{€}}{mes}\end{equation}
 
 Por lo tanto, el coste total para la empresa a nivel de personal se muestra en la tabla~\ref{a:costes-personal}.
 
@@ -888,10 +888,10 @@ Por lo tanto, el coste total para la empresa a nivel de personal se muestra en l
 		\toprule
 		\textbf{Concepto} & \textbf{Salario bruto (€/mes)} & \textbf{Coste empresa (€/mes)} \\
 		\midrule
-		Sueldo desarrolladora & X & Y \\
-		Sueldo \textit{product owner} & 258.05 & 376.17 \\
+		Sueldo desarrolladora & 903.2 & 1316.62 \\
+		Sueldo \textit{product owner} & 277.23 & 404.12 \\
 		\midrule
-		\textbf{Total en 8.5 meses} & suma $\times$ 8.5 € & suma $\times$ 8.5 €\\
+		\textbf{Total en 8.5 meses} & 10\,034.25 & 14\,626.29 €\\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: empleados]{Costes calculados para el personal del proyecto.}
@@ -953,12 +953,12 @@ Por lo tanto, el coste total para la empresa a nivel de personal se muestra en l
 		\textbf{Concepto} & \textbf{Coste (€/hora)} & \textbf{Coste real (€)} \\
 		\midrule
 		Oficina & 0 & 0\\
-		Fibra Óptica & 0.048 & \\
-		Luz & 0.056 & \\
-		Calefacción & 0.27 & \\
-		Agua & 0.03 & \\
+		Fibra Óptica & 0.048 & 31.2 \\
+		Luz & 0.056 & 36.4\\
+		Calefacción & 0.27 & 175.5\\
+		Agua & 0.03 & 19.5 \\
 		\midrule
-		\textbf{Total} & & \\
+		\textbf{Total} & 0.404 & 262.6 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: otros]{Otros costes calculados para el proyecto.}
@@ -974,12 +974,12 @@ Por lo tanto, el coste total para la empresa a nivel de personal se muestra en l
 		\toprule
 		\textbf{Sección} & \textbf{Coste (€)} \\
 		\midrule
-		Empleados & \\
-		\textit{Hardware} & \\
-		\textit{Software} & \\
-		Otros & \\
+		Empleados & 14\,626.29 \\
+		\textit{Hardware} & 677.42 \\
+		\textit{Software} & 1\,506.63\\
+		Otros & 262.6\\
 		\midrule
-		\textbf{Total meses} & \\
+		\textbf{Total} & 17\,072.94 \\
 		\bottomrule
 	\end{tabular}
 	\caption[Costes: total]{Total de costes calculados para el proyecto.}

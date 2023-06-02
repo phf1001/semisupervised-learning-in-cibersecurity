@@ -1481,6 +1481,9 @@ def update_model(model, form_data, models_path=None):
                 if not done:
                     raise KriniDBException(get_message("default_not_updated"))
 
+            else:
+                model.is_default = False
+
             db.session.flush()
             db.session.commit()
             return True

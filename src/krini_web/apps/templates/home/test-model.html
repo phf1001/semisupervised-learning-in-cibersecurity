@@ -96,9 +96,17 @@
                                                     {{ gettext('no debe contener ninguna URL usada para entrenar') }}.
                                                 </span>
                                             </p>
-                                            <div class="form-control">
-                                                {{ form.uploaded_test_csv }}
-                                            </div>
+                                            <br />
+                                            <p class="primary-label-forms">
+                                                <input type="file" name="uploaded_test_csv" id="uploaded_test_csv"
+                                                    accept=".csv" title=" ">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <label for="uploaded_test_csv" class="input-labels">
+                                                    {{ gettext('Selecciona un archivo') }}
+                                                </label>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <label id="uploaded_filename" class="gray-description-forms"></label>
+                                            </p>
                                         </div>
                                         <div id="hd2" style="display: none">
                                             <span class="gray-description-forms">
@@ -152,10 +160,9 @@
 </div>
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
 <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="/static/assets/js/nameuploadedfile.js"></script>
 {% endblock javascripts %}
