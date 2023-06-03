@@ -1426,6 +1426,8 @@ def report_url():
             flash(get_exception_message("error_operation"), "danger")
             db.session.rollback()
 
+        return redirect(url_for("home_blueprint.report_url"))
+
     for key in form.errors.keys():
         message = get_form_message(form.errors[key][0])
         flash(message, "warning")
