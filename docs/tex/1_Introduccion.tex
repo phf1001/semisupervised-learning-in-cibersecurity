@@ -8,6 +8,11 @@ Un sistema de recomendación es un algoritmo desarrollado con el fin de resumir 
 
 Por otro lado, se denomina \textit{phishing} a la técnica de ingeniería social en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque es uno de los más comunes y peligrosos. Según el informe \textit{State of the Phish Report}, en el 2021, un 83\% de las empresas encuestadas sufrieron un ataque de estas características y el 54\% acabó con brechas de datos de clientes~\cite{phishingPorcentajeExito}. Por ello, se pretende crear un sistema de detección que permita distinguir enlaces falsos de auténticos mediante ténicas de aprendizaje semisupervisado.
 
+Para complementar la investigación realizada, se ha desarrollado y desplegado (en Heroku y Docker) una herramienta \textit{web} denominada Krini\footnote{Disponible en \url{https://krini.herokuapp.com/index}.}, que consiste en un analizador de páginas que diferencia entre sitios fraudulentos y legítimos, además de permitir crear modelos, gestionar instancias y aceptar sugerencias de usuarios desde la aplicación.
+
+Es destacable que todos los algortimos de aprendizaje semisupervisado utilizados han sido implementados y validados por la autora permitiendo incluso, en algunos casos, realizar pequeñas aportaciones cuando los detalles de implementación de los \textit{papers} originales no son lo suficientemente explícitos (consultar sección~\ref{s-experimentacion-w-cof}).
+
+
 \section{Estructura de la memoria}
 
 El proyecto ha sido dividido en dos documentos independientes pero complementarios.
@@ -44,11 +49,11 @@ Documento orientado hacia el desarrollo del producto entregado, se divide en las
 Se facilita a continuación el acceso directo a los materiales del proyecto.
 
 \begin{enumerate}
-	\item Repositorio del proyecto:
+	\item \textbf{Repositorio del proyecto:}
 	\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity}
-	\item \textit{Wiki} del proyecto: 	\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}
-	\item \textit{Web} desplegada en Heroku: \url{https://krini.herokuapp.com/index}
-	\item Imágenes de Docker con la \textit{web} y su base de datos: \url{https://hub.docker.com/r/phf1001/krini/tags}
-	\item \textit{Scripts} de despliegue en distintos sistemas operativos: \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}
-	\item Canal de YouTube con ejemplos de uso y despliegue: \url{https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists}
+	\item \textbf{\textit{Wiki} del proyecto:} 	\url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}
+	\item \textbf{\textit{Web} desplegada en Heroku:} \url{https://krini.herokuapp.com/index}
+	\item \textbf{Imágenes de Docker con la \textit{web} y su base de datos:} \url{https://hub.docker.com/r/phf1001/krini/tags}
+	\item \textbf{\textit{Scripts} de despliegue para Docker en distintos sistemas operativos:} \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}
+	\item \textbf{Canal de YouTube con tutoriales de uso y despliegue:} \url{https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists}
 \end{enumerate}
