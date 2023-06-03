@@ -273,6 +273,18 @@ def insert_reports(connection):
                 2,
                 "suggestion-black-list",
             ),
+            (
+                datetime.now(),
+                83,
+                2,
+                "suggestion-legitimate",
+            ),
+            (
+                datetime.now(),
+                39,
+                2,
+                "suggestion-phishing",
+            ),
         ]
 
         for record_to_insert in records_to_insert:
