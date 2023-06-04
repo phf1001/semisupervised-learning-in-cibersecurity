@@ -67,7 +67,10 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField(
         "Password",
         id="pwd_create",
-        validators=[DataRequired("no_password")],
+        validators=[
+            DataRequired("no_password"),
+            Length(min=8, message="password_too_short"),
+        ],
     )
 
     user_first_name = TextField(
