@@ -9,17 +9,17 @@ Es reseñable que este proyecto se sostiene sobre tres pilares complementarios p
 
 \subsection{Aprendizaje semisupervisado}
 
-Por un lado, en este trabajo se pretende ahondar en el concepto de aprendizaje semisupervisado. Para ello, se van a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest} (consultar aspectos teóricos en la sección~\ref{coforest-teoria} y la experimentación en la sección~\ref{coforest-exp}), el \textit{democratic-co learning} (secciones~\ref{democraticco-teoria} y~\ref{democraticco-exp}) y el \textit{tri-training} (secciones~\ref{tritraining-teoria} y~\ref{tritraining-exp}).
+Por un lado, en este trabajo se pretende ahondar en el campo de la minería de datos, más concretamente en el concepto de aprendizaje semisupervisado. Para ello, se van a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest} (consultar aspectos teóricos en la sección~\ref{coforest-teoria} y la experimentación en la sección~\ref{coforest-exp}), el \textit{democratic-co learning} (secciones~\ref{democraticco-teoria} y~\ref{democraticco-exp}) y el \textit{tri-training} (secciones~\ref{tritraining-teoria} y~\ref{tritraining-exp}).
 
 Es reseñable que se pretende alcanzar un nivel de comprensión superior a la mera programación, realizando incluso pequeñas aportaciones a los algoritmos (basadas en la experimentación) en aquellos casos donde el pseudocódigo facilitado por los autores carezca de detalles de implementación.
 
 \subsection{Ciberseguridad}
 
-Implementar algoritmos es un ejercicio relevante, pero carece de sentido si no pueden ser utilizados. Por ello, se pretende encontrar una aplicación a los mismos. Concretamente, se ha propuesto el modelado de un problema real relacionado con la ciberseguridad.
+Implementar algoritmos es un ejercicio relevante, pero carece de sentido práctico si no pueden ser utilizados. Por ello, se pretende encontrar una aplicación a los mismos. Concretamente, se ha propuesto el modelado de un problema real relacionado con la ciberseguridad.
 
 En un primer lugar se valoró estudiar la detección de ataques en sistemas de recomendación~\cite{zhou2021SemisupervisedRecommendationAttack}, pero se desestimó por su bajo desempeño. Finalmente, se ha escogido la detección de \textit{phishing}~\cite{featuresPhishing2018Gupta}.
 
-Es destacable que previo a la selección de las ramas mencionadas anteriormente, se realizó una investigación en la literatura de la materia leyendo y comparando diversos tópicos como intrusión en redes, localización de \textit{markets} ilegales en la \textit{deep web}, detección de \textit{malware} o descubrimiento de dispositivos anómalos en redes IoT.
+Es destacable que, previo a la selección de las ramas mencionadas anteriormente, se realizó una investigación en la literatura de la materia leyendo y comparando diversos tópicos como intrusión en redes, localización de \textit{markets} ilegales en la \textit{deep web}, detección de \textit{malware} o descubrimiento de dispositivos anómalos en redes IoT.
 
 \subsection{Desarrollo y despliegue}
 
@@ -51,8 +51,8 @@ Se han propuesto los siguientes objetivos técnicos:
 Se han propuesto los siguientes objetivos de desarrollo software:
 
 \begin{enumerate}
-	\item \textbf{Implementar de forma estándar los algoritmos:} siguiendo interfaces conocidas por la comunidad (métodos \texttt{fit} y \texttt{predict}).
-	\item \textbf{Adoptar metodologías ágiles de desarrollo} y familiarización con el flujo de Scrum.
+	\item \textbf{Implementar de forma estándar los algoritmos:} siguiendo la interfaz de programación que establece Scikit-Learn (métodos \texttt{fit} y \texttt{predict}).
+	\item \textbf{Adoptar metodologías ágiles de desarrollo} y familiarización con el flujo de trabajo de Scrum.
 	\item \textbf{Documentar el producto desarrollado:} de forma concisa y que resuma, utilizando herramientas visuales (como diagramas) y multimedia (como tutoriales), la arquitectura planteada y su utilización.
 	\item \textbf{Lograr un código de calidad:} desarrollando un producto que tenga una deuda técnica baja y una curva de aprendizaje asumible mediante el uso de herramientas como SonarCloud, DeepSource o Travis CI.
 	\item \textbf{Aplicar la integración y entrega continua:} de forma que se garantice el desarrollo de un producto mínimo viable que permita la detección temprana de errores y facilite la corrección por parte del tutor.
