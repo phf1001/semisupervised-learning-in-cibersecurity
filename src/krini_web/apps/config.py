@@ -80,6 +80,7 @@ class DebugConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", None)
 
     if SQLALCHEMY_DATABASE_URI is None:
+        # skipcq: PYL-C0209
         SQLALCHEMY_DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
             config("DB_ENGINE", default="postgresql"),
             config("DB_USERNAME", default="dev"),
@@ -87,7 +88,7 @@ class DebugConfig(Config):
             config("DB_HOST", default="localhost"),
             config("DB_PORT", default=5432),
             config("DB_NAME", default="krini"),
-        )  # skipcq: PYL-C0209
+        )
 
 
 # Load all possible configurations

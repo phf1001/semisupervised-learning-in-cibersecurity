@@ -56,7 +56,9 @@ def last_insert_id(connection, table_name, pk_name):
 
     except (Exception, psycopg2.Error):
         connection.rollback()
-        raise Exception(f"Error while getting last id from table {table_name}")
+        raise psycopg2.Error(
+            f"Error while getting last id from table {table_name}"
+        )
 
 
 def insert_users(connection):
