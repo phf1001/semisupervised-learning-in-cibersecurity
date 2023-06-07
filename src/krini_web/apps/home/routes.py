@@ -1460,7 +1460,7 @@ def route_template(template):
     try:
         return render_template("specials/page-404.html"), 404
 
-    except:
+    except:  # skipcq: FLK-E722
         return render_template("specials/page-500.html"), 500
 
 

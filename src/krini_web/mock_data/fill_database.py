@@ -48,9 +48,8 @@ def last_insert_id(connection, table_name, pk_name):
     try:
         cursor = connection.cursor()
         sequence = f"{table_name}_{pk_name}_seq"
-        cursor.execute(
-            f'SELECT last_value from "{sequence}"'
-        )  # skipcq: BAN-B608
+        # skipcq: BAN-B608
+        cursor.execute(f'SELECT last_value from "{sequence}"')
         last_id = cursor.fetchone()[0]
         cursor.close()
         return last_id
