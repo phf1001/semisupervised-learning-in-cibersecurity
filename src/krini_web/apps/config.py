@@ -87,7 +87,7 @@ class DebugConfig(Config):
             config("DB_HOST", default="localhost"),
             config("DB_PORT", default=5432),
             config("DB_NAME", default="krini"),
-        )
+        )  # skipcq: PYL-C0209
 
 
 # Load all possible configurations

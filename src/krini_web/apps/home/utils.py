@@ -1856,5 +1856,5 @@ def get_segment(request):
 
         return segment
 
-    except Exception:
+    except:
         return None
