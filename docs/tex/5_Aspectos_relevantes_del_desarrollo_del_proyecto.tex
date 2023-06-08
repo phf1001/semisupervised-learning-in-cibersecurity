@@ -1,13 +1,15 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 \label{s:5}
 
-Este capítulo de la memoria pretende resumir y resaltar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad. Por ello, en este apartado se pueden encontrar diversos puntos importantes.
+Este capítulo de la memoria pretende resumir y resaltar tanto la parte más teórica de algunos de los algoritmos más relevantes de aprendizaje semisupervisado, como su aplicación en diversos ámbitos de la ciberseguridad.
 
-En la subsección~\ref{sec:5_ssl} se desarrollará cómo se han validado los algoritmos de aprendizaje implementados. Para ello, se definirá qué experimentos se han realizado, se reportarán los resultados obtenidos y se realizarán comparativas contra otras implementaciones. Además, también se realizarán experimentaciones propias con detalles de implementación no contemplados en los pseudocódigos, ofreciendo varias alternativas de implementación y comparando los rendimientos alcanzados.
+En la subsección~\ref{sec:5_ssl} se desarrollará cómo se han validado los algoritmos de aprendizaje semisupervisado implementados. Para ello, se definirá qué experimentos se han realizado, se reportarán los resultados obtenidos y se realizarán comparativas contra otras implementaciones. Además, también se realizarán experimentaciones propias con detalles de implementación no contemplados en los pseudocódigos, ofreciendo varias alternativas de implementación y comparando los rendimientos alcanzados.
 
-En la subsección~\ref{sec:5_detec_ataques} se mostrarán los resultados obtenidos tras aplicar métodos de aprendizaje a la detección de ataques en sistemas de recomendación y se valorará si el método de generación de vectores de características expuesto en el apartado~\ref{sec:vectores_catacterísticas_ataquesisrec} es extrapolable a una aplicación real.
+En la subsección~\ref{sec:5_detec_ataques} se mostrarán los resultados obtenidos tras aplicar métodos de aprendizaje (supervisado y semisupervisado) a la detección de ataques en sistemas de recomendación y se valorará si el método de generación de vectores de características expuesto en el apartado~\ref{sec:vectores_catacterísticas_ataquesisrec} es extrapolable a una aplicación real. Los experimentos se han basado en reproducir el trabajo de Zhou y Duan~\cite{zhou2021SemisupervisedRecommendationAttack}.
 
-Por último, en la subsección~\ref{sec:5_phishing} (dedicada al \textit{phishing}), se estudiarán los resultados del método de extracción expuesto en el apartado~\ref{sec:vectores_caracteristicas_phishing}, además de realizar una comparativa entre el rendimiento de algoritmos de aprendizaje supervisado y semisupervisado aplicados a esta aproximación.
+En la subsección~\ref{sec:5_phishing} (dedicada al \textit{phishing}), se estudiarán los resultados del método de extracción expuesto en el apartado~\ref{sec:vectores_caracteristicas_phishing}, además de realizar una comparativa entre el rendimiento de algoritmos de aprendizaje supervisado y semisupervisado aplicados a esta aproximación. En este caso, la experimentación se ha fundamentado en la publicación escrita por Ankit Kumar Jain y B. B. Gupta~\cite{featuresPhishing2018Gupta}.
+
+Por último, en la subsección~\ref{s:web-krini}, se expondrán brevemente algunos detalles de la \textit{web} desarrollada.
 
 \section{Algoritmos de aprendizaje semisupervisado}
 \label{sec:5_ssl}
@@ -80,7 +82,7 @@ Sin embargo, es destacable que las conclusiones obtenidas han sido extraídas ut
 
 \subsubsection{Experimentación con el algoritmo}
 
-Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iterations},~\ref{cf:cf_time-percentage} y ~\ref{cf:tt_trees}. Todas las experimentaciones se han realizado con el criterio \texttt{percentage\_L}.
+Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iterations},~\ref{cf:cf_time-percentage} y~\ref{cf:tt_trees}. Todas las experimentaciones se han realizado con el criterio \texttt{percentage\_L}.
 
 
 \begin{itemize}
@@ -95,7 +97,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iteratio
 		\label{5_entrenamiento_particiones}
 	\end{figure}
 
-	Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones sin repetición). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (utilizando estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la imagen~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
+	Para garantizar que los resultados obtenidos no son producto de una partición concreta de los datos, se ha realizado validación cruzada (con 10 particiones sin repetición). Por lo tanto, el porcentaje de datos utilizados para el entrenamiento es el $90\%$ del total (utilizando estratificación). Los datos de entrenamiento, a su vez, se dividen en etiquetados y no etiquetados. En este caso, el $20\%$ representa los datos etiquetados, y el $80\%$ los no etiquetados, como se puede observar en la ilustración~\ref{5_entrenamiento_particiones}. Se han utilizado 20 árboles.
 	
 	La exactitud media obtenida se puede ver representada en la ilustración~\ref{gr:cf_train-iterations}. Es destacable que, dependiendo de los datos que se utilicen para entrenar el \textit{co-forest}, puede variar el número de iteraciones que se necesiten (incluso dentro de un mismo \textit{dataset}). Por ello, siempre se representa el número máximo de iteraciones realizadas, y, para no deformar la media, se ha considerado que el valor de las iteraciones inexistentes es el mismo que el valor obtenido en la última iteración (ya que si el algoritmo siguiese, el resultado devuelto sería igual debido a que no se volvería a entrenar ningún árbol).
 	
@@ -111,7 +113,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iteratio
 	\item \textbf{Tiempo de entrenamiento:} además, también se ha querido evaluar cómo varía el tiempo de entrenamiento en función del número de instancias utilizadas. Para ello, se ha trabajado con el \textit{dataset} que contiene un mayor número de datos (Dígitos), y los resultados obtenidos se pueden observar en el la primera gráfica de la ilustración~\ref{cf:cf_time-percentage}. Como se puede comprobar, sigue un crecimiento aproximadamente lineal. La velocidad, en este caso, es alta, pero cabe recordar que depende en gran medida del número de árboles utilizados y de las iteraciones que estos realicen. Se ha representado en la línea negra punteada, además, el resultado del modelo de regresión lineal.
 
 \begin{figure}[h]
-	\caption[\textit{Co-Forest}: resultados (tiempo-porcentaje)]{Ilustración que muestra el tiempo de entrenamiento requerido para el \textit{co-forest} en función del número de instancias, además de la evolución de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento.}
+	\caption[\textit{Co-Forest}: resultados (tiempo-porcentaje)]{Ilustración que muestra el tiempo de entrenamiento requerido para entrenar el \textit{co-forest} en función del número de instancias (izquierda), además de la evolución de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento (derecha).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_coforest_time-percentage}
 	\label{cf:cf_time-percentage}
@@ -127,7 +129,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iteratio
 	Como se puede comprobar en la ilustración~\ref{cf:tt_trees}, en general, cuantos más árboles se utilicen, mejor \textit{accuracy} alcanza el \textit{co-forest}. Es destacable que, evidentemente, a mayor $n$, mayor tiempo de procesamiento es requerido, como se ilustra en la segunda gráfica de esa misma ilustración. Por lo tanto, se debería alcanzar un compromiso. Por lo general, los autores~\cite{originalCoForest2007} utilizan valores de $n \geq 6$.
 	
 	\begin{figure}[h]
-		\caption[\textit{Co-Forest}: resultados (número de árboles)]{Ilustración que muestra la \textit{accuracy} alcanzada por el \textit{co-forest}, además del tiempo de entrenamiento requerido en función del número de árboles utilizados}
+		\caption[\textit{Co-Forest}: resultados (número de árboles)]{Ilustración que muestra la \textit{accuracy} alcanzada por el \textit{co-forest} (izquierda), además del tiempo de entrenamiento requerido (derecha) en función del número de árboles utilizados.}
 		\centering
 		\includegraphics[width=\textwidth]{../img/memoria/5_coforest_trees}
 		\label{cf:tt_trees}
@@ -138,7 +140,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:cf_train-iteratio
 
 \subsubsection{Comparativa contra KEEL}
 
-Para asegurar el correcto funcionamiento del algoritmo implementado, se ha decidido comparar contra la herramienta KEEL, creada por distintas universidades españolas y financiada por el Ministerio de Educación y Ciencia.
+Para asegurar el correcto funcionamiento del algoritmo implementado, se ha decidido comparar contra la herramienta KEEL, creada por distintas universidades españolas.
 
 En primer lugar y para tener más capacidad de <<manipulación>>, se optó por descargar los ficheros fuentes de la última versión de Github~\cite{keelRepo} en lugar de utilizar la versión compilada que ofrecen los desarrolladores. Se puede consultar cómo en los anexos.
 
@@ -217,7 +219,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:tt_train-iteratio
 \end{figure}
 
 \begin{figure}[h]
-	\caption[\textit{Tri-training}: resultados (tiempo-porcentaje)]{Ilustración que muestra el tiempo de entrenamiento requerido para el \textit{tri-training}, además de la evolución de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento.}
+	\caption[\textit{Tri-training}: resultados (tiempo-porcentaje)]{Ilustración que muestra el tiempo de entrenamiento requerido para el \textit{tri-training} (izquierda), además de la evolución de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento (derecha).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_tritraining_time-percentage}
 	\label{gr:tt_time-percentage}
@@ -277,7 +279,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:dc_train-iteratio
 	Como se puede observar, al finalizar la fase de entrenamiento, todos los \textit{datasets} mejoran la \textit{accuracy} de la iteración 0 excepto Dígitos. Habiendo depurado el algoritmo y comprobado cómo funciona internamente, se piensa que es debido a la gran cantidad de clases disponibles en el \textit{dataset} (las etiquetas pueden adoptar un valor entre $0$ y $9$). En la fase del algoritmo en la que se escoge la etiqueta, puede ocurrir que no haya una mayoría entre la votación, lo que da lugar a un mayor error que en los \textit{datasets} con menos etiquetas (por ejemplo, los binarios). Se piensa que una posible solución sería incrementar el número de estimadores base, pero también se dispararía el tiempo de entrenamiento, que es muy superior al resto de algoritmos (compruébese que el número de iteraciones en este caso puede llegar a ser $200$).
 	
 \begin{figure}[h]
-	\caption[\textit{Democratic-co}: resultados (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento, además de la evolución de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento.}
+	\caption[\textit{Democratic-co}: resultados (tiempo-porcentaje)]{Tiempo de entrenamiento requerido para el \textit{democratic-co} en función de número de datos utilizados durante el entrenamiento (izquierda), además de la \textit{accuracy} en función del porcentaje total del tamaño del \textit{dataset} utilizado para generar el conjunto de entrenamiento (derecha).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_democraticco_time-percentage}
 	\label{gr:dc_time-percentage}
@@ -298,7 +300,7 @@ En el caso del \textit{democratic-co}, se ha optado por comparar la implementaci
 Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-Learn.
 
 \begin{figure}[h]
-	\caption[\textit{Democratic-co}: comparativa contra sslearn]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
+	\caption[\textit{Democratic-co}: comparativa contra sslearn]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de las mismas.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_democraticco_sslearn}
 	\label{gr:dc_vs_sslearn}
@@ -361,7 +363,7 @@ En primer lugar, se han seleccionado 1\,000 perfiles aleatorios verdaderos y se 
 			\multirow{2}{*}{\hfil \textbf{Tipo}} & \hfil\multirow{2}{*}{\textbf{Número}} & \multicolumn{4}{c}{\hfil \textbf{Tamaño del relleno}} \\ \cmidrule{3-6}
 			&\hfil   &\hfil \textbf{1\%} &\hfil \textbf{3\%} & \hfil \textbf{5\%} & \hfil \textbf{10\%}\\ 
 			\toprule
-			Genuino &\hfil 1000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
+			Genuino &\hfil 1\,000&\hfil -	& \hfil -  & \hfil - & \hfil -\\
 			\textit{Random attack} &\hfil-	&\hfil 10 & \hfil 10	&  \hfil 10 & \hfil 10\\
 			\textit{Average attack} &\hfil-	& \hfil 10 & \hfil 10 & \hfil 10 & \hfil 10 \\
 			\textit{Bandwagon attack} &\hfil- & \hfil 10 & \hfil 10 & \hfil 10 & \hfil10 
@@ -383,21 +385,21 @@ Cabe destacar que, debido a que es escaso el número de instancias positivas, se
 Los resultados se han desglosado en función del tipo de perfiles atacantes inyectados, y se muestran en las respectivas ilustraciones: \textit{random attack} (ver~\ref{5_random_attack}), \textit{average attack} (ver~\ref{5_average_attack}) y \textit{bandwagon attack} (ver~\ref{5_bandwagon_attack}).
 
 \begin{figure}[h]
-	\caption[\textit{Random attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
+	\caption[\textit{Random attack}: detección]{Ilustración que representa la detección de perfiles que utilizan \textit{random attack} en el \textit{dataset} MovieLens10M.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_resultados_random_attack}
 	\label{5_random_attack}
 \end{figure}
 
 \begin{figure}[h]
-	\caption[\textit{Average attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{average attack} en el \textit{dataset} MovieLens10M.}
+	\caption[\textit{Average attack}: detección]{Ilustración que representa la detección de perfiles que utilizan \textit{average attack} en el \textit{dataset} MovieLens10M.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_resultados_average_attack}
 	\label{5_average_attack}
 \end{figure}
 
 \begin{figure}[h]
-	\caption[\textit{Bandwagon attack}: detección.]{Ilustración que representa la detección de perfiles que utilizan \textit{bandwagon attack} en el \textit{dataset} MovieLens10M.}
+	\caption[\textit{Bandwagon attack}: detección]{Ilustración que representa la detección de perfiles que utilizan \textit{bandwagon attack} en el \textit{dataset} MovieLens10M.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_resultados_bandwagon_attack}
 	\label{5_bandwagon_attack}
@@ -564,7 +566,7 @@ En general se ha determinado que el método de detección tiene unos resultados 
 \begin{figure}[h]
 	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, atributos relevantes RFI)]{Atributos más relevantes durante la clasificación (bosque de 5\,000 árboles).}
 	\centering
-	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_rfi}
+	\includegraphics[scale=0.55]{../img/memoria/5_phishing/f1f19_rfi}
 	\label{gr:ph-f1f19_rfi}
 \end{figure}
 
@@ -634,7 +636,7 @@ En la gráfica~\ref{gr:ph-f1f19_sl-ssl-f1} se muestra la evolución de la métri
 
 La medida F1 es el promedio armónico ponderado de la \textit{precision} y el \textit{recall}, lo que permite establecer una relación entre ambas. Como se puede observar, los mejores clasificadores encontrando y prediciendo instancias positivas son el \textit{co-forest} de 20 árboles y el \textit{random-forest}, aunque este es seguido de cerca por el \textit{co-forest} de 6 árboles.
 
-\subsubsection{Resultados}
+\subsection{Discusión de los resultados}
 
 Se ha podido observar como los algoritmos que en este caso han presentado mejor resultado son los \textit{ensembles} de árboles, probablemente debido a que cuentan con un mayor número de clasificadores base y estos (los árboles) son muy inestables, causando grandes variaciones en el resultado con pequeños cambios en el conjunto de entrenamiento.
 
@@ -642,6 +644,16 @@ En general, se puede afirmar que los algoritmos semisupervisados son muy útiles
 
 Además, es muy importante destacar uno de los principios básicos del \textit{machine learning} y es que no existe un algoritmo que sea universalmente mejor que otros, sino que cada uno destaca en aplicaciones concretas (\textit{no free lunch theorem}). En este caso, se ha comprobado como utilizar \textit{ensembles} de árboles es una muy buena aproximación.
 
-\subsection{Conclusión final}
 
-Debido a que se considera que la aproximación propuesta es útil, se ha decidido desarrollar una herramienta \textit{web}\footnote{Disponible en \url{https://krini.herokuapp.com/index}} que sirva como analizador de enlaces, clasificando entre páginas legítimas o fraudulentas, además de permitir entrenar los modelos de aprendizaje semisupervisado de la sección~\ref{sec:5_ssl} y gestionar instancias. Todos los detalles de desarrollo se encuentran en los anexos.
+\section{Diseño y desarrollo de la \textit{web}}
+\label{s:web-krini}
+
+Debido a que se considera que la aproximación para detectar páginas fraudulentas propuesta en la sección anterior es útil, se ha decidido desarrollar una herramienta \textit{web}\footnote{Disponible en \url{https://krini.herokuapp.com/index}} que sirva como analizador de enlaces, clasificando entre páginas legítimas o \textit{phishing}, además de permitir entrenar los modelos de aprendizaje semisupervisado de la sección~\ref{sec:5_ssl} y gestionar instancias.
+
+Es destacable que, para implementar este producto, se tuvo que aprender desarrollo \textit{web} (ya que no se conocía previamente). Para ello, se ha escogido utilizar herramientas punteras como Flask, ya que al estar desarrolladas en el lenguaje utilizado durante la fase de experimentación, sirven como <<nexo>> entre las <<piezas>> desarrolladas a lo largo del proyecto. Por ejemplo, todos los algoritmos utilizados en la \textit{web} son los validados en la sección~\ref{sec:5_ssl}, y el método de extracción aplicado es el probado en el apartado~\ref{sec:5_phishing}.
+
+Además, se han querido emplear todas las buenas prácticas de desarrollo \textit{software} aprendidas durante la carrera y las prácticas (curriculares y extracurriculares), priorizando el <<código limpio>> mediante la integración de herramientas de control de calidad (ver sección~\ref{sec:herramientas_control_calidad}) en el flujo de Git.
+
+No se ha descuidado tampoco el despliegue. Actualmente la \textit{web} es accesible mediante Heroku, aunque también se facilitan imágenes de Docker para ser desplegadas en local. Ambas tecnologías tuvieron que ser aprendidas.
+
+Todos los detalles de diseño y desarrollo se encuentran en los anexos. Auxiliarmente, se facilitan tutoriales con ejemplos de funcionamiento y despliegue de la \textit{web} en el canal de YouTube de Krini\footnote{Disponible en \url{https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists}} y un manual de uso en la \textit{wiki} de GitHub. El acceso directo a todos los recursos se encuentra disponible en la sección~\ref{s:recursos}.

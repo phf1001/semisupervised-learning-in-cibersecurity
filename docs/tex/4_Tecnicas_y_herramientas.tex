@@ -28,7 +28,7 @@ Sin pretender desarrollar exhaustivamente la misma, se muestra a continuación u
 Es relevante destacar la naturaleza cíclica y no rígida de la metodología, permitiendo que algunas fases alimenten sus predecesoras o que incluso algunos proyectos motiven el lanzamiento de otros.
 
 \subsection{DevOps y CI/CD}
-
+\label{s:cd/ci}
 CI/CD (\textit{continuous integration and continuous delivery}) se refiere al conjunto de prácticas de desarrollo que permite la entrega rápida y fiable de código gracias a la automatización de procesos~\cite{cdciUnity}, mientras que DevOps es la cultura que engloba estas prácticas buscando lograr un desarrollo de \textit{software} más eficaz. El ciclo de vida se muestra en la imagen~\ref{img:4_cicd}.
 
 \begin{figure}[h]
@@ -133,7 +133,7 @@ Relativo a la creación de un entorno que pueda ser reproducible, se facilita la
 \subsection{Control de calidad}
 \label{sec:herramientas_control_calidad}
 
-Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del código desarrollado. Para ello se han utilizado diversas herramientas, entre ellas:
+Siguiendo los principios de CD/CI (ver sección~\ref{s:cd/ci}), se ha procurado garantizar la calidad del código desarrollado. Para ello se han utilizado diversas herramientas, entre ellas:
 
 \begin{itemize}
 	\item \textbf{SonarCloud}: se trata de un servicio de análisis estático de código que notifica diversos parámetros a revisar como \textit{codesmells}, \textit{bugs} o vulnerabilidades. Se ha integrado en el repositorio con la intención de realizar código limpio y aumentar la calidad del proyecto~\cite{sonarCloud}.
