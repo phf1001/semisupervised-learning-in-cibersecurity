@@ -122,6 +122,11 @@ def get_exception_message(identifier) -> str:
             "No se ha podido cargar el fichero de la IA. Lo sentimos."
         )
 
+    if identifier == "no_base_cls":
+        return gettext(
+            "Por favor, selecciona al menos un clasicador base (una unidad)."
+        )
+
     if identifier == "error_storing_model_or_training_data":
         return gettext(
             "Error al guardar el modelo en la BD o los datos de entrenamiento."
@@ -304,10 +309,8 @@ def get_form_message(identifier) -> str:
         )
 
     if identifier == "empty_n_trees":
-        return (
-            gettext("Por favor, introduce un número de árboles.")
-            + " "
-            + gettext("Si no deseas ninguno puedes introducir 0.")
+        return gettext(
+            "Por favor, introduce un número de árboles (mínimo 1, máximo 100)."
         )
 
     if identifier == "invalid_n_trees":

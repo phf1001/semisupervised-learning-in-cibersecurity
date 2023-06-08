@@ -229,7 +229,7 @@ class ModelForm(SmallModelForm):
         validators=[
             DataRequired("empty_n_trees"),
             NumberRange(
-                min=0,
+                min=1,
                 max=100,
                 message="invalid_n_trees",
             ),
