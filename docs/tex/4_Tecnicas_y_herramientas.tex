@@ -45,7 +45,7 @@ DevOps, sin embargo, abarca más. Esta cultura busca cubrir el ciclo completo de
 
 \subsection{Gitflow}
 
-Gitflow es un modelo alternativo de creación de ramas. Se caracteriza por contar con ramas de función y ramas principales, siendo recomendable aplicarlo en proyectos que trabajen con CD/CI~\cite{gitFlow}. En concreto, han sido utilizadas ramas principales y de desarrollo, fusionando el resultado de ésta última al final de cada \textit{sprint}. Debido a que en el equipo trabaja un único desarrollador, se ha desestimado crear una rama por \textit{feature} lanzada. Para garantizar que los \textit{merge} a la rama principal son seguros, se ha automatizado el uso de las herramientas desarrolladas en la sección~\ref{sec:herramientas_control_calidad}, generando \textit{builds} cada vez que se integra una rama nueva.
+Gitflow es un modelo alternativo de creación de ramas. Se caracteriza por contar con ramas de función y ramas principales, siendo recomendable aplicarlo en proyectos que trabajen con CD/CI~\cite{gitFlow}. En concreto, han sido utilizadas ramas principales y de desarrollo, fusionando el resultado de ésta última al final de cada \textit{sprint}. Debido a que en el equipo trabaja un único desarrollador, se ha desestimado crear una rama por \textit{feature} lanzada. Para garantizar que los \textit{merge} a la rama principal son seguros, se ha automatizado el uso de las herramientas desarrolladas en la sección~\ref{sec:herramientas_control_calidad}, generando \textit{builds} cada vez que se integra una rama nueva. Además. se ha protegido la rama \textit{main}, necesitando autorización para realizar un \textit{merge} a la misma.
 
 \subsection{Scrum}
 
@@ -57,7 +57,7 @@ Se describe en profundidad este método y cómo se ha desarrollado el trabajo si
 
 Web scraping es una técnica de extracción de datos que consiste en automatizar el proceso de recolección de información de sitios \textit{web}~\cite{webScraping}.
 
-En este trabajo ha sido empleado para extraer la información necesaria para generar vectores de características (consultar~\ref{sec:vectores_caracteristicas_phishing}) para cada una de las URL en el \textit{dataset} (consultar~\ref{ss:extracción-dataset-phishing}). Para ello, se ha utilizado la librería Requests de Python, realizando peticiones \texttt{HTTP} a los enlaces y obteniendo el código \texttt{HTML} de la página en respuesta para ser analizado automáticamente.
+En este trabajo ha sido empleado para extraer la información necesaria para generar vectores de características (consultar~\ref{sec:vectores_caracteristicas_phishing}) para cada una de las URLs en el \textit{dataset} de \textit{phishing} (consultar~\ref{ss:extracción-dataset-phishing}). Para ello, se ha utilizado la librería Requests de Python, realizando peticiones \texttt{HTTP} a los enlaces y obteniendo el código \texttt{HTML} de la página en respuesta para ser analizado automáticamente.
 
 \section{Herramientas}
 
@@ -144,6 +144,8 @@ Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del có
 
 \subsection{Desarrollo \textit{web}, persistencia y despliegue}
 \label{sec:despliegue}
+
+A esta subsección pertenecen:
 
 \begin{itemize}
 	\item \textbf{Flask}: \textit{framework} que permite desarrollar páginas \textit{web} utilizando Python~\cite{flask}. Además, permite la instalación de \textit{plugins} para aumentar su funcionalidad (como, por ejemplo, flask-WTF para gestionar formularios o flask-login para el manejo de sesiones). 

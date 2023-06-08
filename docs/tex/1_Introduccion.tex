@@ -8,7 +8,7 @@ Un sistema de recomendación es una herramienta desarrollada con el fin de resum
 
 Por otro lado, se denomina \textit{phishing} a la técnica de ingeniería social en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque es uno de los más comunes y peligrosos. Según el informe \textit{State of the Phish Report}, en el 2021, un 83\% de las empresas encuestadas sufrieron un ataque de estas características y el 54\% acabó con brechas de datos de clientes~\cite{phishingPorcentajeExito}. Por ello, se pretende crear un sistema de detección que permita distinguir enlaces falsos de auténticos mediante ténicas de aprendizaje semisupervisado.
 
-Para complementar la investigación realizada, se ha desarrollado y desplegado (en Heroku y Docker) una herramienta \textit{web} denominada Krini\footnote{Disponible en \url{https://krini.herokuapp.com/index}.}, que consiste en un analizador de páginas que diferencia entre sitios fraudulentos y legítimos, además de permitir crear modelos, gestionar instancias y aceptar sugerencias de usuarios desde la aplicación.
+Para complementar la investigación realizada, se ha desarrollado y desplegado (en Heroku y en local mediante Docker) una herramienta \textit{web} denominada Krini\footnote{Disponible en \url{https://krini.herokuapp.com/index}.}, que consiste en un analizador de páginas que diferencia entre sitios fraudulentos y legítimos, además de permitir crear modelos, gestionar instancias y aceptar sugerencias de usuarios desde la aplicación.
 
 Es destacable que todos los algoritmos de aprendizaje semisupervisado utilizados han sido implementados y validados por la autora permitiendo incluso, en algunos casos, realizar pequeñas aportaciones cuando los detalles de implementación de los \textit{papers} originales no son lo suficientemente explícitos (consultar sección~\ref{s-experimentacion-w-cof}).
 
@@ -68,14 +68,14 @@ Además de los documentos estándar (memoria y anexos), se ha realizado una \tex
 \end{itemize}
 
 
-\subsection{Producto desplegado}
+\subsection{\textit{Web} desarrollada}
 
 Como se explicará más adelante, utilizando como base el conocimiento adquirido durante la fase de investigación, se ha desarrollado un analizador de \textit{phishing} que se encuentra disponible en Heroku. Sin embargo, en algunos casos, el proceso de análisis puede requerir demasiado tiempo para esta plataforma. Por ello, se facilitan imágenes de Docker con las que se puede desplegar la \textit{web} mediante un contenedor en local. El proceso está automatizado mediante \textit{scripts} disponibles para diversos sistemas operativos.
 
 \begin{itemize}
 	\item \textbf{\textit{Web} desplegada en Heroku:} \url{https://krini.herokuapp.com/}
 	\begin{itemize}
-		\item Cada miembro del tribunal tiene creado un usuario administrador para garantizar el acceso a la funcionalidad completa de la aplicación. Las \textbf{credenciales} se encuentran en un fichero de texto disponible en las \textbf{memorias USB} entregadas en secretaría.
+		\item Cada miembro del tribunal posee un usuario administrador para garantizar el acceso a la funcionalidad completa de la aplicación. Las \textbf{credenciales} se encuentran en un fichero de texto disponible en las \textbf{memorias USB} entregadas en secretaría.
 	\end{itemize}
 	\item \textbf{Imágenes de Docker con la \textit{web} y su base de datos:} \url{https://hub.docker.com/r/phf1001/krini/tags}
 	\begin{itemize}
