@@ -14,7 +14,7 @@ Por último, en la subsección~\ref{sec:5_phishing} (dedicada al \textit{phishin
 
 Uno de los principales objetivos del proyecto es entender e implementar (siendo capaz de tomar decisiones de implementación no arbitrarias en caso de que sea requerido) algunos de los algoritmos de aprendizaje semisupervisado más relevantes. Además, se ha querido ser crítico con estos métodos, y para ello se ha buscado validar su funcionamiento mediante diversos experimentos.
 
-A continuación se facilitan los resultados de las pruebas realizadas con las implementaciones propias de algunos métodos de aprendizaje semisupervisado. Para evaluar la calidad de las implementaciones, se han utilizado algunos de los \textit{dataset} más comunes en métodos de clasificación. En concreto, se han utilizado los que están disponibles en la librería Scikit-learn, que se muestran en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
+A continuación se facilitan los resultados de las pruebas realizadas con las implementaciones propias de algunos métodos de aprendizaje semisupervisado. Para evaluar la calidad de las implementaciones, se han utilizado algunos de los \textit{dataset} más comunes en métodos de clasificación. En concreto, se han utilizado los que están disponibles en la librería Scikit-Learn, que se muestran en la tabla~\ref{tabla_datasets_sklearn}. El parámetro $n$ representa el número de instancias que contiene un determinado conjunto de datos, mientras que el parámetro $m$ muestra el número de características que contiene cada una de esas instancias.
 
 \begin{table}
 	\small
@@ -235,9 +235,9 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:tt_train-iteratio
 
 \subsubsection{Comparativa contra sslearn y LAMDA}
 
-En el caso del \textit{tri-training}, existen implementaciones en Python que, además, permiten que los estimadores base utilizados sean los disponibles en la librería Scikit-learn. Estas son sslearn, biblioteca de aprendizaje semisupervisado escrita por José Luis Garrido-Labrador y disponible en Github~\cite{sslearnRepo} y LAMDA, un \textit{toolkit}~\cite{lamdasslPaper} desarrollado por Lin-Han Jia (y su equipo) que se encuentra públicamente disponible para su uso~\cite{lamdasslRepo}.
+En el caso del \textit{tri-training}, existen implementaciones en Python que, además, permiten que los estimadores base utilizados sean los disponibles en la librería Scikit-Learn. Estas son sslearn, biblioteca de aprendizaje semisupervisado escrita por José Luis Garrido-Labrador y disponible en Github~\cite{sslearnRepo} y LAMDA, un \textit{toolkit}~\cite{lamdasslPaper} desarrollado por Lin-Han Jia (y su equipo) que se encuentra públicamente disponible para su uso~\cite{lamdasslRepo}.
 
-Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{folds}. Evidentemente, ambos modelos han sido entrenados con el mismo conjunto de entrenamiento (más concretamente, idénticos $L$ y $U$) y probados con el mismo conjunto de \textit{test}. Como estimadores base se ha utilizado el árbol de decisión disponible en la biblioteca Scikit-learn.
+Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{folds}. Evidentemente, ambos modelos han sido entrenados con el mismo conjunto de entrenamiento (más concretamente, idénticos $L$ y $U$) y probados con el mismo conjunto de \textit{test}. Como estimadores base se ha utilizado el árbol de decisión disponible en la biblioteca Scikit-Learn.
 
 \begin{figure}[h]
 	\caption[\textit{Tri-training}: comparativa contra LAMDA]{Ilustración que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de LAMDA y la propia.}
@@ -246,7 +246,7 @@ Para la comparativa se ha realizado validación cruzada utilizando 10 \textit{fo
 	\label{gr:tt_vs_lamda}
 \end{figure}
 
-En el caso de la comparativa contra \textit{sslearn}, el resultado se puede contemplar en la ilustración~\ref{gr:tt_vs_sslearn}, mientras que el caso de LAMDA se observa en la ilustración~\ref{gr:tt_vs_lamda}. Como se puede comprobar, la media de la \textit{accuracy} para ambos modelos es prácticamente idéntica. Hay algunas variaciones en la \textit{accuracy} para distintos \textit{folds}, pero pueden deberse a detalles de implementación y selección de los conjuntos internamente. Por este motivo, la implementación se considera correcta.
+El caso de la comparativa contra LAMDA se observa en la ilustración~\ref{gr:tt_vs_lamda}, mientras que el caso contra sslearn se puede contemplar en la ilustración~\ref{gr:tt_vs_sslearn}. Como se puede comprobar, la media de la \textit{accuracy} para ambos modelos es prácticamente idéntica. Hay algunas variaciones en la \textit{accuracy} para distintos \textit{folds}, pero pueden deberse a detalles de implementación y selección de los conjuntos internamente. Por este motivo, la implementación se considera correcta.
 
 \begin{figure}[h]
 	\caption[\textit{Tri-training}: comparativa contra sslearn]{Iilustración que representa la variación de la \textit{accuracy} en cada \textit{fold} y la media para la implementación del \textit{tri-training} de sslearn y la propia.}
@@ -295,7 +295,7 @@ Los resultados se pueden observar en las ilustraciones~\ref{gr:dc_train-iteratio
 
 En el caso del \textit{democratic-co}, se ha optado por comparar la implementación propia contra sslearn~\cite{sslearnRepo}. Nuevamente, los resultados mostrados son producto de experimentos realizados mediante validación cruzada con 10 \textit{folds}, y ambos modelos han sido entrenados con los mismos $L$ y $U$ y probados con idénticos conjuntos de \textit{test}.
 
-Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-learn.
+Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} gaussiano, un árbol de decisión y un \textit{$k$NN} con $n = 3$, cuya implementación se encuentra disponible en la librería Scikit-Learn.
 
 \begin{figure}[h]
 	\caption[\textit{Democratic-co}: comparativa contra sslearn]{Comparativa contra sslearn para el \textit{democratic-co}. Se representa la \textit{accuracy} obtenida en cada \textit{fold} y la media de los mismos para ambos modelos.}
@@ -304,7 +304,7 @@ Como estimadores base en ambos modelos se han utilizado un \textit{naive-bayes} 
 	\label{gr:dc_vs_sslearn}
 \end{figure}
 
-El resultado se puede contemplar en la ilustración~\ref{gr:dc_vs_sslearn}, donde se muestra la \textit{accuracy} obtenida en cada \textit{fold} y la media de los $10$. En el caso de Iris, la \textit{accuracy} obtenida para cada \textit{fold} es idéntica en ambas implementaciones y, por lo tanto, la media también. El caso del conjunto de datos Vino es el que menos se asemeja, pero igualmente se ha obtenido la misma exactitud en un 60\% de las ocasiones y la media se diferencia en apenas dos centésimas. En el último \textit{dataset} binario se encuentra alguna pequeña varición en algunos \textit{folds}, pero la media obtenida es la misma.
+El resultado se puede contemplar en la ilustración~\ref{gr:dc_vs_sslearn}, donde se muestra la \textit{accuracy} obtenida en cada \textit{fold} y la media de los $10$. En el caso de Iris, la \textit{accuracy} obtenida para cada \textit{fold} es idéntica en ambas implementaciones y, por lo tanto, la media también. El caso del conjunto de datos Vino es el que menos se asemeja, pero igualmente la media final obtenida es la misma. En el último \textit{dataset} binario se encuentra alguna pequeña varición en algunos \textit{folds}, pero la media obtenida es la misma y en el 70\% de los casos se obtiene una \textit{accuracy} idéntica para cada uno de los \textit{folds}.
 
 Debido a que las pequeñas variaciones se deben a cuestiones de implementación no definidas en el pseudocódigo de Zhou y Goldman~\cite{democraticCoLearning2004original} (por ejemplo, el tratamiento de instancias duplicadas de $U$ en $L_i$), se considera que la comparativa es exitosa y el algoritmo ha sido implementado correctamente.
 
@@ -468,13 +468,13 @@ Los resultados generales de la propuesta se muestran en la imagen~\ref{gr:ph-f1f
 	\label{gr:ph-f1f19-all}
 \end{figure}
 
-Para obtener una visión más real de lo que está ocurriendo, se muestra en la imagen~\ref{gr:ph-f1f19_cof_clt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, dentro de los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
+Para obtener una visión más real de lo que está ocurriendo, se muestra en la primera imagen de la ilustración~\ref{gr:ph-f1f19_cof_clt_f1f8_tt} la matriz de confusión correspondiente al \textit{co-forest} de $20$ árboles. Es destacable que la matriz mostrada es la suma de cada matriz de confusión obtenida en cada uno de los \textit{folds} de la validación cruzada. Como se puede comprobar, dentro de los casos de error, la situación es la peor de las posibles, ya que en general hay más instancias peligrosas (\textit{phishing}) que se etiquetan como legítimas que el caso contrario. En este caso, la \textit{accuracy} del clasificador es del $85$.$69\%$.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f1-f19}, matriz de confusión \texttt{CoF\_PL})]{Matriz de confusión correspondiente al clasificador \texttt{CoF\_PL}.}
+	\caption[\textit{Phishing}: detección (\texttt{f1-f19} y \texttt{f1-f8}, matrices de confusión)]{A la izquierda, matriz de confusión correspondiente al clasificador \texttt{CoF\_PL} (atributos \texttt{f1-f19}). A la derecha, matriz de confusión correspondiente al clasificador \texttt{tri-training} (atributos \texttt{f1-f8}).}
 	\centering
-	\includegraphics[scale=0.8]{../img/memoria/5_phishing/f1f19_cof_clt}
-	\label{gr:ph-f1f19_cof_clt}
+	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f1f19_cof_clt_f1f8_tt}
+	\label{gr:ph-f1f19_cof_clt_f1f8_tt}
 \end{figure}
 
 \subsection{Resultados grupales}
@@ -494,14 +494,7 @@ Este grupo está formado por las características que comprenden el intervalo \t
 
 Como se puede comprobar, aunque la \textit{accuracy} obtenida es buena, en general, se encuentran pocas instancias de \textit{phishing} utilizando este subconjunto. Aún así, es destacable la precisión de la aproximación, ya que aunque se encuentren pocas instancias, prácticamente todas las que se dice que son \textit{phishing} lo son en realidad.
 
-Observando la matriz de confusión correspondiente al \textit{tri-training} (imagen~\ref{gr:ph-f1f8_tt}), se puede observar como la situación es la misma que la anterior (es decir, hay más falsos negativos que falsos positivos).
-
-\begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f1-f8}, matriz de confusión \texttt{TT})]{Matriz de confusión correspondiente al clasificador \texttt{tri-training}.}
-	\centering
-	\includegraphics[scale=0.8]{../img/memoria/5_phishing/f1f8_tt}
-	\label{gr:ph-f1f8_tt}
-\end{figure}
+Observando la matriz de confusión correspondiente al \textit{tri-training} (segunda imagen de la ilustración~\ref{gr:ph-f1f19_cof_clt_f1f8_tt}), se puede comprobar como la situación es la misma que la anterior (es decir, hay más falsos negativos que falsos positivos).
 
 \subsubsection{Características basadas en la aparición del formulario de \textit{login}}
 Este grupo está formado por la característica \texttt{f9}. Los resultados se muestran en la imagen~\ref{gr:ph-f9_small}.
@@ -530,7 +523,7 @@ Como se puede comprobar, los resultados son bastante satisfactorios. Para obtene
 Como se puede comprobar, el atributo que mejor divide el conjunto es el número de hiperenlaces contenidos, aunque también se utilizan otros como el ratio de enlaces externos, vacíos y redirecciones.
 
 \begin{figure}[h]
-	\caption[\textit{Phishing}: detección (\texttt{f10-f15}, atributos relevantes, DT)]{Atributos más importantes del subconjunto \texttt{f10-f15} (inicio del árbol).}
+	\caption[\textit{Phishing}: detección (\texttt{f10-f15}, atributos relevantes DT)]{Atributos más importantes del subconjunto \texttt{f10-f15} (inicio del árbol).}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/5_phishing/f10f15_tree}
 	\label{gr:ph-f10f15_tree}

@@ -5,11 +5,11 @@ Previo a la introducción de objetivos técnicos y de desarrollo, se facilita al
 \section{Contexto}
 \label{contexto}
 
-Es reseñable que este proyecto se sostiene sobre tres pilares complementarios pero a su vez independientes.
+Es destacable que este proyecto se sostiene sobre tres pilares complementarios pero a su vez independientes.
 
 \subsection{Aprendizaje semisupervisado}
 
-Por un lado, en este trabajo se pretende ahondar en el campo de la minería de datos, más concretamente en el concepto de aprendizaje semisupervisado. Para ello, se van a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest} (consultar aspectos teóricos en la sección~\ref{coforest-teoria} y la experimentación en la sección~\ref{coforest-exp}), el \textit{democratic-co learning} (secciones~\ref{democraticco-teoria} y~\ref{democraticco-exp}) y el \textit{tri-training} (secciones~\ref{tritraining-teoria} y~\ref{tritraining-exp}).
+Por un lado, en este trabajo se pretende ahondar en el campo de la minería de datos, más concretamente en el concepto de aprendizaje semisupervisado. Para ello, se van a implementar y validar diversos algoritmos de este tipo, en concreto el \textit{co-forest} (consultar aspectos teóricos en la sección~\ref{coforest-teoria} y la experimentación en la sección~\hyperref[coforest-exp]{5.1.1}), el \textit{tri-training} (secciones~\ref{tritraining-teoria} y~\hyperref[tritraining-exp]{5.1.2}) y el \textit{democratic-co learning} (secciones~\ref{democraticco-teoria} y~\hyperref[democraticco-exp]{5.1.3}).
 
 Es reseñable que se pretende alcanzar un nivel de comprensión superior a la mera programación, realizando incluso pequeñas aportaciones a los algoritmos (basadas en la experimentación) en aquellos casos donde el pseudocódigo facilitado por los autores carezca de detalles de implementación.
 
@@ -17,13 +17,13 @@ Es reseñable que se pretende alcanzar un nivel de comprensión superior a la me
 
 Implementar algoritmos es un ejercicio relevante, pero carece de sentido práctico si no pueden ser utilizados. Por ello, se pretende encontrar una aplicación a los mismos. Concretamente, se ha propuesto el modelado de un problema real relacionado con la ciberseguridad.
 
-En un primer lugar se valoró estudiar la detección de ataques en sistemas de recomendación~\cite{zhou2021SemisupervisedRecommendationAttack}, pero se desestimó por su bajo desempeño. Finalmente, se ha escogido la detección de \textit{phishing}~\cite{featuresPhishing2018Gupta}.
+En un primer lugar se valoró estudiar la detección de ataques en sistemas de recomendación~\cite{zhou2021SemisupervisedRecommendationAttack}, pero se desestimó por su bajo desempeño. Finalmente, se ha escogido la detección de \textit{phishing}~\cite{featuresPhishing2018Gupta}. 
 
 Es destacable que, previo a la selección de las ramas mencionadas anteriormente, se realizó una investigación en la literatura de la materia leyendo y comparando diversos tópicos como intrusión en redes, localización de \textit{markets} ilegales en la \textit{deep web}, detección de \textit{malware} o descubrimiento de dispositivos anómalos en redes IoT.
 
 \subsection{Desarrollo y despliegue}
 
-Por último, se pretende diseñar e implementar una herramienta (\textit{web}) que permita poner al servicio de la comunidad el conocimiento desarrollado. Se ha decidido crear un analizador de \textit{phishing} en formato página \textit{web}, permitiendo además la administración avanzada de modelos de \textit{machine learning} e instancias de aprendizaje. Además, se ha desplegado dicha herramienta utilizando Heroku\footnote{Disponible en \url{https://krini.herokuapp.com/index}.} y Docker\footnote{\textit{Scripts} e instrucciones de despliegue disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}.}.
+Por último, se pretende diseñar e implementar una herramienta que permita poner al servicio de la comunidad el conocimiento desarrollado. Se ha decidido crear un analizador de \textit{phishing} en formato página \textit{web}, permitiendo además la administración avanzada de modelos de \textit{machine learning} e instancias de aprendizaje. Además, se ha desplegado dicha herramienta utilizando Heroku\footnote{Disponible en \url{https://krini.herokuapp.com/index}.} y en local mediante Docker\footnote{\textit{Scripts} e instrucciones de despliegue disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}.}.
 
 \section{Objetivos}
 
@@ -39,7 +39,7 @@ Se han propuesto los siguientes objetivos técnicos:
 	\item \textbf{Experimentar con detalles de implementación no concretados:} para comprobar cómo determinadas decisiones pueden afectar el desempeño de un algoritmo.
 	\item \textbf{Comparar contra implementaciones de terceros:} logrando unas condiciones de análisis justas.
 	\item \textbf{Modelar un problema de ciberseguridad:} ofreciendo una solución práctica basada en el aprendizaje predictivo.
-	\item \textbf{Establecer medidas de seguridad:} siendo consciente de que los métodos de extracción pueden amenazar vulnerabilidades y mitigando el riesgo.
+	\item \textbf{Establecer medidas de seguridad:} siendo consciente de que los métodos de extracción pueden ser vulnerables y mitigando el riesgo.
 	\item \textbf{Evaluar la calidad de la solución aportada:} en términos de rendimiento.
 	\item \textbf{Aprendizaje de nuevas tecnologías:} y familiarización con la programación \textit{web}.
 	
@@ -53,9 +53,9 @@ Se han propuesto los siguientes objetivos de desarrollo software:
 \begin{enumerate}
 	\item \textbf{Implementar de forma estándar los algoritmos:} siguiendo la interfaz de programación que establece Scikit-Learn (métodos \texttt{fit} y \texttt{predict}).
 	\item \textbf{Adoptar metodologías ágiles de desarrollo} y familiarización con el flujo de trabajo de Scrum.
-	\item \textbf{Documentar el producto desarrollado:} de forma concisa y que resuma, utilizando herramientas visuales (como diagramas) y multimedia (como tutoriales), la arquitectura planteada y su utilización.
+	\item \textbf{Documentar el producto desarrollado:} de forma concisa y que resuma, utilizando herramientas visuales y multimedia, la arquitectura planteada y su utilización.
 	\item \textbf{Lograr un código de calidad:} desarrollando un producto que tenga una deuda técnica baja y una curva de aprendizaje asumible mediante el uso de herramientas como SonarCloud, DeepSource o Travis CI.
-	\item \textbf{Aplicar la integración y entrega continua:} de forma que se garantice el desarrollo de un producto mínimo viable que permita la detección temprana de errores y facilite la corrección por parte del tutor.
+	\item \textbf{Aplicar la integración y entrega continua:} de forma que se garantice el desarrollo de un producto mínimo viable que permita la detección temprana de errores y facilite la corrección del tutor.
 	\item \textbf{Vincular fuentes de persistencia:} como bases de datos SQL.
 	\item \textbf{Desplegar en plataformas:} logrando una familiarización con nuevas tecnologías en auge como Heroku y Docker.
 	\item \textbf{Automatizar pruebas:} en distintas fases del ciclo de vida del producto mediante el uso de herramientas como TravisCI y Selenium.
