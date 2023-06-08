@@ -15,6 +15,7 @@ El repositorio del proyecto\footnote{Disponible en \url{https://github.com/phf10
 	\item \texttt{docker-deploy-kit}: incluye los \textit{scripts} necesarios para desplegar la aplicación en Docker a nivel de usuario. Su uso será detallado en la sección~\ref{s-e:docker-deploy-users}.
 	\item \texttt{docs}: alberga la documentación del trabajo.
 	\item \texttt{src}: contiene el código fuente de la aplicación, pruebas y recursos desarrollados, además de ficheros de configuración de herramientas y otros archivos relevanes.
+	\item \texttt{wallpapers}: contiene fondos de pantalla con el icono de Krini.
 \end{itemize}
 
 Este anexo se centrará, por lo tanto, en el directorio \texttt{src}. En la ilustración~\ref{d:diag-repo-structure} se muestran las carpetas principales albergadas en este directorio. Es relevante que no todo el contenido está representado en la ilustración.
@@ -31,7 +32,7 @@ A continuación, se facilita una explicación más detallada del contenido de ca
 \begin{itemize}
 	\item \texttt{krini\_web}: alberga los recursos necesarios para la programación de la \textit{web}. 
 	
-	El directorio \texttt{apps} contiene la lógica de negocio principal y se divide a su vez en \texttt{authentication} (controla los inicios de sesión y registros), \texttt{home} (implementa la funcionalidad principal de la \textit{web}) y \texttt{ssl\_utils} (engloba los recursos de \textit{machine learning} necesarios así como los modelos serializados). También incluye recursos estáticos (hojas de estilos, \textit{scripts}, imágenes, etc.) en la carpeta \texttt{static} y plantillas HTML en el directorio \texttt{templates}.
+	El directorio \texttt{apps} contiene la lógica de negocio principal y se divide a su vez en \texttt{authentication} (controla los inicios de sesión y registros), \texttt{home} (implementa la funcionalidad principal de la \textit{web}) y \texttt{ssl\_utils} (engloba los recursos de \textit{machine learning} necesarios así como los modelos serializados). También incluye recursos estáticos (hojas de estilos, \textit{scripts}, imágenes, etc.) en la carpeta \texttt{static} y plantillas \texttt{HTML} en el directorio \texttt{templates}.
 	
 	Hay otros directorios respectivos a entornos de programación, ficheros de configuración de servicios (Babel, Gunicorn, etc.) o \textit{scripts} de inserción de datos de prueba (\textit{mock}) para garantizar que los usuarios de Docker cuenten con recursos mínimos (carpeta \texttt{mock\_data}).
 	

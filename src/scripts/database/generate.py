@@ -37,6 +37,7 @@ def hash_pass(password):
 
 def last_insert_id(connection, table_name, pk_name):
     """Return the last id inserted in a table.
+    SQLi safe, not user input is introduced.
 
     Args:
         connection (psycopg2.connection): database connection
@@ -49,14 +50,17 @@ def last_insert_id(connection, table_name, pk_name):
     try:
         cursor = connection.cursor()
         sequence = f"{table_name}_{pk_name}_seq"
-        cursor.execute(f'SELECT last_value from "{sequence}"')  # SQLi safe
+        # skipcq: BAN-B608
+        cursor.execute(f'SELECT last_value from "{sequence}"')
         last_id = cursor.fetchone()[0]
         cursor.close()
         return last_id
 
     except (Exception, psycopg2.Error):
         connection.rollback()
-        raise Exception(f"Error while getting last id from table {table_name}")
+        raise psycopg2.Error(
+            f"Error while getting last id from table {table_name}"
+        )
 
 
 def insert_users(connection):
@@ -332,6 +336,18 @@ def insert_reports(connection):
                 80,
                 2,
                 "suggestion-black-list",
+            ),
+            (
+                datetime.now(),
+                83,
+                2,
+                "suggestion-legitimate",
+            ),
+            (
+                datetime.now(),
+                39,
+                2,
+                "suggestion-phishing",
             ),
         ]
 

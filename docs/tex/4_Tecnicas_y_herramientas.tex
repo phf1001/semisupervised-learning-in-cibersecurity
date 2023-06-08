@@ -28,7 +28,7 @@ Sin pretender desarrollar exhaustivamente la misma, se muestra a continuación u
 Es relevante destacar la naturaleza cíclica y no rígida de la metodología, permitiendo que algunas fases alimenten sus predecesoras o que incluso algunos proyectos motiven el lanzamiento de otros.
 
 \subsection{DevOps y CI/CD}
-
+\label{s:cd/ci}
 CI/CD (\textit{continuous integration and continuous delivery}) se refiere al conjunto de prácticas de desarrollo que permite la entrega rápida y fiable de código gracias a la automatización de procesos~\cite{cdciUnity}, mientras que DevOps es la cultura que engloba estas prácticas buscando lograr un desarrollo de \textit{software} más eficaz. El ciclo de vida se muestra en la imagen~\ref{img:4_cicd}.
 
 \begin{figure}[h]
@@ -45,7 +45,7 @@ DevOps, sin embargo, abarca más. Esta cultura busca cubrir el ciclo completo de
 
 \subsection{Gitflow}
 
-Gitflow es un modelo alternativo de creación de ramas. Se caracteriza por contar con ramas de función y ramas principales, siendo recomendable aplicarlo en proyectos que trabajen con CD/CI~\cite{gitFlow}. En concreto, han sido utilizadas ramas principales y de desarrollo, fusionando el resultado de ésta última al final de cada \textit{sprint}. Debido a que en el equipo trabaja un único desarrollador, se ha desestimado crear una rama por \textit{feature} lanzada. Para garantizar que los \textit{merge} a la rama principal son seguros, se ha automatizado el uso de las herramientas desarrolladas en la sección~\ref{sec:herramientas_control_calidad}, generando \textit{builds} cada vez que se integra una rama nueva.
+Gitflow es un modelo alternativo de creación de ramas. Se caracteriza por contar con ramas de función y ramas principales, siendo recomendable aplicarlo en proyectos que trabajen con CD/CI~\cite{gitFlow}. En concreto, han sido utilizadas ramas principales y de desarrollo, fusionando el resultado de ésta última al final de cada \textit{sprint}. Debido a que en el equipo trabaja un único desarrollador, se ha desestimado crear una rama por \textit{feature} lanzada. Para garantizar que los \textit{merge} a la rama principal son seguros, se ha automatizado el uso de las herramientas desarrolladas en la sección~\ref{sec:herramientas_control_calidad}, generando \textit{builds} cada vez que se integra una rama nueva. Además. se ha protegido la rama \textit{main}, necesitando autorización para realizar un \textit{merge} a la misma.
 
 \subsection{Scrum}
 
@@ -57,7 +57,7 @@ Se describe en profundidad este método y cómo se ha desarrollado el trabajo si
 
 Web scraping es una técnica de extracción de datos que consiste en automatizar el proceso de recolección de información de sitios \textit{web}~\cite{webScraping}.
 
-En este trabajo ha sido empleado para extraer la información necesaria para generar vectores de características (consultar~\ref{sec:vectores_caracteristicas_phishing}) para cada una de las URL en el \textit{dataset} (consultar~\ref{ss:extracción-dataset-phishing}). Para ello, se ha utilizado la librería Requests de Python, realizando peticiones HTTP a los enlaces y obteniendo el código HTML de la página en respuesta para ser analizado automáticamente.
+En este trabajo ha sido empleado para extraer la información necesaria para generar vectores de características (consultar~\ref{sec:vectores_caracteristicas_phishing}) para cada una de las URLs en el \textit{dataset} de \textit{phishing} (consultar~\ref{ss:extracción-dataset-phishing}). Para ello, se ha utilizado la librería Requests de Python, realizando peticiones \texttt{HTTP} a los enlaces y obteniendo el código \texttt{HTML} de la página en respuesta para ser analizado automáticamente.
 
 \section{Herramientas}
 
@@ -102,7 +102,7 @@ Principalmente utilizados para control de versiones, realización de \textit{tes
 	
 	\item \textbf{GitHub}: portal que permite alojar distintos repositorios en la nube~\cite{githubHome}. Ha sido escogido por ser una de las plataformas más populares, además de por permitir la interacción entre distintos usuarios. La gestión del \textit{backlog} del producto ha sido simulada mediante la creación de \textit{issues}.
 	
-	\item \textbf{Pandoc}: conversor de documentos de código abierto~\cite{pandoc} utilizado para convertir \LaTeX{} en HTML y facilitar la escritura de la \textit{wiki} del repositorio\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}}.
+	\item \textbf{Pandoc}: conversor de documentos de código abierto~\cite{pandoc} utilizado para convertir \LaTeX{} en \texttt{HTML} y facilitar la escritura de la \textit{wiki} del repositorio\footnote{Disponible en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}}.
 \end{itemize}
 
 \subsection{Programas}
@@ -133,7 +133,7 @@ Relativo a la creación de un entorno que pueda ser reproducible, se facilita la
 \subsection{Control de calidad}
 \label{sec:herramientas_control_calidad}
 
-Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del código desarrollado. Para ello se han utilizado diversas herramientas, entre ellas:
+Siguiendo los principios de CD/CI (ver sección~\ref{s:cd/ci}), se ha procurado garantizar la calidad del código desarrollado. Para ello se han utilizado diversas herramientas, entre ellas:
 
 \begin{itemize}
 	\item \textbf{SonarCloud}: se trata de un servicio de análisis estático de código que notifica diversos parámetros a revisar como \textit{codesmells}, \textit{bugs} o vulnerabilidades. Se ha integrado en el repositorio con la intención de realizar código limpio y aumentar la calidad del proyecto~\cite{sonarCloud}.
@@ -145,15 +145,17 @@ Siguiendo los principios de CD/CI, se ha procurado garantizar la calidad del có
 \subsection{Desarrollo \textit{web}, persistencia y despliegue}
 \label{sec:despliegue}
 
+A esta subsección pertenecen:
+
 \begin{itemize}
 	\item \textbf{Flask}: \textit{framework} que permite desarrollar páginas \textit{web} utilizando Python~\cite{flask}. Además, permite la instalación de \textit{plugins} para aumentar su funcionalidad (como, por ejemplo, flask-WTF para gestionar formularios o flask-login para el manejo de sesiones). 
 	\item \textbf{Babel}: extensión de Flask utilizada para internacionalizar la aplicación \textit{web} desarrollada~\cite{flaskBabel}. En concreto, la funcionalidad principal utilizada ha sido la traducción mediante archivos \texttt{.pot}, \texttt{.po} y \texttt{.mo}.
-	\item \textbf{Jinja2}: motor de plantillas utilizado para generar páginas HTML~\cite{jinja}.
+	\item \textbf{Jinja2}: motor de plantillas utilizado para generar páginas \texttt{HTML}~\cite{jinja}.
 	\item \textbf{Argon Dashboard}: plantilla empleada como base para la \textit{web}\footnote{Disponible en \url{https://github.com/creativetimofficial/argon-dashboard}}.
 	\item \textbf{PostgreSQL}: base de datos relacional utilizada debido a su carácter \textit{open source} y disponibilidad multiplataforma.~\cite{postgresql}.
 	\item \textbf{SQLAlchemy}: librería utilizada como ORM (\textit{object-relational mapper}). Es decir, permite trabajar con objetos y gestiona su traducción a SQL de forma transparente al programador.~\cite{SQLAlchemy}.
 	\item \textbf{Heroku}: solución de plataforma como servicio (PaaS) basada en la nube que gestiona la infraestructura de las aplicaciones desplegadas (en este caso, Krini\footnote{Disponible en \url{https://krini.herokuapp.com/index}})~\cite{heroku}.
-	\item \textbf{Gunicorn} servidor web HTTP para aplicaciones Python.~\cite{gunicorn}. Cabe destacar que es fundamental su correcta configuración para evitar errores de concurrencia~\cite{herokuPreload}.
+	\item \textbf{Gunicorn} servidor web \texttt{HTTP} para aplicaciones Python.~\cite{gunicorn}. Cabe destacar que es fundamental su correcta configuración para evitar errores de concurrencia~\cite{herokuPreload}.
 	\item \textbf{Docker}: plataforma de contenedores que simplifica la implementación y gestión de aplicaciones en cualquier entorno.~\cite{docker}.
 \end{itemize}
 
@@ -168,7 +170,7 @@ Durante la extracción de vectores de características, se realizan peticiones a
 
 Para ello, se ha implementado en Python un \textit{script} auxiliar que levanta en paralelo tantas instancias de Tor como se soliciten, y mantiene los hilos vivos hasta que se interrumpa la ejecución del \textit{script}.
 
-Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números\footnote{Solución basada en la respuesta del usuario <<zkilnbqi>> en Stack Overflow \url{https://stackoverflow.com/questions/14321214/how-to-run-multiple-tor-processes-at-once-with-different-exit-ips}.}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} HTTP levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la biblioteca Requests.
+Por cada instancia de Tor que se quiera levantar, se necesita un fichero \texttt{torrc} en el directorio \texttt{/etc/tor/}~\cite{TorFicherosTor}. Cada una de ellas debe tener, además, su propio puerto de control, su propio puerto \textit{socks} y su directorio de datos. Por ello, se ha creado una clase auxiliar que genera estos ficheros. Para levantar la instancia simplemente ha de ejecutarse el comando \texttt{tor -f /etc/tor/torrc.x} (siendo $x$ el número de la instacia correspondiente), aunque se ha decidido, además, dirigir la salida al fichero \texttt{/dev/null}. Es importante destacar que el puerto de control debe ser el siguiente al puerto \textit{socks}. Teniendo en cuenta que los puertos por defecto de Tor son el 9050 y el 9051, se puede incrementar partiendo de esos números\footnote{Solución basada en la respuesta del usuario <<zkilnbqi>> en Stack Overflow \url{https://stackoverflow.com/questions/14321214/how-to-run-multiple-tor-processes-at-once-with-different-exit-ips}.}. Para comprobar que la instancia levantada funciona correctamente, se hace una petición a \url{http://ipinfo.io/ip} y se comprueba con una expresión regular que la dirección obtenida es la correcta. De este modo, se sabe que el \textit{proxy} \texttt{HTTP} levantado funciona, y se puede utilizar redireccionando las peticiones oportunas a través del \textit{proxy} \texttt{socks5h://127.0.0.1:$y$} (donde $y$ es el puerto \textit{socks} de la instancia correspondiente). Para que pueda ser usado en código, se ha generado un \texttt{JSON} donde se incluyen como diccionarios los \textit{proxies} disponibles, y se utilizan en combinación con la biblioteca Requests.
 
 Debido a que el puerto Tor queda <<a la escucha>> en la máquina local (está esperando que se realice una conexión), no conlleva ningún riesgo. Para cerrar el puerto, es suficiente con parar el proceso que esté ejecutando el \textit{script}. Se puede comprobar ejecutando en una terminal el comando \texttt{sudo lsof -i:$y$} (nuevamente, $y$ es el puerto \textit{socks} levantado). Cuando el \textit{script} esté funcionando, la salida del comando mostrará diversos campos, como el propio comando (Tor), el PID, el nombre (\textit{listen}). Si el \textit{script} se para, el comando no mostrará salida, lo que implica que el puerto no está abierto~\cite{checkOpenTorPorts}.
 

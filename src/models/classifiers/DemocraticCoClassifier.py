@@ -56,7 +56,7 @@ class DemocraticCo(SSLEnsemble):
             Unlabeled data used for training
         """
         classes = np.unique(y)
-        self.classes = classes
+        self.classes = classes  # skipcq: PYL-W0201
         changes = True
 
         e = [0] * self.n

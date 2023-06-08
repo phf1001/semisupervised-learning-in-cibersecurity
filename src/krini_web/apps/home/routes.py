@@ -1426,6 +1426,8 @@ def report_url():
             flash(get_exception_message("error_operation"), "danger")
             db.session.rollback()
 
+        return redirect(url_for("home_blueprint.report_url"))
+
     for key in form.errors.keys():
         message = get_form_message(form.errors[key][0])
         flash(message, "warning")
@@ -1458,7 +1460,7 @@ def route_template(template):
     try:
         return render_template("specials/page-404.html"), 404
 
-    except Exception:
+    except:  # skipcq: FLK-E722
         return render_template("specials/page-500.html"), 500
 
 

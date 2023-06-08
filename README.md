@@ -92,7 +92,7 @@ Regarding this repository, two investigation lines have been opened: detection o
 | Useful scripts (SOCKS5 proxies, Docker deploy and more!)          |         ✔️         |    
 | [Cool wallpapers 🎨](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/wallpapers)       |         ✔️         |  
 | [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs) and [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) |         ✔️         |    
-| [YouTube](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) ▶️ |         ✔️         |  
+| [YouTube](https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists) ▶️ |         ✔️         |  
 <br />
 
 ## Deploy the web in Docker
@@ -102,6 +102,8 @@ You can access the scanner via [Krini](https://krini.herokuapp.com/index) or dep
 > Check all the information in the [docker-deploy-kit](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit) README.md
 
 **Are you a developer?** Take a look in our [developer guide](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/Manual-del-programador) for more details
+
+
 <br />
 
 

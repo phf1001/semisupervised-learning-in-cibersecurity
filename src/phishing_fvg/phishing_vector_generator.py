@@ -490,7 +490,7 @@ class PhishingFVG:
         ]  # '@',
 
         for clue in copyright_clues:
-            regex = "(?:{})([^<.>\"']*)(?:[<.>\"'])".format(clue)
+            regex = f"(?:{clue})([^<.>\"']*)(?:[<.>\"'])"
             copy_contents = re.findall(regex, self.html)
 
             for copy_content in copy_contents:

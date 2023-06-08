@@ -1,3 +1,17 @@
+# -*-coding:utf-8 -*-
+"""
+@File    :   phishing_repeated_kcross.py
+@Time    :   2023/05/21
+@Author  :   Patricia Hernando Fernández 
+@Version :   1.0
+@Contact :   phf1001@alu.ubu.es
+
+This script is used to execute repeated kcross on a external machine.
+Since the experiment is expected to last around 2 weeks, it is necessary
+to log the results.
+
+PTC-W6004 is skioped since it is intentional
+"""
 import sys
 import os
 import json
@@ -298,6 +312,7 @@ def run_all_percentages(percentages, metrics, file_name, rd=5):
             scores_clss[cls_name]["F1"].append(f1s[i])
             scores_clss[cls_name]["AUC"].append(AUCs[i])
 
+    # skipcq: PTC-W6004
     with open(
         RESULTS_DIRECTORY + f"results_classifiers_rd_{rd}.json", "w"
     ) as f:
@@ -336,6 +351,7 @@ def run_repeated_kcross_validation(file_name, times=10):
                     scores_clss[cls][metric]
                 )
 
+    # skipcq: PTC-W6004
     with open(
         RESULTS_DIRECTORY + f"results_classifiers_repeated_kcross_{times}.json",
         "w",
@@ -349,6 +365,7 @@ def run_repeated_kcross_validation(file_name, times=10):
                 np.mean(general_scores_clss[cls][metric], axis=0)
             )
 
+    # skipcq: PTC-W6004
     with open(
         RESULTS_DIRECTORY
         + f"results_classifiers_repeated_kcross_mean_{times}.json",

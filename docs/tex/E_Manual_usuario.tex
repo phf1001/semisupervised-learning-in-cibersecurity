@@ -150,6 +150,15 @@ Si no se ha realizado un análisis rápido, también se mostrará cómo se ha ob
 \label{s-e:report-false-analy}
 La última funcionalidad del \textit{dashboard} consiste en reportar análisis erróneos. Si se opina que una URL ha sido clasificada incorrectamente, se puede notificar a los administradores pulsando en el botón correspondiente (imagen~\ref{e-3:report-false-analysis}). Posteriormente, ellos podrán utilizar esta información para crear nuevos modelos o tomar las medidas que consideren oportunas. La notificación estará disponible en el apartado de <<sugerencias>> (consultar la sección~\ref{s-e:sugerencias} del manual).
 
+Como curiosidad, si los estimadores determinan que una URL es maliciosa, en la interfaz de usuario se ha <<sanitizado>> la salida. Es decir, se han sustituído algunos caracteres de la URL para evitar que los usuarios puedan acceder a ella copiando y pegando o haciendo \textit{click}. Esta práctica es muy común en empresas de ciberseguridad\footnote{Una herramienta comunmente utilizada en criptografía es CyberChef. Se facilita a continuación una <<receta>> que puede ser utilizada para <<sanitizar>> URLs y en la que se ha basado el método implementado en la aplicación \url{https://gchq.github.io/CyberChef/\#recipe=Defang_URL(true,true,true,'Valid\%20domains\%20and\%20full\%20URLs')\&input=aHR0cHM6Ly9oYWNrMG4uZXM}.}, y un ejemplo se muestra en la imagen~\ref{e-3:sanitize}.
+
+\begin{figure}[h]
+	\caption[Manual de usuario: URL fraudulenta <<sanitizada>>]{Ejemplo de un análisis fraudulento cuya URL ha sido <<sanitizada>> en la interfaz de usuario.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/3_dashboard_3}
+	\label{e-3:sanitize}
+\end{figure}
+
 \subsection{Denunciar URL}
 \label{s-e:report-url}
 
@@ -190,7 +199,7 @@ Los administradores podrán gestionar todos los modelos de aprendizaje disponibl
 \begin{figure}[h]
 	\caption[Manual de usuario: nuevo modelo]{Formulario de creación de nuevos modelos.}
 	\centering
-	\includegraphics[scale=0.14]{../img/anexos/user_guide/5_new_model}
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/5_new_model}
 	\label{e-5:new-model}
 \end{figure}
 
@@ -356,12 +365,6 @@ Según los permisos que tenga el usuario, la barra de navegación mostrará unas
 	\label{e-9:navbar-2}
 \end{figure}
 
-
-\subsection{Internacionalización}
-
-Para cambiar el idioma de la aplicación, tan sólo se ha de pulsar en el icono correspondiente a idiomas en la barra de navegación. Esto abrirá un menú desplegable donde se podrá seleccionar el idioma deseado (consultar imagen~\ref{e-9:navbar-2}). Esta opción está disponible tanto para usuarios registrados como para visitantes.
-
-
 \subsection{Pantallas de error}
 
 Todos los errores que ocurran internamente son tratados para evitar que afecte a la experiencia del usuario. En caso de tratarse de excepciones, se mostrarán mensajes informativos adecuados. Por otro lado, los errores más graves tienen asociadas pantallas concretas (por supuesto, internacionalizadas) en función del tipo de código de error. Algunos ejemplos se muestran en las imágenes \ref{e-0:error-403}, \ref{e-0:error-404}, \ref{e-0:error-408} y~\ref{e-0:error-500}.
@@ -395,7 +398,7 @@ Todos los errores que ocurran internamente son tratados para evitar que afecte a
 \end{figure}
 
 
-\subsection{Responsividad y dispositivos móviles}
+\subsection{\textit{Responsividad} y dispositivos móviles}
 
 La página \textit{web} diseñada está adaptada para ser ejecutada en dispositivos móviles y para adaptarse a las medidas de las pantallas más pequeñas. Un ejemplo de como se visualiza el \textit{dashboard} en un dispositivo móvil se muestra en la imagen~\ref{e-0:dashboard-mobile}. La navegación, en este caso, se convierte en un menú <<hamburguesa>> (imagen~\ref{e-0:menu-mobile}).
 
@@ -411,4 +414,38 @@ La página \textit{web} diseñada está adaptada para ser ejecutada en dispositi
 	\centering
 	\includegraphics[scale=0.1]{../img/anexos/user_guide/0_menu_mobile}
 	\label{e-0:menu-mobile}
+\end{figure}
+
+\subsection{Internacionalización}
+
+Para cambiar el idioma de la aplicación, tan sólo se ha de pulsar en el icono correspondiente a idiomas en la barra de navegación. Esto abrirá un menú desplegable donde se podrá seleccionar el idioma deseado (consultar imagen~\ref{e-9:navbar-2}). Esta opción está disponible tanto para usuarios registrados como para visitantes.
+
+Una vez habido pulsado el botón, la página será traducida al idioma seleccionado (como se muestra en la imagen~\ref{e-9:krini-english}).
+
+\begin{figure}[h]
+	\caption[Manual de usuario: página principal (inglés)]{Página principal del analizador tras haber cambiado el idioma a inglés.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/9_english}
+	\label{e-9:krini-english}
+\end{figure}
+
+
+\subsection{Ayuda}
+
+Pulsando en el icono de información como se muestra en la imagen~\ref{e-9:navbar-2} (usuarios visitantes) o en el icono de la persona como se muestra en la imagen~\ref{e-9:navbar} (usuarios registrados), se podrá acceder a la ayuda de la aplicación, además de mandar un mensaje a la desarrolladora.
+
+La ayuda ha sido presentada mediante una \textit{wiki} de GitHub\footnote{Disponible en: \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}} (como se muestra en la imagen~\ref{e-9:krini-wiki}) y mediante material multimedia (tutoriales de YouTube\footnote{Disponible en \url{https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng}}, como se muestra en la imagen~\ref{e-9:krini-yt}).
+
+\begin{figure}[h]
+	\caption[Manual de usuario: \textit{wiki} de GitHub]{Página principal de la \textit{wiki} de GitHub. Disponible en: \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/9_wiki}
+	\label{e-9:krini-wiki}
+\end{figure}
+
+\begin{figure}[h]
+	\caption[Manual de usuario: canal de YouTube]{Captura de uno de los tutoriales de YouTube disponibles en \url{https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists}.}
+	\centering
+	\includegraphics[width=\textwidth]{../img/anexos/user_guide/9_yt}
+	\label{e-9:krini-yt}
 \end{figure}

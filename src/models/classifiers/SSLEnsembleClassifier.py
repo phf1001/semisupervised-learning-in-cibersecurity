@@ -102,7 +102,7 @@ class SSLEnsemble:
     def check_random_state(seed=None):
         """
         Turn seed into a np.random.RandomState instance.
-        Source: SkLearn
+        Source: Scikit-Learn
 
         Parameters
         ----------

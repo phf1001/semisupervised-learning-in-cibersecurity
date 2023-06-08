@@ -74,7 +74,7 @@ class CoForest(SSLEnsemble):
             Mask with samples from L used for each tree
 
         """
-        self.classes = np.unique(y)
+        self.classes = np.unique(y)  # skipcq: PYL-W0201
 
         ensemble = {}
         mask_L = np.zeros(shape=((L.shape[0]), self.n), dtype=int, order="C")

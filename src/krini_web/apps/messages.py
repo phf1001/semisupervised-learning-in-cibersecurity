@@ -214,6 +214,9 @@ def get_form_message(identifier) -> str:
     if identifier == "no_name":
         return gettext("Por favor, introduce tu nombre propio.")
 
+    if identifier == "password_too_short":
+        return gettext("La contraseña debe tener al menos 8 caracteres.")
+
     if identifier == "no_surname":
         return gettext("Por favor, introduce tus apellidos.")
 

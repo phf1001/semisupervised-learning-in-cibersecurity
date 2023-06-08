@@ -16,8 +16,8 @@ import time
 
 class ProxyTor:
     """
-    Class containing the methods to
-    create and manage a tor proxy.
+    Class containing the methods to create and manage a Tor proxy.
+    It is safe from shell injections attack (BAN-B605).
     """
 
     def __init__(self, number_instance):
@@ -46,7 +46,7 @@ class ProxyTor:
                 f"curl --proxy socks5h://localhost:{self.socks_port} "
             )
             bash_command += "http://ipinfo.io/ip >/dev/null 2>&1"
-            state = os.system(bash_command)
+            state = os.system(bash_command)  # skipcq: BAN-B605
 
             if state == 0:
                 given_ip = requests.get(
@@ -90,4 +90,4 @@ class ProxyTor:
 
     def launch_file(self):
         """Executes the file."""
-        os.system(f"tor -f {self.file} > /dev/null")
+        os.system(f"tor -f {self.file} > /dev/null")  # skipcq: BAN-B605

@@ -105,7 +105,7 @@ El \textit{bagging} es muy útil cuando se dispone poca cantidad de datos, y la 
 Cuando todos los estimadores base son árboles, se habla de \textbf{\textit{random forest}}, uno de los métodos de \textit{bagging} más populares que obtiene resultados certeros debido a la aleatoriedad introducida~\cite{originalCoForest2007}. Cuando el \textit{ensemble} devuelve una etiqueta, es el resultado de una votación realizada por todos los árboles del conjunto. Además de utilizar \textit{bootstrapping}, en el entrenamiento individual de cada árbol, únicamente se <<ven>> algunos atributos (no el total) para introducir mayor aleatoriedad. Es decir, en cada nodo del árbol solo se tienen en cuenta ciertas características seleccionadas aleatoriamente.
 
 \begin{figure}[h]
-	\caption[\textit{Ensembres}: entrenamiento en \textit{bagging} y \textit{boosting}]{Diferencias esquemáticas entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
+	\caption[\textit{Ensembles}: entrenamiento en \textit{bagging} y \textit{boosting}]{Diferencias esquemáticas entre el entrenamiento en \textit{bagging} (izquierda) y \textit{boosting} (derecha).}
 	\label{img:bagging}
 	\centering
 	\includegraphics[width=\textwidth]{../img/memoria/3_bagging_boosting.pdf}
@@ -628,9 +628,22 @@ Este proceso es iterativo~\cite{apuntesMineria} y los resultados de unas fases p
 
 Sin pretender profundizar en ningún aspecto en concreto, se enumeran a continuación algunos conceptos básicos de ciberseguridad necesarios para la correcta comprensión del documento.
 
+\subsection{Pilares de la ciberseguridad}
+
+Los denominados <<pilares de la ciberseguridad>> son aquellos elementos que, cuando son vulnerados, ponen en compromiso el correcto funcionamiento de un sistema (ya sea \textit{hardware} o \textit{software}). Es destacable que, con que uno de los pilares falle, el sistema deja de ser seguro. Estos son~\cite{pilaresciber}:
+
+\begin{enumerate}
+	\item \textbf{Confidencialidad:} estipula que sólo las personas autorizadas pueden tener acceso a un sistema o información (y su control).
+	\item \textbf{Integridad:} se define como la garantía de exactitud y fiabilidad de la información. Es decir, es seguro que no ha habido modificaciones no autorizadas.
+	\item \textbf{Disponibilidad:} como la capacidad que tienen los usuarios de poder acceder a un recurso o sistema.
+	\item \textbf{Autenticidad:} o la habilidad de un sistema de verificar la identidad de los usuarios.
+	\item \textbf{No repudio:} función que impide a los usuarios propietarios negar la propiedad o emisión de información.
+\end{enumerate}
+
+
 \subsection{Sistemas de cifrado}
 
-Un sistema de cifrado es un algoritmo que convierte un texto plano (\textit{input}) en un texto cifrado (\textit{output}). La clave reside en que el nuevo texto es ilegible si se carece de la clave necesaria para descifrarlo, y debe ser lo suficientemente seguro como para que romperlo requiera una cantidad extremadamente grande de recursos (generalmente, tiempo)~\cite{cifradoAvast}. El cifrado es aplicable a datos almacenados o <<en movimiento>> (por ejemplo, intercambio de datos a través de internet).
+Un sistema de cifrado es un algoritmo que convierte un texto plano (\textit{input}) en un texto cifrado (\textit{output}). La clave reside en que el nuevo texto es ilegible si se carece de la clave necesaria para descifrarlo, y debe ser lo suficientemente seguro como para que obtener el texto en claro requiera una cantidad extremadamente grande de recursos (generalmente, tiempo)~\cite{cifradoAvast}. El cifrado es aplicable a datos almacenados o <<en movimiento>> (por ejemplo, intercambio de datos a través de internet), y es destacable que aunque usarlo en textos sea la aproximación más común, se pueden cifrar otro tipo de objetos.
 
 \subsubsection{Cifrado simétrico o criptografía de clave privada}
 
@@ -646,26 +659,26 @@ Algunos de los métodos más comunes son RSA o ECC (criptografía de curva elíp
 
 \subsection{Algoritmos de \textit{hash}}
 
-Una función \textit{hash} es símplemente un método de compresión de cadenas donde la entrada se denomina <<mensaje>> y la salida <<\textit{digest}>>. La característica principal de estos algoritmos es que la salida siempre cuenta con una longitud física independiente de los datos de entrada~\cite{apuntesCybersec}.
+Una función \textit{hash} es simplemente un método de compresión de cadenas donde la entrada se denomina <<mensaje>> y la salida <<\textit{digest}>>. La característica principal de estos algoritmos es que la salida siempre cuenta con una longitud física independiente de los datos de entrada~\cite{apuntesCybersec}, que además siempre va a ser la misma. Por ejemplo, se trate del mensaje que se trate, si se aplica un algoritmo SHA-256, la salida tendrá una longitud de 256 bits.
 
 Cuando se habla de funciones \textit{hash} criptográficas, el algoritmo debe tener diversas características, entre ellas: compresión, eficiencia, unidireccionalidad (dado un valor $y$, no se puede encontrar una $x$ tal que $h(x)=y$), resistencia débil a colisiones (dado $x$ y $h(x)$, es inviable encontrar $y \ne x$ tal que $h(x)=h(y)$) y resistencia fuerte a colisiones (es inviable encontrar $x$ e $y$ tales que $h(x)=h(y)$).
 
-Un ejemplo de este tipo de algoritmos es el denominado SHA-512. Como curiosidad, ha sido el algoritmo elegido para cifrar las contraseñas de la aplicación \textit{web} de este proyecto.
+Un ejemplo de este tipo de algoritmos es el denominado SHA-512. Como curiosidad, ha sido el algoritmo elegido para ofuscar las contraseñas de la aplicación \textit{web} de este proyecto.
 
 \subsection{Peticiones HTTP}
 
-En la programación \textit{web}, los clientes se comunican con los servidores realizando peticiones mediante el protocolo HTTP. El cliente realiza peticiones (\textit{requests}) (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
+En la interacción \textit{web}, los clientes se comunican con los servidores realizando peticiones mediante el protocolo \texttt{HTTP}\footnote{Como curiosidad, el estándar de 1999 se puede encontrar en \url{https://www.rfc-editor.org/rfc/rfc2616.html}.}. El cliente realiza peticiones (\textit{requests}) (por ejemplo, una petición \textit{get} cuando se quiere solicitar un recurso o una \textit{post} para enviar datos al servidor), mientras que el servidor responde mediante \textit{responses}.
 
 Estas peticiones contienen cabeceras y código de estado. Para el desarrollo de este proyecto, es importante conocer ciertos campos de la cabecera, entre ellos las \textit{cookies} (pueden ser usadas para indicar que se ha iniciado sesión), los \textit{proxies} (o servidores intermedios) y el \textit{user-agent} (información sobre el dispositivo que realiza una consulta). Estos campos pueden ser introducidos mediante código~\cite{httpHeaders}.
 
-Además es destacable el código de estado, ya que permite conocer si una petición ha sido completada con éxito. En concreto, aquellos códigos comprendidos entre el 100 y el 199 son informativos, entre el 200 y el 299 son operaciones exitosas, entre el 300 y el 399 son redirecciones, entre el 400 y el 499 son errores por parte del cliente y entre el 500 y el 599 son errores por parte del servidor~\cite{httpStatus}.
+Además es destacable el código de estado, ya que permite conocer si una petición ha sido completada con éxito~\cite{RFCstatuscode}. En concreto, aquellos códigos comprendidos entre el 100 y el 199 son informativos, entre el 200 y el 299 son operaciones exitosas, entre el 300 y el 399 son redirecciones, entre el 400 y el 499 son errores por parte del cliente y entre el 500 y el 599 son errores por parte del servidor~\cite{httpStatus}.
 
 
 \subsection{Comunicaciones anónimas}
 
-Las redes clásicas son sencillamente rastreables, como por ejemplo, hacer una consulta en internet. En este caso, el ordenador peticionario genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o, por el contrario, pasar por un mayor número de nodos intermedios.
+Las redes clásicas son sencillamente rastreables, como por ejemplo, hacer una consulta en internet. En este caso, el cliente genera un paquete que circula hasta el \textit{router} de la red a la que esté conectado. Este \textit{router} lo reenvía a los DNS (\textit{domain name service}) del ISP (\textit{internet service provider}) correspondiente, y de ahí puede ir directamente a la página que se desea consultar, o, por el contrario, pasar por un mayor número de nodos intermedios.
 
-Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que los ISP tienen acceso a los metadatos de las comunicaciones. Adicionalmente, si el contenido de los mensajes se encuentra incorrectamente cifrado, puede derivar en un ataque a los mismos en caso de intercepción por parte de alguno de los nodos intermedios. Se puede pensar que ocultar esta información a terceros es tan sencillo como, por ejemplo, utilizar una de las bien conocidas VPN (\textit{virtual private network}). Sin embargo, los proveedores de servicio de las VPN serán ahora quienes puedan acceder a los metadatos de las comunicaciones~\cite{TorKeepCoding2022}.
+Este camino es relativamente sencillo de rastrear~\cite{TorAndrea2022}, ya que los ISP tienen acceso a los metadatos de las comunicaciones. Adicionalmente, si el contenido de los mensajes se encuentra incorrectamente cifrado, puede derivar en un ataque a los mismos en caso de intercepción por parte de alguno de los nodos intermedios (MitM\footnote{El denominado <<Hombre en el medio>> o <<\textit{Man-in-the-Middle}>> (MitM), es un tipo de ataque destinado a interceptar (incluso manipular), sin autorización, la comunicación entre dos dispositivos conectados a una red.}). Se puede pensar que ocultar esta información a terceros es tan sencillo como, por ejemplo, utilizar una de las bien conocidas VPN (\textit{virtual private network}). Sin embargo, los proveedores de servicio de las VPN serán ahora quienes puedan acceder a los metadatos de las comunicaciones~\cite{TorKeepCoding2022}.
 
 
 \subsubsection{Enrutado cebolla, red Tor y protocolo SOCKS5}
@@ -680,22 +693,22 @@ Uno de los protocolos que permite ocultar esta información es el llamado enruta
 \end{figure}
 
 \begin{enumerate}
-	\item Fase uno: la petición se cifra en varias capas (el estándar es 3). Es decir, con la clave pública del nodo de salida, la del nodo intermedio y, por último, al del nodo de entrada. Recordemos que para descifrar una capa, es necesario la clave privada del nodo correspondiente.
-	\item Fase dos: el servidor de entrada recibe la petición cifrada, y se encarga de descifrar la capa externa (posee la clave), obteniendo la dirección IP del nodo intermedio. De este modo, el servidor puede reenviar el mensaje a este último.
+	\item Fase uno: la petición se cifra asimétricamente en varias capas (el estándar es 3). Es decir, con la clave pública del nodo de salida, la del nodo intermedio y, por último, al del nodo de entrada. Recordemos que para descifrar una capa, es necesario la clave privada del nodo correspondiente.
+	\item Fase dos: el servidor de entrada recibe la petición cifrada, y se encarga de descifrar la capa externa (posee la clave privada), obteniendo la dirección IP del nodo intermedio. De este modo, el servidor puede reenviar el mensaje a este último.
 	\item Fase tres: el servidor del medio descifra la siguiente capa y encuentra la dirección IP del nodo de salida. Reenvía el resto de la petición cifrada.
 	\item Fase cuatro: el servidor de salida descifra la última capa y accede a la petición. Sin embargo, no tiene información acerca de quién la realizó. Sí sabe, en su defecto, la dirección del nodo inmediatamente anterior, por lo que puede resolverla y devolvérsela.
 \end{enumerate}
 
-La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, SOCKS5 es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuando como un proxy de la capa de sesión del protocolo OSI. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
+La red Tor, utiliza este sistema~\cite{TorAndrea2022} de enrutado. Para ello, calcula una ruta pseudo-aleatoria hacia destino, obteniendo las claves públicas de los nodos intermedios. Por otro lado, \texttt{SOCKS5} es un protocolo de Internet usado por Tor~\cite{SOCKS5Tor2022} que permite redirigir el tráfico a través de la red Tor, actuando como un proxy de la capa de sesión del protocolo OSI~\cite{RFCSocks5}. Por motivos de seguridad, se usará más adelante para ocultar la dirección IP de los investigadores a la hora de extraer vectores de características de sitios \textit{phishing}.
 
 \subsection{Ataques \textit{web} y vulnerabilidades en navegadores}
 
-Cada vez que se visita una \textit{web}, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar las etiquetas HTML (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar webs legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
+Cada vez que se visita una \textit{web}, el navegador (ya sea en ventana o pestaña) carga el contenido, lo renderiza y responde a los eventos. Esto no deja de ser una oportunidad para los atacantes, que pueden utilizar atributos de algunos nodos \texttt{HTML} (por ejemplo, dentro de una imagen) para comunicarse con otros sitios o suplantar \textit{webs} legítimas. Además, también pueden utilizar \textit{scripts} para comunicarse con lugares externos (\textit{remote scripting}).
 
-Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado (por ejemplo: \texttt{www[.]atacante[.]com})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar. Algunos de los escenarios más comunes se mencionan a continuación:
+Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado (por ejemplo: \texttt{hxxp[://]www[.]atacante[.]com}\footnote{Una práctica muy común en empresas de ciberseguridad e inteligencia es <<sanitizar>> URLs. Esta técnica consiste en sustituir ciertos caracteres con el fin de evitar que los usuarios accedan a la URL mediante \textit{click}. Se facilita a continuación una <<receta>> de CyberChef que puede ser utilizada para <<sanitizar>> URLs \url{https://gchq.github.io/CyberChef/\#recipe=Defang_URL(true,true,true,'Valid\%20domains\%20and\%20full\%20URLs')\&input=aHR0cHM6Ly9oYWNrMG4uZXM}.})~\cite{apuntesCybersec}. Otro factor a tener en cuenta es que se pueden explotar las vulnerabilidades de los navegadores para atacar (y de los servidores que soportan esa \textit{web}). Algunos de los escenarios más comunes se mencionan a continuación:
 
 \begin{itemize}
-	\item \textbf{SQL Injection (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
+	\item \textbf{SQL Injection (SQLi)}: este tipo de ataque inyecta código con el fin de extraer información de una base de datos relacional. El escenario más común se da cuando, en un formulario, un usuario introduce una consulta de SQL con fines maliciosos~\cite{sqlIw3school} (por ejemplo, en lugar de unas credenciales, se introduce una sentencia acabada en <<or 1=1>>\footnote{Una \textit{cheatsheet} de ejemplos de sentencias maliciosas utilizada para realizar pruebas se puede encontrar en \url{https://github.com/mrsuman2002/SQL-Injection-Authentication-Bypass-Cheat-Sheet/blob/master/SQL\%20Injection\%20Cheat\%20Sheet.txt}.}). La solución se implementa a nivel de código, principalmente utilizando consultas parametrizadas para <<sanitizar>> los datos de entrada del usuario. Una representación gráfica se puede observar en la imagen~\ref{img:sqli}.
 	
 \begin{figure}[h]
 	\caption[Ataques \textit{web}: SQLi]{Infografía de un ataque SQL Injection.}
@@ -704,7 +717,7 @@ Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado
 	\includegraphics[width=\textwidth]{../img/memoria/3_sqli.pdf}
 \end{figure}
 
-	\item \textbf{Cross-site request forgery (CSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición HTTP maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas webs maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad y se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF~\cite{csrfatatus}.
+	\item \textbf{Cross-site request forgery (CSRF o XSRF)}: en este ataque se consigue que el navegador de un usuario legítimo envíe una petición \texttt{HTTP} maliciosa a un sitio objetivo. A ojos del servidor atacado, la petición es realizada por el usuario genuino (ya que sus \textit{cookies} son suplantadas), pero en realidad viene del atacante. El ataque puede originarse en forma de correos o páginas \textit{webs} maliciosas, y el objetivo es una página legítima en la que el usuario ha tenido que iniciar sesión previamente. Las consecuencias (a parte de robo de información) son suplantaciones de identidad, lo que conlleva la ruptura de dos de los tres pilares básicos de la ciberseguridad (confidencialidad e integridad de los datos). Se puede prevenir utilizando ciertas \textit{flags} de sesión en las \textit{cookies} o implementando \textit{tokens} CSRF\footnote{En Krini, la \textit{web} desarrollada, todos los formularios poseen un \textit{token} CSRF para ser protegidos ante este tipo de ataques. Disponible en \url{https://krini.herokuapp.com/}.}~\cite{csrfatatus}.
 	
 	\begin{figure}[h]
 		\caption[Ataques \textit{web}: CSRF]{Infografía de un ataque CSRF.}
@@ -713,7 +726,7 @@ Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado
 		\includegraphics[width=\textwidth]{../img/memoria/3_csrf.pdf}
 	\end{figure}
 	
-	\item \textbf{Cross Site Scripting (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con JavaScript y HTML (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la \textit{web})~\cite{xssDibus}.
+	\item \textbf{Cross Site Scripting (XSS)}: es uno de los ataques más populares existentes consistente en la inyección de código malicioso en el navegador de la víctima con el fin de robar información del usuario (\textit{cookies} o \textit{tokens} de sesión)~\cite{xssICM}. Suele estar realizado con JavaScript y \texttt{HTML} (lado del cliente). Los dos escenarios más comunes son el XSS reflejado (la víctima recibe un enlace y se ejecuta código malicioso en su navegador) y el XSS almacenado (el \textit{script} malicioso se guarda en el servidor de forma permanente y se ejecuta en todos los navegadores de todos los usuarios que visiten la \textit{web})~\cite{xssDibus}.
 	
 	\begin{figure}[h]
 		\caption[Ataques \textit{web}: XSS]{Infografía de los tipos de ataque XSS existentes: reflejado y almacenado.}
@@ -723,7 +736,7 @@ Un ataque \textit{web} es aquel en el que el atacante controla el sitio visitado
 	\end{figure}
 \end{itemize}
 
-La principal diferencia entre XSS y CSRF es que XSS es un ataque <<de dos vías>> (permite al atacante ejecutar código, recibir respuestas y reenviarlas) y CSRF es de <<una vía>> (el atacante sólo puede lanzar una petición HTTP corrupta), de forma que el alcance de CSRF es limitado, mientras que XSS permite al atacante realizar prácticamente lo que desee. Además, XSS no necesita que se haya iniciado sesión previamente para tener éxito~\cite{xssVsCSRF}.
+La principal diferencia entre XSS y CSRF es que XSS es un ataque <<de dos vías>> (permite al atacante ejecutar código, recibir respuestas y reenviarlas) y CSRF es de <<una vía>> (el atacante sólo puede lanzar una petición \texttt{HTTP} corrupta), de forma que el alcance de CSRF es limitado, mientras que XSS permite al atacante realizar prácticamente lo que desee. Además, XSS no necesita que se haya iniciado sesión previamente para tener éxito~\cite{xssVsCSRF}.
 
 \section{Ataques a sistemas de recomendación}
 
@@ -890,19 +903,21 @@ Aplicando estas fórmulas como se muestra en el pseudocódigo~\ref{alg:window_fe
 
 \section{\textit{Phishing}}
 
-El \textit{phishing} es una técnica de ingeniería social\footnote{Técnica empleada por atacantes para ganarse la confianza de un usuario y conseguir que realice las acciones que desea (por ejemplo, ejecutar programas maliciosos, comprar en sitios fraudulentos, facilitar sus claves, etc.)~\cite{ingenieriaSocialINCIBE}.} en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque suele enviarse mediante correo electrónico o mensajes de texto, y suelen incluir imágenes de la marca y un enlace con sintaxis muy parecida a la original (camuflada mediante el uso de técnicas como Leet Speak\footnote{Lenguaje utilizado para evitar la búsqueda por palabras clave (por ejemplo, sustituyendo caracteres por dígitos de apariencia similar).}). Generalmente suelen redireccionar a páginas \textit{web} con formularios de inicio de sesión o algún campo similar para que el usuario introduzca sus datos personales, pero también pueden incluir archivos infectados~\cite{phishingBBVA}.
+El \textit{phishing} es una técnica de ingeniería social\footnote{Técnica empleada por atacantes para ganarse la confianza de un usuario y conseguir que realice las acciones que desea (por ejemplo, ejecutar programas maliciosos, comprar en sitios fraudulentos, facilitar sus claves, etc.)~\cite{ingenieriaSocialINCIBE}.} en la que un atacante suplanta la identidad de una entidad de confianza con el fin de extraer datos o información personal de un determinado usuario. Este tipo de ataque suele enviarse mediante correo electrónico o mensajes de texto, y suelen incluir imágenes de la marca y un enlace con sintaxis muy parecida a la original (camuflada mediante el uso de técnicas como Leet Speak\footnote{Lenguaje utilizado para evitar la búsqueda por palabras clave (por ejemplo, sustituyendo caracteres por dígitos de apariencia similar).}). Generalmente suelen redireccionar a páginas \textit{web} con formularios de inicio de sesión o algún campo similar para que el usuario introduzca sus datos personales, pero también pueden incluir archivos infectados~\cite{phishingBBVA}. Como norma general, la mayoría de los ataques finalizan redirigiendo a la víctima a la página legítima que está siendo suplantada.
 
 Hay multitud de variaciones dentro del \textit{phishing}, pero algunos de los ataques más comunes se enumeran a continuación~\cite{phishingKeeperSecurity}: 
 
 \begin{itemize}
 	\item \textbf{\textit{Spear phishing}}: este tipo de ataque es <<personalizado>>, es decir, el atacante conoce la información personal de la víctima y la utiliza con el fin de que sus ataques parezcan más legítimos.
 	
-	\item \textbf{\textit{Whaling phishing}}: es similar al anterior, solo que el objetivo suele ser un subconjunto de personas (por ejemplo, una pequeña red dentro de una empresa). La intención en este caso suele ser conseguir información clasificada de una entidad en concreto.
+	\item \textbf{\textit{Whaling phishing}}: es similar al anterior, solo que el objetivo suele ser un subconjunto de personas (por ejemplo, una pequeña red dentro de una empresa\footnote{Como curiosidad, este tipo de ataques se conoce en el sector como <<fraude al CEO>>, ya que por lo general se establece como objetivo atacar a personalidades relevantes.}). La intención en este caso suele ser conseguir información clasificada de una entidad en concreto.
 	\item \textbf{\textit{Smishing}}: nombre que recibe la variación de \textit{phishing} que se realiza por mensajes SMS.
 	\item \textbf{\textit{Malvertising}}: en este caso, los atacantes pagan a anunciantes verídicos para que muestren sus páginas en redes sociales u otros sitios \textit{web} con el fin de que los usuarios de estas naveguen a los enlaces maliciosos.
 \end{itemize}
 
-El impacto de un ataque de \textit{phishing} varía en función de la víctima. A nivel personal, una estafa exitosa puede suponer cargos económicos fraudulentos, pérdida de acceso a archivos personales y suplantación, entre otros. Sin embargo, a nivel corporativo, un ataque realizado correctamente puede acarrear filtraciones de datos clasificados e información de clientes, pérdida de acceso a archivos, exposición de los trabajadores, etc. Debido a que los daños pueden ser irreparables y este tipo de ataque es uno de los más comunes, se han de encontrar medidas de seguridad aplicables a la detección de los mismos~\cite{phishingMicrosoft}.
+El impacto de un ataque de \textit{phishing} varía en función de la víctima. A nivel personal, una estafa exitosa puede suponer cargos económicos fraudulentos, pérdida de acceso a archivos personales y suplantación, entre otros. Sin embargo, a nivel corporativo, un ataque realizado correctamente puede acarrear filtraciones de datos clasificados e información de clientes, pérdida de acceso a archivos, exposición de los trabajadores, etc. En cualquiera de los casos, es destacable que este tipo de ataques atentan contra los pilares básicos de la ciberseguridad: la confidencialidad, la integridad y la disponibilidad. Debido a que los daños pueden ser irreparables y este tipo de ataque es uno de los más comunes, se han de encontrar medidas de seguridad aplicables a la detección de los mismos~\cite{phishingMicrosoft}.
+
+
 
 \subsection{Técnicas auxiliares}
 
@@ -913,6 +928,8 @@ Se exponen a continuación algunas de las técnicas auxiliares más comunes tant
 La escritura \textit{leet} es un lenguaje utilizado en la informática cuando se quiere evitar que ciertos archivos (o páginas \textit{web}) se descubran mediante la búsqueda por palabras clave~\cite{leetSpectrum}. La aplicación más sencilla es sustituir aquellas letras que se parezcan a números por estos mismos. Por ejemplo, en lugar de escribir \textit{password}, se podría utilizar \texttt{p4\$\$w0rd}.
 
 Es común que páginas de \textit{phishing} utilicen estas técnicas con el fin de confundir al usuario. Por ejemplo, si un enlace contiene la palabra \textit{0ffice} en lugar de \textit{Office}, es sencillo que un usuario que no esté prestando especial atención caiga en la estafa por no haberse percatado de que la letra <<O>> mayúscula es, en realidad, un cero.
+
+La práctica que consiste en registrar un determinado nombre de dominio que simula a uno legítimo para posteriormente utilizarlo con fines fraudulentos se denomina \textit{cybersquatting}~\cite{Incibecybsqua}. También es interesante nombrar el \textit{typosquatting}, que es un tipo de \textit{cybersquatting} que consiste en imitar una URL de una compañía legítima sólo que introduciendo un error de ortografía.
 
 \subsubsection{TF-IDF}
 
@@ -1048,7 +1065,7 @@ Esta es aquella que se basa en la aparición de un formulario de inicio de sesi�
 \subsubsection{Características basadas en el fichero \texttt{CSS}}
 
 \begin{itemize}
-	\item \textit{\textbf{F16}}: para imitar la estética de un sitio legítimo, los atacantes podrían utilizar su fichero \texttt{CSS}. Un \texttt{CSS} es una hoja de estilos que define el aspecto visual de una página \textit{web}, y puede estar incrustado en el propio HTML de la página o ser un fichero externo~\cite{cssExternos}. En el caso de ser único y externo, se entiende que puede tratarse de un intento de estafa.
+	\item \textit{\textbf{F16}}: para imitar la estética de un sitio legítimo, los atacantes podrían utilizar su fichero \texttt{CSS}. Un \texttt{CSS} es una hoja de estilos que define el aspecto visual de una página \textit{web}, y puede estar incrustado en el propio \texttt{HTML} de la página o ser un fichero externo~\cite{cssExternos}. En el caso de ser único y externo, se entiende que puede tratarse de un intento de estafa.
 	
 	\[F16 = \left\{ \begin{array}{lr} 1, & \text{si existe un fichero \texttt{CSS} y es externo}\\
 		0, & \text{\raggedright cualquier otro caso} \label{eqn:phishing_f16} \end{array}\right.\]

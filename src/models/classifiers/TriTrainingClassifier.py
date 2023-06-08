@@ -56,7 +56,7 @@ class TriTraining(SSLEnsemble):
             Unlabeled data used for training
         """
         self.initialize_classifiers(L, y)
-        self.classes = np.unique(y)
+        self.classes = np.unique(y)  # skipcq: PYL-W0201
 
         previous_e = [0.5] * self.n
         previous_l = [0.0] * self.n
