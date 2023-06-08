@@ -45,7 +45,7 @@ def login():
                   index page if the user is logged in.
     """
     login_form = LoginForm(request.form)
-    if "login" in request.form:
+    if "login" in request.form and login_form.validate_on_submit():
         username = request.form["username"]
         password = request.form["password"]
         user = Users.query.filter_by(username=username).first()
@@ -60,8 +60,18 @@ def login():
             form=login_form,
         )
 
+    errors = login_form.errors
+    if errors:
+        msg = ""
+        for key in errors.keys():
+            message_id = login_form.errors[key][0]
+            msg += "<br />" + get_form_message(message_id)
+        return render_template("accounts/login.html", form=login_form, msg=msg)
+
     if not current_user.is_authenticated:
         return render_template("accounts/login.html", form=login_form)
+
+    flash(get_exception_message("already_logged"), "info")
     return redirect(url_for("home_blueprint.index"))
 
 

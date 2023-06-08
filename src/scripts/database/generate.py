@@ -1,3 +1,11 @@
+# -*- encoding: utf-8 -*-
+"""
+@File    :   generate.py
+@Time    :   2023/05/16
+@Author  :   Patricia Hernando Fernández
+@Version :   2.0
+@Contact :   phf1001@alu.ubu.es
+"""
 import psycopg2
 import pandas as pd
 import os

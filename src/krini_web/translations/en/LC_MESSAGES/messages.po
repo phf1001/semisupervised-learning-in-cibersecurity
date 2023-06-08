@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: phf1001@alu.ubu.es\n"
-"POT-Creation-Date: 2023-06-04 09:41+0200\n"
+"POT-Creation-Date: 2023-06-08 19:30+0200\n"
 "PO-Revision-Date: 2023-05-05 14:03+0200\n"
 "Last-Translator: FULL NAME <phf1001@alu.ubu.es>\n"
 "Language: en\n"
@@ -23,8 +23,8 @@ msgid "Error al realizar la operación solicitada."
 msgstr "Failed to perform the requested operation."
 
 #: apps/messages.py:24
-msgid "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
-msgstr "You are already logged in. Sign out to create a new account."
+msgid "Ya has iniciado sesión. Cierra sesión para crear o acceder a otra cuenta."
+msgstr "You are already logged in. Sign out to create or use another account."
 
 #: apps/messages.py:29
 msgid "Error al realizar la petición a la URL. ¿Tiene un certificado válido?"

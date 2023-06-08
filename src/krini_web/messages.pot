@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-04 09:41+0200\n"
+"POT-Creation-Date: 2023-06-08 19:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgid "Error al realizar la operación solicitada."
 msgstr ""
 
 #: apps/messages.py:24
-msgid "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
+msgid "Ya has iniciado sesión. Cierra sesión para crear o acceder a otra cuenta."
 msgstr ""
 
 #: apps/messages.py:29

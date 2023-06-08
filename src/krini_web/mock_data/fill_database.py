@@ -1,3 +1,10 @@
+# -*- encoding: utf-8 -*-
+"""
+@File    :   fill_database.py
+@Author  :   Patricia Hernando Fernández
+@Version :   2.0
+@Contact :   phf1001@alu.ubu.es
+"""
 import psycopg2
 import pandas as pd
 import os

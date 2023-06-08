@@ -22,7 +22,7 @@ def get_exception_message(identifier) -> str:
 
     if identifier == "already_logged":
         return gettext(
-            "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
+            "Ya has iniciado sesión. Cierra sesión para crear o acceder a otra cuenta."
         )
 
     if identifier == "error_ssl":
