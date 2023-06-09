@@ -21,9 +21,11 @@ class ProxyTor:
     """
 
     def __init__(self, number_instance):
-        """
-        Creates the file corresponding to
-        the instance and assigns ports.
+        """Creates the file given the number of the instance and
+        assigns the ports.
+
+        Args:
+            number_instance (int): number of the instance.
         """
         self.number_instance = number_instance
         self.socks_port = 9052 + 2 * number_instance  # Default tor 9050
@@ -34,10 +36,7 @@ class ProxyTor:
         self.file = self.create_tor_file()
 
     def get_ip(self):
-        """
-        Checks if the given proxy is working and
-        returns its ip.
-        """
+        """Checks if the given proxy is working and returns its ip."""
         time.sleep(1)
         intentos = 0
 
