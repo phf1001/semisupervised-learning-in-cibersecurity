@@ -259,7 +259,7 @@ def get_form_message(identifier) -> str:
 
     if identifier == "model_name_too_long":
         return gettext(
-            "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
+            "Por favor, introduce un nombre más corto (máximo 41 caracteres)."
         )
 
     if identifier == "username_too_long":
@@ -286,8 +286,15 @@ def get_form_message(identifier) -> str:
         return gettext("Por favor, selecciona una opción en el desplegable.")
 
     if identifier == "invalid_version":
-        return gettext("Introduce una versión válida.") + gettext(
-            "Si no sabes qué poner, puedes probar a introducir un número entero."
+        return (
+            gettext("Introduce una versión válida.")
+            + " "
+            + gettext(
+                "Si no sabes qué poner, puedes probar a introducir un número entero."
+            )
+            + gettext(
+                " Los bloques (separados por puntos) no pueden tener más de 5 dígitos."
+            )
         )
 
     if identifier == "empty_name":
