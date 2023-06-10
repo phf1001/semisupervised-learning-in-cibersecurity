@@ -141,7 +141,7 @@ class SmallModelForm(FlaskForm):
         default="1",
         validators=[
             Regexp(
-                r"^\d+(.\d+){0,2}$",
+                r"^\d{1,5}(.\d{1,5}){0,2}$",
                 message="invalid_version",
             )
         ],
@@ -183,7 +183,7 @@ class ModelForm(SmallModelForm):
         id="model_name",
         validators=[
             DataRequired("empty_name"),
-            Length(max=50, message="model_name_too_long"),
+            Length(max=41, message="model_name_too_long"),
         ],
     )
 
@@ -229,7 +229,7 @@ class ModelForm(SmallModelForm):
         validators=[
             DataRequired("empty_n_trees"),
             NumberRange(
-                min=0,
+                min=1,
                 max=100,
                 message="invalid_n_trees",
             ),

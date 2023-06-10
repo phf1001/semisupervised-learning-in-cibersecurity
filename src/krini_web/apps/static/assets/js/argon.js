@@ -1107,25 +1107,37 @@ function showDiv(hd1, hd2, hd3, element) {
 	if (element.value == 0) {
 		document.getElementById(hd1).style.display = 'none'
 		document.getElementById(hd2).style.display = 'none'
-		document.getElementById(hd3).style.display = 'none'
+		var hd3Element = document.getElementById(hd3);
+		if (hd3Element != null) {
+			hd3Element.style.display = 'none'
+		}
 	}
 
 	if (element.value == 1) {
 		document.getElementById(hd1).style.display = 'block'
 		document.getElementById(hd2).style.display = 'none'
-		document.getElementById(hd3).style.display = 'none'
+		var hd3Element = document.getElementById(hd3);
+		if (hd3Element != null) {
+			hd3Element.style.display = 'none'
+		}
 	}
 
 	else if (element.value == 2) {
 		document.getElementById(hd1).style.display = 'none'
 		document.getElementById(hd2).style.display = 'block'
-		document.getElementById(hd3).style.display = 'none'
+		var hd3Element = document.getElementById(hd3);
+		if (hd3Element != null) {
+			hd3Element.style.display = 'none'
+		}
 	}
 
 	else if (element.value == 3) {
 		document.getElementById(hd1).style.display = 'none'
 		document.getElementById(hd2).style.display = 'none'
-		document.getElementById(hd3).style.display = 'block'
+		var hd3Element = document.getElementById(hd3);
+		if (hd3Element != null) {
+			hd3Element.style.display = 'block'
+		}
 	}
 }
 

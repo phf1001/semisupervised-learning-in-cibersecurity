@@ -87,3 +87,9 @@ You can check our [wiki](https://github.com/phf1001/semisupervised-learning-in-c
 Feel free to reach me out! 💌
 
 > GitHub [phf1001](https://github.com/phf1001) &nbsp;&middot;&nbsp; LinkedIn [patriciahf](https://www.linkedin.com/in/patriciahf) &nbsp;&middot;&nbsp; Email [phf1001](mailto:phf1001@alu.ubu.es) 
+
+---
+
+<br />
+
+![krini-banner](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/3c07452e-ebba-467a-b7af-c87b7370f387)

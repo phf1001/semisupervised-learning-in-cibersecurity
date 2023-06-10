@@ -15,13 +15,13 @@ El repositorio del proyecto\footnote{Disponible en \url{https://github.com/phf10
 	\item \texttt{docker-deploy-kit}: incluye los \textit{scripts} necesarios para desplegar la aplicación en Docker a nivel de usuario. Su uso será detallado en la sección~\ref{s-e:docker-deploy-users}.
 	\item \texttt{docs}: alberga la documentación del trabajo.
 	\item \texttt{src}: contiene el código fuente de la aplicación, pruebas y recursos desarrollados, además de ficheros de configuración de herramientas y otros archivos relevanes.
-	\item \texttt{wallpapers}: contiene fondos de pantalla con el icono de Krini.
+	\item \texttt{wallpapers}: almacena fondos de pantalla, iconos y \textit{banners} con el logotipo de Krini.
 \end{itemize}
 
 Este anexo se centrará, por lo tanto, en el directorio \texttt{src}. En la ilustración~\ref{d:diag-repo-structure} se muestran las carpetas principales albergadas en este directorio. Es relevante que no todo el contenido está representado en la ilustración.
 
 \begin{figure}[h]
-	\caption[Diagrama: estructura de directorios]{Diagrama que representa la estructura física de directorios en el repositorio.}
+	\caption[Diagrama: estructura de directorios]{Diagrama que representa la estructura física de directorios en la carpeta \texttt{src} del repositorio.}
 	\centering
 	\includegraphics[width=\textwidth]{../img/anexos/diagrams/repo-structure}
 	\label{d:diag-repo-structure}
@@ -30,7 +30,7 @@ Este anexo se centrará, por lo tanto, en el directorio \texttt{src}. En la ilus
 A continuación, se facilita una explicación más detallada del contenido de cada directorio:
 
 \begin{itemize}
-	\item \texttt{krini\_web}: alberga los recursos necesarios para la programación de la \textit{web}. 
+	\item \texttt{krini\_web}: alberga los recursos necesarios para la \textit{web}. 
 	
 	El directorio \texttt{apps} contiene la lógica de negocio principal y se divide a su vez en \texttt{authentication} (controla los inicios de sesión y registros), \texttt{home} (implementa la funcionalidad principal de la \textit{web}) y \texttt{ssl\_utils} (engloba los recursos de \textit{machine learning} necesarios así como los modelos serializados). También incluye recursos estáticos (hojas de estilos, \textit{scripts}, imágenes, etc.) en la carpeta \texttt{static} y plantillas \texttt{HTML} en el directorio \texttt{templates}.
 	
@@ -46,7 +46,7 @@ A continuación, se facilita una explicación más detallada del contenido de ca
 
 	\item \texttt{tests}: engloba las pruebas unitarias (escritas en Python y ejecutadas mediante TravisCI en cada \textit{build}) y de aceptación (programadas en Selenium).
 	
-	\item \textbf{Otros}: además de los directorios enumerados, también se incluyen archivos de creación de imágenes de Docker, \textit{logs}, ficheros de dependencias (\texttt{requirements.txt}), de configuración de Heroku (\texttt{runtime.txt} y \texttt{Procfile}), licencias, \texttt{README.md}, variables de producción y desarrollo, etc.
+	\item \textbf{Otros}: además de los directorios enumerados, también se incluyen archivos de creación de imágenes de Docker, \textit{logs}, ficheros de dependencias (\texttt{requirements.txt}), de configuración de Heroku (\texttt{runtime.txt} y \texttt{Procfile}), licencias, \texttt{README.md}, variables de producción, etc.
 \end{itemize}
 
 
@@ -69,13 +69,13 @@ También se ha utilizado un sistema operativo Windows para realizar pruebas de d
 
 \begin{itemize}
 	\item VSCode: como editor de código fuente.
-	\item Python: en versión 3.10+ y con las dependencias mencionadas en la tabla~\ref{a:licencias}.
+	\item Python: en versión 3.9+ y con las dependencias mencionadas en la tabla~\ref{a:licencias}.
 \end{itemize}
 
 \item \textbf{Git y automatización del \textit{pipeline}}: actualmente, cada vez que se realiza un \textit{push} a la rama de desarrollo o la principal en Git, se lanzan ciertos procesos de control de calidad. Es importante revisar y analizar la salida proporcionada por dichas herramientas y corregir posibles defectos antes de realizar \textit{pull requests} a la rama principal.
 
 \begin{figure}[h]
-	\caption[Herramientas: control de calidad automatizado en el \textit{pipeline}.]{Herramientas de control de calidad automatizadas en el \textit{pipeline} del repositorio.}
+	\caption[Herramientas: control de calidad automatizado en el \textit{pipeline}]{Herramientas de control de calidad automatizadas en el \textit{pipeline} del repositorio.}
 	\centering
 	\includegraphics[scale=0.2]{../img/anexos/manual/gitpipeline}
 \end{figure}
@@ -106,7 +106,7 @@ Dependiendo del uso que se esté dando al repositorio (no es lo mismo simplement
 A continuación se describe cómo crear un entorno virtual genérico e instalar los requisitos necesarios para modificar y ejecutar la \textit{web}:
 
 \begin{enumerate}
-	\item Entrar en el directorio \texttt{semisupervised-learning-in-cibersecurity /src/krini\_web}
+	\item Entrar en la carpeta \texttt{semisupervised-learning-in-cibersecurity /src/krini\_web}
 	\item Crear el entorno \texttt{\$ virtualenv env}
 	\item Activar el entorno \texttt{\$ source  env/bin/activate}
 	\item Instalar las dependencias \texttt{\$ pip3 install -r requirements.txt}\footnote{Por motivos de despliegue, el archivo de requerimientos se encuentra en \texttt{src} (por lo que se puede hacer previamente un \texttt{\$ cd} a la carpeta padre).}

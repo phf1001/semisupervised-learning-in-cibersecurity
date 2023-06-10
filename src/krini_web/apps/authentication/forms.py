@@ -28,7 +28,6 @@ class LoginForm(FlaskForm):
         id="username_login",
         validators=[
             DataRequired("no_username"),
-            Length(min=1, max=63, message="username_too_long"),
         ],
     )
     password = PasswordField(

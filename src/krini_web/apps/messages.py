@@ -22,7 +22,7 @@ def get_exception_message(identifier) -> str:
 
     if identifier == "already_logged":
         return gettext(
-            "Ya has iniciado sesión. Cierra sesión para crear una cuenta nueva."
+            "Ya has iniciado sesión. Cierra sesión para crear o acceder a otra cuenta."
         )
 
     if identifier == "error_ssl":
@@ -120,6 +120,11 @@ def get_exception_message(identifier) -> str:
     if identifier == "IA_file_not_found":
         return gettext(
             "No se ha podido cargar el fichero de la IA. Lo sentimos."
+        )
+
+    if identifier == "no_base_cls":
+        return gettext(
+            "Por favor, selecciona al menos un clasicador base (una unidad)."
         )
 
     if identifier == "error_storing_model_or_training_data":
@@ -254,7 +259,7 @@ def get_form_message(identifier) -> str:
 
     if identifier == "model_name_too_long":
         return gettext(
-            "Por favor, introduce un nombre más corto (máximo 50 caracteres)."
+            "Por favor, introduce un nombre más corto (máximo 41 caracteres)."
         )
 
     if identifier == "username_too_long":
@@ -281,8 +286,15 @@ def get_form_message(identifier) -> str:
         return gettext("Por favor, selecciona una opción en el desplegable.")
 
     if identifier == "invalid_version":
-        return gettext("Introduce una versión válida.") + gettext(
-            "Si no sabes qué poner, puedes probar a introducir un número entero."
+        return (
+            gettext("Introduce una versión válida.")
+            + " "
+            + gettext(
+                "Si no sabes qué poner, puedes probar a introducir un número entero."
+            )
+            + gettext(
+                " Los bloques (separados por puntos) no pueden tener más de 5 dígitos."
+            )
         )
 
     if identifier == "empty_name":
@@ -304,10 +316,8 @@ def get_form_message(identifier) -> str:
         )
 
     if identifier == "empty_n_trees":
-        return (
-            gettext("Por favor, introduce un número de árboles.")
-            + " "
-            + gettext("Si no deseas ninguno puedes introducir 0.")
+        return gettext(
+            "Por favor, introduce un número de árboles (mínimo 1, máximo 100)."
         )
 
     if identifier == "invalid_n_trees":

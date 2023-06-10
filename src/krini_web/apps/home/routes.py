@@ -719,6 +719,9 @@ def creating_model():
             base_cls += [form_data["cls_two"]] * int(form_data["n_cls_two"])
             base_cls += [form_data["cls_three"]] * int(form_data["n_cls_three"])
 
+            if len(base_cls) == 0:
+                raise KriniException(get_exception_message("no_base_cls"))
+
             cls = get_democratic_co(
                 base_cls=base_cls, random_state=random_state
             )
