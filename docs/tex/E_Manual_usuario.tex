@@ -63,14 +63,14 @@ Debido a que la aplicación desarrollada es una \textit{web}, no hace falta pasa
 
 Simplemente se ha de acceder mediante el navegador introduciendo la dirección \url{https://krini.herokuapp.com/}
 
-\subsection{Despliegue en Docker}
+\subsection{Despliegue en local mediante Docker}
 \label{s-e:docker-deploy-users}
 
 Para facilitar que cualquier usuario pueda desplegar un contenedor de Docker (en realidad, dos) y levantar su propio servidor de gunicorn en local sin tener conocimientos técnicos, se han preparado unos \textit{scripts} multiplataforma disponibles en \url{https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit}
 
 De esta forma, tan solo se debe seleccionar el sistema operativo anfitrión, descargar los archivos (se facilita un comprimido con todos incluidos) y garantizar que se cumple con los requisitos de la sección~\ref{s-e:requisitos-docker}.
 
-Para levantar el servidor en local y garantizar que la base de datos se rellena completamente, se han de seguir los siguientes pasos teniendo en cuenta que los \textit{scripts} en Linux se ejecutan mediante el comando \texttt{\$ sh nombre-script.sh} y en Windows mediante \texttt{\$ nombre-script.bat}.
+Para levantar el servidor en local y garantizar que la base de datos se rellena completamente, se han de seguir los siguientes pasos teniendo en cuenta que los \textit{scripts} en Linux\footnote{Tutorial para Linux disponible en \url{https://youtu.be/a9GE0YIv0RQ}} se ejecutan mediante el comando \texttt{\$ sh nombre-script.sh} y en Windows\footnote{Tutorial para Windows disponible en \url{https://youtu.be/jBPvhbv3Az0}} mediante \texttt{\$ nombre-script.bat}.
 
 \begin{enumerate}
 	\item Ubicarse en la carpeta donde se encuentren los \textit{scripts}.
@@ -83,7 +83,7 @@ Para levantar el servidor en local y garantizar que la base de datos se rellena 
 	\item Si se quieren borrar las imágenes y contenedores del sistema definitivamente, ejecutar el \textit{script} \texttt{docker-clean}
 \end{enumerate}
 
-\textbf{Importante}: iniciar el demonio de Docker antes de lanzar los \textit{scripts}. En Windows basta con ejecutar la aplicación de escritorio.
+\textbf{Importante}: iniciar el demonio de Docker antes de lanzar los \textit{scripts}. En Windows basta con ejecutar la aplicación de escritorio. Toda la información necesaria está disponible en el fichero \texttt{README.md} del directorio \texttt{docker-deploy-kit}.
 
 \section{Manual del usuario}
 
@@ -102,11 +102,11 @@ A continuación, se procede a ilustrar las funcionalidades básicas de la \texti
 	\label{e-1:index}
 \end{figure}
 
-En la ilustración~\ref{e-1:index} se muestra la página principal del analizador disponible para cualquier usuario. Para escanear una URL, basta con introducirla en el campo correspondiente. Es preferible introducir la dirección tal y como aparece en el navegador, pero si no es posible, la aplicación tratará de autocompletarla.
+En la ilustración~\ref{e-1:index} se muestra la página principal del analizador disponible para cualquier usuario. Para escanear una URL, basta con introducirla en el campo correspondiente\footnote{Tutorial de análisis disponible en \url{https://youtu.be/rXwtZ2c4vlw}}. Es preferible introducir la dirección tal y como aparece en el navegador, pero si no es posible, la aplicación tratará de autocompletarla.
 
 A continuación se pueden seleccionar los clasificadores que se deseen en el desplegable. Si no se selecciona ninguno, se analizará con el modelo por defecto, y en caso de que no exista, con uno aleatorio.
 
-Opcionalmente se puede marcar la casilla <<análisis rápido>>. En este caso, no se extraerá el vector de características si ya existe en la base de datos\footnote{Para garantizar que la base de datos se autocompleta, cualquier vector de características nuevo que se extraiga por un usuario registrado se guardará en la sección de <<instancias>> (consultar sección~\ref{s-e:instances} del manual) con etiquetas adecuadas (\texttt{new-instance}, \texttt{auto-classified} y \texttt{recommendation-review}) (consultar imagen~\ref{e-6:more-labels}) y se incluirá una sugerencia para su revisión (\texttt{suggestion-review-new-scanned}).}.
+Opcionalmente se puede marcar la casilla <<análisis rápido>>\footnote{Tutorial de análisis rápido disponible en \url{https://youtu.be/PB9bs84v708}}. En este caso, no se extraerá el vector de características si ya existe en la base de datos\footnote{Para garantizar que la base de datos se autocompleta, cualquier vector de características nuevo que se extraiga por un usuario registrado se guardará en la sección de <<instancias>> (consultar sección~\ref{s-e:instances} del manual) con etiquetas adecuadas (\texttt{new-instance}, \texttt{auto-classified} y \texttt{recommendation-review}) (consultar imagen~\ref{e-6:more-labels}) y se incluirá una sugerencia para su revisión (\texttt{suggestion-review-new-scanned}).}.
  
 Tras pulsar el botón de analizar, se mostrará una pantalla de carga mientras se extrae el vector de características correspondiente a la URL introducida (imagen~\ref{e-1:analysis}). En caso de error, se volverá a la página principal con un mensaje informativo.
 
@@ -120,7 +120,7 @@ Tras pulsar el botón de analizar, se mostrará una pantalla de carga mientras s
 \subsection{\textit{Dashboard}}
 \label{s-e:dashboard}
 
-En el \textit{dashboard} se pueden observar los resultados de analizar la URL introducida mediante los clasificadores seleccionados.
+En el \textit{dashboard} se pueden observar los resultados de analizar la URL introducida mediante los clasificadores seleccionados\footnote{Tutorial del \textit{dashboard} disponible en \url{https://youtu.be/cWPRKS_TwGU}}.
 
 Las gráficas interactivas (imagen~\ref{e-3:dashboard-1}) se muestran tanto si se ha realizado un análisis rápido como si no. En un primer lugar se realiza una comparativa entre clasificadores. A continuación, se representa en un gráfico de tipo \textit{doughnut} las predicciones de todos los estimadores y en una tabla la seguridad de cada clasificador en la predicción. Por último, se pueden contemplar individualmente las estadísticas de cada clasificador en la gráfica giratoria (pulsar el botón <<siguiente>> para cambiar entre gráficas).
 
@@ -162,7 +162,7 @@ Como curiosidad, si los estimadores determinan que una URL es maliciosa, en la i
 \subsection{Denunciar URL}
 \label{s-e:report-url}
 
-Si se está seguro de que una URL pertenece a una lista blanca o negra (es decir, se trata de una página legítima o \textit{phishing} confirmada), se puede reportar para que sea revisada por los administradores (consultar la sección~\ref{s-e:sugerencias} del manual) en el formulario <<denunciar URL>>. Para ello, únicamente habrá que introducir la URL y el tipo de lista a la que pertenece como se muestra en la imagen~\ref{e-3:report-url}.
+Si se está seguro de que una URL pertenece a una lista blanca o negra (es decir, se trata de una página legítima o \textit{phishing} confirmada), se puede reportar\footnote{Tutorial acerca de denunciar URLs disponible en \url{https://youtu.be/jtXDFBYDpeo}.} para que sea revisada por los administradores (consultar la sección~\ref{s-e:sugerencias} del manual) en el formulario <<denunciar URL>>. Para ello, únicamente habrá que introducir la URL y el tipo de lista a la que pertenece como se muestra en la imagen~\ref{e-3:report-url}.
 
 \begin{figure}[h]
 	\caption[Manual de usuario: reportar pertenencia a lista]{Página para reportar pertenencia a lista blanca o lista negra.}
@@ -184,7 +184,7 @@ En caso de que la URL no exista previamente, será incluida en la sección de <<
 \subsection{Modelos}
 \label{s-e:models}
 
-Los administradores podrán gestionar todos los modelos de aprendizaje disponibles en la sección de <<modelos>> (imagen~\ref{e-5:models}).
+Los administradores podrán gestionar todos los modelos\footnote{Tutorial de gestión de modelos disponible en \url{https://youtu.be/NT2CgIkCx_A}} de aprendizaje disponibles en la sección de <<modelos>> (imagen~\ref{e-5:models}).
 
 \begin{figure}[h]
 	\caption[Manual de usuario: página de modelos]{Página de administración de modelos.}
@@ -249,7 +249,7 @@ Este caso de uso se puede ejecutar individualmente o en \textit{bulk}. Para elim
 \subsection{Instancias}
 \label{s-e:instances}
 
-Los administradores podrán gestionar todas las URLs disponibles en la sección de <<instancias>> (imagen~\ref{e-5:instances}).
+Los administradores podrán gestionar todas las URLs\footnote{Tutorial de gestión de instancias disponible en \url{https://youtu.be/P6YWBkvB4G0}} disponibles en la sección de <<instancias>> (imagen~\ref{e-5:instances}).
 
 \begin{figure}[h]
 	\caption[Manual de usuario: página de instancias]{Página de administración de instancias.}
@@ -310,7 +310,7 @@ Este caso de uso se puede ejecutar individualmente o en \textit{bulk}. Para elim
 \subsection{Sugerencias}
 \label{s-e:sugerencias}
 
-Cuando un usuario registrado reporta un análisis que considera erróneo (consultar sección~\ref{s-e:report-false-analy}) o denuncia una URL por pertenecer a una lista blanca o negra (consultar sección~\ref{s-e:report-url}), se crea una nueva entrada en la sección de <<sugerencias>>. También se crean nuevas sugerencias cuando un usuario registrado analiza una URL que no se encuentra previamente en la base de datos (para recordar al administrador que revise la nueva instancia).
+Cuando un usuario registrado reporta un análisis\footnote{Tutorial de sugerencias disponible en \url{https://youtu.be/T6PasrsZCLg}.} que considera erróneo (consultar sección~\ref{s-e:report-false-analy}) o denuncia una URL por pertenecer a una lista blanca o negra (consultar sección~\ref{s-e:report-url}), se crea una nueva entrada en la sección de <<sugerencias>>. También se crean nuevas sugerencias cuando un usuario registrado analiza una URL que no se encuentra previamente en la base de datos (para recordar al administrador que revise la nueva instancia).
 
 \begin{figure}[h]
 	\caption[Manual de usuario: administrar sugerencias]{Página de administración de sugerencias o \textit{reports}.}
@@ -325,7 +325,7 @@ Aceptar una sugerencia implica que se modifica la URL afectada. Es decir, si se 
 
 \subsection{Usuarios, perfil, inicio de sesión y registro}
 
-Cualquier usuario visitante podrá crear una cuenta (imagen~\ref{e-8:register}) e iniciar sesión en la \textit{web} (imagen~\ref{e-8:login}) proporcionando las credenciales que considere. Sin embargo, únicamente los administradores tendrán acceso a la funcionalidad completa de la aplicación\footnote{Para saber qué usuario puede realizar cada acción, consultar el diagrama de casos de uso~\ref{b:diagrama-cu}.}.
+Cualquier usuario\footnote{Tutorial de usuarios disponible en \url{https://youtu.be/ZG9aBmK682U}.} visitante podrá crear una cuenta (imagen~\ref{e-8:register}) e iniciar sesión en la \textit{web} (imagen~\ref{e-8:login}) proporcionando las credenciales que considere. Sin embargo, únicamente los administradores tendrán acceso a la funcionalidad completa de la aplicación\footnote{Para saber qué usuario puede realizar cada acción, consultar el diagrama de casos de uso~\ref{b:diagrama-cu}.}.
 
 \begin{figure}[h]
 	\caption[Manual de usuario: crear nueva cuenta]{Página de creación de nuevas cuentas.}
@@ -367,7 +367,7 @@ Según los permisos que tenga el usuario, la barra de navegación mostrará unas
 
 \subsection{Pantallas de error}
 
-Todos los errores que ocurran internamente son tratados para evitar que afecte a la experiencia del usuario. En caso de tratarse de excepciones, se mostrarán mensajes informativos adecuados. Por otro lado, los errores más graves tienen asociadas pantallas concretas (por supuesto, internacionalizadas) en función del tipo de código de error. Algunos ejemplos se muestran en las imágenes \ref{e-0:error-403}, \ref{e-0:error-404}, \ref{e-0:error-408} y~\ref{e-0:error-500}.
+Todos los errores que ocurran internamente son tratados para evitar que afecte a la experiencia del usuario\footnote{Tutorial con ejemplos de pantallas de error, responsividad y uso de la ayuda disponible en \url{https://youtu.be/_6jLgmkvftU}.}. En caso de tratarse de excepciones, se mostrarán mensajes informativos adecuados. Por otro lado, los errores más graves tienen asociadas pantallas concretas (por supuesto, internacionalizadas) en función del tipo de código de error. Algunos ejemplos se muestran en las imágenes \ref{e-0:error-403}, \ref{e-0:error-404}, \ref{e-0:error-408} y~\ref{e-0:error-500}.
 
 \begin{figure}[h]
 	\caption[Manual de usuario: error 403]{Página de error 403.}
@@ -418,7 +418,7 @@ La página \textit{web} diseñada está adaptada para ser ejecutada en dispositi
 
 \subsection{Internacionalización}
 
-Para cambiar el idioma de la aplicación, tan sólo se ha de pulsar en el icono correspondiente a idiomas en la barra de navegación. Esto abrirá un menú desplegable donde se podrá seleccionar el idioma deseado (consultar imagen~\ref{e-9:navbar-2}). Esta opción está disponible tanto para usuarios registrados como para visitantes.
+Para cambiar el idioma de la aplicación, tan sólo se ha de pulsar en el icono correspondiente a idiomas en la barra de navegación\footnote{Tutorial de internacionalización disponible en \url{https://youtu.be/xyNhGxqK4Mw}.}. Esto abrirá un menú desplegable donde se podrá seleccionar el idioma deseado (consultar imagen~\ref{e-9:navbar-2}). Esta opción está disponible tanto para usuarios registrados como para visitantes.
 
 Una vez habido pulsado el botón, la página será traducida al idioma seleccionado (como se muestra en la imagen~\ref{e-9:krini-english}).
 

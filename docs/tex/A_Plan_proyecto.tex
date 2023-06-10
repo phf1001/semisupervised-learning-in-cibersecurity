@@ -66,7 +66,7 @@ Durante el ciclo de Scrum, se pueden identificar varias actividades que constitu
 
 Como se puede observar, cada equipo puede realizar una cantidad de trabajo, generalmente fija, en cada \textit{sprint}. Por ello, es necesario estimar el tiempo que requiere cada tarea y no asignar más trabajo del que se pueda asimilar en cada iteración.
 
-En este proyecto, se han utilizado los <<puntos de historia>> como unidad de medida.
+En este proyecto, se han utilizado los <<puntos de historia>> como unidad de medida. Es destacable que se ha establecido la equivalencia de un punto de historia a una hora real de trabajo.
 
 
 \section{Planificación temporal}
@@ -75,8 +75,6 @@ En este proyecto, se han utilizado los <<puntos de historia>> como unidad de med
 \subsection{Planificación por \textit{sprints}}
 \label{s:planificacion-sprints}
 Siguiendo los eventos de Scrum, y adaptándolos teniendo en cuenta el tamaño del equipo (un desarrollador), se ha decidido planificar el proyecto mediante \textit{sprints}.
-
-Es destacable que se ha establecido la equivalencia de un punto de historia a una hora real.
 
 \subsubsection{\textit{Sprint 1: Mustard}}
 
@@ -880,14 +878,14 @@ Es destacable que se ha establecido la equivalencia de un punto de historia a un
 	\begin{figure}[h]
 		\caption[\textit{Sprint} 23: \textit{burndown report}]{\textit{Burndown Report Sprint 23}}
 		\centering
-		\includegraphics[width=\textwidth]{../img/anexos/bdr/s22_bdr}
+		\includegraphics[width=\textwidth]{../img/anexos/bdr/s23_bdr}
 	\end{figure}
 	
-	En este \textit{sprint} se ha logrado cerrar todos los \textit{issues} pendientes, habiendo hecho una estimación correcta del tiempo requerido. Se calculó que se iban a invertir 41 horas, cuando el tiempo real ha sido de 4...
+	En este \textit{sprint} se ha logrado cerrar todos los \textit{issues} pendientes, habiendo hecho una estimación correcta del tiempo requerido.
 	
 	\item \textbf{\textit{Sprint review meeting}}
 	
-	
+	En esta reunión se sugirieron pequeñas correcciones en la memoria y los anexos, además de su aprobación y firma. También se comenzó a plantear la presentación del trabajo, proponiendo distintas estructuras y valorando las ventajas e inconvenientes de cada una.
 \end{itemize} 
 
 
@@ -914,7 +912,7 @@ Se estima que el tiempo real invertido en el proyecto por parte de la desarrolla
 
 A esta cantidad se le deben añadir los impuestos que ha de pagar la empresa por el empleado\footnote{Fuente:~\url{https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/10721/10957/9932/4315}}. En concreto, un $23$.$6\%$ de contingencias, un $5$.$50\%$ de desempleo, un $0$.$20\%$ de FOGASA, un $0$.$60\%$ de formación profesional y un $1$.$50\%$ por accidentes de trabajo. Por lo tanto, la empresa debe pagar por este trabajador 1\,316.62$\frac{\text{€}}{mes}$. Esta cifra proviene de despejar en la ecuación~\ref{eqn:sueldo-patri}.
 
-\begin{equation}\label{eqn:sueldo-patri} \frac{903\text{.}2\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 1316\text{.}62 \frac{\text{€}}{mes}\end{equation}
+\begin{equation}\label{eqn:sueldo-patri} \frac{903\text{.}2\frac{\text{€}}{mes}}{1 - (0\text{.}236 + 0\text{.}055 + 0\text{.}002 + 0\text{.}006 + 0\text{.}0150)} = 1\,316\text{.}62 \frac{\text{€}}{mes}\end{equation}
 
 
 Respecto al tutor del proyecto, suponiendo que cobra de media 38\,707.62€ brutos al año\footnote{Fuente: \url{https://www.ubu.es/sites/default/files/portal_page/files/pdi_funcionario_ano_2022.pdf}}, se calcula que el sueldo bruto por hora es de 21.27€. Calculando que el tutor dedica una media de 3 horas por semana al proyecto, debería cobrar 277.23€ brutos al mes. Sumando los impuestos, la empresa debería pagar 404.12$\frac{\text{€}}{mes}$ por los servicios prestados (ecuación~\ref{eqn:sueldo-alvar}).
@@ -940,7 +938,7 @@ Por lo tanto, el coste total para la empresa a nivel de personal se muestra en l
 \end{table}
 
 
-\item\textbf{Costes \textit{hardware}:} para la realización del proyecto únicamente ha sido necesario contar con un ordenador para la desarrolladora. Este equipo se trata de un MSI Stealth 15M (Intel Core i7-11375H, 16 GB de RAM, 1 TB de SSD y NVIDIA GeForce RTX 3060) con un precio de venta al público de 1\,599€. Se calcula que el ordenador será amortizado en 4 años. En cuanto a servidores, se establece el precio de Heroku, ya que la \textit{web} ha sido desplegada en ahí (PaaS). Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
+\item\textbf{Costes \textit{hardware}:} para la realización del proyecto únicamente ha sido necesario contar con un ordenador para la desarrolladora. Este equipo se trata de un MSI Stealth 15M (Intel Core i7-11375H, 16 GB de RAM, 1 TB de SSD y NVIDIA GeForce RTX 3060) con un precio de venta al público de 1\,599€. Se calcula que el ordenador será amortizado en 4 años. En cuanto a servidores, se establece el precio de Heroku, ya que la \textit{web} ha sido desplegada ahí (PaaS). Por lo tanto, el coste total para la empresa a nivel de \textit{hardware} se muestra en la tabla~\ref{a:costes-hardware}.
 
 \begin{table}[p]
 	\centering
@@ -958,7 +956,7 @@ Por lo tanto, el coste total para la empresa a nivel de personal se muestra en l
 	\label{a:costes-hardware}
 \end{table}
 
-\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra de estas es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0.93€ (18 de Mayo del 2023, 16:10).
+\item\textbf{Costes \textit{software}:} la causa de este desembolso es la necesidad de adquirir licencias. El precio que se muestra es el acorde a nivel empresarial por año. Por lo tanto, el coste total para la empresa a nivel de \textit{software} se muestra en la tabla~\ref{a:costes-software}. Es destacable que el dólar estadounidense ha sido convertido a 0.93€ (18 de Mayo del 2023, 16:10).
 
 \begin{table}[p]
 	\centering
@@ -1047,7 +1045,7 @@ Una licencia de \textit{software} es un acuerdo legal entre el titular de los de
 
 A continuación, se va a realizar un análisis de las licencias bajo las que están registradas las dependencias del sistema (principalmente librerías de Python y el Argon Dashboard\footnote{Plantilla utilizada para desarrollar la \textit{web} disponible en \url{https://github.com/creativetimofficial/argon-dashboard}}) y, en función a ellas, se establecerá la licencia del producto desarrollado. Estas se muestran en la tabla~\ref{a:licencias}.
 
-La comparativa entre licencias\footnote{Realizada con \url{https://joinup.ec.europa.eu/collection/eupl/solution/joinup-licensing-assistant/jla-find-and-compare-software-licenses}} se muestra la tabla~\ref{a:permisos}. El único detalle que no se muestra en la imagen es que la BSD-2-Clause License es más permisiva que la BSD-3-Clause License~\cite{BSD}. Como se puede comprobar, el orden de restrictividad (de más permisiva a más restrictiva) es el siguiente:
+La comparativa entre licencias\footnote{Tabla realizada con \url{https://joinup.ec.europa.eu/collection/eupl/solution/joinup-licensing-assistant/jla-find-and-compare-software-licenses}} se muestra la tabla~\ref{a:permisos}. El único detalle que no se muestra en la imagen es que la BSD-2-Clause License es más permisiva que la BSD-3-Clause License~\cite{BSD}. Como se puede comprobar, el orden de restrictividad (de más permisiva a más restrictiva) es el siguiente:
 
 \begin{enumerate}
 	\item The Unlicense
