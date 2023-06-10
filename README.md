@@ -53,15 +53,22 @@
       
 <p align="center">
   <br />
+  ⚡
   <a href="#about">About</a> •
   <a href="#features">Features</a> •
   <a href="#deploy-the-web-in-docker">Docker</a> •
   <a href="#docs-wiki-and-tutorials">Docs</a> •
-  <a href="#docs-wiki-and-tutorials">Wiki</a> •
-  <a href="#docs-wiki-and-tutorials">Tutorials</a> •
   <a href="#used-images">Images</a> •
   <a href="#contact">Contact</a> •
   <a href="#license">License</a>
+  ⚡
+</p>
+
+<p align="center" style="font-weight: bold; font-size: 20px">
+  📚
+  <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki">GitHub Wiki</a> •
+  <a href="https://youtube.com/@KRINIPHISHINGSCANNER/playlists">YouTube Channel</a>
+  🎥
   <br /><br />
 </p>
 
@@ -75,7 +82,7 @@
   
 ### Welcome to semisupervised learning in cybersecurity! ✨
 
-Regarding this repository, two investigation lines have been opened: detection of attacks in recommender systems and phishing 🐟.
+Regarding this repository, two investigation lines have been considered: detection of attacks in recommender systems and phishing 🐟.
 
 </td>
 </tr>
@@ -91,17 +98,17 @@ Regarding this repository, two investigation lines have been opened: detection o
 | [Krini (a web phishing scanner developed using Flask)](https://krini.herokuapp.com/index) |         ✔️         |    
 | Useful scripts (SOCKS5 proxies, Docker deploy and more!)          |         ✔️         |    
 | [Cool wallpapers 🎨](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/wallpapers)       |         ✔️         |  
-| [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs) and [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) |         ✔️         |    
-| [YouTube](https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists) ▶️ |         ✔️         |  
+| [Documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs) and [Wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki) 📚 |         ✔️         |    
+| [YouTube Channel](https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists) 🎥 |         ✔️         |  
 <br />
 
 ## Deploy the web in Docker
 
-You can access the scanner via [Krini](https://krini.herokuapp.com/index) or deploy our Docker images. Everything is automatic! 🐳
+You can access the scanner via [Krini](https://krini.herokuapp.com/index) or deploy our Docker images in local. Everything is automatic! 🐳
 
-> Check all the information in the [docker-deploy-kit](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit) README.md
+> Check all the information in the [docker-deploy-kit README.md](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit) 
 
-**Are you a developer?** Take a look in our [developer guide](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/Manual-del-programador) for more details
+**👩‍💻 Are you a developer?** Take a look in our [developer guide](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/Manual-del-programador) for more details
 
 
 <br />
@@ -110,7 +117,7 @@ You can access the scanner via [Krini](https://krini.herokuapp.com/index) or dep
 ## Docs, wiki and tutorials
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-📚 **Need some help**? Check out our [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/channel/UCirwZk466M5P7xmrM0f5_ng) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs)
+📚 **Need some help?** Check out our [wiki](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/wiki/), our [video tutorials](https://www.youtube.com/@KRINIPHISHINGSCANNER/playlists) or the official [documentation](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docs) ([main document](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/blob/main/docs/memoria.pdf) and [annexes](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/blob/main/docs/anexos.pdf))
 
 > Original documentation template is available in [GitHub](https://github.com/ubutfgm/plantillaLatex)
 
@@ -136,3 +143,9 @@ Feel free to reach me out! 💌
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <br />
+
+---
+
+<br />
+
+![krini-banner](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/3c07452e-ebba-467a-b7af-c87b7370f387)
