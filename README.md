@@ -4,7 +4,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"> Semisupervised learning in cibersecurity </a>
+  <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity"> Semisupervised learning in cybersecurity </a>
 </h1>
 
 <h3 align="center">Recommender systems attacks and phishing automatic detection</h3>
@@ -13,21 +13,17 @@
     <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/commits/main">
     <img src="https://img.shields.io/github/last-commit/phf1001/semisupervised-learning-in-cibersecurity.svg?style=flat-square&logo=github&logoColor=white"
          alt="GitHub last commit">
-    <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/issues">
-    <img src="https://img.shields.io/github/issues-raw/phf1001/semisupervised-learning-in-cibersecurity.svg?style=flat-square&logo=github&logoColor=white"
-         alt="GitHub issues">
+    </a>
     <a href="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/pulls">
     <img src="https://img.shields.io/github/issues-pr-raw/phf1001/semisupervised-learning-in-cibersecurity.svg?style=flat-square&logo=github&logoColor=white"
          alt="GitHub pull requests">
+    </a>
     <a href="https://app.travis-ci.com/phf1001/semisupervised-learning-in-cibersecurity">
     <img src="https://app.travis-ci.com/phf1001/semisupervised-learning-in-cibersecurity.svg?branch=main"
-         alt="travis-build">        
+         alt="travis-build">
+    </a>        
 </p>
-
 <p align="center">
-<a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
-<img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=ncloc" alt="sc-loc">
-</a>
 <a href = "https://sonarcloud.io/summary/new_code?id=phf1001_semisupervised-learning-in-cibersecurity">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=phf1001_semisupervised-learning-in-cibersecurity&metric=reliability_rating" alt="sc-reliability">
 </a>

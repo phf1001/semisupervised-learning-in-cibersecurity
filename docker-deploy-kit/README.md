@@ -5,7 +5,7 @@ Mock data will be included in the database to ensure a positive user experience.
 
 🙇‍♀️ An **administrator user (admin/admin)** and a **standard user (user/user)** have been created by default. Feel free to log in or create your own!
 
-> 💡 First download your O.S scripts (OS-all-files.zip) and extract them &nbsp;&middot;&nbsp; [Linux](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit/linux) &nbsp;&middot;&nbsp; [Windows](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit/windows)
+> 💡 First download your O.S scripts (OS-all-files.zip) and extract them &nbsp;&middot;&nbsp; [Linux](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit/linux) &nbsp;&middot;&nbsp; [Windows](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/tree/main/docker-deploy-kit/windows) &nbsp;&middot;&nbsp; [DockerHub images](https://hub.docker.com/r/phf1001/krini/tags)
 
 Then, open a terminal in the directory where the scripts are and then execute them in this order. 
 
