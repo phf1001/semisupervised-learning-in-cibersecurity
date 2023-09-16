@@ -86,4 +86,19 @@ Producto basado en la plantilla [argon dashboard](https://www.creative-tim.com/p
 
 <br />
 
+## Information
+
+ℹ Developed in colaboration with the Computer Sciences department of the [University of Burgos](https://www.ubu.es/grado-en-ingenieria-informatica).
+
+<p align="center">
+  <img width="25%" height="25%" src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/380cadcd-23f0-48e5-a4f4-6be8e4a50f1d"> &nbsp; &nbsp; &nbsp;
+  <img width="18%" height="18%" src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/19e838c2-34ff-4525-8cd5-7eec205a06f0"> &nbsp; &nbsp; &nbsp;
+  <img width="18%" height="18%" src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/d6b3918f-4a7b-44ad-9a9b-b83d50c6d650"> &nbsp; &nbsp; &nbsp;
+  <img width="8%" height="8%" src="https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/401a9df0-a937-4641-bf4b-908a2d1a708b"> &nbsp; &nbsp; &nbsp;
+</p>
+
+---
+
+<br />
+
 ![krini-banner](https://github.com/phf1001/semisupervised-learning-in-cibersecurity/assets/99904180/3c07452e-ebba-467a-b7af-c87b7370f387)
